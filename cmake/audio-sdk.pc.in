@@ -1,0 +1,11 @@
+prefix=${pcfiledir}/../..
+exec_prefix=${prefix}
+libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
+includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+
+Name: audio-sdk
+Description: Fixed-rate mono 16 kHz voice-enhancement SDK
+Version: @PROJECT_VERSION@
+Libs: -L${libdir} -laudio_sdk
+Libs.private: -lm
+Cflags: -I${includedir}

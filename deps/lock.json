@@ -1,0 +1,29 @@
+{
+  "schema_id": "audio-sdk/dependency-lock/0.1",
+  "dependencies": [
+    {
+      "name": "SpeexDSP",
+      "version": "1.2.1",
+      "revision": "7a158783df74efe7c2d1c6ee8363c1e695c71226",
+      "source": "vendored:third_party/speexdsp",
+      "license_files": [
+        "third_party/speexdsp/COPYING",
+        "third_party/speexdsp/COPYING.kissfft"
+      ],
+      "network_fetch_required": false
+    }
+  ],
+  "toolchains": {
+    "macos_arm64": {
+      "compiler": "Apple clang 21.0.0 (clang-2100.4.1.1)",
+      "cmake": "3.27.4",
+      "qualification": "local observed environment; not a lock for other hosts"
+    }
+  },
+  "python": {
+    "required": "CPython 3.12",
+    "observed": "CPython 3.11.5",
+    "qualification": "binding tests run on 3.11.5; required 3.12 validation is blocked"
+  },
+  "note": "Linux x86-64 compiler/toolchain lock and reproducible archive evidence remain blocked until run on Linux."
+}

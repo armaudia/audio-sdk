@@ -1,0 +1,13 @@
+{
+  "schema_id": "audio-sdk/canonical-vectors/0.1",
+  "valid": [
+    {"canonical": "{\"a\":1,\"b\":false}", "sha256": "sha256:dc55090895fbe592549eef02603b64365c7dc7300f571b76aa9620f1a068eb91"}
+  ],
+  "invalid": [
+    "{\"b\":false,\"a\":1}",
+    "{\"a\": 1}",
+    "{\"a\":01}",
+    "{\"a\":1,\"a\":2}",
+    "{\"a\":1.5}"
+  ]
+}

@@ -1,0 +1,55 @@
+name: SDK CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            cc: gcc
+            cxx: g++
+          - os: macos-15
+            cc: clang
+            cxx: clang++
+    runs-on: ${{ matrix.os }}
+    env:
+      CC: ${{ matrix.cc }}
+      CXX: ${{ matrix.cxx }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Configure
+        run: cmake -S . -B build/ci -DCMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build build/ci --parallel 2
+      - name: Test
+        run: ctest --test-dir build/ci --output-on-failure
+      - name: Install and verify consumers
+        run: ./scripts/package.sh build/ci build/candidate
+
+  linux-sanitizers:
+    runs-on: ubuntu-24.04
+    env:
+      CC: gcc
+      CXX: g++
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Configure ASan/UBSan
+        run: cmake -S . -B build/asan -DCMAKE_BUILD_TYPE=Debug -DAS_ENABLE_SANITIZERS=ON
+      - name: Build ASan/UBSan
+        run: cmake --build build/asan --parallel 2
+      - name: Test ASan/UBSan
+        run: ctest --test-dir build/asan --output-on-failure
+      - name: Configure TSan
+        run: cmake -S . -B build/tsan -DCMAKE_BUILD_TYPE=Debug -DAS_ENABLE_TSAN=ON
+      - name: Build TSan
+        run: cmake --build build/tsan --parallel 2
+      - name: Test TSan queue coverage
+        run: ctest --test-dir build/tsan -R 'as_test_queues' --output-on-failure

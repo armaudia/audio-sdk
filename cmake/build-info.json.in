@@ -1,0 +1,12 @@
+{
+  "schema_id": "audio-sdk/build-info/0.1",
+  "build_id": "@AS_BUILD_ID@",
+  "version": "@PROJECT_VERSION@",
+  "build_type": "@CMAKE_BUILD_TYPE@",
+  "c_compiler": "@CMAKE_C_COMPILER_ID@ @CMAKE_C_COMPILER_VERSION@",
+  "cxx_compiler": "@CMAKE_CXX_COMPILER_ID@ @CMAKE_CXX_COMPILER_VERSION@",
+  "flags_sha256": "sha256:@AS_BUILD_FLAGS_DIGEST@",
+  "source_allocation_sha256": "sha256:@AS_SOURCE_ALLOCATION_DIGEST@",
+  "dependency_lock_sha256": "sha256:@AS_DEPENDENCY_LOCK_DIGEST@",
+  "speexdsp_revision": "7a158783df74efe7c2d1c6ee8363c1e695c71226"
+}
