@@ -8,7 +8,8 @@ so the SHA-256 digests are reproducible from this script and the source tree.
 
 Source digest recipe (documented for S01/S03): SHA-256 over the concatenation
 of "<relative-path>\\0<sha256-hex>\\n" for every inventoried implementation
-file, sorted by relative path.
+file, sorted by relative path. Text-file CRLF endings are normalized to LF so
+the source identity does not depend on Git checkout settings.
 """
 import hashlib
 import json
@@ -30,7 +31,10 @@ def canonical(value):
 
 
 def sha256_file(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    data = path.read_bytes()
+    if b"\0" not in data:
+        data = data.replace(b"\r\n", b"\n")
+    return hashlib.sha256(data).hexdigest()
 
 
 def source_digest(paths):
@@ -42,7 +46,7 @@ def source_digest(paths):
 
 
 def config_digest(path):
-    return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
+    return "sha256:" + sha256_file(path)
 
 
 def write(path, text):
@@ -62,7 +66,7 @@ def c_string(text):
 speex_sources = ["core/providers/speex/speex_provider.c"]
 for path in sorted((ROOT / "third_party/speexdsp").rglob("*")):
     if path.is_file():
-        speex_sources.append(str(path.relative_to(ROOT)))
+        speex_sources.append(path.relative_to(ROOT).as_posix())
 
 highpass_sources = ["core/providers/highpass/highpass_provider.c"]
 
