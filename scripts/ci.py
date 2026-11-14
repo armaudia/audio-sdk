@@ -44,8 +44,11 @@ def main() -> None:
     run("ctest", "--test-dir", str(external), "--output-on-failure", "--timeout", "60",
         "--output-junit", str(output / "external-tests.xml"))
     wheels = output / "wheels"
+    python_source = output / "python-source"
+    shutil.copytree(root / "bindings/python", python_source,
+                    ignore=shutil.ignore_patterns("build", "dist", "*.egg-info", "__pycache__"))
     run(sys.executable, "-m", "pip", "wheel", "--no-deps", "--no-build-isolation",
-        "--wheel-dir", str(wheels), str(root / "bindings/python"))
+        "--wheel-dir", str(wheels), str(python_source))
     environment = output / "python"
     venv.EnvBuilder(with_pip=True).create(environment)
     python = environment / "bin/python"
@@ -75,16 +78,18 @@ def main() -> None:
     (dist / (archive.name + ".sha256")).write_text(f"{digest}  {archive.name}\n")
     info = json.loads((prefix / "share/audio-sdk/build-info.json").read_text())
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
+    source_dirty = bool(subprocess.check_output(
+        ["git", "status", "--porcelain", "--untracked-files=no"], cwd=root, text=True).strip())
     artifacts = {line.split("  ", 1)[1]: line.split("  ", 1)[0]
                  for line in (candidate / "audio-sdk-0.1.0.files.sha256").read_text().splitlines()}
     artifacts[original.name] = digest
     (candidate / "candidate-manifest.json").write_text(json.dumps({
-        "candidate_id": candidate.name, "source_revision": revision,
+        "candidate_id": candidate.name, "source_revision": revision, "source_dirty": source_dirty,
         "package": {"artifacts_sha256": artifacts}, "build": info,
         "qualification": "not_assessed",
     }, indent=2) + "\n")
     (dist / f"audio-sdk-0.1.0-{target}.json").write_text(json.dumps({
-        "schema_id": "audio-sdk/ci-package/0.1", "source_revision": revision,
+        "schema_id": "audio-sdk/ci-package/0.1", "source_revision": revision, "source_dirty": source_dirty,
         "build": info, "archive_sha256": digest,
         "checks": ["native", "installed-c-cxx", "provider-conformance", "external-provider",
                    "installed-python-wheel", "archive-repeatability"],
