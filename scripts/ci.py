@@ -59,14 +59,19 @@ def main() -> None:
         "--wheel-dir", str(wheels), str(python_source))
     environment = output / "python"
     venv.EnvBuilder(with_pip=True).create(environment)
-    python = environment / "bin/python"
+    python = environment / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
     wheel = next(wheels.glob("audio_sdk-*.whl"))
     run(str(python), "-m", "pip", "install", "--no-index", "--no-deps", str(wheel))
     tests = output / "python-tests"
     shutil.copytree(root / "bindings/python/tests", tests)
-    library = prefix / "lib" / ("libaudio_sdk.dylib" if sys.platform == "darwin" else "libaudio_sdk.so")
+    if sys.platform == "win32":
+        library = prefix / "bin/audio_sdk.dll"
+    else:
+        library = prefix / "lib" / ("libaudio_sdk.dylib" if sys.platform == "darwin" else "libaudio_sdk.so")
     env = dict(os.environ, AUDIO_SDK_LIBRARY=str(library))
     env.pop("PYTHONPATH", None)
+    if os.name == "nt":
+        env["PATH"] = str(library.parent) + os.pathsep + env.get("PATH", "")
     run(str(python), "-m", "unittest", "discover", "-s", str(tests), "-v", cwd=output, env=env)
     # Verify normalization independently of the first archive invocation.
     original = candidate / "audio-sdk-0.1.0.tar.gz"

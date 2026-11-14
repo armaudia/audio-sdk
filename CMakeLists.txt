@@ -17,6 +17,7 @@ find_package(Threads REQUIRED)
 option(AS_BUILD_TESTS "Build SDK tests" ON)
 option(AS_BUILD_CONFORMANCE "Build the standalone conformance executable" ON)
 option(AS_BUILD_EXAMPLES "Build C examples" ON)
+option(AS_BUILD_SHARED "Build the shared runtime library" ON)
 option(AS_ENABLE_SANITIZERS "Build with address/undefined sanitizers" OFF)
 option(AS_ENABLE_TSAN "Build with the thread sanitizer" OFF)
 option(AS_WARNINGS_AS_ERRORS "Treat project warnings as errors" ON)
@@ -84,7 +85,7 @@ string(SHA256 AS_RUNTIME_INPUTS_DIGEST "${AS_RUNTIME_INPUTS_IDENTITY}")
 string(JOIN " " AS_WARNING_FLAGS_TEXT ${AS_WARNING_FLAGS})
 string(TOUPPER "${CMAKE_BUILD_TYPE}" AS_BUILD_TYPE_UPPER)
 set(AS_BUILD_FLAGS_METADATA
-    "${CMAKE_C_FLAGS}|${CMAKE_C_FLAGS_${AS_BUILD_TYPE_UPPER}}|${AS_WARNING_FLAGS_TEXT}|${CMAKE_CXX_FLAGS}|${CMAKE_CXX_FLAGS_${AS_BUILD_TYPE_UPPER}}|AS_ENABLE_SANITIZERS=${AS_ENABLE_SANITIZERS}|AS_ENABLE_TSAN=${AS_ENABLE_TSAN}|AS_WARNINGS_AS_ERRORS=${AS_WARNINGS_AS_ERRORS}|AS_BUILD_CONFORMANCE=${AS_BUILD_CONFORMANCE}")
+    "${CMAKE_C_FLAGS}|${CMAKE_C_FLAGS_${AS_BUILD_TYPE_UPPER}}|${AS_WARNING_FLAGS_TEXT}|${CMAKE_CXX_FLAGS}|${CMAKE_CXX_FLAGS_${AS_BUILD_TYPE_UPPER}}|AS_ENABLE_SANITIZERS=${AS_ENABLE_SANITIZERS}|AS_ENABLE_TSAN=${AS_ENABLE_TSAN}|AS_WARNINGS_AS_ERRORS=${AS_WARNINGS_AS_ERRORS}|AS_BUILD_CONFORMANCE=${AS_BUILD_CONFORMANCE}|AS_BUILD_SHARED=${AS_BUILD_SHARED}")
 string(SHA256 AS_BUILD_FLAGS_DIGEST "${AS_BUILD_FLAGS_METADATA}")
 set(AS_BUILD_METADATA
     "${PROJECT_VERSION}|${CMAKE_C_COMPILER_ID}|${CMAKE_C_COMPILER_VERSION}|${CMAKE_CXX_COMPILER_ID}|${CMAKE_CXX_COMPILER_VERSION}|${CMAKE_BUILD_TYPE}|${CMAKE_SYSTEM_NAME}|${CMAKE_SYSTEM_PROCESSOR}|${CMAKE_OSX_ARCHITECTURES}|${CMAKE_OSX_DEPLOYMENT_TARGET}|${CMAKE_C_COMPILER_TARGET}|${CMAKE_CXX_COMPILER_TARGET}|${CMAKE_SYSROOT}|${AS_BUILD_FLAGS_DIGEST}|${AS_RUNTIME_INPUTS_DIGEST}|${AS_SOURCE_ALLOCATION_DIGEST}|${AS_DEPENDENCY_LOCK_DIGEST}|speexdsp-7a158783df74efe7c2d1c6ee8363c1e695c71226")
@@ -136,12 +137,16 @@ set(AS_CORE_SOURCES
     core/src/descriptors/descriptors.c)
 
 add_library(audio-sdk-core STATIC ${AS_CORE_SOURCES} $<TARGET_OBJECTS:as_speexdsp>)
-add_library(audio_sdk_shared SHARED ${AS_CORE_SOURCES} $<TARGET_OBJECTS:as_speexdsp>)
+set(AS_LIBRARY_TARGETS audio-sdk-core)
+if(AS_BUILD_SHARED)
+    add_library(audio_sdk_shared SHARED ${AS_CORE_SOURCES} $<TARGET_OBJECTS:as_speexdsp>)
+    list(APPEND AS_LIBRARY_TARGETS audio_sdk_shared)
+endif()
 add_library(AudioSDK::audio_sdk ALIAS audio-sdk-core)
 add_library(AudioSDK::core ALIAS audio-sdk-core)
 add_library(audio_sdk_static ALIAS audio-sdk-core)
 
-foreach(target audio-sdk-core audio_sdk_shared)
+foreach(target IN LISTS AS_LIBRARY_TARGETS)
     target_include_directories(${target}
         PUBLIC
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/api/include>
@@ -158,12 +163,14 @@ endforeach()
 set_target_properties(audio-sdk-core PROPERTIES
     OUTPUT_NAME audio_sdk
     EXPORT_NAME audio_sdk)
-set_target_properties(audio_sdk_shared PROPERTIES
-    OUTPUT_NAME audio_sdk
-    EXPORT_NAME audio_sdk_shared
-    VERSION ${PROJECT_VERSION}
-    SOVERSION ${PROJECT_VERSION_MAJOR}
-    C_VISIBILITY_PRESET hidden)
+if(AS_BUILD_SHARED)
+    set_target_properties(audio_sdk_shared PROPERTIES
+        OUTPUT_NAME audio_sdk
+        EXPORT_NAME audio_sdk_shared
+        VERSION ${PROJECT_VERSION}
+        SOVERSION ${PROJECT_VERSION_MAJOR}
+        C_VISIBILITY_PRESET hidden)
+endif()
 target_compile_definitions(audio-sdk-core INTERFACE AS_STATIC)
 if(APPLE)
     find_package(Python3 COMPONENTS Interpreter REQUIRED)
@@ -240,7 +247,7 @@ endif()
 # ---------------------------------------------------------------------------
 # Install/export
 # ---------------------------------------------------------------------------
-install(TARGETS audio-sdk-core audio_sdk_shared
+install(TARGETS ${AS_LIBRARY_TARGETS}
     EXPORT AudioSDKTargets
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"

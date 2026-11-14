@@ -10,8 +10,8 @@ if not decision.get('approved_for_publication'):
     raise SystemExit('Public outbound licensing has not been approved')
 root=Path('release-assets')
 archives=sorted(p for p in root.rglob('*') if p.is_file() and (p.name.endswith('.tar.gz') or p.suffix=='.zip'))
-if len(archives)!=2:
-    raise SystemExit('Both platform archives are required')
+if len(archives)!=4:
+    raise SystemExit('Linux, macOS, Windows and WebAssembly archives are required')
 assets=[]
 for archive in archives:
     checksum=archive.with_name(archive.name+'.sha256')
