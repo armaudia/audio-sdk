@@ -172,7 +172,7 @@ if(AS_BUILD_SHARED)
         SOVERSION ${PROJECT_VERSION_MAJOR}
         C_VISIBILITY_PRESET hidden)
     if(MINGW)
-        target_link_options(audio_sdk_shared PRIVATE -static-libgcc)
+        target_link_options(audio_sdk_shared PRIVATE -static -static-libgcc -static-libstdc++)
     endif()
 endif()
 target_compile_definitions(audio-sdk-core INTERFACE AS_STATIC)
