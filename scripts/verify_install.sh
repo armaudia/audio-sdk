@@ -27,12 +27,27 @@ int main() {
 }
 EOF
 
-cc -std=c11 -Wall -Wextra -Werror -I"$prefix/include" \
-  "$tmp/consumer.c" -L"$prefix/lib" -laudio_sdk \
-  -Wl,-rpath,"$prefix/lib" -o "$tmp/consumer-c"
-c++ -std=c++20 -Wall -Wextra -Werror -I"$prefix/include" \
-  "$tmp/consumer.cpp" -L"$prefix/lib" -laudio_sdk \
-  -Wl,-rpath,"$prefix/lib" -o "$tmp/consumer-cpp"
+cc=${CC:-cc}
+cxx=${CXX:-c++}
+case "$(uname -s)" in
+  MINGW*|MSYS*|CYGWIN*)
+    # MinGW names generated executables with .exe and resolves DLLs through PATH.
+    PATH="$prefix/bin:$PATH"
+    export PATH
+    "$cc" -std=c11 -Wall -Wextra -Werror -I"$prefix/include" \
+      "$tmp/consumer.c" -L"$prefix/lib" -laudio_sdk -o "$tmp/consumer-c.exe"
+    "$cxx" -std=c++20 -Wall -Wextra -Werror -I"$prefix/include" \
+      "$tmp/consumer.cpp" -L"$prefix/lib" -laudio_sdk -o "$tmp/consumer-cpp.exe"
+    ;;
+  *)
+    "$cc" -std=c11 -Wall -Wextra -Werror -I"$prefix/include" \
+      "$tmp/consumer.c" -L"$prefix/lib" -laudio_sdk \
+      -Wl,-rpath,"$prefix/lib" -o "$tmp/consumer-c"
+    "$cxx" -std=c++20 -Wall -Wextra -Werror -I"$prefix/include" \
+      "$tmp/consumer.cpp" -L"$prefix/lib" -laudio_sdk \
+      -Wl,-rpath,"$prefix/lib" -o "$tmp/consumer-cpp"
+    ;;
+esac
 "$tmp/consumer-c"
 "$tmp/consumer-cpp"
 
