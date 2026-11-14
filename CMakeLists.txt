@@ -75,6 +75,7 @@ file(WRITE "${AS_RUNTIME_INPUT_MANIFEST}" "")
 foreach(input IN LISTS AS_RUNTIME_INPUTS)
     file(SHA256 "${input}" input_digest)
     file(RELATIVE_PATH input_relative "${CMAKE_CURRENT_SOURCE_DIR}" "${input}")
+    file(TO_CMAKE_PATH "${input_relative}" input_relative)
     string(LENGTH "${input_relative}" input_relative_length)
     string(APPEND AS_RUNTIME_INPUTS_IDENTITY
         "${input_relative_length}:${input_relative}:${input_digest}\n")
