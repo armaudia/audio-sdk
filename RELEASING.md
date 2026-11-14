@@ -9,6 +9,17 @@ Force pushes, deletion and merge commits are blocked, without ruleset bypass
 actors. A second reviewer is therefore required when the owner authors a change.
 CODEOWNERS names the initial maintainer; change it through a reviewed PR.
 
+To audit the complete source history and inspect the exact destination:
+
+```sh
+python scripts/publish_repository.py
+```
+
+With an authenticated GitHub CLI, add `--apply` to create the repository with its
+requested visibility and push the audited commit to main. It refuses a dirty
+working tree, an unexpected origin, model/key files or common secret patterns in
+history, and a mismatched existing repository visibility. It never force-pushes.
+
 After the initial push and passing CI, an organization administrator runs:
 
 ```sh
