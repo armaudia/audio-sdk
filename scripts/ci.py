@@ -65,7 +65,7 @@ def main() -> None:
     tests = output / "python-tests"
     shutil.copytree(root / "bindings/python/tests", tests)
     if sys.platform == "win32":
-        library = prefix / "bin/audio_sdk.dll"
+        library = prefix / "bin/libaudio_sdk.dll"
     else:
         library = prefix / "lib" / ("libaudio_sdk.dylib" if sys.platform == "darwin" else "libaudio_sdk.so")
     env = dict(os.environ, AUDIO_SDK_LIBRARY=str(library))
