@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import hashlib
 import sys
+from itertools import zip_longest
 from pathlib import Path
 
 
@@ -51,6 +52,13 @@ def main() -> int:
     expected = expected_manifest(root)
     if actual != expected:
         print("source compilation inputs changed since CMake configure; reconfigure and rebuild", file=sys.stderr)
+        for number, (configured, current) in enumerate(zip_longest(
+                actual.decode("utf-8").splitlines(),
+                expected.decode("utf-8").splitlines()), start=1):
+            if configured != current:
+                print(f"first manifest difference at line {number}: "
+                      f"configured={configured!r}; current={current!r}", file=sys.stderr)
+                break
         return 1
     print(f"verified {len(runtime_inputs(root))} frozen compilation inputs")
     return 0
