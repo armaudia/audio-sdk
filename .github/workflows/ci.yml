@@ -56,6 +56,9 @@ jobs:
       - name: Configure preinstalled Windows toolchain
         run: |
           $toolchain = 'C:\msys64\ucrt64\bin'
+          $env:MSYSTEM = 'UCRT64'
+          & 'C:\msys64\usr\bin\bash.exe' -lc 'pacman -Sy --noconfirm --needed mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if (-not (Test-Path "$toolchain\gcc.exe") -or -not (Test-Path "$toolchain\g++.exe")) {
             throw 'The windows-2025 runner image is missing its UCRT64 compiler.'
           }

@@ -57,10 +57,11 @@ class ImmutableReleasePublication(unittest.TestCase):
                 os.chdir(temporary)
                 assets = Path("release-assets")
                 assets.mkdir()
-                for name in ("linux.zip", "macos.zip"):
+                for name in ("linux.tar.gz", "macos.tar.gz", "windows.zip", "wasm.zip"):
                     archive = assets / name
                     archive.write_bytes(name.encode())
-                    archive.with_suffix(".zip.sha256").write_text(hashlib.sha256(archive.read_bytes()).hexdigest())
+                    archive.with_name(archive.name + ".sha256").write_text(
+                        hashlib.sha256(archive.read_bytes()).hexdigest())
                 with patch.dict(os.environ, {"TAG": "v0.1.0-rc.1"}), \
                         patch.object(subprocess, "run") as invoked:
                     runpy.run_path(str(script), run_name="__main__")
@@ -79,7 +80,7 @@ class ImmutableReleasePublication(unittest.TestCase):
                 os.chdir(temporary)
                 Path("release-assets").mkdir()
                 with patch.object(subprocess, "run") as invoked:
-                    with self.assertRaisesRegex(SystemExit, "Both platform archives"):
+                    with self.assertRaisesRegex(SystemExit, "Linux, macOS, Windows and WebAssembly"):
                         runpy.run_path(str(path.parent / "publish_release.py"), run_name="__main__")
                 invoked.assert_not_called()
         finally:
