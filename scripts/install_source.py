@@ -21,7 +21,7 @@ def main() -> None:
         shutil.copytree(root / name, destination / name,
                         ignore=shutil.ignore_patterns("build", "dist", "__pycache__", "*.pyc", "*.egg-info"))
     for name in ("CMakeLists.txt", "LICENSE", "LICENSE.md", "SOURCE_LOCATION.md", "REUSE.toml",
-                 "README.md", "CONTRACTS.md", "TEST_PLAN.md", "IMPLEMENTATION_PLAN.md", "HANDOFF.md",
+                 "README.md", "CONTRACTS.md", "TEST_PLAN.md",
                  "CONTRIBUTING.md", "SECURITY.md", "RELEASING.md", "requirements-build.txt", ".gitignore"):
         shutil.copy2(root / name, destination / name)
 
