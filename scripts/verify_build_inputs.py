@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import hashlib
 import sys
-from itertools import zip_longest
 from pathlib import Path
 
 
@@ -39,6 +38,19 @@ def expected_manifest(root: Path) -> bytes:
     return "".join(lines).encode("utf-8")
 
 
+def parse_manifest(contents: bytes) -> dict[str, str] | None:
+    entries: dict[str, str] = {}
+    for line in contents.decode("utf-8").splitlines():
+        try:
+            digest, relative_path = line.split("  ", 1)
+        except ValueError:
+            return None
+        if relative_path in entries:
+            return None
+        entries[relative_path] = digest
+    return entries
+
+
 def main() -> int:
     if len(sys.argv) != 3:
         print("usage: verify_build_inputs.py <source-root> <build-dir>", file=sys.stderr)
@@ -50,13 +62,17 @@ def main() -> int:
         return 1
     actual = manifest.read_bytes()
     expected = expected_manifest(root)
-    if actual != expected:
+    configured_entries = parse_manifest(actual)
+    current_entries = parse_manifest(expected)
+    if configured_entries != current_entries:
         print("source compilation inputs changed since CMake configure; reconfigure and rebuild", file=sys.stderr)
-        for number, (configured, current) in enumerate(zip_longest(
-                actual.decode("utf-8").splitlines(),
-                expected.decode("utf-8").splitlines()), start=1):
+        configured_entries = configured_entries or {}
+        current_entries = current_entries or {}
+        for relative_path in sorted(configured_entries.keys() | current_entries.keys()):
+            configured = configured_entries.get(relative_path)
+            current = current_entries.get(relative_path)
             if configured != current:
-                print(f"first manifest difference at line {number}: "
+                print(f"manifest difference for {relative_path}: "
                       f"configured={configured!r}; current={current!r}", file=sys.stderr)
                 break
         return 1
