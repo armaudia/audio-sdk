@@ -252,6 +252,8 @@ install(DIRECTORY licenses/ DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/lice
     FILES_MATCHING PATTERN "*.txt")
 install(FILES licenses/NOTICE
     DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/licenses")
+install(FILES LICENSE
+    DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/licenses")
 install(FILES third_party/speexdsp/UPSTREAM.md
     DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/licenses/third-party")
 install(FILES

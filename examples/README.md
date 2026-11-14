@@ -27,6 +27,4 @@ The example accepts only PCM16 mono 16 kHz WAV input. It decodes each signed
 sample by dividing by 32768 and writes PCM16 using ties-to-even rounding of
 `x*32768`, clamped to `[-32768,32767]`. There is no hidden resampling.
 It prints each provider ID, declared buffering delay, valid output length and
-SHA-256 of the raw float32 result. The local runtime test used CPython 3.11.5;
-the planned CPython 3.12 validation remains blocked because 3.12 is not
-installed in this environment.
+SHA-256 of the raw float32 result. The installed-wheel checks use Python 3.12. The wrapper supports synchronous mode 2; buffered submit/pull is available through C.

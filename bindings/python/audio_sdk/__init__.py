@@ -143,6 +143,12 @@ def _raise(status: int, error: Error | None = None) -> None:
     raise RuntimeError(f"{name}: {message} ({field})")
 
 
+def _integer(value: int, name: str, maximum: int) -> int:
+    if type(value) is not int or not 0 <= value <= maximum:
+        raise ValueError(f"{name} must be an integer in [0, {maximum}]")
+    return value
+
+
 class Registry:
     def __init__(self) -> None:
         self._handle = C.c_void_p()
@@ -156,6 +162,10 @@ class Registry:
 
     def session(self, provider_id: str, mode: int = AS_MODE_PROCESSING_THREAD,
                 epoch: int = 1, first_input_sample: int = 0) -> "Session":
+        if type(mode) is not int or mode != AS_MODE_PROCESSING_THREAD:
+            raise ValueError("the Python binding supports synchronous mode 2; use the C API for buffered workers")
+        _integer(epoch, "epoch", 2**64 - 1)
+        _integer(first_input_sample, "first_input_sample", 2**63 - 1)
         provider = provider_id.encode("ascii")
         effective = C.create_string_buffer(4096)
         required = C.c_uint32()
@@ -197,6 +207,9 @@ class Session:
                 final: bool = False) -> tuple[list[float], Result]:
         if len(samples) != FRAME_SAMPLES:
             raise ValueError("each frame must contain exactly 160 samples")
+        _integer(valid_count, "valid_count", FRAME_SAMPLES)
+        if valid_count == 0 or type(final) is not bool:
+            raise ValueError("valid_count must be positive and final must be a bool")
         data = (C.c_float * FRAME_SAMPLES)(*samples)
         output_data = (C.c_float * FRAME_SAMPLES)()
         frame = Frame()
@@ -248,6 +261,8 @@ class Session:
             frames.append((list(data), result))
 
     def reset(self, epoch: int, first_input_sample: int = 0) -> None:
+        _integer(epoch, "epoch", 2**64 - 1)
+        _integer(first_input_sample, "first_input_sample", 2**63 - 1)
         error = _error()
         _raise(_lib.as_session_reset_v0(
             self._handle, epoch, first_input_sample, C.byref(error)), error)

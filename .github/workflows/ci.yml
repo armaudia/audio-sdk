@@ -1,55 +1,79 @@
-name: SDK CI
-
+name: CI
 on:
   push:
+    branches: [main]
   pull_request:
-
+  workflow_dispatch:
+  workflow_call:
 permissions:
   contents: read
-
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  build-test:
+  build:
+    name: build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - os: ubuntu-24.04
-            cc: gcc
-            cxx: g++
-          - os: macos-15
-            cc: clang
-            cxx: clang++
-    runs-on: ${{ matrix.os }}
-    env:
-      CC: ${{ matrix.cc }}
-      CXX: ${{ matrix.cxx }}
+        os: [ubuntu-24.04, macos-15]
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Configure
-        run: cmake -S . -B build/ci -DCMAKE_BUILD_TYPE=Release
-      - name: Build
-        run: cmake --build build/ci --parallel 2
-      - name: Test
-        run: ctest --test-dir build/ci --output-on-failure
-      - name: Install and verify consumers
-        run: ./scripts/package.sh build/ci build/candidate
-
-  linux-sanitizers:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --require-hashes -r requirements-build.txt
+      - run: python scripts/ci.py
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: sdk-${{ matrix.os }}
+          path: build/ci/dist/*
+          if-no-files-found: error
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: sdk-evidence-${{ matrix.os }}
+          path: |
+            build/ci/*-tests.xml
+            build/ci/candidate/verification/
+            build/ci/candidate/candidate-manifest.json
+          if-no-files-found: warn
+  sanitizers:
+    name: sanitizers (${{ matrix.kind }})
     runs-on: ubuntu-24.04
-    env:
-      CC: gcc
-      CXX: g++
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: [address-undefined, thread]
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Configure ASan/UBSan
-        run: cmake -S . -B build/asan -DCMAKE_BUILD_TYPE=Debug -DAS_ENABLE_SANITIZERS=ON
-      - name: Build ASan/UBSan
-        run: cmake --build build/asan --parallel 2
-      - name: Test ASan/UBSan
-        run: ctest --test-dir build/asan --output-on-failure
-      - name: Configure TSan
-        run: cmake -S . -B build/tsan -DCMAKE_BUILD_TYPE=Debug -DAS_ENABLE_TSAN=ON
-      - name: Build TSan
-        run: cmake --build build/tsan --parallel 2
-      - name: Test TSan queue coverage
-        run: ctest --test-dir build/tsan -R 'as_test_queues' --output-on-failure
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Configure
+        env:
+          KIND: ${{ matrix.kind }}
+        run: |
+          if [ "$KIND" = thread ]; then option=AS_ENABLE_TSAN; else option=AS_ENABLE_SANITIZERS; fi
+          cmake -S . -B build/sanitized -DCMAKE_BUILD_TYPE=Debug -D"$option"=ON
+      - run: cmake --build build/sanitized --parallel 2
+      - run: ctest --test-dir build/sanitized --output-on-failure --timeout 60 --output-junit tests.xml
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: sanitizer-${{ matrix.kind }}
+          path: build/sanitized/tests.xml
+  quality:
+    name: quality
+    if: always()
+    needs: [build, sanitizers]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Require every job to pass
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: python -c 'import json,os; assert all(j["result"] == "success" for j in json.loads(os.environ["RESULTS"]).values())'

@@ -1,37 +1,11 @@
-audio_enhance
-Copyright (c) 2026 audio_enhance contributors
+audio-sdk
 
-This product is licensed under the MIT License. The full text is in LICENSE.
+First-party code and source derived from audio_enhance are licensed under MIT.
+Copyright (c) 2026 audio_enhance contributors.
+The full text is in LICENSE and licenses/first-party-MIT.txt.
 
-Third-party components
-----------------------
+Vendored SpeexDSP and its FFT components retain their original copyrights and
+BSD licenses. See third_party/speexdsp/COPYING, COPYING.kissfft, UPSTREAM.md,
+and the copies installed under share/audio-sdk/licenses/third-party/.
 
-1. SpeexDSP (vendored)
-
-   The directory third_party/speexdsp/ contains source code from SpeexDSP,
-   Copyright 2002-2008 Xiph.org Foundation, Jean-Marc Valin, Analog Devices
-   Inc., Commonwealth Scientific and Industrial Research Organisation (CSIRO),
-   and other contributors. SpeexDSP is distributed under the BSD 3-Clause
-   license. The full texts are in:
-
-       third_party/speexdsp/COPYING
-       third_party/speexdsp/COPYING.kissfft
-
-   The vendored code is used by the DSP stages. It is not relicensed under the
-   MIT License; the BSD 3-Clause terms continue to apply to those files.
-
-2. ONNX Runtime (optional, external)
-
-   ONNX Runtime is an optional build and runtime dependency used only when
-   AE_ENABLE_ONNXRUNTIME is ON. It is not vendored in this repository and is
-   not redistributed by this project. ONNX Runtime is licensed under the MIT
-   License. A build that enables neural stages must obtain ONNX Runtime
-   separately and comply with its license and notice requirements.
-
-3. Models (not redistributed)
-
-   No ONNX model file is redistributed by this project. Neural presets require
-   caller-provided model files (for example silero_vad.onnx and
-   fastenhancer_s.onnx). Model files may carry their own licenses and terms;
-   the caller is responsible for obtaining them lawfully and for complying with
-   those terms.
+No neural model, model weights, ONNX Runtime, or corpus audio is distributed.

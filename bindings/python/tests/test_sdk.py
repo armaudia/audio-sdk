@@ -5,6 +5,26 @@ from audio_sdk import Error, FRAME_SAMPLES, Frame, Registry, Result
 
 
 class SDKTests(unittest.TestCase):
+    def test_python_arguments_do_not_wrap_at_native_integer_boundary(self):
+        registry = Registry()
+        try:
+            for arguments in ({"mode": 3}, {"mode": True}, {"epoch": -1},
+                              {"epoch": 2**64}, {"first_input_sample": 2**63}):
+                with self.assertRaises(ValueError):
+                    registry.session("dsp.highpass80.v0", **arguments)
+            with registry.session("dsp.highpass80.v0", epoch=2**53 + 1,
+                                  first_input_sample=2**53 + 1) as session:
+                for invalid in (-1, 2**32 + 160, True, 1.5):
+                    with self.assertRaises(ValueError):
+                        session.process([0.0] * FRAME_SAMPLES, valid_count=invalid)
+                _, result = session.process([0.0] * FRAME_SAMPLES)
+                self.assertEqual(result.epoch, 2**53 + 1)
+                self.assertEqual(result.source_first_sample, 2**53 + 1)
+                with self.assertRaises(ValueError):
+                    session.reset(2**64)
+        finally:
+            registry.close()
+
     def test_ctypes_layouts(self):
         self.assertEqual(ctypes.sizeof(ctypes.c_uint64), 8)
         self.assertEqual(Frame.first_input_sample.offset % 8, 0)

@@ -6,7 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "audio-sdk"
 version = "0.1.0"
 description = "Thin stdlib ctypes binding for audio-sdk v0.1"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.13"
+license = "MIT"
 dependencies = []
 
 [tool.setuptools]
