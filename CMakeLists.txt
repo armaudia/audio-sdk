@@ -171,6 +171,9 @@ if(AS_BUILD_SHARED)
         VERSION ${PROJECT_VERSION}
         SOVERSION ${PROJECT_VERSION_MAJOR}
         C_VISIBILITY_PRESET hidden)
+    if(MINGW)
+        target_link_options(audio_sdk_shared PRIVATE -static-libgcc)
+    endif()
 endif()
 target_compile_definitions(audio-sdk-core INTERFACE AS_STATIC)
 if(APPLE)

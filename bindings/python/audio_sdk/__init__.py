@@ -86,6 +86,9 @@ def _load_library() -> C.CDLL:
     path = Path(explicit)
     if not path.is_absolute() or not path.is_file():
         raise OSError("AUDIO_SDK_LIBRARY must name an existing absolute path")
+    if os.name == "nt":
+        with os.add_dll_directory(str(path.parent)):
+            return C.CDLL(str(path))
     return C.CDLL(str(path))
 
 
