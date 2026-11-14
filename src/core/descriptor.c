@@ -26,6 +26,38 @@ static int digest_string(const as_json_doc *doc, uint32_t object,
     return 1;
 }
 
+static int required_assets_valid(const as_json_doc *doc, uint32_t array) {
+    static const char *const keys[] = {"byte_count", "id", "sha256", "storage"};
+    if (array >= doc->node_count || doc->nodes[array].type != AS_JSON_ARRAY ||
+        doc->nodes[array].child_count > AS_MAX_ASSETS) return 0;
+    uint64_t total = 0;
+    uint32_t item = doc->nodes[array].first_child;
+    for (uint32_t i = 0; i < doc->nodes[array].child_count; ++i) {
+        const char *id = NULL, *storage = NULL;
+        uint32_t id_length = 0, storage_length = 0;
+        int64_t bytes = 0;
+        if (!exact_keys(doc, item, keys, 4) ||
+            as_json_get_string(doc, item, "id", &id, &id_length) != 0 ||
+            !as_valid_id(id, id_length) || id_length > 63u ||
+            !digest_string(doc, item, "sha256") ||
+            as_json_get_int(doc, item, "byte_count", &bytes) != 0 ||
+            bytes < 0 ||
+            as_json_get_string(doc, item, "storage", &storage, &storage_length) != 0 ||
+            !as_text_equal(storage, storage_length, "external") ||
+            (uint64_t)bytes > AS_MAX_ASSET_BYTES - total) return 0;
+        total += (uint64_t)bytes;
+        for (uint32_t prior = doc->nodes[array].first_child; prior != item;
+             prior = doc->nodes[prior].next_sibling) {
+            const char *prior_id = NULL;
+            uint32_t prior_length = 0;
+            if (as_json_get_string(doc, prior, "id", &prior_id, &prior_length) != 0 ||
+                as_text_equal(prior_id, prior_length, id)) return 0;
+        }
+        item = doc->nodes[item].next_sibling;
+    }
+    return 1;
+}
+
 static int supported_format(const as_json_doc *doc, uint32_t array) {
     static const char *const keys[] = {"channels", "frame_samples", "sample_format",
                                        "sample_rate_hz"};
@@ -205,10 +237,9 @@ as_status_v0 as_descriptor_validate(char *bytes, uint32_t length,
         return AS_INVALID_ARGUMENT;
     }
     const uint32_t assets = as_json_get(&doc, root, "required_assets");
-    if (assets == AS_JSON_NO_INDEX || doc.nodes[assets].type != AS_JSON_ARRAY ||
-        doc.nodes[assets].child_count != 0) {
-        as_error_set(error, AS_UNSUPPORTED, "required_assets",
-                     "v0 providers must declare no required assets");
+    if (!required_assets_valid(&doc, assets)) {
+        as_error_set(error, AS_INVALID_ARGUMENT, "required_assets",
+                     "required_assets must be unique external assets with bounded size and SHA-256");
         return AS_UNSUPPORTED;
     }
     const uint32_t upstream = as_json_get(&doc, root, "upstream");

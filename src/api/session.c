@@ -228,6 +228,26 @@ static int frame_ready(const as_session_v0 *session, const as_frame_v0 *frame,
     return 1;
 }
 
+static int worker_atomics_are_lock_free(as_session_v0 *session) {
+    return atomic_is_lock_free(&session->active_calls) &&
+           atomic_is_lock_free(&session->closing) &&
+           atomic_is_lock_free(&session->reset_flag) &&
+           atomic_is_lock_free(&session->lifecycle) &&
+           atomic_is_lock_free(&session->admission_closed) &&
+           atomic_is_lock_free(&session->drain_complete) &&
+           atomic_is_lock_free(&session->accepted_end) &&
+           atomic_is_lock_free(&session->input_read) &&
+           atomic_is_lock_free(&session->input_write) &&
+           atomic_is_lock_free(&session->output_read) &&
+           atomic_is_lock_free(&session->output_write) &&
+           atomic_is_lock_free(&session->input_high_water) &&
+           atomic_is_lock_free(&session->output_high_water) &&
+           atomic_is_lock_free(&session->c_submitted_valid) &&
+           atomic_is_lock_free(&session->c_accepted_valid) &&
+           atomic_is_lock_free(&session->c_rejected_valid) &&
+           atomic_is_lock_free(&session->c_delivered_valid);
+}
+
 /* ---- argument validation for create ------------------------------------ */
 
 static as_status_v0 validate_create_config(const as_registry_v0 *registry,
@@ -276,6 +296,47 @@ static as_status_v0 validate_create_config(const as_registry_v0 *registry,
         as_error_set(error, AS_INVALID_ARGUMENT, "assets",
                      "asset array is invalid");
         return AS_INVALID_ARGUMENT;
+    }
+    const uint32_t declared = as_json_get(&entry->descriptor_doc,
+                                           entry->descriptor_root,
+                                           "required_assets");
+    if (declared == AS_JSON_NO_INDEX ||
+        config->asset_count != entry->descriptor_doc.nodes[declared].child_count) {
+        as_error_set(error, AS_INVALID_ARGUMENT, "assets",
+                     "supplied assets do not match the descriptor asset count");
+        return AS_INVALID_ARGUMENT;
+    }
+    uint32_t expected = entry->descriptor_doc.nodes[declared].first_child;
+    for (uint32_t i = 0; i < config->asset_count; ++i) {
+        const as_asset_v0 *asset = &config->assets[i];
+        const char *id = NULL, *digest = NULL;
+        uint32_t id_length = 0, digest_length = 0;
+        int64_t byte_count = -1;
+        if (as_json_get_string(&entry->descriptor_doc, expected, "id", &id,
+                               &id_length) != 0 ||
+            as_json_get_string(&entry->descriptor_doc, expected, "sha256", &digest,
+                               &digest_length) != 0 || digest_length != 71u ||
+            as_json_get_int(&entry->descriptor_doc, expected, "byte_count",
+                            &byte_count) != 0 ||
+            !as_valid_struct(asset->struct_size, asset->abi_major,
+                             asset->abi_minor, (uint32_t)sizeof(*asset)) ||
+            asset->asset_id == NULL || asset->asset_id_length != id_length ||
+            memcmp(asset->asset_id, id, id_length) != 0 ||
+            asset->byte_count != (uint64_t)byte_count) {
+            as_error_set(error, AS_INVALID_ARGUMENT, "assets",
+                         "asset ID or size does not match the provider descriptor");
+            return AS_INVALID_ARGUMENT;
+        }
+        for (uint32_t b = 0; b < 32; ++b) {
+            unsigned int value = 0;
+            if (sscanf(digest + 7u + 2u * b, "%2x", &value) != 1 ||
+                asset->sha256[b] != (uint8_t)value) {
+                as_error_set(error, AS_INVALID_ARGUMENT, "assets.sha256",
+                             "asset digest does not match the provider descriptor");
+                return AS_INVALID_ARGUMENT;
+            }
+        }
+        expected = entry->descriptor_doc.nodes[expected].next_sibling;
     }
     if (config->config_json == NULL || config->config_json_length == 0 ||
         config->config_json_length > AS_MAX_CONTROL_BYTES) {
@@ -349,6 +410,33 @@ static void release_session(as_session_v0 *session) {
     }
     session->magic = 0;
     free(session);
+}
+
+static void account_queued_cancellation(as_session_v0 *session) {
+    uint64_t intervals = 0;
+    uint64_t samples = 0;
+    const uint32_t input_read = atomic_load(&session->input_read);
+    const uint32_t input_write = atomic_load(&session->input_write);
+    for (uint32_t cursor = input_read; cursor != input_write; ++cursor) {
+        const as_frame_slot *slot =
+            &session->input_queue[cursor % AS_QUEUE_FRAMES];
+        if (slot->valid_count > 0) {
+            intervals++;
+            samples += slot->valid_count;
+        }
+    }
+    const uint32_t output_read = atomic_load(&session->output_read);
+    const uint32_t output_write = atomic_load(&session->output_write);
+    for (uint32_t cursor = output_read; cursor != output_write; ++cursor) {
+        const as_output_slot *slot =
+            &session->output_queue[cursor % AS_QUEUE_FRAMES];
+        if (slot->result.valid_count > 0) {
+            intervals++;
+            samples += slot->result.valid_count;
+        }
+    }
+    atomic_fetch_add(&session->c_cancelled_intervals, intervals);
+    atomic_fetch_add(&session->c_cancelled_valid, samples);
 }
 
 /* ---- create/close ------------------------------------------------------ */
@@ -441,6 +529,13 @@ as_status_v0 AS_CALL as_session_create_v0(as_registry_v0 *registry,
         return AS_RESOURCE_EXHAUSTED;
     }
     session->sync_ready = 1;
+    if (session->execution_mode == AS_MODE_BUFFERED_WORKER &&
+        !worker_atomics_are_lock_free(session)) {
+        release_session(session);
+        as_error_set(error, AS_UNSUPPORTED, "execution_mode",
+                     "buffered mode requires lock-free callback atomics");
+        return AS_UNSUPPORTED;
+    }
     status = as_effective_config_validate(session, config->config_json,
                                           config->config_json_length, error);
     if (status != AS_OK) {
@@ -502,6 +597,8 @@ as_status_v0 AS_CALL as_session_close_v0(as_session_v0 **session) {
         as_worker_stop(self);
         self->worker_started = 0;
     }
+    if (self->execution_mode == AS_MODE_BUFFERED_WORKER)
+        account_queued_cancellation(self);
     as_registry_v0 *registry = self->registry;
     atomic_store(&self->lifecycle, AS_LIFE_CLOSED);
     release_session(self);
@@ -731,36 +828,49 @@ as_status_v0 AS_CALL as_session_submit_v0(as_session_v0 *session,
         /* validator set status */
     }
     if (status == AS_OK) {
-        pthread_mutex_lock(&session->queue_mutex);
         if (session->admission_closed) {
             status = AS_INVALID_ARGUMENT;
-        } else if (session->input_count >= AS_QUEUE_FRAMES) {
-            status = AS_RESOURCE_EXHAUSTED;
         } else {
-            const uint32_t index =
-                (session->input_head + session->input_count) % AS_QUEUE_FRAMES;
-            as_frame_slot *slot = &session->input_queue[index];
-            memcpy(slot->samples, frame->input, sizeof(slot->samples));
-            slot->valid_count = frame->input_valid_count;
-            slot->flags = frame->flags;
-            slot->epoch = frame->epoch;
-            slot->first_input_sample = frame->first_input_sample;
-            const int final = (frame->flags & AS_FRAME_FINAL_INPUT) != 0;
-            slot->accepted_end_after =
-                frame->first_input_sample +
-                (int64_t)(final ? frame->input_valid_count : AS_FRAME_SAMPLES);
-            session->accepted_end = slot->accepted_end_after;
-            session->next_input_sample = frame->first_input_sample + AS_FRAME_SAMPLES;
-            if (final) session->admission_closed = 1;
-            session->input_count++;
-            if (session->input_count > session->input_high_water)
-                session->input_high_water = session->input_count;
-            atomic_fetch_add(&session->c_submitted_valid, frame->input_valid_count);
-            atomic_fetch_add(&session->c_accepted_valid, frame->input_valid_count);
-            atomic_store(&session->lifecycle, AS_LIFE_PROCESSING);
-            pthread_cond_broadcast(&session->queue_cond);
+            const uint32_t write =
+                atomic_load_explicit(&session->input_write,
+                                     memory_order_relaxed);
+            const uint32_t read =
+                atomic_load_explicit(&session->input_read,
+                                     memory_order_acquire);
+            if (write - read >= AS_QUEUE_FRAMES) {
+                status = AS_RESOURCE_EXHAUSTED;
+            } else {
+                const uint32_t index = write % AS_QUEUE_FRAMES;
+                as_frame_slot *slot = &session->input_queue[index];
+                memcpy(slot->samples, frame->input, sizeof(slot->samples));
+                slot->valid_count = frame->input_valid_count;
+                slot->flags = frame->flags;
+                slot->epoch = frame->epoch;
+                slot->first_input_sample = frame->first_input_sample;
+                const int final = (frame->flags & AS_FRAME_FINAL_INPUT) != 0;
+                slot->accepted_end_after =
+                    frame->first_input_sample +
+                    (int64_t)(final ? frame->input_valid_count
+                                    : AS_FRAME_SAMPLES);
+                session->accepted_end = slot->accepted_end_after;
+                session->next_input_sample =
+                    frame->first_input_sample + AS_FRAME_SAMPLES;
+                if (final) session->admission_closed = 1;
+                atomic_store_explicit(&session->input_write, write + 1u,
+                                      memory_order_release);
+                const uint32_t depth = write + 1u - read;
+                const uint32_t high = atomic_load_explicit(
+                    &session->input_high_water, memory_order_relaxed);
+                if (depth > high)
+                    atomic_store_explicit(&session->input_high_water, depth,
+                                          memory_order_relaxed);
+                atomic_fetch_add(&session->c_submitted_valid,
+                                 frame->input_valid_count);
+                atomic_fetch_add(&session->c_accepted_valid,
+                                 frame->input_valid_count);
+                atomic_store(&session->lifecycle, AS_LIFE_PROCESSING);
+            }
         }
-        pthread_mutex_unlock(&session->queue_mutex);
     }
     if (status == AS_OK) {
         reset_result(acceptance, AS_OK, session);
@@ -795,24 +905,28 @@ as_status_v0 AS_CALL as_session_pull_v0(as_session_v0 *session,
         return AS_CLOSED;
     }
     as_status_v0 status = AS_NOT_READY;
-    pthread_mutex_lock(&session->queue_mutex);
     const int lifecycle = atomic_load(&session->lifecycle);
     if (lifecycle == AS_LIFE_NEEDS_RESET) {
         status = AS_NEEDS_RESET;
-    } else if (session->output_count > 0) {
-        as_output_slot *slot = &session->output_queue[session->output_head];
+    } else {
+        const uint32_t read =
+            atomic_load_explicit(&session->output_read, memory_order_relaxed);
+        const uint32_t write =
+            atomic_load_explicit(&session->output_write, memory_order_acquire);
+        if (read != write) {
+        as_output_slot *slot =
+            &session->output_queue[read % AS_QUEUE_FRAMES];
         memcpy(output->samples, slot->samples, sizeof(slot->samples));
         *result = slot->result;
-        session->output_head = (session->output_head + 1u) % AS_QUEUE_FRAMES;
-        session->output_count--;
-        pthread_cond_broadcast(&session->queue_cond);
+        atomic_store_explicit(&session->output_read, read + 1u,
+                              memory_order_release);
         status = AS_OK;
         atomic_fetch_add(&session->c_delivered_valid, result->valid_count);
-    } else if (session->drain_complete) {
-        status = AS_END_OF_STREAM;
-        atomic_store(&session->lifecycle, AS_LIFE_DRAINED);
+        } else if (session->drain_complete) {
+            status = AS_END_OF_STREAM;
+            atomic_store(&session->lifecycle, AS_LIFE_DRAINED);
+        }
     }
-    pthread_mutex_unlock(&session->queue_mutex);
     if (status == AS_END_OF_STREAM || status == AS_NEEDS_RESET) {
         reset_result(result, status, session);
     } else if (status == AS_NOT_READY) {
@@ -871,19 +985,23 @@ as_status_v0 AS_CALL as_session_reset_v0(as_session_v0 *session, uint64_t epoch,
     /* A reset during draining or with queued work cancels those intervals. */
     uint64_t cancelled = 0;
     if (session->execution_mode == AS_MODE_BUFFERED_WORKER) {
-        pthread_mutex_lock(&session->queue_mutex);
-        cancelled = session->input_count + session->output_count;
-        session->input_count = 0;
-        session->input_head = 0;
-        session->output_count = 0;
-        session->output_head = 0;
+        account_queued_cancellation(session);
+        atomic_store(&session->input_read, 0);
+        atomic_store(&session->input_write, 0);
+        atomic_store(&session->output_read, 0);
+        atomic_store(&session->output_write, 0);
         session->admission_closed = 0;
         session->drain_complete = 0;
         session->worker_failed = 0;
         session->manual_drain_requested = 0;
-        pthread_mutex_unlock(&session->queue_mutex);
     } else if (atomic_load(&session->lifecycle) == AS_LIFE_DRAINING) {
         cancelled = 1;
+        const int64_t remaining =
+            session->accepted_end > session->next_output_sample
+                ? session->accepted_end - session->next_output_sample
+                : 0;
+        atomic_fetch_add(&session->c_cancelled_valid, (uint64_t)remaining);
+        atomic_fetch_add(&session->c_cancelled_intervals, cancelled);
     }
     status = session->table.reset(session->instance, epoch, first_input_sample, error);
     if (status != AS_OK) {
@@ -900,7 +1018,6 @@ as_status_v0 AS_CALL as_session_reset_v0(as_session_v0 *session, uint64_t epoch,
     session->accepted_end = first_input_sample;
     session->next_output_sample = first_input_sample - (int64_t)session->buffering_delay;
     session->drain_calls = 0;
-    atomic_fetch_add(&session->c_cancelled_intervals, cancelled);
     atomic_store(&session->c_submitted_valid, 0);
     atomic_store(&session->c_accepted_valid, 0);
     atomic_store(&session->c_rejected_valid, 0);
@@ -1039,10 +1156,12 @@ as_status_v0 AS_CALL as_session_get_stats_v0(as_session_v0 *session, char *buffe
     text[0] = '\0';
     uint32_t input_depth = 0;
     uint32_t output_depth = 0;
-    pthread_mutex_lock(&session->queue_mutex);
-    input_depth = session->input_count;
-    output_depth = session->output_count;
-    pthread_mutex_unlock(&session->queue_mutex);
+    const uint32_t input_read = atomic_load(&session->input_read);
+    const uint32_t input_write = atomic_load(&session->input_write);
+    const uint32_t output_read = atomic_load(&session->output_read);
+    const uint32_t output_write = atomic_load(&session->output_write);
+    input_depth = input_write - input_read;
+    output_depth = output_write - output_read;
     pthread_mutex_lock(&session->control_mutex);
     w_text(&w, "{");
     w_key(&w, "schema_id");
@@ -1078,6 +1197,15 @@ as_status_v0 AS_CALL as_session_get_stats_v0(as_session_v0 *session, char *buffe
     w_key(&w, "cancelled_intervals");
     w_q_u64(&w, atomic_load(&session->c_cancelled_intervals));
     w_text(&w, ",");
+    w_key(&w, "cancelled_valid_samples");
+    w_q_u64(&w, atomic_load(&session->c_cancelled_valid));
+    w_text(&w, ",");
+    w_key(&w, "failed_intervals");
+    w_q_u64(&w, atomic_load(&session->c_failed_intervals));
+    w_text(&w, ",");
+    w_key(&w, "failed_valid_samples");
+    w_q_u64(&w, atomic_load(&session->c_failed_valid));
+    w_text(&w, ",");
     w_key(&w, "backend_failures");
     w_q_u64(&w, atomic_load(&session->c_backend_failures));
     w_text(&w, ",");
@@ -1088,13 +1216,13 @@ as_status_v0 AS_CALL as_session_get_stats_v0(as_session_v0 *session, char *buffe
     w_q_u64(&w, input_depth);
     w_text(&w, ",");
     w_key(&w, "input_queue_high_water");
-    w_q_u64(&w, session->input_high_water);
+    w_q_u64(&w, atomic_load(&session->input_high_water));
     w_text(&w, ",");
     w_key(&w, "output_queue_depth");
     w_q_u64(&w, output_depth);
     w_text(&w, ",");
     w_key(&w, "output_queue_high_water");
-    w_q_u64(&w, session->output_high_water);
+    w_q_u64(&w, atomic_load(&session->output_high_water));
     w_text(&w, "}");
     pthread_mutex_unlock(&session->control_mutex);
     return copy_json(buffer, capacity, required_size, &w);

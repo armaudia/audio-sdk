@@ -2,11 +2,16 @@
 
 #include <pthread.h>
 #include <sched.h>
+#include <time.h>
 
 static pthread_mutex_t g_barrier_mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t g_barrier_cond = PTHREAD_COND_INITIALIZER;
 static int g_process_entered;
 static int g_release_process;
+static int g_fail_process;
+static int g_block_reset;
+static int g_reset_entered;
+static int g_release_reset;
 
 typedef struct blocking_instance {
     uint64_t epoch;
@@ -36,6 +41,7 @@ static as_status_v0 AS_CALL blocking_process(void *opaque,
         pthread_cond_wait(&g_barrier_cond, &g_barrier_mutex);
     pthread_mutex_unlock(&g_barrier_mutex);
 
+    if (g_fail_process) return AS_BACKEND_FAILURE;
     memcpy(output->samples, frame->input, AS_FRAME_SAMPLES * sizeof(float));
     instance->epoch = frame->epoch;
     as_result_v0_init(result);
@@ -53,8 +59,30 @@ static as_status_v0 AS_CALL blocking_reset(void *opaque, uint64_t epoch,
                                             as_error_v0 *error) {
     (void)first;
     (void)error;
+    pthread_mutex_lock(&g_barrier_mutex);
+    if (g_block_reset) {
+        g_reset_entered = 1;
+        pthread_cond_broadcast(&g_barrier_cond);
+        while (!g_release_reset)
+            pthread_cond_wait(&g_barrier_cond, &g_barrier_mutex);
+    }
+    pthread_mutex_unlock(&g_barrier_mutex);
     ((blocking_instance *)opaque)->epoch = epoch;
     return AS_OK;
+}
+
+typedef struct reset_args { as_session_v0 *session; as_status_v0 status; } reset_args;
+static void *reset_thread(void *opaque) {
+    reset_args *args = (reset_args *)opaque;
+    as_error_v0 error; as_error_v0_init(&error);
+    args->status = as_session_reset_v0(args->session, 4001, 0, &error);
+    return NULL;
+}
+typedef struct close_args { as_session_v0 *session; as_status_v0 status; } close_args;
+static void *close_thread(void *opaque) {
+    close_args *args = (close_args *)opaque;
+    args->status = as_session_close_v0(&args->session);
+    return NULL;
 }
 
 static as_status_v0 AS_CALL blocking_drain(void *opaque,
@@ -164,6 +192,16 @@ int main(void) {
     pthread_mutex_unlock(&g_barrier_mutex);
     CHECK(as_session_begin_drain_v0(session) == AS_OK);
 
+    const struct timespec poll = {0, 1000000L};
+    for (uint32_t attempt = 0; attempt < 2000; ++attempt) {
+        CHECK(as_session_get_stats_v0(session, stats, (uint32_t)sizeof(stats),
+                                      &stats_size) == AS_OK);
+        if (strstr(stats, "\"output_queue_high_water\":\"3\"") != NULL)
+            break;
+        nanosleep(&poll, NULL);
+    }
+    CHECK(strstr(stats, "\"output_queue_high_water\":\"3\"") != NULL);
+
     uint32_t frames = 0;
     uint64_t valid_samples = 0;
     while (frames < 4) {
@@ -189,6 +227,89 @@ int main(void) {
     }
     CHECK(valid_samples == 4u * AS_FRAME_SAMPLES);
     CHECK(as_session_close_v0(&session) == AS_OK);
+
+    /* Repeated worker create/reset/close catches lifecycle races in TSan. */
+    for (uint64_t cycle = 0; cycle < 1000; ++cycle) {
+        create.epoch = cycle + 2u;
+        CHECK(as_session_create_v0(registry, "test.blocking.v0", 16, &create,
+                                   &session, &error) == AS_OK);
+        CHECK(as_session_reset_v0(session, cycle + 3u, 0, &error) == AS_OK);
+        CHECK(as_session_close_v0(&session) == AS_OK);
+    }
+    create.epoch = 2000;
+    CHECK(as_session_create_v0(registry, "test.blocking.v0", 16, &create,
+                               &session, &error) == AS_OK);
+    for (uint32_t i = 0; i < 3; ++i) {
+        as_frame_v0_init(&frame);
+        frame.input = input;
+        frame.epoch = 2000;
+        frame.first_input_sample = (int64_t)i * AS_FRAME_SAMPLES;
+        as_result_v0_init(&acceptance);
+        CHECK(as_session_submit_v0(session, &frame, &acceptance) == AS_OK);
+    }
+    CHECK(as_session_reset_v0(session, 2001, 0, &error) == AS_OK);
+    CHECK(as_session_get_stats_v0(session, stats, (uint32_t)sizeof(stats),
+                                  &stats_size) == AS_OK);
+    CHECK(strstr(stats, "\"cancelled_valid_samples\":\"480\"") != NULL);
+    CHECK(strstr(stats, "\"cancelled_intervals\":\"3\"") != NULL);
+    CHECK(as_session_close_v0(&session) == AS_OK);
+
+    create.epoch = 3000;
+    CHECK(as_session_create_v0(registry, "test.blocking.v0", 16, &create,
+                               &session, &error) == AS_OK);
+    g_fail_process = 1;
+    as_frame_v0_init(&frame);
+    frame.input = input;
+    frame.epoch = 3000;
+    as_result_v0_init(&acceptance);
+    CHECK(as_session_submit_v0(session, &frame, &acceptance) == AS_OK);
+    for (uint32_t attempt = 0; attempt < 2000; ++attempt) {
+        CHECK(as_session_get_stats_v0(session, stats, (uint32_t)sizeof(stats),
+                                      &stats_size) == AS_OK);
+        if (strstr(stats, "\"lifecycle\":\"needs_reset\"") != NULL) break;
+        nanosleep(&poll, NULL);
+    }
+    CHECK(strstr(stats, "\"lifecycle\":\"needs_reset\"") != NULL);
+    CHECK(strstr(stats, "\"failed_intervals\":\"1\"") != NULL);
+    CHECK(strstr(stats, "\"failed_valid_samples\":\"160\"") != NULL);
+    float failed_output_samples[AS_FRAME_SAMPLES];
+    as_output_v0 failed_output;
+    as_output_v0_init(&failed_output);
+    failed_output.samples = failed_output_samples;
+    as_result_v0 failed_result;
+    as_result_v0_init(&failed_result);
+    CHECK(as_session_pull_v0(session, &failed_output, &failed_result) ==
+          AS_NEEDS_RESET);
+    CHECK(as_session_reset_v0(session, 3001, 0, &error) == AS_OK);
+    g_fail_process = 0;
+    CHECK(as_session_close_v0(&session) == AS_OK);
+
+    create.epoch = 4000;
+    CHECK(as_session_create_v0(registry, "test.blocking.v0", 16, &create,
+                               &session, &error) == AS_OK);
+    pthread_mutex_lock(&g_barrier_mutex);
+    g_block_reset = 1; g_reset_entered = 0; g_release_reset = 0;
+    pthread_mutex_unlock(&g_barrier_mutex);
+    reset_args reset = {session, AS_BACKEND_FAILURE};
+    pthread_t reset_id;
+    CHECK(pthread_create(&reset_id, NULL, reset_thread, &reset) == 0);
+    pthread_mutex_lock(&g_barrier_mutex);
+    while (!g_reset_entered)
+        pthread_cond_wait(&g_barrier_cond, &g_barrier_mutex);
+    pthread_mutex_unlock(&g_barrier_mutex);
+    close_args close = {session, AS_BACKEND_FAILURE};
+    pthread_t close_id;
+    CHECK(pthread_create(&close_id, NULL, close_thread, &close) == 0);
+    nanosleep(&poll, NULL);
+    pthread_mutex_lock(&g_barrier_mutex);
+    g_release_reset = 1; g_block_reset = 0;
+    pthread_cond_broadcast(&g_barrier_cond);
+    pthread_mutex_unlock(&g_barrier_mutex);
+    CHECK(pthread_join(reset_id, NULL) == 0);
+    CHECK(pthread_join(close_id, NULL) == 0);
+    CHECK(reset.status == AS_OK);
+    CHECK(close.status == AS_OK);
+    session = NULL;
     CHECK(as_registry_close_v0(&registry) == AS_OK);
     return 0;
 }

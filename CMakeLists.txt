@@ -47,13 +47,41 @@ file(SHA256 "${CMAKE_CURRENT_SOURCE_DIR}/docs/migration/source-allocation.csv"
     AS_SOURCE_ALLOCATION_DIGEST)
 file(SHA256 "${CMAKE_CURRENT_SOURCE_DIR}/deps/lock.json"
     AS_DEPENDENCY_LOCK_DIGEST)
+file(GLOB_RECURSE AS_RUNTIME_INPUTS CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/providers/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/providers/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/audio_sdk/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/third_party/speexdsp/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/third_party/speexdsp/*.h")
+list(APPEND AS_RUNTIME_INPUTS
+    "${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt"
+    "${CMAKE_CURRENT_SOURCE_DIR}/deps/lock.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/docs/migration/source-allocation.csv")
+list(SORT AS_RUNTIME_INPUTS)
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+    ${AS_RUNTIME_INPUTS})
+set(AS_RUNTIME_INPUTS_IDENTITY "")
+set(AS_RUNTIME_INPUT_MANIFEST "${CMAKE_CURRENT_BINARY_DIR}/runtime-inputs.sha256")
+file(WRITE "${AS_RUNTIME_INPUT_MANIFEST}" "")
+foreach(input IN LISTS AS_RUNTIME_INPUTS)
+    file(SHA256 "${input}" input_digest)
+    file(RELATIVE_PATH input_relative "${CMAKE_CURRENT_SOURCE_DIR}" "${input}")
+    string(LENGTH "${input_relative}" input_relative_length)
+    string(APPEND AS_RUNTIME_INPUTS_IDENTITY
+        "${input_relative_length}:${input_relative}:${input_digest}\n")
+    file(APPEND "${AS_RUNTIME_INPUT_MANIFEST}"
+        "${input_digest}  ${input_relative}\n")
+endforeach()
+string(SHA256 AS_RUNTIME_INPUTS_DIGEST "${AS_RUNTIME_INPUTS_IDENTITY}")
 string(JOIN " " AS_WARNING_FLAGS_TEXT ${AS_WARNING_FLAGS})
 string(TOUPPER "${CMAKE_BUILD_TYPE}" AS_BUILD_TYPE_UPPER)
 set(AS_BUILD_FLAGS_METADATA
-    "${CMAKE_C_FLAGS}|${CMAKE_C_FLAGS_${AS_BUILD_TYPE_UPPER}}|${AS_WARNING_FLAGS_TEXT}|${CMAKE_CXX_FLAGS}|${CMAKE_CXX_FLAGS_${AS_BUILD_TYPE_UPPER}}")
+    "${CMAKE_C_FLAGS}|${CMAKE_C_FLAGS_${AS_BUILD_TYPE_UPPER}}|${AS_WARNING_FLAGS_TEXT}|${CMAKE_CXX_FLAGS}|${CMAKE_CXX_FLAGS_${AS_BUILD_TYPE_UPPER}}|AS_ENABLE_SANITIZERS=${AS_ENABLE_SANITIZERS}|AS_ENABLE_TSAN=${AS_ENABLE_TSAN}|AS_WARNINGS_AS_ERRORS=${AS_WARNINGS_AS_ERRORS}|AS_BUILD_CONFORMANCE=${AS_BUILD_CONFORMANCE}")
 string(SHA256 AS_BUILD_FLAGS_DIGEST "${AS_BUILD_FLAGS_METADATA}")
 set(AS_BUILD_METADATA
-    "${PROJECT_VERSION}|${CMAKE_C_COMPILER_ID}|${CMAKE_C_COMPILER_VERSION}|${CMAKE_CXX_COMPILER_ID}|${CMAKE_CXX_COMPILER_VERSION}|${CMAKE_BUILD_TYPE}|${AS_BUILD_FLAGS_DIGEST}|${AS_SOURCE_ALLOCATION_DIGEST}|${AS_DEPENDENCY_LOCK_DIGEST}|speexdsp-7a158783df74efe7c2d1c6ee8363c1e695c71226")
+    "${PROJECT_VERSION}|${CMAKE_C_COMPILER_ID}|${CMAKE_C_COMPILER_VERSION}|${CMAKE_CXX_COMPILER_ID}|${CMAKE_CXX_COMPILER_VERSION}|${CMAKE_BUILD_TYPE}|${CMAKE_SYSTEM_NAME}|${CMAKE_SYSTEM_PROCESSOR}|${CMAKE_OSX_ARCHITECTURES}|${CMAKE_OSX_DEPLOYMENT_TARGET}|${CMAKE_C_COMPILER_TARGET}|${CMAKE_CXX_COMPILER_TARGET}|${CMAKE_SYSROOT}|${AS_BUILD_FLAGS_DIGEST}|${AS_RUNTIME_INPUTS_DIGEST}|${AS_SOURCE_ALLOCATION_DIGEST}|${AS_DEPENDENCY_LOCK_DIGEST}|speexdsp-7a158783df74efe7c2d1c6ee8363c1e695c71226")
 string(SHA256 AS_BUILD_METADATA_DIGEST "${AS_BUILD_METADATA}")
 set(AS_BUILD_ID "audio-sdk/${PROJECT_VERSION}+sha256:${AS_BUILD_METADATA_DIGEST}")
 configure_file(cmake/build-info.json.in
@@ -189,6 +217,8 @@ if(AS_BUILD_TESTS)
     as_add_test(as_test_timing tests/test_timing.c)
     as_add_test(as_test_providers tests/test_providers.c)
     as_add_test(as_test_queues tests/test_queues.c)
+    as_add_test(as_test_assets tests/test_assets.c)
+    set_tests_properties(as_test_queues PROPERTIES TIMEOUT 45)
     as_add_test(as_test_validity tests/test_validity.c)
     as_add_test(as_test_cxx tests/test_cxx.cpp)
 endif()

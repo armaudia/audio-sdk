@@ -85,7 +85,7 @@ struct as_session_v0 {
     uint64_t epoch;
     int64_t first_input_sample;
     int64_t next_input_sample;
-    int64_t accepted_end;
+    _Atomic int64_t accepted_end;
     int64_t next_output_sample;
     uint64_t accepted_valid;
     uint64_t submitted_valid;
@@ -118,15 +118,15 @@ struct as_session_v0 {
     pthread_t worker;
     int worker_started;
     int worker_stop;
-    int worker_failed;
-    int drain_complete;
-    int admission_closed;
+    _Atomic int worker_failed;
+    _Atomic int drain_complete;
+    _Atomic int admission_closed;
     int manual_drain_requested;
     as_frame_slot input_queue[AS_QUEUE_FRAMES];
-    uint32_t input_head, input_count;
+    _Atomic uint32_t input_read, input_write;
     as_output_slot output_queue[AS_QUEUE_FRAMES];
-    uint32_t output_head, output_count;
-    uint32_t input_high_water, output_high_water;
+    _Atomic uint32_t output_read, output_write;
+    _Atomic uint32_t input_high_water, output_high_water;
 
     _Atomic uint64_t c_submitted_valid;
     _Atomic uint64_t c_accepted_valid;
@@ -136,6 +136,9 @@ struct as_session_v0 {
     _Atomic uint64_t c_startup_padding;
     _Atomic uint64_t c_final_padding;
     _Atomic uint64_t c_cancelled_intervals;
+    _Atomic uint64_t c_cancelled_valid;
+    _Atomic uint64_t c_failed_intervals;
+    _Atomic uint64_t c_failed_valid;
     _Atomic uint64_t c_backend_failures;
     _Atomic uint64_t c_drain_frames;
 };

@@ -50,7 +50,19 @@
       "type": "array", "minItems": 1, "uniqueItems": true,
       "items": {"type": "integer", "enum": [1, 2, 3]}
     },
-    "required_assets": {"type": "array", "maxItems": 16, "items": {"type": "object"}},
+    "required_assets": {
+      "type": "array", "maxItems": 16,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["byte_count", "id", "sha256", "storage"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,62}$"},
+          "sha256": {"$ref": "#/$defs/digest"},
+          "byte_count": {"type": "integer", "minimum": 0, "maximum": 536870912},
+          "storage": {"const": "external"}
+        }
+      }
+    },
     "upstream": {
       "type": "object", "additionalProperties": false,
       "required": ["license", "name", "notice_path"],

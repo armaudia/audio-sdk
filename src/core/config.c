@@ -191,11 +191,33 @@ as_status_v0 as_effective_config_validate(as_session_v0 *session,
         return AS_INVALID_ARGUMENT;
     }
     const uint32_t hashes = as_json_get(&doc, processor, "asset_hashes");
+    const uint32_t declared = as_json_get(&session->provider->descriptor_doc,
+        session->provider->descriptor_root, "required_assets");
     if (hashes == AS_JSON_NO_INDEX || doc.nodes[hashes].type != AS_JSON_ARRAY ||
-        doc.nodes[hashes].child_count != 0) {
-        as_error_set(error, AS_UNSUPPORTED, "processors.asset_hashes",
-                     "v0 providers require no assets");
-        return AS_UNSUPPORTED;
+        declared == AS_JSON_NO_INDEX ||
+        doc.nodes[hashes].child_count !=
+            session->provider->descriptor_doc.nodes[declared].child_count) {
+        as_error_set(error, AS_INVALID_ARGUMENT, "processors.asset_hashes",
+                     "asset digest list does not match provider descriptor");
+        return AS_INVALID_ARGUMENT;
+    }
+    uint32_t hash_item = doc.nodes[hashes].first_child;
+    uint32_t asset_item = session->provider->descriptor_doc.nodes[declared].first_child;
+    for (uint32_t i = 0; i < doc.nodes[hashes].child_count; ++i) {
+        const char *expected_hash = NULL;
+        uint32_t expected_length = 0;
+        if (doc.nodes[hash_item].type != AS_JSON_STRING ||
+            as_json_get_string(&session->provider->descriptor_doc, asset_item,
+                               "sha256", &expected_hash, &expected_length) != 0 ||
+            doc.nodes[hash_item].string_length != expected_length ||
+            memcmp(doc.nodes[hash_item].string, expected_hash,
+                   expected_length) != 0) {
+            as_error_set(error, AS_INVALID_ARGUMENT, "processors.asset_hashes",
+                         "asset digest list does not match provider descriptor");
+            return AS_INVALID_ARGUMENT;
+        }
+        hash_item = doc.nodes[hash_item].next_sibling;
+        asset_item = session->provider->descriptor_doc.nodes[asset_item].next_sibling;
     }
     const uint32_t settings = as_json_get(&doc, processor, "settings");
     if (!settings_valid(&doc, settings, session->provider_id)) {

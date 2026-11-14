@@ -6,6 +6,9 @@
   "c_compiler": "@CMAKE_C_COMPILER_ID@ @CMAKE_C_COMPILER_VERSION@",
   "cxx_compiler": "@CMAKE_CXX_COMPILER_ID@ @CMAKE_CXX_COMPILER_VERSION@",
   "flags_sha256": "sha256:@AS_BUILD_FLAGS_DIGEST@",
+  "runtime_inputs_sha256": "sha256:@AS_RUNTIME_INPUTS_DIGEST@",
+  "target": "@CMAKE_SYSTEM_NAME@-@CMAKE_SYSTEM_PROCESSOR@",
+  "deployment_target": "@CMAKE_OSX_DEPLOYMENT_TARGET@",
   "source_allocation_sha256": "sha256:@AS_SOURCE_ALLOCATION_DIGEST@",
   "dependency_lock_sha256": "sha256:@AS_DEPENDENCY_LOCK_DIGEST@",
   "speexdsp_revision": "7a158783df74efe7c2d1c6ee8363c1e695c71226"

@@ -2,33 +2,50 @@
 
 #include <math.h>
 #include <string.h>
+#include <time.h>
 
-static void push_output_locked(as_session_v0 *session, const float *samples,
-                               const as_result_v0 *result) {
-    const uint32_t index =
-        (session->output_head + session->output_count) % AS_QUEUE_FRAMES;
+static uint32_t queue_depth(_Atomic uint32_t *read_index,
+                            _Atomic uint32_t *write_index) {
+    const uint32_t read =
+        atomic_load_explicit(read_index, memory_order_acquire);
+    const uint32_t write =
+        atomic_load_explicit(write_index, memory_order_acquire);
+    return write - read;
+}
+
+static int output_has_space(as_session_v0 *session) {
+    return queue_depth(&session->output_read, &session->output_write) <
+           AS_QUEUE_FRAMES;
+}
+
+static void push_output(as_session_v0 *session, const float *samples,
+                        const as_result_v0 *result) {
+    const uint32_t write =
+        atomic_load_explicit(&session->output_write, memory_order_relaxed);
+    const uint32_t index = write % AS_QUEUE_FRAMES;
     as_output_slot *slot = &session->output_queue[index];
     memcpy(slot->samples, samples, sizeof(slot->samples));
     slot->result = *result;
-    session->output_count++;
-    if (session->output_count > session->output_high_water)
-        session->output_high_water = session->output_count;
+    atomic_store_explicit(&session->output_write, write + 1u,
+                          memory_order_release);
+    const uint32_t depth = queue_depth(&session->output_read,
+                                       &session->output_write);
+    const uint32_t high = atomic_load_explicit(&session->output_high_water,
+                                               memory_order_relaxed);
+    if (depth > high)
+        atomic_store_explicit(&session->output_high_water, depth,
+                              memory_order_relaxed);
 }
 
-static void fail_worker(as_session_v0 *session, uint32_t in_flight_intervals) {
-    pthread_mutex_lock(&session->queue_mutex);
+static void fail_worker(as_session_v0 *session, uint32_t failed_intervals,
+                        uint32_t failed_samples) {
     session->worker_failed = 1;
     session->admission_closed = 1;
     session->drain_complete = 1;
-    atomic_fetch_add(&session->c_cancelled_intervals,
-                     (uint64_t)session->input_count + session->output_count +
-                         in_flight_intervals);
-    session->input_count = 0;
-    session->input_head = 0;
-    session->output_count = 0;
-    session->output_head = 0;
-    pthread_cond_broadcast(&session->queue_cond);
-    pthread_mutex_unlock(&session->queue_mutex);
+    atomic_fetch_add(&session->c_failed_intervals, failed_intervals);
+    atomic_fetch_add(&session->c_failed_valid, failed_samples);
+    if (failed_intervals != 0)
+        atomic_fetch_add(&session->c_backend_failures, 1u);
     atomic_store(&session->lifecycle, AS_LIFE_NEEDS_RESET);
 }
 
@@ -53,7 +70,7 @@ static void process_input_slot(as_session_v0 *session,
     const as_status_v0 status =
         as_provider_process_frame(session, &frame, &output, &result);
     if (status != AS_OK) {
-        fail_worker(session, 1u);
+        fail_worker(session, 1u, slot->valid_count);
         return;
     }
     as_compute_validity(session, result.source_first_sample, result.produced_count,
@@ -80,17 +97,14 @@ static void process_input_slot(as_session_v0 *session,
     atomic_fetch_add(&session->c_startup_padding, startup_padding);
     atomic_fetch_add(&session->c_final_padding, final_padding);
 
-    pthread_mutex_lock(&session->queue_mutex);
-    push_output_locked(session, produced, &result);
-    pthread_cond_broadcast(&session->queue_cond);
-    pthread_mutex_unlock(&session->queue_mutex);
+    push_output(session, produced, &result);
 }
 
 static void drain_one(as_session_v0 *session) {
     if (session->drain_calls >= session->max_drain_calls) {
         atomic_store(&session->lifecycle, AS_LIFE_NEEDS_RESET);
         atomic_fetch_add(&session->c_backend_failures, 1u);
-        fail_worker(session, 0u);
+        fail_worker(session, 0u, 0u);
         return;
     }
     session->drain_calls++;
@@ -104,14 +118,12 @@ static void drain_one(as_session_v0 *session) {
     as_result_v0_init(&result);
     const as_status_v0 status = as_drain_provider_frame(session, &output, &result);
     if (status == AS_END_OF_STREAM) {
-        pthread_mutex_lock(&session->queue_mutex);
         session->drain_complete = 1;
-        pthread_cond_broadcast(&session->queue_cond);
-        pthread_mutex_unlock(&session->queue_mutex);
         return;
     }
     if (status != AS_OK) {
-        fail_worker(session, 0u);
+        atomic_fetch_add(&session->c_backend_failures, 1u);
+        fail_worker(session, 0u, 0u);
         return;
     }
     as_compute_validity(session, result.source_first_sample, result.produced_count,
@@ -130,10 +142,7 @@ static void drain_one(as_session_v0 *session) {
                                   session->accepted_end, 1, NULL,
                                   &final_padding);
         atomic_fetch_add(&session->c_final_padding, final_padding);
-        pthread_mutex_lock(&session->queue_mutex);
-        push_output_locked(session, produced, &result);
-        pthread_cond_broadcast(&session->queue_cond);
-        pthread_mutex_unlock(&session->queue_mutex);
+        push_output(session, produced, &result);
     }
 }
 
@@ -141,33 +150,38 @@ void *as_worker_main(void *argument) {
     as_session_v0 *session = (as_session_v0 *)argument;
     pthread_mutex_lock(&session->queue_mutex);
     for (;;) {
-        while (!session->worker_stop) {
-            const int can_process =
-                session->input_count > 0 && session->output_count < AS_QUEUE_FRAMES;
-            const int can_drain = !session->drain_complete &&
-                                  session->admission_closed &&
-                                  session->input_count == 0 &&
-                                  session->output_count < AS_QUEUE_FRAMES;
-            if (can_process || can_drain) break;
-            pthread_cond_wait(&session->queue_cond, &session->queue_mutex);
-        }
         if (session->worker_stop) break;
-        if (session->input_count > 0 && session->output_count < AS_QUEUE_FRAMES) {
-            const as_frame_slot slot = session->input_queue[session->input_head];
-            session->input_head = (session->input_head + 1u) % AS_QUEUE_FRAMES;
-            session->input_count--;
+        const uint32_t input_read =
+            atomic_load_explicit(&session->input_read, memory_order_relaxed);
+        const uint32_t input_write =
+            atomic_load_explicit(&session->input_write, memory_order_acquire);
+        const int has_input = input_read != input_write;
+        if (has_input && output_has_space(session) && !session->worker_failed) {
+            const as_frame_slot slot =
+                session->input_queue[input_read % AS_QUEUE_FRAMES];
+            atomic_store_explicit(&session->input_read, input_read + 1u,
+                                  memory_order_release);
             pthread_mutex_unlock(&session->queue_mutex);
             process_input_slot(session, &slot);
             pthread_mutex_lock(&session->queue_mutex);
             continue;
         }
-        if (session->admission_closed && session->input_count == 0 &&
-            !session->drain_complete) {
+        if (session->admission_closed && !has_input && !session->worker_failed &&
+            !session->drain_complete && output_has_space(session)) {
             pthread_mutex_unlock(&session->queue_mutex);
             drain_one(session);
             pthread_mutex_lock(&session->queue_mutex);
             continue;
         }
+        struct timespec wake;
+        (void)clock_gettime(CLOCK_REALTIME, &wake);
+        wake.tv_nsec += 1000000L;
+        if (wake.tv_nsec >= 1000000000L) {
+            wake.tv_sec++;
+            wake.tv_nsec -= 1000000000L;
+        }
+        (void)pthread_cond_timedwait(&session->queue_cond,
+                                     &session->queue_mutex, &wake);
     }
     pthread_mutex_unlock(&session->queue_mutex);
     return NULL;

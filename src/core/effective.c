@@ -96,7 +96,30 @@ as_status_v0 AS_CALL as_effective_config_create_v0(
     b_u64(&w, buffered ? 3u : 0u);
     b_text(&w, ",\"output_queue_capacity\":");
     b_u64(&w, buffered ? 3u : 0u);
-    b_text(&w, ",\"precision\":\"f32\",\"processors\":[{\"asset_hashes\":[],\"id\":");
+    b_text(&w, ",\"precision\":\"f32\",\"processors\":[{\"asset_hashes\":[");
+    const uint32_t assets = as_json_get(&entry->descriptor_doc,
+                                        entry->descriptor_root,
+                                        "required_assets");
+    uint32_t asset = assets == AS_JSON_NO_INDEX
+                         ? AS_JSON_NO_INDEX
+                         : entry->descriptor_doc.nodes[assets].first_child;
+    for (uint32_t i = 0; assets != AS_JSON_NO_INDEX &&
+                         i < entry->descriptor_doc.nodes[assets].child_count; ++i) {
+        const char *digest = NULL;
+        uint32_t digest_length = 0;
+        if (i != 0) b_text(&w, ",");
+        if (as_json_get_string(&entry->descriptor_doc, asset, "sha256",
+                               &digest, &digest_length) != 0 || digest_length != 71u) {
+            as_error_set(error, AS_BACKEND_FAILURE, "required_assets",
+                         "registered descriptor asset is malformed");
+            return AS_BACKEND_FAILURE;
+        }
+        b_text(&w, "\"");
+        b_bytes(&w, digest, digest_length);
+        b_text(&w, "\"");
+        asset = entry->descriptor_doc.nodes[asset].next_sibling;
+    }
+    b_text(&w, "],\"id\":");
     b_quote(&w, entry->provider_id);
     b_text(&w, ",\"settings\":");
     if (speex) {
