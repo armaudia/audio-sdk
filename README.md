@@ -40,10 +40,10 @@ There is no implicit resampling, microphone capture or neural model.
 
 ## Support and release scope
 
-Current checked local evidence is macOS arm64. Linux x86-64 and hosted CI must
-pass before those targets are advertised as supported. Read [release policy](RELEASING.md)
-and [historical handoff](HANDOFF.md). Passing synthetic conformance does not
-establish production workload latency, speech quality or hardware suitability.
+Platform support is limited to targets backed by passing hosted CI and release
+evidence. A successful synthetic conformance run does not establish production
+workload latency, speech quality or hardware suitability. Read the [release
+policy](RELEASING.md) before making support claims.
 
 Callback-safe mode 1, a stable binary plugin ABI, legacy `ae_*_v1` compatibility,
 LiveKit, separate engine plugins and additional formats are outside this release.

@@ -11,12 +11,23 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
+from contextlib import contextmanager
 
 
 path = Path(__file__).resolve().parents[1] / "scripts/github_admin.py"
 spec = importlib.util.spec_from_file_location("github_admin", path)
 admin = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(admin)
+
+
+@contextmanager
+def working_directory(path):
+    previous = Path.cwd()
+    os.chdir(path)
+    try:
+        yield
+    finally:
+        os.chdir(previous)
 
 
 class AdministrationPreconditions(unittest.TestCase):
@@ -51,39 +62,30 @@ class AdministrationPreconditions(unittest.TestCase):
 class ImmutableReleasePublication(unittest.TestCase):
     def test_assets_are_attached_before_release_is_published(self):
         script = path.parent / "publish_release.py"
-        previous = Path.cwd()
-        try:
-            with tempfile.TemporaryDirectory() as temporary:
-                os.chdir(temporary)
-                assets = Path("release-assets")
-                assets.mkdir()
-                for name in ("linux.zip", "macos.zip"):
-                    archive = assets / name
-                    archive.write_bytes(name.encode())
-                    archive.with_suffix(".zip.sha256").write_text(hashlib.sha256(archive.read_bytes()).hexdigest())
-                with patch.dict(os.environ, {"TAG": "v0.1.0-rc.1"}), \
-                        patch.object(subprocess, "run") as invoked:
-                    runpy.run_path(str(script), run_name="__main__")
-                commands = [call.args[0] for call in invoked.call_args_list]
-                self.assertEqual(len(commands), 2)
-                self.assertIn("--draft", commands[0])
-                self.assertIn("--draft=false", commands[1])
-                self.assertIn("--latest=false", commands[1])
-        finally:
-            os.chdir(previous)
+        with tempfile.TemporaryDirectory() as temporary, working_directory(temporary):
+            assets = Path("release-assets")
+            assets.mkdir()
+            for name in ("linux.tar.gz", "macos.tar.gz", "windows.zip", "wasm.zip"):
+                archive = assets / name
+                archive.write_bytes(name.encode())
+                archive.with_name(archive.name + ".sha256").write_text(
+                    hashlib.sha256(archive.read_bytes()).hexdigest())
+            with patch.dict(os.environ, {"TAG": "v0.1.0-rc.1"}), \
+                    patch.object(subprocess, "run") as invoked:
+                runpy.run_path(str(script), run_name="__main__")
+            commands = [call.args[0] for call in invoked.call_args_list]
+            self.assertEqual(len(commands), 2)
+            self.assertIn("--draft", commands[0])
+            self.assertIn("--draft=false", commands[1])
+            self.assertIn("--latest=false", commands[1])
 
     def test_missing_platform_archive_never_publishes(self):
-        previous = Path.cwd()
-        try:
-            with tempfile.TemporaryDirectory() as temporary:
-                os.chdir(temporary)
-                Path("release-assets").mkdir()
-                with patch.object(subprocess, "run") as invoked:
-                    with self.assertRaisesRegex(SystemExit, "Both platform archives"):
-                        runpy.run_path(str(path.parent / "publish_release.py"), run_name="__main__")
-                invoked.assert_not_called()
-        finally:
-            os.chdir(previous)
+        with tempfile.TemporaryDirectory() as temporary, working_directory(temporary):
+            Path("release-assets").mkdir()
+            with patch.object(subprocess, "run") as invoked:
+                with self.assertRaisesRegex(SystemExit, "Linux, macOS, Windows and WebAssembly"):
+                    runpy.run_path(str(path.parent / "publish_release.py"), run_name="__main__")
+            invoked.assert_not_called()
 
 
 if __name__ == "__main__":

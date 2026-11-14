@@ -42,6 +42,74 @@ jobs:
             build/ci/candidate/verification/
             build/ci/candidate/candidate-manifest.json
           if-no-files-found: warn
+  windows:
+    name: build (windows-2025)
+    runs-on: windows-2025
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Configure preinstalled Windows toolchain
+        run: |
+          $toolchain = 'C:\msys64\ucrt64\bin'
+          $env:MSYSTEM = 'UCRT64'
+          & 'C:\msys64\usr\bin\bash.exe' -lc 'pacman -Sy --noconfirm --needed mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if (-not (Test-Path "$toolchain\gcc.exe") -or -not (Test-Path "$toolchain\g++.exe")) {
+            throw 'The windows-2025 runner image is missing its UCRT64 compiler.'
+          }
+          $path = "$toolchain;C:\Program Files\Git\usr\bin;$env:PATH"
+          "PATH=$path" >> $env:GITHUB_ENV
+          'CC=gcc' >> $env:GITHUB_ENV
+          'CXX=g++' >> $env:GITHUB_ENV
+          'CMAKE_GENERATOR=Ninja' >> $env:GITHUB_ENV
+      - run: python -m pip install --require-hashes -r requirements-build.txt
+      - run: python scripts/ci.py
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: sdk-windows
+          path: build/ci/dist/*
+          if-no-files-found: error
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: sdk-evidence-windows
+          path: build/ci/*-tests.xml
+          if-no-files-found: warn
+  wasm:
+    name: build (wasm32-emscripten)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: emscripten-core/emsdk
+          ref: 708dcbcc9ee23bc7d2dad44fc90db377e38b771c
+          path: .tooling/emsdk
+          persist-credentials: false
+      - name: Install pinned Emscripten toolchain
+        run: |
+          ./.tooling/emsdk/emsdk install 5.0.1
+          ./.tooling/emsdk/emsdk activate 5.0.1
+      - name: Build and install the static SDK for WebAssembly
+        run: |
+          source .tooling/emsdk/emsdk_env.sh
+          cmake -S . -B build/wasm -DCMAKE_TOOLCHAIN_FILE="$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -DCMAKE_BUILD_TYPE=Release -DAS_BUILD_SHARED=OFF -DAS_BUILD_TESTS=OFF -DAS_BUILD_CONFORMANCE=OFF -DAS_BUILD_EXAMPLES=OFF -DCMAKE_C_FLAGS=-pthread -DCMAKE_CXX_FLAGS=-pthread
+          cmake --build build/wasm --parallel 2
+          cmake --install build/wasm --prefix build/wasm/install
+          python -c 'import hashlib; from pathlib import Path; from zipfile import ZIP_DEFLATED, ZipFile; root=Path("build/wasm/install"); archive=Path("build/wasm/audio-sdk-0.1.0-wasm32-emscripten.zip"); z=ZipFile(archive, "w", ZIP_DEFLATED); [z.write(p, p.relative_to(root)) for p in root.rglob("*") if p.is_file()]; z.close(); (archive.with_name(archive.name+".sha256")).write_text(hashlib.sha256(archive.read_bytes()).hexdigest()+"  "+archive.name+"\n")'
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: sdk-wasm32-emscripten
+          path: build/wasm/audio-sdk-0.1.0-wasm32-emscripten.zip*
+          if-no-files-found: error
   sanitizers:
     name: sanitizers (${{ matrix.kind }})
     runs-on: ubuntu-24.04
@@ -96,7 +164,7 @@ jobs:
   quality:
     name: quality
     if: always()
-    needs: [build, sanitizers, licensing]
+    needs: [build, windows, wasm, sanitizers, licensing]
     runs-on: ubuntu-24.04
     steps:
       - name: Require every job to pass
