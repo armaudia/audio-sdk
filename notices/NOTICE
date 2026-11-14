@@ -1,0 +1,12 @@
+audio-sdk
+
+Current file-level licensing is described by LICENSE.md and REUSE.toml:
+public API/integration materials Apache-2.0; first-party core MPL-2.0.
+Copyright (c) 2026 Tsakanyan Hovhannes. Earlier MIT notices are retained
+without revoking rights already granted under earlier distributions.
+
+SpeexDSP and FFT code retain original BSD terms and copyright holders in
+third_party/speexdsp/COPYING and COPYING.kissfft and the installed copies.
+No third-party code is relicensed by the first-party component map.
+Corresponding covered source is bundled under share/audio-sdk/source/.
+No models, model weights or human recordings are included.

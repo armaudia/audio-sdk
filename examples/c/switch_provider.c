@@ -1,3 +1,6 @@
+/* SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+ * SPDX-License-Identifier: Apache-2.0
+ */
 /* Build with the installed CMake package; see examples/README.md. */
 #include "audio_sdk/session_v0.h"
 

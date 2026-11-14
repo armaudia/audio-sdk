@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
 """Thin stdlib-only ctypes binding for audio-sdk v0.1.
 
 The C ABI remains authoritative. The wrapper performs ownership and buffer

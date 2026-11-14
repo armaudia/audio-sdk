@@ -29,6 +29,7 @@ if [ -e "$prefix/share/audio-sdk/conformance/legacy_timing_probe.c" ]; then
   rm -f "$prefix/share/audio-sdk/conformance/legacy_timing_probe.c"
 fi
 cmake --install "$build_dir" --prefix "$prefix"
+python3 "$script_dir/install_source.py" "$prefix/share/audio-sdk/source"
 if [ "$(uname -s)" = Darwin ]; then
   "$script_dir/normalize_macos_archive.py" \
     "$prefix/lib/libaudio_sdk.a" "$(xcrun --find ar)" "$(xcrun --find libtool)"

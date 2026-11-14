@@ -7,6 +7,11 @@ project(audio_sdk
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
+option(AS_BUILD_CORE "Build the MPL-2.0 runtime (disable for the standalone Apache API)" ON)
+add_subdirectory(api)
+if(NOT AS_BUILD_CORE)
+    return()
+endif()
 find_package(Threads REQUIRED)
 
 option(AS_BUILD_TESTS "Build SDK tests" ON)
@@ -48,15 +53,16 @@ file(SHA256 "${CMAKE_CURRENT_SOURCE_DIR}/docs/migration/source-allocation.csv"
 file(SHA256 "${CMAKE_CURRENT_SOURCE_DIR}/deps/lock.json"
     AS_DEPENDENCY_LOCK_DIGEST)
 file(GLOB_RECURSE AS_RUNTIME_INPUTS CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/providers/*.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/providers/*.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include/audio_sdk/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/core/src/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/core/src/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/core/providers/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/core/providers/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/api/include/audio_sdk/*.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/third_party/speexdsp/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/third_party/speexdsp/*.h")
 list(APPEND AS_RUNTIME_INPUTS
     "${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt"
+    "${CMAKE_CURRENT_SOURCE_DIR}/api/CMakeLists.txt"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/lock.json"
     "${CMAKE_CURRENT_SOURCE_DIR}/docs/migration/source-allocation.csv")
 list(SORT AS_RUNTIME_INPUTS)
@@ -114,40 +120,42 @@ set_target_properties(as_speexdsp PROPERTIES
 # Core runtime
 # ---------------------------------------------------------------------------
 set(AS_CORE_SOURCES
-    src/core/sha256.c
-    src/core/json.c
-    src/core/common.c
-    src/core/descriptor.c
-    src/core/registry.c
-    src/core/config.c
-    src/core/effective.c
-    src/core/validity.c
-    src/api/provider_call.c
-    src/api/session.c
-    src/api/worker.c
-    providers/speex/speex_provider.c
-    providers/highpass/highpass_provider.c
-    src/descriptors/descriptors.c)
+    core/src/core/sha256.c
+    core/src/core/json.c
+    core/src/core/common.c
+    core/src/core/descriptor.c
+    core/src/core/registry.c
+    core/src/core/config.c
+    core/src/core/effective.c
+    core/src/core/validity.c
+    core/src/api/provider_call.c
+    core/src/api/session.c
+    core/src/api/worker.c
+    core/providers/speex/speex_provider.c
+    core/providers/highpass/highpass_provider.c
+    core/src/descriptors/descriptors.c)
 
-add_library(audio_sdk_static STATIC ${AS_CORE_SOURCES} $<TARGET_OBJECTS:as_speexdsp>)
+add_library(audio-sdk-core STATIC ${AS_CORE_SOURCES} $<TARGET_OBJECTS:as_speexdsp>)
 add_library(audio_sdk_shared SHARED ${AS_CORE_SOURCES} $<TARGET_OBJECTS:as_speexdsp>)
-add_library(AudioSDK::audio_sdk ALIAS audio_sdk_static)
+add_library(AudioSDK::audio_sdk ALIAS audio-sdk-core)
+add_library(AudioSDK::core ALIAS audio-sdk-core)
+add_library(audio_sdk_static ALIAS audio-sdk-core)
 
-foreach(target audio_sdk_static audio_sdk_shared)
+foreach(target audio-sdk-core audio_sdk_shared)
     target_include_directories(${target}
         PUBLIC
-            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/api/include>
             $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         PRIVATE
-            "${CMAKE_CURRENT_SOURCE_DIR}/src"
+            "${CMAKE_CURRENT_SOURCE_DIR}/core/src"
             "${AS_SPEEXDSP_DIR}/include")
     target_compile_options(${target} PRIVATE ${AS_WARNING_FLAGS})
     target_compile_definitions(${target} PRIVATE
         AS_BUILDING_LIBRARY
         "AS_BUILD_ID=\"${AS_BUILD_ID}\"")
-    target_link_libraries(${target} PRIVATE Threads::Threads m)
+    target_link_libraries(${target} PUBLIC audio-sdk-api PRIVATE Threads::Threads m)
 endforeach()
-set_target_properties(audio_sdk_static PROPERTIES
+set_target_properties(audio-sdk-core PROPERTIES
     OUTPUT_NAME audio_sdk
     EXPORT_NAME audio_sdk)
 set_target_properties(audio_sdk_shared PROPERTIES
@@ -156,14 +164,14 @@ set_target_properties(audio_sdk_shared PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}
     C_VISIBILITY_PRESET hidden)
-target_compile_definitions(audio_sdk_static INTERFACE AS_STATIC)
+target_compile_definitions(audio-sdk-core INTERFACE AS_STATIC)
 if(APPLE)
     find_package(Python3 COMPONENTS Interpreter REQUIRED)
     find_program(AS_LIBTOOL_EXECUTABLE libtool REQUIRED)
-    add_custom_command(TARGET audio_sdk_static POST_BUILD
+    add_custom_command(TARGET audio-sdk-core POST_BUILD
         COMMAND "${Python3_EXECUTABLE}"
                 "${CMAKE_CURRENT_SOURCE_DIR}/scripts/normalize_macos_archive.py"
-                "$<TARGET_FILE:audio_sdk_static>"
+                "$<TARGET_FILE:audio-sdk-core>"
                 "${CMAKE_AR}"
                 "${AS_LIBTOOL_EXECUTABLE}"
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/scripts/normalize_macos_archive.py"
@@ -178,7 +186,7 @@ if(AS_BUILD_CONFORMANCE)
     add_library(as_conformance_checks STATIC conformance/checks.c)
     target_include_directories(as_conformance_checks
         PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/conformance")
-    target_link_libraries(as_conformance_checks PUBLIC audio_sdk_static)
+    target_link_libraries(as_conformance_checks PUBLIC audio-sdk-core)
     target_compile_options(as_conformance_checks PRIVATE ${AS_WARNING_FLAGS})
 
     add_executable(audio_sdk_conformance conformance/main.c)
@@ -203,41 +211,40 @@ if(AS_BUILD_TESTS)
     enable_testing()
     function(as_add_test name source)
         add_executable(${name} ${source})
-        target_link_libraries(${name} PRIVATE audio_sdk_static)
+        target_link_libraries(${name} PRIVATE audio-sdk-core)
         target_include_directories(${name}
-            PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src"
+            PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/core/src"
                     "${CMAKE_CURRENT_SOURCE_DIR}/conformance")
         target_compile_options(${name} PRIVATE ${AS_WARNING_FLAGS})
         add_test(NAME ${name} COMMAND ${name})
     endfunction()
 
-    as_add_test(as_test_canonical tests/test_canonical.c)
-    as_add_test(as_test_registry tests/test_registry.c)
-    as_add_test(as_test_session tests/test_session.c)
-    as_add_test(as_test_timing tests/test_timing.c)
-    as_add_test(as_test_providers tests/test_providers.c)
-    as_add_test(as_test_queues tests/test_queues.c)
-    as_add_test(as_test_assets tests/test_assets.c)
+    as_add_test(as_test_canonical core/tests/test_canonical.c)
+    as_add_test(as_test_registry core/tests/test_registry.c)
+    as_add_test(as_test_session core/tests/test_session.c)
+    as_add_test(as_test_timing core/tests/test_timing.c)
+    as_add_test(as_test_providers core/tests/test_providers.c)
+    as_add_test(as_test_queues core/tests/test_queues.c)
+    as_add_test(as_test_assets core/tests/test_assets.c)
     set_tests_properties(as_test_queues PROPERTIES TIMEOUT 45)
-    as_add_test(as_test_validity tests/test_validity.c)
-    as_add_test(as_test_cxx tests/test_cxx.cpp)
+    as_add_test(as_test_validity core/tests/test_validity.c)
+    as_add_test(as_test_cxx core/tests/test_cxx.cpp)
 endif()
 
 if(AS_BUILD_EXAMPLES)
     add_executable(as_example_c examples/c/switch_provider.c)
-    target_link_libraries(as_example_c PRIVATE audio_sdk_static)
-    target_include_directories(as_example_c PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(as_example_c PRIVATE audio-sdk-core)
+    target_include_directories(as_example_c PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/api/include")
 endif()
 
 # ---------------------------------------------------------------------------
 # Install/export
 # ---------------------------------------------------------------------------
-install(TARGETS audio_sdk_static audio_sdk_shared
+install(TARGETS audio-sdk-core audio_sdk_shared
     EXPORT AudioSDKTargets
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
-install(DIRECTORY include/audio_sdk DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
 if(AS_BUILD_CONFORMANCE)
     install(TARGETS audio_sdk_conformance RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
@@ -248,12 +255,13 @@ endif()
 
 install(DIRECTORY schemas/ DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/schemas"
     FILES_MATCHING PATTERN "*.json")
-install(DIRECTORY licenses/ DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/licenses"
+install(DIRECTORY notices/ DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/licenses"
     FILES_MATCHING PATTERN "*.txt")
-install(FILES licenses/NOTICE
+install(FILES notices/NOTICE
     DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/licenses")
-install(FILES LICENSE
+install(FILES LICENSE.md SOURCE_LOCATION.md
     DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/licenses")
+install(DIRECTORY LICENSES/ DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/licenses")
 install(FILES third_party/speexdsp/UPSTREAM.md
     DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/licenses/third-party")
 install(FILES

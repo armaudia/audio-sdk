@@ -50,5 +50,21 @@ LiveKit, separate engine plugins and additional formats are outside this release
 
 ## License
 
-First-party code is MIT; vendored SpeexDSP/FFT code retains its BSD notices.
-See [LICENSE](LICENSE) and [NOTICE](licenses/NOTICE).
+The standalone API and integration materials are Apache-2.0; the core runtime
+and core tests are MPL-2.0. Third-party notices are preserved. See
+[the file-level map](LICENSE.md), [NOTICE](notices/NOTICE) and [contributor policy](CONTRIBUTING.md).
+
+Build only the public interface without DSP/runtime dependencies:
+
+```sh
+cmake -S api -B build/api-only
+cmake --build build/api-only
+ctest --test-dir build/api-only --output-on-failure
+cmake --install build/api-only --prefix /path/to/api-prefix
+```
+
+`audio-sdk-api` / `AudioSDK::api` is headers-only. `audio-sdk-core` is compiled;
+installed `AudioSDK::audio_sdk` remains a compatibility target for the core.
+Distributed native packages include corresponding covered source and licenses.
+External SDK code contributions require verified private acceptance of the published
+individual CLA benefiting Tsakanyan Hovhannes personally; see CLA/README.md.

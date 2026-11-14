@@ -1,3 +1,6 @@
+/* SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+ * SPDX-License-Identifier: Apache-2.0
+ */
 #include "audio_sdk/provider_v0.h"
 
 #include <stdlib.h>

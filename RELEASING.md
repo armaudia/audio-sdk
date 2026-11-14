@@ -44,8 +44,9 @@ updates. Repository Actions must not approve their own pull requests.
 Public release tags are `v0.1.0` or `v0.1.0-rc.1` (and alpha/beta equivalents).
 The release workflow reruns CI, requires the tag's commit to be on main, requires
 approval in the `release` environment, verifies both platform archive checksums,
-and attests the artifacts before publishing them. Release tags cannot be rewritten
-or deleted. A corrected release uses a new version. PyPI upload, public benchmark
+and attests the artifacts before publishing them. Assets are attached to a draft
+first, then the release is published with repository release immutability enabled. Only organization owners may create release tags. Separate immutable-tag rules
+without bypass actors prevent those tags from being rewritten or deleted. A corrected release uses a new version. PyPI upload, public benchmark
 publication, third-party code execution and model distribution are not enabled by
 these workflows.
 

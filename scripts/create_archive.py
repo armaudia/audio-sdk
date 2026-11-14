@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
 """Create a normalized gzip/tar and per-file SHA-256 manifest."""
 from __future__ import annotations
 

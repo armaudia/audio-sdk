@@ -1,0 +1,25 @@
+version = 1
+
+[[annotations]]
+path = ["CMakeLists.txt", "LICENSE", "LICENSE.md", "SOURCE_LOCATION.md", "REUSE.toml", "README.md", "CONTRACTS.md", "TEST_PLAN.md", "IMPLEMENTATION_PLAN.md", "HANDOFF.md", "CONTRIBUTING.md", "SECURITY.md", "RELEASING.md", "requirements-build.txt", ".gitignore", "api/**", "bindings/**", "cmake/**", "conformance/**", "deps/**", "docs/**", "examples/**", "scripts/**", "tests/**", "schemas/**", "CLA/**", "licensing/**", ".github/**", "notices/NOTICE"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Tsakanyan Hovhannes"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["core/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Tsakanyan Hovhannes"
+SPDX-License-Identifier = "MPL-2.0"
+
+[[annotations]]
+path = ["third_party/speexdsp/**", "notices/third-party/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "SpeexDSP contributors (original notices retained in files and COPYING)"
+SPDX-License-Identifier = "BSD-3-Clause"
+
+[[annotations]]
+path = ["notices/first-party-MIT.txt"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Tsakanyan Hovhannes"
+SPDX-License-Identifier = "MIT"

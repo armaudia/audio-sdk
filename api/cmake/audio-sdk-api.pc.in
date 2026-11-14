@@ -1,0 +1,6 @@
+prefix=${pcfiledir}/../..
+includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+Name: audio-sdk-api
+Description: Standalone public C interface for audio-sdk
+Version: @PROJECT_VERSION@
+Cflags: -I${includedir}

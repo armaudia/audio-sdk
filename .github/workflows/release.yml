@@ -31,6 +31,10 @@ jobs:
         with:
           pattern: sdk-*
           path: release-assets
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          name: audio-sdk-licensing
+          path: release-assets/source-licensing
       - name: Attest tested archives
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:

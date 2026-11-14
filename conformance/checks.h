@@ -1,3 +1,6 @@
+/* SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+ * SPDX-License-Identifier: Apache-2.0
+ */
 #ifndef AS_CONFORMANCE_CHECKS_H
 #define AS_CONFORMANCE_CHECKS_H
 

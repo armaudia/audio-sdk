@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
 """Refuse packaging when compilation inputs differ from configure-time bytes."""
 from __future__ import annotations
 
@@ -10,13 +12,14 @@ from pathlib import Path
 def runtime_inputs(root: Path) -> list[Path]:
     paths = {
         root / "CMakeLists.txt",
+        root / "api/CMakeLists.txt",
         root / "deps/lock.json",
         root / "docs/migration/source-allocation.csv",
     }
     for directory, suffixes in (
-        ("src", {".c", ".h"}),
-        ("providers", {".c", ".h"}),
-        ("include/audio_sdk", {".h"}),
+        ("core/src", {".c", ".h"}),
+        ("core/providers", {".c", ".h"}),
+        ("api/include/audio_sdk", {".h"}),
         ("third_party/speexdsp", {".c", ".h"}),
     ):
         paths.update(

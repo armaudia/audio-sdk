@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
 """Apply and verify repository settings after bootstrap CI succeeds."""
 from __future__ import annotations
 import argparse,json,subprocess,sys
@@ -9,10 +11,11 @@ def main():
  p=argparse.ArgumentParser(description=__doc__)
  p.add_argument('--gh',default='gh')
  p.add_argument('--repo',required=True,choices=['audio-sdk','audio-bench','audio-pro'])
+ p.add_argument('--allow-private-plan-limit',action='store_true')
  args=p.parse_args(); root=Path(__file__).resolve().parents[1]
  full='armaudia/'+args.repo
  def api(method,path,payload=None,missing=False):
-  command=[args.gh,'api','--method',method,path]
+  command=[args.gh,'api','--method',method,'--header','X-GitHub-Api-Version: 2026-03-10',path]
   if payload is not None:command+=['--input','-']
   result=subprocess.run(command,input=json.dumps(payload) if payload is not None else None,text=True,capture_output=True)
   if result.returncode:
@@ -31,6 +34,9 @@ def main():
            'allow_rebase_merge':False,'allow_auto_merge':False,'delete_branch_on_merge':True,
            'has_wiki':False,'has_projects':False,'allow_update_branch':True}
  api('PATCH','repos/'+full,settings)
+ api('PUT',f'repos/{full}/immutable-releases')
+ immutability=api('GET',f'repos/{full}/immutable-releases')
+ if not immutability.get('enabled'):raise RuntimeError('Release immutability readback mismatch')
  api('PUT',f'repos/{full}/actions/permissions',{'enabled':True,'allowed_actions':'selected'})
  api('PUT',f'repos/{full}/actions/permissions/selected-actions',
      {'github_owned_allowed':True,'verified_allowed':False,'patterns_allowed':[]})
@@ -42,9 +48,21 @@ def main():
   api('PUT',f'repos/{full}/private-vulnerability-reporting')
   api('PATCH','repos/'+full,{'security_and_analysis':{
    'secret_scanning':{'status':'enabled'},'secret_scanning_push_protection':{'status':'enabled'}}})
+ if expected and args.allow_private_plan_limit:
+  organization=api('GET','orgs/armaudia')
+  if organization.get('plan',{}).get('name')=='free':
+   report={'repository':api('GET','repos/'+full),
+           'actions':api('GET',f'repos/{full}/actions/permissions/workflow'),
+           'protection_status':'unavailable_on_github_free_private_repository',
+           'accepted_by_owner':True,'rulesets_enforced':False,
+           'commercial_release_workflow':'disabled',
+           'required_resolution':'GitHub Team/Enterprise for organization-private branch protections'}
+   output=root/'build/github-settings.json';output.parent.mkdir(exist_ok=True);output.write_text(json.dumps(report,indent=2)+'\n')
+   print('Verified private repository and Actions permissions; branch protections remain unavailable on the accepted Free plan')
+   return
  existing=api('GET',f'repos/{full}/rulesets')
  expected_rules=[]
- for name in ['main-ruleset.json','tag-ruleset.json']:
+ for name in ['main-ruleset.json','tag-ruleset.json','release-tag-creators.json']:
   rule=json.loads((root/'.github'/name).read_text())
   if name=='main-ruleset.json':rule['rules'][-1]['parameters']['required_status_checks'][0]['integration_id']=quality[0]['app']['id']
   match=next((r for r in existing if r['name']==rule['name']),None)
@@ -59,7 +77,8 @@ def main():
    parameters=by_type[expected_rule['type']].get('parameters',{})
    for key,value in expected_rule.get('parameters',{}).items():
     if parameters.get(key)!=value:raise RuntimeError('Ruleset parameter readback mismatch: '+key)
-  if observed['bypass_actors']:raise RuntimeError('Unexpected bypass actors')
+  normalize=lambda actors: sorted((actor['actor_type'],actor['bypass_mode']) for actor in actors)
+  if normalize(observed['bypass_actors'])!=normalize(rule['bypass_actors']):raise RuntimeError('Unexpected bypass actors')
   expected_rules.append(observed)
  user=api('GET','user')
  environment=api('PUT',f'repos/{full}/environments/release',{
@@ -77,7 +96,7 @@ def main():
  if not any(x['name']=='v*' and x.get('type')=='tag' for x in branch_policies):raise RuntimeError('Release tag policy readback mismatch')
  action_policy=api('GET',f'repos/{full}/actions/permissions')
  if not action_policy['enabled'] or action_policy['allowed_actions']!='selected':raise RuntimeError('Actions allowlist readback mismatch')
- report={'repository':api('GET','repos/'+full), 'rulesets':expected_rules,
+ report={'immutable_releases':immutability, 'repository':api('GET','repos/'+full), 'rulesets':expected_rules,
          'actions':api('GET',f'repos/{full}/actions/permissions/workflow'),
          'release_environment':api('GET',f'repos/{full}/environments/release')}
  for key,value in settings.items():

@@ -1,7 +1,13 @@
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
 """Publishing policy refuses mutations before identity and CI preconditions pass."""
 import importlib.util
 import json
+import hashlib
+import os
+import runpy
 import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -40,6 +46,44 @@ class AdministrationPreconditions(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "visibility"):
                 admin.main()
         self.assertEqual(invoked.call_count, 1)
+
+
+class ImmutableReleasePublication(unittest.TestCase):
+    def test_assets_are_attached_before_release_is_published(self):
+        script = path.parent / "publish_release.py"
+        previous = Path.cwd()
+        try:
+            with tempfile.TemporaryDirectory() as temporary:
+                os.chdir(temporary)
+                assets = Path("release-assets")
+                assets.mkdir()
+                for name in ("linux.zip", "macos.zip"):
+                    archive = assets / name
+                    archive.write_bytes(name.encode())
+                    archive.with_suffix(".zip.sha256").write_text(hashlib.sha256(archive.read_bytes()).hexdigest())
+                with patch.dict(os.environ, {"TAG": "v0.1.0-rc.1"}), \
+                        patch.object(subprocess, "run") as invoked:
+                    runpy.run_path(str(script), run_name="__main__")
+                commands = [call.args[0] for call in invoked.call_args_list]
+                self.assertEqual(len(commands), 2)
+                self.assertIn("--draft", commands[0])
+                self.assertIn("--draft=false", commands[1])
+                self.assertIn("--latest=false", commands[1])
+        finally:
+            os.chdir(previous)
+
+    def test_missing_platform_archive_never_publishes(self):
+        previous = Path.cwd()
+        try:
+            with tempfile.TemporaryDirectory() as temporary:
+                os.chdir(temporary)
+                Path("release-assets").mkdir()
+                with patch.object(subprocess, "run") as invoked:
+                    with self.assertRaisesRegex(SystemExit, "Both platform archives"):
+                        runpy.run_path(str(path.parent / "publish_release.py"), run_name="__main__")
+                invoked.assert_not_called()
+        finally:
+            os.chdir(previous)
 
 
 if __name__ == "__main__":

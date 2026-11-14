@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
 """Build and test an installed SDK and Python wheel on a clean runner."""
 from __future__ import annotations
 
@@ -25,7 +27,13 @@ def main() -> None:
     root = Path(__file__).resolve().parents[1]
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=True)
-    run(sys.executable, "-m", "unittest", "discover", "-s", str(root / "tests"), "-p", "test_release_tools.py", "-v")
+    run(sys.executable, str(root / "scripts/generate_descriptors.py"), "--check")
+    run(sys.executable, "-m", "unittest", "discover", "-s", str(root / "tests"), "-p", "test_*.py", "-v")
+    api_build = output / "api"
+    run("cmake", "-S", str(root / "api"), "-B", str(api_build), "-DCMAKE_INSTALL_LIBDIR=lib")
+    run("cmake", "--build", str(api_build), "--parallel", "2")
+    run("ctest", "--test-dir", str(api_build), "--output-on-failure", "--timeout", "60",
+        "--output-junit", str(output / "api-tests.xml"))
     build = output / "native"
     candidate = output / "candidate"
     run("cmake", "-S", str(root), "-B", str(build),

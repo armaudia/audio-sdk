@@ -1,7 +1,7 @@
 # Provider v0.1 implementation notes
 
-The public C boundary is in `include/audio_sdk/provider_v0.h` and
-`include/audio_sdk/session_v0.h`. The frozen source contract is
+The public C boundary is in `api/include/audio_sdk/provider_v0.h` and
+`api/include/audio_sdk/session_v0.h`. The frozen source contract is
 `CONTRACTS.md`, revision 0.1. The runtime accepts mono float32, 16 kHz, fixed
 160-sample calls and one provider per session.
 

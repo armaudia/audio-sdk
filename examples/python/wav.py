@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
 """Minimal PCM16 mono/16 kHz WAV reader/writer using only the standard library."""
 from __future__ import annotations
 

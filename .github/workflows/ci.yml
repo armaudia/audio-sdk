@@ -67,10 +67,36 @@ jobs:
         with:
           name: sanitizer-${{ matrix.kind }}
           path: build/sanitized/tests.xml
+  licensing:
+    name: licensing-and-cla
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'reuse[charset-normalizer]==6.3.0'
+      - run: reuse lint
+      - run: mkdir -p build/license-evidence
+      - run: reuse spdx -o build/license-evidence/audio-sdk-source.spdx
+      - name: Verify contribution intake
+        env:
+          EVENT_PATH: ${{ github.event_path }}
+        run: python scripts/check_contributors.py --policy sdk --event "$EVENT_PATH"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: audio-sdk-licensing
+          path: build/license-evidence/
+          if-no-files-found: warn
   quality:
     name: quality
     if: always()
-    needs: [build, sanitizers]
+    needs: [build, sanitizers, licensing]
     runs-on: ubuntu-24.04
     steps:
       - name: Require every job to pass

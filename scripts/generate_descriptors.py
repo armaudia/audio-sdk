@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
 """Generate provider descriptors, provider config schemas and embedded C bytes.
 
 Deterministic: descriptor bytes are canonical JSON (sorted keys, no spaces),
@@ -12,6 +14,11 @@ import hashlib
 import json
 import pathlib
 import re
+import argparse
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--check", action="store_true")
+CHECK = parser.parse_args().check
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DESCRIPTOR_SCHEMA = "audio-sdk/descriptor/0.1"
@@ -39,6 +46,11 @@ def config_digest(path):
 
 
 def write(path, text):
+    if CHECK:
+        target = ROOT / path
+        if not target.is_file() or target.read_bytes() != text.encode("ascii"):
+            raise SystemExit(f"stale generated descriptor/configuration: {path}; run scripts/generate_descriptors.py")
+        return
     (ROOT / path).parent.mkdir(parents=True, exist_ok=True)
     (ROOT / path).write_bytes(text.encode("ascii"))
 
@@ -47,12 +59,12 @@ def c_string(text):
     return '"' + text.replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
-speex_sources = ["providers/speex/speex_provider.c"]
+speex_sources = ["core/providers/speex/speex_provider.c"]
 for path in sorted((ROOT / "third_party/speexdsp").rglob("*")):
     if path.is_file():
         speex_sources.append(str(path.relative_to(ROOT)))
 
-highpass_sources = ["providers/highpass/highpass_provider.c"]
+highpass_sources = ["core/providers/highpass/highpass_provider.c"]
 
 speex_config = {
     "schema_id": CONFIG_SCHEMA,
@@ -145,8 +157,8 @@ descriptors = {
         "required_assets": [],
         "upstream": {
             "name": "audio-sdk first-party high-pass",
-            "license": "MIT (existing first-party source; release license decision pending)",
-            "notice_path": "licenses/first-party-MIT.txt",
+            "license": "MPL-2.0",
+            "notice_path": "licenses/MPL-2.0.txt",
         },
         "platform": {
             "cpu_requirements": "baseline",
@@ -155,7 +167,7 @@ descriptors = {
     },
 }
 
-output = ['#include <stdint.h>\n']
+output = ['/* SPDX-' 'FileCopyrightText: 2026 Tsakanyan Hovhannes\n * SPDX-' 'License-Identifier: MPL-2.0 */\n#include <stdint.h>\n']
 for key, name in (("speex", "as_speex_descriptor"), ("highpass", "as_highpass_descriptor")):
     text = canonical(descriptors[key])
     path = f"schemas/providers/{descriptors[key]['provider_id']}.descriptor.json"
@@ -169,8 +181,8 @@ output.append(
     '#endif\n'
     'const char as_build_identity[] = AS_BUILD_ID;\n'
 )
-write("src/descriptors/descriptors.c", "\n".join(output))
+write("core/src/descriptors/descriptors.c", "\n".join(output))
 
-print("descriptors written")
+print("descriptors verified" if CHECK else "descriptors written")
 for key, descriptor in descriptors.items():
     print(key, descriptor["source_digest"], descriptor["configuration_schema_digest"])

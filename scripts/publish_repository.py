@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
 """Audit the complete Git history and bootstrap exactly one authorized repository."""
 import argparse,json,re,shlex,subprocess,sys
 from pathlib import Path
@@ -29,8 +31,11 @@ def main():
  revision=git('rev-parse','HEAD')
  print(json.dumps({'repository':full,'private':private,'source_revision':revision,'history_audit':'passed'},indent=2),flush=True)
  if not args.apply:return
+ if not private:
+  decision=json.loads((root/'licensing/decision.json').read_text())
+  if not decision.get('approved_for_publication'):raise RuntimeError('Public outbound licensing has not been approved')
  def api(method,path,payload=None,missing=False):
-  command=[args.gh,'api','--method',method,path]
+  command=[args.gh,'api','--method',method,'--header','X-GitHub-Api-Version: 2026-03-10',path]
   if payload is not None:command+=['--input','-']
   result=subprocess.run(command,input=json.dumps(payload) if payload is not None else None,text=True,capture_output=True)
   if result.returncode:

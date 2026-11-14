@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
 """Process the same WAV with each built-in provider and write two outputs."""
 from __future__ import annotations
 

@@ -1,3 +1,6 @@
+/* SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+ * SPDX-License-Identifier: Apache-2.0
+ */
 /*
  * Historical baseline timing probe (S02 evidence).
  *
