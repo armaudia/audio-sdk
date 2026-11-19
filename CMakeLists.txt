@@ -202,6 +202,10 @@ if(AS_BUILD_CONFORMANCE)
 
     add_executable(audio_sdk_conformance conformance/main.c)
     target_link_libraries(audio_sdk_conformance PRIVATE as_conformance_checks)
+    if(MINGW)
+        # The installed executable must run without the MinGW toolchain on PATH.
+        target_link_options(audio_sdk_conformance PRIVATE -static -static-libgcc -static-libstdc++)
+    endif()
     target_include_directories(audio_sdk_conformance
         PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/conformance")
     target_compile_options(audio_sdk_conformance PRIVATE ${AS_WARNING_FLAGS})

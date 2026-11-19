@@ -17,7 +17,8 @@ def main() -> None:
     destination = args.destination
     destination.mkdir(parents=True)
     for name in ("api", "core", "bindings", "cmake", "conformance", "examples", "scripts",
-                 "schemas", "docs", "deps", "notices", "LICENSES", "CLA", "licensing", ".github", "tests"):
+                 "schemas", "docs", "deps", "notices", "LICENSES", "CLA", "licensing", ".github", "tests",
+                 "third_party"):
         shutil.copytree(root / name, destination / name,
                         ignore=shutil.ignore_patterns("build", "dist", "__pycache__", "*.pyc", "*.egg-info"))
     for name in ("CMakeLists.txt", "LICENSE", "LICENSE.md", "SOURCE_LOCATION.md", "REUSE.toml",

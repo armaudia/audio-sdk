@@ -36,14 +36,15 @@ must be resolved rather than described as enforced.
 
 ## CI and publishing
 
-CI uses immutable GitHub Action commits, read-only tokens, clean Linux/macOS
-runners, and an aggregate `quality` check that fails if any required job fails or
-is cancelled. Workflow changes are reviewed as code. Dependabot proposes action
-updates. Repository Actions must not approve their own pull requests.
+CI uses immutable GitHub Action commits, read-only tokens, and an aggregate
+`quality` check. Linux and macOS run installed-consumer tests. Windows also runs
+both providers from the extracted archive with the compiler directories removed
+from `PATH`. The WebAssembly static archive is tested in Node.js using the packaged
+C example and both built-in providers. Browser integration requires its own tests.
 
 Public release tags are `v0.1.0` or `v0.1.0-rc.1` (and alpha/beta equivalents).
 The release workflow reruns CI, requires the tag's commit to be on main, requires
-approval in the `release` environment, verifies both platform archive checksums,
+approval in the `release` environment, verifies the four platform archive checksums,
 and attests the artifacts before publishing them. Assets are attached to a draft
 first, then the release is published with repository release immutability enabled. Only organization owners may create release tags. Separate immutable-tag rules
 without bypass actors prevent those tags from being rewritten or deleted. A corrected release uses a new version. PyPI upload, public benchmark
