@@ -9,6 +9,7 @@
 typedef struct fixture_instance {
     float history[512];
     uint32_t delay;
+    uint32_t extra_content_delay;
     int64_t first_input_sample;
     int64_t next_output;
     int64_t accepted_end;
@@ -16,6 +17,7 @@ typedef struct fixture_instance {
     uint32_t drain_count;
     int fault;
     int unbounded_drain;
+    int early_eos;
 } fixture_instance;
 
 static uint32_t delay_from_config(const char *json) {
@@ -40,6 +42,7 @@ static as_status_v0 AS_CALL fixture_create(const as_create_config_v0 *config,
     if (instance == NULL) return AS_RESOURCE_EXHAUSTED;
     instance->delay = delay_from_config(config->config_json);
     instance->first_input_sample = config->first_input_sample;
+    instance->accepted_end = config->first_input_sample;
     instance->next_output =
         config->first_input_sample - (int64_t)instance->delay;
     instance->epoch = config->epoch;
@@ -49,6 +52,12 @@ static as_status_v0 AS_CALL fixture_create(const as_create_config_v0 *config,
     if (config->config_json != NULL &&
         strstr(config->config_json, "fixture.drainbound.v0") != NULL)
         instance->unbounded_drain = 1;
+    if (config->config_json != NULL &&
+        strstr(config->config_json, "fixture.contentfault.v0") != NULL)
+        instance->extra_content_delay = 7;
+    if (config->config_json != NULL &&
+        strstr(config->config_json, "fixture.earlyeos.v0") != NULL)
+        instance->early_eos = 1;
     *out = instance;
     return AS_OK;
 }
@@ -64,7 +73,7 @@ static as_status_v0 AS_CALL fixture_process(void *opaque,
     const int64_t source =
         frame->first_input_sample - (int64_t)instance->delay;
     for (uint32_t i = 0; i < AS_FRAME_SAMPLES; ++i) {
-        const int64_t source_sample = source + (int64_t)i;
+        const int64_t source_sample = source + (int64_t)i - instance->extra_content_delay;
         const int64_t current_sample =
             frame->first_input_sample + (int64_t)i;
         if (instance->fault) {
@@ -132,13 +141,16 @@ static as_status_v0 AS_CALL fixture_drain(void *opaque,
         ++instance->drain_count;
         return AS_OK;
     }
-    if (instance->next_output >= instance->accepted_end)
+    if (instance->early_eos ||
+        instance->accepted_end == instance->first_input_sample ||
+        instance->next_output >= instance->accepted_end)
         return AS_END_OF_STREAM;
     uint32_t produced =
         (uint32_t)(instance->accepted_end - instance->next_output);
     if (produced > AS_FRAME_SAMPLES) produced = AS_FRAME_SAMPLES;
     for (uint32_t i = 0; i < produced; ++i) {
-        const int64_t sample = instance->next_output + (int64_t)i;
+        const int64_t sample =
+            instance->next_output + (int64_t)i - instance->extra_content_delay;
         output->samples[i] =
             sample >= instance->first_input_sample
                 ? instance->history[(uint64_t)sample % 512u]
