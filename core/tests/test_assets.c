@@ -71,6 +71,16 @@ int main(void) {
     CHECK(as_session_create_v0(registry, "test.asset.v0", 13, &create_config,
           &session, &error) == AS_OK);
     CHECK(as_session_close_v0(&session) == AS_OK);
+    /* A declared external asset that the caller omits fails before creation. */
+    as_error_v0_init(&error);
+    create_config.assets = NULL;
+    create_config.asset_count = 0;
+    CHECK(as_session_create_v0(registry, "test.asset.v0", 13, &create_config,
+          &session, &error) == AS_INVALID_ARGUMENT);
+    CHECK(strcmp(error.field, "assets") == 0);
+    CHECK(strstr(error.message, "asset") != NULL);
+    create_config.assets = &asset;
+    create_config.asset_count = 1;
     asset.asset_id = "wrong"; asset.asset_id_length = 5;
     CHECK(as_session_create_v0(registry, "test.asset.v0", 13, &create_config,
           &session, &error) == AS_INVALID_ARGUMENT);

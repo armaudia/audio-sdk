@@ -3,6 +3,7 @@ set -eu
 
 prefix=${1:?usage: verify_install.sh <install-prefix>}
 prefix=$(cd "$prefix" && pwd)
+test -f "$prefix/share/audio-sdk/provider-intake.md"
 report_dir=${2:-"$prefix/share/audio-sdk/verification"}
 mkdir -p "$report_dir"
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/audio-sdk-verify.XXXXXX")
