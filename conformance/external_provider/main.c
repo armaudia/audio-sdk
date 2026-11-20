@@ -13,7 +13,8 @@ const as_provider_table_v0 *fixture_provider_table(void);
 static void usage(const char *program) {
     fprintf(stderr,
             "usage: %s --provider fixture.delayed.v0|fixture.fault.v0|"
-            "fixture.drainbound.v0|fixture.delay{0,1,159,160,161,256hop,512}.v0 "
+            "fixture.drainbound.v0|fixture.contentfault.v0|fixture.earlyeos.v0|"
+            "fixture.delay{0,1,159,160,161,256hop,512}.v0 "
             "[--report path]\n",
             program);
 }
@@ -22,6 +23,8 @@ static uint32_t fixture_delay(const char *provider_id) {
     if (strcmp(provider_id, "fixture.delayed.v0") == 0 ||
         strcmp(provider_id, "fixture.fault.v0") == 0 ||
         strcmp(provider_id, "fixture.drainbound.v0") == 0 ||
+        strcmp(provider_id, "fixture.contentfault.v0") == 0 ||
+        strcmp(provider_id, "fixture.earlyeos.v0") == 0 ||
         strcmp(provider_id, "fixture.delay160.v0") == 0)
         return 160u;
     if (strcmp(provider_id, "fixture.delay0.v0") == 0) return 0u;

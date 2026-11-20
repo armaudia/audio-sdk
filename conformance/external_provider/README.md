@@ -20,6 +20,15 @@ cmake --build "$CONSUMER_BUILD" --parallel 2
 ctest --test-dir "$CONSUMER_BUILD" --output-on-failure
 ```
 
+The positive delay fixtures cover 0, 1, 159, 160, 161, 256 (native hop 256),
+and 512 samples in synchronous and buffered modes. Each mode checks 166
+lengths, including empty input and every partial-frame remainder, against exact
+half-open source ranges above `2^53`. Content delay is measured separately by
+correlating raw output in emission order with the seeded input burst; source
+metadata is not used to align the PCM. The negative fixtures exercise wrong
+clock metadata, wrong PCM delay with correct metadata, early EOS, and unbounded
+drain.
+
 For onboarding, copy this directory to a clean consumer project, replace the
 fixture table and descriptor with the provider's implementation and registered
 ID, then retain the installed `checks.c` conformance target. Keep the fault and

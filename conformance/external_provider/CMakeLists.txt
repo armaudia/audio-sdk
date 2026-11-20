@@ -27,11 +27,23 @@ add_test(NAME external_delayed_identity
 add_test(NAME external_fault_is_detected
     COMMAND audio_sdk_external_conformance --provider fixture.fault.v0
             --report "${CMAKE_CURRENT_BINARY_DIR}/fault-report.json")
-set_tests_properties(external_fault_is_detected PROPERTIES WILL_FAIL TRUE)
+set_tests_properties(external_fault_is_detected PROPERTIES
+    PASS_REGULAR_EXPRESSION "timing\\.delay +fail +stream failed: output at 0 failed: backend_failure")
 add_test(NAME external_drain_bound_is_detected
     COMMAND audio_sdk_external_conformance --provider fixture.drainbound.v0
             --report "${CMAKE_CURRENT_BINARY_DIR}/drainbound-report.json")
-set_tests_properties(external_drain_bound_is_detected PROPERTIES WILL_FAIL TRUE)
+set_tests_properties(external_drain_bound_is_detected PROPERTIES
+    PASS_REGULAR_EXPRESSION "timing\\.delay +fail +stream failed: drain failed: backend_failure")
+add_test(NAME external_content_delay_is_detected
+    COMMAND audio_sdk_external_conformance --provider fixture.contentfault.v0
+            --report "${CMAKE_CURRENT_BINARY_DIR}/contentfault-report.json")
+set_tests_properties(external_content_delay_is_detected PROPERTIES
+    PASS_REGULAR_EXPRESSION "timing\\.delay +fail +first=0 declared=160 raw=167 residual=7")
+add_test(NAME external_early_eos_is_detected
+    COMMAND audio_sdk_external_conformance --provider fixture.earlyeos.v0
+            --report "${CMAKE_CURRENT_BINARY_DIR}/earlyeos-report.json")
+set_tests_properties(external_early_eos_is_detected PROPERTIES
+    PASS_REGULAR_EXPRESSION "timing\\.delay +fail +stream failed: drain failed: backend_failure")
 foreach(delay IN ITEMS 0 1 159 160 161 512)
     add_test(NAME external_delay_${delay}
         COMMAND audio_sdk_external_conformance --provider fixture.delay${delay}.v0

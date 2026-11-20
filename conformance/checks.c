@@ -27,7 +27,7 @@
 #define FRAME_SAMPLES 160u
 #define TIMING_FRAMES 40u
 #define FIXTURE_SEED 20261113ull
-#define MAX_RESIDUAL_LAG 32
+#define MAX_BUFFERING_DELAY 16000u
 
 /* ------------------------------------------------------------------ */
 /* reporting                                                          */
@@ -213,33 +213,31 @@ static void make_fixture(float *out, uint32_t samples) {
 }
 
 /* ------------------------------------------------------------------ */
-/* collector: alignment, interval conservation, raw determinism hash  */
+/* collector: interval conservation and raw output by emission order  */
 /* ------------------------------------------------------------------ */
 
 typedef struct collector {
-    float *aligned;
     int64_t origin;
-    uint32_t aligned_capacity;
+    uint32_t source_capacity;
+    int64_t next_source;
     float *raw;
     uint32_t raw_capacity;
     uint32_t raw_length;
     int have_valid;
     int64_t next_valid;
     int64_t first_valid;
-    uint32_t produced_total;
     uint32_t valid_total;
-    uint32_t frames;
     int failed;
     char error[256];
 } collector;
 
-static void collector_init(collector *c, float *aligned, int64_t origin,
-                           uint32_t aligned_capacity, float *raw,
+static void collector_init(collector *c, int64_t origin,
+                           uint32_t source_capacity, float *raw,
                            uint32_t raw_capacity) {
     memset(c, 0, sizeof(*c));
-    c->aligned = aligned;
     c->origin = origin;
-    c->aligned_capacity = aligned_capacity;
+    c->next_source = origin;
+    c->source_capacity = source_capacity;
     c->raw = raw;
     c->raw_capacity = raw_capacity;
 }
@@ -255,20 +253,17 @@ static void collector_fail(collector *c, const char *fmt, ...) {
 
 static void collector_add(collector *c, int64_t source_first,
                           const float *produced, uint32_t produced_count,
-                          const as_result_v0 *result, int is_process) {
+                          const as_result_v0 *result, uint32_t expected_consumed) {
     if (c->failed) return;
-    if (source_first < c->origin ||
-        (int64_t)produced_count > (int64_t)c->aligned_capacity -
-                                      (source_first - c->origin)) {
-        collector_fail(c, "produced interval [%lld,%lld) is outside the "
-                          "collector window",
-                       (long long)source_first,
-                       (long long)source_first + (long long)produced_count);
+    const uint64_t offset = (uint64_t)source_first - (uint64_t)c->origin;
+    if (source_first < c->next_source || offset > c->source_capacity ||
+        produced_count > c->source_capacity - offset) {
+        collector_fail(c, "output at %lld (%u samples) overlaps or is outside "
+                          "the collector window",
+                       (long long)source_first, produced_count);
         return;
     }
-    const uint32_t offset = (uint32_t)(source_first - c->origin);
-    memcpy(c->aligned + offset, produced,
-           (size_t)produced_count * sizeof(float));
+    c->next_source = source_first + produced_count;
     if (c->raw_length + produced_count > c->raw_capacity) {
         collector_fail(c, "raw output exceeds its capacity");
         return;
@@ -276,28 +271,15 @@ static void collector_add(collector *c, int64_t source_first,
     memcpy(c->raw + c->raw_length, produced,
            (size_t)produced_count * sizeof(float));
     c->raw_length += produced_count;
-    c->produced_total += produced_count;
-    c->frames++;
 
     if (result->valid_offset > produced_count ||
         result->valid_count > produced_count - result->valid_offset) {
         collector_fail(c, "valid range exceeds produced samples");
         return;
     }
-    if (is_process) {
-        if (produced_count != FRAME_SAMPLES) {
-            collector_fail(c, "process produced %u samples, expected 160",
-                           produced_count);
-            return;
-        }
-        if (result->consumed_count != FRAME_SAMPLES) {
-            collector_fail(c, "process consumed %u samples, expected 160",
-                           result->consumed_count);
-            return;
-        }
-    } else if (result->consumed_count != 0) {
-        collector_fail(c, "drain consumed %u samples, expected 0",
-                       result->consumed_count);
+    if (result->consumed_count != expected_consumed) {
+        collector_fail(c, "consumed %u samples, expected %u",
+                       result->consumed_count, expected_consumed);
         return;
     }
     if (result->valid_count > 0) {
@@ -408,62 +390,70 @@ static as_status_v0 drain_frame(as_session_v0 *session, frame_call *call) {
     return as_session_drain_next_v0(session, &output, &call->result);
 }
 
-/* Runs a complete stream: `frames` full frames followed by one final partial
- * frame when final_valid != 0, then drain until EOS. Returns 0 on success. */
+static as_status_v0 wait_frame(as_session_v0 *session, frame_call *call) {
+    const struct timespec pause = {0, 1000000L};
+    for (unsigned attempt = 0; attempt < 2000; ++attempt) {
+        const as_status_v0 status = drain_frame(session, call);
+        if (status != AS_NOT_READY) return status;
+        nanosleep(&pause, NULL);
+    }
+    return AS_NOT_READY;
+}
+
+/* Test one input/output at a time here; check_buffered covers queue saturation. */
 static int run_stream(as_session_v0 *session, const float *fixture,
-                      uint32_t frames, uint32_t final_valid, uint64_t epoch,
-                      int64_t first_sample, uint32_t buffering_delay,
-                      collector *collector_out, uint32_t *drain_calls_out,
+                      uint32_t length, uint64_t epoch, int64_t first_sample,
+                      uint32_t buffering_delay, uint32_t mode, collector *c,
                       char *error, uint32_t error_capacity) {
-    uint32_t calls = 0;
-    for (uint32_t i = 0; i < frames; ++i) {
+    const int buffered = mode == AS_MODE_BUFFERED_WORKER;
+    for (uint32_t offset = 0; offset < length; offset += FRAME_SAMPLES) {
+        float input[FRAME_SAMPLES] = {0};
+        const uint32_t remaining = length - offset;
+        const uint32_t valid = remaining < FRAME_SAMPLES ? remaining : FRAME_SAMPLES;
+        const uint32_t flags = valid < FRAME_SAMPLES ? AS_FRAME_FINAL_INPUT : 0;
+        const int64_t first = first_sample + offset;
+        memcpy(input, fixture + offset, valid * sizeof(float));
         frame_call call;
-        const as_status_v0 status =
-            process_frame(session, (float *)(fixture + (size_t)i * FRAME_SAMPLES),
-                          FRAME_SAMPLES, 0, epoch,
-                          first_sample + (int64_t)i * FRAME_SAMPLES, &call);
+        as_status_v0 status;
+        if (buffered) {
+            as_frame_v0 frame;
+            as_frame_v0_init(&frame);
+            frame.input = input;
+            frame.input_valid_count = valid;
+            frame.flags = flags;
+            frame.epoch = epoch;
+            frame.first_input_sample = first;
+            as_result_v0_init(&call.result);
+            status = as_session_submit_v0(session, &frame, &call.result);
+            if (status != AS_OK || call.result.status != AS_OK ||
+                call.result.epoch != epoch || call.result.source_first_sample != first ||
+                call.result.consumed_count != FRAME_SAMPLES ||
+                call.result.produced_count != 0 || call.result.valid_count != 0) {
+                set_error(error, error_capacity, "submit at %u: %s or bad metadata",
+                          offset, as_status_name_v0(status));
+                return 0;
+            }
+            status = wait_frame(session, &call);
+        } else {
+            status = process_frame(session, input, valid, flags, epoch, first, &call);
+        }
         if (status != AS_OK) {
-            set_error(error, error_capacity, "process frame %u failed: %s",
-                      i, as_status_name_v0(status));
+            set_error(error, error_capacity, "output at %u failed: %s",
+                      offset, as_status_name_v0(status));
             return 0;
         }
         if (call.result.status != AS_OK || call.result.epoch != epoch ||
-            call.result.source_first_sample !=
-                first_sample + (int64_t)i * FRAME_SAMPLES -
-                    (int64_t)buffering_delay) {
+            call.result.source_first_sample != first - buffering_delay ||
+            call.result.produced_count != FRAME_SAMPLES) {
             set_error(error, error_capacity,
-                      "process metadata mismatch at frame %u", i);
+                      "process metadata mismatch at offset %u", offset);
             return 0;
         }
-        collector_add(collector_out, call.result.source_first_sample,
+        collector_add(c, call.result.source_first_sample,
                       call.produced, call.result.produced_count, &call.result,
-                      1);
-        if (collector_out->failed) {
-            set_error(error, error_capacity, "%s", collector_out->error);
-            return 0;
-        }
-    }
-    if (final_valid > 0) {
-        float final_input[FRAME_SAMPLES];
-        memset(final_input, 0, sizeof(final_input));
-        memcpy(final_input, fixture + (size_t)frames * FRAME_SAMPLES,
-               (size_t)final_valid * sizeof(float));
-        frame_call call;
-        const as_status_v0 status =
-            process_frame(session, final_input, final_valid,
-                          AS_FRAME_FINAL_INPUT, epoch,
-                          first_sample + (int64_t)frames * FRAME_SAMPLES,
-                          &call);
-        if (status != AS_OK) {
-            set_error(error, error_capacity, "final frame failed: %s",
-                      as_status_name_v0(status));
-            return 0;
-        }
-        collector_add(collector_out, call.result.source_first_sample,
-                      call.produced, call.result.produced_count, &call.result,
-                      1);
-        if (collector_out->failed) {
-            set_error(error, error_capacity, "%s", collector_out->error);
+                      buffered ? 0 : FRAME_SAMPLES);
+        if (c->failed) {
+            set_error(error, error_capacity, "%s", c->error);
             return 0;
         }
     }
@@ -473,11 +463,17 @@ static int run_stream(as_session_v0 *session, const float *fixture,
                   as_status_name_v0(begin));
         return 0;
     }
-    for (;;) {
+    for (unsigned calls = 0; calls < 4096; ++calls) {
         frame_call call;
-        const as_status_v0 status = drain_frame(session, &call);
-        ++calls;
-        if (status == AS_END_OF_STREAM) break;
+        const as_status_v0 status = buffered ? wait_frame(session, &call)
+                                             : drain_frame(session, &call);
+        if (status == AS_END_OF_STREAM) {
+            if (call.result.status == AS_END_OF_STREAM && call.result.epoch == epoch &&
+                call.result.consumed_count == 0 && call.result.produced_count == 0 &&
+                call.result.valid_count == 0) return 1;
+            set_error(error, error_capacity, "EOS metadata mismatch");
+            return 0;
+        }
         if (status != AS_OK) {
             set_error(error, error_capacity, "drain failed: %s",
                       as_status_name_v0(status));
@@ -487,64 +483,47 @@ static int run_stream(as_session_v0 *session, const float *fixture,
             set_error(error, error_capacity, "drain metadata mismatch");
             return 0;
         }
-        collector_add(collector_out, call.result.source_first_sample,
+        collector_add(c, call.result.source_first_sample,
                       call.produced, call.result.produced_count, &call.result,
                       0);
-        if (collector_out->failed) {
-            set_error(error, error_capacity, "%s", collector_out->error);
-            return 0;
-        }
-        if (calls > 4096u) {
-            set_error(error, error_capacity,
-                      "drain did not terminate within 4096 calls");
+        if (c->failed) {
+            set_error(error, error_capacity, "%s", c->error);
             return 0;
         }
     }
-    if (drain_calls_out != NULL) *drain_calls_out = calls;
-    return 1;
+    set_error(error, error_capacity, "drain did not terminate within 4096 calls");
+    return 0;
 }
 
 /* ------------------------------------------------------------------ */
-/* residual lag measurement                                           */
+/* Measure lag from samples in emission order, never source metadata.  */
 /* ------------------------------------------------------------------ */
 
-static double correlation_at(const float *aligned, int64_t origin,
-                             uint32_t aligned_count, const float *input,
-                             uint32_t input_count, int64_t input_origin,
-                             int lag, int *overlap) {
+static double correlation_at(const float *output, const float *input,
+                             uint32_t count) {
     double dot = 0.0;
     double out_energy = 0.0;
     double in_energy = 0.0;
-    int count = 0;
-    for (uint32_t k = 0; k < aligned_count; ++k) {
-        const int64_t source = origin + (int64_t)k;
-        const int64_t m = source - input_origin - (int64_t)lag;
-        if (m < 0 || m >= (int64_t)input_count) continue;
-        const double out = (double)aligned[k];
-        const double in = (double)input[m];
+    for (uint32_t k = 0; k < count; ++k) {
+        const double out = output[k];
+        const double in = input[k];
         dot += out * in;
         out_energy += out * out;
         in_energy += in * in;
-        ++count;
     }
-    *overlap = count;
     if (out_energy <= 0.0 || in_energy <= 0.0) return 0.0;
     return dot / sqrt(out_energy * in_energy);
 }
 
-static int measure_residual_lag(const float *aligned, int64_t origin,
-                                uint32_t aligned_count, const float *input,
-                                uint32_t input_count, int64_t input_origin,
-                                int *lag_out,
-                                double *peak_out, double *second_out) {
-    int best_lag = 0;
+static int measure_raw_lag(const float *raw, uint32_t raw_count,
+                           const float *input, uint32_t count,
+                           uint32_t *lag_out, double *peak_out, double *second_out) {
+    uint32_t best_lag = 0;
     double best = -2.0;
     double second = -2.0;
-    for (int lag = -MAX_RESIDUAL_LAG; lag <= MAX_RESIDUAL_LAG; ++lag) {
-        int overlap = 0;
-        double value = correlation_at(aligned, origin, aligned_count, input,
-                                      input_count, input_origin, lag, &overlap);
-        if (overlap < (int)FRAME_SAMPLES) value = -2.0;
+    for (uint32_t lag = 0; lag <= MAX_BUFFERING_DELAY && lag + count <= raw_count;
+         ++lag) {
+        const double value = correlation_at(raw + lag, input, count);
         if (value > best) {
             second = best;
             best = value;
@@ -1022,111 +1001,98 @@ static void check_process_metadata(as_registry_v0 *registry, reporter *r,
 static void check_timing(as_registry_v0 *registry, reporter *r,
                          const char *provider_id,
                          uint32_t provider_id_length,
-                         const session_info *info) {
+                         const session_info *info, uint32_t mode) {
     char error[256];
-    const uint32_t frames = TIMING_FRAMES;
-    float *fixture = (float *)malloc((size_t)(frames + 1u) * FRAME_SAMPLES *
-                                     sizeof(float));
-    const uint32_t aligned_capacity = info->buffering_delay + frames * FRAME_SAMPLES + 160u;
-    float *aligned =
-        (float *)malloc((size_t)aligned_capacity * sizeof(float));
+    const uint32_t frames = TIMING_FRAMES + info->buffering_delay / FRAME_SAMPLES;
+    const uint32_t length = frames * FRAME_SAMPLES + 7u;
+    float *fixture = (float *)malloc(length * sizeof(float));
+    const uint32_t source_capacity = info->buffering_delay + length + FRAME_SAMPLES;
     const uint32_t raw_capacity_frames = frames + info->max_drain_calls + 2u;
     float *raw = (float *)malloc(
         (size_t)raw_capacity_frames * FRAME_SAMPLES * sizeof(float));
-    if (fixture == NULL || aligned == NULL || raw == NULL) {
+    const int buffered = mode == AS_MODE_BUFFERED_WORKER;
+    const char *delay_id = buffered ? "buffered.delay" : "timing.delay";
+    if (fixture == NULL || raw == NULL) {
         free(fixture);
-        free(aligned);
         free(raw);
-        fail(r, "timing.delay", "fixture allocation failed");
+        fail(r, delay_id, "fixture allocation failed");
         return;
     }
     g_rng_state = FIXTURE_SEED;
-    make_fixture(fixture, (frames + 1u) * FRAME_SAMPLES);
-    float *extra_inputs = (float *)calloc((size_t)FRAME_SAMPLES, sizeof(float));
-    (void)extra_inputs;
+    make_fixture(fixture, length);
 
     for (int epoch_case = 0; epoch_case < 2; ++epoch_case) {
-        const uint64_t epoch = epoch_case == 0 ? 11 : 12;
-        const int64_t first = epoch_case == 0 ? 0 : 123456;
+        const uint64_t epoch = epoch_case == 0 ? 11 : UINT64_C(9007199254740993);
+        const int64_t first = epoch_case == 0 ? 0 : INT64_C(9007199254740993);
+        const char *id = epoch_case == 0 ? delay_id :
+                         buffered ? "buffered.start" : "timing.start";
         as_session_v0 *session = NULL;
         const as_status_v0 created = create_session(
-            registry, provider_id, provider_id_length,
-            AS_MODE_PROCESSING_THREAD, epoch, first, &session, error,
-            sizeof(error));
+            registry, provider_id, provider_id_length, mode,
+            epoch, first, &session, error, sizeof(error));
         if (created != AS_OK) {
-            fail(r, epoch_case == 0 ? "timing.delay" : "timing.start",
-                 "create failed: %s", error);
+            fail(r, id, "create failed: %s", error);
             continue;
         }
         collector c;
-        collector_init(&c, aligned, first - (int64_t)info->buffering_delay,
-                        aligned_capacity, raw,
-                        raw_capacity_frames * FRAME_SAMPLES);
-        uint32_t drain_calls = 0;
-        const int ok = run_stream(session, fixture, frames, 0, epoch, first,
-                                  info->buffering_delay, &c, &drain_calls,
-                                  error, sizeof(error));
+        collector_init(&c, first - info->buffering_delay, source_capacity, raw,
+                         raw_capacity_frames * FRAME_SAMPLES);
+        const int ok = run_stream(session, fixture, length, epoch, first,
+                                  info->buffering_delay, mode, &c, error, sizeof(error));
         as_session_close_v0(&session);
         if (!ok) {
-            fail(r, epoch_case == 0 ? "timing.delay" : "timing.start",
-                 "stream failed: %s", error);
+            fail(r, id, "stream failed: %s", error);
             continue;
         }
         double peak = 0.0;
         double second = 0.0;
-        int residual = 0;
-        const int unique = measure_residual_lag(
-            aligned, first - (int64_t)info->buffering_delay,
-            c.raw_length, fixture, (frames + 1u) * FRAME_SAMPLES, first,
-            &residual, &peak, &second);
-        const int64_t raw_lag = (int64_t)info->buffering_delay + residual;
+        uint32_t raw_lag = 0;
+        /* 640 is the first broadband burst's input index. Use process PCM only. */
+        const int unique = measure_raw_lag(raw + 640, frames * FRAME_SAMPLES - 640,
+                                           fixture + 640, 320, &raw_lag, &peak, &second);
+        const int residual = (int)raw_lag - (int)info->buffering_delay;
         if (!unique || abs(residual) > 1) {
-            fail(r, epoch_case == 0 ? "timing.delay" : "timing.start",
-                 "first=%lld residual=%d peak=%.6f second=%.6f unique=%d",
-                 (long long)first, residual, peak, second, unique);
+            fail(r, id,
+                 "first=%lld declared=%u raw=%u residual=%d peak=%.6f second=%.6f unique=%d",
+                 (long long)first, info->buffering_delay, raw_lag, residual, peak,
+                 second, unique);
             continue;
         }
-        if (c.failed) {
-            fail(r, epoch_case == 0 ? "timing.delay" : "timing.start",
-                 "collector: %s", c.error);
-            continue;
-        }
-        pass(r, epoch_case == 0 ? "timing.delay" : "timing.start",
-             "declared=%u raw=%lld residual=%d peak=%.6f second=%.6f",
-             info->buffering_delay, (long long)raw_lag, residual, peak,
-             second);
+        pass(r, id,
+             "first=%lld epoch=%llu length=%u declared=%u raw=%u residual=%d peak=%.6f second=%.6f",
+             (long long)first, (unsigned long long)epoch, length,
+             info->buffering_delay, raw_lag, residual, peak, second);
     }
     free(fixture);
-    free(aligned);
     free(raw);
-    free(extra_inputs);
 }
 
 static void check_boundaries(as_registry_v0 *registry, reporter *r,
-                             const char *provider_id,
-                             uint32_t provider_id_length,
-                             const session_info *info) {
+                              const char *provider_id,
+                              uint32_t provider_id_length,
+                              const session_info *info, uint32_t mode) {
+    const char *id = mode == AS_MODE_BUFFERED_WORKER ? "buffered.lengths"
+                                                     : "boundary.lengths";
+    const int64_t first = INT64_C(9007199254740993);
     uint32_t tested = 0;
     uint32_t failures = 0;
     char detail[512];
     detail[0] = '\0';
     size_t detail_length = 0;
-    const uint32_t aligned_capacity =
+    const uint32_t source_capacity =
         info->buffering_delay + 3u * FRAME_SAMPLES + 160u;
     float fixture[3u * FRAME_SAMPLES];
-    float *aligned = (float *)malloc((size_t)aligned_capacity * sizeof(float));
     const uint32_t raw_capacity_frames = 3u + info->max_drain_calls + 2u;
     float *raw =
         (float *)malloc((size_t)raw_capacity_frames * FRAME_SAMPLES *
                         sizeof(float));
-    if (aligned == NULL || raw == NULL) {
-        free(aligned);
-        free(raw);
-        fail(r, "boundary.lengths", "fixture allocation failed");
+    if (raw == NULL) {
+        fail(r, id, "fixture allocation failed");
         return;
     }
     g_rng_state = FIXTURE_SEED;
-    make_fixture(fixture, (uint32_t)(sizeof(fixture) / sizeof(fixture[0])));
+    for (uint32_t i = 0; i < 3u * FRAME_SAMPLES; ++i)
+        fixture[i] = ((float)(next_u32() % 1024u) - 512.0f) / 4096.0f;
 
     /* Exercise empty input, every partial-frame remainder, and the explicit
      * frame-crossing boundaries called out in TEST_PLAN.md. */
@@ -1142,13 +1108,11 @@ static void check_boundaries(as_registry_v0 *registry, reporter *r,
 
     for (uint32_t index = 0; index < length_count; ++index) {
         const uint32_t length = lengths[index];
-        const uint32_t frames = length / FRAME_SAMPLES;
-        const uint32_t remainder = length % FRAME_SAMPLES;
+        const uint64_t epoch = UINT64_C(9007199254740993) + index;
         char error[256];
         as_session_v0 *session = NULL;
         const as_status_v0 created = create_session(
-            registry, provider_id, provider_id_length,
-            AS_MODE_PROCESSING_THREAD, 21u + index, 0, &session, error,
+            registry, provider_id, provider_id_length, mode, epoch, first, &session, error,
             (uint32_t)sizeof(error));
         if (created != AS_OK) {
             ++failures;
@@ -1160,58 +1124,35 @@ static void check_boundaries(as_registry_v0 *registry, reporter *r,
             continue;
         }
         collector c;
-        collector_init(&c, aligned, -(int64_t)info->buffering_delay,
-                        aligned_capacity, raw,
-                        raw_capacity_frames * FRAME_SAMPLES);
-        uint32_t drain_calls = 0;
-        int ok;
-        if (length == 0) {
-            ok = as_session_begin_drain_v0(session) == AS_OK;
-            if (ok) {
-                frame_call call;
-                as_status_v0 status;
-                uint32_t guard = 0;
-                do {
-                    status = drain_frame(session, &call);
-                    ++guard;
-                    if (status == AS_OK) {
-                        collector_add(&c, call.result.source_first_sample,
-                                      call.produced, call.result.produced_count,
-                                      &call.result, 0);
-                    }
-                } while (status == AS_OK && guard < 16u);
-                ++drain_calls;
-                ok = status == AS_END_OF_STREAM && !c.failed &&
-                     c.valid_total == 0;
-            }
-            if (!ok) snprintf(error, sizeof(error), "empty drain did not end cleanly");
-        } else {
-            ok = run_stream(session, fixture, frames, remainder,
-                            21u + index, 0, info->buffering_delay, &c,
-                            &drain_calls, error, (uint32_t)sizeof(error));
-        }
+        collector_init(&c, first - info->buffering_delay, source_capacity, raw,
+                         raw_capacity_frames * FRAME_SAMPLES);
+        const int ok = run_stream(session, fixture, length, epoch, first,
+                                  info->buffering_delay, mode, &c, error, sizeof(error));
         as_session_close_v0(&session);
         ++tested;
         const uint32_t expected_valid =
             length > info->edge_start + info->edge_end
                 ? length - info->edge_start - info->edge_end
                 : 0u;
-        if (!ok || c.failed || c.valid_total != expected_valid) {
+        const int exact_range = expected_valid == 0 ? !c.have_valid :
+            c.have_valid && c.first_valid == first + info->edge_start &&
+            c.next_valid == first + length - info->edge_end;
+        if (!ok || !exact_range || c.valid_total != expected_valid ||
+            (length == 0 && c.raw_length != 0)) {
             ++failures;
             if (detail_length < sizeof(detail) - 120u)
                 detail_length += (size_t)snprintf(
                     detail + detail_length, sizeof(detail) - detail_length,
-                    "L=%u valid=%u/%u%s%s; ", length, c.valid_total,
-                    expected_valid, (ok && !c.failed) ? "" : " ",
-                    (ok && !c.failed) ? "" : error);
+                    "L=%u valid=%u/%u range=%d%s%s; ", length, c.valid_total,
+                    expected_valid, exact_range, ok ? "" : " ", ok ? "" : error);
         }
     }
-    free(aligned);
     free(raw);
     if (failures == 0) {
-        pass(r, "boundary.lengths", "%u lengths conserved exactly", tested);
+        pass(r, id, "%u lengths conserved exactly at source %lld",
+             tested, (long long)first);
     } else {
-        fail(r, "boundary.lengths", "%u/%u failed: %s", failures, tested,
+        fail(r, id, "%u/%u failed: %s", failures, tested,
              detail);
     }
 }
@@ -1714,20 +1655,16 @@ static void check_determinism(as_registry_v0 *registry, reporter *r,
     float fixture[FRAMES * FRAME_SAMPLES];
     g_rng_state = FIXTURE_SEED;
     make_fixture(fixture, FRAMES * FRAME_SAMPLES);
-    const uint32_t aligned_capacity =
+    const uint32_t source_capacity =
         info->buffering_delay + FRAMES * FRAME_SAMPLES + 160u;
     char first_hash[65];
     char second_hash[65];
     for (int run = 0; run < 2; ++run) {
-        float *aligned =
-            (float *)malloc((size_t)aligned_capacity * sizeof(float));
         const uint32_t raw_capacity_frames =
             FRAMES + info->max_drain_calls + 2u;
         float *raw = (float *)malloc(
             (size_t)raw_capacity_frames * FRAME_SAMPLES * sizeof(float));
-        if (aligned == NULL || raw == NULL) {
-            free(aligned);
-            free(raw);
+        if (raw == NULL) {
             fail(r, "determinism.output", "allocation failed");
             return;
         }
@@ -1736,22 +1673,18 @@ static void check_determinism(as_registry_v0 *registry, reporter *r,
         if (create_session(registry, provider_id, provider_id_length,
                            AS_MODE_PROCESSING_THREAD, 71, 0, &session, error,
                            sizeof(error)) != AS_OK) {
-            free(aligned);
             free(raw);
             fail(r, "determinism.output", "create failed: %s", error);
             return;
         }
         collector c;
-        collector_init(&c, aligned, -(int64_t)info->buffering_delay,
-                       aligned_capacity, raw,
+        collector_init(&c, -(int64_t)info->buffering_delay, source_capacity, raw,
                         raw_capacity_frames * FRAME_SAMPLES);
-        uint32_t drain_calls = 0;
-        const int ok = run_stream(session, fixture, FRAMES, 0, 71, 0,
-                                  info->buffering_delay, &c, &drain_calls,
+        const int ok = run_stream(session, fixture, FRAMES * FRAME_SAMPLES, 71, 0,
+                                  info->buffering_delay, AS_MODE_PROCESSING_THREAD, &c,
                                   error, sizeof(error));
         as_session_close_v0(&session);
         if (!ok) {
-            free(aligned);
             free(raw);
             fail(r, "determinism.output", "run %d failed: %s", run, error);
             return;
@@ -1759,7 +1692,6 @@ static void check_determinism(as_registry_v0 *registry, reporter *r,
         char *hash = run == 0 ? first_hash : second_hash;
         as_sha256_hex_v0(raw, c.raw_length * (uint32_t)sizeof(float), hash,
                          65u);
-        free(aligned);
         free(raw);
     }
     if (memcmp(first_hash, second_hash, 65) == 0) {
@@ -2191,8 +2123,10 @@ int as_run_conformance(as_registry_v0 *registry, const char *provider_id,
                          descriptor, &info);
     check_process_metadata(registry, &r, provider_id, provider_id_length,
                            &info);
-    check_timing(registry, &r, provider_id, provider_id_length, &info);
-    check_boundaries(registry, &r, provider_id, provider_id_length, &info);
+    check_timing(registry, &r, provider_id, provider_id_length, &info,
+                 AS_MODE_PROCESSING_THREAD);
+    check_boundaries(registry, &r, provider_id, provider_id_length, &info,
+                     AS_MODE_PROCESSING_THREAD);
     check_eos_repeat(registry, &r, provider_id, provider_id_length, &info);
     check_reset(registry, &r, provider_id, provider_id_length, &info);
     check_invalid_process(registry, &r, provider_id, provider_id_length,
@@ -2203,6 +2137,10 @@ int as_run_conformance(as_registry_v0 *registry, const char *provider_id,
     check_registry(registry, &r, provider_id, provider_id_length);
     if (modes_contain(descriptor, AS_MODE_BUFFERED_WORKER)) {
         check_buffered(registry, &r, provider_id, provider_id_length, &info);
+        check_timing(registry, &r, provider_id, provider_id_length, &info,
+                     AS_MODE_BUFFERED_WORKER);
+        check_boundaries(registry, &r, provider_id, provider_id_length, &info,
+                         AS_MODE_BUFFERED_WORKER);
     } else {
         skip(&r, "buffered.flow", "mode 3 is not declared");
     }
