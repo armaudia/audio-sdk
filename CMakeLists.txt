@@ -285,6 +285,7 @@ install(FILES
     deps/speexdsp-files.sha256
     docs/migration/source-allocation.csv
     docs/provider-v0.md
+    docs/provider-intake.md
     docs/timing-regression.md
     docs/migration/legacy-abi.md
     DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk")

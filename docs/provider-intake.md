@@ -5,21 +5,20 @@ This page defines what an extension owner must supply before a provider, model,
 tool or adapter is admitted to the public SDK, and how restricted material is
 kept out of the default package.
 
-The intake record is machine-readable. The schema is
-[`schemas/provider-intake.schema.json`](../schemas/provider-intake.schema.json)
-and the checker is
-[`scripts/check_provider_intake.py`](../scripts/check_provider_intake.py).
-An intake record is a review artifact, not a release qualification.
+The intake record is machine-readable. Use `schemas/provider-intake.schema.json`
+and the source-tree checker `scripts/check_provider_intake.py`. An intake
+record is a review artifact, not a release qualification or proof of rights.
 
 ## Fail-closed rule
 
-A provider is admitted only when every requirement below has a concrete,
-reviewable value. Missing, empty, unknown or contradictory evidence denies
-admission. In particular:
+A provider is admitted only with an approved review and concrete, reviewable
+evidence for its intended use. Missing, denied or unknown permissions block
+the use that needs them; they do not confer permission for a different use.
+In particular:
 
 - a required asset with no digest, size or rights decision is denied;
-- a rights scope of `unknown` is treated as `denied` for execution or export
-  that needs that scope;
+- execution requires `allowed` acquisition and evaluation for the provider and
+  every required asset;
 - a restricted or closed asset may not be included in a public package,
   public archive, default discovery set or public playback scope;
 - a model or checkpoint whose source revision cannot be pinned is not admitted
@@ -35,18 +34,28 @@ admission. In particular:
   behavior; changing preprocessing, weights or defaults requires a new version.
 - Contract revision implemented. Contract 0.1 providers are fixed at
   float32, 16 kHz, mono, 160 samples per application frame.
-- Descriptor schema and digest. The shipped descriptor is immutable and its
-  `source_digest` covers the exact inventoried implementation files.
+- `descriptor_ref` and `descriptor_digest` pin the `audio-sdk/descriptor/0.1`
+  file and its exact byte digest. The checker compares identity, source and
+  required assets against this descriptor.
 
 ### 2. Source and checkpoint provenance
 
-- Exact source revision (immutable commit or `null` only for a content-manifest
-  snapshot) and source digest.
-- For a model or checkpoint: immutable upstream revision, checkpoint SHA-256,
-  byte count, tensor/config schema, precision, and the exact file inventory.
+- `source_revision` is a full nonzero 40- or 64-character lowercase Git object
+  ID (never a branch, tag, or abbreviation), or `null` only for a
+  content-manifest snapshot. `source_digest` and all other SHA-256 fields use
+  nonzero `sha256:<64 lowercase hex>`.
+- A snapshot requires `source_manifest_ref`: sorted unique ASCII lines of
+  `<64 lowercase hex>  <repository-relative path>`. The checker hashes each
+  file (CRLF normalized to LF for files without NUL bytes), then verifies
+  `source_digest` over the concatenated `path NUL hex LF` entries. A pinned
+  commit can leave this field `null`.
+- For each model/checkpoint asset, set `checkpoint` to the object with
+  `upstream_revision` (full Git object ID), `tensor_config_ref`, `precision`
+  and `inventory_ref`; use the asset's `sha256` and `byte_count` for the exact
+  checkpoint bytes. Non-model inputs use `checkpoint: null`.
 - The source distribution mode: `source-linked`, `binary` or `service`.
-- Build recipe, compiler/runtime versions, dependency lock and platform
-  requirements sufficient to reproduce the tested artifact.
+- Attach the build recipe, compiler/runtime versions, dependency lock and
+  platform requirements to the review evidence rather than the descriptor ABI.
 - Any private artifact reference stays in approved private storage; public
   evidence contains only aggregate results and reviewed identifiers.
 
@@ -54,11 +63,12 @@ admission. In particular:
 
 Each external asset is declared with:
 
-- asset ID (ASCII, unique within the provider);
-- SHA-256 of the exact bytes and exact byte count;
+- asset ID (ASCII, at most 63 characters and unique within the provider);
+- SHA-256 of the exact bytes and exact byte count (at most 512 MiB in total);
 - class: `public`, `restricted` or `closed`;
 - rights decisions for `acquisition`, `evaluation`, `redistribution` and
-  `public_playback`, each with an evidence reference and reviewer when allowed.
+  `public_playback`, each with `evidence_ref`, `reviewer` and `review_date`
+  (YYYY-MM-DD) when allowed.
 
 The caller supplies exactly the declared assets at session creation. The
 facade verifies ID, size and digest, copies the bytes, and never downloads or
@@ -67,14 +77,17 @@ searches the filesystem. A missing, changed or extra asset fails creation.
 `restricted` and `closed` assets require:
 
 - `packages_assets: false` and external caller-supplied loading;
-- an explicit evaluation decision that names the approved scope;
-- no public redistribution or public playback unless separately approved;
-- a named reopen condition for any scope that remains denied.
+- explicit acquisition and evaluation decisions for the approved use;
+- exclusion from the public catalog and playback; closed assets cannot claim
+  redistribution. Packaging public assets requires allowed redistribution for
+  the provider and every packaged asset.
 
 ### 4. Evaluation scope
 
-- Task and corpus/cohort pinned by revision and digest.
-- Fixture manifest, validity rules, denominators, metrics and aggregation.
+- `evaluation.task`, `evaluation.scope` and `evaluation.evidence_ref` identify
+  the task, permitted use, and evidence file. Attach corpus/cohort revision and
+  digest (when applicable), fixture manifest, validity rules, denominators,
+  metrics and aggregation to the evidence.
 - Paired quality evidence separated from unpaired/no-reference evidence.
 - Runtime, host, device, compiler and load condition for timing claims.
 - Negative and failure cases retained, including missing assets, denied
@@ -97,27 +110,40 @@ searches the filesystem. A missing, changed or extra asset fails creation.
 
 ### 6. Review and disclosure
 
-- Named reviewer and review date.
+- Review decision, named reviewer and date. `pending` uses `null` reviewer and
+  date; `pending` and `rejected` both deny admission.
 - License and notice files, including third-party notices and any exception.
 - Disclosure of restrictions in the descriptor, README and any benchmark
   report; unsupported capabilities are absent or false, never silently
   ignored.
-- A reopened condition for anything not admitted.
+- `reopen_condition` names what must change to review a denied scope again or
+  what would invalidate the current review.
 
 ## Admission commands
 
-Validate an intake record before review:
+Check a completed intake record from the source tree:
 
 ```sh
 python3 scripts/check_provider_intake.py --record path/to/intake.json
 ```
 
-The checker rejects unknown keys, duplicate asset IDs, bad digests, incomplete
-rights decisions and public packages containing restricted or closed assets.
-It prints a short JSON result and exits non-zero on failure.
+References are paths relative to the evidence root (the repository by default)
+and must resolve to files within it. The checker validates recorded decisions
+and provenance; it does not authenticate the signer or interpret a license.
+It prints a JSON result and exits nonzero on failure.
+
+`scripts/package.sh` checks `--public-catalog` against the staged installed
+provider descriptors before sealing any public archive. Each new descriptor
+must have `docs/provider-intake/<provider_id>.json` matching its exact bytes, an
+approved intake that allows distribution of the provider, and no restricted
+or closed required assets. A failure rejects the whole candidate rather than
+shipping a partial catalog. Only the two previously released, exact asset-free
+descriptor digests are grandfathered; a changed descriptor needs intake.
+This is a packaging gate for the public discovery catalog, not a change to
+`as_register_provider_v0`, which remains available to explicit integrations.
 
 The released no-model providers remain the installability control: a clean
 configure/build/install/`ctest` and the installed external-provider fixture must
-pass with no model assets present. See
-[`docs/provider-v0.md`](provider-v0.md) and
-[`docs/task-evidence/provider-intake.md`](task-evidence/provider-intake.md).
+pass with no model assets present. See [the provider guide](provider-v0.md).
+The source tree includes a pending, non-admitted example and the task evidence
+under `docs/task-evidence/`.

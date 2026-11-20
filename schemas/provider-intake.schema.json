@@ -8,10 +8,14 @@
   "required": [
     "schema_id",
     "provider_id",
+    "implementation_id",
     "implementation_version",
     "contract_version",
     "source_revision",
     "source_digest",
+    "source_manifest_ref",
+    "descriptor_ref",
+    "descriptor_digest",
     "distribution",
     "packages_assets",
     "assets",
@@ -20,7 +24,8 @@
     "evaluation",
     "customer_scope",
     "playback_scope",
-    "review"
+    "review",
+    "reopen_condition"
   ],
   "properties": {
     "schema_id": { "const": "audio-sdk/provider-intake/0.1" },
@@ -28,21 +33,22 @@
       "type": "string",
       "pattern": "^[a-z0-9][a-z0-9._-]{0,95}$"
     },
+    "implementation_id": { "type": "string", "pattern": "\\S", "maxLength": 96 },
     "implementation_version": {
       "type": "string",
-      "minLength": 1,
+      "pattern": "\\S",
       "maxLength": 64
     },
-    "contract_version": {
-      "type": "string",
-      "pattern": "^[0-9]+\\.[0-9]+$"
-    },
+    "contract_version": { "const": "0.1" },
     "source_revision": {
-      "type": ["string", "null"],
-      "minLength": 7,
-      "maxLength": 128
+      "anyOf": [{ "$ref": "#/$defs/revision" }, { "type": "null" }]
     },
     "source_digest": { "$ref": "#/$defs/digest" },
+    "source_manifest_ref": {
+      "anyOf": [{ "$ref": "#/$defs/fileRef" }, { "type": "null" }]
+    },
+    "descriptor_ref": { "$ref": "#/$defs/fileRef" },
+    "descriptor_digest": { "$ref": "#/$defs/digest" },
     "distribution": {
       "enum": ["source-linked", "binary", "service"]
     },
@@ -59,21 +65,22 @@
       "required": ["kind", "optional_dependency", "platforms"],
       "properties": {
         "kind": { "enum": ["none", "cpu", "gpu", "npu", "service"] },
-        "optional_dependency": { "type": "string", "maxLength": 128 },
+        "optional_dependency": { "type": "string", "pattern": "\\S", "maxLength": 128 },
         "platforms": {
           "type": "array",
           "minItems": 1,
-          "items": { "type": "string", "minLength": 1, "maxLength": 64 }
+          "items": { "type": "string", "pattern": "\\S", "maxLength": 64 }
         }
       }
     },
     "evaluation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["task", "evidence_ref", "paired_quality", "runtime_claim"],
+      "required": ["task", "scope", "evidence_ref", "paired_quality", "runtime_claim"],
       "properties": {
-        "task": { "type": "string", "minLength": 1, "maxLength": 128 },
-        "evidence_ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "task": { "type": "string", "pattern": "\\S", "maxLength": 128 },
+        "scope": { "type": "string", "pattern": "\\S", "maxLength": 512 },
+        "evidence_ref": { "$ref": "#/$defs/fileRef" },
         "paired_quality": { "enum": ["supported", "not-supported", "unknown"] },
         "runtime_claim": { "enum": ["supported", "not-supported", "unknown"] }
       }
@@ -85,16 +92,34 @@
       "additionalProperties": false,
       "required": ["reviewer", "review_date", "decision"],
       "properties": {
-        "reviewer": { "type": "string", "minLength": 1, "maxLength": 128 },
-        "review_date": { "type": "string", "format": "date" },
-        "decision": { "enum": ["approved", "rejected"] }
-      }
-    }
+        "reviewer": { "type": ["string", "null"], "pattern": "\\S", "maxLength": 128 },
+        "review_date": { "type": ["string", "null"], "format": "date" },
+        "decision": { "enum": ["approved", "rejected", "pending"] }
+      },
+      "if": { "properties": { "decision": { "const": "pending" } } },
+      "then": { "properties": { "reviewer": { "type": "null" }, "review_date": { "type": "null" } } },
+      "else": { "properties": { "reviewer": { "type": "string" }, "review_date": { "type": "string" } } }
+    },
+    "reopen_condition": { "type": "string", "pattern": "\\S", "maxLength": 512 }
+  },
+  "if": { "properties": { "source_revision": { "type": "null" } } },
+  "then": {
+    "properties": { "source_manifest_ref": { "$ref": "#/$defs/fileRef" } }
   },
   "$defs": {
+    "fileRef": {
+      "description": "Path relative to the evidence root, resolving to a file within that root.",
+      "type": "string",
+      "pattern": "\\S",
+      "maxLength": 512
+    },
+    "revision": {
+      "type": "string",
+      "pattern": "^(?!0+$)(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+    },
     "digest": {
       "type": "string",
-      "pattern": "^sha256:[0-9a-f]{64}$"
+      "pattern": "^sha256:(?!0{64}$)[0-9a-f]{64}$"
     },
     "decision": {
       "type": "object",
@@ -102,8 +127,8 @@
       "required": ["decision"],
       "properties": {
         "decision": { "enum": ["allowed", "denied", "unknown"] },
-        "evidence_ref": { "type": "string", "minLength": 1, "maxLength": 512 },
-        "reviewer": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "evidence_ref": { "$ref": "#/$defs/fileRef" },
+        "reviewer": { "type": "string", "pattern": "\\S", "maxLength": 128 },
         "review_date": { "type": "string", "format": "date" }
       },
       "allOf": [
@@ -132,11 +157,11 @@
     "asset": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "sha256", "byte_count", "class", "rights"],
+      "required": ["id", "sha256", "byte_count", "class", "rights", "checkpoint"],
       "properties": {
         "id": {
           "type": "string",
-          "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$"
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,62}$"
         },
         "sha256": { "$ref": "#/$defs/digest" },
         "byte_count": {
@@ -145,7 +170,19 @@
           "maximum": 536870912
         },
         "class": { "enum": ["public", "restricted", "closed"] },
-        "rights": { "$ref": "#/$defs/rights" }
+        "rights": { "$ref": "#/$defs/rights" },
+        "checkpoint": {
+          "description": "Null for non-model inputs; required provenance object for a checkpoint.",
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["upstream_revision", "tensor_config_ref", "precision", "inventory_ref"],
+          "properties": {
+            "upstream_revision": { "$ref": "#/$defs/revision" },
+            "tensor_config_ref": { "$ref": "#/$defs/fileRef" },
+            "precision": { "type": "string", "pattern": "\\S", "maxLength": 64 },
+            "inventory_ref": { "$ref": "#/$defs/fileRef" }
+          }
+        }
       }
     }
   }

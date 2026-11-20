@@ -1,18 +1,22 @@
 {
   "schema_id": "audio-sdk/provider-intake/0.1",
   "provider_id": "dsp.highpass80.v0",
+  "implementation_id": "dsp.highpass.biquad.f64",
   "implementation_version": "1.0.0",
   "contract_version": "0.1",
-  "source_revision": "4c3b3be864c3ecdcf48a94358c6dde229aecb703",
-  "source_digest": "sha256:aa8f95a00b1f1b7c2c9ffc8f8ea2ab9a1f2a5b7c6d8e9f001122334455667788",
+  "source_revision": null,
+  "source_digest": "sha256:9da5ab40e8795dd32b4228674e7d851e054cfbe798034e76944a96e8cbf2538f",
+  "source_manifest_ref": "docs/task-evidence/provider-intake.highpass.sha256",
+  "descriptor_ref": "schemas/providers/dsp.highpass80.v0.descriptor.json",
+  "descriptor_digest": "sha256:d664ddc7977b5ff193e184b12dca48f3923675e8a7f0d4feb79781b0ca7c77e3",
   "distribution": "source-linked",
   "packages_assets": false,
   "assets": [],
   "rights": {
-    "acquisition": {"decision": "allowed", "evidence_ref": "LICENSES/MPL-2.0.txt", "reviewer": "reviewer-audit", "review_date": "2026-11-20"},
-    "evaluation": {"decision": "allowed", "evidence_ref": "docs/task-evidence/provider-intake.md", "reviewer": "reviewer-audit", "review_date": "2026-11-20"},
-    "redistribution": {"decision": "allowed", "evidence_ref": "LICENSES/MPL-2.0.txt", "reviewer": "reviewer-audit", "review_date": "2026-11-20"},
-    "public_playback": {"decision": "denied"}
+    "acquisition": {"decision": "unknown"},
+    "evaluation": {"decision": "unknown"},
+    "redistribution": {"decision": "unknown"},
+    "public_playback": {"decision": "unknown"}
   },
   "runtime": {
     "kind": "none",
@@ -21,15 +25,17 @@
   },
   "evaluation": {
     "task": "fixed-frame DSP identity and response control",
+    "scope": "SDK synthetic conformance only; no corpus or customer audio",
     "evidence_ref": "docs/task-evidence/provider-intake.md",
     "paired_quality": "not-supported",
     "runtime_claim": "not-supported"
   },
-  "customer_scope": "allowed",
-  "playback_scope": "denied",
+  "customer_scope": "unknown",
+  "playback_scope": "unknown",
   "review": {
-    "reviewer": "reviewer-audit",
-    "review_date": "2026-11-20",
-    "decision": "approved"
-  }
+    "reviewer": null,
+    "review_date": null,
+    "decision": "pending"
+  },
+  "reopen_condition": "Attach actual scoped rights decisions and independent review before using this example as an admission record."
 }
