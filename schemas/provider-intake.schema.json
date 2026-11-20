@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "audio-sdk/provider-intake/0.1",
+  "title": "audio-sdk provider intake record",
+  "description": "Review artifact for admitting a provider, model, tool or adapter. It does not by itself establish release qualification.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "provider_id",
+    "implementation_version",
+    "contract_version",
+    "source_revision",
+    "source_digest",
+    "distribution",
+    "packages_assets",
+    "assets",
+    "rights",
+    "runtime",
+    "evaluation",
+    "customer_scope",
+    "playback_scope",
+    "review"
+  ],
+  "properties": {
+    "schema_id": { "const": "audio-sdk/provider-intake/0.1" },
+    "provider_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,95}$"
+    },
+    "implementation_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "contract_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "source_revision": {
+      "type": ["string", "null"],
+      "minLength": 7,
+      "maxLength": 128
+    },
+    "source_digest": { "$ref": "#/$defs/digest" },
+    "distribution": {
+      "enum": ["source-linked", "binary", "service"]
+    },
+    "packages_assets": { "type": "boolean" },
+    "assets": {
+      "type": "array",
+      "maxItems": 16,
+      "items": { "$ref": "#/$defs/asset" }
+    },
+    "rights": { "$ref": "#/$defs/rights" },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "optional_dependency", "platforms"],
+      "properties": {
+        "kind": { "enum": ["none", "cpu", "gpu", "npu", "service"] },
+        "optional_dependency": { "type": "string", "maxLength": 128 },
+        "platforms": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1, "maxLength": 64 }
+        }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task", "evidence_ref", "paired_quality", "runtime_claim"],
+      "properties": {
+        "task": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "evidence_ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "paired_quality": { "enum": ["supported", "not-supported", "unknown"] },
+        "runtime_claim": { "enum": ["supported", "not-supported", "unknown"] }
+      }
+    },
+    "customer_scope": { "enum": ["allowed", "denied", "unknown"] },
+    "playback_scope": { "enum": ["allowed", "denied", "unknown"] },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewer", "review_date", "decision"],
+      "properties": {
+        "reviewer": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "review_date": { "type": "string", "format": "date" },
+        "decision": { "enum": ["approved", "rejected"] }
+      }
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision"],
+      "properties": {
+        "decision": { "enum": ["allowed", "denied", "unknown"] },
+        "evidence_ref": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "reviewer": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "review_date": { "type": "string", "format": "date" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "decision": { "const": "allowed" } },
+            "required": ["decision"]
+          },
+          "then": {
+            "required": ["evidence_ref", "reviewer", "review_date"]
+          }
+        }
+      ]
+    },
+    "rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["acquisition", "evaluation", "redistribution", "public_playback"],
+      "properties": {
+        "acquisition": { "$ref": "#/$defs/decision" },
+        "evaluation": { "$ref": "#/$defs/decision" },
+        "redistribution": { "$ref": "#/$defs/decision" },
+        "public_playback": { "$ref": "#/$defs/decision" }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sha256", "byte_count", "class", "rights"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$"
+        },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "byte_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 536870912
+        },
+        "class": { "enum": ["public", "restricted", "closed"] },
+        "rights": { "$ref": "#/$defs/rights" }
+      }
+    }
+  }
+}

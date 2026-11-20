@@ -1,0 +1,35 @@
+{
+  "schema_id": "audio-sdk/provider-intake/0.1",
+  "provider_id": "dsp.highpass80.v0",
+  "implementation_version": "1.0.0",
+  "contract_version": "0.1",
+  "source_revision": "4c3b3be864c3ecdcf48a94358c6dde229aecb703",
+  "source_digest": "sha256:aa8f95a00b1f1b7c2c9ffc8f8ea2ab9a1f2a5b7c6d8e9f001122334455667788",
+  "distribution": "source-linked",
+  "packages_assets": false,
+  "assets": [],
+  "rights": {
+    "acquisition": {"decision": "allowed", "evidence_ref": "LICENSES/MPL-2.0.txt", "reviewer": "reviewer-audit", "review_date": "2026-11-20"},
+    "evaluation": {"decision": "allowed", "evidence_ref": "docs/task-evidence/provider-intake.md", "reviewer": "reviewer-audit", "review_date": "2026-11-20"},
+    "redistribution": {"decision": "allowed", "evidence_ref": "LICENSES/MPL-2.0.txt", "reviewer": "reviewer-audit", "review_date": "2026-11-20"},
+    "public_playback": {"decision": "denied"}
+  },
+  "runtime": {
+    "kind": "none",
+    "optional_dependency": "none",
+    "platforms": ["arm64", "x86_64"]
+  },
+  "evaluation": {
+    "task": "fixed-frame DSP identity and response control",
+    "evidence_ref": "docs/task-evidence/provider-intake.md",
+    "paired_quality": "not-supported",
+    "runtime_claim": "not-supported"
+  },
+  "customer_scope": "allowed",
+  "playback_scope": "denied",
+  "review": {
+    "reviewer": "reviewer-audit",
+    "review_date": "2026-11-20",
+    "decision": "approved"
+  }
+}
