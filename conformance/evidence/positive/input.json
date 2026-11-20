@@ -1,0 +1,159 @@
+{
+  "schema_id": "audio-sdk/evidence-handoff/0.1",
+  "identity_algorithm": "jcs-sha256-v1",
+  "profile": "DSP",
+  "provider": {
+    "id": "synthetic.evidence.v0",
+    "implementation_version": "1.0.0",
+    "contract_version": "0.1",
+    "descriptor_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "configuration_id": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+  },
+  "toolchain": {
+    "source_revision": "4c3b3be864c3ecdcf48a94358c6dde229aecb703",
+    "build_id": "synthetic fixture, not a built provider",
+    "compiler": "Apple clang 17",
+    "os": "macOS 15 arm64",
+    "arch": "arm64"
+  },
+  "inputs": {
+    "fixture_manifest_id": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "source_digests": [
+      "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    ],
+    "model_digests": [],
+    "dataset_digests": []
+  },
+  "runtime": {
+    "execution_mode": 2,
+    "pacing": "unpaced",
+    "hardware": "synthetic test host; no workload claim",
+    "load": "one notional stream, no measured competing load",
+    "workers": 0,
+    "input_queue": 0,
+    "output_queue": 0,
+    "deadline_ns": null
+  },
+  "trace": {
+    "epoch": "1",
+    "sample_rate_hz": 16000,
+    "origin_monotonic_ns": "1000000000",
+    "first_input_sample": "0",
+    "entries": [
+      {
+        "sequence": "0",
+        "source_first_sample": "-160",
+        "valid_offset": "160",
+        "valid_count": "0",
+        "produced_count": "160",
+        "consumed_count": "160",
+        "flags": [
+          "startup_padding"
+        ],
+        "source_end_sample": "0",
+        "available_monotonic_ns": "1000000000"
+      },
+      {
+        "sequence": "1",
+        "source_first_sample": "0",
+        "valid_offset": "0",
+        "valid_count": "160",
+        "produced_count": "160",
+        "consumed_count": "160",
+        "flags": [],
+        "source_end_sample": "160",
+        "available_monotonic_ns": "1010000000"
+      },
+      {
+        "sequence": "2",
+        "source_first_sample": "160",
+        "valid_offset": "0",
+        "valid_count": "160",
+        "produced_count": "160",
+        "consumed_count": "160",
+        "flags": [],
+        "source_end_sample": "320",
+        "available_monotonic_ns": "1020000000"
+      },
+      {
+        "sequence": "3",
+        "source_first_sample": "320",
+        "valid_offset": "0",
+        "valid_count": "20",
+        "produced_count": "20",
+        "consumed_count": "0",
+        "flags": [],
+        "source_end_sample": "340",
+        "available_monotonic_ns": "1030000000"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "id": "identity",
+      "profile": "DSP",
+      "status": "passed",
+      "expected": "bit-exact identity",
+      "observed": "bit-exact identity",
+      "reason": null,
+      "denominator": {
+        "accepted": "340",
+        "valid": "340",
+        "produced": "500",
+        "delivered": "340",
+        "failed": "0",
+        "dropped": "0"
+      }
+    },
+    {
+      "id": "interval_conservation",
+      "profile": "DSP",
+      "status": "passed",
+      "expected": "accepted interval union equals delivered",
+      "observed": "340/340 valid samples",
+      "reason": null,
+      "denominator": {
+        "accepted": "340",
+        "valid": "340",
+        "produced": "500",
+        "delivered": "340",
+        "failed": "0",
+        "dropped": "0"
+      }
+    },
+    {
+      "id": "artifact_integrity",
+      "profile": "DSP",
+      "status": "passed",
+      "expected": "all artifact hashes match",
+      "observed": "1/1 artifact",
+      "reason": null,
+      "denominator": {
+        "accepted": "340",
+        "valid": "340",
+        "produced": "500",
+        "delivered": "340",
+        "failed": "0",
+        "dropped": "0"
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "trace.txt",
+      "media_type": "text/plain"
+    }
+  ],
+  "provenance": {
+    "producer": "agent-evidence",
+    "reviewer": "synthetic placeholder, not an approval",
+    "created_utc": "2026-11-20T00:00:00+00:00",
+    "evidence_refs": [
+      "docs/evidence-handoff.md"
+    ]
+  },
+  "support_scope": "Synthetic fixed-frame evidence handoff; no workload claim.",
+  "limitations": [
+    "Synthetic fixture; no real-model or workload qualification."
+  ]
+}
