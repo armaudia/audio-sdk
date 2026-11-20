@@ -225,6 +225,7 @@ def validate_record(record: object, artifacts_root: Path | None = None) -> tuple
                 _digest(digest, f"record.inputs.{key}[{index}]", errors)
 
     runtime = record["runtime"]
+    mode = None
     if _keys(runtime, ("execution_mode", "pacing", "hardware", "load", "workers",
                        "input_queue", "output_queue", "deadline_ns"),
              "record.runtime", errors):
@@ -247,6 +248,7 @@ def validate_record(record: object, artifacts_root: Path | None = None) -> tuple
     trace = record["trace"]
     total_valid = 0
     total_produced = 0
+    total_consumed = 0
     first_input = first_valid = previous_end = None
     if _keys(trace, ("epoch", "sample_rate_hz", "origin_monotonic_ns", "first_input_sample", "entries"),
              "record.trace", errors):
@@ -283,6 +285,8 @@ def validate_record(record: object, artifacts_root: Path | None = None) -> tuple
             consumed = _uint(entry["consumed_count"], f"{path}.consumed_count", errors)
             if consumed is not None and consumed not in (0, 160):
                 errors.append(f"{path}.consumed_count: expected 0 or 160")
+            elif consumed is not None:
+                total_consumed += consumed
             end = _int(entry["source_end_sample"],
                        f"{path}.source_end_sample", errors)
             available = _int(entry["available_monotonic_ns"],
@@ -301,12 +305,19 @@ def validate_record(record: object, artifacts_root: Path | None = None) -> tuple
                 continue
             if produced > 160:
                 errors.append(f"{path}.produced_count: exceeds 160 samples")
+            if consumed == 160 and mode in (1, 2, 3):
+                expected_output = 0 if mode == 3 else 160
+                if produced != expected_output:
+                    errors.append(f"{path}: mode {mode} consuming 160 requires producing {expected_output}")
             if offset + count > produced:
                 errors.append(f"{path}: valid interval exceeds produced_count")
             if "final_padding" in flags and (produced == 0 or (count and offset + count == produced)):
                 errors.append(f"{path}: final_padding requires a trailing invalid region")
             if "startup_padding" in flags and count and offset == 0:
                 errors.append(f"{path}: startup_padding requires a leading invalid region")
+            if (produced and first_input is not None and source < first_input and
+                    "concealment" not in flags and "startup_padding" not in flags):
+                errors.append(f"{path}: pre-input provider output requires startup_padding")
             if end != source + offset + count:
                 errors.append(f"{path}: source_end_sample != source_first + valid_offset + valid_count")
             total_produced += produced
@@ -373,6 +384,8 @@ def validate_record(record: object, artifacts_root: Path | None = None) -> tuple
                 errors.append(f"{path}.denominator.produced: expected trace total {total_produced}")
             if parsed["valid"] > parsed["accepted"]:
                 errors.append(f"{path}.denominator.valid: exceeds accepted source samples")
+            if parsed["accepted"] > total_consumed:
+                errors.append(f"{path}.denominator.accepted: exceeds total padded consumption")
             if first_input is not None and first_valid is not None:
                 accepted_end = first_input + parsed["accepted"]
                 if first_valid < first_input or previous_end > accepted_end:

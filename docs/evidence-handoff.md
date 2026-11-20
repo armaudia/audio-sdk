@@ -26,8 +26,11 @@ recompute them without trusting paths, wall-clock timestamps or floating point.
   source_end_sample)` and must continue without overlap or gap at the first
   valid sample. The valid interval must fit inside the accepted source range
   starting at `first_input_sample`. Consumption is zero or 160 samples per
-  result; production is at most 160. Startup, final padding and concealment
-  are explicit flags; an entirely valid short drain is not padded.
+  result; production is at most 160. A consuming inline call produces 160;
+  a buffered submit produces none and is recorded separately from pull.
+  Record every consumed input so accepted samples can be bounded by padded
+  consumption. Pre-input provider output is flagged as startup padding,
+  while an entirely valid short drain is not final padding.
 - `available_monotonic_ns` is the monotonic time at which the produced block
   became available. It must not precede the capture time of its first valid
   source sample; a negative delay is invalid evidence, not a clamp.
@@ -102,7 +105,9 @@ IDs still match the canonical content.
    publication decisions remain owned by audio-bench.
    Structural validation alone can accept a bench request without an attempt.
    Check for a sealed attempt for the expected request/config/cohort before
-   counting a run as complete.
+   counting a run as complete. Compare the sealed descriptor digest to the
+   descriptor reported by the driver; the pinned bench runner can validate
+   a stale sealed descriptor, so a mismatch limits the run to functional smoke.
 
 Publish only reviewed aggregate results and bundle IDs. Never include
 restricted assets in a public bundle.

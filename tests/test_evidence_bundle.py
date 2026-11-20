@@ -142,11 +142,47 @@ class EvidenceBundleTest(unittest.TestCase):
         record["trace"]["entries"][-1]["flags"] = ["final_padding"]
         self.assert_cannot_seal(record, "trailing invalid region")
 
+    def test_inline_consumption_cannot_report_short_drain_output(self) -> None:
+        record = self.load_input()
+        record["trace"]["entries"][-1]["consumed_count"] = "160"
+        self.assert_cannot_seal(record, "consuming 160 requires producing 160")
+
+    def test_pre_input_provider_output_requires_startup_flag(self) -> None:
+        record = self.load_input()
+        record["trace"]["entries"][0]["flags"] = []
+        self.assert_cannot_seal(record, "pre-input provider output requires startup_padding")
+
+    def test_buffered_trace_separates_submit_from_output(self) -> None:
+        record = self.load_input()
+        record["runtime"].update(execution_mode=3, workers=1, input_queue=3, output_queue=3)
+        self.assert_cannot_seal(record, "mode 3 consuming 160 requires producing 0")
+        entries = record["trace"]["entries"]
+        for entry in entries:
+            entry["consumed_count"] = "0"
+        record["trace"]["entries"] = submits = []
+        for index, entry in enumerate(entries[:3]):
+            position = str(index * 160)
+            submits.append(dict(consumed_count="160", produced_count="0", flags=[],
+                                valid_offset="0", valid_count="0", source_first_sample=position,
+                                source_end_sample=position,
+                                available_monotonic_ns=entry["available_monotonic_ns"]))
+            submits.append(entry)
+        submits.append(entries[-1])
+        for index, entry in enumerate(submits):
+            entry["sequence"] = str(index)
+        bundle = self.create(input_path=self.write_input(record))
+        self.assertEqual(run("validate", str(bundle))[0], 0)
+
     def test_valid_output_must_be_inside_accepted_range(self) -> None:
         record = self.load_input()
         for check in record["checks"]:
             check["denominator"].update(accepted="0", delivered="0")
         self.assert_cannot_seal(record, "exceeds accepted source samples")
+
+        record = self.load_input()
+        for check in record["checks"]:
+            check["denominator"].update(accepted="481", dropped="141")
+        self.assert_cannot_seal(record, "exceeds total padded consumption")
 
         record = self.load_input()
         for entry in record["trace"]["entries"]:
