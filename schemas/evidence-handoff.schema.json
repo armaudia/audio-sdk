@@ -81,11 +81,12 @@
     "trace": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["epoch", "sample_rate_hz", "origin_monotonic_ns", "entries"],
+      "required": ["epoch", "sample_rate_hz", "origin_monotonic_ns", "first_input_sample", "entries"],
       "properties": {
         "epoch": { "$ref": "#/$defs/uint" },
         "sample_rate_hz": { "const": 16000 },
         "origin_monotonic_ns": { "$ref": "#/$defs/int" },
+        "first_input_sample": { "$ref": "#/$defs/uint" },
         "entries": {
           "type": "array",
           "minItems": 1,
@@ -110,7 +111,11 @@
       "properties": {
         "producer": { "type": "string", "minLength": 1, "maxLength": 128 },
         "reviewer": { "type": "string", "minLength": 1, "maxLength": 128 },
-        "created_utc": { "type": "string", "format": "date-time" },
+        "created_utc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "T.*(Z|\\+00:00)$"
+        },
         "evidence_refs": {
           "type": "array",
           "items": { "type": "string", "minLength": 1, "maxLength": 512 }
@@ -186,7 +191,7 @@
         "valid_offset": { "$ref": "#/$defs/uint" },
         "valid_count": { "$ref": "#/$defs/uint" },
         "produced_count": { "$ref": "#/$defs/uint" },
-        "consumed_count": { "$ref": "#/$defs/uint" },
+        "consumed_count": { "enum": ["0", "160"] },
         "flags": {
           "type": "array",
           "uniqueItems": true,

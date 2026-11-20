@@ -24,7 +24,10 @@ recompute them without trusting paths, wall-clock timestamps or floating point.
   is the capture time of source sample zero on the collector monotonic clock.
 - Source intervals are half-open `[source_first_sample + valid_offset,
   source_end_sample)` and must continue without overlap or gap at the first
-  valid sample. Startup, final padding and concealment are explicit flags.
+  valid sample. The valid interval must fit inside the accepted source range
+  starting at `first_input_sample`. Consumption is zero or 160 samples per
+  result; production is at most 160. Startup, final padding and concealment
+  are explicit flags; an entirely valid short drain is not padded.
 - `available_monotonic_ns` is the monotonic time at which the produced block
   became available. It must not precede the capture time of its first valid
   source sample; a negative delay is invalid evidence, not a clamp.
@@ -35,7 +38,8 @@ recompute them without trusting paths, wall-clock timestamps or floating point.
   pacing, workers, queue depths, hardware, compiler, OS, architecture, source
   revision, fixture and model digests, producer, reviewer and creation time.
 - Artifacts are relative paths with media type, byte count and SHA-256. The
-  bundle is exactly the listed files; an unlisted file is an error.
+  bundle contains only `handoff.json` and `artifacts/`, with exactly the listed
+  files under `artifacts/`.
 - `artifact_id` and `handoff_id` are aliases for the SHA-256 of the RFC 8785
   canonical record with those two fields removed. Object keys are fixed ASCII
   and JSON numbers are small integer literals in this schema. A
@@ -96,6 +100,9 @@ IDs still match the canonical content.
    observation bundle: `audio_bench validate` validates the output from
    `audio_bench smoke`, not the SDK handoff. Metric identifiers, cohorts and
    publication decisions remain owned by audio-bench.
+   Structural validation alone can accept a bench request without an attempt.
+   Check for a sealed attempt for the expected request/config/cohort before
+   counting a run as complete.
 
 Publish only reviewed aggregate results and bundle IDs. Never include
 restricted assets in a public bundle.

@@ -29,6 +29,9 @@ UINT = re.compile(r"^(0|[1-9][0-9]*)$")
 INT = re.compile(r"^(0|-?[1-9][0-9]*)$")
 DIGEST = re.compile(r"^sha256:[0-9a-f]{64}$")
 ARTIFACT_PART = re.compile(r"[A-Za-z0-9_-][A-Za-z0-9._-]*")
+UTC_TIMESTAMP = re.compile(
+    r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}"
+    r"(?:\.[0-9]+)?(?:Z|\+00:00)")
 PROFILES = {"Analysis", "Enhancement", "Room", "DSP", "Restoration", "Spatial",
             "Rate", "Voice", "Evidence", "Tool", "External", "Pipeline"}
 REQUIRED_CHECKS = {"identity", "interval_conservation", "artifact_integrity"}
@@ -203,6 +206,9 @@ def validate_record(record: object, artifacts_root: Path | None = None) -> tuple
         for key, maximum in (("source_revision", 128), ("build_id", 256),
                              ("compiler", 128), ("os", 128), ("arch", 64)):
             _text(toolchain[key], f"record.toolchain.{key}", errors, maximum)
+        revision = toolchain["source_revision"]
+        if isinstance(revision, str) and len(revision) < 7:
+            errors.append("record.toolchain.source_revision: expected at least seven characters")
 
     inputs = record["inputs"]
     if _keys(inputs, ("fixture_manifest_id", "source_digests", "model_digests",
@@ -241,7 +247,8 @@ def validate_record(record: object, artifacts_root: Path | None = None) -> tuple
     trace = record["trace"]
     total_valid = 0
     total_produced = 0
-    if _keys(trace, ("epoch", "sample_rate_hz", "origin_monotonic_ns", "entries"),
+    first_input = first_valid = previous_end = None
+    if _keys(trace, ("epoch", "sample_rate_hz", "origin_monotonic_ns", "first_input_sample", "entries"),
              "record.trace", errors):
         assert isinstance(trace, dict)
         _uint(trace["epoch"], "record.trace.epoch", errors)
@@ -249,11 +256,13 @@ def validate_record(record: object, artifacts_root: Path | None = None) -> tuple
             errors.append("record.trace.sample_rate_hz: only 16000 is supported")
         origin = _int(trace["origin_monotonic_ns"],
                       "record.trace.origin_monotonic_ns", errors)
+        first_input = _int(trace["first_input_sample"], "record.trace.first_input_sample", errors)
+        if first_input is not None and first_input < 0:
+            errors.append("record.trace.first_input_sample: expected nonnegative source position")
         entries = trace["entries"]
         if not isinstance(entries, list) or not entries:
             errors.append("record.trace.entries: expected nonempty array")
             entries = []
-        previous_end: int | None = None
         for expected_sequence, entry in enumerate(entries):
             path = f"record.trace.entries[{expected_sequence}]"
             keys = ("sequence", "source_first_sample", "valid_offset",
@@ -271,7 +280,9 @@ def validate_record(record: object, artifacts_root: Path | None = None) -> tuple
             count = _uint(entry["valid_count"], f"{path}.valid_count", errors)
             produced = _uint(entry["produced_count"],
                              f"{path}.produced_count", errors)
-            _uint(entry["consumed_count"], f"{path}.consumed_count", errors)
+            consumed = _uint(entry["consumed_count"], f"{path}.consumed_count", errors)
+            if consumed is not None and consumed not in (0, 160):
+                errors.append(f"{path}.consumed_count: expected 0 or 160")
             end = _int(entry["source_end_sample"],
                        f"{path}.source_end_sample", errors)
             available = _int(entry["available_monotonic_ns"],
@@ -288,8 +299,14 @@ def validate_record(record: object, artifacts_root: Path | None = None) -> tuple
                 errors.append(f"{path}: concealment must have valid_count=0")
             if None in (source, offset, count, produced, end, available):
                 continue
+            if produced > 160:
+                errors.append(f"{path}.produced_count: exceeds 160 samples")
             if offset + count > produced:
                 errors.append(f"{path}: valid interval exceeds produced_count")
+            if "final_padding" in flags and (produced == 0 or (count and offset + count == produced)):
+                errors.append(f"{path}: final_padding requires a trailing invalid region")
+            if "startup_padding" in flags and count and offset == 0:
+                errors.append(f"{path}: startup_padding requires a leading invalid region")
             if end != source + offset + count:
                 errors.append(f"{path}: source_end_sample != source_first + valid_offset + valid_count")
             total_produced += produced
@@ -298,6 +315,8 @@ def validate_record(record: object, artifacts_root: Path | None = None) -> tuple
             start = source + offset
             finish = start + count
             total_valid += count
+            if first_valid is None:
+                first_valid = start
             if previous_end is not None and start != previous_end:
                 errors.append(f"{path}: valid interval {start}..{finish} does not continue at {previous_end}")
             previous_end = finish
@@ -352,6 +371,12 @@ def validate_record(record: object, artifacts_root: Path | None = None) -> tuple
                 errors.append(f"{path}.denominator.valid: expected trace total {total_valid}")
             if parsed["produced"] != total_produced:
                 errors.append(f"{path}.denominator.produced: expected trace total {total_produced}")
+            if parsed["valid"] > parsed["accepted"]:
+                errors.append(f"{path}.denominator.valid: exceeds accepted source samples")
+            if first_input is not None and first_valid is not None:
+                accepted_end = first_input + parsed["accepted"]
+                if first_valid < first_input or previous_end > accepted_end:
+                    errors.append(f"{path}.denominator: valid interval falls outside accepted source")
             if parsed["delivered"] > parsed["valid"]:
                 errors.append(f"{path}.denominator.delivered: exceeds valid output")
             if parsed["accepted"] != parsed["delivered"] + parsed["failed"] + parsed["dropped"]:
@@ -400,9 +425,11 @@ def validate_record(record: object, artifacts_root: Path | None = None) -> tuple
         _text(provenance["reviewer"], "record.provenance.reviewer", errors, 128)
         created = provenance["created_utc"]
         try:
+            if not isinstance(created, str) or not UTC_TIMESTAMP.fullmatch(created):
+                raise ValueError
             datetime.datetime.fromisoformat(created.replace("Z", "+00:00"))
-        except (AttributeError, ValueError):
-            errors.append("record.provenance.created_utc: expected ISO date-time")
+        except ValueError:
+            errors.append("record.provenance.created_utc: expected RFC 3339 UTC timestamp")
         refs = provenance["evidence_refs"]
         if not isinstance(refs, list):
             errors.append("record.provenance.evidence_refs: expected array")
@@ -466,6 +493,8 @@ def create(input_path: Path, artifacts: Path, output: Path) -> int:
 
 def validate(bundle: Path, allow_incomplete: bool) -> int:
     try:
+        if bundle.is_symlink() or {item.name for item in bundle.iterdir()} != {"artifacts", "handoff.json"}:
+            raise ValueError("bundle must contain exactly handoff.json and artifacts/")
         manifest = bundle / "handoff.json"
         if manifest.is_symlink() or not manifest.is_file():
             raise ValueError("handoff.json must be a regular file")

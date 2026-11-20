@@ -50,6 +50,16 @@ class EvidenceBundleTest(unittest.TestCase):
         path.write_text(json.dumps(record), encoding="utf-8")
         return path
 
+    def assert_cannot_seal(self, record: dict, diagnostic: str) -> None:
+        output = self.root / "invalid"
+        code, payload = run(
+            "create", "--input", str(self.write_input(record)),
+            "--artifacts", str(FIXTURES / "positive" / "artifacts"),
+            "--output", str(output))
+        self.assertEqual(code, 1, payload)
+        self.assertTrue(any(diagnostic in error for error in payload["errors"]), payload)
+        self.assertFalse(output.exists())
+
     def test_positive_create_and_validate(self) -> None:
         bundle = self.create()
         code, payload = run("validate", str(bundle))
@@ -112,6 +122,47 @@ class EvidenceBundleTest(unittest.TestCase):
         self.assertEqual(code, 1, payload)
         self.assertTrue(any("unlisted" in error for error in payload["errors"]),
                         payload)
+
+    def test_unlisted_file_at_bundle_root_fails(self) -> None:
+        bundle = self.create()
+        (bundle / "extra.txt").write_text("extra\n", encoding="utf-8")
+        code, payload = run("validate", str(bundle))
+        self.assertEqual(code, 1, payload)
+        self.assertIn("bundle must contain exactly handoff.json and artifacts/", payload["errors"])
+
+    def test_impossible_frame_counts_fail(self) -> None:
+        for key, value in (("consumed_count", "17"), ("produced_count", "161")):
+            with self.subTest(key=key):
+                record = self.load_input()
+                record["trace"]["entries"][1][key] = value
+                self.assert_cannot_seal(record, key)
+
+    def test_full_valid_tail_cannot_claim_padding(self) -> None:
+        record = self.load_input()
+        record["trace"]["entries"][-1]["flags"] = ["final_padding"]
+        self.assert_cannot_seal(record, "trailing invalid region")
+
+    def test_valid_output_must_be_inside_accepted_range(self) -> None:
+        record = self.load_input()
+        for check in record["checks"]:
+            check["denominator"].update(accepted="0", delivered="0")
+        self.assert_cannot_seal(record, "exceeds accepted source samples")
+
+        record = self.load_input()
+        for entry in record["trace"]["entries"]:
+            for key in ("source_first_sample", "source_end_sample"):
+                entry[key] = str(int(entry[key]) - 1)
+        self.assert_cannot_seal(record, "valid interval falls outside accepted source")
+
+    def test_schema_invalid_provenance_cannot_be_sealed(self) -> None:
+        for section, key, value in (
+                ("toolchain", "source_revision", "x"),
+                ("provenance", "created_utc", "2026-11-20"),
+                ("provenance", "created_utc", "2026-11-20T00:00:00")):
+            with self.subTest(value=value):
+                record = self.load_input()
+                record[section][key] = value
+                self.assert_cannot_seal(record, key)
 
     def test_duplicate_check_id_fails(self) -> None:
         record = self.load_input()
