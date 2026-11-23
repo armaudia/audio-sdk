@@ -1,0 +1,61 @@
+{
+  "base_commit": "0673cb354cceb66f2f71faf9af7703b5a5d2fcfa",
+  "deadline_ns": null,
+  "load": "one synthetic stream at a time, no competing load",
+  "non_deterministic": true,
+  "note": "ru_maxrss is a coarse process high-water mark; availability is elapsed time to the first frame with valid samples. Neither is a target timing claim.",
+  "pacing": "unpaced",
+  "per_condition": {
+    "identity_clean": {
+      "drain_frames": 5,
+      "drain_wall_s": 9e-06,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.000246,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 0.350416,
+        "median": 0.037
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.009747
+    },
+    "linear_interpolation": {
+      "drain_frames": 5,
+      "drain_wall_s": 6e-06,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.000217,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 0.108125,
+        "median": 0.035042
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.008758
+    },
+    "zero_fill_baseline": {
+      "drain_frames": 5,
+      "drain_wall_s": 7e-06,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.000226,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 0.042667,
+        "median": 0.035041
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.008636
+    }
+  },
+  "qualification_status": "blocked",
+  "runtime": {
+    "machine": "arm64",
+    "numpy": "2.5.4",
+    "pystoi": "0.4.1",
+    "python": "3.12.16",
+    "system": "Darwin"
+  },
+  "schema_id": "audio-sdk/task-evidence/linear-interpolation-plc/report/0.1/runtime-measurements"
+}
