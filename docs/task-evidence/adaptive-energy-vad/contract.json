@@ -1,0 +1,32 @@
+{
+  "schema_id": "audio-sdk/adaptive-energy-vad/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-ADAPTIVE-ENERGY-VAD",
+  "status": "proposal-only-synthetic",
+  "qualification": "incomplete",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "source_interval": "half-open [start_sample, end_sample) in int64 samples",
+    "time_domain": "monotonic_ns; int64; one clock_id per event stream"
+  },
+  "reference": {
+    "detector": "per-session adaptive RMS against max(minimum_dbfs, noise_dbfs + noise_margin_db)",
+    "probability": "sigmoid((dbfs - threshold) / 3 dB), known probability in [0,1]",
+    "detection": "two consecutive active frames for onset, three inactive frames for offset",
+    "analysis": "timestamped speech_probability and speech_event on the proposed analysis-event model",
+    "public_boundary": "optional task-local provider using audio_sdk/provider_v0.h and audio_sdk/session_v0.h only; audio passthrough, no analysis in v0 ABI"
+  },
+  "invariants": [
+    "The installed v0 ABI, descriptors, registry defaults, CONTRACTS.md, CMakeLists.txt and behavior are unchanged.",
+    "Each session owns its noise estimate, detection state, events, dropped-event audit and monotonic availability clock.",
+    "Source intervals are exact half-open sample ranges; cross-hop placement uses exact overlap, never hop rounding.",
+    "Known zero probability is nonspeech; invalid/nonfinite/out-of-range probability is invalid analysis and is never nonspeech; unknown is retained but excluded.",
+    "Stale epochs, pre-stream intervals, wrong clocks, nonmonotonic availability, malformed frames and nonfinite samples are rejected explicitly.",
+    "The historical adapter declares 320-sample frames; this v0 fixture uses 160 and does not claim numeric parity.",
+    "No real assets, corpora, downloads, licensed runtimes, device timing or listening results are included."
+  ],
+  "public_v0_abi": "unchanged; provider source is opt-in and not registered or installed by default"
+}
