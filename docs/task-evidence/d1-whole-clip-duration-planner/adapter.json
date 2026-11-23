@@ -1,0 +1,26 @@
+{
+  "protocol_version": 1,
+  "identity": "d1-whole-clip-duration-planner-reference",
+  "input_kind": "whole-clip-source-timeline",
+  "output_kinds": ["rate-schedule", "source-to-playback-map", "control"],
+  "tasks": ["SDK-D1-WHOLE-CLIP-DURATION-PLANNER"],
+  "modes": ["offline"],
+  "entrypoint": ["python", "run.py"],
+  "configuration": {
+    "control": "d1_whole_clip_duration_planner_reference",
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "sdk_frame_samples": 160,
+    "block_samples": 1600,
+    "speech_floor": "4/5",
+    "speech_ceiling": "1",
+    "flex_ceiling": "3/2"
+  },
+  "buffering": "whole clip required before any plan; no streaming first-output claim",
+  "weights": "none",
+  "registration": "unregistered developer-only fixture; not an SDK provider, default, ABI change or bench result",
+  "boundary_source": "adapters/controls/adapter.json",
+  "boundary_identity": "harness-controls-v1",
+  "scope": "offline proposal-only synthetic rate planner; no playback actuator, device pacing, fill/flush, listening or release claim"
+}
