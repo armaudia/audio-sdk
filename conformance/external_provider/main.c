@@ -13,7 +13,9 @@ const as_provider_table_v0 *fixture_provider_table(void);
 static void usage(const char *program) {
     fprintf(stderr,
             "usage: %s --provider fixture.delayed.v0|fixture.fault.v0|"
-            "fixture.drainbound.v0|fixture.delay{0,1,159,160,161,256hop,512}.v0 "
+            "fixture.drainbound.v0|fixture.contentfault.v0|fixture.earlyeos.v0|"
+            "fixture.edge.v0|fixture.tailfault.v0|"
+            "fixture.delay{0,1,159,160,161,256hop,512}.v0 "
             "[--report path]\n",
             program);
 }
@@ -22,6 +24,10 @@ static uint32_t fixture_delay(const char *provider_id) {
     if (strcmp(provider_id, "fixture.delayed.v0") == 0 ||
         strcmp(provider_id, "fixture.fault.v0") == 0 ||
         strcmp(provider_id, "fixture.drainbound.v0") == 0 ||
+        strcmp(provider_id, "fixture.contentfault.v0") == 0 ||
+        strcmp(provider_id, "fixture.earlyeos.v0") == 0 ||
+        strcmp(provider_id, "fixture.edge.v0") == 0 ||
+        strcmp(provider_id, "fixture.tailfault.v0") == 0 ||
         strcmp(provider_id, "fixture.delay160.v0") == 0)
         return 160u;
     if (strcmp(provider_id, "fixture.delay0.v0") == 0) return 0u;
@@ -38,6 +44,7 @@ static char *make_descriptor(const char *provider_id, uint32_t *length) {
     const uint32_t hop =
         strcmp(provider_id, "fixture.delay256hop.v0") == 0 ? 256u : 160u;
     const uint32_t max_drain = (delay + 159u) / 160u + 1u;
+    const uint32_t edge_end = strcmp(provider_id, "fixture.edge.v0") == 0 ? 7u : 0u;
     static const char format[] =
         "\"supported_formats\":[{\"channels\":1,\"frame_samples\":160,"
         "\"sample_format\":\"f32\",\"sample_rate_hz\":16000}]";
@@ -49,7 +56,7 @@ static char *make_descriptor(const char *provider_id, uint32_t *length) {
         "\"configuration_schema_digest\":\"sha256:"
         "0000000000000000000000000000000000000000000000000000000000000000\","
         "\"contract_version\":\"0.1\","
-        "\"edge_exclusions\":{\"end_samples\":0,\"start_samples\":0},"
+        "\"edge_exclusions\":{\"end_samples\":%u,\"start_samples\":0},"
         "\"execution_modes\":[2,3],"
         "\"implementation_id\":\"fixture.delayed_identity\","
         "\"implementation_version\":\"1.0.0\",\"max_drain_calls\":%u,"
@@ -64,7 +71,7 @@ static char *make_descriptor(const char *provider_id, uint32_t *length) {
         "\"upstream\":{\"license\":\"MIT fixture\","
         "\"name\":\"audio-sdk conformance fixture\","
         "\"notice_path\":\"licenses/first-party-MIT.txt\"}}",
-        delay, max_drain, hop, provider_id, format);
+        delay, edge_end, max_drain, hop, provider_id, format);
     if (written <= 0 || written >= 2048) {
         free(json);
         return NULL;

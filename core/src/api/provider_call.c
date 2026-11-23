@@ -35,7 +35,6 @@ static as_status_v0 provider_failure(as_session_v0 *session,
                                      const as_output_v0 *output,
                                      as_result_v0 *result, as_status_v0 status,
                                      const char *message) {
-    atomic_store(&session->lifecycle, AS_LIFE_NEEDS_RESET);
     atomic_fetch_add(&session->c_backend_failures, 1u);
     zero_output(output);
     as_result_v0_init(result);
@@ -93,8 +92,15 @@ as_status_v0 as_drain_provider_frame(as_session_v0 *session,
     as_result_v0 provider_result;
     as_result_v0_init(&provider_result);
     const as_status_v0 status = session->table.drain(session->instance, output,
-                                                     &provider_result);
+                                                      &provider_result);
     if (status == AS_END_OF_STREAM) {
+        const int64_t end = atomic_load(&session->accepted_end);
+        const uint64_t excluded = (uint64_t)session->edge_start + session->edge_end;
+        if ((uint64_t)(end - session->first_input_sample) > excluded &&
+            session->next_output_sample < end - session->edge_end) {
+            return provider_failure(session, output, result, AS_BACKEND_FAILURE,
+                                    "provider ended drain before accepted content");
+        }
         as_result_v0_init(result);
         result->status = AS_END_OF_STREAM;
         result->epoch = session->epoch;
@@ -103,8 +109,7 @@ as_status_v0 as_drain_provider_frame(as_session_v0 *session,
     }
     if (status != AS_OK) {
         return provider_failure(session, output, result,
-                                status == AS_BACKEND_FAILURE ? AS_BACKEND_FAILURE
-                                                             : AS_BACKEND_FAILURE,
+                                AS_BACKEND_FAILURE,
                                 "provider drain failed");
     }
     const int counts_valid =
@@ -115,7 +120,9 @@ as_status_v0 as_drain_provider_frame(as_session_v0 *session,
         provider_result.valid_count <=
             provider_result.produced_count - provider_result.valid_offset &&
         provider_result.epoch == session->epoch &&
-        provider_result.source_first_sample == session->next_output_sample;
+        provider_result.source_first_sample == session->next_output_sample &&
+        provider_result.source_first_sample <=
+            INT64_MAX - (int64_t)provider_result.produced_count;
     if (!counts_valid ||
         !samples_finite(output->samples, provider_result.produced_count)) {
         return provider_failure(session, output, result, AS_BACKEND_FAILURE,
