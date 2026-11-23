@@ -1,0 +1,34 @@
+{
+  "schema_id": "audio-sdk/adaptive-energy-to-silero-cascade/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-ADAPTIVE-ENERGY-TO-SILERO-CASCADE",
+  "pinned_base": "dc6b8ecb5c7fa0a6a00072ddf9c6a2e168b68acc",
+  "status": "proposal-only-synthetic",
+  "qualification": "incomplete",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "source_interval": "half-open [start_sample, end_sample) in int64 samples",
+    "time_domain": "monotonic_ns; int64; one clock_id per event stream"
+  },
+  "reference": {
+    "gate": "per-session adaptive RMS against max(minimum_dbfs, noise_dbfs + noise_margin_db)",
+    "silero_stub": "MODEL-FREE STUB: smoothed analytic sigmoid on frame RMS; no Silero weights, runtime or code is included",
+    "policy": "v0-adapted agreement_sleep reference: 3 agreeing low-energy frames enter sleep, 50-frame stub cross-check while asleep, 2-frame onset, 3-frame offset; no numeric parity with the 20 ms historical adapter",
+    "analysis": "timestamped gate/stub/cascade probabilities and speech-event boundaries on the proposed analysis-event model",
+    "public_boundary": "optional task-local provider using audio_sdk/provider_v0.h and audio_sdk/session_v0.h only; audio passthrough, no analysis in v0 ABI"
+  },
+  "invariants": [
+    "Installed v0 ABI, descriptors, registry defaults, CONTRACTS.md, CMakeLists.txt and behavior are unchanged.",
+    "Each session owns its noise estimate, stub state, sleep state, detection state, events and dropped-event audit.",
+    "Source intervals are exact half-open sample ranges; cross-hop placement uses exact overlap, never hop rounding.",
+    "Known zero probability is nonspeech; invalid/nonfinite/out-of-range probability is invalid analysis and is never nonspeech; unknown is retained but excluded.",
+    "Stale epochs, pre-stream intervals, wrong clocks, nonmonotonic availability, malformed frames and nonfinite samples are rejected explicitly.",
+    "Historical adapters declare 320-sample energy and 512-sample Silero frames; this v0 fixture uses 160 and does not claim numeric parity.",
+    "The synthetic low-SNR speech stratum records the known policy domain failure; no missing control result qualifies a candidate.",
+    "No real assets, corpora, downloads, licensed runtimes, device timing or listening results are included."
+  ],
+  "public_v0_abi": "unchanged; provider source is opt-in, unregistered by the SDK and not installed by default"
+}
