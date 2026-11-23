@@ -1,0 +1,4 @@
+entry 0 startup padding
+entry 1 0..160
+entry 2 160..320
+entry 3 320..340
