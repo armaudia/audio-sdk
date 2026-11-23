@@ -1,0 +1,23 @@
+{
+  "protocol_version": 1,
+  "identity": "fixed-rms-vad-reference",
+  "input_kind": "waveform",
+  "output_kinds": ["annotation", "analysis"],
+  "tasks": ["DET-01"],
+  "modes": ["offline", "streaming"],
+  "entrypoint": ["python", "run.py"],
+  "configuration": {
+    "control": "fixed_rms_vad_reference",
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "sdk_frame_samples": 160,
+    "adapter_frame_samples": 320,
+    "threshold_dbfs": -42.0,
+    "softness_db": 2.0
+  },
+  "weights": "none",
+  "registration": "unregistered developer-only fixture; not an SDK provider or a bench result",
+  "boundary_source": "adapters/rms-energy-vad/adapter.json",
+  "boundary_identity": "rms-energy-vad-1-threshold-minus-42dbfs"
+}
