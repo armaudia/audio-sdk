@@ -1,0 +1,28 @@
+{
+  "schema_id": "audio-sdk/elastic-pcm-packets/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-FND-ELASTIC",
+  "status": "proposal-only",
+  "format": {
+    "sample_rate_hz": 16000,
+    "ns_per_sample": 62500,
+    "pcm": "variable-count timestamped chunks with exact source intervals",
+    "packets": "separate timestamped sequence blocks with explicit single-erasure FEC"
+  },
+  "required_stream_fields": [
+    "stream_id",
+    "ratio",
+    "max_queued_samples",
+    "clock_id"
+  ],
+  "invariants": [
+    "PCM push/pull and packet FEC/PLC are separate objects; recovery never writes PCM and PCM concealment never fabricates packets.",
+    "Input chunks must be contiguous in the declared source coordinate; a gap is rejected, never filled.",
+    "Ratio is a positive exact rational; updates affect only later chunks and never remap already admitted chunks.",
+    "Output-to-source mapping is piecewise monotonic per stream and independent across streams.",
+    "Availability is bounded by admitted input; backpressure rejects new input with zero consumed count instead of dropping older input.",
+    "Flush is finite: no output is created beyond the admitted mapping, and EOS follows after the bounded tail is pulled.",
+    "Packet recovery preserves the original sequence and timestamp; more erasures than the declared parity can repair are explicit failures, not guesses.",
+    "Public v0 ABI, descriptors, provider registry, engine defaults and buffer capacities are unchanged."
+  ]
+}
