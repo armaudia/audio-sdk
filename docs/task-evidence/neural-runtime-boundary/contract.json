@@ -1,0 +1,36 @@
+{
+  "schema_id": "audio-sdk/neural-runtime-boundary/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-FND-NN",
+  "status": "proposal-only",
+  "format": {
+    "sample_rate_hz": 16000,
+    "streaming_frame_samples": 160,
+    "tensor_dtype": "f32",
+    "asset_identity": "external SHA-256 plus byte count; no embedded weights"
+  },
+  "tensor_specs": {
+    "waveform_in": [1, 160],
+    "state_in": [1, 16],
+    "waveform_out": [1, 160],
+    "state_out": [1, 16]
+  },
+  "required_hooks": [
+    "capability_query",
+    "process_mode",
+    "resume_prepare"
+  ],
+  "runtime_ids": [
+    "cpu-reference.stub/0.1",
+    "alternate-runtime.stub/0.1"
+  ],
+  "invariants": [
+    "Model IDs are immutable and duplicate IDs with a changed graph or asset digest are rejected.",
+    "Assets are verified by declared ID, byte count and SHA-256; missing or changed assets fail before any tensor call. No download or embedded weight is used.",
+    "Tensor names, shapes, dtype and required hooks are frozen by this contract; unknown shapes, hooks or modes are rejected.",
+    "Recurrent state has fixed size and must be finite; nonfinite or wrong-sized state is rejected without producing audio.",
+    "Offline whole-clip and streaming 160-sample entry points are distinct; a runner admits only its declared mode.",
+    "Only model-free stub runtimes and pinned model-free reference digests are present; no real model, weight, license or runtime is claimed.",
+    "Public v0 ABI, descriptors, provider registry, adapter protocol and defaults are unchanged."
+  ]
+}
