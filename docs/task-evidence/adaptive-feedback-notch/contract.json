@@ -1,0 +1,87 @@
+{
+  "schema_id": "audio-sdk/adaptive-feedback-notch/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-ADAPTIVE-FEEDBACK-NOTCH",
+  "component": "adaptive-feedback-notch",
+  "status": "optional-task-local-reference",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "public_boundary": {
+    "header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "provider_table_operations": ["create", "process", "reset", "drain", "destroy"],
+    "registration": "explicit caller-side as_register_provider_v0 only; no installed registry entry"
+  },
+  "provider": {
+    "provider_id": "dsp.adaptive-notch-notchref.v0",
+    "implementation_id": "dsp.adaptive-notch.reference",
+    "implementation_version": "0.1.0-reference",
+    "execution_modes": [2],
+    "required_assets": [],
+    "buffering_delay_samples": 0,
+    "native_hop_samples": 160,
+    "max_drain_calls": 1
+  },
+  "reference_controls": {
+    "profile": "full",
+    "min_hz": 200,
+    "max_hz": 4000,
+    "step_hz": 100,
+    "prominence_db": 14.0,
+    "absolute_dbfs": -38.0,
+    "persistence_frames": 4,
+    "release_frames": 24,
+    "cooldown_frames": 60,
+    "max_notches": 2,
+    "q": 24.0,
+    "gain_reduction_db": 0.0,
+    "floor_gain_db": -12.0,
+    "recovery_frames": 200,
+    "max_abs_input": 4.0,
+    "saturation": "none",
+    "saturation_threshold": 1.0
+  },
+  "source_pins": {
+    "research/feedback_control_20261028.md": "47b17e68a943e5fe3ee1568c81a84ea07eba040011e1d97df1ce61d8800c6b1c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "board_snapshot": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "5eea8b61fa70c0e3669ceb878aefc96e9005204f97f1970879583bc710689e80",
+    "mutable": true
+  },
+  "artifact_pins": {
+    "fixture.py": "b40205dbdbf882755f9b25359ae639917df477c8c562718ab325cce2be458d76",
+    "report.json": "7ac0a069736bd8d14212c3cbbcc288a632524d75a95b3f1afd9e73572118ff73",
+    "provider/adaptive_notch_provider.c": "712551d6d51b603361be3ad51d6359ae5a5a3504f83d77fc4cc1844c37c41c31",
+    "provider/config/config.json": "0d0728c5c0712879ccff488469e97599a4693785246b61eda7150fe35de0e75e",
+    "provider/config/descriptor.h.in": "2d349e1d3bd95d6ad551b0bb5e182181cf113ccefd5603a41f419306e37b4c15",
+    "provider/CMakeLists.txt": "f1853c91eb7311659f0e41870e584f2d3cde3353260b5bb95e7140d17eb70831",
+    "provider/tests/test_provider.c": "160a8fd80e5039ba0c7c567a21429fb5aca7705446a0eb72f9ee044d5ba103c0"
+  },
+  "invariants": [
+    "Fixed v0 format only: 16 kHz, mono f32, 160 samples. The installed ABI, descriptors, registry, defaults and v0 behavior are unchanged.",
+    "The C provider is task-local and off by default; OFF leaves it unlinked and unregistered, ON requires explicit registration on one caller registry.",
+    "Missing, malformed, nonfinite or out-of-range controls fail explicitly; no missing result qualifies a candidate.",
+    "Unsupported execution modes and missing configuration bytes fail before provider state returns to the caller.",
+    "Detector/notch state is per session, finite, resettable and released after sustained absence of a peak.",
+    "Clean speech, tonal-vowel stress, loop stability and tone artifact results are synthetic/model-free; no real audio, device, model or release qualification is claimed.",
+    "Canonical reports and synthetic output digests are exact and reproducible from the pinned fixture."
+  ],
+  "release_gates": [
+    "Closed-loop measured loudspeaker/microphone evidence with pinned paths, gain-before-feedback, delay and nonlinear saturation",
+    "Held-out real speech/music false-trigger and intelligibility/quality assessment",
+    "Maximum stable gain, residual tone, attack/release, clipping, CPU/memory and target-device timing on intended runtime",
+    "Provider intake, rights, license, descriptor and public catalog review before any default or installed provider"
+  ]
+}
