@@ -1,0 +1,118 @@
+{
+  "schema_id": "audio-sdk/block-nlms-afc-with-margin/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-BLOCK-NLMS-AFC-WITH-MARGIN",
+  "component": "block-nlms-afc-with-margin",
+  "status": "optional-task-local-reference",
+  "base_commit": "dc6b8ecb5c7fa0a6a00072ddf9c6a2e168b68acc",
+  "branch": "swarm/SDK-BLOCK-NLMS-AFC-WITH-MARGIN",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "public_boundary": {
+    "header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "provider_table_operations": ["create", "process", "reset", "drain", "destroy"],
+    "registration": "explicit caller-side as_register_provider_v0 only; no installed registry entry"
+  },
+  "provider": {
+    "provider_id": "dsp.block-nlms-afc-margin.reference.v0",
+    "implementation_id": "dsp.block-nlms-afc-margin.reference",
+    "implementation_version": "0.1.0",
+    "execution_modes": [2],
+    "required_assets": [
+      {
+        "id": "afc.playback-reference.f32",
+        "storage": "external",
+        "byte_count": 19200,
+        "sha256": "b8edcf122d6494d3c2a41f999ed6094c2e4e4ac2f9a1c4a3d548d431766d1aee"
+      }
+    ],
+    "buffering_delay_samples": 0,
+    "native_hop_samples": 160,
+    "max_drain_calls": 1,
+    "default_enabled": false
+  },
+  "reference_controls": {
+    "taps": 48,
+    "mu": 0.02,
+    "epsilon": 0.000001,
+    "margin_db": -3.0,
+    "fixed_gain_db": -5.0,
+    "loop_delay_samples": 160,
+    "max_abs_input": 4.0,
+    "saturation": "tanh",
+    "saturation_threshold": 0.85,
+    "seed": 20261124,
+    "frames": 200,
+    "speech_end_frame": 120,
+    "latency_offsets": [-32, -16, -8, 0, 8, 16, 32],
+    "convergence_threshold_db": -12.0
+  },
+  "profiles": {
+    "afc_plus_margin": "adaptive_reference",
+    "afc_only": "adaptive_reference",
+    "fixed_gain": "fixed_attenuation",
+    "identity": "no_control"
+  },
+  "source_pins": {
+    "research/feedback_control_20261028.md": "47b17e68a943e5fe3ee1568c81a84ea07eba040011e1d97df1ce61d8800c6b1c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "board_snapshot": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "7e27b37f6d53cc76a96bab73b2f24ec7983ea05a03e1562e5963975378e7cbfd",
+    "mutable": true
+  },
+  "report": {
+    "path": "report.json",
+    "sha256": "f7326732ffea56f5c8a156df5087ac33b1204e28421350470d4338cdf249c1de",
+    "fixture_digest": "1404c7d698fda9d24b5e754f0875dba38c49f5dcc320d689ed4793f6480fead1",
+    "canonical": "sorted keys, compact separators, allow_nan false, no trailing newline"
+  },
+  "artifact_pins": {
+    "README.md": "2c64eca4ee058d8692c6d0a58830cea4571b5d48ef82985811cc11caae188373",
+    "SOURCES.sha256": "58ed3fd6c2077106ac699b2c58ae82ca7f71d36abacab0763f22b8dc279a4740",
+    "fixture.py": "643e11928a61520be31d0e905619f406b23c54a37895b2ecdb8978d9ba7a79cc",
+    "fixtures/FIXTURES.sha256": "694c801d66b0f5459a3f58e3894b5d2f757731306ac8fa2e81fe5b49ba35fbef",
+    "report.py": "3d7581ea581e7aa2119980699fa5697101d4a66eda695510b9a331dc3b31a576",
+    "report.json": "f7326732ffea56f5c8a156df5087ac33b1204e28421350470d4338cdf249c1de",
+    "report.json.sha256": "594cf21efdc744b1519b6737edd8b9a649fc7497e6cea9a65336f8c6cf387424",
+    "tests/test_fixture.py": "6f2a4b13f3e5e7dcfcd1c472eed99466b0873ff90395fbac241db743e4cbd032",
+    "tools/generate_fixtures.py": "a07f171521570718459fc322cdcdc2d4764e4aff325dd3eb6f44cbc6fa05923d",
+    "tools/verify.py": "d53d3076bef6da879dd879360fea8e60d93ff8312fe4e297ed48e9b83af0fe9f",
+    "tools/afc_cli.c": "b66befff5ac287904cc81a0cb7411315466ebb5afebd7b95c484bbd095c51610",
+    "provider/CMakeLists.txt": "7abb94ac15fe4fd689c97c5adec1cfbe92f5cf7d38a3e1cc6cdac2519780ac8c",
+    "provider/src/afc_provider.c": "285ed7d9c4890e5ca8911f2e99700cddf95ee2c3b802fc4bcd71fc9a269e342f",
+    "provider/src/afc_provider.h": "8d0bb7e38399dae7142b6008d1c49afa5d53138e338800d8593a0988c7e257ba",
+    "provider/config/config.json": "383682dfa0037301b4ac1ab4a3971a102fbd67fd6e75825fab01205b137137b8",
+    "provider/config/descriptor.h.in": "953f110904bc57ae1bc572c57ee66686c078f6d5f1002fe98a71e75be6e68215",
+    "provider/tests/test_provider.c": "8c7c858c139405f4dbbb00419f3422a0e1e4427b5cd06289939ed619019b2e69"
+  },
+  "invariants": [
+    "Fixed v0 format only: 16 kHz, mono f32, 160 samples. No adapter-sized frame variant is defined; the installed ABI, descriptors, registry, defaults and v0 behavior are unchanged.",
+    "The C provider is task-local, OFF by default and unregistered. ON requires explicit caller-side registration on one registry.",
+    "AFC plus a fixed -3 dB output margin is compared with AFC-only and a fixed -5 dB gain control on identical recursive program, path, delay and nonlinear conditions; no result is omitted.",
+    "Adaptive-reference metrics (ERLE, path misalignment, convergence, tracking, double-talk bias, reference latency) are reported in a separate group from fixed-attenuation metrics (gain margin, fixed-gain tail and level control). Missing results do not qualify a candidate.",
+    "Missing, malformed, nonfinite, out-of-range, wrong-shape, stale-epoch and wrong-position inputs fail explicitly with state unchanged.",
+    "Feedback loop is recursive: the processed output is returned through a simulated loudspeaker-to-microphone path; no open-loop tone overlay is treated as stability evidence.",
+    "All material is synthetic and model-free. No real audio, measured loop, device, model, listening, MOS/STOI, target pacing, CPU/deadline, benchmark or release claim is made.",
+    "Canonical report and f32 fixtures are byte-identical when regenerated from the pinned sources."
+  ],
+  "release_gates": [
+    "Closed-loop measured loudspeaker/microphone evidence with pinned IRs, gain-before-feedback, delay drift, path changes and nonlinear saturation",
+    "Speaker/path-held-out speech and music false-cancellation plus authorized intelligibility/quality assessment",
+    "Maximum stable gain, residual howl, convergence/tracking, clipping, latency and CPU/memory on the intended target runtime",
+    "Provider intake, license/rights, descriptor and public catalog review before any default or installed provider",
+    "Benchmark bundle creation and validation under the current submission policy before any hosted claim"
+  ]
+}
