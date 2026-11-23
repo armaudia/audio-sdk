@@ -40,6 +40,12 @@ void destroy(void *instance);
 
 `as_register_provider_v0(registry, table, descriptor_bytes, length, error)` copies immutable descriptor/table on the control thread. Duplicate provider ID is rejected, even if table bytes match. `as_query_provider_v0(registry, id, id_length, buffer, capacity, required_size)` returns descriptor bytes; null buffer/capacity=0 reports required size, insufficient capacity returns RESOURCE_EXHAUSTED without partial output. Registry mutation is forbidden after its first session is created; no global mutable default registry.
 
+Linking an external provider does not register it. The application opts in by
+registering it on its own registry before the first session, then selecting its
+ID and a mode advertised by its descriptor. Unregistered IDs and unadvertised
+modes return `AS_UNSUPPORTED`; there is no automatic discovery or fallback.
+Public release admission is separate from application-local registration.
+
 Create sets *out_instance=NULL before validation. Success means fully prepared state and all scratch allocated. A separate prepare function is intentionally absent: creation performs preparation. If creation fails, no live instance or leaked allocation remains. Session wrappers catch all C++ exceptions and convert them to status. Provider implementations must also contain their own language exceptions; the facade cannot safely catch a foreign language unwind across C.
 
 Process has one caller per instance. It must synchronously consume 160 padded samples and produce 160 samples on success, including explicit invalid startup/final padding; valid_count may be less than 160. It verifies epoch and exact next input position. Wrong counts, pointers, capacity, flags, nonfinite input, stale epoch or invalid lifecycle fail without invoking the backend or advancing state. AS_BACKEND_FAILURE may have advanced private state, so the facade enters NEEDS_RESET and admits no more process/drain until reset. A provider returning inconsistent counts/intervals or nonfinite output is treated as backend failure. AS_NOT_READY is not legal from a successfully prepared synchronous provider's process; the facade reserves it for buffered pull with no output.

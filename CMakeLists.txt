@@ -61,7 +61,11 @@ file(GLOB_RECURSE AS_RUNTIME_INPUTS CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/api/include/audio_sdk/*.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/third_party/speexdsp/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/third_party/speexdsp/*.h")
+file(GLOB AS_PROVIDER_METADATA_INPUTS CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/core/providers/*/provider.cmake"
+    "${CMAKE_CURRENT_SOURCE_DIR}/core/providers/*/config/*.json")
 list(APPEND AS_RUNTIME_INPUTS
+    ${AS_PROVIDER_METADATA_INPUTS}
     "${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt"
     "${CMAKE_CURRENT_SOURCE_DIR}/api/CMakeLists.txt"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/lock.json"
@@ -96,29 +100,6 @@ configure_file(cmake/build-info.json.in
     "${CMAKE_CURRENT_BINARY_DIR}/build-info.json" @ONLY)
 
 # ---------------------------------------------------------------------------
-# Vendored SpeexDSP (BSD-3-Clause). Exact inventoried source; see
-# third_party/speexdsp/UPSTREAM.md and docs/migration/source-allocation.csv.
-# ---------------------------------------------------------------------------
-set(AS_SPEEXDSP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/speexdsp")
-add_library(as_speexdsp OBJECT
-    "${AS_SPEEXDSP_DIR}/libspeexdsp/preprocess.c"
-    "${AS_SPEEXDSP_DIR}/libspeexdsp/mdf.c"
-    "${AS_SPEEXDSP_DIR}/libspeexdsp/fftwrap.c"
-    "${AS_SPEEXDSP_DIR}/libspeexdsp/filterbank.c"
-    "${AS_SPEEXDSP_DIR}/libspeexdsp/smallft.c"
-    "${AS_SPEEXDSP_DIR}/libspeexdsp/kiss_fft.c"
-    "${AS_SPEEXDSP_DIR}/libspeexdsp/kiss_fftr.c"
-    "${AS_SPEEXDSP_DIR}/libspeexdsp/resample.c")
-target_include_directories(as_speexdsp
-    PUBLIC "${AS_SPEEXDSP_DIR}/include"
-    PRIVATE "${AS_SPEEXDSP_DIR}/libspeexdsp")
-target_compile_definitions(as_speexdsp PRIVATE
-    FLOATING_POINT USE_SMALLFT EXPORT= DISABLE_WARNINGS)
-target_compile_options(as_speexdsp PRIVATE -w)
-set_target_properties(as_speexdsp PROPERTIES
-    C_VISIBILITY_PRESET hidden POSITION_INDEPENDENT_CODE ON)
-
-# ---------------------------------------------------------------------------
 # Core runtime
 # ---------------------------------------------------------------------------
 set(AS_CORE_SOURCES
@@ -133,14 +114,12 @@ set(AS_CORE_SOURCES
     core/src/api/provider_call.c
     core/src/api/session.c
     core/src/api/worker.c
-    core/providers/speex/speex_provider.c
-    core/providers/highpass/highpass_provider.c
     core/src/descriptors/descriptors.c)
 
-add_library(audio-sdk-core STATIC ${AS_CORE_SOURCES} $<TARGET_OBJECTS:as_speexdsp>)
+add_library(audio-sdk-core STATIC ${AS_CORE_SOURCES})
 set(AS_LIBRARY_TARGETS audio-sdk-core)
 if(AS_BUILD_SHARED)
-    add_library(audio_sdk_shared SHARED ${AS_CORE_SOURCES} $<TARGET_OBJECTS:as_speexdsp>)
+    add_library(audio_sdk_shared SHARED ${AS_CORE_SOURCES})
     list(APPEND AS_LIBRARY_TARGETS audio_sdk_shared)
 endif()
 add_library(AudioSDK::audio_sdk ALIAS audio-sdk-core)
@@ -152,9 +131,7 @@ foreach(target IN LISTS AS_LIBRARY_TARGETS)
         PUBLIC
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/api/include>
             $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-        PRIVATE
-            "${CMAKE_CURRENT_SOURCE_DIR}/core/src"
-            "${AS_SPEEXDSP_DIR}/include")
+        PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/core/src")
     target_compile_options(${target} PRIVATE ${AS_WARNING_FLAGS})
     target_compile_definitions(${target} PRIVATE
         AS_BUILDING_LIBRARY
@@ -209,14 +186,6 @@ if(AS_BUILD_CONFORMANCE)
     target_include_directories(audio_sdk_conformance
         PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/conformance")
     target_compile_options(audio_sdk_conformance PRIVATE ${AS_WARNING_FLAGS})
-    if(AS_BUILD_TESTS)
-        add_test(NAME as_conformance_speex
-            COMMAND audio_sdk_conformance --provider speex.ns.v0
-                    --report "${CMAKE_CURRENT_BINARY_DIR}/conformance-speex.json")
-        add_test(NAME as_conformance_highpass
-            COMMAND audio_sdk_conformance --provider dsp.highpass80.v0
-                    --report "${CMAKE_CURRENT_BINARY_DIR}/conformance-highpass.json")
-    endif()
 endif()
 
 # ---------------------------------------------------------------------------
@@ -238,13 +207,16 @@ if(AS_BUILD_TESTS)
     as_add_test(as_test_registry core/tests/test_registry.c)
     as_add_test(as_test_session core/tests/test_session.c)
     as_add_test(as_test_timing core/tests/test_timing.c)
-    as_add_test(as_test_providers core/tests/test_providers.c)
     as_add_test(as_test_queues core/tests/test_queues.c)
     as_add_test(as_test_assets core/tests/test_assets.c)
     set_tests_properties(as_test_queues PROPERTIES TIMEOUT 45)
     as_add_test(as_test_validity core/tests/test_validity.c)
     as_add_test(as_test_cxx core/tests/test_cxx.cpp)
 endif()
+
+# Public release baseline: include only explicitly admitted built-ins.
+include(core/providers/speex/provider.cmake)
+include(core/providers/highpass/provider.cmake)
 
 if(AS_BUILD_EXAMPLES)
     add_executable(as_example_c examples/c/switch_provider.c)
@@ -266,6 +238,10 @@ if(AS_BUILD_CONFORMANCE)
     install(DIRECTORY conformance/ DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/conformance"
         FILES_MATCHING PATTERN "legacy_timing_probe.c" EXCLUDE
         PATTERN "*.c" PATTERN "*.h" PATTERN "CMakeLists.txt" PATTERN "*.md")
+    install(FILES
+        conformance/provider_registration/config/config.json
+        conformance/provider_registration/config/descriptor.h.in
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/conformance/provider_registration/config")
 endif()
 
 install(DIRECTORY schemas/ DESTINATION "${CMAKE_INSTALL_DATADIR}/audio-sdk/schemas"
