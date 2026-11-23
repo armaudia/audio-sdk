@@ -1,0 +1,1 @@
+{"provider_id":"dsp.fixed-feedback-margin.fixedref.v0","schema_id":"audio-sdk/provider-config/0.1","settings":{"profile":"fixed_gain","gain_db":"-5.0","min_gain_db":"-24.0","max_gain_db":"0.0","max_abs_input":"4.0","output_ceiling":"4.0"},"units":{"gain_db":"dB","min_gain_db":"dB","max_gain_db":"dB","max_abs_input":"linear peak","output_ceiling":"linear peak"}}
