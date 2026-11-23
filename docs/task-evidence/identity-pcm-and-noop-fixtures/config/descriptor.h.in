@@ -1,0 +1,26 @@
+/* SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+ * SPDX-License-Identifier: Apache-2.0
+ * Generated from config/descriptor.h.in; digests cover the task-local bytes.
+ */
+static const char kDescriptor[] =
+    "{\"buffering_delay_samples\":0,\"callback_safe\":false,"
+    "\"configuration_schema_digest\":\"sha256:@IDENTITY_CONFIG_DIGEST@\","
+    "\"contract_version\":\"0.1\","
+    "\"edge_exclusions\":{\"end_samples\":0,\"start_samples\":0},"
+    "\"execution_modes\":[2],"
+    "\"implementation_id\":\"fixture.delayed_identity\","
+    "\"implementation_version\":\"1.0.0\",\"max_drain_calls\":1,"
+    "\"native_hop_samples\":160,"
+    "\"platform\":{\"architectures\":[\"arm64\",\"x86_64\"],"
+    "\"cpu_requirements\":\"baseline\"},"
+    "\"provider_id\":\"fixture.identity-pcm.v0\",\"required_assets\":[],"
+    "\"schema_id\":\"audio-sdk/descriptor/0.1\","
+    "\"source_digest\":\"sha256:@IDENTITY_SOURCE_DIGEST@\","
+    "\"source_revision\":null,"
+    "\"supported_formats\":[{\"channels\":1,\"frame_samples\":160,"
+    "\"sample_format\":\"f32\",\"sample_rate_hz\":16000}],"
+    "\"upstream\":{\"license\":\"Apache-2.0\","
+    "\"name\":\"audio-sdk identity PCM fixture\","
+    "\"notice_path\":\"licenses/Apache-2.0.txt\"}}";
+static const char kIdentitySourceDigest[] = "@IDENTITY_SOURCE_DIGEST@";
+static const char kIdentityConfigDigest[] = "@IDENTITY_CONFIG_DIGEST@";
