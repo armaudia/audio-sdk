@@ -1,0 +1,103 @@
+{
+  "schema_id": "audio-sdk/classical-wiener-denoising/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-CLASSICAL-WIENER-DENOISING",
+  "component": "classical-wiener-denoising",
+  "status": "optional-task-local-reference",
+  "verification_profile": "enhancement",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "public_boundary": {
+    "header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "provider_table_operations": ["create", "process", "reset", "drain", "destroy"],
+    "registration": "explicit caller-side as_register_provider_v0 only; no installed registry entry"
+  },
+  "provider": {
+    "provider_id": "enh.wiener-reference.v0",
+    "implementation_id": "enh.wiener.reference",
+    "implementation_version": "0.1.0-reference",
+    "execution_modes": [2],
+    "required_assets": [],
+    "buffering_delay_samples": 0,
+    "native_hop_samples": 160,
+    "max_drain_calls": 1,
+    "descriptor_settings": {}
+  },
+  "reference": {
+    "profiles": ["identity", "spectral_subtraction", "wiener"],
+    "candidate": "wiener",
+    "task_matched_baseline": "spectral_subtraction",
+    "control": "identity",
+    "fft_size": 256,
+    "noise_only_calibration_frames": 10,
+    "causal": true,
+    "offline_whole_clip_estimate": false,
+    "model_weights": false,
+    "downloads": false,
+    "real_speech": false,
+    "device_or_timing_claim": false
+  },
+  "source_pins": {
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245",
+    "adapters/classical-spectral/adapter.json": "451f3f083f738743660e55d54f907155728dc89b63cd10778ed43d8f985710b4",
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "research/noise_suppression_pilot_20261027.md": "90adcfb7b612d5a661baf16e69f78df95eebc6f65bbfece973022af902bd9aae",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "scorer_pins": {
+    "pystoi wheel pystoi-0.4.1-py2.py3-none-any.whl": "e277b671663d26d35a2416c9c8010a74084e6c3970354506398051a554896939",
+    "pystoi/stoi.py": "482b30bfa8e60f1453200315afcd5564fc9e9aa1d14aeb9710a58fd7a9f52658",
+    "pystoi/utils.py": "0222df0354a248ccc7f8525eda9bda9da815e5d60106f611a5f4750d1ba7f321"
+  },
+  "board_snapshot": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "277393a97b19c1b338e9db6aacef6d48e3e797944cdc57fb5606f19c691ee3a5",
+    "mutable": true
+  },
+  "artifact_pins": {
+    "scorer.py": "1c3e9c97f75b838d1677cb5823d679520d9a40557853e8fb6fec0ca560cf2698",
+    "reference.py": "b60d208e0567980a300cc68cb5be53e114c19506cf7d9de7a11a9c9dc8e97d92",
+    "run.py": "28ed1beff61270a81052495ae54aa7f42738de35472fb21ba0dfdf3d5f42f3bd",
+    "test_reference.py": "a838fac4ee5f5342bd8842b9d5fb80ae6ce694cf77418103ad1f1287de28a075",
+    "crosscheck_vectors.json": "bb79854862b2cb8eb0d5be341e3e7c68bc369a8bae96113c06cd16e11b21c80a",
+    "adapter.json": "b4b294f452033d6b38c63d39c30d612ae167a00628aae8920d1e26a4deb31337",
+    "report.json": "b395b08417212cdf07988c359dde424e9ee011d5d961adfda0d668b8251be8b0",
+    "report.json.sha256": "5e1b45c9c5570ac7a0c742544036a2134197151e621bcd53065c8c25be3e56ca",
+    "provider/wiener_provider.c": "f6a6c3b62addacef7c6fb78e35f3272b8354866f32ad0c9d5ac9561b5e95cb1a",
+    "provider/CMakeLists.txt": "68d6b915d5c838bb325ab0b3f3155fc30a77f4f997a1b57bfe56c1ce6d10008f",
+    "provider/config/config.json": "e253c5c5fece9b17a210d775fc8073c59c97514a753c3ae6e18c7f1e3e6671a4",
+    "provider/config/descriptor.h.in": "de9aa8807a7c5985aa89a2071c063aa9097f15a229533da392fb5c1a3064e0e2",
+    "provider/tests/test_provider.c": "1e5c658fb3a5ba830ce16651a27b48ad618c7cdd98067517ce181c32358b9861"
+  },
+  "invariants": [
+    "Fixed v0 format only: 16 kHz, mono f32, 160 samples. The installed ABI, descriptors, registry, defaults and v0 behavior are unchanged.",
+    "The C provider is task-local and off by default; OFF leaves it unlinked and unregistered, ON requires explicit registration on one caller registry.",
+    "Descriptor settings remain empty; no public API, ABI, registry, descriptor or installed default was changed.",
+    "Identity control, task-matched spectral-subtraction baseline and paired synthetic SI-SDR/STOI are all present; no missing result qualifies the Wiener candidate.",
+    "Rejected frames and invalid settings fail explicitly and do not mutate DSP/alignment state; stale epoch/session and wrong position are rejected.",
+    "All scores are synthetic-scoped on generated clean references; no real speech, model weights, downloads, licensed runtime, listening, MOS, target-device pacing or release qualification is claimed.",
+    "Canonical reports and synthetic output digests are exact and reproducible from the pinned fixture."
+  ],
+  "source_evidence_statements": [
+    "candidate_matrix.csv row 24: 30-pair DNS screen; offline whole-clip noise estimates.",
+    "REALTIME_COMPONENT_CANDIDATES.md: Wiener pilot mean delta SI-SDR +0.43 dB, batch RTF 0.0489, noncausal whole-clip noise estimate.",
+    "This fixture uses a causal noise-only prefix instead of an offline whole-clip estimate and does not reproduce the DNS number."
+  ],
+  "release_gates": [
+    "Held-out real-speech paired SI-SDR/STOI and listening/MOS assessment with pinned corpora and licenses",
+    "Causal noise PSD tracking without a noise-only prefix, including adverse noise and nonstationary conditions",
+    "Target-device CPU, memory, deadline and real-time pacing measurement",
+    "Provider intake, rights, license, descriptor and public catalog review before any default or installed provider"
+  ]
+}
