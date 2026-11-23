@@ -1,0 +1,144 @@
+{
+  "schema_id": "audio-sdk/pipe-capture/fixtures/0.1",
+  "task": "SDK-PIPE-CAPTURE",
+  "status": "frozen_synthetic_only",
+  "fixed_v0": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "source_pins": [
+    {
+      "path": "cpp-library/src/core/recipe.cpp",
+      "sha256": "3edea6d4fdfe11a244fab94c3fdde8d33f4435c8001559a808e761dbb41015d9",
+      "use": "Frozen preset stage shape and fail-before-session admission convention; no C++ source is changed."
+    },
+    {
+      "path": "audio-benchmark-platform/audio-sdk/CONTRACTS.md",
+      "sha256": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+      "use": "Buffered submit/pull, exact valid counts and intervals, epochs, drain, clocks and no automatic fallback."
+    },
+    {
+      "path": "audio-benchmark-platform/plan/swarm/VERIFICATION.md",
+      "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+      "use": "Pipeline profile: control and stage-removed ablation, failure policy, lifetime, clock/buffer behavior, asset scope and paced limits."
+    },
+    {
+      "path": "cpp-library/src/stages/limiter.cpp",
+      "sha256": "fc4bb899f81e87466b3ad1aafea28ae392fed5ca10f4ea99bfde56f313079ac3",
+      "use": "Normative sample-peak limiter behavior mirrored by the task-local arithmetic model."
+    },
+    {
+      "path": "cpp-library/src/stages/dsp_util.hpp",
+      "sha256": "91efb8b16091c841da2e50225ae7b90b3ec7786aac1ef21e04bfe47672f882e9",
+      "use": "Shared float utility behavior used by the pinned limiter model."
+    },
+    {
+      "path": "audio-sdk/core/providers/highpass/highpass_provider.c",
+      "sha256": "051b423d078835ff1ab23d7303c8e0c8f876d3d4211339682f366797ef7fffef",
+      "use": "Frozen 80 Hz / Q 0.7071067811865476 biquad, double state, float32 output and zero buffering delay."
+    },
+    {
+      "path": "audio-sdk/core/providers/speex/speex_provider.c",
+      "sha256": "d1a98e3aff897375db4f0fc7668329be5254faa361ccaba1635a5089ea8a71e6",
+      "use": "Frozen denoise-only policy, -20 dB suppression, PCM16 quantization and 160-sample buffering delay."
+    }
+  ],
+  "dependency_pins": {
+    "path": "deps/lock.json",
+    "sha256": "7e834253dad944604a2e2283f4d809ab1383c9db4f08b83482a8b41efc043e3a",
+    "name": "SpeexDSP",
+    "version": "1.2.1",
+    "revision": "7a158783df74efe7c2d1c6ee8363c1e695c71226",
+    "source": "vendored:third_party/speexdsp",
+    "network_fetch_required": false
+  },
+  "native_library_pin": {
+    "path": "deps/speexdsp-files.sha256",
+    "sha256": "3ff2b43a21b28a10a87f5a30b3c0339bef67a6b491c22f0f90c45696bd8f7a29",
+    "role": "informational only; no native library bytes or build output are included in this fixture"
+  },
+  "stimuli": {
+    "paired": {
+      "kind": "speech_plus_stationary_noise",
+      "samples": 3200,
+      "f0_hz": 120.0,
+      "harmonics": 12,
+      "syllable_period_samples": 640,
+      "clean_seed": 12035,
+      "noise_seed": 1397773,
+      "snr_db": 10.0,
+      "noise_lead_in_samples": 800,
+      "edge_ramp_samples": 160
+    },
+    "conservation": {
+      "kind": "partial_speech_plus_stationary_noise",
+      "samples": 357,
+      "f0_hz": 140.0,
+      "harmonics": 10,
+      "syllable_period_samples": 357,
+      "clean_seed": 3571,
+      "noise_seed": 35773,
+      "snr_db": 12.0,
+      "noise_lead_in_samples": 0,
+      "edge_ramp_samples": 32
+    },
+    "impulse": {
+      "kind": "impulse_plus_low_tail",
+      "samples": 6400,
+      "position": 4000,
+      "amplitude": 0.9,
+      "tail_amplitude": 0.02,
+      "tail_hz": 220.0,
+      "seed": 991
+    },
+    "clipping": {
+      "kind": "tone",
+      "samples": 320,
+      "frequency_hz": 1000.0,
+      "amplitude": 1.4
+    },
+    "failure": {
+      "kind": "speech_plus_stationary_noise",
+      "samples": 800,
+      "f0_hz": 130.0,
+      "harmonics": 10,
+      "syllable_period_samples": 400,
+      "clean_seed": 807,
+      "noise_seed": 8089,
+      "snr_db": 9.0,
+      "noise_lead_in_samples": 160,
+      "edge_ramp_samples": 80,
+      "fail_at_frame": 2
+    }
+  },
+  "controls": {
+    "failure_reason": "explicit_backend_failure",
+    "failure_epoch": 7,
+    "bypass_epoch": 8,
+    "nonfinite_index": 3,
+    "bad_padding_value": 0.25,
+    "clock_regression_ns": -1,
+    "stale_epoch_delta": -1,
+    "expected_rejections": [
+      "rejected_timeout",
+      "rejected_bad_clock",
+      "rejected_stale_epoch",
+      "rejected_nonfinite_input",
+      "rejected_bad_padding"
+    ]
+  },
+  "excluded_evidence": [
+    {
+      "item": "Tiny16 model parity",
+      "status": "excluded",
+      "reason": "No real model parity or adverse exploratory comparison is claimed without S10/protocol clearance, an approved independent reference adapter and a permitted case manifest."
+    },
+    {
+      "item": "Real audio, devices, paced workload, listening and release qualification",
+      "status": "excluded",
+      "reason": "Only frozen synthetic arithmetic and declared clocks are used; no corpus, microphone, target device, deadline, load, quality score or release claim exists."
+    }
+  ]
+}
