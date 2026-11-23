@@ -1,0 +1,25 @@
+{
+  "schema_id": "audio-sdk/envelope-agc-reference/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-ENVELOPE-AGC",
+  "status": "proposal-only",
+  "engine": "reference.sequential.v0",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "boundary": "protocol-v1-shaped unregistered task-local adapter; mirrors adapters/controls request and result fields",
+  "invariants": [
+    "No public ABI, header, descriptor, registry default, installed behaviour, CONTRACTS.md or CMakeLists.txt change is included.",
+    "All controls are explicit, numeric, finite and range checked; absent controls are rejected rather than defaulted.",
+    "Each process call consumes exactly 160 samples and emits exactly 160 float32 samples with zero content delay.",
+    "Session state is keyed by session_id and canonical control digest; stale epochs reject before state changes.",
+    "Nonfinite input is observed and reported, never serialized as a result sample and never treated as a quality claim.",
+    "Headroom is measured against the configured hard ceiling; clipped and nonfinite-mapped samples are counted explicitly.",
+    "No missing result qualifies a candidate; unreached recovery and absent real qualification remain incomplete.",
+    "Fixed v0 format is unchanged: 16 kHz mono f32, 160 samples per frame."
+  ],
+  "public_v0_abi": "unchanged; proposal-only reference and deterministic synthetic fixture"
+}
