@@ -1,0 +1,1 @@
+{"provider_id":"dsp.adaptive-notch-margin.marginref.v0","schema_id":"audio-sdk/provider-config/0.1","settings":{"profile":"notch_plus_margin","margin_step_db":"3.0","margin_floor_db":"-12.0","recovery_frames":"200","recovery_step_db":"0.1"},"units":{"margin_step_db":"dB","margin_floor_db":"dB","recovery_frames":"frames","recovery_step_db":"dB/frame"}}

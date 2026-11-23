@@ -1,0 +1,383 @@
+{
+  "adverse": {
+    "concealment_zero_valid_output": {
+      "concealment_excluded_from_valid_content": true,
+      "concealment_flags": [
+        4
+      ],
+      "concealment_valid_count_zero": true,
+      "produced_frames_include_concealment": true,
+      "valid_content_samples": 6240
+    },
+    "duplicate_packet": {
+      "state_unchanged": true,
+      "status": "rejected_duplicate"
+    },
+    "erase_boundary": {
+      "boundary_burst_concealed": 4,
+      "boundary_burst_plan": [
+        99,
+        100,
+        101,
+        102
+      ],
+      "leading_erasure_status": "ok",
+      "leading_zero_valid_output": true,
+      "trailing_unresolved_frames": 2
+    },
+    "erase_burst_length": {
+      "max_burst_concealed_frames": 4,
+      "max_concealed_burst_frames": 4,
+      "over_max_accepted": true,
+      "over_max_state_unchanged": true,
+      "over_max_status": "rejected_burst_length"
+    },
+    "final_short_frame": {
+      "accepted_valid_samples": 1317,
+      "samples": 37
+    },
+    "missing_frame": {
+      "state_unchanged": true,
+      "status": "rejected_missing"
+    },
+    "nonfinite_input": {
+      "state_unchanged": true,
+      "status": "rejected_nonfinite"
+    },
+    "order_recovery": {
+      "accepted_valid_samples": 480,
+      "consistent_counts": true,
+      "first_ok": true,
+      "status": "ok"
+    },
+    "out_of_order_packet": {
+      "state_unchanged": true,
+      "status": "rejected_out_of_order"
+    },
+    "short_frame": {
+      "state_unchanged": true,
+      "status": "rejected_short"
+    },
+    "stale_epoch": {
+      "state_unchanged": true,
+      "status": "rejected_stale_epoch"
+    },
+    "wrong_frame_shape": {
+      "state_unchanged": true,
+      "status": "rejected_shape"
+    }
+  },
+  "alignment": {
+    "declared_buffering_delay_frames": 5,
+    "declared_buffering_delay_samples": 800,
+    "expected_raw_peak_index": 4800,
+    "measured_content_lag_samples": 0,
+    "measured_raw_peak_index": 4800,
+    "raw_interval": [
+      -800,
+      40000
+    ],
+    "raw_source_origin_sample": -800,
+    "source_interval": [
+      0,
+      40000
+    ],
+    "source_mapping_checks": true,
+    "valid_output_samples": 40000
+  },
+  "alignment_pass": true,
+  "all_metrics_available": true,
+  "all_outputs_finite": true,
+  "base_commit": "0673cb354cceb66f2f71faf9af7703b5a5d2fcfa",
+  "blockers": [
+    {
+      "id": "real_clean_reference",
+      "reason": "No rights-qualified real clean-reference cohort is available in this task-local fixture. EARS/DNS sources remain source-reported only.",
+      "reopen": "Freeze a permitted paired cohort, references, crop and alignment policy before any real quality claim.",
+      "status": "blocked"
+    },
+    {
+      "id": "authorized_listening",
+      "reason": "No authorized listeners, MUSHRA registration or listening results were collected.",
+      "reopen": "Register and run an independently reviewed listening test with consent and output-use permissions.",
+      "status": "blocked"
+    },
+    {
+      "id": "target_runtime_timing",
+      "reason": "Only unpaced wall-clock observations of this Python reference runtime are reported. No paced target-device, installed-provider or deadline qualification was run.",
+      "reopen": "Measure the exact installed build on the intended host with pacing, load, buffer and deadline budgets.",
+      "status": "blocked"
+    },
+    {
+      "id": "codec_network_pipeline",
+      "reason": "No codec-native PLC, captured network trace, jitter buffer, FEC/DRED, stereo path or mobile pipeline is included.",
+      "reopen": "Pin codec/network/pipeline assets and test the exact integrated path.",
+      "status": "blocked"
+    }
+  ],
+  "boundary": {
+    "base_commit": "0673cb354cceb66f2f71faf9af7703b5a5d2fcfa",
+    "provider_id": "dsp.linear-plc-ref.v0",
+    "smoke_path": "boundary-smoke.json",
+    "smoke_sha256": null,
+    "smoke_status": "not_recorded"
+  },
+  "candidate_status": "proposal_only_synthetic_incomplete",
+  "cohort": {
+    "clean_digest": "d7895f2c49486a9282384ee5dc780b9a41c60f3b2b95ee381bfb82fe145a54d6",
+    "duration_seconds": 2.5,
+    "erased_frame_count": 9,
+    "erased_frames": [
+      20,
+      60,
+      61,
+      80,
+      140,
+      200,
+      201,
+      202,
+      203
+    ],
+    "erased_sample_count": 1440,
+    "frames": 250,
+    "kind": "deterministic_synthetic_paired",
+    "samples": 40000
+  },
+  "conditions": {
+    "identity_clean": {
+      "all_metrics_available": true,
+      "clean_preservation": {
+        "invalid_reasons": [
+          "exact_reconstruction"
+        ],
+        "rms_gain_ratio": 1.0,
+        "valid_intervals_si_sdr": null
+      },
+      "counts": {
+        "concealed_frames": 0,
+        "final_valid_samples": 160,
+        "produced_frames": 255,
+        "valid_content_samples": 40000
+      },
+      "input": {
+        "at_or_above_one_count": 0,
+        "digest": "d7895f2c49486a9282384ee5dc780b9a41c60f3b2b95ee381bfb82fe145a54d6",
+        "finite": true,
+        "nonfinite_count": 0,
+        "peak_abs": 0.178443,
+        "rms": 0.022928,
+        "samples": 40000
+      },
+      "lost_region": {},
+      "output": {
+        "at_or_above_one_count": 0,
+        "digest": "d7895f2c49486a9282384ee5dc780b9a41c60f3b2b95ee381bfb82fe145a54d6",
+        "finite": true,
+        "nonfinite_count": 0,
+        "peak_abs": 0.178443,
+        "rms": 0.022928,
+        "samples": 40000
+      },
+      "si_sdr_db": {
+        "candidate": null,
+        "identity_noisy": null,
+        "invalid_reasons": [
+          "exact_reconstruction",
+          "exact_reconstruction"
+        ],
+        "paired_delta": null
+      },
+      "stoi": {
+        "candidate": 1.0,
+        "identity_noisy": 1.0,
+        "invalid_reasons": [],
+        "paired_delta": 0.0
+      }
+    },
+    "linear_interpolation": {
+      "all_metrics_available": true,
+      "clean_preservation": {
+        "invalid_reasons": [
+          "exact_reconstruction"
+        ],
+        "rms_gain_ratio": 1.002745,
+        "valid_intervals_si_sdr": null
+      },
+      "counts": {
+        "concealed_frames": 9,
+        "final_valid_samples": 160,
+        "produced_frames": 255,
+        "valid_content_samples": 38560
+      },
+      "input": {
+        "at_or_above_one_count": 0,
+        "digest": "f6601e2ab4799020461361d158b5ee33a3ad27f0b12f1736d3459cd4a5e1efd0",
+        "finite": true,
+        "nonfinite_count": 0,
+        "peak_abs": 0.178443,
+        "rms": 0.022199,
+        "samples": 40000
+      },
+      "lost_region": {
+        "concealed_rmse": 0.027524
+      },
+      "output": {
+        "at_or_above_one_count": 0,
+        "digest": "dbdc7a26f626734d9905e7e53d439c0009663934baa04d4460fd0e1e54ebdc06",
+        "finite": true,
+        "nonfinite_count": 0,
+        "peak_abs": 0.178443,
+        "rms": 0.02226,
+        "samples": 40000
+      },
+      "si_sdr_db": {
+        "candidate": 11.820617,
+        "identity_noisy": 10.983909,
+        "invalid_reasons": [],
+        "paired_delta": 0.836708
+      },
+      "stoi": {
+        "candidate": 0.949594,
+        "identity_noisy": 0.95102,
+        "invalid_reasons": [],
+        "paired_delta": -0.001426
+      }
+    },
+    "zero_fill_baseline": {
+      "all_metrics_available": true,
+      "clean_preservation": {
+        "invalid_reasons": [
+          "exact_reconstruction"
+        ],
+        "rms_gain_ratio": 1.0,
+        "valid_intervals_si_sdr": null
+      },
+      "counts": {
+        "concealed_frames": 9,
+        "final_valid_samples": 160,
+        "produced_frames": 255,
+        "valid_content_samples": 38560
+      },
+      "input": {
+        "at_or_above_one_count": 0,
+        "digest": "f6601e2ab4799020461361d158b5ee33a3ad27f0b12f1736d3459cd4a5e1efd0",
+        "finite": true,
+        "nonfinite_count": 0,
+        "peak_abs": 0.178443,
+        "rms": 0.022199,
+        "samples": 40000
+      },
+      "lost_region": {
+        "concealed_rmse": 0.030219
+      },
+      "output": {
+        "at_or_above_one_count": 0,
+        "digest": "f6601e2ab4799020461361d158b5ee33a3ad27f0b12f1736d3459cd4a5e1efd0",
+        "finite": true,
+        "nonfinite_count": 0,
+        "peak_abs": 0.178443,
+        "rms": 0.022199,
+        "samples": 40000
+      },
+      "si_sdr_db": {
+        "candidate": 10.983909,
+        "identity_noisy": 10.983909,
+        "invalid_reasons": [],
+        "paired_delta": 0.0
+      },
+      "stoi": {
+        "candidate": 0.95102,
+        "identity_noisy": 0.95102,
+        "invalid_reasons": [],
+        "paired_delta": 0.0
+      }
+    }
+  },
+  "contract": "audio-sdk/linear-interpolation-plc/0.1",
+  "controls_all_pass": true,
+  "evidence_classes": {
+    "historical_source_reported": "Opus PLC and candidate matrix values are pinned context only; not rerun or pooled.",
+    "real_audio_rights_qualified": "none",
+    "synthetic_paired": "Generated here under fixed seeds; clean reference is the same synthetic source.",
+    "unpaired_predictive_or_listening": "none"
+  },
+  "fixture_digest": "de2eda6935bb687fe684351cc9dd3bdc9f90aacbc39cd337543de630a53f2589",
+  "format": {
+    "buffering_delay_samples": 800,
+    "channels": 1,
+    "frame_samples": 160,
+    "max_burst_frames": 4,
+    "sample_format": "f32",
+    "sample_rate_hz": 16000
+  },
+  "measurement_pointer": {
+    "non_deterministic": true,
+    "note": "Unpaced wall-clock and RSS observations for the exact Python reference runtime; not a deadline or target-device claim.",
+    "path": "runtime-measurements.json"
+  },
+  "no_missing_result_qualifies_candidate": true,
+  "profile": "Enhancement",
+  "schema_id": "audio-sdk/task-evidence/linear-interpolation-plc/report/0.1",
+  "scope": "optional task-local synthetic reference; not a release or real-audio qualification",
+  "scorer_pins": [
+    {
+      "id": "pystoi",
+      "mode": "non-extended",
+      "module": "pystoi/stoi.py",
+      "sha256": "482b30bfa8e60f1453200315afcd5564fc9e9aa1d14aeb9710a58fd7a9f52658",
+      "version": "0.4.1"
+    },
+    {
+      "id": "numpy",
+      "mode": "required by pinned pystoi",
+      "module": "numpy",
+      "sha256": null,
+      "version": "2.5.4"
+    }
+  ],
+  "source_pins": [
+    {
+      "path": "research/voice-enhancement-20261101/candidate_matrix.csv",
+      "sha256": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245",
+      "summary": "Record 28: conventional waveform PLC controls; zero-fill, linear, pitch and AR baselines on a 12-clip packet-erasure screen."
+    },
+    {
+      "path": "REALTIME_COMPONENT_CANDIDATES.md",
+      "sha256": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+      "summary": "Packet-loss-concealment inventory: linear interpolation RTF about 0.00008, zero-fill about 0.00001; local screen, no network trace."
+    },
+    {
+      "path": "audio-benchmark-platform/audio-sdk/CONTRACTS.md",
+      "sha256": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+      "summary": "Fixed v0 format, exact source mapping, concealment valid_count=0, state/reset/epoch and timing rules."
+    },
+    {
+      "path": "audio-benchmark-platform/plan/swarm/VERIFICATION.md",
+      "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+      "summary": "Enhancement acceptance profile: identity/noisy control, task-matched baseline, paired SI-SDR/STOI, preservation, peaks, state, memory and timing."
+    },
+    {
+      "path": "research/voice-enhancement-20261101/agent-opus-plc/REPORT.md",
+      "sha256": "79cf82e29f231f45ebb65421e5a5e0f712de28c47cd115443b1edae3fcdc850b",
+      "summary": "Source-reported codec-matched PLC protocol used only as historical context; not rerun or pooled here."
+    },
+    {
+      "path": "api/include/audio_sdk/provider_v0.h",
+      "sha256": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+      "summary": "Public provider ABI boundary; source pin defines the v0 geometry and result flags used by the Python reference."
+    },
+    {
+      "path": "api/include/audio_sdk/session_v0.h",
+      "sha256": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+      "summary": "Public session facade boundary; reset/close/epoch/source-mapping semantics are mirrored by the Python reference."
+    }
+  ],
+  "state": {
+    "closed_session_rejects_process": true,
+    "reset_accepted": true,
+    "reset_bit_identical_to_fresh_epoch2": true,
+    "separate_sessions_uncoupled": true,
+    "stale_epoch_after_reset_rejected": true
+  },
+  "state_pass": true
+}
