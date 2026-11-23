@@ -189,6 +189,12 @@ class OrderedChainFixtureTest(unittest.TestCase):
         non_ascii = load_recipe()
         non_ascii["nodes"][0]["settings"]["é"] = 1
         self.assertEqual(validate(non_ascii)[1], ref.Status.REJECTED_NONFINITE)
+        wrong_rate = load_recipe()
+        wrong_rate["format"]["sample_rate_hz"] = 48000
+        self.assertEqual(validate(wrong_rate)[1], ref.Status.REJECTED_BAD_SHAPE)
+        wrong_frame = load_recipe()
+        wrong_frame["format"]["frame_samples"] = 192
+        self.assertEqual(validate(wrong_frame)[1], ref.Status.REJECTED_BAD_SHAPE)
 
     def test_stage_order_distinct_from_delay_and_availability(self):
         recipe_a, status_a, _ = validate(two_stage_recipe(("gain", "limiter"), (1000, 2000)))

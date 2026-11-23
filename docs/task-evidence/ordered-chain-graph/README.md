@@ -13,7 +13,7 @@ provider, runtime, device result or audio-quality result.
 | `audio-benchmark-platform/audio-sdk/CONTRACTS.md` | `f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69` | Ordered nodes, one linear audio path, analysis taps, delay/availability separation, lifecycle, fixed v0 format |
 | `cpp-library/PIPELINE_DESIGN_REPORT.md` | `f603bd8eb27a44a1861a61e9f90d7085d785cbb77af9694b332677bd5e38b093` | Analysis stays a control/analysis path; component sums or unpaced Python evidence do not qualify a native chain or device |
 | `audio-benchmark-platform/plan/swarm/VERIFICATION.md` | `3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910` | Pipeline and Evidence acceptance profiles |
-| `audio-benchmark-platform/plan/swarm/TASKS.json` | `42023c726af1189fdc00c30ccb7b585972d155c2a6aaf1b816b9e75b20cafd4e` | Task record, owner, branch and reviewer |
+| `audio-benchmark-platform/plan/swarm/TASKS.json` | `42023c726af1189fdc00c30ccb7b585972d155c2a6aaf1b816b9e75b20cafd4e` | Freeze-time task record pin, owner, branch and reviewer (historical value; the live board changes as tasks transition) |
 
 Pinned task base: `3c281b6674f7bf6f48b80a3c247df0241d563ff5`.
 Branch: `swarm/SDK-FND-GRAPH`. Owner: `agent-graph`. Reviewer: `reviewer-graph`.
