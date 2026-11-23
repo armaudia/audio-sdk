@@ -1,0 +1,77 @@
+{
+  "schema_id": "audio-sdk/narrow-biquad-notch/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-NARROW-BIQUAD-NOTCH",
+  "component": "narrow-biquad-notch",
+  "status": "optional-task-local-reference",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "public_boundary": {
+    "header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "provider_table_operations": ["create", "process", "reset", "drain", "destroy"],
+    "registration": "explicit caller-side registration only; no installed registry entry"
+  },
+  "provider": {
+    "provider_id": "dsp.narrow-notch-<frequency_hz>-<bandwidth_hz>.v0",
+    "implementation_id": "dsp.narrow-notch.reference",
+    "implementation_version": "0.1.0-reference",
+    "execution_modes": [2],
+    "required_assets": [],
+    "buffering_delay_samples": 0,
+    "native_hop_samples": 160,
+    "max_drain_calls": 1
+  },
+  "reference_controls": {
+    "frequency_hz": 1000.0,
+    "bandwidth_hz": 100.0,
+    "q": null,
+    "profile": "notch",
+    "max_abs_input": 4.0,
+    "saturation": "none",
+    "saturation_threshold": 1.0
+  },
+  "source_pins": {
+    "research/level_tone_control_20261028.md": "b9178c7c486bec81222919977f8111d4e5c5508ee31d8dbd44c6600e51e25c44",
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "audio-benchmark-platform/audio-sdk/CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "artifact_pins": {
+    "fixture.py": "20bc26ca1b88b2680911330d171186781437a665ee70a59f432370c35d1b4dfa",
+    "generate.py": "c72b5f952553807641dd5edef880a0125f8dd305e0fe49698329faa7714ec110",
+    "test_fixture.py": "3d527dfa52c28ac2d11de8f27ff439472244e1dee62e09dde118ee4f6e715416",
+    "report.json": "c80db3087434ed0e8d5755b037e052ff3dfa5ae03d582f858ba76526253e99dd",
+    "provider/narrow_notch_provider.c": "935423930613bb18f9fc088380f6b900a4317f033f468a50d7c347b2c3a487cc",
+    "provider/narrow_notch_provider.h": "5800a7ad3d7aa6f201a21693a1cd6aba43491d5c0d0e2625fd563264341f358f",
+    "provider/CMakeLists.txt": "138058c68ee07d877140f5a4023b7c53cc55e8f72f0bc0ed0c7515c5dd57c7bf",
+    "provider/config/config.json": "a400ceffe5929247e720c6e2a2c2380775e41995df2fd3eb508da11b5ebd019d",
+    "provider/config/descriptor.h.in": "35700de703e72fd9da78378867dc446f53d00a1910db8c21ce7dafa6ea4e536d",
+    "provider/tests/test_provider.c": "1f45a967cad364a376fd2b5c6bf3c42464bbdc0d17b65bf89458a7b872f0528f"
+  },
+  "invariants": [
+    "Task-local optional reference only: no shared SDK source, public API, ABI, descriptor, registry default or installed behavior is modified.",
+    "Fixed v0 format: 16 kHz, mono f32, 160-sample frames. The explicit centre frequency and bandwidth are caller controls, not registry defaults.",
+    "The C provider is off by default; OFF leaves it unlinked and unregistered, ON requires explicit caller-side registration on one registry.",
+    "Frozen external-provider settings must stay empty; the explicit control is carried by the caller-local provider ID at the public boundary.",
+    "Missing, malformed, nonfinite, out-of-range or inconsistent controls fail explicitly; no missing result qualifies a candidate.",
+    "Synthetic formant speech, sweeps, steps, impulses, silence, load and loop controls are not real speech, listening, device or release evidence.",
+    "Canonical reports and f32 output digests are exact and reproducible from the pinned deterministic fixture."
+  ],
+  "release_gates": [
+    "Authorized real-speech corpus with clean references and a blinded intelligibility/quality protocol",
+    "Measured loudspeaker/microphone loop with pinned gain, delay and nonlinear saturation",
+    "Target-device CPU, memory, deadline and availability measurement",
+    "Provider intake, rights, license, descriptor and public catalog review before any default or installed provider"
+  ]
+}

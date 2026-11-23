@@ -1,0 +1,75 @@
+{
+  "base_commit": "9677040cba2929f9936eaa565f200f585d5270a8",
+  "deadline_ns": null,
+  "load": "one synthetic stream at a time, no competing load",
+  "non_deterministic": true,
+  "note": "ru_maxrss is a coarse process high-water mark; availability is elapsed time to the first frame with valid samples. Neither is a target timing claim.",
+  "pacing": "unpaced",
+  "per_condition": {
+    "autoregressive_plc": {
+      "drain_frames": 5,
+      "drain_wall_s": 1.1e-05,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.000288,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 0.525458,
+        "median": 0.045417
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.015646
+    },
+    "identity_clean": {
+      "drain_frames": 5,
+      "drain_wall_s": 1.1e-05,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.000308,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 0.756042,
+        "median": 0.0455
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.012217
+    },
+    "linear_interpolation_baseline": {
+      "drain_frames": 5,
+      "drain_wall_s": 1e-05,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.000288,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 0.216667,
+        "median": 0.044855
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.011313
+    },
+    "zero_fill_noisy_control": {
+      "drain_frames": 5,
+      "drain_wall_s": 1e-05,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.00029,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 0.089208,
+        "median": 0.045666
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.01124
+    }
+  },
+  "qualification_status": "blocked",
+  "runtime": {
+    "machine": "arm64",
+    "numpy": "2.5.4",
+    "pystoi": "0.4.1",
+    "python": "3.12.16",
+    "system": "Darwin"
+  },
+  "schema_id": "audio-sdk/task-evidence/autoregressive-plc/report/0.1/runtime-measurements"
+}

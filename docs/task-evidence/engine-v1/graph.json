@@ -1,0 +1,70 @@
+{
+  "schema_id": "audio-sdk/engine-v1/0.1",
+  "graph_id": "canonical.engine.fixture.v1",
+  "contract_version": "0.1",
+  "engine": "reference.engine.v1",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "audio_path": ["gain", "delay"],
+  "nodes": [
+    {
+      "id": "gain",
+      "provider_id": "third_party.gain.v0",
+      "descriptor_digest": "55ba20f8f16bd9ff0e6b711eecd77d2a6048a2968216d6ec5a8039e6419296d3",
+      "role": "audio",
+      "delay_samples": 0,
+      "settings": {
+        "gain": 0.5,
+        "work_ns": 1000000
+      },
+      "depends_on": [],
+      "input_port": "pcm.in",
+      "output_port": "pcm.gain.out",
+      "hooks": {
+        "policy_query": false,
+        "process_mode": false,
+        "resume_prepare": false,
+        "process_batch": false
+      }
+    },
+    {
+      "id": "delay",
+      "provider_id": "fixture.delay.v0",
+      "descriptor_digest": "4677766e041c0d64b94895d8fa04e98a87a9a29d8c6e85ada2f28b9c6d6873b8",
+      "role": "audio",
+      "delay_samples": 80,
+      "settings": {
+        "delay_samples": 80,
+        "work_ns": 2000000
+      },
+      "depends_on": ["gain"],
+      "input_port": "pcm.gain.out",
+      "output_port": "pcm.delay.out",
+      "hooks": {
+        "policy_query": false,
+        "process_mode": false,
+        "resume_prepare": false,
+        "process_batch": false
+      }
+    },
+    {
+      "id": "activity",
+      "provider_id": "third_party.activity.v0",
+      "descriptor_digest": "74ccca3b2342225b60a75bdbafbd40b0cc28b4f18ab15b258c3529018c1c4276",
+      "role": "analysis",
+      "delay_samples": 0,
+      "settings": {
+        "event_offset_ns": 1000,
+        "event_value": 0.75,
+        "work_ns": 0
+      },
+      "depends_on": ["gain"],
+      "tap_port": "pcm.gain.out",
+      "max_age_samples": 320
+    }
+  ]
+}

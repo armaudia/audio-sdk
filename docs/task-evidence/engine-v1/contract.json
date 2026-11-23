@@ -1,0 +1,52 @@
+{
+  "schema_id": "audio-sdk/engine-v1/0.1",
+  "schema_version": "1.0",
+  "contract_version": "0.1",
+  "task": "SDK-FND-ENGINE",
+  "status": "proposal-only",
+  "engine": "reference.engine.v1",
+  "abi_version": "1.0",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "domain_config": "domain.json",
+  "graph_schema": "graph.schema.json",
+  "graph_fixture": "graph.json",
+  "identity": "SHA-256 of restricted canonical JSON: sorted keys, compact separators, ASCII, no NaN or Infinity. Domain and graph identities are computed independently.",
+  "operations": [
+    "domain_create",
+    "domain_close",
+    "stream_admit",
+    "stream_enqueue",
+    "stream_pull",
+    "stream_release",
+    "stream_end_input",
+    "stream_quiesce",
+    "stream_reset",
+    "stream_remove",
+    "domain_stats",
+    "stream_stats"
+  ],
+  "invariants": [
+    "The domain owns exactly one scheduler, its workers and all queue/scratch memory; a second scheduler or worker_count other than one is rejected by this fixture.",
+    "Admission validates the graph, format, epoch and assets before allocating per-stream provider state; duplicate graph or provider resources and domains at max_streams reject with zero acceptance.",
+    "Each stream has independent provider state, one input submitter, one output consumer, three input and three output frame slots, one processing invocation in flight and at most one output lease.",
+    "stream_enqueue copies the frame, records capture/deadline monotonic nanoseconds and never retains a caller pointer; a full input queue rejects with zero acceptance and never discards an older frame.",
+    "stream_pull is nonblocking FIFO with NOT_READY while work is outstanding and END_OF_STREAM only after complete drain and an empty output queue; full output queue creates explicit input backpressure.",
+    "A lease carries immutable samples, result/source metadata, actual output-ready monotonic time, an opaque lease_id and domain/stream identity; a second pull before release is BUSY.",
+    "stream_release returns exactly the named output slot; wrong, duplicate or cross-stream lease IDs are explicit INVALID_ARGUMENT and free nothing.",
+    "stream_end_input closes admission and schedules bounded drain after queued work; no synthetic accepted audio is created while flushing.",
+    "stream_quiesce runs only on the control thread; policy=drain waits at the barrier while the caller keeps pulling and policy=cancel discards queued and unleased work with interval accounting, or returns a deterministic timeout.",
+    "Cancellation of in-flight work waits at the control barrier, discards obsolete-epoch output with a reason and never delivers it to another stream; a lease outstanding at reset/remove returns BUSY.",
+    "stream_reset requires no active lease and quiesced state and a strictly greater epoch; it clears queues and provider state and records cancelled old intervals. Empty repeated remove is harmless.",
+    "Domain and stream stats are closed, versioned caller-buffer JSON queries using required-size rules; every counter is an exact decimal string and no volatile pointer, path or wall clock enters stats.",
+    "Analysis_v1 events are admitted only from the configured producer, tap, signal and calibration with matching epoch and bounded source-sample age; wall-clock recency from an unrelated producer never selects an event.",
+    "Transition hooks are used only with declared state semantics and finite history/warm bounds; cheap mode is permitted only for a proven state-preserving update, observe produces full audio without committing state, and unsupported hooks run the full scalar path.",
+    "Batch hooks declare max_batch 2 or 4, validate lane state identity/configuration before any lane changes, keep scalar content mapping per lane, report per-lane validity and failure, and include batch wait in measured availability and deadline accounting.",
+    "No public v0 header, ABI, descriptor, registry, provider, default behavior or installed package changes; fixed v0 remains 16 kHz mono f32 with 160-sample frames."
+  ],
+  "public_v0_abi": "unchanged; versioned proposal and source-independent deterministic fixture only"
+}
