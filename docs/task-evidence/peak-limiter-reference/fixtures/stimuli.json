@@ -1,0 +1,29 @@
+{
+  "schema": "sdk.peak-limiter-reference.fixtures.v1",
+  "sample_rate_hz": 16000,
+  "frame_samples": 160,
+  "source_pins": {
+    "cpp-library/src/stages/limiter.cpp": "fc4bb899f81e87466b3ad1aafea28ae392fed5ca10f4ea99bfde56f313079ac3",
+    "cpp-library/src/stages/dsp_util.hpp": "91efb8b16091c841da2e50225ae7b90b3ec7786aac1ef21e04bfe47672f882e9",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "adapters/controls/adapter.json": "3a49362727568dd953427a2c67eb734874fdf6bc9c0a795812a7b812bf780599",
+    "adapters/controls/run.py": "4d2d531507c33ab7c66859f6268ab7dcba8959a5e323f5a1b780208138904c66"
+  },
+  "task_board": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_initial_read": "be5bf2f331774414e6c3594be7047f9d4c402fe9c7b85202b7445ab27eaeec76",
+    "sha256_at_report_build": "d336e523f59611f129751845e922841e3589dae196ed97d244cae5b9ec534703",
+    "mutable": true,
+    "note": "Shared board is concurrently updated; its digest is provenance only and is not a frozen source pin."
+  },
+  "stimuli": {
+    "sweep": {"kind": "chirp", "length": 640, "f0_hz": 200.0, "f1_hz": 4000.0, "amp0": 0.2, "amp1": 1.6},
+    "steps": {"kind": "steps", "length": 800, "tone_hz": 440.0, "levels": [0.2, 1.4, 0.2, 1.0, 0.1]},
+    "impulse": {"kind": "impulse", "length": 16000, "position": 17, "amplitude": 2.0, "tail_amplitude": 0.1, "tail_hz": 220.0},
+    "silence": {"kind": "silence", "length": 320},
+    "clean_speech_like": {"kind": "speech_like", "length": 1600, "f0_hz": 110.0, "burst_samples": 160, "gap_samples": 160, "amplitudes": [0.8, 0.8, 0.8, 1.4, 0.8]},
+    "load_control": {"kind": "lcg_noise", "length": 3200, "seed": 20261123, "amplitude": 0.9},
+    "subceiling": {"kind": "tone", "length": 320, "frequency_hz": 1000.0, "amplitude": 0.4},
+    "nonfinite": {"kind": "nonfinite", "length": 320, "nan_at": 5, "inf_at": 165, "tone_hz": 330.0, "amplitude": 0.1}
+  }
+}
