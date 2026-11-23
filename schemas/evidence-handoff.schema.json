@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "audio-sdk/evidence-handoff/0.1",
+  "title": "audio-sdk reproducible evidence handoff",
+  "description": "Portable SDK-to-bench handoff record. Absolute clocks and counters are canonical integer strings.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "identity_algorithm",
+    "artifact_id",
+    "handoff_id",
+    "profile",
+    "provider",
+    "toolchain",
+    "inputs",
+    "runtime",
+    "trace",
+    "checks",
+    "artifacts",
+    "provenance",
+    "support_scope",
+    "limitations"
+  ],
+  "properties": {
+    "schema_id": { "const": "audio-sdk/evidence-handoff/0.1" },
+    "identity_algorithm": { "const": "jcs-sha256-v1" },
+    "artifact_id": { "$ref": "#/$defs/digest" },
+    "handoff_id": { "$ref": "#/$defs/digest" },
+    "profile": { "$ref": "#/$defs/profile" },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "implementation_version", "contract_version", "descriptor_digest", "configuration_id"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,95}$" },
+        "implementation_version": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "contract_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+$" },
+        "descriptor_digest": { "$ref": "#/$defs/digest" },
+        "configuration_id": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "toolchain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_revision", "build_id", "compiler", "os", "arch"],
+      "properties": {
+        "source_revision": { "type": "string", "minLength": 7, "maxLength": 128 },
+        "build_id": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "compiler": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "os": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "arch": { "type": "string", "minLength": 1, "maxLength": 64 }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixture_manifest_id", "source_digests", "model_digests", "dataset_digests"],
+      "properties": {
+        "fixture_manifest_id": { "$ref": "#/$defs/digest" },
+        "source_digests": { "$ref": "#/$defs/digest_list" },
+        "model_digests": { "$ref": "#/$defs/digest_list" },
+        "dataset_digests": { "$ref": "#/$defs/digest_list" }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["execution_mode", "pacing", "hardware", "load", "workers", "input_queue", "output_queue", "deadline_ns"],
+      "properties": {
+        "execution_mode": { "enum": [1, 2, 3] },
+        "pacing": { "enum": ["unpaced", "paced"] },
+        "hardware": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "load": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "workers": { "enum": [0, 1] },
+        "input_queue": { "enum": [0, 3] },
+        "output_queue": { "enum": [0, 3] },
+        "deadline_ns": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/uint" }] }
+      }
+    },
+    "trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["epoch", "sample_rate_hz", "origin_monotonic_ns", "first_input_sample", "entries"],
+      "properties": {
+        "epoch": { "$ref": "#/$defs/uint" },
+        "sample_rate_hz": { "const": 16000 },
+        "origin_monotonic_ns": { "$ref": "#/$defs/int" },
+        "first_input_sample": { "$ref": "#/$defs/uint" },
+        "entries": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/entry" }
+        }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/check" }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/artifact" }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["producer", "reviewer", "created_utc", "evidence_refs"],
+      "properties": {
+        "producer": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "reviewer": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "created_utc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "T.*(Z|\\+00:00)$"
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 512 }
+        }
+      }
+    },
+    "support_scope": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "limitations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 512 }
+    }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "digest_list": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/digest" }
+    },
+    "uint": { "type": "string", "pattern": "^(0|[1-9][0-9]*)$" },
+    "int": { "type": "string", "pattern": "^(0|-?[1-9][0-9]*)$" },
+    "profile": {
+      "enum": ["Analysis", "Enhancement", "Room", "DSP", "Restoration", "Spatial", "Rate", "Voice", "Evidence", "Tool", "External", "Pipeline"]
+    },
+    "denominator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accepted", "valid", "produced", "delivered", "failed", "dropped"],
+      "properties": {
+        "accepted": { "$ref": "#/$defs/uint" },
+        "valid": { "$ref": "#/$defs/uint" },
+        "produced": { "$ref": "#/$defs/uint" },
+        "delivered": { "$ref": "#/$defs/uint" },
+        "failed": { "$ref": "#/$defs/uint" },
+        "dropped": { "$ref": "#/$defs/uint" }
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "profile", "status", "expected", "observed", "reason", "denominator"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$" },
+        "profile": { "$ref": "#/$defs/profile" },
+        "status": { "enum": ["passed", "failed", "blocked", "invalid", "not_run"] },
+        "expected": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "observed": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "reason": { "oneOf": [{ "type": "null" }, { "type": "string", "minLength": 1, "maxLength": 128 }] },
+        "denominator": { "$ref": "#/$defs/denominator" }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "media_type", "byte_count", "sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "maxLength": 256,
+          "pattern": "^[A-Za-z0-9_-][A-Za-z0-9._-]*(/[A-Za-z0-9_-][A-Za-z0-9._-]*)*$"
+        },
+        "media_type": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "byte_count": { "$ref": "#/$defs/uint" },
+        "sha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence", "source_first_sample", "valid_offset", "valid_count", "produced_count", "consumed_count", "flags", "source_end_sample", "available_monotonic_ns"],
+      "properties": {
+        "sequence": { "$ref": "#/$defs/uint" },
+        "source_first_sample": { "$ref": "#/$defs/int" },
+        "valid_offset": { "$ref": "#/$defs/uint" },
+        "valid_count": { "$ref": "#/$defs/uint" },
+        "produced_count": { "$ref": "#/$defs/uint" },
+        "consumed_count": { "enum": ["0", "160"] },
+        "flags": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "enum": ["startup_padding", "final_padding", "concealment"] }
+        },
+        "source_end_sample": { "$ref": "#/$defs/int" },
+        "available_monotonic_ns": { "$ref": "#/$defs/int" }
+      }
+    }
+  }
+}
