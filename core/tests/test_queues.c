@@ -307,7 +307,8 @@ int main(void) {
 
     uint32_t frames = 0;
     uint64_t valid_samples = 0;
-    for (unsigned attempt = 0; frames < 5 && attempt < 2000; ++attempt) {
+    int ended = 0;
+    for (unsigned attempt = 0; !ended && attempt < 2000; ++attempt) {
         float output_samples[AS_FRAME_SAMPLES];
         as_output_v0 output;
         as_output_v0_init(&output);
@@ -320,7 +321,13 @@ int main(void) {
             nanosleep(&poll, NULL);
             continue;
         }
+        if (status == AS_END_OF_STREAM) {
+            CHECK(result.produced_count == 0 && result.valid_count == 0);
+            ended = 1;
+            continue;
+        }
         CHECK(status == AS_OK);
+        CHECK(frames < 5);
         CHECK(result.source_first_sample ==
               (int64_t)frames * AS_FRAME_SAMPLES);
         CHECK(result.produced_count == AS_FRAME_SAMPLES);
@@ -331,12 +338,11 @@ int main(void) {
         if (frames == 0) {
             /* Retrying the same final source interval must not skip or duplicate it. */
             CHECK(as_session_submit_v0(session, &frame, &acceptance) == AS_OK);
-            CHECK(as_session_begin_drain_v0(session) == AS_OK);
         }
         valid_samples += result.valid_count;
         ++frames;
     }
-    CHECK(frames == 5 && valid_samples == 4u * AS_FRAME_SAMPLES + 5u);
+    CHECK(ended && frames == 5 && valid_samples == 4u * AS_FRAME_SAMPLES + 5u);
     CHECK(as_session_get_stats_v0(session, stats, sizeof(stats), &stats_size) == AS_OK);
     CHECK(strstr(stats, "\"accepted_valid_samples\":\"645\"") != NULL);
     CHECK(strstr(stats, "\"delivered_valid_samples\":\"645\"") != NULL);

@@ -12,8 +12,8 @@
  * The checks are provider-generic: the declared buffering delay, native hop,
  * drain bound, execution modes and edge exclusions are read from the canonical
  * descriptor bytes served by the registry, then verified against observed
- * behaviour on a deterministic seeded fixture. Provider-specific algorithms
- * are never assumed.
+ * behaviour on a deterministic seeded fixture. Only the delayed-identity
+ * test fixture opts into exact tail PCM checks.
  */
 #include "checks.h"
 
@@ -227,6 +227,8 @@ typedef struct collector {
     int64_t next_valid;
     int64_t first_valid;
     uint32_t valid_total;
+    int exact_tail_pcm;
+    uint32_t tail_samples_checked;
     int failed;
     char error[256];
 } collector;
@@ -310,6 +312,7 @@ typedef struct session_info {
     uint32_t edge_start;
     uint32_t edge_end;
     int callback_safe;
+    int exact_tail_pcm;
 } session_info;
 
 static as_status_v0 create_session(as_registry_v0 *registry,
@@ -457,11 +460,13 @@ static int run_stream(as_session_v0 *session, const float *fixture,
             return 0;
         }
     }
-    const as_status_v0 begin = as_session_begin_drain_v0(session);
-    if (begin != AS_OK) {
-        set_error(error, error_capacity, "begin_drain failed: %s",
-                  as_status_name_v0(begin));
-        return 0;
+    if (!buffered || length % FRAME_SAMPLES == 0) {
+        const as_status_v0 begin = as_session_begin_drain_v0(session);
+        if (begin != AS_OK) {
+            set_error(error, error_capacity, "begin_drain failed: %s",
+                      as_status_name_v0(begin));
+            return 0;
+        }
     }
     for (unsigned calls = 0; calls < 4096; ++calls) {
         frame_call call;
@@ -489,6 +494,22 @@ static int run_stream(as_session_v0 *session, const float *fixture,
         if (c->failed) {
             set_error(error, error_capacity, "%s", c->error);
             return 0;
+        }
+        if (c->exact_tail_pcm && call.result.valid_count > 0) {
+            const int64_t first_valid =
+                call.result.source_first_sample + call.result.valid_offset - first_sample;
+            if (first_valid < 0 || first_valid + call.result.valid_count > length) {
+                set_error(error, error_capacity, "drain validity is outside the input");
+                return 0;
+            }
+            for (uint32_t i = 0; i < call.result.valid_count; ++i) {
+                if (call.produced[call.result.valid_offset + i] != fixture[first_valid + i]) {
+                    set_error(error, error_capacity, "drain PCM mismatch at input offset %lld",
+                              (long long)(first_valid + i));
+                    return 0;
+                }
+            }
+            c->tail_samples_checked += call.result.valid_count;
         }
     }
     set_error(error, error_capacity, "drain did not terminate within 4096 calls");
@@ -627,6 +648,11 @@ static int check_descriptor(as_registry_v0 *registry, reporter *r,
         return 0;
     }
     pass(r, "descriptor.schema", "schema 0.1; contract %s", contract);
+
+    char implementation[128];
+    info->exact_tail_pcm =
+        field_string(descriptor, "implementation_id", implementation, sizeof(implementation)) &&
+        strcmp(implementation, "fixture.delayed_identity") == 0;
 
     int64_t value = 0;
     if (!field_int(descriptor, "buffering_delay_samples", &value) ||
@@ -1076,6 +1102,7 @@ static void check_boundaries(as_registry_v0 *registry, reporter *r,
     const int64_t first = INT64_C(9007199254740993);
     uint32_t tested = 0;
     uint32_t failures = 0;
+    uint32_t tail_samples_checked = 0;
     char detail[512];
     detail[0] = '\0';
     size_t detail_length = 0;
@@ -1092,7 +1119,7 @@ static void check_boundaries(as_registry_v0 *registry, reporter *r,
     }
     g_rng_state = FIXTURE_SEED;
     for (uint32_t i = 0; i < 3u * FRAME_SAMPLES; ++i)
-        fixture[i] = ((float)(next_u32() % 1024u) - 512.0f) / 4096.0f;
+        fixture[i] = (2.0f * (float)(next_u32() % 1024u) - 1023.0f) / 8192.0f;
 
     /* Exercise empty input, every partial-frame remainder, and the explicit
      * frame-crossing boundaries called out in TEST_PLAN.md. */
@@ -1126,8 +1153,24 @@ static void check_boundaries(as_registry_v0 *registry, reporter *r,
         collector c;
         collector_init(&c, first - info->buffering_delay, source_capacity, raw,
                          raw_capacity_frames * FRAME_SAMPLES);
-        const int ok = run_stream(session, fixture, length, epoch, first,
-                                  info->buffering_delay, mode, &c, error, sizeof(error));
+        c.exact_tail_pcm = info->exact_tail_pcm;
+        int ok = run_stream(session, fixture, length, epoch, first,
+                            info->buffering_delay, mode, &c, error, sizeof(error));
+        tail_samples_checked += c.tail_samples_checked;
+        if (ok && (info->edge_start || info->edge_end)) {
+            as_error_v0 reset_error;
+            as_error_v0_init(&reset_error);
+            char stats[4096];
+            char samples[32], intervals[32];
+            uint32_t required = 0;
+            ok = as_session_reset_v0(session, epoch + 1, first, &reset_error) == AS_OK &&
+                 as_session_get_stats_v0(session, stats, sizeof(stats), &required) == AS_OK &&
+                 field_string(stats, "cancelled_valid_samples", samples, sizeof(samples)) &&
+                 field_string(stats, "cancelled_intervals", intervals, sizeof(intervals)) &&
+                 strcmp(samples, "0") == 0 && strcmp(intervals, "0") == 0;
+            if (!ok)
+                set_error(error, sizeof(error), "clean EOS reset did not report zero cancellation");
+        }
         as_session_close_v0(&session);
         ++tested;
         const uint32_t expected_valid =
@@ -1149,8 +1192,13 @@ static void check_boundaries(as_registry_v0 *registry, reporter *r,
     }
     free(raw);
     if (failures == 0) {
-        pass(r, id, "%u lengths conserved exactly at source %lld",
-             tested, (long long)first);
+        if (info->exact_tail_pcm) {
+            pass(r, id, "%u lengths conserved exactly at source %lld; %u drain PCM samples matched exactly",
+                 tested, (long long)first, tail_samples_checked);
+        } else {
+            pass(r, id, "%u lengths conserved exactly at source %lld",
+                 tested, (long long)first);
+        }
     } else {
         fail(r, id, "%u/%u failed: %s", failures, tested,
              detail);

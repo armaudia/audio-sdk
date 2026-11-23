@@ -428,7 +428,7 @@ static void account_cancelled_range(as_session_v0 *session, int64_t first,
 
 static void account_cancellation(as_session_v0 *session) {
     const int64_t origin = session->first_input_sample;
-    const int64_t end = atomic_load(&session->accepted_end);
+    int64_t end = atomic_load(&session->accepted_end);
     int64_t first = session->next_output_sample;
     const uint32_t output_read = atomic_load(&session->output_read);
     const uint32_t output_write = atomic_load(&session->output_write);
@@ -437,6 +437,16 @@ static void account_cancellation(as_session_v0 *session) {
                     .result.source_first_sample;
     }
     if (first < origin) first = origin;
+
+    /* A clean EOF can omit declared edges, even with valid output still queued. */
+    if (atomic_load(&session->lifecycle) == AS_LIFE_DRAINED ||
+        atomic_load(&session->drain_complete)) {
+        if ((uint64_t)(end - origin) <= (uint64_t)session->edge_start + session->edge_end)
+            return;
+        const int64_t content_start = origin + session->edge_start;
+        if (first < content_start) first = content_start;
+        end -= session->edge_end;
+    }
 
     /* A process fault already accounted for its accepted input separately. */
     const int failed_samples = atomic_load(&session->worker_failed);
@@ -880,6 +890,12 @@ as_status_v0 AS_CALL as_session_submit_v0(as_session_v0 *session,
                                  frame->input_valid_count);
                 atomic_store_explicit(&session->input_write, write + 1u,
                                       memory_order_release);
+                if (final) {
+                    /* The worker must see the published final slot before it drains. */
+                    int processing = AS_LIFE_PROCESSING;
+                    (void)atomic_compare_exchange_strong(&session->lifecycle, &processing,
+                                                          AS_LIFE_DRAINING);
+                }
             }
         }
     }

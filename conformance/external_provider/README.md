@@ -25,9 +25,11 @@ and 512 samples in synchronous and buffered modes. Each mode checks 166
 lengths, including empty input and every partial-frame remainder, against exact
 half-open source ranges above `2^53`. Content delay is measured separately by
 correlating raw output in emission order with the seeded input burst; source
-metadata is not used to align the PCM. The negative fixtures exercise wrong
-clock metadata, wrong PCM delay with correct metadata, early EOS, and unbounded
-drain.
+metadata is not used to align the PCM. A separate check compares every valid
+drain sample to its input sample exactly. The clean-EOS fixture omits seven
+declared end samples and checks that reset reports zero cancellation. Negative
+fixtures exercise wrong clock metadata, wrong PCM delay with correct metadata,
+early EOS, unbounded drain, and a silent tail with correct metadata.
 
 For onboarding, copy this directory to a clean consumer project, replace the
 fixture table and descriptor with the provider's implementation and registered

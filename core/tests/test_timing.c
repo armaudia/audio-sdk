@@ -43,7 +43,7 @@ static int check_partial(uint32_t mode) {
         CHECK(result.epoch == epoch && result.source_first_sample == first);
         CHECK(result.consumed_count == 160 && result.produced_count == 0);
         CHECK(result.valid_count == 0);
-        CHECK(as_session_begin_drain_v0(session) == AS_OK);
+        /* A successful final submit must drain without a control call. */
         CHECK(wait_output(session, &output, &result) == AS_OK);
         CHECK(result.consumed_count == 0);
     } else {
@@ -89,19 +89,21 @@ static int check_partial(uint32_t mode) {
         CHECK(result.produced_count == 0 && result.valid_count == 0);
     }
     frame.first_input_sample = INT64_MAX - 160;
+    frame.input_valid_count = 160;
     as_result_v0_init(&result);
     CHECK((buffered ? as_session_submit_v0(session, &frame, &result)
                     : as_session_process_v0(session, &frame, &output, &result)) == AS_OK);
-    CHECK(as_session_begin_drain_v0(session) == AS_OK);
+    if (!buffered) CHECK(as_session_begin_drain_v0(session) == AS_OK);
     if (buffered) CHECK(wait_output(session, &output, &result) == AS_OK);
     CHECK(wait_output(session, &output, &result) == AS_OK);
     CHECK(result.epoch == epoch + 1 && result.source_first_sample == INT64_MAX - 160);
-    CHECK(result.valid_offset == 0 && result.valid_count == 1);
+    CHECK(result.valid_offset == 0 && result.valid_count == 160 && result.flags == 0);
     CHECK(wait_output(session, &output, &result) == AS_END_OF_STREAM);
 
     CHECK(as_session_reset_v0(session, epoch + 2, first, &error) == AS_OK);
     frame.epoch = epoch + 2;
     frame.first_input_sample = first;
+    frame.input_valid_count = 1;
     as_result_v0_init(&result);
     if (buffered) {
         CHECK(as_session_submit_v0(session, &frame, &result) == AS_OK);
@@ -110,12 +112,7 @@ static int check_partial(uint32_t mode) {
         CHECK(as_session_process_v0(session, &frame, &output, &result) == AS_OK);
     }
     CHECK(result.source_first_sample == first - 160 && result.valid_count == 0);
-    if (buffered) {
-        as_result_v0_init(&result);
-        CHECK(as_session_pull_v0(session, &output, &result) == AS_NOT_READY);
-        CHECK(result.produced_count == 0 && result.valid_count == 0);
-    }
-    CHECK(as_session_begin_drain_v0(session) == AS_OK);
+    if (!buffered) CHECK(as_session_begin_drain_v0(session) == AS_OK);
     /* Only the padded startup output was delivered; [first, first+1) is pending
      * whether the worker has produced the tail or it still lives in Speex. */
     CHECK(as_session_reset_v0(session, epoch + 3, first + 500, &error) == AS_OK);

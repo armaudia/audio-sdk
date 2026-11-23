@@ -18,6 +18,8 @@ typedef struct fixture_instance {
     int fault;
     int unbounded_drain;
     int early_eos;
+    uint32_t edge_end;
+    int zero_tail;
 } fixture_instance;
 
 static uint32_t delay_from_config(const char *json) {
@@ -58,6 +60,12 @@ static as_status_v0 AS_CALL fixture_create(const as_create_config_v0 *config,
     if (config->config_json != NULL &&
         strstr(config->config_json, "fixture.earlyeos.v0") != NULL)
         instance->early_eos = 1;
+    if (config->config_json != NULL &&
+        strstr(config->config_json, "fixture.edge.v0") != NULL)
+        instance->edge_end = 7;
+    if (config->config_json != NULL &&
+        strstr(config->config_json, "fixture.tailfault.v0") != NULL)
+        instance->zero_tail = 1;
     *out = instance;
     return AS_OK;
 }
@@ -141,18 +149,17 @@ static as_status_v0 AS_CALL fixture_drain(void *opaque,
         ++instance->drain_count;
         return AS_OK;
     }
-    if (instance->early_eos ||
-        instance->accepted_end == instance->first_input_sample ||
-        instance->next_output >= instance->accepted_end)
+    const int64_t drain_end = instance->accepted_end - instance->edge_end;
+    if (instance->early_eos || drain_end <= instance->first_input_sample ||
+        instance->next_output >= drain_end)
         return AS_END_OF_STREAM;
-    uint32_t produced =
-        (uint32_t)(instance->accepted_end - instance->next_output);
+    uint32_t produced = (uint32_t)(drain_end - instance->next_output);
     if (produced > AS_FRAME_SAMPLES) produced = AS_FRAME_SAMPLES;
     for (uint32_t i = 0; i < produced; ++i) {
         const int64_t sample =
             instance->next_output + (int64_t)i - instance->extra_content_delay;
         output->samples[i] =
-            sample >= instance->first_input_sample
+            !instance->zero_tail && sample >= instance->first_input_sample
                 ? instance->history[(uint64_t)sample % 512u]
                 : 0.0f;
     }

@@ -44,6 +44,14 @@ add_test(NAME external_early_eos_is_detected
             --report "${CMAKE_CURRENT_BINARY_DIR}/earlyeos-report.json")
 set_tests_properties(external_early_eos_is_detected PROPERTIES
     PASS_REGULAR_EXPRESSION "timing\\.delay +fail +stream failed: drain failed: backend_failure")
+add_test(NAME external_clean_eos_edge_exclusion
+    COMMAND audio_sdk_external_conformance --provider fixture.edge.v0
+            --report "${CMAKE_CURRENT_BINARY_DIR}/edge-report.json")
+add_test(NAME external_zero_tail_is_detected
+    COMMAND audio_sdk_external_conformance --provider fixture.tailfault.v0
+            --report "${CMAKE_CURRENT_BINARY_DIR}/tailfault-report.json")
+set_tests_properties(external_zero_tail_is_detected PROPERTIES
+    PASS_REGULAR_EXPRESSION "boundary\\.lengths +fail +[^\n]*drain PCM mismatch at input offset 0")
 foreach(delay IN ITEMS 0 1 159 160 161 512)
     add_test(NAME external_delay_${delay}
         COMMAND audio_sdk_external_conformance --provider fixture.delay${delay}.v0
