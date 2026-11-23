@@ -1,0 +1,24 @@
+{
+  "protocol_version": 1,
+  "identity": "median-residual-click-gate-reference",
+  "input_kind": "waveform",
+  "output_kinds": ["waveform", "annotation", "control"],
+  "tasks": ["RATE-SYNTHETIC-CLICK-GATE"],
+  "modes": ["offline", "streaming-frame-model"],
+  "entrypoint": ["python", "run.py"],
+  "configuration": {
+    "control": "median_residual_click_gate_reference",
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "sdk_frame_samples": 160,
+    "median_width_samples": 7,
+    "threshold": 0.35
+  },
+  "buffering_delay_samples": 3,
+  "weights": "none",
+  "registration": "unregistered developer-only fixture; not an SDK provider, default or bench result",
+  "boundary_source": "adapters/controls/adapter.json",
+  "boundary_identity": "harness-controls-v1",
+  "scope": "synthetic opt-in reference; no natural clicks, listening, device or release claim"
+}
