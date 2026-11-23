@@ -1,0 +1,33 @@
+{
+  "schema_id": "audio-sdk/engine-v1/domain/0.1",
+  "domain_id": "fixture.domain.1",
+  "contract_version": "0.1",
+  "engine": "reference.engine.v1",
+  "worker_count": 1,
+  "max_streams": 2,
+  "input_frame_capacity": 3,
+  "output_frame_capacity": 3,
+  "max_nodes_per_graph": 16,
+  "max_drain_calls": 2,
+  "quiesce_timeout_ms": 5000,
+  "policy_digest": "538f92ebb0467b74462e6aa50eae93df85fb83b965b5db1f9ed5b1c75c5a220b",
+  "policy": {
+    "chosen_producer": "third_party.activity.v0",
+    "chosen_tap": "pcm.gain.out",
+    "signal_kind": "speech_probability",
+    "calibration_digest": "74ccca3b2342225b60a75bdbafbd40b0cc28b4f18ab15b258c3529018c1c4276",
+    "max_age_samples": 320,
+    "auto_transition": "off"
+  },
+  "allowed_provider_ids": [
+    "third_party.gain.v0",
+    "third_party.transition.v0",
+    "third_party.activity.v0",
+    "fixture.delay.v0",
+    "fixture.public.v0",
+    "fixture.transition.v0",
+    "fixture.reset_required.v0",
+    "fixture.failing.v0",
+    "fixture.batch.v0"
+  ]
+}
