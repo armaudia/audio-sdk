@@ -1,0 +1,216 @@
+{
+  "acceptance_profile": "enhancement",
+  "alignment": {
+    "buffering_delay_samples": 160,
+    "duration_semantics": "one valid output sample per accepted input sample; 96-sample synthesis tail discarded after final input",
+    "final_padding_samples": 0,
+    "startup_padding_samples": 1120,
+    "state_semantics": "per-session state; reset and interleaved sessions verified in CTest"
+  },
+  "build": {
+    "compiler": "AppleClang 21.0.0.21000401",
+    "execution_mode": 2,
+    "host": "Darwin-arm64",
+    "sdk_build_id": "audio-sdk/0.1.0+sha256:0a50764e809b75450556f8bbac2395ce026daa230f524ddba06f415685d2d119",
+    "sdk_version": "0.1.0",
+    "session_info_sample": {
+      "buffering_delay_samples": 160,
+      "callback_safe": false,
+      "channels": 1,
+      "config_digest": "c608cea5e38acf218ac4c6f883ee44d6a7433166a94e73786c31eeefe3eea9d0",
+      "contract_version": "0.1",
+      "descriptor_digest": "05299d07e4fd16fe98009c01abb93666f8d381a5fac03ba4ed15777f3c980370",
+      "edge_exclusions": {
+        "end_samples": 0,
+        "start_samples": 0
+      },
+      "engine": "reference.sequential.v0",
+      "execution_mode": 2,
+      "frame_samples": 160,
+      "implementation_id": "classical-spectral-subtraction.reference",
+      "lifecycle": "drained",
+      "max_drain_calls": 2,
+      "native_hop_samples": 160,
+      "provider_id": "css.reference.v0",
+      "sample_format": "f32",
+      "sample_rate_hz": 16000,
+      "schema_id": "audio-sdk/session-info/0.1"
+    }
+  },
+  "candidate": "css.reference.v0",
+  "clean_preservation": {
+    "rms_ratio": 0.818444,
+    "si_sdr_db": 16.921837,
+    "stoi_screen": 0.910895
+  },
+  "controls": {
+    "adverse_cases": [
+      "nonfinite input sample",
+      "input_count 159",
+      "partial frame without final flag",
+      "output capacity 159",
+      "stale epoch",
+      "stale/closed session",
+      "unsupported execution modes",
+      "nonempty settings",
+      "wrong descriptor digest",
+      "invalid descriptor schema",
+      "missing asset",
+      "tampered asset digest",
+      "nonfinite asset bytes"
+    ],
+    "css_registration_ctest": "true",
+    "identity_noisy_control": "noisy fixture copied without processing",
+    "task_matched_baseline": "installed speex.ns.v0 on identical synthetic pairs"
+  },
+  "inputs": {
+    "clean_reference_availability": "synthetic only",
+    "fixture_generator": "tools/generate_fixtures.py (deterministic LCG)",
+    "fixtures_sha256": {
+      "clean_a.f32": "c3ed8b672a52c8ff13a564d0e649410c3f3c8e564ed182ca4814c36ea506f5de",
+      "clean_b.f32": "28d92aff1565b61e83b2dfb15e848b0a64a06c3e1c36ad253a14faad1e222f5a",
+      "clean_c.f32": "1758d0bb31b65d4033f4dc429d0d408a4eb20bd5bb47a0fb2615d006030700b5",
+      "noise_profile.f32": "145a5be81762ccddc5fa04707fd3a363c9a6d1b30f506753e7702193f04a32e6",
+      "noisy_a.f32": "a6fe9a71f005b2029e7a837ff14fa708bfdb5d9300474633110e404eae40a4ec",
+      "noisy_b.f32": "c7841604d67237558dfccaf07ff25c358a354092ab390c026a7ab9fda3b7b522",
+      "noisy_c.f32": "021b6cbeb5aa2e75ba7b9dd2ed735f92ee9db919354b5ef040d5b5fcdffd7b21"
+    },
+    "sources_sha256": {
+      "provider/CMakeLists.txt": "7fb593c21e10174ae4330c4821f505c91e4d26162d9a428178f26daf352fcf72",
+      "provider/config/config.json": "dfbba7ece4c4c5db3595c82e62498d310517aded7fe612c59d49c6bf123b380b",
+      "provider/config/descriptor.h.in": "72035427b69bc28310e1a57b5d93e97ae487ee82507f372f5cbba0908fcc817c",
+      "provider/src/css_provider.c": "33f7057faa3fbede82ca70440bcb790655817bfcf9db1e623f81e82eafa2179a",
+      "provider/src/css_provider.h": "dafc98834f03604f66acc3f281ec19b422ac5fb68007e8788089ba2a7ff2461e",
+      "provider/tests/test_css_provider.c": "864ca4bd75b608546ce6fc2c96715e2b71fdf027eac5dd65898cd013f3a3cfe1",
+      "tools/css_cli.c": "8f2ef98a4779d05a0d078d1e37b882ac4277b7e7e2f23db4666a836531e164ac",
+      "tools/evaluate.py": "058b187bbadcb5c0526f5054add3d38c894ec2f1570ffe2776956d365f848b0a",
+      "tools/generate_fixtures.py": "eabc39791d955538881e279c27a54d6c785962204ea58cec61c9c05734da04f4",
+      "tools/stoi_screen.py": "01184e601c264bb27bf8e8ac18503ce8935d8ce56ad1bcbd6942e6236278a8fc",
+      "tools/verify.py": "7dfc996f0060cebc7d5b9ba70fff8c4f78bc6b0563f578ca9606e47580373154"
+    }
+  },
+  "limitations": [
+    "No real weights, model downloads, licensed runtime or vendor claim; implementation is first-party C.",
+    "No real speech, listening test, MOS or real-speech STOI; only deterministic synthetic pairs.",
+    "STOI is a pinned synthetic envelope-correlation screen, not standard STOI or pilot-comparable; it may decrease even when SI-SDR improves and is reported without a pass/fail gate.",
+    "Historical pilot values (mean ΔSI-SDR +1.31 dB, batch RTF 0.0505) were not reproduced here; the tested whole-clip noise estimate is noncausal and is not used in this causal reference.",
+    "No target-device pacing, CPU/deadline, memory RSS or release qualification measured.",
+    "Fixed state is a single calloc'd instance; no dynamic allocation after create; no numeric workload timing is claimed."
+  ],
+  "missing_reference_control": {
+    "detail": "missing clean reference is not scored and cannot qualify the candidate",
+    "status": "passed"
+  },
+  "output_checks": {
+    "collisions": 0,
+    "coverage_ok": true,
+    "delivered_valid_samples": 480000,
+    "max_abs_peak": 0.667086,
+    "nonfinite_samples": 0,
+    "out_of_range_samples": 0
+  },
+  "paired_synthetic": {
+    "means": {
+      "css_delta_sisdr_db": 1.351961,
+      "css_delta_stoi_screen": -0.049843,
+      "css_si_sdr_db": 5.667847,
+      "css_stoi_screen": 0.780619,
+      "identity_si_sdr_db": 4.315886,
+      "identity_stoi_screen": 0.830462,
+      "speex_delta_sisdr_db": 2.181951,
+      "speex_delta_stoi_screen": -0.07494,
+      "speex_si_sdr_db": 6.497837,
+      "speex_stoi_screen": 0.755522
+    },
+    "pairs": [
+      {
+        "id": "a",
+        "samples": 48000,
+        "scores": {
+          "css": {
+            "si_sdr_db": 6.074231,
+            "stoi_screen": 0.787892
+          },
+          "identity": {
+            "si_sdr_db": 5.015477,
+            "stoi_screen": 0.837873
+          },
+          "speex": {
+            "si_sdr_db": 7.17436,
+            "stoi_screen": 0.769858
+          }
+        }
+      },
+      {
+        "id": "b",
+        "samples": 48000,
+        "scores": {
+          "css": {
+            "si_sdr_db": 6.180585,
+            "stoi_screen": 0.78946
+          },
+          "identity": {
+            "si_sdr_db": 5.010106,
+            "stoi_screen": 0.839746
+          },
+          "speex": {
+            "si_sdr_db": 6.788116,
+            "stoi_screen": 0.776972
+          }
+        }
+      },
+      {
+        "id": "c",
+        "samples": 48000,
+        "scores": {
+          "css": {
+            "si_sdr_db": 4.748726,
+            "stoi_screen": 0.764505
+          },
+          "identity": {
+            "si_sdr_db": 2.922076,
+            "stoi_screen": 0.813767
+          },
+          "speex": {
+            "si_sdr_db": 5.531036,
+            "stoi_screen": 0.719735
+          }
+        }
+      }
+    ],
+    "unit": "dB for SI-SDR; 0..1 for STOI screen"
+  },
+  "qualification": {
+    "all_controls_passed": true,
+    "all_required_results_present": true,
+    "no_missing_result_qualifies": true,
+    "release_qualification": false,
+    "synthetic_scope_status": "evidence_complete_synthetic_only"
+  },
+  "quality_controls": {
+    "all_pairs_scored": true,
+    "coverage_complete": true,
+    "css_registration_ctest": "true",
+    "missing_reference_not_scored": true,
+    "no_collisions": true,
+    "no_out_of_range_samples": true,
+    "nonfinite_outputs": true,
+    "output_peaks_at_most_unity": true
+  },
+  "schema_id": "audio-sdk/task-evidence/css/0.1",
+  "scope": {
+    "boundary": "public provider_v0 registration and session API",
+    "delivery": "task-local optional consumer; not installed or default",
+    "installed_v0": "unchanged: 16000 Hz, mono f32, 160 samples per call",
+    "pinned_base_commit": "9677040cba2929f9936eaa565f200f585d5270a8"
+  },
+  "synthetic_observations": {
+    "clean_preservation_rms_ratio": 0.818444,
+    "clean_preservation_si_sdr_db": 16.921837,
+    "mean_css_delta_sisdr_db": 1.351961,
+    "mean_css_delta_stoi_screen": -0.049843,
+    "si_sdr_improved_vs_noisy": true,
+    "stoi_screen_nonnegative": false
+  },
+  "task_id": "SDK-CLASSICAL-SPECTRAL-SUBTRACTION"
+}
