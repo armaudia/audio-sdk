@@ -152,5 +152,8 @@ device pacing, CPU/deadline and RSS measurements; (5) descriptor intake,
 license and release review. Until then every gate has `release_gate: blocked`
 and `release_qualification` is `not_performed`.
 
-Delivery status: PR pending; see `evidence/REPORT.md` for the final URL and
-head SHA.
+Delivery: pull request
+https://github.com/armaudia/audio-sdk/pull/45 was opened against `main` without
+merging. The evidence commit at PR creation was
+`aa4556b9d503541b290be19dc6a86266533c89a9`; the exact final delivery head SHA
+is recorded in the task response.

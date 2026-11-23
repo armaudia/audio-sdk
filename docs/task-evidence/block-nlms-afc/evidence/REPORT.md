@@ -7,8 +7,9 @@ status: **evidence_complete_synthetic_only**.
 
 - Base: `dc6b8ecb5c7fa0a6a00072ddf9c6a2e168b68acc`
 - Branch: `swarm/SDK-BLOCK-NLMS-AFC`
-- Pull request: pending
-- Exact head SHA: pending
+- Pull request: https://github.com/armaudia/audio-sdk/pull/45 (opened against `main`, not merged)
+- Evidence commit at PR creation: `aa4556b9d503541b290be19dc6a86266533c89a9`
+- Exact final delivery head SHA: recorded in the task response
 
 ## Scope and measurement separation
 
