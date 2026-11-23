@@ -52,8 +52,10 @@ with `requirements-build.txt`.
 | --- | --- |
 | Synthetic no-model provider with complete rights | accepted |
 | Restricted caller-supplied asset with approved execution scope | passes scoped checker; rejected from public catalog |
-| Same staged descriptor with public vs restricted/closed asset classification | passes with complete public intake; blocked before sealing a candidate with restricted/closed intake |
-| Missing, malformed or zero `source_digest`; mutable revision; missing content manifest/evidence | rejected, field named |
+| Same descriptor with public vs restricted/closed asset classification | public policy check passes with complete intake; restricted/closed intake is denied |
+| Missing, extra, or changed installed descriptor | catalog rejected; both package modes refuse to seal when Speex is missing |
+| Untracked file under `docs/` | not exported into the release source |
+| Missing, malformed or zero `source_digest`; nonexistent or mutable Git revision; missing or mismatched source manifest/evidence | rejected, field named |
 | Closed asset with public package flag | rejected |
 | Restricted asset with public package flag | rejected |
 | Rejected review or denied/unknown permissions needed for execution, customer use, playback or packaging | rejected |
@@ -64,7 +66,8 @@ with `requirements-build.txt`.
 
 ## Limits and next action
 
-The package gate checks staged public discovery descriptors. The C runtime
+The native tarball and Wasm ZIP share a gate that checks staged public
+discovery descriptors against the generated built-in registry. The C runtime
 still checks caller-supplied assets, not rights records; the missing-asset C
 test is not evidence of rights enforcement. No model or restricted asset is
 admitted, and these checks are not a legal review. Reopen with a completed

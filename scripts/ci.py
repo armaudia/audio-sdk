@@ -12,12 +12,35 @@ import platform
 import shutil
 import subprocess
 import sys
+import tempfile
 import venv
 from pathlib import Path
 
 
 def run(*command: str, cwd: Path | None = None, env: dict | None = None) -> None:
     subprocess.run(command, cwd=cwd, env=env, check=True)
+
+
+def check_release_gates(root: Path, build: Path, output: Path) -> None:
+    # Isolate the missing installed file from the source tree and the real candidate.
+    probe = output / "missing-descriptor-install"
+    probe.mkdir()
+    for name in ("CMakeCache.txt", "runtime-inputs.sha256"):
+        shutil.copyfile(build / name, probe / name)
+    descriptor = root / "schemas/providers/dsp.highpass80.v0.descriptor.json"
+    (probe / "cmake_install.cmake").write_text(
+        'file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/audio-sdk/schemas/providers" '
+        f'TYPE FILE FILES "{descriptor.as_posix()}")\n', encoding="utf-8")
+    for target, args in (("native", ()), ("wasm", ("--wasm",))):
+        rejected = output / f"rejected-{target}"
+        result = subprocess.run(
+            ["sh", str(root / "scripts/package.sh"), str(probe), str(rejected), *args],
+            capture_output=True, text=True, check=False)
+        if (result.returncode != 1 or rejected.exists()
+                or "missing=['speex.ns.v0.descriptor.json']" not in result.stderr):
+            raise RuntimeError(f"{target} packaging did not reject the missing descriptor:\n"
+                               f"{result.stdout}\n{result.stderr}")
+    print("native and Wasm archive gates refused a catalog missing Speex")
 
 
 def main() -> None:
@@ -28,7 +51,7 @@ def main() -> None:
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=True)
     run(sys.executable, str(root / "scripts/generate_descriptors.py"), "--check")
-    run(sys.executable, "-m", "unittest", "discover", "-s", str(root / "tests"), "-p", "test_*.py", "-v")
+    run(sys.executable, "-m", "unittest", "discover", "-s", str(root / "tests"), "-p", "test_*.py", "-v", cwd=root)
     api_build = output / "api"
     run("cmake", "-S", str(root / "api"), "-B", str(api_build), "-DCMAKE_INSTALL_LIBDIR=lib")
     run("cmake", "--build", str(api_build), "--parallel", "2")
@@ -41,8 +64,15 @@ def main() -> None:
     run("cmake", "--build", str(build), "--parallel", "2")
     run("ctest", "--test-dir", str(build), "--output-on-failure", "--timeout", "60",
         "--output-junit", str(output / "native-tests.xml"))
-    run("sh", str(root / "scripts/package.sh"), str(build), str(candidate))
     prefix = candidate / "audio-sdk-0.1.0"
+    with tempfile.NamedTemporaryFile(dir=root / "docs", prefix="unlisted-audit-", suffix=".f32") as unlisted:
+        unlisted.write(b"synthetic packaging probe; not model data\n")
+        unlisted.flush()
+        run("sh", str(root / "scripts/package.sh"), str(build), str(candidate))
+        if (prefix / "share/audio-sdk/source/docs" / Path(unlisted.name).name).exists():
+            raise RuntimeError("an untracked docs file leaked into the sealed release")
+    print("release source excluded the untracked docs probe")
+    check_release_gates(root, build, output)
     external = output / "external"
     conformance = prefix / "share/audio-sdk/conformance"
     run("cmake", "-S", str(conformance / "external_provider"), "-B", str(external),
@@ -105,7 +135,8 @@ def main() -> None:
         "schema_id": "audio-sdk/ci-package/0.1", "source_revision": revision, "source_dirty": source_dirty,
         "build": info, "archive_sha256": digest,
         "checks": ["native", "installed-c-cxx", "provider-conformance", "external-provider",
-                   "installed-python-wheel", "archive-repeatability"],
+                    "installed-python-wheel", "archive-repeatability", "release-provider-catalog",
+                    "committed-release-source"],
         "limits": ["No callback-safe guarantee", "No real-model or workload qualification"],
     }, indent=2) + "\n")
 

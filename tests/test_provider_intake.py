@@ -5,21 +5,30 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
 
+from scripts.check_provider_intake import _check_catalog_intake
+
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts" / "check_provider_intake.py"
 DIGEST = "sha256:" + "a" * 64
 EXAMPLE = ROOT / "docs/task-evidence/provider-intake.example.json"
 BASELINE = ROOT / "schemas/providers/dsp.highpass80.v0.descriptor.json"
+PINNED = "4c3b3be864c3ecdcf48a94358c6dde229aecb703"
+SOURCE = b"test source\n"
 
 
 def digest(data: bytes) -> str:
     return "sha256:" + hashlib.sha256(data).hexdigest()
+
+
+def source_digest(relative: str, content: bytes) -> str:
+    return digest(f"{relative}\0{digest(content).removeprefix('sha256:')}\n".encode("ascii"))
 
 
 def decision(value: str = "allowed") -> dict:
@@ -49,9 +58,9 @@ def record() -> dict:
         "implementation_id": "test.identity",
         "implementation_version": "1.0.0",
         "contract_version": "0.1",
-        "source_revision": "4c3b3be864c3ecdcf48a94358c6dde229aecb703",
-        "source_digest": DIGEST,
-        "source_manifest_ref": None,
+        "source_revision": None,
+        "source_digest": source_digest("source.c", SOURCE),
+        "source_manifest_ref": "snapshot.sha256",
         "descriptor_ref": "staged/dsp.example.v0.descriptor.json",
         "descriptor_digest": DIGEST,
         "distribution": "source-linked",
@@ -96,8 +105,16 @@ class IntakePolicyTest(unittest.TestCase):
     def setUp(self) -> None:
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
-        self.root = Path(temporary.name)
+        self.root = Path(temporary.name).resolve()
         (self.root / "evidence.md").write_text("Synthetic test evidence.", encoding="utf-8")
+        self.write_snapshot("source.c", SOURCE)
+
+    def write_snapshot(self, relative: str, content: bytes) -> None:
+        source = self.root / relative
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_bytes(content)
+        checksum = digest(content).removeprefix("sha256:")
+        (self.root / "snapshot.sha256").write_text(f"{checksum}  {relative}\n", encoding="ascii")
 
     def write_descriptor(self, value: dict) -> None:
         descriptor = json.loads(BASELINE.read_bytes())
@@ -116,7 +133,8 @@ class IntakePolicyTest(unittest.TestCase):
 
     def run_cli(self, mode: str, path: Path, root: Path) -> tuple[int, list[str]]:
         result = subprocess.run(
-            [sys.executable, str(SCRIPT), mode, str(path), "--evidence-root", str(root)],
+            [sys.executable, str(SCRIPT), mode, str(path), "--evidence-root", str(root),
+             "--git-root", str(ROOT)],
             capture_output=True, text=True, check=False)
         self.assertEqual(result.stderr, "", result)
         payload = json.loads(result.stdout)
@@ -221,21 +239,29 @@ class IntakePolicyTest(unittest.TestCase):
                 value["source_revision"] = bad
                 self.assert_denied(value, "record.source_revision: expected a full immutable Git object ID")
         value = record()
-        value["source_revision"] = None
-        self.assert_denied(value, "record.source_manifest_ref: required")
+        value["source_manifest_ref"] = None
+        self.assert_denied(value, "record.source_manifest_ref: expected nonempty string")
 
     def test_snapshot_inventory_binds_source_bytes(self) -> None:
         value = record()
-        content = b"test source\n"
-        file_hash = digest(content).removeprefix("sha256:")
-        (self.root / "source.c").write_bytes(content)
-        (self.root / "snapshot.sha256").write_bytes(f"{file_hash}  source.c\n".encode("ascii"))
-        value["source_revision"] = None
-        value["source_manifest_ref"] = "snapshot.sha256"
-        value["source_digest"] = digest(f"source.c\0{file_hash}\n".encode("ascii"))
         self.assertEqual(self.run_check(value), (0, []))
         (self.root / "source.c").write_bytes(b"changed source\n")
         self.assert_denied(value, "source hash mismatch")
+
+    def test_source_revision_must_exist_and_match_source_inventory(self) -> None:
+        value = record()
+        value["source_revision"] = "f" * 40
+        self.assert_denied(value, "record.source_revision: Git commit not found")
+        revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+        value["source_revision"] = revision
+        self.assert_denied(value, "source does not match pinned Git commit: source.c")
+        relative = "core/providers/highpass/highpass_provider.c"
+        data = subprocess.check_output(["git", "show", f"{revision}:{relative}"], cwd=ROOT)
+        self.write_snapshot(relative, data)
+        value["source_digest"] = source_digest(relative, data)
+        self.assertEqual(self.run_check(value), (0, []))
+        value["source_manifest_ref"] = None
+        self.assert_denied(value, "record.source_manifest_ref: expected nonempty string")
 
     def test_nonexistent_evidence_fails(self) -> None:
         value = record()
@@ -267,7 +293,7 @@ class IntakePolicyTest(unittest.TestCase):
         value = record()
         value["assets"] = [asset()]
         value["assets"][0]["checkpoint"] = {
-            "upstream_revision": value["source_revision"],
+            "upstream_revision": PINNED,
             "tensor_config_ref": "evidence.md",
             "precision": "float32",
             "inventory_ref": "evidence.md",
@@ -285,26 +311,44 @@ class IntakePolicyTest(unittest.TestCase):
         value["assets"] = [asset()]
         self.write_descriptor(value)
         catalog = self.root / "staged"
-        self.assertEqual(self.run_cli("--public-catalog", catalog, self.root)[0], 1)
+        self.assertTrue(_check_catalog_intake(catalog, self.root, ROOT))
         intake = self.root / "docs/provider-intake/dsp.example.v0.json"
         intake.parent.mkdir(parents=True)
         intake.write_text(json.dumps(value), encoding="utf-8")
-        self.assertEqual(self.run_cli("--public-catalog", catalog, self.root), (0, []))
+        self.assertEqual(_check_catalog_intake(catalog, self.root, ROOT), [])
         for klass in ("restricted", "closed"):
             with self.subTest(klass=klass):
                 value["assets"][0]["class"] = klass
                 value["assets"][0]["rights"]["redistribution"] = decision("denied")
                 intake.write_text(json.dumps(value), encoding="utf-8")
-                status, errors = self.run_cli("--public-catalog", catalog, self.root)
-                self.assertEqual(status, 1, errors)
+                errors = _check_catalog_intake(catalog, self.root, ROOT)
                 self.assertTrue(any(
                     f"{klass} asset excludes provider from public discovery" in error for error in errors), errors)
         value["assets"][0]["class"] = "public"
         value["rights"]["redistribution"] = decision("denied")
         intake.write_text(json.dumps(value), encoding="utf-8")
-        status, errors = self.run_cli("--public-catalog", catalog, self.root)
-        self.assertEqual(status, 1, errors)
+        errors = _check_catalog_intake(catalog, self.root, ROOT)
         self.assertTrue(any("public distribution requires an allowed decision" in error for error in errors), errors)
+
+    def test_public_catalog_must_equal_compiled_builtin_set_and_bytes(self) -> None:
+        catalog = self.root / "catalog"
+        shutil.copytree(BASELINE.parent, catalog)
+        self.assertEqual(self.run_cli("--public-catalog", catalog, ROOT), (0, []))
+        speex = catalog / "speex.ns.v0.descriptor.json"
+        data = speex.read_bytes()
+        speex.unlink()
+        status, errors = self.run_cli("--public-catalog", catalog, ROOT)
+        self.assertEqual(status, 1, errors)
+        self.assertIn("missing=['speex.ns.v0.descriptor.json']", errors[0])
+        speex.write_bytes(data + b"\n")
+        status, errors = self.run_cli("--public-catalog", catalog, ROOT)
+        self.assertEqual(status, 1, errors)
+        self.assertIn("changed=['speex.ns.v0.descriptor.json']", errors[0])
+        speex.write_bytes(data)
+        (catalog / "unregistered.v0.descriptor.json").write_bytes(data)
+        status, errors = self.run_cli("--public-catalog", catalog, ROOT)
+        self.assertEqual(status, 1, errors)
+        self.assertIn("unexpected=['unregistered.v0.descriptor.json']", errors[0])
 
     def test_example_has_real_provenance_but_no_approval(self) -> None:
         status, errors = self.run_cli("--record", EXAMPLE, ROOT)

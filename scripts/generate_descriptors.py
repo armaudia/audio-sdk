@@ -19,7 +19,11 @@ import argparse
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--check", action="store_true")
-CHECK = parser.parse_args().check
+parser.add_argument("--catalog", type=pathlib.Path, help="also compare the installed built-in catalog")
+args = parser.parse_args()
+CHECK = args.check
+if args.catalog and not CHECK:
+    parser.error("--catalog requires --check")
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DESCRIPTOR_SCHEMA = "audio-sdk/descriptor/0.1"
@@ -171,13 +175,29 @@ descriptors = {
     },
 }
 
-output = ['/* SPDX-' 'FileCopyrightText: 2026 Tsakanyan Hovhannes\n * SPDX-' 'License-Identifier: MPL-2.0 */\n#include <stdint.h>\n']
-for key, name in (("speex", "as_speex_descriptor"), ("highpass", "as_highpass_descriptor")):
-    text = canonical(descriptors[key])
-    path = f"schemas/providers/{descriptors[key]['provider_id']}.descriptor.json"
-    write(path, text)
+output = ['/* SPDX-' 'FileCopyrightText: 2026 Tsakanyan Hovhannes\n * SPDX-' 'License-Identifier: MPL-2.0 */\n#include "core/as_internal.h"\n']
+catalog = {}
+register = [
+    'as_status_v0 as_registry_register_builtins(as_registry_v0 *registry, as_error_v0 *error) {',
+    '    as_status_v0 status = AS_OK;',
+]
+for key, descriptor in descriptors.items():
+    name = f"as_{key}_descriptor"
+    text = canonical(descriptor)
+    filename = f"{descriptor['provider_id']}.descriptor.json"
+    if filename in catalog:
+        raise SystemExit(f"duplicate built-in provider: {filename}")
+    write(f"schemas/providers/{filename}", text)
+    catalog[filename] = text.encode("ascii")
     output.append(f"const char {name}[] = {c_string(text)};\n")
     output.append(f"const uint32_t {name}_length = {len(text)}u;\n")
+    register.extend([
+        '    if (status == AS_OK)',
+        f'        status = as_registry_register_builtin_v0(registry, as_{key}_provider_table(),',
+        f'                                                {name}, {name}_length, error);',
+    ])
+register.extend(['    return status;', '}', ''])
+output.append("\n".join(register))
 
 output.append(
     '#ifndef AS_BUILD_ID\n'
@@ -186,6 +206,17 @@ output.append(
     'const char as_build_identity[] = AS_BUILD_ID;\n'
 )
 write("core/src/descriptors/descriptors.c", "\n".join(output))
+
+if args.catalog:
+    actual = {path.relative_to(args.catalog).as_posix(): path
+              for path in args.catalog.rglob("*.descriptor.json")}
+    missing = sorted(catalog.keys() - actual.keys())
+    extra = sorted(actual.keys() - catalog.keys())
+    changed = sorted(name for name in catalog.keys() & actual.keys()
+                     if actual[name].read_bytes() != catalog[name])
+    if missing or extra or changed:
+        raise SystemExit(f"installed catalog differs from compiled registry: "
+                         f"missing={missing}, unexpected={extra}, changed={changed}")
 
 print("descriptors verified" if CHECK else "descriptors written")
 for key, descriptor in descriptors.items():

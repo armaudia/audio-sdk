@@ -13,7 +13,9 @@ import argparse
 import datetime
 import hashlib
 import json
+import os
 import re
+import subprocess
 import sys
 from pathlib import Path, PurePosixPath
 
@@ -95,9 +97,19 @@ def _sha256(data: bytes) -> str:
     return "sha256:" + hashlib.sha256(data).hexdigest()
 
 
-def _revision(value: object, path: str, errors: list[str]) -> None:
+def _revision(value: object, path: str, errors: list[str]) -> bool:
     if not isinstance(value, str) or not REVISION.fullmatch(value):
         errors.append(f"{path}: expected a full immutable Git object ID (40 or 64 lowercase hex)")
+        return False
+    return True
+
+
+def _git_output(git_root: Path, *args: str) -> bytes | None:
+    result = subprocess.run(
+        ["git", "--no-replace-objects", "-C", str(git_root), *args],
+        stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, check=False,
+        env=dict(os.environ, GIT_NO_LAZY_FETCH="1"))
+    return result.stdout if result.returncode == 0 else None
 
 
 def _file(value: object, path: str, root: Path, errors: list[str]) -> Path | None:
@@ -118,7 +130,12 @@ def _file(value: object, path: str, root: Path, errors: list[str]) -> Path | Non
     return None
 
 
-def _source_manifest(manifest: Path, digest: object, root: Path, errors: list[str]) -> None:
+def _source_hash(data: bytes) -> str:
+    return _sha256(data if b"\0" in data else data.replace(b"\r\n", b"\n"))
+
+
+def _source_manifest(manifest: Path, digest: object, root: Path, git_root: Path,
+                     revision: str | None, errors: list[str]) -> None:
     path = "record.source_manifest_ref"
     previous = ""
     identity = bytearray()
@@ -132,12 +149,14 @@ def _source_manifest(manifest: Path, digest: object, root: Path, errors: list[st
             source = _file(relative, path, root, errors)
             if source is None:
                 return
-            data = source.read_bytes()
-            if b"\0" not in data:
-                data = data.replace(b"\r\n", b"\n")
-            if _sha256(data) != "sha256:" + expected:
+            if _source_hash(source.read_bytes()) != "sha256:" + expected:
                 errors.append(f"{path}: source hash mismatch: {relative}")
                 return
+            if revision is not None:
+                blob = _git_output(git_root, "cat-file", "blob", f"{revision}:{relative}")
+                if blob is None or _source_hash(blob) != "sha256:" + expected:
+                    errors.append(f"{path}: source does not match pinned Git commit: {relative}")
+                    return
             identity.extend(f"{relative}\0{expected}\n".encode("ascii"))
             previous = relative
     except (OSError, ValueError) as error:
@@ -227,7 +246,8 @@ def _check_descriptor(file: Path, record: dict, assets: list[dict], errors: list
         errors.append(f"{path}: record.assets do not match descriptor required_assets")
 
 
-def validate(record: object, root: Path = ROOT, *, public: bool = False) -> list[str]:
+def validate(record: object, root: Path = ROOT, *, git_root: Path | None = None,
+             public: bool = False) -> list[str]:
     errors: list[str] = []
     if not _keys(record, REQUIRED, "record", errors):
         return errors
@@ -243,15 +263,19 @@ def validate(record: object, root: Path = ROOT, *, public: bool = False) -> list
           errors, 64)
     if record["contract_version"] != "0.1":
         errors.append("record.contract_version: expected 0.1")
-    if record["source_revision"] is not None:
-        _revision(record["source_revision"], "record.source_revision", errors)
-    elif record["source_manifest_ref"] is None:
-        errors.append("record.source_manifest_ref: required for a null source_revision")
+    git_root = git_root if git_root is not None else root
+    revision = record["source_revision"]
+    pinned = None
+    if revision is not None and _revision(revision, "record.source_revision", errors):
+        resolved = _git_output(git_root, "rev-parse", "--verify", f"{revision}^{{commit}}")
+        if (resolved or b"").strip() == revision.encode("ascii"):
+            pinned = revision
+        else:
+            errors.append("record.source_revision: Git commit not found in local repository")
     _digest(record["source_digest"], "record.source_digest", errors)
-    if record["source_manifest_ref"] is not None:
-        manifest = _file(record["source_manifest_ref"], "record.source_manifest_ref", root, errors)
-        if manifest is not None:
-            _source_manifest(manifest, record["source_digest"], root, errors)
+    manifest = _file(record["source_manifest_ref"], "record.source_manifest_ref", root, errors)
+    if manifest is not None:
+        _source_manifest(manifest, record["source_digest"], root, git_root, pinned, errors)
     _digest(record["descriptor_digest"], "record.descriptor_digest", errors)
     descriptor = _file(record["descriptor_ref"], "record.descriptor_ref", root, errors)
     if record["distribution"] not in ("source-linked", "binary", "service"):
@@ -376,7 +400,7 @@ def validate(record: object, root: Path = ROOT, *, public: bool = False) -> list
     return errors
 
 
-def check_public_catalog(catalog: Path, root: Path) -> list[str]:
+def _check_catalog_intake(catalog: Path, root: Path, git_root: Path) -> list[str]:
     errors: list[str] = []
     descriptors = sorted(catalog.rglob("*.descriptor.json"))
     if not descriptors:
@@ -391,7 +415,7 @@ def check_public_catalog(catalog: Path, root: Path) -> list[str]:
             if digest == BASELINE.get(descriptor.name):
                 continue
             record = load(root / "docs/provider-intake" / f"{provider}.json")
-            problems = validate(record, root, public=True)
+            problems = validate(record, root, git_root=git_root, public=True)
             if isinstance(record, dict) and (
                     record.get("provider_id") != provider or record.get("descriptor_digest") != digest):
                 problems.append("intake does not match the public descriptor ID and bytes")
@@ -401,19 +425,31 @@ def check_public_catalog(catalog: Path, root: Path) -> list[str]:
     return errors
 
 
+def check_public_catalog(catalog: Path, root: Path, git_root: Path) -> list[str]:
+    check = subprocess.run(
+        [sys.executable, str(root / "scripts/generate_descriptors.py"),
+         "--check", "--catalog", str(catalog)],
+        capture_output=True, text=True, check=False)
+    if check.returncode != 0:
+        return [check.stderr.strip() or check.stdout.strip()]
+    return _check_catalog_intake(catalog, root, git_root)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--record", type=Path)
     mode.add_argument("--public-catalog", type=Path, help="staged public SDK provider descriptor directory")
     parser.add_argument("--evidence-root", type=Path, default=ROOT)
+    parser.add_argument("--git-root", type=Path, help="Git checkout containing pinned commits (defaults to evidence root)")
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args()
     path = args.record if args.record is not None else args.public_catalog
     try:
         root = args.evidence_root.resolve()
-        errors = (validate(load(path), root) if args.record is not None
-                  else check_public_catalog(path, root))
+        git_root = (args.git_root or root).resolve()
+        errors = (validate(load(path), root, git_root=git_root) if args.record is not None
+                  else check_public_catalog(path, root, git_root))
     except (OSError, ValueError, RecursionError) as error:
         errors = [str(error)]
     if errors or not args.quiet:

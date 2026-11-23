@@ -42,6 +42,16 @@ both providers from the extracted archive with the compiler directories removed
 from `PATH`. The WebAssembly static archive is tested in Node.js using the packaged
 C example and both built-in providers. Browser integration requires its own tests.
 
+`sh scripts/package.sh <build> <candidate>` seals a native tarball; add
+`--wasm` for the WebAssembly ZIP. Both require a clean tracked SDK Git checkout
+and a build configured from it. `source/` is exported from committed `HEAD`
+over the package's source paths, not copied from the working tree. Untracked
+files are excluded from the export and rejected in directories that CMake
+installs directly. Both archives normalize file order and timestamps for
+repeatability with identical installed bytes. For local edits or a build from
+an extracted source snapshot without Git, use ordinary `cmake --install`;
+that is a developer install, not a sealed release candidate.
+
 Public release tags are `v0.1.0` or `v0.1.0-rc.1` (and alpha/beta equivalents).
 The release workflow reruns CI, requires the tag's commit to be on main, requires
 approval in the `release` environment, verifies the four platform archive checksums,

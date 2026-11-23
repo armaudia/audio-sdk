@@ -44,9 +44,7 @@
       "anyOf": [{ "$ref": "#/$defs/revision" }, { "type": "null" }]
     },
     "source_digest": { "$ref": "#/$defs/digest" },
-    "source_manifest_ref": {
-      "anyOf": [{ "$ref": "#/$defs/fileRef" }, { "type": "null" }]
-    },
+    "source_manifest_ref": { "$ref": "#/$defs/fileRef" },
     "descriptor_ref": { "$ref": "#/$defs/fileRef" },
     "descriptor_digest": { "$ref": "#/$defs/digest" },
     "distribution": {
@@ -101,10 +99,6 @@
       "else": { "properties": { "reviewer": { "type": "string" }, "review_date": { "type": "string" } } }
     },
     "reopen_condition": { "type": "string", "pattern": "\\S", "maxLength": 512 }
-  },
-  "if": { "properties": { "source_revision": { "type": "null" } } },
-  "then": {
-    "properties": { "source_manifest_ref": { "$ref": "#/$defs/fileRef" } }
   },
   "$defs": {
     "fileRef": {

@@ -40,15 +40,18 @@ In particular:
 
 ### 2. Source and checkpoint provenance
 
-- `source_revision` is a full nonzero 40- or 64-character lowercase Git object
+- `source_revision` is a full nonzero 40- or 64-character lowercase Git commit
   ID (never a branch, tag, or abbreviation), or `null` only for a
   content-manifest snapshot. `source_digest` and all other SHA-256 fields use
   nonzero `sha256:<64 lowercase hex>`.
-- A snapshot requires `source_manifest_ref`: sorted unique ASCII lines of
+- Every record requires `source_manifest_ref`: sorted unique ASCII lines of
   `<64 lowercase hex>  <repository-relative path>`. The checker hashes each
   file (CRLF normalized to LF for files without NUL bytes), then verifies
-  `source_digest` over the concatenated `path NUL hex LF` entries. A pinned
-  commit can leave this field `null`.
+  `source_digest` over the concatenated `path NUL hex LF` entries. A non-null
+  revision must resolve to a local Git commit, and each listed file must match
+  its blob at that commit. Use `--git-root` for an alternate local checkout when
+  checking a record; release packaging uses the SDK checkout and does not
+  fetch missing objects.
 - For each model/checkpoint asset, set `checkpoint` to the object with
   `upstream_revision` (full Git object ID), `tensor_config_ref`, `precision`
   and `inventory_ref`; use the asset's `sha256` and `byte_count` for the exact
@@ -132,13 +135,15 @@ and must resolve to files within it. The checker validates recorded decisions
 and provenance; it does not authenticate the signer or interpret a license.
 It prints a JSON result and exits nonzero on failure.
 
-`scripts/package.sh` checks `--public-catalog` against the staged installed
-provider descriptors before sealing any public archive. Each new descriptor
+`scripts/package.sh` uses the same release staging for native tarballs and
+the Wasm ZIP. The installed descriptor set and bytes must match the generated
+data used to register the compiled built-ins; missing, extra, and changed
+entries all fail. Each new or changed built-in descriptor
 must have `docs/provider-intake/<provider_id>.json` matching its exact bytes, an
 approved intake that allows distribution of the provider, and no restricted
 or closed required assets. A failure rejects the whole candidate rather than
 shipping a partial catalog. Only the two previously released, exact asset-free
-descriptor digests are grandfathered; a changed descriptor needs intake.
+descriptor digests are grandfathered and both must still be installed.
 This is a packaging gate for the public discovery catalog, not a change to
 `as_register_provider_v0`, which remains available to explicit integrations.
 
