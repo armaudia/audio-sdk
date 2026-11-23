@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "audio-sdk/engine-v1/graph/0.1",
+  "title": "as_graph_v1 control-plane graph descriptor fixture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "graph_id", "contract_version", "engine", "format",
+    "audio_path", "nodes"
+  ],
+  "properties": {
+    "schema_id": { "const": "audio-sdk/engine-v1/0.1" },
+    "graph_id": { "$ref": "#/$defs/id" },
+    "contract_version": { "const": "0.1" },
+    "engine": { "const": "reference.engine.v1" },
+    "format": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sample_rate_hz", "channels", "sample_format", "frame_samples"],
+      "properties": {
+        "sample_rate_hz": { "const": 16000 },
+        "channels": { "const": 1 },
+        "sample_format": { "const": "f32" },
+        "frame_samples": { "const": 160 }
+      }
+    },
+    "audio_path": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": { "$ref": "#/$defs/id" },
+      "uniqueItems": true
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": { "$ref": "#/$defs/node" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,95}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "settings": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "boolean", "integer", "number", "null", "array", "object"]
+      }
+    },
+    "hooks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_query", "process_mode", "resume_prepare", "process_batch"],
+      "properties": {
+        "policy_query": { "type": "boolean" },
+        "process_mode": { "type": "boolean" },
+        "resume_prepare": { "type": "boolean" },
+        "process_batch": { "type": "boolean" }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "provider_id", "descriptor_digest", "role", "delay_samples",
+        "settings", "depends_on"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "provider_id": { "$ref": "#/$defs/id" },
+        "descriptor_digest": { "$ref": "#/$defs/sha256" },
+        "role": { "enum": ["audio", "analysis"] },
+        "delay_samples": { "type": "integer", "minimum": 0, "maximum": 16000 },
+        "settings": { "$ref": "#/$defs/settings" },
+        "depends_on": {
+          "type": "array",
+          "maxItems": 16,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "input_port": { "$ref": "#/$defs/id" },
+        "output_port": { "$ref": "#/$defs/id" },
+        "tap_port": { "$ref": "#/$defs/id" },
+        "max_age_samples": { "type": "integer", "minimum": 0, "maximum": 16000 },
+        "hooks": { "$ref": "#/$defs/hooks" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "role": { "const": "audio" } } },
+          "then": {
+            "required": ["input_port", "output_port", "hooks"],
+            "not": { "required": ["tap_port", "max_age_samples"] }
+          }
+        },
+        {
+          "if": { "properties": { "role": { "const": "analysis" } } },
+          "then": {
+            "required": ["tap_port", "max_age_samples"],
+            "not": { "required": ["input_port", "output_port", "hooks"] }
+          }
+        }
+      ]
+    }
+  }
+}
