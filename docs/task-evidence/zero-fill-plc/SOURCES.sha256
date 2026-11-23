@@ -1,0 +1,16 @@
+# SHA-256 pins for SDK-ZERO-FILL-PLC; source: paths are workspace-relative, others SDK-worktree-relative.
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
+294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d  source:REALTIME_COMPONENT_CANDIDATES.md
+8371790cdb2b25a5ef55f07d8a52bc74850522d5e30968c34984c754af95cb71  source:research/distortion_restoration_20261028.md
+79cf82e29f231f45ebb65421e5a5e0f712de28c47cd115443b1edae3fcdc850b  source:research/voice-enhancement-20261101/agent-opus-plc/REPORT.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+5f4a16aab66bdef244e57d7b3c93237ebf0bf2bf9ef2d9ad0e0b4ff063107210  source:audio-benchmark-platform/audio-bench/src/audio_bench/metrics.py
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+e879857ebe3b30407f6c0258542edda79af147f57096608378155515e2842210  docs/task-evidence/zero-fill-plc/fixture.py
+20771dd538c507b93d919d1fd5f266459afb9b69803436269751881e337cad32  docs/task-evidence/zero-fill-plc/test_fixture.py
+6cd2672069051583a3382d108741485e3aba858b7f1bf05cbe12b0cb307ad459  docs/task-evidence/zero-fill-plc/verify.py
+3f23c4453caf289ab34ca61af6c94dacb5e9abe9b31fd71a6922ac305e7281ca  docs/task-evidence/zero-fill-plc/report.json
+f1e702efd42ee93ae5402d42ec9f5498f759deb01fa3cb08f6b436f6f92998c4  docs/task-evidence/zero-fill-plc/README.md
+be19b569d78e22d9fe14b82644cd55485faef72a76e8e0f0aa974a143a0113cf  docs/task-evidence/zero-fill-plc/runtime-measurements.json
