@@ -1,0 +1,27 @@
+{
+  "stimulus_metadata": {
+    "ab-fan": {"raw": [160, 320], "candidate": [160, 320]},
+    "ab-room": {"raw": [160, 320], "candidate": [160, 320]},
+    "ms-fan": {
+      "raw": [160, 320], "candidate": [160, 320], "baseline": [160, 320],
+      "reference": [160, 320], "anchor": [160, 320]
+    },
+    "ms-room": {
+      "raw": [160, 320], "candidate": [160, 320], "baseline": [160, 320],
+      "reference": [160, 320]
+    },
+    "ms-reverb": {
+      "raw": [160, 320], "candidate": [160, 319], "baseline": [160, 320],
+      "reference": [160, 320], "anchor": [160, 320]
+    },
+    "ms-clean": {
+      "raw": [160, 320], "candidate": [160, 320], "baseline": [160, 320],
+      "reference": [160, 320], "anchor": [160, 320]
+    }
+  },
+  "mock_responses": {
+    "ab-fan": "A",
+    "ms-fan": {"A": 40, "B": 70, "C": 20, "D": 60, "E": 95},
+    "ms-clean": {"A": 101, "B": 50, "C": 50, "D": 50, "E": 50}
+  }
+}
