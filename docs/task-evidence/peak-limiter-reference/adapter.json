@@ -1,0 +1,1 @@
+{"protocol_version":1,"identity":"peak-limiter-reference-v1","input_kind":"waveform","output_kinds":["waveform"],"tasks":[],"modes":["offline"],"controls":["identity","peak_limiter_reference"],"entrypoint":["python3","docs/task-evidence/peak-limiter-reference/run.py"],"configuration_keys":["control","ceiling","release_ms"],"registration":"unregistered-developer-only"}
