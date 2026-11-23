@@ -1,0 +1,125 @@
+{
+  "schema_id": "audio-sdk/logistic-feedback-gain-controller/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-LOGISTIC-FEEDBACK-GAIN-CONTROLLER",
+  "component": "logistic-feedback-gain-controller",
+  "status": "optional-task-local-reference",
+  "verification_profile": "dsp",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "public_boundary": {
+    "header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "provider_table_operations": ["create", "process", "reset", "drain", "destroy"],
+    "registration": "explicit caller-side as_register_provider_v0 only; no installed registry entry"
+  },
+  "provider": {
+    "provider_ids": [
+      "dsp.logistic-feedback-reference.v0",
+      "dsp.logistic-feedback-static.v0"
+    ],
+    "implementation_ids": ["dsp.logistic-feedback.reference", "dsp.logistic-feedback.static-fallback"],
+    "implementation_version": "0.1.0-reference",
+    "execution_modes": [2],
+    "required_assets": [],
+    "buffering_delay_samples": 0,
+    "native_hop_samples": 160,
+    "max_drain_calls": 1,
+    "descriptor_settings": {},
+    "default_build": "off"
+  },
+  "reference": {
+    "profiles": ["identity", "fixed_gain_minus_5db", "logistic_reference", "logistic_detection_only"],
+    "candidate": "logistic_reference",
+    "static_fallback": "fixed_gain_minus_5db",
+    "controls": ["identity", "logistic_detection_only"],
+    "feature_count": 7,
+    "threshold_grid_points": 97,
+    "threshold_selection": "precision >= 0.90 first, then recall, then threshold (pinned source rule)",
+    "persistence_frames": 2,
+    "gain_step_db": -3.0,
+    "gain_floor_db": -12.0,
+    "recovery_db_per_frame": 0.25,
+    "hold_frames": 75,
+    "source_frame_samples": 256,
+    "reference_frame_samples": 160,
+    "frame_size_deviation_reason": "installed v0 is fixed at 16 kHz mono f32, 160 samples",
+    "real_model_weights": false,
+    "downloads": false,
+    "licensed_runtime": false,
+    "listening": false,
+    "device_timing": false,
+    "release_claim": false
+  },
+  "source_pins": {
+    "scripts/evaluate_feedback_control_ml.py": "e6cd1903cce7724a15c6ef162b59b8fc27dbf1a80ba5e47ebaa66a3845276d04",
+    "src/audioml_eval/feedback_control.py": "a708b085320bc493fe975616bb2f9bb13d78745ec4df6c313c705f45f67e5cb3",
+    "scripts/evaluate_feedback_control.py": "cde956dd584fc560063ac91e2725f36869cb3508c0a1e4fac00aa9fa3fd99e0c",
+    "scripts/evaluate_feedback_control_smard.py": "c570ce9f33f0631864e10acc4d11ce02f1b4a7d6bc7c5fda167e3ae6fadcd28c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "board_snapshot": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "571c352c0f5ecc09ed488f78a60b300ca28cecee83d14dedb1b3edae9bb4a005",
+    "mutable": true,
+    "qualifying": false
+  },
+  "artifact_pins": {
+    "adapter.json": "c82eb1c13c09be4c66f267a12c377f106458488bcb233666475a39147ca89882",
+    "reference.py": "b31229e58c3c7ed00fcc34d55cd4c9799465687eae59774f550bab6de0db98cd",
+    "run.py": "b6f5c01afd52ef2361a38e75cdeaedcd4112f93a4d835bfd0570e046f3e1b6d2",
+    "test_reference.py": "5323a582bf04aac8e16a3db471671c9d02b44acd8407726a7fa7a2de4808a8a3",
+    "external_crosscheck.py": "f9f965b3077c057df98704bbd09317abeace2ba95a8bcb5170f3d507860c131e",
+    "crosscheck_vectors.json": "2ab4de7d04732247b09dd5889d9398a00352e98631b488dc3b7ed47c2be630e3",
+    "report.json": "73445d3ef8c79b9ec34f56d81797310d5a53366289a52824b325e726083ff23e",
+    "report.json.sha256": "d2fd79029fe4221eb0e4976d8b46fb3fd39742afb85bacbf156b210ea4c1f308",
+    "model.json": "060dc16dcbdc8a71506f1a4fc8c1ad33de9f6a4f31bd25d76eb6e70421dd99c9",
+    "provider/CMakeLists.txt": "a4b645782c57e158bc5b4182be0f1887318e12a433c3221369a731adf0a93473",
+    "provider/logistic_feedback_provider.c": "236193430b96a7ec7aca2b820599959f6a84a75ecaf65a3008706aeed44fe053",
+    "provider/config/config.json": "ee4840a8f7e942ee977752fa8d4b5f52ec14547900a81b35cab1c4d5978b7c6f",
+    "provider/config/descriptor.h.in": "0788422f075f0a3200c771f0aef626b10ea8ecf0946592df9307a2b88706a1b5",
+    "provider/tests/test_provider.c": "95a312d3d41e63e53a61ece5ed36c96c0c713fcf52d606d0dbf9f42f1f257fc4"
+  },
+  "result_digests": {
+    "fixture_digest": "a9bac04e5968ffdcb9d6c532236bd731f28a94a303135006fe6402474d0d62cc",
+    "model_digest": "060dc16dcbdc8a71506f1a4fc8c1ad33de9f6a4f31bd25d76eb6e70421dd99c9",
+    "canonical_report_digest": "73445d3ef8c79b9ec34f56d81797310d5a53366289a52824b325e726083ff23e",
+    "crosscheck_canonical_digest": "a783f2b06f519644a6eac0616d84350c639260c45848868052581d384193a45c"
+  },
+  "invariants": [
+    "Fixed v0 format only: 16 kHz, mono f32, 160 samples. The installed ABI, descriptors, registry, defaults and v0 behavior are unchanged.",
+    "The C providers are task-local, off by default, linked only by an opt-in CMake option and registered only by explicit caller-side calls on one registry.",
+    "Descriptor settings remain empty; no public API, ABI, registry, descriptor catalog or installed default was changed.",
+    "Feature formulas, label rule, 600-step balanced logistic fit, 97-point threshold grid, detection summary and gain state machine are pinned to the listed source SHA-256 and externally cross-checked.",
+    "Identity control, fixed -5 dB static fallback, logistic gain candidate and detection-only ablation are all reported; no missing result qualifies the candidate.",
+    "Held-out paths are generated analytic resonators disjoint from training paths and stratified by three path conditions and loop gains 0.95, 1.05 and 1.15.",
+    "Nonfinite frames, invalid models, stale epoch/position, wrong modes and missing configuration fail explicitly without qualifying results.",
+    "All scores are synthetic-scoped on generated clean references; no real speech, model weights, downloads, licensed runtime, listening, device timing or release qualification is claimed.",
+    "Canonical reports are byte-identical on regeneration and their digests are asserted by tests."
+  ],
+  "source_evidence_statements": [
+    "scripts/evaluate_feedback_control_ml.py trains a class-balanced logistic howl-risk detector on SMARD configuration 0000 and evaluates held-out configurations 1000 and 2000 with exact seven-feature extraction and 97-point threshold selection.",
+    "The pinned source controller uses 2-frame persistence, -3 dB per detection event, a -12 dB floor and slow recovery; this fixture keeps those rules exactly with the public v0 frame size of 160.",
+    "This evidence uses deterministic synthetic paths instead of AMI/SMARD audio and does not reproduce the source report numbers."
+  ],
+  "blockers": [
+    "No real-speech or measured-path held-out cohort with pinned rights and labels.",
+    "No real model weights, licensed runtime, or approved inference asset available in this task-local scope.",
+    "No target-device CPU, memory, deadline, pacing or maximum-stable-gain measurement.",
+    "No provider intake, rights/license, descriptor catalog or public API review for a default or installed provider."
+  ],
+  "reopen_conditions": [
+    "Pinned real-speech and measured feedback-path cohorts with disjoint train/held-out conditions, labels and rights review.",
+    "Held-out false-trigger and intelligibility/quality assessment, including double-talk and changing paths, with stated margins.",
+    "Target-device timing, CPU, memory, saturation, clipping and maximum-stable-gain evidence at the intended frame size.",
+    "Provider intake, license/notice, descriptor registry and public API/ABI review; only then consider a separate default-enablement change."
+  ]
+}
