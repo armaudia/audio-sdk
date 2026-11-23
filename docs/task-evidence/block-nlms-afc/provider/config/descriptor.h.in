@@ -1,0 +1,26 @@
+/* SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/* Generated from this task's pinned inputs at configure time. Not installed. */
+#ifndef AUDIO_SDK_BLOCK_NLMS_AFC_DESCRIPTOR_H
+#define AUDIO_SDK_BLOCK_NLMS_AFC_DESCRIPTOR_H
+
+#define AFC_PROVIDER_ID "dsp.block-nlms-afc.afcref.v0"
+#define AFC_ASSET_ID "afc.playback-reference.f32"
+
+static const char kAfcDescriptor[] =
+    "{\"buffering_delay_samples\":0,\"callback_safe\":false,"
+    "\"configuration_schema_digest\":\"sha256:@AFC_CONFIG_DIGEST@\","
+    "\"contract_version\":\"0.1\",\"edge_exclusions\":{\"end_samples\":0,\"start_samples\":0},"
+    "\"execution_modes\":[2],\"implementation_id\":\"block-nlms-afc.reference\","
+    "\"implementation_version\":\"0.1.0-reference\",\"max_drain_calls\":1,\"native_hop_samples\":160,"
+    "\"platform\":{\"architectures\":[\"arm64\",\"x86_64\"],\"cpu_requirements\":\"baseline\"},"
+    "\"provider_id\":\"dsp.block-nlms-afc.afcref.v0\",\"required_assets\":[{\"byte_count\":@AFC_REFERENCE_BYTES@,"
+    "\"id\":\"afc.playback-reference.f32\",\"sha256\":\"sha256:@AFC_REFERENCE_DIGEST@\","
+    "\"storage\":\"external\"}],\"schema_id\":\"audio-sdk/descriptor/0.1\","
+    "\"source_digest\":\"sha256:@AFC_SOURCE_DIGEST@\",\"source_revision\":null,"
+    "\"supported_formats\":[{\"channels\":1,\"frame_samples\":160,\"sample_format\":\"f32\",\"sample_rate_hz\":16000}],"
+    "\"upstream\":{\"license\":\"Apache-2.0\",\"name\":\"audio-sdk task-local block-NLMS AFC reference\","
+    "\"notice_path\":\"licenses/Apache-2.0.txt\"}}";
+
+#endif /* AUDIO_SDK_BLOCK_NLMS_AFC_DESCRIPTOR_H */
