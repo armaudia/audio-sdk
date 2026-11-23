@@ -415,31 +415,47 @@ static void release_session(as_session_v0 *session) {
     free(session);
 }
 
-static void account_queued_cancellation(as_session_v0 *session) {
-    uint64_t intervals = 0;
-    uint64_t samples = 0;
-    const uint32_t input_read = atomic_load(&session->input_read);
-    const uint32_t input_write = atomic_load(&session->input_write);
-    for (uint32_t cursor = input_read; cursor != input_write; ++cursor) {
-        const as_frame_slot *slot =
-            &session->input_queue[cursor % AS_QUEUE_FRAMES];
-        if (slot->valid_count > 0) {
-            intervals++;
-            samples += slot->valid_count;
-        }
-    }
+static void account_cancelled_range(as_session_v0 *session, int64_t first,
+                                     int64_t end) {
+    if (first >= end) return;
+    const int64_t origin = session->first_input_sample;
+    /* Count intersections with the original accepted input-frame intervals. */
+    const uint64_t intervals = 1u + (uint64_t)((end - origin - 1) / AS_FRAME_SAMPLES -
+                                              (first - origin) / AS_FRAME_SAMPLES);
+    atomic_fetch_add(&session->c_cancelled_intervals, intervals);
+    atomic_fetch_add(&session->c_cancelled_valid, (uint64_t)(end - first));
+}
+
+static void account_cancellation(as_session_v0 *session) {
+    const int64_t origin = session->first_input_sample;
+    int64_t end = atomic_load(&session->accepted_end);
+    int64_t first = session->next_output_sample;
     const uint32_t output_read = atomic_load(&session->output_read);
     const uint32_t output_write = atomic_load(&session->output_write);
-    for (uint32_t cursor = output_read; cursor != output_write; ++cursor) {
-        const as_output_slot *slot =
-            &session->output_queue[cursor % AS_QUEUE_FRAMES];
-        if (slot->result.valid_count > 0) {
-            intervals++;
-            samples += slot->result.valid_count;
-        }
+    if (output_read != output_write) {
+        first = session->output_queue[output_read % AS_QUEUE_FRAMES]
+                    .result.source_first_sample;
     }
-    atomic_fetch_add(&session->c_cancelled_intervals, intervals);
-    atomic_fetch_add(&session->c_cancelled_valid, samples);
+    if (first < origin) first = origin;
+
+    /* A clean EOF can omit declared edges, even with valid output still queued. */
+    if (atomic_load(&session->lifecycle) == AS_LIFE_DRAINED ||
+        atomic_load(&session->drain_complete)) {
+        if ((uint64_t)(end - origin) <= (uint64_t)session->edge_start + session->edge_end)
+            return;
+        const int64_t content_start = origin + session->edge_start;
+        if (first < content_start) first = content_start;
+        end -= session->edge_end;
+    }
+
+    /* A process fault already accounted for its accepted input separately. */
+    const int failed_samples = atomic_load(&session->worker_failed);
+    if (failed_samples > 0) {
+        const int64_t failed_first = session->next_output_sample + session->buffering_delay;
+        account_cancelled_range(session, first, failed_first);
+        first = failed_first + failed_samples;
+    }
+    account_cancelled_range(session, first, end);
 }
 
 /* ---- create/close ------------------------------------------------------ */
@@ -600,8 +616,7 @@ as_status_v0 AS_CALL as_session_close_v0(as_session_v0 **session) {
         as_worker_stop(self);
         self->worker_started = 0;
     }
-    if (self->execution_mode == AS_MODE_BUFFERED_WORKER)
-        account_queued_cancellation(self);
+    account_cancellation(self);
     as_registry_v0 *registry = self->registry;
     atomic_store(&self->lifecycle, AS_LIFE_CLOSED);
     release_session(self);
@@ -620,11 +635,11 @@ as_status_v0 AS_CALL as_session_process_v0(as_session_v0 *session,
         return AS_INVALID_ARGUMENT;
     if (!result_ready(result)) return AS_INVALID_ARGUMENT;
     if (session->execution_mode == AS_MODE_BUFFERED_WORKER) {
-        reset_result(result, AS_UNSUPPORTED, session);
+        reset_result(result, AS_UNSUPPORTED, NULL);
         return AS_UNSUPPORTED;
     }
     if (!enter_exclusive(session)) {
-        reset_result(result, AS_BUSY, session);
+        reset_result(result, AS_BUSY, NULL);
         return AS_BUSY;
     }
     as_status_v0 status = AS_OK;
@@ -698,25 +713,22 @@ as_status_v0 AS_CALL as_session_begin_drain_v0(as_session_v0 *session) {
     if (session == NULL || session->magic != AS_SESSION_MAGIC)
         return AS_INVALID_ARGUMENT;
     if (!enter_exclusive(session)) return AS_BUSY;
-    const int lifecycle = atomic_load(&session->lifecycle);
+    int lifecycle = atomic_load(&session->lifecycle);
     as_status_v0 status = AS_OK;
+    while (lifecycle == AS_LIFE_PREPARED || lifecycle == AS_LIFE_PROCESSING) {
+        if (atomic_compare_exchange_strong(&session->lifecycle, &lifecycle,
+                                            AS_LIFE_DRAINING)) {
+            if (session->execution_mode == AS_MODE_BUFFERED_WORKER) {
+                pthread_mutex_lock(&session->queue_mutex);
+                pthread_cond_broadcast(&session->queue_cond);
+                pthread_mutex_unlock(&session->queue_mutex);
+            }
+            break;
+        }
+    }
     if (lifecycle == AS_LIFE_DRAINED) {
         status = AS_END_OF_STREAM;
-    } else if (lifecycle == AS_LIFE_DRAINING) {
-        status = AS_OK;
-    } else if (lifecycle == AS_LIFE_PREPARED || lifecycle == AS_LIFE_PROCESSING) {
-        if (session->execution_mode == AS_MODE_BUFFERED_WORKER) {
-            pthread_mutex_lock(&session->queue_mutex);
-            session->admission_closed = 1;
-            if (session->next_input_sample > session->accepted_end)
-                session->accepted_end = session->next_input_sample;
-            pthread_cond_broadcast(&session->queue_cond);
-            pthread_mutex_unlock(&session->queue_mutex);
-        } else {
-            /* accepted_end already excludes any zero-padded final-frame tail. */
-        }
-        atomic_store(&session->lifecycle, AS_LIFE_DRAINING);
-    } else {
+    } else if (lifecycle == AS_LIFE_NEEDS_RESET) {
         status = AS_NEEDS_RESET;
     }
     exit_exclusive(session);
@@ -733,11 +745,11 @@ as_status_v0 AS_CALL as_session_drain_next_v0(as_session_v0 *session,
         return as_session_pull_v0(session, output, result);
     }
     if (!output_ready(output, NULL, 0)) {
-        reset_result(result, AS_INVALID_ARGUMENT, session);
+        reset_result(result, AS_INVALID_ARGUMENT, NULL);
         return AS_INVALID_ARGUMENT;
     }
     if (!enter_exclusive(session)) {
-        reset_result(result, AS_BUSY, session);
+        reset_result(result, AS_BUSY, NULL);
         return AS_BUSY;
     }
     as_status_v0 status = AS_OK;
@@ -748,7 +760,10 @@ as_status_v0 AS_CALL as_session_drain_next_v0(as_session_v0 *session,
             reset_result(result, status, session);
             break;
         }
-        if (lifecycle == AS_LIFE_DRAINED) {
+        if (lifecycle == AS_LIFE_DRAINED ||
+            (lifecycle == AS_LIFE_DRAINING &&
+             session->accepted_end == session->first_input_sample)) {
+            atomic_store(&session->lifecycle, AS_LIFE_DRAINED);
             status = AS_END_OF_STREAM;
             reset_result(result, status, session);
             break;
@@ -791,10 +806,11 @@ as_status_v0 AS_CALL as_session_drain_next_v0(as_session_v0 *session,
             atomic_fetch_add(&session->c_produced_valid, result->valid_count);
             atomic_fetch_add(&session->c_delivered_valid, result->valid_count);
             atomic_fetch_add(&session->c_drain_frames, 1u);
-            uint32_t final_padding = 0;
+            uint32_t startup_padding = 0, final_padding = 0;
             as_compute_padding_counts(
                 session, result->source_first_sample, result->produced_count,
-                session->accepted_end, 1, NULL, &final_padding);
+                session->accepted_end, 1, &startup_padding, &final_padding);
+            atomic_fetch_add(&session->c_startup_padding, startup_padding);
             atomic_fetch_add(&session->c_final_padding, final_padding);
             status = AS_OK;
             break;
@@ -813,11 +829,11 @@ as_status_v0 AS_CALL as_session_submit_v0(as_session_v0 *session,
         return AS_INVALID_ARGUMENT;
     if (!result_ready(acceptance)) return AS_INVALID_ARGUMENT;
     if (session->execution_mode != AS_MODE_BUFFERED_WORKER) {
-        reset_result(acceptance, AS_UNSUPPORTED, session);
+        reset_result(acceptance, AS_UNSUPPORTED, NULL);
         return AS_UNSUPPORTED;
     }
     if (!enter_call(session)) {
-        reset_result(acceptance, AS_CLOSED, session);
+        reset_result(acceptance, AS_CLOSED, NULL);
         return AS_CLOSED;
     }
     as_status_v0 status = AS_OK;
@@ -859,8 +875,9 @@ as_status_v0 AS_CALL as_session_submit_v0(as_session_v0 *session,
                 session->next_input_sample =
                     frame->first_input_sample + AS_FRAME_SAMPLES;
                 if (final) session->admission_closed = 1;
-                atomic_store_explicit(&session->input_write, write + 1u,
-                                      memory_order_release);
+                int prepared = AS_LIFE_PREPARED;
+                (void)atomic_compare_exchange_strong(&session->lifecycle, &prepared,
+                                                      AS_LIFE_PROCESSING);
                 const uint32_t depth = write + 1u - read;
                 const uint32_t high = atomic_load_explicit(
                     &session->input_high_water, memory_order_relaxed);
@@ -871,7 +888,14 @@ as_status_v0 AS_CALL as_session_submit_v0(as_session_v0 *session,
                                  frame->input_valid_count);
                 atomic_fetch_add(&session->c_accepted_valid,
                                  frame->input_valid_count);
-                atomic_store(&session->lifecycle, AS_LIFE_PROCESSING);
+                atomic_store_explicit(&session->input_write, write + 1u,
+                                      memory_order_release);
+                if (final) {
+                    /* The worker must see the published final slot before it drains. */
+                    int processing = AS_LIFE_PROCESSING;
+                    (void)atomic_compare_exchange_strong(&session->lifecycle, &processing,
+                                                          AS_LIFE_DRAINING);
+                }
             }
         }
     }
@@ -896,15 +920,15 @@ as_status_v0 AS_CALL as_session_pull_v0(as_session_v0 *session,
         return AS_INVALID_ARGUMENT;
     if (!result_ready(result)) return AS_INVALID_ARGUMENT;
     if (session->execution_mode != AS_MODE_BUFFERED_WORKER) {
-        reset_result(result, AS_UNSUPPORTED, session);
+        reset_result(result, AS_UNSUPPORTED, NULL);
         return AS_UNSUPPORTED;
     }
     if (!output_ready(output, NULL, 0)) {
-        reset_result(result, AS_INVALID_ARGUMENT, session);
+        reset_result(result, AS_INVALID_ARGUMENT, NULL);
         return AS_INVALID_ARGUMENT;
     }
     if (!enter_call(session)) {
-        reset_result(result, AS_CLOSED, session);
+        reset_result(result, AS_CLOSED, NULL);
         return AS_CLOSED;
     }
     as_status_v0 status = AS_NOT_READY;
@@ -912,29 +936,29 @@ as_status_v0 AS_CALL as_session_pull_v0(as_session_v0 *session,
     if (lifecycle == AS_LIFE_NEEDS_RESET) {
         status = AS_NEEDS_RESET;
     } else {
+        /* Observe completion before inspecting the ring so EOS cannot overtake
+         * the worker's last output publication. */
+        const int complete = atomic_load(&session->drain_complete);
         const uint32_t read =
             atomic_load_explicit(&session->output_read, memory_order_relaxed);
         const uint32_t write =
             atomic_load_explicit(&session->output_write, memory_order_acquire);
         if (read != write) {
-        as_output_slot *slot =
-            &session->output_queue[read % AS_QUEUE_FRAMES];
-        memcpy(output->samples, slot->samples, sizeof(slot->samples));
-        *result = slot->result;
-        atomic_store_explicit(&session->output_read, read + 1u,
-                              memory_order_release);
-        status = AS_OK;
-        atomic_fetch_add(&session->c_delivered_valid, result->valid_count);
-        } else if (session->drain_complete) {
+            const as_output_slot *slot =
+                &session->output_queue[read % AS_QUEUE_FRAMES];
+            *result = slot->result;
+            memcpy(output->samples, slot->samples,
+                   result->produced_count * sizeof(float));
+            atomic_store_explicit(&session->output_read, read + 1u,
+                                  memory_order_release);
+            status = AS_OK;
+            atomic_fetch_add(&session->c_delivered_valid, result->valid_count);
+        } else if (complete) {
             status = AS_END_OF_STREAM;
             atomic_store(&session->lifecycle, AS_LIFE_DRAINED);
         }
     }
-    if (status == AS_END_OF_STREAM || status == AS_NEEDS_RESET) {
-        reset_result(result, status, session);
-    } else if (status == AS_NOT_READY) {
-        reset_result(result, AS_NOT_READY, session);
-    }
+    if (status != AS_OK) reset_result(result, status, session);
     exit_call(session);
     return status;
 }
@@ -985,33 +1009,25 @@ as_status_v0 AS_CALL as_session_reset_v0(as_session_v0 *session, uint64_t epoch,
     if (session->execution_mode == AS_MODE_BUFFERED_WORKER) {
         as_worker_stop(session);
     }
-    /* A reset during draining or with queued work cancels those intervals. */
-    uint64_t cancelled = 0;
+    account_cancellation(session);
+    /* A failed reset may be retried; do not account for this content twice. */
+    session->accepted_end = session->first_input_sample;
+    session->admission_closed = 0;
     if (session->execution_mode == AS_MODE_BUFFERED_WORKER) {
-        account_queued_cancellation(session);
         atomic_store(&session->input_read, 0);
         atomic_store(&session->input_write, 0);
         atomic_store(&session->output_read, 0);
         atomic_store(&session->output_write, 0);
-        session->admission_closed = 0;
         session->drain_complete = 0;
         session->worker_failed = 0;
         session->manual_drain_requested = 0;
-    } else if (atomic_load(&session->lifecycle) == AS_LIFE_DRAINING) {
-        cancelled = 1;
-        const int64_t remaining =
-            session->accepted_end > session->next_output_sample
-                ? session->accepted_end - session->next_output_sample
-                : 0;
-        atomic_fetch_add(&session->c_cancelled_valid, (uint64_t)remaining);
-        atomic_fetch_add(&session->c_cancelled_intervals, cancelled);
     }
     status = session->table.reset(session->instance, epoch, first_input_sample, error);
     if (status != AS_OK) {
         atomic_store(&session->lifecycle, AS_LIFE_NEEDS_RESET);
         as_error_set(error, status, "provider", "provider reset failed");
-        atomic_store(&session->reset_flag, 0);
         pthread_mutex_unlock(&session->control_mutex);
+        atomic_store(&session->reset_flag, 0);
         exit_exclusive(session);
         return status;
     }
@@ -1061,6 +1077,7 @@ as_status_v0 AS_CALL as_session_get_info_v0(as_session_v0 *session, char *buffer
     if (required_size != NULL) *required_size = 0;
     if (session == NULL || session->magic != AS_SESSION_MAGIC)
         return AS_INVALID_ARGUMENT;
+    if (!enter_call(session)) return AS_BUSY;
     char text[4096];
     writer w = {text, (uint32_t)sizeof(text), 0, 0};
     text[0] = '\0';
@@ -1145,7 +1162,9 @@ as_status_v0 AS_CALL as_session_get_info_v0(as_session_v0 *session, char *buffer
     w_text(&w, session->provider->callback_safe ? "true" : "false");
     w_text(&w, "}");
     pthread_mutex_unlock(&session->control_mutex);
-    return copy_json(buffer, capacity, required_size, &w);
+    const as_status_v0 status = copy_json(buffer, capacity, required_size, &w);
+    exit_call(session);
+    return status;
 }
 
 as_status_v0 AS_CALL as_session_get_stats_v0(as_session_v0 *session, char *buffer,
@@ -1154,6 +1173,7 @@ as_status_v0 AS_CALL as_session_get_stats_v0(as_session_v0 *session, char *buffe
     if (required_size != NULL) *required_size = 0;
     if (session == NULL || session->magic != AS_SESSION_MAGIC)
         return AS_INVALID_ARGUMENT;
+    if (!enter_call(session)) return AS_BUSY;
     char text[4096];
     writer w = {text, (uint32_t)sizeof(text), 0, 0};
     text[0] = '\0';
@@ -1228,5 +1248,7 @@ as_status_v0 AS_CALL as_session_get_stats_v0(as_session_v0 *session, char *buffe
     w_q_u64(&w, atomic_load(&session->output_high_water));
     w_text(&w, "}");
     pthread_mutex_unlock(&session->control_mutex);
-    return copy_json(buffer, capacity, required_size, &w);
+    const as_status_v0 status = copy_json(buffer, capacity, required_size, &w);
+    exit_call(session);
+    return status;
 }

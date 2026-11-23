@@ -27,7 +27,7 @@ static void push_output(as_session_v0 *session, const float *samples,
         atomic_load_explicit(&session->output_write, memory_order_relaxed);
     const uint32_t index = write % AS_QUEUE_FRAMES;
     as_output_slot *slot = &session->output_queue[index];
-    memcpy(slot->samples, samples, sizeof(slot->samples));
+    memcpy(slot->samples, samples, result->produced_count * sizeof(float));
     slot->result = *result;
     atomic_store_explicit(&session->output_write, write + 1u,
                           memory_order_release);
@@ -40,15 +40,13 @@ static void push_output(as_session_v0 *session, const float *samples,
                               memory_order_relaxed);
 }
 
-static void fail_worker(as_session_v0 *session, uint32_t failed_intervals,
-                        uint32_t failed_samples) {
-    session->worker_failed = 1;
-    session->admission_closed = 1;
-    session->drain_complete = 1;
-    atomic_fetch_add(&session->c_failed_intervals, failed_intervals);
-    atomic_fetch_add(&session->c_failed_valid, failed_samples);
-    if (failed_intervals != 0)
-        atomic_fetch_add(&session->c_backend_failures, 1u);
+static void fail_worker(as_session_v0 *session, uint32_t failed_samples) {
+    /* Keep the failed input length for quiesced accounting; -1 is a drain fault. */
+    session->worker_failed = failed_samples != 0 ? (int)failed_samples : -1;
+    if (failed_samples != 0) {
+        atomic_fetch_add(&session->c_failed_intervals, 1u);
+        atomic_fetch_add(&session->c_failed_valid, failed_samples);
+    }
     atomic_store(&session->lifecycle, AS_LIFE_NEEDS_RESET);
 }
 
@@ -73,7 +71,7 @@ static void process_input_slot(as_session_v0 *session,
     const as_status_v0 status =
         as_provider_process_frame(session, &frame, &output, &result);
     if (status != AS_OK) {
-        fail_worker(session, 1u, slot->valid_count);
+        fail_worker(session, slot->valid_count);
         return;
     }
     as_compute_validity(session, result.source_first_sample, result.produced_count,
@@ -84,7 +82,7 @@ static void process_input_slot(as_session_v0 *session,
                             : 0u,
                         &result);
     result.status = AS_OK;
-    result.consumed_count = AS_FRAME_SAMPLES;
+    result.consumed_count = 0;
     result.epoch = slot->epoch;
     result.queue_depth = 0;
     session->next_output_sample =
@@ -104,10 +102,13 @@ static void process_input_slot(as_session_v0 *session,
 }
 
 static void drain_one(as_session_v0 *session) {
+    if (session->accepted_end == session->first_input_sample) {
+        session->drain_complete = 1;
+        return;
+    }
     if (session->drain_calls >= session->max_drain_calls) {
-        atomic_store(&session->lifecycle, AS_LIFE_NEEDS_RESET);
         atomic_fetch_add(&session->c_backend_failures, 1u);
-        fail_worker(session, 0u, 0u);
+        fail_worker(session, 0u);
         return;
     }
     session->drain_calls++;
@@ -125,8 +126,7 @@ static void drain_one(as_session_v0 *session) {
         return;
     }
     if (status != AS_OK) {
-        atomic_fetch_add(&session->c_backend_failures, 1u);
-        fail_worker(session, 0u, 0u);
+        fail_worker(session, 0u);
         return;
     }
     as_compute_validity(session, result.source_first_sample, result.produced_count,
@@ -139,11 +139,11 @@ static void drain_one(as_session_v0 *session) {
     if (result.valid_count > 0) {
         atomic_fetch_add(&session->c_produced_valid, result.valid_count);
         atomic_fetch_add(&session->c_drain_frames, 1u);
-        uint32_t final_padding = 0;
+        uint32_t startup_padding = 0, final_padding = 0;
         as_compute_padding_counts(session, result.source_first_sample,
-                                  result.produced_count,
-                                  session->accepted_end, 1, NULL,
-                                  &final_padding);
+                                  result.produced_count, session->accepted_end,
+                                  1, &startup_padding, &final_padding);
+        atomic_fetch_add(&session->c_startup_padding, startup_padding);
         atomic_fetch_add(&session->c_final_padding, final_padding);
         push_output(session, produced, &result);
     }
@@ -154,6 +154,8 @@ void *as_worker_main(void *argument) {
     pthread_mutex_lock(&session->queue_mutex);
     for (;;) {
         if (session->worker_stop) break;
+        /* Drain is requested only after the last input publication. */
+        const int draining = atomic_load(&session->lifecycle) == AS_LIFE_DRAINING;
         const uint32_t input_read =
             atomic_load_explicit(&session->input_read, memory_order_relaxed);
         const uint32_t input_write =
@@ -169,7 +171,7 @@ void *as_worker_main(void *argument) {
             pthread_mutex_lock(&session->queue_mutex);
             continue;
         }
-        if (session->admission_closed && !has_input && !session->worker_failed &&
+        if (draining && !has_input && !session->worker_failed &&
             !session->drain_complete && output_has_space(session)) {
             pthread_mutex_unlock(&session->queue_mutex);
             drain_one(session);
