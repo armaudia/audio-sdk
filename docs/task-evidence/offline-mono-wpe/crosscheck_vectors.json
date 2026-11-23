@@ -1,0 +1,68 @@
+[
+  {
+    "clean_digest": "57b1316e6bb29ee0ce81c4e471321e47d0d7bdfd031b2004738b18145163443e",
+    "estimate_digest": "ba8eb5c6770ac4253c09317a0d68bbc00930ce4c11677484c8245a87e1b8163e",
+    "name": "short_rt60_wpe_candidate",
+    "si_sdr_abs_delta": 2.6645352591003757e-15,
+    "si_sdr_local": 7.016146654382923,
+    "si_sdr_numpy": 7.016146654382926,
+    "stoi_abs_delta": 1.1102230246251565e-16,
+    "stoi_local": 0.9750125500755832,
+    "stoi_pystoi": 0.9750125500755833
+  },
+  {
+    "clean_digest": "57b1316e6bb29ee0ce81c4e471321e47d0d7bdfd031b2004738b18145163443e",
+    "estimate_digest": "f4078f33388ede5c771b95c8a874d36a7e1215051245da728cadc4dc4d2c3c00",
+    "name": "short_rt60_wpe_on_noisy",
+    "si_sdr_abs_delta": 3.552713678800501e-15,
+    "si_sdr_local": 6.843230269374576,
+    "si_sdr_numpy": 6.843230269374573,
+    "stoi_abs_delta": 9.992007221626409e-16,
+    "stoi_local": 0.972999003565561,
+    "stoi_pystoi": 0.972999003565562
+  },
+  {
+    "clean_digest": "2ea5e252530826dbc48979fcf414f62a5ffa3eb8a1f0e5f7251cc65289c12b82",
+    "estimate_digest": "49b141d3ad2884e6302881ed5afdccfc154bab74d0a39b4ab737b8d29bee533b",
+    "name": "medium_rt60_wpe_candidate",
+    "si_sdr_abs_delta": 8.881784197001252e-15,
+    "si_sdr_local": 5.64648087372463,
+    "si_sdr_numpy": 5.646480873724639,
+    "stoi_abs_delta": 7.771561172376096e-16,
+    "stoi_local": 0.9285714957691124,
+    "stoi_pystoi": 0.9285714957691131
+  },
+  {
+    "clean_digest": "2ea5e252530826dbc48979fcf414f62a5ffa3eb8a1f0e5f7251cc65289c12b82",
+    "estimate_digest": "e2253aad5893351c6499fe73d4ccc0c1c7e3fcf82d60678d2cd29935c209fba8",
+    "name": "medium_rt60_wpe_on_noisy",
+    "si_sdr_abs_delta": 6.217248937900877e-15,
+    "si_sdr_local": 5.541867642944805,
+    "si_sdr_numpy": 5.541867642944811,
+    "stoi_abs_delta": 1.9984014443252818e-15,
+    "stoi_local": 0.926869476793209,
+    "stoi_pystoi": 0.926869476793207
+  },
+  {
+    "clean_digest": "806eb3cf956a4474070492ed0d3fe4d817118d4cbed5ed3f03c5b69fbb2d61ce",
+    "estimate_digest": "40b1f6167af45c41d5a0ee2eed78808b71819572f8f92e45a654afe5f9c175d5",
+    "name": "long_rt60_wpe_candidate",
+    "si_sdr_abs_delta": 1.7763568394002505e-15,
+    "si_sdr_local": 2.060709319375393,
+    "si_sdr_numpy": 2.0607093193753947,
+    "stoi_abs_delta": 6.661338147750939e-16,
+    "stoi_local": 0.8190662375381765,
+    "stoi_pystoi": 0.8190662375381759
+  },
+  {
+    "clean_digest": "806eb3cf956a4474070492ed0d3fe4d817118d4cbed5ed3f03c5b69fbb2d61ce",
+    "estimate_digest": "c8186c578a10608ae755031b2070f0597cddd145cda3c588302f385845df8ca8",
+    "name": "long_rt60_wpe_on_noisy",
+    "si_sdr_abs_delta": 1.9095836023552692e-14,
+    "si_sdr_local": 2.031861639353245,
+    "si_sdr_numpy": 2.0318616393532642,
+    "stoi_abs_delta": 5.551115123125783e-16,
+    "stoi_local": 0.8189562648357742,
+    "stoi_pystoi": 0.8189562648357737
+  }
+]

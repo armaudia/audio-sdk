@@ -1,0 +1,157 @@
+{
+  "schema_id": "audio-sdk/pipe-duplex/fixtures/0.1",
+  "task": "SDK-PIPE-DUPLEX",
+  "status": "frozen_synthetic_only",
+  "fixed_v0": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "source_pins": [
+    {"path": "sdk:third_party/speexdsp/libspeexdsp/mdf.c", "sha256": "15e08b7fa89562d74aaa3e61911a07e56078ea00f8476daf28d9cf6d5d22c07f", "use": "Exact pinned SpeexDSP MDF source compiled by the merged opt-in adapter."},
+    {"path": "sdk:third_party/speexdsp/include/speex/speex_echo.h", "sha256": "19e722fdfe03864ae9dadc91637270e8c70191950c49892fa8a62478be79e71d", "use": "Public MDF boundary; no header or ABI is changed."},
+    {"path": "sdk:third_party/speexdsp/libspeexdsp/fftwrap.c", "sha256": "fd96f1e44245a403bbba3d3328f4f60b763132f939c217c76409621c3f66b8f0", "use": "Pinned MDF dependency in the merged adapter."},
+    {"path": "sdk:third_party/speexdsp/libspeexdsp/filterbank.c", "sha256": "0c925d5bd0be9668853e262f3474c3b8203c7cf31aecb63531257e126e87631d", "use": "Pinned MDF dependency in the merged adapter."},
+    {"path": "sdk:third_party/speexdsp/libspeexdsp/smallft.c", "sha256": "d2baa3d5378ed9fd344d2ee61f92c30c8d930db4968b3a8a2cf0760ca0ef376d", "use": "Pinned MDF dependency in the merged adapter."},
+    {"path": "sdk:third_party/speexdsp/libspeexdsp/kiss_fft.c", "sha256": "cf0da304f5067c71cf85df711af74252802805714dfda736be93be391e7c4c1c", "use": "Pinned MDF dependency in the merged adapter."},
+    {"path": "sdk:third_party/speexdsp/libspeexdsp/kiss_fftr.c", "sha256": "13b7ec32c17b927e0978195ce9eeb09e9791b236fcee94b807fd0086d14cb25e", "use": "Pinned MDF dependency in the merged adapter."},
+    {"path": "sdk:deps/lock.json", "sha256": "7e834253dad944604a2e2283f4d809ab1383c9db4f08b83482a8b41efc043e3a", "use": "Exact SpeexDSP 1.2.1 vendored revision; no provider substitution or network fetch."},
+    {"path": "sdk:deps/speexdsp-files.sha256", "sha256": "3ff2b43a21b28a10a87f5a30b3c0339bef67a6b491c22f0f90c45696bd8f7a29", "use": "Informational vendored file manifest; no native bytes are committed."},
+    {"path": "sdk:api/include/audio_sdk/provider_v0.h", "sha256": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766", "use": "Public provider boundary is unchanged."},
+    {"path": "sdk:api/include/audio_sdk/session_v0.h", "sha256": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1", "use": "Public session boundary is unchanged."},
+    {"path": "sdk:docs/task-evidence/speexdsp-mdf-reference/adapter/CMakeLists.txt", "sha256": "8932ce329820e02311962e9d5d009af23292dcc282fc6ae4bc490c28efb18887", "use": "Unchanged merged adapter project; option AS_ENABLE_SPEEXDSP_MDF_REFERENCE stays default OFF."},
+    {"path": "sdk:docs/task-evidence/speexdsp-mdf-reference/adapter/src/mdf_reference_cli.c", "sha256": "e803ddeb779a7898d8e6fc75bf64fc17a1c3b7b65692e5f9c90f87af82e1f114", "use": "Unchanged merged MDF CLI source invoked as the pinned MDF stage."},
+    {"path": "sdk:docs/task-evidence/speexdsp-mdf-reference/tools/fixture.py", "sha256": "314f36d865a6a7e1580205a2a82484cb9226479e4f6d6d677027c35bf6e627bd", "use": "Merged deterministic render/capture fixture definition mirrored byte-for-byte for baseline comparison."},
+    {"path": "sdk:docs/task-evidence/speexdsp-mdf-reference/tools/evaluate.py", "sha256": "af5998bce756482045b8aeac2ffee7a598ede9b3c3aecc838bd9a7f41aff1045", "use": "Merged oracle evaluation protocol."},
+    {"path": "sdk:docs/task-evidence/speexdsp-mdf-reference/tools/verify.py", "sha256": "fd814b3ad85e5c8d2c8b3fb4ee1b95a49a86561c81bb7515c7dee9ec6369f19a", "use": "Merged pin and blob verification protocol."},
+    {"path": "sdk:docs/task-evidence/speexdsp-mdf-reference/evidence/oracle.json", "sha256": "c1e1c232cb80d344fe6a1131ebf80caf112cd68e2baad9a2543ee8ccc1e08411", "use": "Frozen merged MDF oracle used for exact baseline comparisons."},
+    {"path": "sdk:docs/task-evidence/speexdsp-mdf-reference/evidence/oracle.json.sha256", "sha256": "71660089b00de08da0973695a9f960fd0435a55644bf211d63118ccbd0580681", "use": "Merged oracle sidecar checked before any comparison."},
+    {"path": "sdk:docs/task-evidence/speexdsp-mdf-reference/SOURCES.sha256", "sha256": "1df7645390c8b746f4db8be6a6cd938f1b08d99ec21be27d95c03065cf0b4509", "use": "Merged exact source manifest; no digest is relaxed."},
+    {"path": "sdk:docs/task-evidence/speexdsp-mdf-reference/LEGACY_BLOBS.sha1", "sha256": "70a644e8712ae47111fd077f68c2370ac2de0449eedf36cb19af6288396aa296", "use": "Merged legacy Git blob manifest at 3e2446fc58886fc02b099b54651adc9a10a65454."},
+    {"path": "sdk:docs/task-evidence/speexdsp-mdf-reference/README.md", "sha256": "3104b4c880eb6d99bbdff2bf9f73793d60278978442000a9c67f1f9c3ae64b83", "use": "Merged scope, disclosed misalignment ERLE and near-end overlap caveat."},
+    {"path": "sdk:docs/task-evidence/pipe-capture/host.py", "sha256": "8a4aa5135f59b44dc7877120bbb63918fe2e2187d365f344a3e6e9256a2aec2d", "use": "Merged capture host providing the pinned high-pass, NS policy and limiter arithmetic."},
+    {"path": "sdk:docs/task-evidence/pipe-capture/recipe.json", "sha256": "08d5e1fa42327f1830e623c27ccb5ef0b03d40ca84cc7613342d1e3fa8cf8141", "use": "Merged capture recipe stage order, settings and default-OFF activation."},
+    {"path": "sdk:docs/task-evidence/pipe-capture/fixtures.json", "sha256": "23b4d9e589239a8662d28e3c8dbc11371d22ebcbcc4de80d37217936dcc49e30", "use": "Merged capture fixture pins and control conventions."},
+    {"path": "ws:REALTIME_COMPONENT_CANDIDATES.md", "sha256": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d", "use": "Source note that residual suppression damaged near-end and must not be default."},
+    {"path": "ws:research/aec_research_20261028.md", "sha256": "dc733f29c999ed83d9b3a8c14b21df4abd6cfeecd6ba0c3b78e1c6f4d2218180", "use": "Provenance for the optional residual suppressor finding; not reproduced here."},
+    {"path": "ws:audio-benchmark-platform/plan/swarm/VERIFICATION.md", "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910", "use": "Room acceptance profile context; no room result is claimed."},
+    {"path": "ws:audio-benchmark-platform/plan/swarm/handoffs/SDK-PIPE-DUPLEX.md", "sha256": "6c37948ffa63093628daf1609875332688a35eeb2dfb2cffec8b8c89263863c7", "use": "Scope and constraints for this task."}
+  ],
+  "dependency_pin": {
+    "path": "sdk:deps/lock.json",
+    "sha256": "7e834253dad944604a2e2283f4d809ab1383c9db4f08b83482a8b41efc043e3a",
+    "name": "SpeexDSP",
+    "version": "1.2.1",
+    "revision": "7a158783df74efe7c2d1c6ee8363c1e695c71226",
+    "source": "vendored:third_party/speexdsp",
+    "network_fetch_required": false
+  },
+  "native_manifest_pin": {
+    "path": "sdk:deps/speexdsp-files.sha256",
+    "sha256": "3ff2b43a21b28a10a87f5a30b3c0339bef67a6b491c22f0f90c45696bd8f7a29",
+    "role": "informational only; no native library or build byte is included"
+  },
+  "merged_oracle_pin": {
+    "path": "sdk:docs/task-evidence/speexdsp-mdf-reference/evidence/oracle.json",
+    "sha256": "c1e1c232cb80d344fe6a1131ebf80caf112cd68e2baad9a2543ee8ccc1e08411",
+    "sidecar_path": "sdk:docs/task-evidence/speexdsp-mdf-reference/evidence/oracle.json.sha256",
+    "sidecar_sha256": "71660089b00de08da0973695a9f960fd0435a55644bf211d63118ccbd0580681",
+    "fixture_digest": "1ab4d6e0fbe723f88a2d765a01b02b9eb912aae7f18bea97039854f1ade2ca9b"
+  },
+  "stimulus": {
+    "kind": "seeded_lcg_plus_analytic_echo_and_near_end",
+    "frames": 300,
+    "samples": 48000,
+    "lcg_seed": 1374496523,
+    "echo_taps": [0.35, 0.5, 0.15],
+    "echo_gain": 0.45,
+    "noise_scale": 0.002,
+    "near_burst_frames": [150, 152],
+    "near_full_frames": [80, 240],
+    "delay_change_frame": 150,
+    "delay_before_samples": 480,
+    "delay_after_samples": 720,
+    "capture_dropout_frames": [180, 190],
+    "render_starvation_frames": [100, 140],
+    "skew_start_frame": 100,
+    "skew_offset_frames": 1,
+    "stale_offset_frames": -1,
+    "converged_window_frames": [80, 140],
+    "preservation_window_frames": [150, 152],
+    "post_change_window_frames": [200, 260]
+  },
+  "cases": {
+    "echo_only": {"base_stream": "echo_only", "render_mode": "active", "reference_status": "valid", "echo_path": "fixed", "timeline_injection": "none", "note": "Baseline warm MDF state; exact comparison to the merged MDF oracle."},
+    "double_talk_overlap": {"base_stream": "overlap_small", "render_mode": "active", "reference_status": "valid", "echo_path": "fixed", "timeline_injection": "none", "note": "Short synthetic near-end overlap; not a double-talk quality test."},
+    "near_end_only": {"base_stream": "near_end_only", "render_mode": "silent_present", "reference_status": "valid_silent", "echo_path": "fixed", "timeline_injection": "none", "note": "All render frames present and zero; merged zero-render passthrough control."},
+    "render_dropout": {"base_stream": "echo_only", "render_mode": "starved_range", "reference_status": "absent_range", "echo_path": "fixed", "timeline_injection": "withheld_frames", "note": "Far-end reference starvation must be reported and force explicit capture-only."},
+    "reference_absent": {"base_stream": "echo_only", "render_mode": "withheld_all", "reference_status": "absent_all", "echo_path": "fixed", "timeline_injection": "withheld_frames", "note": "No reference frames at all; explicit capture-only selection."},
+    "reference_stale": {"base_stream": "echo_only", "render_mode": "stale_timestamps", "reference_status": "invalid_timestamp", "echo_path": "fixed", "timeline_injection": "timestamp_offset_negative", "note": "Negative timestamp offset is rejected before MDF."},
+    "capture_dropout": {"base_stream": "echo_only", "render_mode": "active", "reference_status": "valid", "echo_path": "fixed", "timeline_injection": "capture_zeroed_range", "note": "Capture dropout is flagged; valid far-end reference remains usable."},
+    "changing_delay_warm": {"base_stream": "echo_only", "render_mode": "active", "reference_status": "valid", "echo_path": "changing_delay", "timeline_injection": "none", "mdf_reset_frames": 0, "note": "Echo path delay step with continuous warm MDF state."},
+    "changing_delay_reset": {"base_stream": "echo_only", "render_mode": "active", "reference_status": "valid", "echo_path": "changing_delay", "timeline_injection": "none", "mdf_reset_frames": 150, "note": "Same step with pinned MDF reset at frame 150."},
+    "skew_timestamp_repair": {"base_stream": "echo_only", "render_mode": "timestamp_offset_positive", "reference_status": "valid", "echo_path": "fixed", "timeline_injection": "timestamp_offset_positive", "note": "Positive one-frame timestamp skew is detected and repaired before MDF."},
+    "content_skew_undetected": {"base_stream": "misaligned_reference", "render_mode": "active", "reference_status": "valid", "echo_path": "fixed", "timeline_injection": "none", "note": "One-frame content shift with nominal timestamps; ERLE does not expose it."}
+  },
+  "merged_oracle_expectations": {
+    "echo_only": {
+      "render_digest": "49f5a6f2c23acd3429c7d0deb2eacca05fda91079ea072eb4328cbedb98e3ab7",
+      "capture_digest": "198eaadb2fb1eed9db1fab8f99e58608cd33c84f55c3ff3aea6d2c1d4fcb82d5",
+      "mdf_output_digest": "4b6b1ba808f3f3919aa6f64dcec1661545208d0e382cb9199ff2a5a6d5ac63eb",
+      "erle_db_converged": 16.453939
+    },
+    "content_skew_undetected": {
+      "render_digest": "cf61a920d4967b079d08fda54488de1793222e2cb23891920fbde749eec7c82e",
+      "capture_digest": "198eaadb2fb1eed9db1fab8f99e58608cd33c84f55c3ff3aea6d2c1d4fcb82d5",
+      "mdf_output_digest": "a1fa383eacc50cde77e8881a0369b67fe09f233b0f8a76769ad0734d2f1ab71b",
+      "erle_db_converged": 16.888932
+    },
+    "double_talk_overlap": {
+      "capture_digest": "f9b320e275b3f0aced347e3f2d325e779bebd8f3f6a5ed96957bb6618afcce80",
+      "mdf_output_digest": "abb6cdc25f2371ecbeac05ef6ba564d51adf0c66390da09091948f23d2ab9327",
+      "near_ratio_overlap": 0.985161
+    },
+    "near_end_only": {
+      "capture_digest": "0559befd3a5c3fe44d67f2c93a26e4df4b27ebba2c9a501dcd1a2551c491da05",
+      "mdf_output_digest": "0559befd3a5c3fe44d67f2c93a26e4df4b27ebba2c9a501dcd1a2551c491da05",
+      "passthrough_bit_exact": true
+    }
+  },
+  "controls": {
+    "nonfinite_capture_index": 5,
+    "wrong_rate_hz": 48000,
+    "length_short_by_samples": 1,
+    "tampered_pin_prefix": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_mdf_exit_codes": {"nonfinite_capture": 3, "wrong_length": 3, "wrong_rate": 2, "missing_render": 4},
+    "expected_rejections": [
+      "reject_nonfinite_capture",
+      "reject_wrong_length",
+      "reject_wrong_rate",
+      "reject_missing_render",
+      "reject_nonmonotonic_timestamps",
+      "reject_stale_reference",
+      "reject_residual_without_reference",
+      "reject_default_on_recipe",
+      "reject_unknown_provider",
+      "reject_tampered_pin_manifest"
+    ]
+  },
+  "excluded_evidence": [
+    {
+      "item": "Real audio, devices, listening, quality scores and release qualification",
+      "status": "excluded",
+      "reason": "No corpus, microphone, acoustic room, target device, listening panel or release gate is present."
+    },
+    {
+      "item": "AEC or double-talk perfection claim",
+      "status": "excluded",
+      "reason": "The MDF stage is a paired synthetic reference; one-frame misalignment is not detected by ERLE and the short overlap does not reproduce source-reported residual-suppressor near-end damage."
+    },
+    {
+      "item": "Real Tiny16 parity or adverse exploratory comparison",
+      "status": "excluded",
+      "reason": "No S10/protocol clearance, approved independent reference adapter or permitted case manifest exists here."
+    }
+  ]
+}
