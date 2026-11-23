@@ -1,0 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
+# This README records its own archive/report digests. Exclude it from release
+# archives so the recorded values cannot change the archive they describe.
+README.md export-ignore
