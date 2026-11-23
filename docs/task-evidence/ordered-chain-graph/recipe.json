@@ -1,0 +1,59 @@
+{
+  "schema_id": "audio-sdk/ordered-chain-graph/0.1",
+  "recipe_id": "installed.chain.v1",
+  "contract_version": "0.1",
+  "engine": "reference.sequential.v0",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "audio_path": ["gain", "delay", "limiter"],
+  "nodes": [
+    {
+      "id": "gain",
+      "provider_id": "third_party.gain.v0",
+      "role": "audio",
+      "delay_samples": 0,
+      "availability_cost_ns": 100000,
+      "settings": {"gain": 0.5},
+      "depends_on": [],
+      "input_port": "pcm.in",
+      "output_port": "pcm.gain.out"
+    },
+    {
+      "id": "delay",
+      "provider_id": "fixture.delay.v0",
+      "role": "audio",
+      "delay_samples": 80,
+      "availability_cost_ns": 500000,
+      "settings": {"delay_samples": 80},
+      "depends_on": ["gain"],
+      "input_port": "pcm.gain.out",
+      "output_port": "pcm.delay.out"
+    },
+    {
+      "id": "limiter",
+      "provider_id": "third_party.limiter.v0",
+      "role": "audio",
+      "delay_samples": 0,
+      "availability_cost_ns": 75000,
+      "settings": {"peak": 0.25},
+      "depends_on": ["delay"],
+      "input_port": "pcm.delay.out",
+      "output_port": "pcm.out"
+    },
+    {
+      "id": "activity",
+      "provider_id": "third_party.activity.v0",
+      "role": "analysis",
+      "delay_samples": 0,
+      "availability_cost_ns": 40000,
+      "settings": {"event_offset_ns": 1000},
+      "depends_on": ["gain"],
+      "tap_port": "pcm.gain.out",
+      "max_age_samples": 320
+    }
+  ]
+}

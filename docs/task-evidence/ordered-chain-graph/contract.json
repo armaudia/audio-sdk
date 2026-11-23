@@ -1,0 +1,34 @@
+{
+  "schema_id": "audio-sdk/ordered-chain-graph/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-FND-GRAPH",
+  "status": "proposal-only",
+  "engine": "reference.sequential.v0",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "recipe_schema": "recipe.schema.json",
+  "recipe_fixture": "recipe.json",
+  "node_roles": {
+    "audio": "Exactly one ordered position in audio_path; transforms PCM in that order.",
+    "analysis": "Read-only tap on one audio node output port; never changes audio or audio delay."
+  },
+  "identity": "SHA-256 of canonical recipe JSON bytes: sorted keys, compact separators, ASCII, no NaN or Infinity.",
+  "invariants": [
+    "One linear audio path; audio fan-in, mixing, dynamic topology and hot swap are rejected.",
+    "Node IDs, provider IDs and port IDs are unique ASCII identifiers; the audio_path matches the declared port chain.",
+    "Every provider must be present in the caller's available set; unavailable stages reject before any frame is read.",
+    "depends_on edges plus analysis tap edges form a DAG; any cycle rejects the recipe.",
+    "An analysis tap must reference exactly one audio output port; missing or ambiguous ports reject.",
+    "Integer buffering delay accumulates only over audio nodes; analysis cost never enters audio delay.",
+    "Availability is a declared monotonic nanosecond value; source timestamps alone are not availability evidence.",
+    "Nonfinite, missing or malformed input, settings and side events reject explicitly; no missing result qualifies a candidate.",
+    "An outstanding lease blocks reset and drain; cancellation records abandoned source intervals and forbids epoch revival.",
+    "Drain releases remaining accepted source samples within a bounded call cap and then returns EOS.",
+    "Fixed v0 is unchanged: 16 kHz mono f32, 160 samples; no ABI, descriptor, registry, provider or default change."
+  ],
+  "public_v0_abi": "unchanged; versioned proposal and model-free deterministic fixture only"
+}

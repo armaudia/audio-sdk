@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "audio-sdk/ordered-chain-graph/0.1",
+  "title": "audio-sdk ordered chain recipe 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "recipe_id", "contract_version", "engine", "format",
+    "audio_path", "nodes"
+  ],
+  "properties": {
+    "schema_id": {"const": "audio-sdk/ordered-chain-graph/0.1"},
+    "recipe_id": {"$ref": "#/$defs/id"},
+    "contract_version": {"const": "0.1"},
+    "engine": {"const": "reference.sequential.v0"},
+    "format": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sample_rate_hz", "channels", "sample_format", "frame_samples"],
+      "properties": {
+        "sample_rate_hz": {"const": 16000},
+        "channels": {"const": 1},
+        "sample_format": {"const": "f32"},
+        "frame_samples": {"const": 160}
+      }
+    },
+    "audio_path": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {"$ref": "#/$defs/id"}
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {"$ref": "#/$defs/node"}
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,95}$"},
+    "port": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,95}$"},
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "provider_id", "role", "delay_samples",
+        "availability_cost_ns", "settings", "depends_on"
+      ],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "provider_id": {"$ref": "#/$defs/id"},
+        "role": {"enum": ["audio", "analysis"]},
+        "delay_samples": {"type": "integer", "minimum": 0, "maximum": 16000},
+        "availability_cost_ns": {"type": "integer", "minimum": 0, "maximum": 10000000000},
+        "settings": {"type": "object"},
+        "depends_on": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "input_port": {"$ref": "#/$defs/port"},
+        "output_port": {"$ref": "#/$defs/port"},
+        "tap_port": {"$ref": "#/$defs/port"},
+        "max_age_samples": {"type": "integer", "minimum": 0, "maximum": 16000}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"role": {"const": "audio"}}, "required": ["role"]},
+          "then": {
+            "required": ["input_port", "output_port"],
+            "not": {"anyOf": [{"required": ["tap_port"]}, {"required": ["max_age_samples"]}]}
+          }
+        },
+        {
+          "if": {"properties": {"role": {"const": "analysis"}}, "required": ["role"]},
+          "then": {
+            "required": ["tap_port", "max_age_samples"],
+            "not": {"anyOf": [{"required": ["input_port"]}, {"required": ["output_port"]}]}
+          }
+        }
+      ]
+    }
+  }
+}
