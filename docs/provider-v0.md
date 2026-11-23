@@ -14,16 +14,41 @@ scoped decisions described there.
 
 Each operation returns an `as_status_v0`. Provider state is created per
 session, reset only on a quiesced control path, and destroyed after processing
-has stopped. The SDK copies descriptor bytes, effective configuration, and
-assets; providers must not retain caller pointers except for the lifetime of
-the current operation. All process/drain output intervals are half-open sample
-ranges and carry an epoch.
+has stopped. The SDK copies descriptor bytes and effective configuration.
+The caller supplies every `required_assets` entry in descriptor order when
+creating a session; the SDK verifies IDs, sizes and actual bytes against the
+declared SHA-256, then retains immutable copies through provider destruction.
+Providers may keep those immutable asset pointers for the session, not the
+caller's buffers or other call-scoped pointers. Do not bundle, discover or
+download assets on the provider's behalf. All process/drain output intervals
+are half-open sample ranges and carry an epoch.
 
 `buffering_delay_samples` is a measured integer alignment delay, not a
 frequency-dependent phase description. The facade verifies output source
 positions, counts, epoch, finite samples, and validity bounds. `callback_safe`
 is false for both initial providers; only execution modes 2 and 3 are
 advertised.
+
+## Provider directories and build boundary
+
+- Give each provider its own directory for implementation, `config/` metadata,
+  `tests/` and build rules. For in-tree built-ins, see `core/providers/speex`
+  and `core/providers/highpass`. Their `provider.cmake` fragments own sources,
+  private dependencies and conformance registration; shared CMake explicitly
+  includes them. Keep provider-specific tests local and reuse shared lifecycle
+  conformance rather than duplicating it.
+- Author built-in configuration in `core/providers/<name>/config/config.json`.
+  `python3 scripts/generate_descriptors.py` emits canonical configuration,
+  public descriptors in `schemas/providers`, and the embedded registry. Keep
+  the source inventory and descriptor ID explicit; do not hand-edit generated
+  files. The release gate reconciles staged descriptors against the generated
+  catalog and checks provider intake separately.
+- The default SDK always includes high-pass and SpeexDSP, the pinned baseline,
+  not an optional runtime. A future optional runtime should be off by default
+  and found, compiled and linked only when explicitly enabled. Keep its build
+  inputs and flag in provenance and test both settings from clean installs.
+  Do not advertise an unbuilt provider or capability. This foundation adds no
+  optional runtime or v0 descriptor fields.
 
 ## Built-in provider IDs
 
@@ -45,9 +70,15 @@ descriptor digest before provider creation.
 
 ## External provider build
 
-The installed package includes `share/audio-sdk/conformance`, including the
-onboarding fixture. Build from the installed tree in a clean consumer directory;
-no SDK source-tree path is needed:
+See `share/audio-sdk/conformance/provider_registration/README.md` in the
+native archive. This standalone consumer links only the installed SDK,
+optionally compiles its own provider, and explicitly registers it on a single
+registry. The test supplies one synthetic byte from caller memory, not a
+packaged asset. Source linkage adds no default discovery, and the fixture is
+not in the installed public descriptor catalog.
+
+The archive also includes the timing/fault conformance consumer. Build it from
+the extracted tree; no SDK source-tree path is needed:
 
 ```sh
 SDK_PREFIX="/path/to/installed/audio-sdk-0.1.0"
@@ -62,10 +93,9 @@ ctest --test-dir "$CONSUMER_BUILD" --output-on-failure
 
 The fixture covers delays 0, 1, 159, 160, 161, 256 (native hop 256), and 512 in
 synchronous and buffered-worker modes. Fault-injection and unbounded-drain
-variants are expected to be detected (their CTest entries use `WILL_FAIL`). It
-is an onboarding template, not production DSP; see the installed
-`conformance/external_provider/README.md`. It compiles against installed public
-headers and conformance source, not the SDK's private `src/` tree.
+variants must emit the expected failure diagnostics. See the installed
+`conformance/external_provider/README.md`. It compiles against installed
+public headers and conformance source, not the SDK's private `src/` tree.
 
 This implementation is source-linked; the provider table is not promised as a
 stable binary plugin ABI across SDK releases.
