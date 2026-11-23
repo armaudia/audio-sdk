@@ -1,0 +1,84 @@
+{
+  "deadline_ns": null,
+  "installed_identity": {
+    "base_commit": "3e2192f5676ffe9d54fd5fc5b7c3710b4bb87f41",
+    "build_id": "audio-sdk/0.1.0+sha256:0bc71dcab04880033a4ad4c1cfcebb8a05eccb11a20a786b9c844e394c035972",
+    "contract_version": "0.1",
+    "format": "mono float32 16000 Hz 160 samples per call",
+    "provider": "speex.ns.v0"
+  },
+  "load": "one synthetic stream at a time, no competing load",
+  "non_deterministic": true,
+  "note": "ru_maxrss is a coarse process high-water mark; availability is the elapsed time to the first frame with valid samples. Neither a deadline nor a workload claim.",
+  "pacing": "unpaced",
+  "per_condition": {
+    "clean_only": {
+      "drain_frames": 1,
+      "drain_wall_s": 2.3e-05,
+      "first_valid_output_s": 9e-05,
+      "maxrss_delta_bytes": 0,
+      "process_duration_ms": {
+        "max": 0.055125,
+        "median": 0.030875
+      },
+      "process_frames": 200,
+      "stream_wall_s": 0.006535
+    },
+    "noise_only": {
+      "drain_frames": 1,
+      "drain_wall_s": 2.3e-05,
+      "first_valid_output_s": 7.7e-05,
+      "maxrss_delta_bytes": 16384,
+      "process_duration_ms": {
+        "max": 0.04525,
+        "median": 0.031
+      },
+      "process_frames": 200,
+      "stream_wall_s": 0.006518
+    },
+    "noisy_snr0": {
+      "drain_frames": 1,
+      "drain_wall_s": 3e-05,
+      "first_valid_output_s": 9.9e-05,
+      "maxrss_delta_bytes": 1097728,
+      "process_duration_ms": {
+        "max": 0.063875,
+        "median": 0.031417
+      },
+      "process_frames": 200,
+      "stream_wall_s": 0.006711
+    },
+    "noisy_snr10": {
+      "drain_frames": 1,
+      "drain_wall_s": 2.8e-05,
+      "first_valid_output_s": 0.000101,
+      "maxrss_delta_bytes": 1392640,
+      "process_duration_ms": {
+        "max": 0.681959,
+        "median": 0.0305
+      },
+      "process_frames": 200,
+      "stream_wall_s": 0.007207
+    },
+    "silence": {
+      "drain_frames": 1,
+      "drain_wall_s": 2.3e-05,
+      "first_valid_output_s": 7.9e-05,
+      "maxrss_delta_bytes": 0,
+      "process_duration_ms": {
+        "max": 0.055917,
+        "median": 0.031333
+      },
+      "process_frames": 200,
+      "stream_wall_s": 0.006852
+    }
+  },
+  "platform": {
+    "machine": "arm64",
+    "numpy": "2.5.4",
+    "pystoi": "0.4.1",
+    "python": "3.12.16",
+    "system": "Darwin"
+  },
+  "schema_id": "audio-sdk/task-evidence/speexdsp-ns-reference/0.1/runtime-measurements"
+}

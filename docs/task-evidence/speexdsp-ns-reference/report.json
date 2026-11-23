@@ -1,0 +1,272 @@
+{
+  "alignment": {
+    "declared_buffering_samples": 160,
+    "declared_first_source_sample": -160,
+    "expected_impulse_index": 4000,
+    "measured_content_lag_samples": 0,
+    "measured_impulse_index": 4000,
+    "raw_interval": [
+      -160,
+      32000
+    ],
+    "source_interval": [
+      0,
+      32000
+    ],
+    "valid_output_samples": 32000
+  },
+  "all_conformance_pass": true,
+  "all_controls_pass": true,
+  "all_outputs_finite": true,
+  "all_state_pass": true,
+  "conditions": {
+    "clean_only": {
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.831949,
+        "samples": 32000
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.824738,
+        "samples": 32000
+      },
+      "preservation": {
+        "rms_gain_ratio": 0.971046
+      },
+      "si_sdr_db": {
+        "identity_noisy": null,
+        "invalid_reasons": [
+          "exact_reconstruction"
+        ],
+        "paired_delta": null,
+        "provider": 21.210407
+      },
+      "stoi": {
+        "identity_noisy": 1.0,
+        "invalid_reasons": [],
+        "paired_delta": -0.036112,
+        "provider": 0.963888
+      }
+    },
+    "noise_only": {
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.599995,
+        "samples": 32000
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.594727,
+        "samples": 32000
+      },
+      "preservation": {
+        "rms_gain_ratio": 0.48713
+      },
+      "si_sdr_db": {
+        "identity_noisy": -67.030754,
+        "invalid_reasons": [],
+        "paired_delta": 7.032275,
+        "provider": -59.998479
+      },
+      "stoi": {
+        "identity_noisy": 0.290647,
+        "invalid_reasons": [],
+        "paired_delta": -0.068185,
+        "provider": 0.222462
+      }
+    },
+    "noisy_snr0": {
+      "input": {
+        "clipped_or_nonfinite": 665,
+        "finite": true,
+        "peak_abs": 1.332076,
+        "samples": 32000
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.991364,
+        "samples": 32000
+      },
+      "preservation": {
+        "rms_gain_ratio": 0.748204
+      },
+      "si_sdr_db": {
+        "identity_noisy": -0.003825,
+        "invalid_reasons": [],
+        "paired_delta": 4.925487,
+        "provider": 4.921662
+      },
+      "stoi": {
+        "identity_noisy": 0.510899,
+        "invalid_reasons": [],
+        "paired_delta": -0.012631,
+        "provider": 0.498268
+      }
+    },
+    "noisy_snr10": {
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.985804,
+        "samples": 32000
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.977295,
+        "samples": 32000
+      },
+      "preservation": {
+        "rms_gain_ratio": 0.933556
+      },
+      "si_sdr_db": {
+        "identity_noisy": 9.998819,
+        "invalid_reasons": [],
+        "paired_delta": 4.046506,
+        "provider": 14.045325
+      },
+      "stoi": {
+        "identity_noisy": 0.53617,
+        "invalid_reasons": [],
+        "paired_delta": 0.012732,
+        "provider": 0.548902
+      }
+    },
+    "silence": {
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.0,
+        "samples": 32000
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.0,
+        "samples": 32000
+      },
+      "preservation": {
+        "rms_gain_ratio": null
+      },
+      "si_sdr_db": {
+        "identity_noisy": null,
+        "invalid_reasons": [
+          "zero_projection",
+          "zero_projection"
+        ],
+        "paired_delta": null,
+        "provider": null
+      },
+      "stoi": {
+        "identity_noisy": 0.0,
+        "invalid_reasons": [],
+        "paired_delta": 0.0,
+        "provider": 0.0
+      }
+    }
+  },
+  "conformance": {
+    "descriptor_digest": "8dcfbd3ca87ae85f0c1d6390ede34b62b5a44461bef65d52c7bf0cf5c303b733",
+    "fail": 0,
+    "pass": 40,
+    "report_sha256": "accbe82e7460ec79a66f29b8b7b791a3d1cf7da56cf5d432a0f60de00c30f529",
+    "result": "pass",
+    "skip": 0
+  },
+  "controls": {
+    "invalid_config_conformance": {
+      "count": 10,
+      "status": "pass"
+    },
+    "missing_library": {
+      "exit_code": 1,
+      "expected": "AUDIO_SDK_LIBRARY",
+      "observed": "OSError: AUDIO_SDK_LIBRARY must name an existing absolute path",
+      "status": "pass"
+    },
+    "missing_reference": {
+      "reason": "missing_reference_or_output",
+      "status": "pass"
+    },
+    "nonfinite_input_rejected": {
+      "expected": "invalid_argument on NaN frame",
+      "state_unchanged_after_rejection": true,
+      "status": "pass"
+    },
+    "truncated_output": {
+      "reason": "length_mismatch",
+      "status": "pass"
+    },
+    "wrong_build_id": {
+      "exit_code": 1,
+      "expected": "identity mismatch",
+      "observed": "ImportError: audio-sdk identity mismatch: contract='0.1', build='audio-sdk/0.1.0+sha256:0bc71dcab04880033a4ad4c1cfcebb8a05eccb11a20a786b9c844e394c035972'",
+      "status": "pass"
+    }
+  },
+  "evidence_classes": {
+    "historical_source_reported": "Retained from pinned research only; not rerun or pooled with local scores",
+    "real_audio_rights_qualified": "none; no result qualifies a candidate",
+    "synthetic_runtimes": "Installed library driven with deterministic model-free stimuli; no corpus or weights"
+  },
+  "installed_identity": {
+    "base_commit": "3e2192f5676ffe9d54fd5fc5b7c3710b4bb87f41",
+    "build_id": "audio-sdk/0.1.0+sha256:0bc71dcab04880033a4ad4c1cfcebb8a05eccb11a20a786b9c844e394c035972",
+    "contract_version": "0.1",
+    "format": "mono float32 16000 Hz 160 samples per call",
+    "provider": "speex.ns.v0"
+  },
+  "mode": "reference-verification",
+  "profile": "Enhancement",
+  "schema_id": "audio-sdk/task-evidence/speexdsp-ns-reference/0.1",
+  "source_pins": [
+    {
+      "path": "research/voice-enhancement-20261101/candidate_matrix.csv",
+      "sha256": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245",
+      "summary": "Task matrix: SpeexDSP NS evaluated in CLN pilot, separate from its VAD and MDF rows; compared with WebRTC NS, RNNoise and noisy identity."
+    },
+    {
+      "path": "research/noise_suppression_candidate_census.md",
+      "sha256": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+      "summary": "Census: no-weight classical NS baseline; pin build and attenuation; 30-pair DNS pilot is exploratory, not a representative holdout."
+    },
+    {
+      "path": "audio-benchmark-platform/audio-sdk/core/providers/speex/speex_provider.c",
+      "sha256": "d1a98e3aff897375db4f0fc7668329be5254faa361ccaba1635a5089ea8a71e6",
+      "summary": "Frozen v0 policy: 16 kHz mono 160-sample frames, denoise on, AGC/dereverb off, VAD computed but not exported, -20 dB suppression, declared 160-sample buffering, PCM16 quantization."
+    },
+    {
+      "path": "adapters/speexdsp/adapter.json",
+      "sha256": "8daaf37bb19ae75bb705e31e98964cbf732e666b140823dfa1bd4f5f3496ad3c",
+      "summary": "Offline CLN-01 waveform adapter identity at source commit 7a158783; weights not required; distinct from the SDK provider."
+    },
+    {
+      "path": "research/noise_suppression_assets_20261027.json",
+      "sha256": "35f871e7d7362070c20fa35a5832115ea5388ffae550be3b25368a72bf5cebf4",
+      "summary": "SpeexDSP-NS-only asset record: Xiph 7a158783, BSD-3-Clause, pinned preprocess header and native library digests."
+    },
+    {
+      "path": "research/selected_audio_enhancement_candidates.md",
+      "sha256": "0364d8d6963192789c839fd37ae6bfdfb405303986066a1ac8e30555d9a1f946",
+      "summary": "Source-reported pilot for NS-only: median SNR gain +0.560 dB, STOI .9375, RTF .0006, measured 20 ms delay; STOI regression made it unsuitable as default on that subset."
+    },
+    {
+      "path": "REALTIME_COMPONENT_CANDIDATES.md",
+      "sha256": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+      "summary": "Component inventory: source-reported DNS pilot mean delta SI-SDR +1.06 dB, delta STOI -0.0057, RTF about .0006; experimental C++ backend exists."
+    }
+  ],
+  "state": {
+    "different_stimuli_differ": true,
+    "fresh_epoch2_bit_identical_to_reset": true,
+    "reset_bit_identical": true,
+    "reset_epoch_propagated": true,
+    "separate_instances_uncoupled": true
+  }
+}
