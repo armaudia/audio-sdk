@@ -1,0 +1,104 @@
+{
+  "schema": "sdk.highpass80.control-fixture/0.1",
+  "task_id": "SDK-SDK-HIGH-PASS-80-HZ",
+  "profile": "DSP",
+  "provider_id": "dsp.highpass80.v0",
+  "fixed_v0": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "frame_samples": 160,
+    "cutoff_hz": 80,
+    "q": 0.7071067811865476
+  },
+  "tones": {
+    "frequencies_hz": [20, 40, 60, 80, 100, 150, 200, 500, 1000, 2000, 4000, 6000, 7800],
+    "amplitude": 0.5,
+    "frames": 16,
+    "settle_samples": 256
+  },
+  "chirp": {
+    "start_hz": 20,
+    "end_hz": 7800,
+    "samples": 8000,
+    "amplitude": 0.25
+  },
+  "step": {
+    "pre_frames": 1,
+    "frames": 10,
+    "amplitudes": [0.5, -0.5]
+  },
+  "impulse": {
+    "position": 0,
+    "amplitude": 1.0,
+    "frames": 3
+  },
+  "silence_frames": 4,
+  "dc": {
+    "amplitude": 0.75,
+    "frames": 10
+  },
+  "speech": {
+    "frames": 25,
+    "f0_hz": 120,
+    "harmonics": 24,
+    "syllable_period_samples": 6400,
+    "formants_hz": [700, 1200, 2500],
+    "formant_width_hz": 220,
+    "formant_gain": 3.0
+  },
+  "rumble": {
+    "frequency_hz": 20,
+    "amplitude": 0.25,
+    "phase_rad": 0.3
+  },
+  "partial": {
+    "frames_before": 2,
+    "valid_count": 37,
+    "epoch": 7,
+    "first_input_sample": 3200,
+    "frames_after": 2
+  },
+  "load": {
+    "frames": 2000
+  },
+  "dual": {
+    "frames": 8,
+    "frequency_hz": 1000,
+    "amplitude": 0.5
+  },
+  "full_scale": {
+    "frequency_hz": 1000,
+    "frames": 8,
+    "amplitude": 1.0
+  },
+  "tolerances": {
+    "gain_abs": 0.01,
+    "peak_headroom": 1.000001,
+    "dc_final_abs": 0.02,
+    "speech_band_loss_db": 1.0,
+    "rumble_attenuation_db": 20.0,
+    "envelope_correlation_min": 0.95
+  },
+  "control_names": [
+    "create_bad_rate",
+    "create_bad_channels",
+    "create_bad_frame",
+    "create_bad_mode",
+    "create_null_config",
+    "create_null_out",
+    "create_null_id",
+    "process_null_frame",
+    "process_null_input",
+    "process_null_output",
+    "process_null_samples",
+    "process_small_capacity",
+    "process_null_result",
+    "process_bad_position",
+    "recover_after_bad_position",
+    "reset_negative_first",
+    "drain_null_output",
+    "drain_null_result",
+    "nonfinite_nan",
+    "nonfinite_inf"
+  ]
+}
