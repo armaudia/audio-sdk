@@ -1,0 +1,28 @@
+{
+  "id": "listening-metadata-fixture-v1",
+  "seed": 20261123,
+  "ordering": "sha256-rank-v1",
+  "cohort": "fabricated case IDs; no recordings, speakers, or listeners",
+  "sample_rate_hz": 16000,
+  "channels": 1,
+  "source_interval": [160, 320],
+  "conditions": {
+    "raw": "unprocessed source (noisy or identity control)",
+    "candidate": "mock enhancement candidate",
+    "baseline": "mock established enhancement baseline",
+    "reference": "hidden copy of the clean target",
+    "anchor": "hidden degraded anchor derived from the clean target"
+  },
+  "panels": {
+    "ab": ["raw", "candidate"],
+    "mushra_style": ["raw", "candidate", "baseline", "reference", "anchor"]
+  },
+  "trials": {
+    "ab-fan": ["ab", "fan_hum"],
+    "ab-room": ["ab", "busy_room"],
+    "ms-fan": ["mushra_style", "fan_hum"],
+    "ms-room": ["mushra_style", "busy_room"],
+    "ms-reverb": ["mushra_style", "reverberant_room"],
+    "ms-clean": ["mushra_style", "clean_preservation"]
+  }
+}
