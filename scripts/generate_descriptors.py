@@ -27,7 +27,6 @@ if args.catalog and not CHECK:
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DESCRIPTOR_SCHEMA = "audio-sdk/descriptor/0.1"
-CONFIG_SCHEMA = "audio-sdk/provider-config/0.1"
 
 
 def canonical(value):
@@ -47,10 +46,6 @@ def source_digest(paths):
         digest = sha256_file(ROOT / rel)
         lines.append(rel.encode("ascii") + b"\0" + digest.encode("ascii") + b"\n")
     return "sha256:" + hashlib.sha256(b"".join(lines)).hexdigest()
-
-
-def config_digest(path):
-    return "sha256:" + sha256_file(path)
 
 
 def write(path, text):
@@ -73,32 +68,6 @@ for path in sorted((ROOT / "third_party/speexdsp").rglob("*")):
         speex_sources.append(path.relative_to(ROOT).as_posix())
 
 highpass_sources = ["core/providers/highpass/highpass_provider.c"]
-
-speex_config = {
-    "schema_id": CONFIG_SCHEMA,
-    "provider_id": "speex.ns.v0",
-    "settings": {
-        "agc": {"default": False, "type": "boolean"},
-        "denoise": {"default": True, "type": "boolean"},
-        "dereverb": {"default": False, "type": "boolean"},
-        "suppression_db": {"default": -20, "maximum": 0, "minimum": -100, "type": "integer"},
-        "vad_continue": {"default": 20, "maximum": 100, "minimum": 0, "type": "integer"},
-        "vad_start": {"default": 35, "maximum": 100, "minimum": 0, "type": "integer"},
-    },
-    "units": {},
-}
-highpass_config = {
-    "schema_id": CONFIG_SCHEMA,
-    "provider_id": "dsp.highpass80.v0",
-    "settings": {
-        "cutoff_hz": {"default": "80", "type": "decimal_string", "unit": "Hz"},
-        "q": {"default": "0.7071067811865476", "type": "decimal_string"},
-    },
-    "units": {},
-}
-
-write("schemas/providers/speex.ns.v0.json", canonical(speex_config))
-write("schemas/providers/dsp.highpass80.v0.json", canonical(highpass_config))
 
 descriptors = {
     "speex": {
@@ -123,9 +92,6 @@ descriptors = {
         "max_drain_calls": 2,
         "callback_safe": False,
         "execution_modes": [2, 3],
-        "configuration_schema_digest": config_digest(
-            ROOT / "schemas/providers/speex.ns.v0.json"
-        ),
         "required_assets": [],
         "upstream": {
             "name": "Xiph.Org SpeexDSP",
@@ -159,9 +125,6 @@ descriptors = {
         "max_drain_calls": 1,
         "callback_safe": False,
         "execution_modes": [2, 3],
-        "configuration_schema_digest": config_digest(
-            ROOT / "schemas/providers/dsp.highpass80.v0.json"
-        ),
         "required_assets": [],
         "upstream": {
             "name": "audio-sdk first-party high-pass",
@@ -182,9 +145,19 @@ register = [
     '    as_status_v0 status = AS_OK;',
 ]
 for key, descriptor in descriptors.items():
+    provider_id = descriptor["provider_id"]
+    config_path = f"core/providers/{key}/config/config.json"
+    config = json.loads((ROOT / config_path).read_text(encoding="utf-8"))
+    if (config.get("provider_id") != provider_id or
+            config.get("schema_id") != "audio-sdk/provider-config/0.1"):
+        raise SystemExit(f"wrong provider or schema ID in {config_path}")
+    config_text = canonical(config)
+    write(f"schemas/providers/{provider_id}.json", config_text)
+    descriptor["configuration_schema_digest"] = (
+        "sha256:" + hashlib.sha256(config_text.encode("ascii")).hexdigest())
     name = f"as_{key}_descriptor"
     text = canonical(descriptor)
-    filename = f"{descriptor['provider_id']}.descriptor.json"
+    filename = f"{provider_id}.descriptor.json"
     if filename in catalog:
         raise SystemExit(f"duplicate built-in provider: {filename}")
     write(f"schemas/providers/{filename}", text)

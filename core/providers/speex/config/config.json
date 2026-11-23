@@ -1,0 +1,13 @@
+{
+  "schema_id": "audio-sdk/provider-config/0.1",
+  "provider_id": "speex.ns.v0",
+  "settings": {
+    "agc": {"default": false, "type": "boolean"},
+    "denoise": {"default": true, "type": "boolean"},
+    "dereverb": {"default": false, "type": "boolean"},
+    "suppression_db": {"default": -20, "maximum": 0, "minimum": -100, "type": "integer"},
+    "vad_continue": {"default": 20, "maximum": 100, "minimum": 0, "type": "integer"},
+    "vad_start": {"default": 35, "maximum": 100, "minimum": 0, "type": "integer"}
+  },
+  "units": {}
+}
