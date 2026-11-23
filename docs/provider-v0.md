@@ -5,6 +5,11 @@ The public C boundary is in `api/include/audio_sdk/provider_v0.h` and
 `CONTRACTS.md`, revision 0.1. The runtime accepts mono float32, 16 kHz, fixed
 160-sample calls and one provider per session.
 
+Provider admission, asset classification and rights gating are defined in
+[provider intake](provider-intake.md). A descriptor is not an admission record:
+a restricted or closed asset requires the caller-supplied boundary and the
+scoped decisions described there.
+
 ## Provider table and metadata
 
 Each operation returns an `as_status_v0`. Provider state is created per

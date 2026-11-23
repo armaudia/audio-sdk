@@ -22,6 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
@@ -49,6 +50,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
@@ -99,6 +101,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -106,6 +109,9 @@ jobs:
           ref: 708dcbcc9ee23bc7d2dad44fc90db377e38b771c
           path: .tooling/emsdk
           persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
       - name: Install pinned Emscripten toolchain
         run: |
           ./.tooling/emsdk/emsdk install 5.0.1
@@ -113,13 +119,11 @@ jobs:
       - name: Build, package, and run an installed WebAssembly consumer
         run: |
           source .tooling/emsdk/emsdk_env.sh
-          cmake -S . -B build/wasm -DCMAKE_TOOLCHAIN_FILE="$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -DCMAKE_BUILD_TYPE=Release -DAS_BUILD_SHARED=OFF -DAS_BUILD_TESTS=OFF -DAS_BUILD_CONFORMANCE=OFF -DAS_BUILD_EXAMPLES=OFF -DCMAKE_C_FLAGS=-pthread -DCMAKE_CXX_FLAGS=-pthread
+          cmake -S . -B build/wasm -DCMAKE_TOOLCHAIN_FILE="$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_LIBDIR=lib -DAS_BUILD_SHARED=OFF -DAS_BUILD_TESTS=OFF -DAS_BUILD_CONFORMANCE=OFF -DAS_BUILD_EXAMPLES=OFF -DCMAKE_C_FLAGS=-pthread -DCMAKE_CXX_FLAGS=-pthread
           cmake --build build/wasm --parallel 2
-          cmake --install build/wasm --prefix build/wasm/install
-          python scripts/install_source.py build/wasm/install/share/audio-sdk/source
-          python -c 'import hashlib; from pathlib import Path; from zipfile import ZIP_DEFLATED, ZipFile; root=Path("build/wasm/install"); archive=Path("build/wasm/audio-sdk-0.1.0-wasm32-emscripten.zip"); z=ZipFile(archive, "w", ZIP_DEFLATED); [z.write(p, p.relative_to(root)) for p in root.rglob("*") if p.is_file()]; z.close(); (archive.with_name(archive.name+".sha256")).write_text(hashlib.sha256(archive.read_bytes()).hexdigest()+"  "+archive.name+"\n")'
+          sh scripts/package.sh build/wasm build/wasm/candidate --wasm
           prefix=build/wasm/extracted
-          python -m zipfile -e build/wasm/audio-sdk-0.1.0-wasm32-emscripten.zip "$prefix"
+          python -m zipfile -e build/wasm/candidate/audio-sdk-0.1.0-wasm32-emscripten.zip "$prefix"
           emcc -std=c11 -pthread -sENVIRONMENT=node -sEXIT_RUNTIME=1 -I "$prefix/include" \
             "$prefix/share/audio-sdk/source/examples/c/switch_provider.c" \
             "$prefix/lib/libaudio_sdk.a" -o build/wasm/installed-consumer.js
@@ -127,7 +131,7 @@ jobs:
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: sdk-wasm32-emscripten
-          path: build/wasm/audio-sdk-0.1.0-wasm32-emscripten.zip*
+          path: build/wasm/candidate/audio-sdk-0.1.0-wasm32-emscripten.zip*
           if-no-files-found: error
   sanitizers:
     name: sanitizers (${{ matrix.kind }})

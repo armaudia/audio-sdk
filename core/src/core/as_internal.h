@@ -161,6 +161,7 @@ void as_hex(const uint8_t digest[32], char out[65]);
 int as_status_valid(as_status_v0 status);
 
 /* Provider registration used by the built-in install path. */
+as_status_v0 as_registry_register_builtins(as_registry_v0 *registry, as_error_v0 *error);
 as_status_v0 as_registry_register_builtin_v0(as_registry_v0 *registry,
                                              const as_provider_table_v0 *table,
                                              const char *descriptor,

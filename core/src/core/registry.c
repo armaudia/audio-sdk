@@ -88,14 +88,7 @@ as_status_v0 AS_CALL as_registry_create_v0(as_registry_v0 **out,
                      "registry mutex initialization failed");
         return AS_RESOURCE_EXHAUSTED;
     }
-    as_status_v0 status = as_registry_register_builtin_v0(
-        registry, as_speex_provider_table(), as_speex_descriptor,
-        as_speex_descriptor_length, error);
-    if (status == AS_OK) {
-        status = as_registry_register_builtin_v0(
-            registry, as_highpass_provider_table(), as_highpass_descriptor,
-            as_highpass_descriptor_length, error);
-    }
+    as_status_v0 status = as_registry_register_builtins(registry, error);
     if (status != AS_OK) {
         for (uint32_t i = 0; i < registry->provider_count; ++i)
             free_entry(&registry->providers[i]);
