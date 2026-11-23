@@ -36,7 +36,8 @@ Task-local write scope:
 | `main.c` | Installed-prefix consumer: one typical API use, eight malformed/lifecycle probes, missing/unadvertised selections, installed conformance invocation |
 | `CMakeLists.txt` | Clean consumer build against installed `AudioSDK::audio_sdk` and installed `checks.c` |
 | `canonicalize.py` | Canonical report normalization and SHA-256 sidecars |
-| `run_installed.sh` | Clean checkout build → package → extract → installed consumer → reports; all outputs outside the worktree |
+| `run_installed.sh` | Clean checkout build → scoped package → extract → installed consumer → reports; all outputs outside the worktree |
+| `stage_scoped.py`, `package_scoped.sh` | Task-local release staging with an explicit source list: shared `SOURCE_PATHS` except broad `docs`, plus `docs/migration/source-allocation.csv` and this task's evidence tree; all shared verification steps are retained |
 | `.gitattributes` | Marks this README `export-ignore` in release archives so its recorded digests cannot alter the archive digest they describe; the README remains committed in the repository and PR |
 
 ## Exact commands
@@ -68,11 +69,16 @@ No generated build, report or `__pycache__` file is written inside the worktree.
 
 All digests below were produced from the clean post-commit SDK worktree at the
 exact head of this change, twice, with byte-identical canonical reports. The
-digest-bearing README is `export-ignore`d by the task-local `.gitattributes`, so
-its own values cannot perturb the release archive digest; all fixture code and
-tests remain in the archive. The commit uses fixed author/committer date
-`2026-11-23T00:00:00Z` so `git archive` tar timestamps are also reproducible.
-The conformance digest stays
+release archive is explicitly scoped by `stage_scoped.py`: it keeps every shared
+source path except broad `docs`, then adds only
+`docs/migration/source-allocation.csv` and this task's evidence subtree, so
+unrelated merged docs cannot change its bytes; the merged `analysis-events`,
+`elastic-pcm-packets` and `neural-runtime-boundary` trees are verified absent
+from the archive. The digest-bearing README is `export-ignore`d by the task-local
+`.gitattributes`, so its own values cannot
+perturb the archive digest; all fixture code and tests remain in the archive.
+The commit uses fixed author/committer date `2026-11-23T00:00:00Z` so archive
+tar timestamps are also reproducible. The conformance digest stays
 `d4286e9cd4c40231c698d22995bd0a6021c5ca9e563465fd7b4a87d2b6bf530a` because it
 covers the unchanged fixture-provider conformance report, not the archive. Only
 the archive-dependent consumer and summary digests changed from the earlier
@@ -85,7 +91,7 @@ Installed version and provenance:
 - Clean post-commit checkout at the exact head of this change, native Release
   build, normalized extracted archive.
 - Archive SHA-256
-  `c93eb679e947074fc2d621dbc2f9dd82df8bbb4f43268cd5e14fceede5eda9ff`.
+  `740ce666c8f351b65a53e5bffabb77a18ef73aaf5c12f590456ced3cd5b0b423`.
 - Measured install prefix: `<scratch>/run-a/extracted/audio-sdk-0.1.0` in the
   reproduction above; `run_installed.sh` prints the concrete path.
 - Fixture provider descriptor digest
@@ -118,11 +124,11 @@ Installed version and provenance:
 - Canonical report digests (newline-terminated files; digests cover canonical
   JSON without the terminal newline):
   - `consumer-report.canonical.json` —
-    `761df1657e6af184c6bb57b2e7f43bf2c71a9bc0a22b732635e93297356c2f47`
+    `e72ee021231151fe3ef26061c8e9d9aea2d0994fc980d8037b8623034b25a58b`
   - `conformance-report.canonical.json` —
     `d4286e9cd4c40231c698d22995bd0a6021c5ca9e563465fd7b4a87d2b6bf530a`
   - `summary.canonical.json` —
-    `cceeea049fbd593428e1f4223cffc8b064ed7bdfa3b6650217cdb5226de28f38`
+    `87ac3fab2ffae8cf275a7205b844933aa2288b4ba5d38b54c5856170778d9bd5`
   - `.sha256` sidecars are emitted beside each report.
 
 ### Explicit invalid, missing and adverse controls

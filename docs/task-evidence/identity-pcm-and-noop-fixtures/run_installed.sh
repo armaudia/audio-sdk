@@ -43,7 +43,7 @@ run_logged configure cmake -S "$sdk_root" -B "$scratch/sdk-build" \
 run_logged build cmake --build "$scratch/sdk-build" --parallel 2
 run_logged native-ctest ctest --test-dir "$scratch/sdk-build" \
     --output-on-failure --timeout 60
-run_logged package sh "$sdk_root/scripts/package.sh" \
+run_logged package sh "$task_dir/package_scoped.sh" \
     "$scratch/sdk-build" "$scratch/candidate"
 
 archive="$scratch/candidate/audio-sdk-0.1.0.tar.gz"
