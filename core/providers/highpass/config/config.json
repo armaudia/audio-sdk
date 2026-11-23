@@ -1,0 +1,9 @@
+{
+  "schema_id": "audio-sdk/provider-config/0.1",
+  "provider_id": "dsp.highpass80.v0",
+  "settings": {
+    "cutoff_hz": {"default": "80", "type": "decimal_string", "unit": "Hz"},
+    "q": {"default": "0.7071067811865476", "type": "decimal_string"}
+  },
+  "units": {}
+}

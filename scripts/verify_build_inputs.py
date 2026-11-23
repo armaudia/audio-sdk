@@ -27,6 +27,8 @@ def runtime_inputs(root: Path) -> list[Path]:
             for path in (root / directory).rglob("*")
             if path.is_file() and path.suffix in suffixes
         )
+    paths.update(path for pattern in ("*/provider.cmake", "*/config/*.json")
+                 for path in (root / "core/providers").glob(pattern) if path.is_file())
     return sorted(paths, key=lambda path: path.relative_to(root).as_posix())
 
 

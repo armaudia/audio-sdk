@@ -12,6 +12,7 @@ import platform
 import shutil
 import subprocess
 import sys
+import tarfile
 import tempfile
 import venv
 from pathlib import Path
@@ -73,6 +74,12 @@ def main() -> None:
             raise RuntimeError("an untracked docs file leaked into the sealed release")
     print("release source excluded the untracked docs probe")
     check_release_gates(root, build, output)
+    original = candidate / "audio-sdk-0.1.0.tar.gz"
+    extracted = output / "extracted"
+    extracted.mkdir()
+    with tarfile.open(original) as archive:
+        archive.extractall(extracted, filter="data")
+    prefix = extracted / prefix.name
     external = output / "external"
     conformance = prefix / "share/audio-sdk/conformance"
     run("cmake", "-S", str(conformance / "external_provider"), "-B", str(external),
@@ -81,6 +88,14 @@ def main() -> None:
     run("cmake", "--build", str(external), "--parallel", "2")
     run("ctest", "--test-dir", str(external), "--output-on-failure", "--timeout", "60",
         "--output-junit", str(output / "external-tests.xml"))
+    for enabled in ("off", "on"):
+        fixture = output / f"fixture-{enabled}"
+        run("cmake", "-S", str(conformance / "provider_registration"), "-B", str(fixture),
+            f"-DCMAKE_PREFIX_PATH={prefix}", f"-DAS_ENABLE_FIXTURE_PROVIDER={enabled}",
+            "-DCMAKE_BUILD_TYPE=Release")
+        run("cmake", "--build", str(fixture), "--parallel", "2")
+        run("ctest", "--test-dir", str(fixture), "--output-on-failure", "--timeout", "60",
+            "--output-junit", str(output / f"fixture-{enabled}-tests.xml"))
     wheels = output / "wheels"
     python_source = output / "python-source"
     shutil.copytree(root / "bindings/python", python_source,
@@ -104,7 +119,6 @@ def main() -> None:
         env["PATH"] = str(library.parent) + os.pathsep + env.get("PATH", "")
     run(str(python), "-m", "unittest", "discover", "-s", str(tests), "-v", cwd=output, env=env)
     # Verify normalization independently of the first archive invocation.
-    original = candidate / "audio-sdk-0.1.0.tar.gz"
     repeated = candidate / "repeated.tar.gz"
     run(sys.executable, str(root / "scripts/create_archive.py"),
         "audio-sdk-0.1.0", repeated.name, cwd=candidate)
