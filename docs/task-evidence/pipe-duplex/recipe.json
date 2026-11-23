@@ -1,0 +1,216 @@
+{
+  "schema_id": "audio-sdk/pipe-duplex/0.1",
+  "recipe_id": "pipe.duplex.synthetic.v1",
+  "task": "SDK-PIPE-DUPLEX",
+  "status": "proposal_only",
+  "claim": "synthetic_reference_pipeline_only",
+  "activation": {
+    "default_enabled": false,
+    "opt_in_only": true,
+    "build_targets_added": [],
+    "shared_sources_modified": [],
+    "shared_abi_changed": false,
+    "provider_registry_changed": false
+  },
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "clock": {
+    "origin_ns": 1000000000,
+    "ns_per_sample": 62500,
+    "frame_timeout_ns": 25000000,
+    "monotonic_submission_required": true,
+    "measured_stage_time_ns": null,
+    "measured_end_to_end_availability_ns": null
+  },
+  "transport": {
+    "queue_capacity": 3,
+    "linear_audio_path_required": true,
+    "hot_swap": false,
+    "automatic_retry": false,
+    "provider_substitution": false,
+    "capture_only_on_invalid_reference": true,
+    "report_reference_fault": true,
+    "reference_alignment": "integer_frame_timestamp_match_before_mdf"
+  },
+  "stages": {
+    "fixture.identity.v0": {
+      "role": "audio",
+      "delay_samples": 0,
+      "availability_cost_ns": 1000,
+      "settings": {}
+    },
+    "dsp.highpass80.v0": {
+      "role": "audio",
+      "delay_samples": 0,
+      "availability_cost_ns": 25000,
+      "settings": {
+        "cutoff_hz": 80.0,
+        "q": 0.7071067811865476
+      }
+    },
+    "speex.ns.v0": {
+      "role": "audio",
+      "delay_samples": 160,
+      "availability_cost_ns": 200000,
+      "settings": {
+        "suppression_db": -20,
+        "vad_start": 35,
+        "vad_continue": 20,
+        "agc_enabled": false,
+        "dereverb_enabled": false
+      }
+    },
+    "fixture.peak_limiter.v0": {
+      "role": "audio",
+      "delay_samples": 0,
+      "availability_cost_ns": 15000,
+      "settings": {
+        "ceiling": 0.98,
+        "release_ms": 50.0
+      }
+    },
+    "fixture.residual_suppressor_surrogate.v0": {
+      "role": "audio",
+      "delay_samples": 0,
+      "availability_cost_ns": 20000,
+      "settings": {
+        "low_rms_threshold": 0.01,
+        "floor_gain": 0.1,
+        "requires_reference": true,
+        "implementation": "task_local_energy_gate_not_speex_residual_suppressor"
+      }
+    },
+    "merged.speexdsp_mdf_reference.v1": {
+      "role": "audio",
+      "delay_samples": 0,
+      "availability_cost_ns": 1000000,
+      "settings": {
+        "frame_samples": 160,
+        "filter_length_samples": 3200,
+        "sample_rate_hz": 16000,
+        "conversion": "float32->lrint(x*32767) int16->x/32768 float32",
+        "reset_every_frames": 0
+      }
+    },
+    "merged.speexdsp_mdf_reference_reset150.v1": {
+      "role": "audio",
+      "delay_samples": 0,
+      "availability_cost_ns": 1000000,
+      "settings": {
+        "frame_samples": 160,
+        "filter_length_samples": 3200,
+        "sample_rate_hz": 16000,
+        "conversion": "float32->lrint(x*32767) int16->x/32768 float32",
+        "reset_every_frames": 150
+      }
+    }
+  },
+  "variants": {
+    "identity": {
+      "purpose": "control",
+      "audio_path": ["identity"],
+      "nodes": [
+        {"id": "identity", "provider_id": "fixture.identity.v0", "role": "audio", "delay_samples": 0, "availability_cost_ns": 1000, "settings": {}, "depends_on": [], "input_port": "pcm.in", "output_port": "pcm.identity.out"}
+      ]
+    },
+    "capture_only": {
+      "purpose": "merged capture recipe without far-end reference; explicit fallback",
+      "audio_path": ["highpass", "ns", "limiter"],
+      "nodes": [
+        {"id": "highpass", "provider_id": "dsp.highpass80.v0", "role": "audio", "delay_samples": 0, "availability_cost_ns": 25000, "settings": {"cutoff_hz": 80.0, "q": 0.7071067811865476}, "depends_on": [], "input_port": "pcm.in", "output_port": "pcm.highpass.out"},
+        {"id": "ns", "provider_id": "speex.ns.v0", "role": "audio", "delay_samples": 160, "availability_cost_ns": 200000, "settings": {"suppression_db": -20, "vad_start": 35, "vad_continue": 20, "agc_enabled": false, "dereverb_enabled": false}, "depends_on": ["highpass"], "input_port": "pcm.highpass.out", "output_port": "pcm.ns.out"},
+        {"id": "limiter", "provider_id": "fixture.peak_limiter.v0", "role": "audio", "delay_samples": 0, "availability_cost_ns": 15000, "settings": {"ceiling": 0.98, "release_ms": 50.0}, "depends_on": ["ns"], "input_port": "pcm.ns.out", "output_port": "pcm.limiter.out"}
+      ]
+    },
+    "capture_residual": {
+      "purpose": "residual toggle without MDF; no reference means the surrogate cannot suppress",
+      "audio_path": ["residual", "highpass", "ns", "limiter"],
+      "nodes": [
+        {"id": "residual", "provider_id": "fixture.residual_suppressor_surrogate.v0", "role": "audio", "delay_samples": 0, "availability_cost_ns": 20000, "settings": {"low_rms_threshold": 0.01, "floor_gain": 0.1, "requires_reference": true, "implementation": "task_local_energy_gate_not_speex_residual_suppressor"}, "depends_on": [], "input_port": "pcm.in", "output_port": "pcm.residual.out"},
+        {"id": "highpass", "provider_id": "dsp.highpass80.v0", "role": "audio", "delay_samples": 0, "availability_cost_ns": 25000, "settings": {"cutoff_hz": 80.0, "q": 0.7071067811865476}, "depends_on": ["residual"], "input_port": "pcm.residual.out", "output_port": "pcm.highpass.out"},
+        {"id": "ns", "provider_id": "speex.ns.v0", "role": "audio", "delay_samples": 160, "availability_cost_ns": 200000, "settings": {"suppression_db": -20, "vad_start": 35, "vad_continue": 20, "agc_enabled": false, "dereverb_enabled": false}, "depends_on": ["highpass"], "input_port": "pcm.highpass.out", "output_port": "pcm.ns.out"},
+        {"id": "limiter", "provider_id": "fixture.peak_limiter.v0", "role": "audio", "delay_samples": 0, "availability_cost_ns": 15000, "settings": {"ceiling": 0.98, "release_ms": 50.0}, "depends_on": ["ns"], "input_port": "pcm.ns.out", "output_port": "pcm.limiter.out"}
+      ]
+    },
+    "duplex_base": {
+      "purpose": "requested reference-aligned path: MDF then Speex NS policy then limiter",
+      "audio_path": ["mdf", "ns", "limiter"],
+      "nodes": [
+        {"id": "mdf", "provider_id": "merged.speexdsp_mdf_reference.v1", "role": "audio", "delay_samples": 0, "availability_cost_ns": 1000000, "settings": {"frame_samples": 160, "filter_length_samples": 3200, "sample_rate_hz": 16000, "conversion": "float32->lrint(x*32767) int16->x/32768 float32", "reset_every_frames": 0}, "depends_on": [], "input_port": "pcm.in", "output_port": "pcm.mdf.out"},
+        {"id": "ns", "provider_id": "speex.ns.v0", "role": "audio", "delay_samples": 160, "availability_cost_ns": 200000, "settings": {"suppression_db": -20, "vad_start": 35, "vad_continue": 20, "agc_enabled": false, "dereverb_enabled": false}, "depends_on": ["mdf"], "input_port": "pcm.mdf.out", "output_port": "pcm.ns.out"},
+        {"id": "limiter", "provider_id": "fixture.peak_limiter.v0", "role": "audio", "delay_samples": 0, "availability_cost_ns": 15000, "settings": {"ceiling": 0.98, "release_ms": 50.0}, "depends_on": ["ns"], "input_port": "pcm.ns.out", "output_port": "pcm.limiter.out"}
+      ]
+    },
+    "duplex_residual": {
+      "purpose": "independent residual-suppressor toggle after MDF; not a Speex residual suppressor",
+      "audio_path": ["mdf", "residual", "ns", "limiter"],
+      "nodes": [
+        {"id": "mdf", "provider_id": "merged.speexdsp_mdf_reference.v1", "role": "audio", "delay_samples": 0, "availability_cost_ns": 1000000, "settings": {"frame_samples": 160, "filter_length_samples": 3200, "sample_rate_hz": 16000, "conversion": "float32->lrint(x*32767) int16->x/32768 float32", "reset_every_frames": 0}, "depends_on": [], "input_port": "pcm.in", "output_port": "pcm.mdf.out"},
+        {"id": "residual", "provider_id": "fixture.residual_suppressor_surrogate.v0", "role": "audio", "delay_samples": 0, "availability_cost_ns": 20000, "settings": {"low_rms_threshold": 0.01, "floor_gain": 0.1, "requires_reference": true, "implementation": "task_local_energy_gate_not_speex_residual_suppressor"}, "depends_on": ["mdf"], "input_port": "pcm.mdf.out", "output_port": "pcm.residual.out"},
+        {"id": "ns", "provider_id": "speex.ns.v0", "role": "audio", "delay_samples": 160, "availability_cost_ns": 200000, "settings": {"suppression_db": -20, "vad_start": 35, "vad_continue": 20, "agc_enabled": false, "dereverb_enabled": false}, "depends_on": ["residual"], "input_port": "pcm.residual.out", "output_port": "pcm.ns.out"},
+        {"id": "limiter", "provider_id": "fixture.peak_limiter.v0", "role": "audio", "delay_samples": 0, "availability_cost_ns": 15000, "settings": {"ceiling": 0.98, "release_ms": 50.0}, "depends_on": ["ns"], "input_port": "pcm.ns.out", "output_port": "pcm.limiter.out"}
+      ]
+    },
+    "mdf_only": {
+      "purpose": "stage-removed ablation of all post-MDF processing",
+      "audio_path": ["mdf"],
+      "nodes": [
+        {"id": "mdf", "provider_id": "merged.speexdsp_mdf_reference.v1", "role": "audio", "delay_samples": 0, "availability_cost_ns": 1000000, "settings": {"frame_samples": 160, "filter_length_samples": 3200, "sample_rate_hz": 16000, "conversion": "float32->lrint(x*32767) int16->x/32768 float32", "reset_every_frames": 0}, "depends_on": [], "input_port": "pcm.in", "output_port": "pcm.mdf.out"}
+      ]
+    },
+    "duplex_no_ns": {
+      "purpose": "NS removed from the reference-aligned path",
+      "audio_path": ["mdf", "limiter"],
+      "nodes": [
+        {"id": "mdf", "provider_id": "merged.speexdsp_mdf_reference.v1", "role": "audio", "delay_samples": 0, "availability_cost_ns": 1000000, "settings": {"frame_samples": 160, "filter_length_samples": 3200, "sample_rate_hz": 16000, "conversion": "float32->lrint(x*32767) int16->x/32768 float32", "reset_every_frames": 0}, "depends_on": [], "input_port": "pcm.in", "output_port": "pcm.mdf.out"},
+        {"id": "limiter", "provider_id": "fixture.peak_limiter.v0", "role": "audio", "delay_samples": 0, "availability_cost_ns": 15000, "settings": {"ceiling": 0.98, "release_ms": 50.0}, "depends_on": ["mdf"], "input_port": "pcm.mdf.out", "output_port": "pcm.limiter.out"}
+      ]
+    },
+    "duplex_no_limiter": {
+      "purpose": "limiter removed from the reference-aligned path",
+      "audio_path": ["mdf", "ns"],
+      "nodes": [
+        {"id": "mdf", "provider_id": "merged.speexdsp_mdf_reference.v1", "role": "audio", "delay_samples": 0, "availability_cost_ns": 1000000, "settings": {"frame_samples": 160, "filter_length_samples": 3200, "sample_rate_hz": 16000, "conversion": "float32->lrint(x*32767) int16->x/32768 float32", "reset_every_frames": 0}, "depends_on": [], "input_port": "pcm.in", "output_port": "pcm.mdf.out"},
+        {"id": "ns", "provider_id": "speex.ns.v0", "role": "audio", "delay_samples": 160, "availability_cost_ns": 200000, "settings": {"suppression_db": -20, "vad_start": 35, "vad_continue": 20, "agc_enabled": false, "dereverb_enabled": false}, "depends_on": ["mdf"], "input_port": "pcm.mdf.out", "output_port": "pcm.ns.out"}
+      ]
+    },
+    "duplex_reset": {
+      "purpose": "warm/reset alignment control with pinned MDF reset at the changing-delay frame",
+      "audio_path": ["mdf_reset", "ns", "limiter"],
+      "nodes": [
+        {"id": "mdf_reset", "provider_id": "merged.speexdsp_mdf_reference_reset150.v1", "role": "audio", "delay_samples": 0, "availability_cost_ns": 1000000, "settings": {"frame_samples": 160, "filter_length_samples": 3200, "sample_rate_hz": 16000, "conversion": "float32->lrint(x*32767) int16->x/32768 float32", "reset_every_frames": 150}, "depends_on": [], "input_port": "pcm.in", "output_port": "pcm.mdf.out"},
+        {"id": "ns", "provider_id": "speex.ns.v0", "role": "audio", "delay_samples": 160, "availability_cost_ns": 200000, "settings": {"suppression_db": -20, "vad_start": 35, "vad_continue": 20, "agc_enabled": false, "dereverb_enabled": false}, "depends_on": ["mdf_reset"], "input_port": "pcm.mdf.out", "output_port": "pcm.ns.out"},
+        {"id": "limiter", "provider_id": "fixture.peak_limiter.v0", "role": "audio", "delay_samples": 0, "availability_cost_ns": 15000, "settings": {"ceiling": 0.98, "release_ms": 50.0}, "depends_on": ["ns"], "input_port": "pcm.ns.out", "output_port": "pcm.limiter.out"}
+      ]
+    }
+  },
+  "case_matrix": {
+    "echo_only": ["identity", "capture_only", "capture_residual", "duplex_base", "duplex_residual", "mdf_only", "duplex_no_ns", "duplex_no_limiter"],
+    "double_talk_overlap": ["identity", "capture_only", "duplex_base", "duplex_residual"],
+    "near_end_only": ["identity", "capture_only", "duplex_base", "duplex_residual"],
+    "render_dropout": ["identity", "capture_only"],
+    "reference_absent": ["identity", "capture_only"],
+    "reference_stale": ["identity", "capture_only"],
+    "capture_dropout": ["identity", "capture_only", "duplex_base", "duplex_residual"],
+    "changing_delay_warm": ["identity", "duplex_base", "duplex_residual"],
+    "changing_delay_reset": ["identity", "duplex_reset"],
+    "skew_timestamp_repair": ["identity", "duplex_base", "duplex_residual"],
+    "content_skew_undetected": ["identity", "duplex_base"]
+  },
+  "excluded_evidence": [
+    {
+      "item": "AEC, double-talk, listening, quality, device or release qualification",
+      "status": "excluded",
+      "reason": "Only deterministic arithmetic on frozen synthetic streams with declared clocks is reported."
+    },
+    {
+      "item": "Real Tiny16 parity or adverse exploratory comparison",
+      "status": "excluded",
+      "reason": "No S10/protocol clearance, approved independent reference adapter or permitted case manifest exists here."
+    }
+  ]
+}
