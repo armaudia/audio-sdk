@@ -1,0 +1,7 @@
+ccbc95f2c256ec89ce2939ecb599e13f45321f0d  sdk:third_party/speexdsp/libspeexdsp/mdf.c
+a5a633b914528779497a114c5b18b7449969b34c  sdk:third_party/speexdsp/include/speex/speex_echo.h
+fa3b23fc7d920de8837348466871c3505b09e77d  sdk:third_party/speexdsp/libspeexdsp/fftwrap.c
+670c523e2bad6641223d2dc9b52aa5a92f3b1ef8  sdk:third_party/speexdsp/libspeexdsp/filterbank.c
+fd53cdf90e0a5adf43e689c018b93ed5d5124bb9  sdk:third_party/speexdsp/libspeexdsp/smallft.c
+8dc9345428b13a3694c1d909574ae56596b1403d  sdk:third_party/speexdsp/libspeexdsp/kiss_fft.c
+827e0b14df9675d61d0cd9618f1bd3603ad205be  sdk:third_party/speexdsp/libspeexdsp/kiss_fftr.c
