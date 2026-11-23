@@ -37,19 +37,26 @@ Task-local write scope:
 | `CMakeLists.txt` | Clean consumer build against installed `AudioSDK::audio_sdk` and installed `checks.c` |
 | `canonicalize.py` | Canonical report normalization and SHA-256 sidecars |
 | `run_installed.sh` | Clean checkout build → package → extract → installed consumer → reports; all outputs outside the worktree |
+| `.gitattributes` | Marks this README `export-ignore` in release archives so its recorded digests cannot alter the archive digest they describe; the README remains committed in the repository and PR |
 
 ## Exact commands
 
-Run from the SDK worktree with a scratch directory outside it:
+Use the clean post-commit SDK worktree at the exact head under test. The
+compiler embeds absolute source paths in the release binaries, so the same worktree
+path is part of reproducing these archive digests:
 
 ```sh
-task_dir=docs/task-evidence/identity-pcm-and-noop-fixtures
+task_dir=/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-IDENTITY-PCM-AND-NOOP-FIXTURES/docs/task-evidence/identity-pcm-and-noop-fixtures
 scratch=$(mktemp -d /private/var/folders/hl/n3qd3bjs2ps_hq801c03w2gh0000gn/T/opencode/identity-pcm.XXXXXX)
-"$task_dir/run_installed.sh" "$scratch" /Users/htsakanyan/workspace/audio/audioml
-python3 -m json.tool "$scratch/reports/summary.canonical.json" >/dev/null
-python3 -m json.tool "$scratch/reports/consumer-report.canonical.json" >/dev/null
-python3 -m json.tool "$scratch/reports/conformance-report.canonical.json" >/dev/null
-git diff --check
+for run in run-a run-b; do
+  "$task_dir/run_installed.sh" "$scratch/$run" \
+    /Users/htsakanyan/workspace/audio/audioml > "$scratch/$run.log" 2>&1
+done
+diff -r "$scratch/run-a/reports" "$scratch/run-b/reports"
+python3 -m json.tool "$scratch/run-a/reports/summary.canonical.json" >/dev/null
+python3 -m json.tool "$scratch/run-a/reports/consumer-report.canonical.json" >/dev/null
+python3 -m json.tool "$scratch/run-a/reports/conformance-report.canonical.json" >/dev/null
+git -C /Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-IDENTITY-PCM-AND-NOOP-FIXTURES diff --check
 python3 /Users/htsakanyan/workspace/audio/audioml/audio-benchmark-platform/plan/swarm/check.py --task SDK-IDENTITY-PCM-AND-NOOP-FIXTURES
 ```
 
@@ -59,15 +66,28 @@ No generated build, report or `__pycache__` file is written inside the worktree.
 
 ## Measured run (macOS arm64, AppleClang 21.0.0, CMake 3.27.4, Python 3.11.5)
 
+All digests below were produced from the clean post-commit SDK worktree at the
+exact head of this change, twice, with byte-identical canonical reports. The
+digest-bearing README is `export-ignore`d by the task-local `.gitattributes`, so
+its own values cannot perturb the release archive digest; all fixture code and
+tests remain in the archive. The commit uses fixed author/committer date
+`2026-11-23T00:00:00Z` so `git archive` tar timestamps are also reproducible.
+The conformance digest stays
+`d4286e9cd4c40231c698d22995bd0a6021c5ca9e563465fd7b4a87d2b6bf530a` because it
+covers the unchanged fixture-provider conformance report, not the archive. Only
+the archive-dependent consumer and summary digests changed from the earlier
+pre-commit run.
+
 Installed version and provenance:
 
 - Version `0.1.0`; build ID
   `audio-sdk/0.1.0+sha256:0bc71dcab04880033a4ad4c1cfcebb8a05eccb11a20a786b9c844e394c035972`.
-- Clean pinned checkout, native Release build, normalized extracted archive.
+- Clean post-commit checkout at the exact head of this change, native Release
+  build, normalized extracted archive.
 - Archive SHA-256
-  `c5a11c59e536d0e39cb554b1cb8a92c6fbe2fc21fd7dd9db31ef09c5e9263f67`.
-- Measured install prefix:
-  `/private/var/folders/hl/n3qd3bjs2ps_hq801c03w2gh0000gn/T/opencode/identity-pcm-run3/extracted/audio-sdk-0.1.0`.
+  `c93eb679e947074fc2d621dbc2f9dd82df8bbb4f43268cd5e14fceede5eda9ff`.
+- Measured install prefix: `<scratch>/run-a/extracted/audio-sdk-0.1.0` in the
+  reproduction above; `run_installed.sh` prints the concrete path.
 - Fixture provider descriptor digest
   `ab014c584db1d66527a31e3b7ea68165c5979d930d761a8463574d3edd095d08`;
   descriptor source digest
@@ -98,11 +118,11 @@ Installed version and provenance:
 - Canonical report digests (newline-terminated files; digests cover canonical
   JSON without the terminal newline):
   - `consumer-report.canonical.json` —
-    `b330de537f11029f052343a08f1a9106490b16b3170defffdc873d73634c2f48`
+    `761df1657e6af184c6bb57b2e7f43bf2c71a9bc0a22b732635e93297356c2f47`
   - `conformance-report.canonical.json` —
     `d4286e9cd4c40231c698d22995bd0a6021c5ca9e563465fd7b4a87d2b6bf530a`
   - `summary.canonical.json` —
-    `4a1f98da0367734a4c8e176ed5656af1ffcbd113c3495bb077d9bb14e5887368`
+    `cceeea049fbd593428e1f4223cffc8b064ed7bdfa3b6650217cdb5226de28f38`
   - `.sha256` sidecars are emitted beside each report.
 
 ### Explicit invalid, missing and adverse controls
