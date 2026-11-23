@@ -1,0 +1,59 @@
+{
+  "schema_id": "audio-sdk/analysis-events/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-FND-ANALYSIS",
+  "status": "proposal-only",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "source_interval": "half-open [start_sample, end_sample) in int64 samples",
+    "time_domain": "monotonic_ns; int64; one clock_id per event stream"
+  },
+  "event_kinds": {
+    "speech_probability": {
+      "value": "float in [0,1]",
+      "validity": ["known", "unknown", "invalid"],
+      "decision_resolution_samples": "positive integer",
+      "lookahead_samples": "nonnegative integer"
+    },
+    "speech_event": {
+      "value": "null",
+      "validity": ["known", "unknown", "invalid"]
+    },
+    "rate_event": {
+      "value": "decimal string with declared unit",
+      "validity": ["known", "unknown", "invalid"]
+    },
+    "transcript_event": {
+      "value": "object with token intervals and text hash",
+      "validity": ["known", "unknown", "invalid"]
+    }
+  },
+  "required_fields": [
+    "event_id",
+    "kind",
+    "producer_id",
+    "tap_id",
+    "epoch",
+    "source_start",
+    "source_end",
+    "value",
+    "validity",
+    "available_ns",
+    "availability_clock_id",
+    "config_digest"
+  ],
+  "invariants": [
+    "Events are keyed by (producer_id, tap_id, epoch, event_id); no process-global latest-event register.",
+    "An event is admitted only when source_end > source_start >= 0 and its config_digest is a 64-hex SHA-256 string.",
+    "An event with epoch below the stream epoch, or from the same epoch before stream_start, is stale and is rejected.",
+    "Validity is explicit: unknown means retained but not usable; invalid means rejected; only known events enter scoring.",
+    "available_ns is required for known events and must be monotonic in the declared clock domain; signal timestamps are not availability evidence.",
+    "Analysis is read-only on PCM: publishing an event cannot mutate the attached audio tuple.",
+    "Placement is by exact source interval, never rounded to a hop; cross-hop events contribute exact per-frame overlap counts.",
+    "Accuracy runs require hypothesis decisions to cover the scored union exactly: no gaps, overlaps or samples outside scored regions.",
+    "Unknown regions outside scored_regions are excluded from denominators and reported as unknown_samples.",
+    "A zero denominator produces value null with no_scored_speech or no_scored_nonspeech, never zero."
+  ],
+  "public_v0_abi": "unchanged; this is a proposed versioned interface and model-free fixture only"
+}
