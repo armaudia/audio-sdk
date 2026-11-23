@@ -1,0 +1,27 @@
+{
+  "schema_id": "audio-sdk/static-target-gain-with-peak-ceiling/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-STATIC-TARGET-GAIN-WITH-PEAK-CEILING",
+  "status": "proposal-only",
+  "engine": "reference.sequence-static.v0",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "boundary": "protocol-v1-shaped unregistered task-local adapter; mirrors adapters/controls request and result fields",
+  "invariants": [
+    "No public ABI, header, descriptor, registry default, installed behaviour, CONTRACTS.md or CMakeLists.txt change is included.",
+    "All controls are explicit, numeric, finite and range checked; absent controls are rejected rather than defaulted.",
+    "Each reset-delimited segment receives one gain computed from that segment's complete finite input; no per-sample attack, release or lookahead exists.",
+    "Exact gain arithmetic is target_linear / max(input_rms, 1e-8), clamped to the configured linear gain bounds and expressed with 20*log10; output is f32(sample * gain) hard-clamped to +/- ceiling.",
+    "Whole segments at or below silence_floor_dbfs bypass amplification; quiet spans inside an active segment are not gated and pause amplification remains an explicit unresolved risk.",
+    "Nonfinite inputs are counted; finite-only RMS is used for planning and C++-style min/max ordering maps nonfinite products to the finite ceiling. This is an observation, not a robustness endorsement.",
+    "Session state is keyed by session_id and canonical control digest; continued sessions replay buffered samples, stale epochs reject before state changes and sessions do not leak.",
+    "Headroom is measured against the configured hard ceiling; clipped samples and nonfinite-mapped samples are counted explicitly.",
+    "No missing result qualifies a candidate; real-speech, listening, loudness-standard, native-provider and device/deadline qualifications remain incomplete.",
+    "Fixed v0 format is unchanged: 16 kHz mono f32, 160 samples per frame."
+  ],
+  "public_v0_abi": "unchanged; proposal-only reference and deterministic synthetic fixture"
+}

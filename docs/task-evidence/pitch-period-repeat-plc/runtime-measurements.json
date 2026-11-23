@@ -1,0 +1,89 @@
+{
+  "base_commit": "d665c298e8cce8b4d576dc45f3c7f7d3b3457425",
+  "deadline_ns": null,
+  "load": "one synthetic stream at a time, no competing load",
+  "non_deterministic": true,
+  "note": "ru_maxrss is a coarse process high-water mark; availability is elapsed time to the first frame with valid samples. Neither is a target timing claim.",
+  "pacing": "unpaced",
+  "per_condition": {
+    "autoregressive_baseline": {
+      "drain_frames": 5,
+      "drain_wall_s": 2e-05,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.000797,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 1.855708,
+        "median": 0.103187
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.04154
+    },
+    "identity_clean": {
+      "drain_frames": 5,
+      "drain_wall_s": 2e-05,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.000704,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 0.594959,
+        "median": 0.096375
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.025742
+    },
+    "linear_interpolation_baseline": {
+      "drain_frames": 5,
+      "drain_wall_s": 2.4e-05,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.000651,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 0.612,
+        "median": 0.102854
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.029109
+    },
+    "pitch_period_repeat": {
+      "drain_frames": 5,
+      "drain_wall_s": 1.9e-05,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.000842,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 14.466625,
+        "median": 0.099959
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.151059
+    },
+    "zero_fill_noisy_control": {
+      "drain_frames": 5,
+      "drain_wall_s": 2.1e-05,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.000614,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 0.776209,
+        "median": 0.103771
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.028743
+    }
+  },
+  "qualification_status": "blocked",
+  "runtime": {
+    "machine": "arm64",
+    "numpy": "2.5.4",
+    "pystoi": "0.4.1",
+    "python": "3.12.16",
+    "system": "Darwin"
+  },
+  "schema_id": "audio-sdk/task-evidence/pitch-period-repeat-plc/report/0.1/runtime-measurements"
+}

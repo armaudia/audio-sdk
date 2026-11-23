@@ -1,0 +1,94 @@
+{
+  "schema_id": "audio-sdk/fixed-feedback-gain-margin/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-FIXED-FEEDBACK-GAIN-MARGIN",
+  "component": "fixed-feedback-gain-margin",
+  "status": "optional-task-local-reference",
+  "base_commit": "dc6b8ecb5c7fa0a6a00072ddf9c6a2e168b68acc",
+  "branch": "swarm/SDK-FIXED-FEEDBACK-GAIN-MARGIN",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "public_boundary": {
+    "header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "provider_table_operations": ["create", "process", "reset", "drain", "destroy"],
+    "registration": "explicit caller-side as_register_provider_v0 only; no installed registry entry"
+  },
+  "provider": {
+    "provider_id": "dsp.fixed-feedback-margin.fixedref.v0",
+    "implementation_id": "dsp.fixed-feedback-margin.reference",
+    "implementation_version": "0.1.0-reference",
+    "execution_modes": [2],
+    "required_assets": [],
+    "buffering_delay_samples": 0,
+    "native_hop_samples": 160,
+    "max_drain_calls": 1,
+    "default_enabled": false,
+    "opt_in_cmake_option": "AS_ENABLE_FIXED_FEEDBACK_MARGIN"
+  },
+  "reference_controls": {
+    "profile": "fixed_gain",
+    "gain_db": -5.0,
+    "min_gain_db": -24.0,
+    "max_gain_db": 0.0,
+    "max_abs_input": 4.0,
+    "output_ceiling": 4.0,
+    "saturation": "none",
+    "saturation_threshold": 0.8
+  },
+  "source_pins": {
+    "research/feedback_control_20261028.md": "47b17e68a943e5fe3ee1568c81a84ea07eba040011e1d97df1ce61d8800c6b1c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "board_snapshot": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "7e27b37f6d53cc76a96bab73b2f24ec7983ea05a03e1562e5963975378e7cbfd",
+    "mutable": true
+  },
+  "report": {
+    "path": "report.json",
+    "sha256": "c7cd3a0518c315a4871b011bd89d74d09207d2d5bf84105c5877a76bf158b2bf",
+    "fixture_digest": "9c124fa104cfe0666166a3a6131d07040455d01ae5f7782e1220c60dd6d1105d",
+    "canonical": "sorted keys, compact separators, allow_nan false, no trailing newline"
+  },
+  "artifact_pins": {
+    "README.md": "3dccce06660c38c792a296762cabdd539ff72213f09649d453f4dbc53f73061a",
+    "fixture.py": "36e003772e1ea1dd215062ed00829287dbb6cab60b6f5e9573bb982921bec333",
+    "report.py": "3d7581ea581e7aa2119980699fa5697101d4a66eda695510b9a331dc3b31a576",
+    "report.json": "c7cd3a0518c315a4871b011bd89d74d09207d2d5bf84105c5877a76bf158b2bf",
+    "report.json.sha256": "3fe70839215e787a1f4e78595475c062eae51cac7b85c3bd8d0b8afe84f72b8f",
+    "test_fixture.py": "a2f5e61f96c50250849eba450269df79964b1788f52cbdeb848837b53f51b470",
+    "provider/CMakeLists.txt": "288c81d38bea8b2a9ec257490196459cf161cffc9cebdaae73feab94c39ffbf2",
+    "provider/fixed_gain_provider.c": "8d49add2f5ee367be1d375dd3d897ef2551be584107a85ca1f8a85872dc46e0f",
+    "provider/config/config.json": "528f1c3ee558f5b75f3e61e7def0cea9cea32293e8e8b734b4ccc331471e6f33",
+    "provider/config/descriptor.h.in": "7b194f6598e79076c855244c18a7d11c523055331d83d0a26dff293ed58b441a",
+    "provider/tests/test_provider.c": "7581c0454bcc56308a408221afac60ef321e63bfe10a622511ba4f7a5a11113e"
+  },
+  "invariants": [
+    "Fixed v0 format only: 16 kHz, mono f32, 160 samples. No adapter-sized variant is defined; the installed ABI, descriptors, registry, defaults and v0 behavior are unchanged.",
+    "The C provider is task-local, OFF by default and unregistered. ON requires explicit caller-side registration on one registry.",
+    "Every synthetic feedback-path case reports all 12 required metrics for identity and −3/−5/−8 dB bounded-gain controls; no result is omitted.",
+    "Missing, malformed, nonfinite, out-of-range, wrong-shape, stale-epoch and wrong-position inputs fail explicitly with DSP state unchanged.",
+    "Gain is bounded to the configured range at create and on each frame; there is no adaptation, detector, room model or physical-loop claim.",
+    "Stability labels are simulator-only proxies for explicit FIR delay/IR/gain trials, never room or device claims.",
+    "All material is synthetic and model-free. No real audio, trained model, licensed runtime, listening, MOS/STOI, target pacing, CPU/deadline, benchmark or release claim is made.",
+    "Canonical report and output digests are byte-identical when regenerated from the pinned fixture."
+  ],
+  "release_gates": [
+    "Measured loudspeaker/microphone paths with pinned IRs, calibrated gain-before-feedback, delay drift, path changes and amplifier saturation",
+    "Held-out speech and music with authorized perceptual/intelligibility review",
+    "Target runtime latency, CPU/memory and deadline qualification",
+    "Provider intake, license/notice, descriptor and public catalog review",
+    "Benchmark bundle creation and validation under the current submission policy"
+  ]
+}
