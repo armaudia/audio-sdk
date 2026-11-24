@@ -1,0 +1,124 @@
+{
+  "schema_id": "audio-sdk/offline-multichannel-wpe/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-OFFLINE-MULTICHANNEL-WPE",
+  "component": "offline-multichannel-wpe",
+  "repository": "audio-sdk",
+  "base_commit": "bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0",
+  "branch": "swarm/SDK-OFFLINE-MULTICHANNEL-WPE",
+  "status": "proposal_only_not_qualified",
+  "completeness": "incomplete",
+  "decision": "DEFER",
+  "verification_profile": "room",
+  "scope": "synthetic offline whole-clip noncausal two-channel WPE comparison at a task-local opt-in, unregistered, disabled-by-default waveform adapter boundary; no processor exposure, installed provider, real-room, listening, device, acceptance-threshold or release claim",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 2,
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "hop_samples": 160,
+    "fft_size": 512,
+    "processing_mode": "whole_clip_noncausal",
+    "content_delay_samples": 0,
+    "predictor_delay_frames": 2,
+    "taps": 3,
+    "iterations": 2,
+    "analysis_bias_samples": 352,
+    "grid_note": "The 160-sample grid freezes fixture chunk shapes only; the whole-clip WPE reads the complete buffer and is never a real-time boundary claim. The installed v0 remains 16 kHz mono f32 at 160 samples/frame."
+  },
+  "public_boundary": {
+    "header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "provider_table_operations": ["create", "process", "reset", "drain", "destroy"],
+    "registration": "none; this task adds no C provider, descriptor, registry entry, installed default or public catalog entry",
+    "c_provider_added": false,
+    "public_api_abi_changed": false,
+    "installed_v0_behavior_changed": false,
+    "c_boundary_skipped": true,
+    "c_boundary_skip_reason": "the hard write scope permits only this task-local evidence directory; provider/tests/ and shared build files are out of scope. OFF/ON behavior is exercised at the opt-in Python adapter instead.",
+    "note": "No C ABI, header, descriptor, default, registry or installed v0 source is modified. The Python adapter is opt-in, unregistered and disabled by default."
+  },
+  "reference": {
+    "adapter_id": "offline-multichannel-wpe-reference-v1",
+    "modes": ["whole_clip_noncausal"],
+    "controls": ["mc_wpe_candidate", "identity_control", "noisy_identity_control", "mc_wpe_on_noisy", "clean_near_end_preservation", "missing_reference", "no_reference_suppressor"],
+    "candidate": "mc_wpe_candidate",
+    "control": "identity_control",
+    "channels": 2,
+    "fft_size": 512,
+    "hop_size": 160,
+    "taps": 3,
+    "wpe_delay_frames": 2,
+    "iterations": 2,
+    "regularization": 1e-06,
+    "prediction_energy_cap": 0.1,
+    "early_window_ms": 50,
+    "causal": false,
+    "realtime_v0_provider": false,
+    "model_weights": false,
+    "downloads": false,
+    "real_speech": false,
+    "licensed_runtime": false,
+    "device_or_timing_claim": false,
+    "registered_in_bench": false,
+    "produces_bench_bundle": false,
+    "opt_in_manifest": "provider.json",
+    "default_enabled": false
+  },
+  "source_pins": {
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245",
+    "adapters/wpe/README.md": "b36f1af3151ea28df9b6c12f3adb90d0b4f28f4315d0aeccd0ff9c99050c703e",
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "research/dereverberation_candidates_20261028.md": "6f0f1a07aeb7b865dce766576bcc99cb97a78120253b1f9e1e9618f964098468",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "artifact_pins": {
+    "docs/task-evidence/offline-mono-wpe/report.json": "2b9be2488c4b0f82f417abd3e131c840729856937ed8239f2645beeaa30d7e61",
+    "docs/task-evidence/offline-mono-wpe/reference.py": "3a54465d8a20f81507ce1d5c2d47401274dee550aa0570bcd0257c6285f7778c",
+    "docs/task-evidence/offline-mono-wpe/scorer.py": "22c2ba7e60dc4f6e0a58b5ad5a5b89bf643e620ec37736082e3a64bffd034d96",
+    "docs/task-evidence/offline-mono-wpe/crosscheck_vectors.json": "7bdd131858306648b4f24b1544a6afb4da2660b3f2d3edcdfb3b715e574a18a2",
+    "docs/task-evidence/online-mono-wpe-reference/report.json": "77d5268a5b4e5c798fcbae5ef0d23dcf6008ed3534523d15fb21806fbb36fdd4"
+  },
+  "board_snapshot": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "5702c047fafade7e54b28199b13468ef8e7edb989539499381b51177bb669217",
+    "mutable": true
+  },
+  "invariants": [
+    "Fixed v0 grid only for fixture chunk shapes: 16 kHz, two synthetic channels, f32, 160-sample chunks; the installed ABI, descriptors, registry, defaults and mono v0 behavior are unchanged.",
+    "The WPE is explicitly whole-clip and noncausal: predictors are estimated from every frame of the buffer. It is never a real-time claim, never an oracle and never an acceptance threshold for online work.",
+    "No C provider, CMake subtree, descriptor setting, registry entry or installed default is added by this task; the C boundary is intentionally skipped and documented.",
+    "Identity/noisy controls, paired synthetic SI-SDR/STOI, three synthetic RIR stratifications, early-reflection target, movement and overlap controls, clean-source preservation, blocked missing-reference and no-reference-suppressor results are all present; no missing result qualifies the candidate.",
+    "Rejections for nonfinite, wrong shape, out-of-range, stale session/epoch/position and bad config fail closed without mutating DSP state.",
+    "Exact pinned comparisons use three byte-identical cold-start repeats; no tolerance widening, oracle substitution or provider substitution is used.",
+    "Pinned adjacent mono results are read only as explicitly scoped noncausal/causal controls and are never this task's oracle, threshold or candidate result.",
+    "All scores are synthetic scoped; no real speech, model weights, downloads, licensed runtime, listening, MOS/STOI on real speech, target-device pacing or release qualification is claimed.",
+    "Measured regressions are reported as measured; the candidate is not qualified and the decision is DEFER."
+  ],
+  "source_evidence_statements": [
+    "candidate_matrix.csv: WPE offline/online/multichannel is an evaluated dereverberation candidate with synthetic screens and mixed outcomes, not an installed SDK provider.",
+    "adapters/wpe/README.md: 512-point FFT, 128-hop, 5 taps, 8-frame delay and roughly 80 ms algorithmic latency; the documented offline use is not real time. This task freezes a 2-frame prediction delay and whole-clip statistics instead and claims no real-time behavior.",
+    "REALTIME_COMPONENT_CANDIDATES.md: stateful frame-causal online single-channel WPE has measured RTF and estimated delay with negligible gains over identity; these are source findings, not results reproduced here.",
+    "research/dereverberation_candidates_20261028.md: WPE outcomes depended on room and matched scoring; these synthetic conditions are a comparison, not a selection or qualification."
+  ],
+  "blockers": [
+    "No held-out real-room or standards-room paired dereverberation evaluation with pinned RIR provenance, rights and a defined early-reflection target has been run.",
+    "No listening/MOS assessment on licensed real speech has been run; synthetic STOI is not a human score.",
+    "No whole-clip timing, CPU, memory or device measurement has been run; the algorithm is noncausal and cannot support a realtime claim.",
+    "No provider intake, rights, license, descriptor and public catalog review has been completed for any provider.",
+    "The room profile's delayed/missing render case is not applicable to this dereverberation fixture and stays open for any AEC-style qualification."
+  ],
+  "reopening_conditions": [
+    "Provide real-room or standards-room RIRs with pinned provenance and a defined early-reflection target, then rerun paired SI-SDR/STOI with identity and noisy controls.",
+    "Run listening/MOS with licensed real speech and a declared listener protocol.",
+    "Develop and measure a genuinely causal multichannel variant on the exact target device before any realtime provider proposal.",
+    "Complete provider intake, license and descriptor review before changing any installed default, registry or public catalog.",
+    "Add a separate render/echo-return fixture before claiming any AEC-style duplex capability."
+  ]
+}
