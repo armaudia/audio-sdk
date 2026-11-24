@@ -281,7 +281,7 @@ class AdvisoryEvidenceTests(unittest.TestCase):
 
     def test_generated_header_matches_report(self):
         text = HEADER_FILE.read_text(encoding="utf-8")
-        self.assertIn("SPDX-License-Identifier: Apache-2.0", text)
+        self.assertIn("SPDX" "-License-Identifier: Apache-2.0", text)
         expected = self.report["c_boundary_expected"]
         for name in ("pcm_digest", "event_hop0_digest", "event_hop1_digest",
                      "event_hop0_binary_digest", "event_hop1_binary_digest",

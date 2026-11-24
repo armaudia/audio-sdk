@@ -62,7 +62,7 @@ SOURCE_PINS = {
         "no-gating-before-held-out-validation plan note.",
     ),
     "audio-benchmark-platform/plan/swarm/handoffs/SDK-SPEEX-NS-ADVISORY-PROBABILITY.md": (
-        "af7fca22f0592814d9f3d41ca1e55d30b1c7a2ea88f53e30dd2be31a171451b4",
+        "ac00811367df50a5b6bdd1d626904adb1cc2e452ec2e60d0628dfc9bef831ca5",
         "Task handoff: synthetic/frozen evidence only, opt-in reference, no control "
         "signal, exact pinned comparisons and remaining release gates.",
     ),

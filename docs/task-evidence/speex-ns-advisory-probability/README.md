@@ -47,7 +47,7 @@ Paths are relative to `/Users/htsakanyan/workspace/audio/audioml`.
 | `cpp-library/PIPELINE_DESIGN_REPORT.md` | `f603bd8eb27a44a1861a61e9f90d7085d785cbb77af9694b332677bd5e38b093` | Source evidence: one Speex preprocessor supplies NS and speech probability; source-reported paired AMI FN 4.44% / FP 68.84% makes the value advisory only. Historical values are not rerun here. |
 | `audio-benchmark-platform/plan/swarm/VERIFICATION.md` | `3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910` | Analysis acceptance profile: timestamped probabilities, event intervals, valid/detection scoring, state, availability and stale events. |
 | `audio-benchmark-platform/plan/INVENTORY.json` | `46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c` | Component record `speex-ns-advisory-probability`: analysis profile and no-gating-before-held-out-validation note. |
-| `audio-benchmark-platform/plan/swarm/handoffs/SDK-SPEEX-NS-ADVISORY-PROBABILITY.md` | `af7fca22f0592814d9f3d41ca1e55d30b1c7a2ea88f53e30dd2be31a171451b4` | Synthetic/frozen evidence rights, opt-in boundary, exact comparisons and remaining release gates. |
+| `audio-benchmark-platform/plan/swarm/handoffs/SDK-SPEEX-NS-ADVISORY-PROBABILITY.md` | `ac00811367df50a5b6bdd1d626904adb1cc2e452ec2e60d0628dfc9bef831ca5` | Synthetic/frozen evidence rights, opt-in boundary, exact comparisons and remaining release gates. |
 | `audio-benchmark-platform/audio-sdk/third_party/speexdsp/include/speex/speex_preprocess.h` | `7c12339881fce3250c69af7f36b8440a8d8012976b54331b3c980b8074393b25` | Public upstream header exposing `SPEEX_PREPROCESS_GET_PROB`; inspected only. No upstream source is vendored, built or benchmarked. |
 | `audio-benchmark-platform/audio-sdk/CONTRACTS.md` | `f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69` | Provenance for the public v0 boundary and the invalid-probability rule; no public surface is changed here. |
 
@@ -141,7 +141,7 @@ git diff --check
 - Independent state, reset bit-identity, invalid-frame state preservation and
   different-stimulus decoupling all pass.
 - Canonical report digest:
-  `09a30d721d7bdfc0a9b2223751ecef37ba4936185c0ad5626d30dcca92f96b02`.
+  `32f52013592cc958b68942230afc4d954035b0baeed5d34e0802ee85e7d01119`.
 - PCM content digest:
   `5fb9c6a2ab395ce7b99378b73b323b385136405ef5266c105a48f7a6d2d16d43`.
 - Hop-0 / hop-1 binary event digests:
@@ -152,12 +152,12 @@ git diff --check
 
 | Path | SHA-256 |
 | --- | --- |
-| `reference.py` | `e1d3b7712c60e9431036a6f3af0769d3f687f1595b744e308f6770caccdf9e81` |
+| `reference.py` | `2c4ff5160d46c4b317f3da34ec40b5b80f06786d251cd42c4e834b7f1ab66ec7` |
 | `run.py` | `8e4795e4e46f61bf89d85358d4b69f3d03cbb645fa45f62678f8f4eabbee5fdf` |
-| `test_reference.py` | `76f5d98d916958c00d452964fb2787f98f7e793b3a779d50ae0e4072dcf1f4a0` |
+| `test_reference.py` | `c6656fbd4faa85f6c3b41bc9a8bfb6e89836d130e18692aec5f3283491aff9f6` |
 | `report.schema.json` | `cf19cb05aa8e856089f41215c479f0930ef85a27c69c357d3f4fd8852036729d` |
-| `report.json` (file bytes) | `09a30d721d7bdfc0a9b2223751ecef37ba4936185c0ad5626d30dcca92f96b02` |
-| `report.json.sha256` (file bytes) | `26d1c3910e5775d308507481363e0ddfe21e7fdb5ec2c78df962ad89d3bec01c` |
+| `report.json` (file bytes) | `32f52013592cc958b68942230afc4d954035b0baeed5d34e0802ee85e7d01119` |
+| `report.json.sha256` (file bytes) | `8c43a6d1d2e4c5426ed9a3a70ead092761a3a8ff5b88a6c91ec5db56d0e6abc4` |
 | `provider/CMakeLists.txt` | `129998e78b0d4ae013e2f4dba91ac1afb51844781f9b881d353b5902ccc03861` |
 | `provider/config/config.json` | `af3a02eab2f922bc5bfe16ef595c5f538279b079d7e4e1ceae65edad89919c03` |
 | `provider/config/config.schema.json` | `fc5b8d83b0ca6fa5cd4a713e49d8ac41f1b0b26d8ebf8ccb0c33b27c8848595f` |
