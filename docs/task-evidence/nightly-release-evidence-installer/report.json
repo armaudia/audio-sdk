@@ -1,0 +1,826 @@
+{
+  "all_outputs_finite": true,
+  "base_commit": "bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0",
+  "blockers": [
+    {
+      "id": "actual_nightly_publication",
+      "reason": "No nightly feed, upload, registry push, publish command or hosted run was performed. RELEASING.md uses v0.1.0/rc tags with approval; no nightly channel is defined or exercised here.",
+      "reopen": "Define and review an explicit nightly channel, run it on approved infrastructure with an up-to-date branch, and record the published immutable artifact digest and location.",
+      "status": "blocked"
+    },
+    {
+      "id": "signing_and_attestation",
+      "reason": "No signing key, signature, provenance attestation or release-environment approval was available or used. Only local SHA-256 observations exist.",
+      "reopen": "Produce and independently verify signatures/attestations for the exact published artifacts under the release environment with recorded key provenance.",
+      "status": "blocked"
+    },
+    {
+      "id": "target_platform_breadth",
+      "reason": "Only one local Darwin arm64 Release host was exercised. Linux x86-64, Windows (with compilers removed from PATH) and WebAssembly/Node were not run; S12 broader hosts remain excluded.",
+      "reopen": "Run the same pinned procedure on each advertised target with recorded toolchain, archive digests and installed-consumer results, without widening support by implication.",
+      "status": "blocked"
+    },
+    {
+      "id": "release_claim",
+      "reason": "Local build/install/probe observations are not a release qualification. No sealed candidate was created or adopted and no hosted CI, rights, parity or workload approval exists.",
+      "reopen": "Complete hosted CI, rights/license decisions, clean install evidence on advertised targets, limitations and release notes under the RELEASING.md procedure, with independent review.",
+      "status": "blocked"
+    },
+    {
+      "id": "measured_workload_support",
+      "reason": "Only deterministic synthetic frames were processed. No paced workload, deadline, CPU, memory, device timing or availability under load was measured.",
+      "reopen": "Measure the exact installed build on the intended host under pacing, competing load and explicit deadline/CPU/memory budgets.",
+      "status": "blocked"
+    },
+    {
+      "id": "sealed_archive_reproducibility",
+      "reason": "No new sealed candidate was produced; the wheel archive was demonstrably not byte-reproducible across two builds and historical digests differ. Cross-host archive reproducibility is unproven.",
+      "reopen": "Seal two clean-build candidates with normalized metadata and verify byte-identical archives and installed bytes on pinned toolchains.",
+      "status": "blocked"
+    }
+  ],
+  "boundary": {
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "note": "No C provider, no registry change, no public flag and no installed v0 behavior change.",
+    "provider_id_scope": "developer-facing installer/tooling entry point only",
+    "registered": false
+  },
+  "caller_inputs_unchanged": true,
+  "candidate_status": "proposal_only_synthetic_incomplete",
+  "contract": "audio-sdk/nightly-release-evidence-installer/0.1",
+  "controls_all_pass": true,
+  "crosscheck": {
+    "all_pass": true,
+    "checks": {
+      "input_digest": true,
+      "input_frames": true,
+      "input_samples": true,
+      "malformed_negative_epoch": true,
+      "malformed_nonnumeric_valid_count": true,
+      "malformed_short_frame": true,
+      "missing_optional_unknown_provider_id": true,
+      "missing_optional_unset_library_env": true,
+      "missing_optional_wrong_library_path": true,
+      "provider_dsp.highpass80.v0": true,
+      "provider_speex.ns.v0": true
+    },
+    "note": "Only boundary metadata is cross-checked; native DSP output digests are recorded observations, not model outputs.",
+    "per_provider": {
+      "dsp.highpass80.v0": {
+        "all_metadata_matches": true,
+        "field_matches": {
+          "all_finite": true,
+          "caller_inputs_unchanged": true,
+          "declared_delay_samples": true,
+          "drain_frames": true,
+          "epochs": true,
+          "flags": true,
+          "produced_samples": true,
+          "source_first_samples": true,
+          "valid_samples": true
+        },
+        "model_identity_output_digest_f32": "dde869989a497e3f522af8ab20bf1124ee0690f2740882a98b726eff07039324",
+        "native_dsp_not_modelled": true,
+        "native_output_digest_f32": "586fb886a72e83664c91fd1f5b14fea57fcf25069fcd3c9709b87a7f0b37abc9"
+      },
+      "speex.ns.v0": {
+        "all_metadata_matches": true,
+        "field_matches": {
+          "all_finite": true,
+          "caller_inputs_unchanged": true,
+          "declared_delay_samples": true,
+          "drain_frames": true,
+          "epochs": true,
+          "flags": true,
+          "produced_samples": true,
+          "source_first_samples": true,
+          "valid_samples": true
+        },
+        "model_identity_output_digest_f32": "dde869989a497e3f522af8ab20bf1124ee0690f2740882a98b726eff07039324",
+        "native_dsp_not_modelled": true,
+        "native_output_digest_f32": "a3e8f15e622c07310363bf3ba74945ef57dc05a178a84ec41b1ad82ae3251527"
+      }
+    }
+  },
+  "evidence_classes": {
+    "local_compile_build": "Observed on one pinned Darwin arm64 host with already-installed tooling.",
+    "measured_workload": "none",
+    "real_audio_or_listening": "none",
+    "release_or_publication": "none",
+    "source_reported": "Historical s06/s07/s08/matrix values are pinned context only; not rerun or pooled.",
+    "synthetic_runtime": "Deterministic seeded 160-sample frames through the installed wheel and native library; no real audio."
+  },
+  "format": {
+    "advertised_runtime_change": false,
+    "channels": 1,
+    "frame_samples": 160,
+    "sample_format": "f32",
+    "sample_rate_hz": 16000
+  },
+  "matrix": [
+    {
+      "advertised_support_delta": "none",
+      "command": "git rev-parse HEAD && git status --porcelain  (build dir outside worktree)",
+      "extends": "S03/S-T01/S06",
+      "id": "M01-clean-checkout",
+      "observed_digest": "bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0",
+      "status": "observed_local",
+      "support_class": "compile_build"
+    },
+    {
+      "advertised_support_delta": "none",
+      "command": "cmake -S <WT> -B <WORK>/build -DCMAKE_BUILD_TYPE=Release && cmake --build <WORK>/build --parallel 2",
+      "extends": "S-T01",
+      "id": "M02-native-configure-build",
+      "observed_digest": "audio-sdk/0.1.0+sha256:0bc71dcab04880033a4ad4c1cfcebb8a05eccb11a20a786b9c844e394c035972",
+      "status": "observed_local",
+      "support_class": "compile_build"
+    },
+    {
+      "advertised_support_delta": "none",
+      "command": "ctest --test-dir <WORK>/build --output-on-failure",
+      "extends": "S06/S-T01",
+      "id": "M03-ctest",
+      "observed_digest": "11/11 pass, 0 fail, 0 skip",
+      "status": "observed_local",
+      "support_class": "synthetic_runtime"
+    },
+    {
+      "advertised_support_delta": "none",
+      "command": "cc -std=c11 -Wall -Wextra -Werror ... && c++ -std=c++20 -Wall -Wextra -Werror ... && run both",
+      "extends": "S03/S06/S-T09",
+      "id": "M04-installed-c-cpp-consumer",
+      "observed_digest": "4db4ee75061e47513530ed1ce37de63867c41f9560d51d7aff21ff44796a3d5f",
+      "status": "observed_local",
+      "support_class": "compile_build"
+    },
+    {
+      "advertised_support_delta": "none",
+      "command": "<PREFIX>/bin/audio_sdk_conformance --provider <id> --report <WORK>/reports/<id>-report.json",
+      "extends": "S05/S06/S-T08",
+      "id": "M05-installed-conformance",
+      "observed_digest": "accbe82e7460ec79a66f29b8b7b791a3d1cf7da56cf5d432a0f60de00c30f529",
+      "status": "observed_local",
+      "support_class": "synthetic_runtime"
+    },
+    {
+      "advertised_support_delta": "none",
+      "command": "PY312 -m pip wheel --no-deps --no-build-isolation --wheel-dir <WORK>/wheels <WT>/bindings/python && PY312 -m venv <WORK>/venv312 && pip install --no-index --no-deps <wheel>",
+      "extends": "S08/S-T10",
+      "id": "M06-python-wheel-install",
+      "observed_digest": "fc7012d6bdc441e9c19c932833bff5bc607ee6fb9351493f1f52713cfc8a91d5",
+      "status": "observed_local",
+      "support_class": "compile_build"
+    },
+    {
+      "advertised_support_delta": "none",
+      "command": "AUDIO_SDK_LIBRARY=<dylib> PYTHONDONTWRITEBYTECODE=1 <venv>/bin/python -m unittest discover -s <WORK>/acceptance/tests -v",
+      "extends": "S08/S-T10",
+      "id": "M07-installed-python-tests",
+      "observed_digest": "5/5 pass, 0 fail, 0 skip",
+      "status": "observed_local",
+      "support_class": "synthetic_runtime"
+    },
+    {
+      "advertised_support_delta": "none",
+      "command": "AUDIO_SDK_LIBRARY=<dylib> <venv>/bin/python <WORK>/probe.py  (seed 31337, 8 frames)",
+      "extends": "S08/S-T10",
+      "id": "M08-synthetic-runtime-probe",
+      "observed_digest": "344dff2f98cd7c856c3721f115ded222653637f81a8c349e627d7722be06e5cf",
+      "status": "observed_local",
+      "support_class": "synthetic_runtime"
+    },
+    {
+      "advertised_support_delta": "none",
+      "command": "short/shape/nonnumeric/negative calls and unknown provider / missing AUDIO_SDK_LIBRARY through the installed wheel",
+      "extends": "S-T05/S-T10",
+      "id": "M09-malformed-and-missing-optional",
+      "observed_digest": "all rejected: ValueError/RuntimeError/OSError, state intact",
+      "status": "observed_local",
+      "support_class": "synthetic_runtime"
+    },
+    {
+      "advertised_support_delta": "none",
+      "command": "none run: no paced/deadline/CPU/memory/device measurement",
+      "extends": "S02/S-T02 (not extended)",
+      "id": "M10-measured-workload",
+      "observed_digest": "none",
+      "status": "blocked",
+      "support_class": "measured_workload"
+    },
+    {
+      "advertised_support_delta": "none",
+      "command": "scripts/package.sh not run; no upload/publish command executed",
+      "extends": "S07/S-T12 (not extended)",
+      "id": "M11-nightly-publication",
+      "observed_digest": "none",
+      "status": "blocked",
+      "support_class": "compile_build"
+    },
+    {
+      "advertised_support_delta": "none",
+      "command": "none: no signing key, attestation or release-environment approval",
+      "extends": "RELEASING.md",
+      "id": "M12-signing-attestation",
+      "observed_digest": "none",
+      "status": "blocked",
+      "support_class": "compile_build"
+    },
+    {
+      "advertised_support_delta": "none",
+      "command": "none: Darwin arm64 only; Linux/Windows/WASM not run",
+      "extends": "acceptance-matrix.md S12",
+      "id": "M13-target-platform-breadth",
+      "observed_digest": "none",
+      "status": "blocked",
+      "support_class": "compile_build"
+    },
+    {
+      "advertised_support_delta": "none",
+      "command": "none: local probe only, no release approval or hosted CI",
+      "extends": "RELEASING.md",
+      "id": "M14-release-claim",
+      "observed_digest": "none",
+      "status": "blocked",
+      "support_class": "measured_workload"
+    }
+  ],
+  "no_missing_result_qualifies_candidate": true,
+  "observed": {
+    "clean_checkout": {
+      "branch": "swarm/SDK-NIGHTLY-RELEASE-EVIDENCE-AND-PYTHON-C-INSTALLER",
+      "build_dir_outside_worktree": true,
+      "head": "bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0",
+      "sealed_candidate_created": false,
+      "status_before_build": "clean"
+    },
+    "compile_build": {
+      "build_id": "audio-sdk/0.1.0+sha256:0bc71dcab04880033a4ad4c1cfcebb8a05eccb11a20a786b9c844e394c035972",
+      "build_info_sha256": "5848b1c126a662da24ad9a30c77581e0ca798e8a42eefad1bda55971a6f957b2",
+      "cmake_build_exit": 0,
+      "cmake_configure_exit": 0,
+      "ctest_fail": 0,
+      "ctest_pass": 11,
+      "ctest_skip": 0,
+      "ctest_total": 11,
+      "flags_sha256": "sha256:50c2908b322a12ae63e27513cd410764c0a501c9bb6e997eab5ed0ab8d480e00",
+      "runtime_inputs_sha256": "sha256:7ea8e578b62ce5878b65b3180b1be7728ea70e3c7902c42bdc59f5400c874ffa",
+      "target": "Darwin-arm64"
+    },
+    "historical_context": {
+      "acceptance_matrix_ctest": "10/10",
+      "acceptance_matrix_python_tests": "4/4",
+      "s06_sealed_archive_sha256": "82bb8f64c882b77a51e708bac0c79eae586c07cb0e96c84c8a9388d2100a387e",
+      "s07_candidate07_build_id": "audio-sdk/0.1.0+sha256:fe66742bc610c4a1d27439c127908d803bc14555c6009a98d3339d594dc8d800",
+      "s07_current_build_id": "audio-sdk/0.1.0+sha256:307f828cafb1328d0872c293ae50e89fcf17411da8e327ed4943a6c3f8a8c9c2",
+      "s08_wheel_sha256": "ea4ce935f2ea2938f3b8a5fa243e0952038f0a8bc6f9fc56c0602dd705fda290"
+    },
+    "installed_conformance": {
+      "dsp.highpass80.v0": {
+        "checks_fail": 0,
+        "checks_pass": 40,
+        "checks_skip": 0,
+        "exit": 0,
+        "report_sha256": "d8f5963cd949e4c7654c84a152ef0911256d282f042f846966f9f7d1220311ea",
+        "result": "pass"
+      },
+      "speex.ns.v0": {
+        "checks_fail": 0,
+        "checks_pass": 40,
+        "checks_skip": 0,
+        "exit": 0,
+        "report_sha256": "accbe82e7460ec79a66f29b8b7b791a3d1cf7da56cf5d432a0f60de00c30f529",
+        "result": "pass"
+      }
+    },
+    "native_install": {
+      "cmake_install_exit": 0,
+      "dylib_sha256": "4db4ee75061e47513530ed1ce37de63867c41f9560d51d7aff21ff44796a3d5f",
+      "header": "audio_sdk/session_v0.h",
+      "installed_consumer_c11_compile_exit": 0,
+      "installed_consumer_c_run_exit": 0,
+      "installed_consumer_cxx20_compile_exit": 0,
+      "installed_consumer_cxx_run_exit": 0,
+      "link_library": "libaudio_sdk",
+      "static_lib_sha256": "caafbbeaf0463ae7634eacb20dc0d153a7c1f89dd6e87a526025b3a94cf18384",
+      "warnings_as_errors": true
+    },
+    "python_wheel": {
+      "build_exit": 0,
+      "byte_reproducible_across_builds": false,
+      "clean_venv": true,
+      "install_exit": 0,
+      "installed_test_names": [
+        "test_ctypes_layouts",
+        "test_process_errors_and_finite_drain",
+        "test_python_arguments_do_not_wrap_at_native_integer_boundary",
+        "test_reset_increments_epoch",
+        "test_switch_and_timing_metadata"
+      ],
+      "installed_tests_fail": 0,
+      "installed_tests_pass": 5,
+      "installed_tests_skip": 0,
+      "installed_tests_total": 5,
+      "library_env": "AUDIO_SDK_LIBRARY",
+      "second_build_sha256": "c8a6fbe39ee545f3f7bdfb93e20329e90225b89e932b64590cd450917d2d58b7",
+      "source_tree_import": false,
+      "third_build_sha256_from_tooling_run": "0716f91e12dd417b0fe8ccd7c9973f12a4d85afea08a459a20c9d3927d56a9b6",
+      "wheel_name": "audio_sdk-0.1.0-py3-none-any.whl",
+      "wheel_sha256": "fc7012d6bdc441e9c19c932833bff5bc607ee6fb9351493f1f52713cfc8a91d5"
+    },
+    "synthetic_runtime_probe": {
+      "byte_identical_across_runs": true,
+      "frames": 8,
+      "input_digest_f32": "dde869989a497e3f522af8ab20bf1124ee0690f2740882a98b726eff07039324",
+      "malformed": {
+        "negative_epoch": {
+          "state_intact": true,
+          "status": "ValueError"
+        },
+        "nonnumeric_valid_count": {
+          "state_intact": true,
+          "status": "ValueError"
+        },
+        "short_frame": {
+          "state_intact": true,
+          "status": "ValueError"
+        }
+      },
+      "missing_optional": {
+        "unknown_provider_id": {
+          "status": "RuntimeError"
+        },
+        "unset_library_env": {
+          "message": "set AUDIO_SDK_LIBRARY to an explicit SDK library path",
+          "status": "OSError"
+        },
+        "wrong_library_path": {
+          "message": "AUDIO_SDK_LIBRARY must name an existing absolute path",
+          "status": "OSError"
+        }
+      },
+      "probe_output_sha256": "344dff2f98cd7c856c3721f115ded222653637f81a8c349e627d7722be06e5cf",
+      "providers": {
+        "dsp.highpass80.v0": {
+          "all_finite": true,
+          "caller_inputs_unchanged": true,
+          "declared_delay_samples": 0,
+          "drain_frames": 0,
+          "epochs": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "flags": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "output_digest_f32": "586fb886a72e83664c91fd1f5b14fea57fcf25069fcd3c9709b87a7f0b37abc9",
+          "produced_samples": 1280,
+          "source_first_samples": [
+            0,
+            160,
+            320,
+            480,
+            640,
+            800,
+            960,
+            1120
+          ],
+          "valid_samples": 1280
+        },
+        "speex.ns.v0": {
+          "all_finite": true,
+          "caller_inputs_unchanged": true,
+          "declared_delay_samples": 160,
+          "drain_frames": 1,
+          "epochs": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "flags": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "output_digest_f32": "a3e8f15e622c07310363bf3ba74945ef57dc05a178a84ec41b1ad82ae3251527",
+          "produced_samples": 1280,
+          "source_first_samples": [
+            -160,
+            0,
+            160,
+            320,
+            480,
+            640,
+            800,
+            960
+          ],
+          "valid_samples": 1120
+        }
+      },
+      "runs": 2,
+      "samples": 1280
+    }
+  },
+  "pinned_python": "/Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12",
+  "profile": "Tool",
+  "profile_coverage": {
+    "caller_owned_inputs": true,
+    "clean_checkout_or_package": "clean pinned checkout; sealed candidate not created",
+    "malformed_inputs": {
+      "negative_epoch": {
+        "state_intact": true,
+        "status": "ValueError"
+      },
+      "nonnumeric_valid_count": {
+        "state_intact": true,
+        "status": "ValueError"
+      },
+      "short_frame": {
+        "state_intact": true,
+        "status": "ValueError"
+      }
+    },
+    "missing_optional_selections": {
+      "unknown_provider_id": {
+        "status": "RuntimeError"
+      },
+      "unset_library_env": {
+        "message": "set AUDIO_SDK_LIBRARY to an explicit SDK library path",
+        "status": "OSError"
+      },
+      "wrong_library_path": {
+        "message": "AUDIO_SDK_LIBRARY must name an existing absolute path",
+        "status": "OSError"
+      }
+    },
+    "one_typical_use": "M08 synthetic runtime probe through installed wheel + native library",
+    "version_install_provenance": "audio-sdk/0.1.0+sha256:0bc71dcab04880033a4ad4c1cfcebb8a05eccb11a20a786b9c844e394c035972"
+  },
+  "qualification_status": "not_qualified",
+  "reference_probe": {
+    "input": {
+      "digest_f32": "dde869989a497e3f522af8ab20bf1124ee0690f2740882a98b726eff07039324",
+      "frames": 8,
+      "samples": 1280
+    },
+    "malformed": {
+      "negative_epoch": {
+        "state_intact": true,
+        "status": "ValueError"
+      },
+      "nonnumeric_valid_count": {
+        "state_intact": true,
+        "status": "ValueError"
+      },
+      "short_frame": {
+        "state_intact": true,
+        "status": "ValueError"
+      }
+    },
+    "missing_optional": {
+      "unknown_provider_id": {
+        "status": "RuntimeError"
+      },
+      "unset_library_env": {
+        "status": "RuntimeError"
+      },
+      "wrong_library_path": {
+        "status": "RuntimeError"
+      }
+    },
+    "providers": {
+      "dsp.highpass80.v0": {
+        "all_finite": true,
+        "caller_inputs_unchanged": true,
+        "declared_delay_samples": 0,
+        "drain_frames": 0,
+        "epochs": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "flags": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "model_identity_output_digest_f32": "dde869989a497e3f522af8ab20bf1124ee0690f2740882a98b726eff07039324",
+        "produced_samples": 1280,
+        "source_first_samples": [
+          0,
+          160,
+          320,
+          480,
+          640,
+          800,
+          960,
+          1120
+        ],
+        "valid_samples": 1280
+      },
+      "speex.ns.v0": {
+        "all_finite": true,
+        "caller_inputs_unchanged": true,
+        "declared_delay_samples": 160,
+        "drain_frames": 1,
+        "epochs": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "flags": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "model_identity_output_digest_f32": "dde869989a497e3f522af8ab20bf1124ee0690f2740882a98b726eff07039324",
+        "produced_samples": 1280,
+        "source_first_samples": [
+          -160,
+          0,
+          160,
+          320,
+          480,
+          640,
+          800,
+          960
+        ],
+        "valid_samples": 1120
+      }
+    }
+  },
+  "regressions": [
+    {
+      "id": "wheel_archive_not_byte_reproducible",
+      "interpretation": "Wheel archive bytes embed build-time metadata; no byte-reproducible package claim is made.",
+      "observed": "three builds from the same pinned checkout produced three different SHA-256 values: fc7012d6bdc441e9c19c932833bff5bc607ee6fb9351493f1f52713cfc8a91d5, c8a6fbe39ee545f3f7bdfb93e20329e90225b89e932b64590cd450917d2d58b7, and 0716f91e12dd417b0fe8ccd7c9973f12a4d85afea08a459a20c9d3927d56a9b6 (the third from tooling.py --run)"
+    },
+    {
+      "id": "historical_wheel_digest_differs",
+      "interpretation": "Historical value is pinned context only; it is not pooled with the current observation.",
+      "observed": "s08.md records ea4ce935f2ea2938f3b8a5fa243e0952038f0a8bc6f9fc56c0602dd705fda290 for a wheel built with a different toolchain/environment."
+    },
+    {
+      "id": "historical_counts_changed",
+      "interpretation": "Verbatim local count change on this base; not an advertised support change or a release result.",
+      "observed": "acceptance-matrix.md/s06.md/s08.md record 10/10 CTest and 4/4 installed Python tests; this checkout observed 11/11 CTest and 5/5 installed Python tests."
+    },
+    {
+      "id": "historical_build_ids_differ",
+      "interpretation": "Different build inputs are reported verbatim; identity difference alone does not prove reproducibility.",
+      "observed": "s07 records 307f828c... (then-current) and fe66742b... (Candidate 07); this build reports 0bc71dca...."
+    },
+    {
+      "id": "no_advertised_target_breadth",
+      "interpretation": "No new target support is claimed; existing 'local macOS only' scope is preserved.",
+      "observed": "Only Darwin arm64 was exercised; Linux x86-64, Windows, WebAssembly/Node and hosted CI were not run."
+    }
+  ],
+  "schema_id": "audio-sdk/task-evidence/nightly-release-evidence-installer/report/0.1",
+  "scope": "task-local synthetic Tool profile evidence; not a release, nightly, signing, target-breadth or workload qualification",
+  "source_pins": [
+    {
+      "path": "audio-benchmark-platform/audio-sdk/RELEASING.md",
+      "root": "source",
+      "sha256": "67e996fc8b1e4bc3e1e90b6bf8e60a98287a9f64177eda2c409f15187a9c65d3",
+      "summary": "Release policy pinned exactly: tags, approval, archive checksums, attestation, draft-first publication; PyPI/benchmark/model distribution not enabled."
+    },
+    {
+      "path": "audio-benchmark-platform/audio-sdk/CONTRACTS.md",
+      "root": "source",
+      "sha256": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+      "summary": "Public v0 boundary: 16 kHz, mono, float32, 160 samples per call; source mapping and sample-conservation rules."
+    },
+    {
+      "path": "audio-benchmark-platform/plan/swarm/VERIFICATION.md",
+      "root": "source",
+      "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+      "summary": "Tool acceptance profile: version/install/provenance, clean checkout or package, one typical use, caller-owned inputs, malformed inputs, missing optional selections, separated support classes."
+    },
+    {
+      "path": "audio-benchmark-platform/plan/swarm/check.py",
+      "root": "source",
+      "sha256": "5488bf52cea2965b0b36a7ec6bbba45c1b3be7b2f514051ac56f994d3101d539",
+      "summary": "Read-only board validator used for the final check (never edited by this task)."
+    },
+    {
+      "path": "docs/acceptance-matrix.md",
+      "root": "worktree",
+      "sha256": "2e5fbeee8b9a25578f0a03ca3c5291c295756de7f5d8cf9a313b53eecf7e5e1e",
+      "summary": "Existing package/conformance matrix extended here; local macOS arm64 only, no Linux/hosted CI, S12 excluded."
+    },
+    {
+      "path": "docs/task-evidence/s06.md",
+      "root": "worktree",
+      "sha256": "6edef4993e22512157cd9a99ffda6d8551da31f388461e6b2cc2f5f0b8bf7620",
+      "summary": "Historical installed-package/conformance record and sealed-archive digest; pinned context, not resealed here."
+    },
+    {
+      "path": "docs/task-evidence/s07-build-identity.md",
+      "root": "worktree",
+      "sha256": "10efd7bacc3566b638a40a45d6876abf365be5ad7287b0f35a91ddf2b23a7d3a",
+      "summary": "Historical build-identity/package-sealing record; reproducibility explicitly open."
+    },
+    {
+      "path": "docs/task-evidence/s08.md",
+      "root": "worktree",
+      "sha256": "6fa3622269f48b7366dd89c1dc25f9f8a857a2e1bf6dd222578c8a18d2a37c3f",
+      "summary": "Historical Python wheel/venv evidence (CPython 3.12.16, 4/4 tests); extended by this task without changing advertised support."
+    },
+    {
+      "path": "docs/evidence-handoff.md",
+      "root": "worktree",
+      "sha256": "05ffddfecec4679fbd0f4ec1e1814bd8f4fb00ede69f787e4e8bd19784502f72",
+      "summary": "Existing evidence-handoff procedure; no bundle was published from this task-local fixture."
+    },
+    {
+      "path": "REUSE.toml",
+      "root": "worktree",
+      "sha256": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+      "summary": "Aggregate docs/** Apache-2.0 annotation relied on by the licensing check."
+    },
+    {
+      "path": "api/include/audio_sdk/provider_v0.h",
+      "root": "worktree",
+      "sha256": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+      "summary": "Public provider ABI boundary; unchanged."
+    },
+    {
+      "path": "api/include/audio_sdk/session_v0.h",
+      "root": "worktree",
+      "sha256": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+      "summary": "Public session facade ABI boundary used by the installed C/C++ consumer; unchanged."
+    },
+    {
+      "path": "bindings/python/pyproject.toml",
+      "root": "worktree",
+      "sha256": "0f3b1e736dd807a984cbb9daa10cd0ba32668f7833994c3c4f0a5021799c95a4",
+      "summary": "Wheel metadata: audio-sdk 0.1.0, requires-python >=3.12,<3.12, no dependencies."
+    },
+    {
+      "path": "bindings/python/audio_sdk/__init__.py",
+      "root": "worktree",
+      "sha256": "3b7d11f0518af444c4ed7b96401cef4016e6af8a707685628d263a31f46c3864",
+      "summary": "Installed ctypes binding; requires an explicit AUDIO_SDK_LIBRARY absolute path, no implicit lookup."
+    },
+    {
+      "path": "bindings/python/tests/test_sdk.py",
+      "root": "worktree",
+      "sha256": "32c4cecab24b00fc3be312f64e9def05a5391b0f475cd9d461321e8fc4d4c101",
+      "summary": "Installed-package unittest suite; 5 tests in this checkout (historical record said 4)."
+    },
+    {
+      "path": "conformance/main.c",
+      "root": "worktree",
+      "sha256": "71cf0c7a480ef384e0f1500a5af3c35ed85c9a17625efa3d0d09fddb458287ea",
+      "summary": "Installed conformance executable source; 40 checks per built-in provider observed locally."
+    },
+    {
+      "path": "conformance/evidence/positive/input.json",
+      "root": "worktree",
+      "sha256": "a112e8c106b4b013f8fdf16af325e3d60b7ee4666bb3e57deec9bb1749369492",
+      "summary": "In-tree positive evidence-handoff fixture; synthetic placeholder, pinned as boundary context only."
+    },
+    {
+      "path": "conformance/evidence/negative/input.json",
+      "root": "worktree",
+      "sha256": "1d465ecb667a8979a2256da02f060c59827ea213ec45afb592b67c452a331d52",
+      "summary": "In-tree negative evidence-handoff fixture with a failed quality check; pinned as context only."
+    },
+    {
+      "path": "conformance/evidence/incomplete/input.json",
+      "root": "worktree",
+      "sha256": "fdc30570da1cc70c6c387bec1391a8856d96d29ab3043225a6fbd81ced12b1d6",
+      "summary": "In-tree incomplete evidence-handoff fixture; pinned as context only."
+    },
+    {
+      "path": "scripts/verify_install.sh",
+      "root": "worktree",
+      "sha256": "6a0737031697c7e4551a294c6df3185b0e6a6101c86143341c57c9b620cae390",
+      "summary": "Source of the exact installed C11/C++20 consumer and provider-selection commands reproduced by tooling.py."
+    },
+    {
+      "path": "scripts/package.sh",
+      "root": "worktree",
+      "sha256": "b9f9e52cc5e36fec03ab01e81bcfa45de87be4faae71f44922a7446e40a132e2",
+      "summary": "Sealed-candidate packer; NOT run by this task (requires a clean tracked checkout and creates release candidates)."
+    }
+  ],
+  "sources_manifest": "SOURCES.sha256",
+  "spec_digest": "6e5cfd696c25023cc35d2862aa2877898da579f872542364298cc118dfa2f40f",
+  "support_separation": {
+    "compile_build": {
+      "rows": [
+        "M01-clean-checkout",
+        "M02-native-configure-build",
+        "M04-installed-c-cpp-consumer",
+        "M06-python-wheel-install"
+      ],
+      "status": "observed_local"
+    },
+    "measured_workload": {
+      "qualifying": false,
+      "rows": [
+        "M10-measured-workload",
+        "M14-release-claim"
+      ],
+      "status": "blocked"
+    },
+    "synthetic_runtime": {
+      "qualifying": false,
+      "rows": [
+        "M03-ctest",
+        "M05-installed-conformance",
+        "M07-installed-python-tests",
+        "M08-synthetic-runtime-probe",
+        "M09-malformed-and-missing-optional"
+      ],
+      "status": "observed_local"
+    }
+  },
+  "task_artifact_pins": [
+    {
+      "kind": "task_artifact",
+      "path": "fixture.py",
+      "sha256": "91ce94b27250028280380b579cbf15ac369e3863c73281055515e2c8cca9b5af"
+    },
+    {
+      "kind": "task_artifact",
+      "path": "tooling.py",
+      "sha256": "83f2d525d98862e9c64b08e10084da4a10a356b417740d81114f94f90bf7e8e7"
+    },
+    {
+      "kind": "task_artifact",
+      "path": "run.py",
+      "sha256": "01d57a18af71bdc9012f6dc7a15b1d248173ffd18dd566005cc923835ef206fe"
+    },
+    {
+      "kind": "task_artifact",
+      "path": "test_fixture.py",
+      "sha256": "1576802e529764c2f7f8fa546b3afa32b8738c2499365255f22a3adab1758aba"
+    },
+    {
+      "kind": "task_artifact",
+      "path": "verify.py",
+      "sha256": "b63c04dff93204e1814ba3f8dd3e34faf85c3c11a72b5d628ca2359534e40d1d"
+    }
+  ],
+  "tool_pins": {
+    "build_type": "Release",
+    "c_compiler": "AppleClang 21.0.0.21000401",
+    "cmake": "3.27.4",
+    "cxx_compiler": "AppleClang 21.0.0.21000401",
+    "machine": "arm64",
+    "network": false,
+    "pip": "25.0.1",
+    "python": "3.12.16",
+    "python_executable": "/Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12",
+    "setuptools": "84.2.1",
+    "system": "Darwin",
+    "wheel": "0.48.0"
+  }
+}
