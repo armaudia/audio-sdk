@@ -1,0 +1,45 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX\u002dLicense-Identifier": "Apache-2.0",
+  "protocol_version": 1,
+  "identity": "ffmpeg-afftdn-synthetic-frequency-domain-v1",
+  "boundary_identity": "ffmpeg-denoise-v1",
+  "input_kind": "waveform",
+  "output_kinds": [
+    "waveform"
+  ],
+  "tasks": [
+    "CLN-01"
+  ],
+  "modes": [
+    "offline"
+  ],
+  "configuration": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "window_samples": 256,
+    "hop_samples": 160,
+    "lookahead_samples": 96,
+    "spectral_exponent": 1.7,
+    "gain_floor": 0.125,
+    "gain_release": 0.7,
+    "fixed_gain_baseline": 0.7
+  },
+  "entrypoint": [
+    "python3",
+    "docs/task-evidence/ffmpeg-afftdn/run.py",
+    "--report"
+  ],
+  "supported_formats": [
+    "mono 16 kHz float32, 160-sample SDK frames"
+  ],
+  "asset_readiness": [],
+  "registration": "unregistered; proposal only",
+  "processor_exposure": false,
+  "real_runtime_used": false,
+  "numeric_parity_with_ffmpeg": false,
+  "status": "proposal_only_not_qualified",
+  "decision": "DEFER"
+}
