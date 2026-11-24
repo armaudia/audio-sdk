@@ -1,0 +1,30 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "descriptor_id": "bench-subprocess.synthetic-evidence-provider/0.1",
+  "kind": "synthetic_tool_fixture_not_a_sdk_provider",
+  "provider_id": "synthetic.bench-subprocess.evidence.v0",
+  "evaluation_only": true,
+  "registration": "unregistered",
+  "opt_in": false,
+  "linked": false,
+  "production_callback": "none",
+  "installed_v0_unchanged": true,
+  "public_api_abi_changed": false,
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "dtype": "float32",
+    "samples_per_frame": 160
+  },
+  "fixture_contract": {
+    "synthetic_inputs_only": true,
+    "real_corpus_used": false,
+    "licensed_runtime_used": false,
+    "target_device_workload_used": false,
+    "benchmark_submission_claimed": false,
+    "missing_result_qualifies": false
+  },
+  "status": "proposal_only_not_qualified",
+  "release_gate": "DEFER"
+}

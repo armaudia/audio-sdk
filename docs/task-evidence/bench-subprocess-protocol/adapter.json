@@ -1,0 +1,42 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "descriptor_id": "bench-subprocess-bridge.evidence/0.1",
+  "kind": "evidence_only_bridge_descriptor",
+  "protocol": "audioml-adapter/1",
+  "cli": {
+    "single_attempt": true,
+    "request_flag": "--request",
+    "result_flag": "--result"
+  },
+  "workspace_root": "/workspace",
+  "entrypoint": "adapters/controls/evidence-only-bridge",
+  "entrypoint_resolution": "workspace_root_relative",
+  "entrypoint_invoked": false,
+  "attempt_dir": "/attempt/caller-owned-request",
+  "writable_roots": [
+    "/attempt/caller-owned-request"
+  ],
+  "read_grants": [
+    "/caller/input",
+    "/caller/assets",
+    "/caller/environment",
+    "/workspace/adapters",
+    "/workspace/src"
+  ],
+  "deny_network": true,
+  "downloads": "denied",
+  "nested_sandbox_policy": "fail_closed",
+  "source_paths": [
+    "adapters",
+    "api",
+    "src",
+    "tests"
+  ],
+  "production_callback": "none",
+  "registration": "unregistered",
+  "linked": false,
+  "status": "proposal_only_not_qualified",
+  "release_gate": "DEFER",
+  "notes": "Symbolic paths only. Caller owns request, input manifest and asset bytes; the harness neither resolves nor executes this entrypoint."
+}
