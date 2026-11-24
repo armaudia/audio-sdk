@@ -125,7 +125,7 @@ unpaced wall-clock time; the committed bytes are pinned as delivered.
   (151,186 bytes).
 - `reference.py` SHA-256: `174014cb19b6fff9cf7143dd093ef06ba2a56ebe8751ebc26647ee3cb18079ea`
 - `run.py` SHA-256: `5d9cac9442cf97292f47e871ec7b720b50c7ebec9648d59da7fb8b61b2d3056a`
-- `test_reference.py` SHA-256: `20ca4cb70cd8f9a88228836c978d0dc186b6cbcbbd0c63750689df7d79eaedb2`
+- `test_reference.py` SHA-256: `822450193eaaf3b10684e0b977ee12873c53515dfef049b6cc77340433845bba`
 - `verify.py` SHA-256: `bd6920f9d52cd416980caba85d9bd8ad149d04f547ab6b21eeebf95c6b5dad66`
 - `adapter.json` SHA-256: `d62b33eb9d86df586c08080bf57f109361c5a63fabdc9127676f9bfc80c8c70a`
 - `runtime-measurements.json` SHA-256 (as committed): `a2dcc3c36bf25d7566c3ebb4f49538f5fec50b636c0473c306090ee9754faee9`

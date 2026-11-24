@@ -1,0 +1,42 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "protocol_version": 1,
+  "identity": "fast-vad-0-2-1-synthetic-reference-v1",
+  "boundary_identity": "fast-vad-0.2.1-normal-stateful",
+  "input_kind": "waveform",
+  "output_kinds": [
+    "annotation"
+  ],
+  "tasks": [
+    "DET-01"
+  ],
+  "modes": [
+    "analysis"
+  ],
+  "configuration": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "decision_threshold": 0.5,
+    "hangover_frames": 1,
+    "source_time_mapping": "identity"
+  },
+  "entrypoint": [
+    "python3",
+    "run.py"
+  ],
+  "supported_formats": [
+    "mono 16 kHz float32, 160-sample SDK frames",
+    "pinned real-runtime adapter declares 512-sample frames; no numeric parity claimed"
+  ],
+  "asset_readiness": [],
+  "registration": "unregistered task-local developer fixture; not an SDK provider and not a bench result",
+  "processor_exposure": false,
+  "real_runtime_used": false,
+  "numeric_parity_with_real_runtime": false,
+  "optional_c_boundary": "not_included",
+  "status": "proposal_only_not_qualified",
+  "decision": "DEFER"
+}

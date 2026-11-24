@@ -1,0 +1,122 @@
+{
+  "schema_id": "audio-sdk/online-multichannel-wpe-reference/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-ONLINE-MULTICHANNEL-WPE",
+  "component": "online-multichannel-wpe",
+  "repository": "audio-sdk",
+  "base_commit": "bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0",
+  "branch": "swarm/SDK-ONLINE-MULTICHANNEL-WPE",
+  "status": "optional-task-local-reference",
+  "evidence_status": "incomplete",
+  "decision": "DEFER",
+  "defer_before": "processor_exposure",
+  "verification_profile": "room",
+  "scope": "synthetic frame-causal two-channel WPE comparison at a task-local protocol-shaped waveform adapter boundary; no selection, superiority, real-room, device, listening or release claim",
+  "format": {
+    "sample_rate_hz": 16000,
+    "input_channels": 2,
+    "output_channels": 1,
+    "input_frame_shape": [2, 160],
+    "output_frame_shape": [160],
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "hop_samples": 160,
+    "processing_mode": "causal_frame_streaming",
+    "content_delay_samples": 480,
+    "predictor_delay_frames": 8,
+    "taps_per_channel": 2,
+    "stacked_predictor_dimension": 4,
+    "fft_size": 512,
+    "flush_frames": 3
+  },
+  "public_boundary": {
+    "header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "provider_table_operations": ["create", "process", "reset", "drain", "destroy"],
+    "registration": "none; this task adds no C provider, descriptor, registry entry, installed default or public catalog entry",
+    "c_provider_added": false,
+    "public_api_abi_changed": false,
+    "installed_v0_behavior_changed": false,
+    "note": "Installed v0 stays 16 kHz mono f32, 160 samples/frame. The 2x160 f32 in / 160 f32 out shape exists only at this opt-in task-local Python boundary."
+  },
+  "reference": {
+    "adapter_id": "online-multichannel-wpe-reference-v1",
+    "modes": ["causal_frame_streaming"],
+    "controls": ["online_mc_wpe", "identity"],
+    "candidate": "online_mc_wpe",
+    "control": "mic0_passthrough_identity",
+    "fft_size": 512,
+    "hop_size": 160,
+    "taps_per_channel": 2,
+    "wpe_delay_frames": 8,
+    "forgetting": 0.999,
+    "regularization": 1e-06,
+    "prediction_energy_cap": 0.1,
+    "early_window_ms": 50,
+    "causal": true,
+    "realtime_v0_provider": false,
+    "model_weights": false,
+    "downloads": false,
+    "real_speech": false,
+    "licensed_runtime": false,
+    "device_or_timing_claim": false,
+    "registered_in_bench": false,
+    "produces_bench_bundle": false,
+    "opt_in_manifest": "provider.json",
+    "default_enabled": false
+  },
+  "source_pins": {
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245",
+    "adapters/wpe/README.md": "b36f1af3151ea28df9b6c12f3adb90d0b4f28f4315d0aeccd0ff9c99050c703e",
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "research/dereverberation_candidates_20261028.md": "6f0f1a07aeb7b865dce766576bcc99cb97a78120253b1f9e1e9618f964098468",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "artifact_pins": {
+    "docs/task-evidence/offline-mono-wpe/report.json": "2b9be2488c4b0f82f417abd3e131c840729856937ed8239f2645beeaa30d7e61",
+    "docs/task-evidence/offline-mono-wpe/reference.py": "3a54465d8a20f81507ce1d5c2d47401274dee550aa0570bcd0257c6285f7778c",
+    "docs/task-evidence/offline-mono-wpe/scorer.py": "22c2ba7e60dc4f6e0a58b5ad5a5b89bf643e620ec37736082e3a64bffd034d96",
+    "docs/task-evidence/offline-mono-wpe/crosscheck_vectors.json": "7bdd131858306648b4f24b1544a6afb4da2660b3f2d3edcdfb3b715e574a18a2"
+  },
+  "board_snapshot": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "5702c047fafade7e54b28199b13468ef8e7edb989539499381b51177bb669217",
+    "mutable": true
+  },
+  "invariants": [
+    "Only this task directory is written; no shared SDK file, CMake, contract, public header, registry, default or installed behavior changes.",
+    "The reference is frame-causal: two current 160-sample frames and strictly earlier frames only; a divergent later stereo frame cannot change emitted frames.",
+    "Each emitted 160-sample frame uses a 480-sample causal content delay and a three-frame zero flush; chunked and single-stream f32 digests match.",
+    "Echo-only, near-end-only, overlap and no-reference cases are present; no missing result qualifies the candidate.",
+    "Nonfinite, invalid, missing-channel, delayed-channel, out-of-range and stale-state inputs fail closed without mutating DSP state.",
+    "Pinned offline whole-clip WPE results are a labeled noncausal upper-bound control, never an oracle, threshold, candidate result or acceptance gate.",
+    "Synthetic SI-SDR/STOI and the late-tail energy proxy are not real-room echo attenuation, listening scores or release evidence.",
+    "Exact three cold-start f32 digests are used; no tolerance widening or provider substitution."
+  ],
+  "source_evidence_statements": [
+    "candidate_matrix.csv row 65: WPE offline/online/multichannel is an evaluated dereverberation candidate with synthetic EARS/SMARD screens and mixed target/RTF outcomes, not an installed SDK provider.",
+    "adapters/wpe/README.md: 512-point FFT, 128-hop, 5 taps, 8-frame delay and roughly 80 ms algorithmic latency; the documented offline use is not real time.",
+    "REALTIME_COMPONENT_CANDIDATES.md line 60: three-channel online WPE had median RTF 0.044 on a measured SMARD screen and no material quality benefit over mono WPE on that direct-dominated set; provenance only, not reproduced here.",
+    "research/dereverberation_candidates_20261028.md: multichannel WPE is stateful and frame-causal; measured gains over identity were effectively zero and room/target choices changed outcomes."
+  ],
+  "blockers": [
+    "No held-out real-room or standards-room paired dereverberation evaluation with pinned RIR provenance, rights and a defined early-reflection target has been run.",
+    "No listening/MOS assessment on licensed real speech has been run; synthetic STOI is not a human score.",
+    "No target-device CPU, memory, deadline, pacing or content-delay measurement has been run for any causal variant.",
+    "No render/echo-return alignment or delayed/missing render evaluation has been run for any AEC-style scope.",
+    "No provider intake, rights, license, descriptor and public catalog review has been completed for a realtime v0 provider."
+  ],
+  "reopening_conditions": [
+    "Provide real-room or standards-room RIR pairs with pinned provenance and a defined early-reflection target, then rerun paired SI-SDR/STOI with identity and noisy controls.",
+    "Run listening/MOS with licensed real speech and a declared listener protocol.",
+    "Measure the causal variant on the exact target device at the 160-sample grid before any realtime v0 provider proposal.",
+    "Close the render/echo-return delayed/missing case before any AEC-style qualification.",
+    "Complete provider intake, license and descriptor review before changing any installed default, registry or public catalog."
+  ]
+}
