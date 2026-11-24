@@ -1,0 +1,171 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "schema_id": "audio-sdk/bench-subprocess-bridge-contract/0.1",
+  "status": "proposal_only_not_qualified",
+  "task_id": "SDK-BENCH-SUBPROCESS-PROTOCOL-SANDBOX-AND-ASSET-IDS",
+  "base_commit": "bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0",
+  "write_scope": "docs/task-evidence/bench-subprocess-protocol/",
+  "scope": {
+    "boundary": "tool_and_evidence",
+    "purpose": "Validate a proposed deterministic bridge-descriptor and synthetic subprocess-protocol fixture model without invoking an evaluation runner or registering a production callback.",
+    "not_a_benchmark_submission": true,
+    "no_missing_result_qualifies": true,
+    "no_production_exposure": true
+  },
+  "source_pins": {
+    "adapters_readme": {
+      "workspace_relative_path": "adapters/README.md",
+      "sha256": "24d8915f0ff59ee026ef86b396f64f1b3e68d3a5678f98a353273b712f09e1ee",
+      "use": "Protocol-v1 request/result shape, explicit adapter environment, no downloads, single-attempt worker, deny-by-default/no-network sandbox and attempt-dir write boundary."
+    },
+    "board_snapshot": {
+      "pkg_relative_path": "board_snapshot.json",
+      "sha256": "dba762e78d71c848459783a1f25b19e4b86b8dc10dcd161d00a064c9b36fb75b",
+      "use": "Immutable task-local excerpt of the claimed/in_progress board record, component record and history; observed live board digest f4ccc85e955be6b358e891b887fda1901de7d9d2f73c3ac92dc8f88d2d69c24b."
+    },
+    "verification_profile": {
+      "workspace_relative_path": "audio-benchmark-platform/plan/swarm/VERIFICATION.md",
+      "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+      "use": "Tool profile: provenance, clean checkout, typical use, caller-owned inputs, malformed inputs and missing optional selections."
+    },
+    "inventory": {
+      "workspace_relative_path": "audio-benchmark-platform/plan/INVENTORY.json",
+      "sha256": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+      "use": "Component disposition sdk-tool and tool verification profile."
+    },
+    "public_provider_header": {
+      "workspace_relative_path": "worktrees/audio-sdk/SDK-BENCH-SUBPROCESS-PROTOCOL-SANDBOX-AND-ASSET-IDS/api/include/audio_sdk/provider_v0.h",
+      "sha256": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+      "use": "Public ABI constants: 16 kHz, mono, 160 samples, 16 assets, source-linked provider contract; unchanged."
+    },
+    "public_session_header": {
+      "workspace_relative_path": "worktrees/audio-sdk/SDK-BENCH-SUBPROCESS-PROTOCOL-SANDBOX-AND-ASSET-IDS/api/include/audio_sdk/session_v0.h",
+      "sha256": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+      "use": "Public session facade and build identity; unchanged."
+    },
+    "sdk_contracts": {
+      "workspace_relative_path": "worktrees/audio-sdk/SDK-BENCH-SUBPROCESS-PROTOCOL-SANDBOX-AND-ASSET-IDS/CONTRACTS.md",
+      "sha256": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+      "use": "External asset identity and no-provider-file/network-access boundary; unchanged."
+    }
+  },
+  "tool_profile": {
+    "name": "bench-subprocess-protocol evidence harness",
+    "version": "0.1.0",
+    "install_location": "docs/task-evidence/bench-subprocess-protocol/ (task-local, no install step)",
+    "authoring_runtime": {
+      "python": "3.11.5",
+      "interpreter": "/Users/htsakanyan/.pyenv/shims/python3",
+      "provenance": "Python standard library only; no third-party package, download, network access, corpus, licensed runtime or target-device workload."
+    },
+    "external_worker_reference": {
+      "command": "audioml worker",
+      "provenance": "adapters/README.md at the pinned digest above",
+      "invoked": false,
+      "reason_not_invoked": "Tool/evidence boundary only: no real evaluation runner, licensed runtime, real corpora or target-device workload is present in this package."
+    },
+    "minimum_python": "3.11"
+  },
+  "protocol": {
+    "id": "audioml-adapter/1",
+    "single_attempt": true,
+    "request_flag": "--request",
+    "result_flag": "--result",
+    "request_fields": ["protocol_version", "request_id", "frame", "input_manifest", "assets", "optional_selections"],
+    "result_fields": ["protocol_version", "request_id", "status", "reason_code", "result_manifest_digest", "metrics", "assets"],
+    "status_codes": {
+      "ok": "Descriptor, request and result are syntactically and semantically valid; still never qualified in this package.",
+      "ok_omitted": "Valid request with an explicitly omitted optional selection; no default is inferred.",
+      "blocked": "Sandbox or nested-profile precondition failed; no result qualifies.",
+      "rejected": "Malformed, missing-required, nonfinite, unverified-asset or boundary-violating input.",
+      "incomplete": "Result absent or unreadable; no result qualifies."
+    }
+  },
+  "frame": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "dtype": "float32",
+    "samples": 160,
+    "installed_v0_unchanged": true
+  },
+  "bridge_descriptor_fields": {
+    "descriptor_id": "Immutable identifier of this evidence descriptor.",
+    "protocol": "Protocol identifier; only audioml-adapter/1 is accepted.",
+    "cli": "Single-attempt request/result flag pair.",
+    "workspace_root": "Symbolic /workspace root used to resolve the entrypoint; no path outside the explicit grants is readable.",
+    "entrypoint": "Symbolic, evidence-only entrypoint; never resolved or executed by this harness.",
+    "attempt_dir": "Symbolic /attempt/<request_id> writable root.",
+    "writable_roots": "Explicit allowlist; must contain only the attempt directory.",
+    "read_grants": "Explicit caller-owned input/asset/code/environment roots; duplicates and path escapes are rejected.",
+    "deny_network": "Must be true.",
+    "downloads": "Must be denied.",
+    "nested_sandbox_policy": "Must be fail_closed.",
+    "source_paths": "Explicit workspace-relative source roots; no implicit resolution.",
+    "production_callback": "Must be none; evaluation execution and production callbacks remain distinct."
+  },
+  "sandbox_profile": {
+    "deny_network": true,
+    "downloads": "denied",
+    "writable_root": "/attempt/<request_id>",
+    "request_and_input_manifest_location": "caller-owned, outside writable attempt directory",
+    "nested_parent_sandbox": "fail_closed with an explicit blocked reason",
+    "result_validation": "Manifest, asset IDs and hashes validated before any success status"
+  },
+  "asset_identity": {
+    "required_fields": ["asset_id", "sha256", "byte_count", "rights_ref", "location"],
+    "allowed_location_prefixes": ["/caller/assets/", "/workspace/adapters/"],
+    "synthetic_rights_ref": "synthetic://task-local-fixture",
+    "unknown_asset_policy": "reject",
+    "download_policy": "denied",
+    "duplicate_id_policy": "reject",
+    "byte_count_and_hash_must_match": true
+  },
+  "optional_selections": {
+    "selection": {
+      "required": false,
+      "allowed": ["identity-pcm", "passthrough-frame"],
+      "missing_policy": "omit_not_default",
+      "null_policy": "reject",
+      "unknown_policy": "reject"
+    }
+  },
+  "execution_modes": {
+    "accepted_for_tool_evidence": ["buffered_worker"],
+    "rejected_for_tool_evidence": ["inline_callback", "processing_thread"],
+    "reason": "This package validates descriptors and synthetic manifests only; no production callback or SDK session is created."
+  },
+  "observations": {
+    "compile_build": {
+      "base_commit": "bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0",
+      "command": "cmake -S . -B <build> -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_LIBDIR=lib && cmake --build <build> --parallel 4 && ctest --test-dir <build> --output-on-failure --timeout 120 && cmake --install <build> --prefix <install>",
+      "ctest_passed": 11,
+      "ctest_total": 11,
+      "build_id": "audio-sdk/0.1.0+sha256:0bc71dcab04880033a4ad4c1cfcebb8a05eccb11a20a786b9c844e394c035972",
+      "build_info_sha256": "5848b1c126a662da24ad9a30c77581e0ca798e8a42eefad1bda55971a6f957b2",
+      "consumer_opt_in_boundary": "not_included_no_c_boundary_added"
+    },
+    "synthetic_runtime": {
+      "source": "deterministic fixture.py generator only",
+      "external_runner_invoked": false,
+      "real_corpus_used": false,
+      "licensed_runtime_used": false,
+      "target_device_workload_used": false
+    },
+    "measured_workload_support": {
+      "status": "unclaimed",
+      "reason": "No latency, throughput, speech-quality, device or release measurement is in scope; DEFER before any production exposure."
+    }
+  },
+  "boundary": {
+    "public_api_abi_changed": false,
+    "installed_v0_behavior_changed": false,
+    "provider_registered": false,
+    "provider_linked": false,
+    "production_callback_registered": false,
+    "descriptor_registry_or_defaults_changed": false,
+    "audio_bench_source_changed": false,
+    "status": "proposal_only_not_qualified",
+    "release_gate": "DEFER"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "schema_id": "audio-sdk/bench-subprocess-board-snapshot/0.1",
+  "note": "Immutable task-local excerpt; the live board is mutable and is not written by this task.",
+  "observed_board_sha256": "f4ccc85e955be6b358e891b887fda1901de7d9d2f73c3ac92dc8f88d2d69c24b",
+  "observed_board_path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+  "task": {
+    "id": "SDK-BENCH-SUBPROCESS-PROTOCOL-SANDBOX-AND-ASSET-IDS",
+    "title": "Bench subprocess protocol, sandbox, and asset IDs",
+    "repository": "audio-sdk",
+    "mode": "implementation",
+    "status": "in_progress",
+    "owner": "agent-bench-subprocess",
+    "depends_on": [
+      "SDK-FND-AUDIT",
+      "SDK-FND-EVIDENCE",
+      "SDK-FND-PROVIDER"
+    ],
+    "write_scope": [
+      "SDK provider, tool or evidence directory for bench-subprocess-protocol-sandbox-and-asset-ids and its own fixtures"
+    ],
+    "deliverable": "Add or reuse the SDK developer-facing adapter, fixture, or tooling entry point and document its reproducible setup. Keep evaluation execution and production callbacks distinct; bridge descriptors and explicit reproducible inputs.",
+    "acceptance": "Apply the tool acceptance profile; record exact scope, evidence, failure/control results, and remaining release gates.",
+    "evidence": [
+      "adapters/README.md"
+    ],
+    "claim": {
+      "base_commit": "bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0",
+      "branch": "swarm/SDK-BENCH-SUBPROCESS-PROTOCOL-SANDBOX-AND-ASSET-IDS",
+      "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-BENCH-SUBPROCESS-PROTOCOL-SANDBOX-AND-ASSET-IDS",
+      "reviewer": "reviewer-bench-subprocess"
+    },
+    "review": null,
+    "handoff": null,
+    "blocked_reason": null,
+    "component": "bench-subprocess-protocol-sandbox-and-asset-ids",
+    "dispatch_priority": 2
+  },
+  "component_record": {
+    "id": "bench-subprocess-protocol-sandbox-and-asset-ids",
+    "name": "Bench subprocess protocol, sandbox, and asset IDs",
+    "area": "Runtime and tooling",
+    "evidence_status": "integrated",
+    "repository": "audio-sdk",
+    "disposition": "sdk-tool",
+    "aliases": [],
+    "evidence": [
+      {
+        "path": "adapters/README.md"
+      }
+    ],
+    "plan_note": "Keep evaluation execution and production callbacks distinct; bridge descriptors and explicit reproducible inputs.",
+    "verification_profile": "tool",
+    "task": "SDK-BENCH-SUBPROCESS-PROTOCOL-SANDBOX-AND-ASSET-IDS"
+  },
+  "history": [
+    {
+      "task": "SDK-BENCH-SUBPROCESS-PROTOCOL-SANDBOX-AND-ASSET-IDS",
+      "from": "queued",
+      "to": "claimed",
+      "actor": "coordinator",
+      "at": "2026-11-24T07:44:34+00:00",
+      "note": "Wave-seven model-free synthetic evidence; isolated worktree pinned to bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0; reviewer reviewer-bench-subprocess."
+    },
+    {
+      "task": "SDK-BENCH-SUBPROCESS-PROTOCOL-SANDBOX-AND-ASSET-IDS",
+      "from": "claimed",
+      "to": "in_progress",
+      "actor": "coordinator",
+      "at": "2026-11-24T07:50:40+00:00",
+      "note": "Wave-seven dispatch: task-local synthetic evidence; exact base bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0."
+    }
+  ]
+}
