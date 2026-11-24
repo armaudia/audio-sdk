@@ -1,0 +1,21 @@
+# SHA-256 pins for SDK-OPUS-1-4-STANDARD-DECODER-PLC; source: paths are workspace-relative, others SDK-worktree-relative.
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
+a36dd6798d3e9f273c7705fea6d11d888680e633a4b4c41c00e20242f45765ae  source:adapters/opus-plc/adapter.json
+294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d  source:REALTIME_COMPONENT_CANDIDATES.md
+79cf82e29f231f45ebb65421e5a5e0f712de28c47cd115443b1edae3fcdc850b  source:research/voice-enhancement-20261101/agent-opus-plc/REPORT.md
+ab36bab86f58e82ee139adfae011d17f13e23e26c3dba3f5ea80678713428b53  source:research/voice-enhancement-20261101/agent-opus-plc/provenance-audit.md
+8371790cdb2b25a5ef55f07d8a52bc74850522d5e30968c34984c754af95cb71  source:research/distortion_restoration_20261028.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+5f4a16aab66bdef244e57d7b3c93237ebf0bf2bf9ef2d9ad0e0b4ff063107210  source:audio-benchmark-platform/audio-bench/src/audio_bench/metrics.py
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+ebda86f4eaf2f899c970e1d64a82ff51802873ffdaa553fb8bc2c1d73736589d  docs/task-evidence/opus-1-4-standard-decoder-plc/reference.py
+90ca2e4146bd71ba7156e99735bc019ae6f0a45aa686bc3e8d6649c93da6aa71  docs/task-evidence/opus-1-4-standard-decoder-plc/run.py
+9f216bb5305faab6f291224951da22506b7c57787a4d9fd10ce123de60e40a78  docs/task-evidence/opus-1-4-standard-decoder-plc/test_reference.py
+adb519cd57722e1cd0350c95f364c24a3a79681b9dd6b3156a0c5e28811bd547  docs/task-evidence/opus-1-4-standard-decoder-plc/verify.py
+ec4c9ea5e46e02d9866920458b4d6365d300d8bcd626d2e05bf7f4c4955a080e  docs/task-evidence/opus-1-4-standard-decoder-plc/report.json
+3d55a214c0c80917b01e358b00b04adcf5ffc5f06b0fd2af95423fdadc7c67c4  docs/task-evidence/opus-1-4-standard-decoder-plc/report.json.sha256
+a67c2f01d80770e030466db4696ef5158c8697f8432b70f8f99fc240b79fca86  docs/task-evidence/opus-1-4-standard-decoder-plc/runtime-measurements.json
+ac4ed82328dbbfc1af8aefbd43f2efc5ce36bde9f004e6f40bbc46b23db962df  docs/task-evidence/opus-1-4-standard-decoder-plc/README.md

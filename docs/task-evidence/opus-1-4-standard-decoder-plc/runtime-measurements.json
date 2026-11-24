@@ -1,0 +1,89 @@
+{
+  "base_commit": "bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0",
+  "deadline_ns": null,
+  "load": "one synthetic stream at a time, no competing load",
+  "non_deterministic": true,
+  "note": "ru_maxrss is a coarse process high-water mark; availability is elapsed time to the first frame with valid samples. Neither is a target timing, CPU, memory, codec or Opus claim.",
+  "pacing": "unpaced",
+  "per_condition": {
+    "hold_control": {
+      "drain_frames": 5,
+      "drain_wall_s": 9e-06,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.003113,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 1.141042,
+        "median": 0.515396
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.12336
+    },
+    "identity_clean": {
+      "drain_frames": 5,
+      "drain_wall_s": 1.1e-05,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.002989,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 1.534291,
+        "median": 0.516709
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.129794
+    },
+    "linear_control": {
+      "drain_frames": 5,
+      "drain_wall_s": 9e-06,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.00285,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 1.174333,
+        "median": 0.516188
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.122826
+    },
+    "plc_reference_candidate": {
+      "drain_frames": 5,
+      "drain_wall_s": 1e-05,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.003045,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 1.043667,
+        "median": 0.51598
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.122768
+    },
+    "zero_fill_baseline": {
+      "drain_frames": 5,
+      "drain_wall_s": 1e-05,
+      "first_valid_output_call_index": 5,
+      "first_valid_output_s": 0.003194,
+      "maxrss_delta_bytes": 0,
+      "measured": true,
+      "process_duration_ms": {
+        "max": 1.106708,
+        "median": 0.515354
+      },
+      "process_frames": 250,
+      "stream_wall_s": 0.124757
+    }
+  },
+  "qualification_status": "blocked",
+  "runtime": {
+    "machine": "arm64",
+    "numpy": "2.5.4",
+    "pystoi": "0.4.1",
+    "python": "3.12.16",
+    "system": "Darwin"
+  },
+  "schema_id": "audio-sdk/task-evidence/opus-1-4-standard-decoder-plc/report/0.1/runtime-measurements"
+}
