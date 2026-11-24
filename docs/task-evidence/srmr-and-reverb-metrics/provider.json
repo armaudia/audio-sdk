@@ -1,0 +1,11 @@
+{
+  "schema_id": "audio-sdk/srmr-reverb-provider/0.1",
+  "identity": "srmr-reverb-evidence-provider/0.1",
+  "default_enabled": false,
+  "opt_in_required": true,
+  "registered": false,
+  "descriptor_settings": {},
+  "c_abi_or_sdk_default_change": false,
+  "processor_exposure": false,
+  "note": "Manifest exists only to document that the optional evidence adapter is off by default and never registered."
+}
