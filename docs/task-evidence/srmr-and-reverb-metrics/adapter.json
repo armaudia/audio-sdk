@@ -1,0 +1,24 @@
+{
+  "schema_id": "audio-sdk/srmr-reverb-adapter/0.1",
+  "identity": "srmr-reverb-evidence-adapter/0.1",
+  "protocol_version": 1,
+  "task": "SDK-SRMR-AND-REVERB-METRICS",
+  "default_enabled": false,
+  "opt_in_required": true,
+  "registration": "unregistered-developer-only",
+  "public_api_abi_changed": false,
+  "sdk_default_changed": false,
+  "bench_bundle_produced": false,
+  "operations": [
+    "inspect",
+    "score"
+  ],
+  "supported_sample_rate_hz": 16000,
+  "supported_channels": 1,
+  "supported_metrics": [
+    "srmr",
+    "c50_early_to_late_db_proxy"
+  ],
+  "provider_manifest": "provider.json",
+  "boundary": "task-local Python evidence adapter; no processor, registry entry, descriptor setting or C ABI boundary"
+}

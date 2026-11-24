@@ -1,0 +1,132 @@
+{
+  "schema_id": "audio-sdk/fixed-rls-to-nlms-aec/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-FIXED-RLS-TO-NLMS-AEC",
+  "component": "fixed-rls-nlms-aec",
+  "status": "optional-task-local-reference",
+  "disposition": "proposal_only",
+  "qualification": "not_qualified",
+  "completeness": "incomplete",
+  "verification_profile": "room",
+  "profile_interpretation": "DSP-adjacent synthetic evidence under the Room profile; no measured room acoustics, real recordings, device timing or release qualification",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "public_boundary": {
+    "header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "provider_table_operations": ["create", "process", "reset", "drain", "destroy"],
+    "registration": "explicit caller-side as_register_provider_v0 only; no installed registry entry",
+    "sidechain": "task-local fixed_rls_nlms_feed_reference helper only; not an SDK API/ABI change",
+    "installed_v0_behavior": "unchanged"
+  },
+  "provider": {
+    "provider_id": "aec.fixed-rls-nlms-reference.v0",
+    "implementation_id": "aec.fixed_rls_nlms.reference",
+    "implementation_version": "0.1.0-reference",
+    "execution_modes": [2],
+    "required_assets": [],
+    "buffering_delay_samples": 0,
+    "algorithmic_delay_samples": 0,
+    "native_hop_samples": 160,
+    "max_drain_calls": 1,
+    "descriptor_settings": {},
+    "cmake_option": "AS_ENABLE_FIXED_RLS_NLMS_AEC",
+    "default": "OFF"
+  },
+  "reference": {
+    "candidate": "hybrid",
+    "filter_taps": 40,
+    "rls_lambda": 0.995,
+    "rls_p0": 1.0,
+    "handoff_sample": 4000,
+    "nlms_step": 0.25,
+    "epsilon": 1e-8,
+    "max_abs_input": 4.0,
+    "weight_l1_limit": 8.0,
+    "matrix_abs_limit": 1000000000000.0,
+    "double_talk_hold": true,
+    "double_talk_threshold": 0.7,
+    "controls": ["rls_only_frozen", "nlms_only", "fixed_attenuation", "identity", "no_reference_passthrough"],
+    "fixed_attenuation_gain": 0.5,
+    "adaptive_metrics_separate_from_fixed_attenuation": true,
+    "far_end_only_erle_separate_from_double_talk_preservation": true,
+    "explicit_render_reference_required": true,
+    "no_missing_result_may_qualify": true,
+    "reference_latency_measured_by": "cross-correlation on echo-only interval",
+    "gain_before_feedback": "synthetic L1 residual-path loop-margin proxy, not measured loudspeaker loop gain",
+    "legacy_nonfinite_sample": 140683,
+    "model_weights": false,
+    "downloads": false,
+    "real_speech": false,
+    "device_or_timing_claim": false
+  },
+  "source_pins": {
+    "research/aec_research_20261028.md": "dc733f29c999ed83d9b3a8c14b21df4abd6cfeecd6ba0c3b78e1c6f4d2218180",
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "audio-benchmark-platform/plan/swarm/check.py": "5488bf52cea2965b0b36a7ec6bbba45c1b3be7b2f514051ac56f994d3101d539",
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245",
+    "research/voice-enhancement-20261101/agent-hybrid-aec-expanded/REPORT.md": "d07d4cc5781396451ce7261cd9b3ed2c35d02cc211af4d55daac65c9f5f528bf",
+    "research/voice-enhancement-20261101/agent-hybrid-aec-expanded/results.json": "9baca7ead9cd37b54fe95147362d7661acaca5000cf9b8a70d03ff258e21c86a",
+    "research/voice-enhancement-20261101/agent-hybrid-aec-followup/REPORT.md": "acf72565e69538a1a6e32cb4a40fac80d8ae7e3bfce63806312984b5804e5d26",
+    "research/voice-enhancement-20261101/agent-hybrid-aec-followup/results.json": "79d7c3c47a5e6fd28e2646ed224ca76e2879948b2995c2e78d9d7ff714440ba2",
+    "research/voice-enhancement-20261101/agent-hybrid-aec-real/REPORT.md": "4577d59347d9f48a693228ccbf40a9de77494294e7d0df111c98e8591c3e438e",
+    "src/audioml_eval/aec.py": "84544219098d2c012da38163d49196379eb4f12094fb09cf106e57295ed69351"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "board_snapshot": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "47ba70216c23a07b3829696d5536ba830ec742bcccaa8070bbdedbe03c3419ed",
+    "mutable": true
+  },
+  "artifact_pins": {
+    "adapter.json": "52314de137351634c3bd96c4eace703eb4721bc209ce0e5b04bc63cfb875bbf8",
+    "check_licensing.py": "7ce288a4413f44c05523ef8d7d639ef180ddc8365ead572d3b5e1e6adb9e7c9b",
+    "crosscheck.py": "d9ffb14625185e393de1ae249acc0d190fd583832fdef8f5942bef3b5fdb62cb",
+    "reference.py": "20ca866e6f2839719320aa01e39bbee1f7ffd9a2ec2fa3912e44874f712faaf9",
+    "run.py": "3183a97e1d11dd0e0db8ea2c0b0251064b13509052bedb4d38514e9bf4cde174",
+    "test_reference.py": "18a3983c441f6e817b881d043d230dc0d7d8219c53b86ca140469276807c9cb9",
+    "report.json": "94cc863242f8b7b0320ae670cd24722ce197e6c588bfe8bb498bfa8ae0684fce",
+    "report.json.sha256": "23252c3060c17c0a4d74b7918d209026abbcafb81c5c48eb624400659c24ef56",
+    "provider/CMakeLists.txt": "85a1ecb78665c5dedcf5f9869b33a9c25b82d04c6968bd77d69433a78a6256d4",
+    "provider/crosscheck_vectors.h": "6fa68adf9ec355cd2a37629bfd5bd7b89eb13970232728b2dd56ff22805e0617",
+    "provider/fixed_rls_nlms_provider.c": "2d6ce909bda8e3de813df2bd5122350e4806d0f23b0241d1e647c1f2b0183f06",
+    "provider/fixed_rls_nlms_provider.h": "795b8aaeee9b9b24a315d8003fbb78175d5f626721e598be6e750bedf10b2e38",
+    "provider/config/config.json": "87662ce0d1250d70784d89f3c18fc2f30ba1db774bbdcfb0b3d491e025355e60",
+    "provider/config/descriptor.h.in": "bd0fd6f4f08c0d46cd605693b5e8a857839ec6d176f89028168f90c347c0542f",
+    "provider/tests/test_provider.c": "61569134c9983527465d4fffc24ba16ba3f145e1c46501a880d26f587d8ec819"
+  },
+  "canonical_report": {
+    "format": "canonical JSON: sort_keys=True, compact separators, allow_nan=False, one trailing newline",
+    "file_sha256": "94cc863242f8b7b0320ae670cd24722ce197e6c588bfe8bb498bfa8ae0684fce",
+    "canonical_digest": "df0a622f0fb2f496d88ddae7c114837f4262b5b2227a2fb8b8ed7c37324c46ff",
+    "fixture_digest": "bf01e40b6c2b18668edae534116e39055b2f90d1c6af4ad0020d5c5ea510dd91",
+    "byte_identical_regeneration_asserted": true
+  },
+  "invariants": [
+    "Fixed v0 format only: 16 kHz, mono f32, 160 samples. Installed ABI, descriptors, registry, defaults and v0 behavior are unchanged.",
+    "The C provider is task-local and OFF by default. OFF leaves it unlinked and unregistered; ON requires explicit caller-side registration.",
+    "The render reference is an explicit task-local sidechain. With no supplied reference the provider and adapter pass the microphone through without adapting and report a blocked result.",
+    "RLS hands off once at sample 4000; weights and far-end history are copied, covariance is drained, and the handoff is frame-aligned and reproducible.",
+    "Numerical guard skips degenerate updates, restores finite bounded state on violation, and forces an NLMS safety handoff; historical zero-reference RLS nonfinite failure is reproduced analytically and prevented by the candidate.",
+    "Single-talk convergence, double-talk preservation, path change/reconvergence, delayed render, reference dropout, missing reference and no-reference cases are reported; no missing result qualifies a candidate.",
+    "Far-end-only ERLE, double-talk near-end preservation, synthetic L1 gain-before-feedback proxy and fixed-attenuation/identity/RLS-only/NLMS-only controls are reported separately.",
+    "All evidence is deterministic synthetic data. No measured room acoustics, real recordings, model weights, downloads, licensed runtime, listening, AECMOS/ASR, device timing or release qualification is claimed.",
+    "Canonical reports and synthetic output digests are byte-identically reproducible from pinned sources."
+  ],
+  "release_gates": [
+    "Paired licensed render/capture recordings with known loop timing and held-out speech rights",
+    "Measured loudspeaker-loop gain-before-feedback and device timing with buffers/clock drift",
+    "Double-talk, path-change and nonlinear-loudspeaker tests with AECMOS, ASR and listening gates",
+    "Provider/license/catalog intake before any default, installed or production claim"
+  ]
+}

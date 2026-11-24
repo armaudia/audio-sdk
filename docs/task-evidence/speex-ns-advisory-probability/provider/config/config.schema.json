@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "audio-sdk/speex-ns-advisory-probability-config/0.1",
+  "title": "Task-local advisory probability provider fixture config",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["provider_id", "schema_id", "settings", "units"],
+  "properties": {
+    "provider_id": { "const": "analysis.speex-ns-advisory-reference.v0" },
+    "schema_id": { "const": "audio-sdk/provider-config/0.1" },
+    "settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "probability_units",
+        "threshold_milli",
+        "window_samples",
+        "noise_floor",
+        "probability_span"
+      ],
+      "properties": {
+        "probability_units": { "const": "milli" },
+        "threshold_milli": { "const": 500 },
+        "window_samples": { "const": 320 },
+        "noise_floor": { "const": 2000000 },
+        "probability_span": { "const": 8000000 }
+      }
+    },
+    "units": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["available", "source"],
+      "properties": {
+        "available": { "const": "monotonic_ns" },
+        "source": { "const": "samples" }
+      }
+    }
+  }
+}

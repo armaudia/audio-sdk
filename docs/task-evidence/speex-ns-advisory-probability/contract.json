@@ -1,0 +1,122 @@
+{
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "task": "SDK-SPEEX-NS-ADVISORY-PROBABILITY",
+  "component": "speex-ns-advisory-probability",
+  "base_commit": "941cabfc39f7e33f01881b6e50e3a1e49e7eb9ce",
+  "branch": "swarm/SDK-SPEEX-NS-ADVISORY-PROBABILITY",
+  "profile": "Analysis",
+  "status": "synthetic-fixture-only",
+  "purpose": "Task-local reference and evidence for advisory speech probability; no control or gate use.",
+  "provider": {
+    "provider_id": "analysis.speex-ns-advisory-reference.v0",
+    "implementation_id": "analysis.speex-ns-advisory.reference",
+    "implementation_version": "0.1.0-reference",
+    "contract_version": "0.1",
+    "opt_in_only": true,
+    "default_enabled": false,
+    "unregistered_by_default": true,
+    "registration_gate": "AS_ENABLE_SPEEX_NS_ADVISORY_PROBABILITY, default OFF",
+    "audio_path": "identity PCM passthrough control",
+    "probability_path": "task-local analysis side channel",
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "execution_modes": [2],
+    "buffering_delay_samples": 0,
+    "required_assets": [],
+    "config_digest": "af3a02eab2f922bc5bfe16ef595c5f538279b079d7e4e1ceae65edad89919c03",
+    "source_digest": "b45fca3e58a9c47968b5918c789f36de2691b1687365123a72987c8b4436718d"
+  },
+  "public_boundary": {
+    "abi_major": 0,
+    "abi_minor": 1,
+    "installed_v0_unchanged": true,
+    "public_surface_changed": false,
+    "provider_header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "registration": "none; opt-in consumer registers only when the OFF-by-default gate is enabled",
+    "analysis_side_channel": "audio-sdk/speex-ns-advisory-analysis/0.1, task-local only",
+    "provider_table_operations": ["create", "process", "reset", "drain", "destroy"]
+  },
+  "scope": {
+    "fixture_only": true,
+    "synthetic_only": true,
+    "real_speech": false,
+    "device_timing": false,
+    "listening_or_quality": false,
+    "release_qualification": false,
+    "public_benchmark": false,
+    "tiny16_comparison": false,
+    "advisory_probability_is_control_signal": false,
+    "held_out_validation_of_combined_settings": false,
+    "installed_v0_or_shared_code_changed": false,
+    "public_api_abi_descriptor_default_changed": false
+  },
+  "source_pins": {
+    "cpp-library/PIPELINE_DESIGN_REPORT.md": "f603bd8eb27a44a1861a61e9f90d7085d785cbb77af9694b332677bd5e38b093",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/swarm/handoffs/SDK-SPEEX-NS-ADVISORY-PROBABILITY.md": "ac00811367df50a5b6bdd1d626904adb1cc2e452ec2e60d0628dfc9bef831ca5",
+    "audio-benchmark-platform/audio-sdk/third_party/speexdsp/include/speex/speex_preprocess.h": "7c12339881fce3250c69af7f36b8440a8d8012976b54331b3c980b8074393b25",
+    "audio-benchmark-platform/audio-sdk/CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "artifact_pins": {
+    "README.md": "65670d3a0fd3f107f011dc0d0060556bf59766064c5f441104f55791ad190def",
+    "report.json": "32f52013592cc958b68942230afc4d954035b0baeed5d34e0802ee85e7d01119",
+    "report.json.sha256": "8c43a6d1d2e4c5426ed9a3a70ead092761a3a8ff5b88a6c91ec5db56d0e6abc4",
+    "reference.py": "2c4ff5160d46c4b317f3da34ec40b5b80f06786d251cd42c4e834b7f1ab66ec7",
+    "run.py": "8e4795e4e46f61bf89d85358d4b69f3d03cbb645fa45f62678f8f4eabbee5fdf",
+    "test_reference.py": "c6656fbd4faa85f6c3b41bc9a8bfb6e89836d130e18692aec5f3283491aff9f6",
+    "report.schema.json": "cf19cb05aa8e856089f41215c479f0930ef85a27c69c357d3f4fd8852036729d",
+    "provider/CMakeLists.txt": "129998e78b0d4ae013e2f4dba91ac1afb51844781f9b881d353b5902ccc03861",
+    "provider/config/config.json": "af3a02eab2f922bc5bfe16ef595c5f538279b079d7e4e1ceae65edad89919c03",
+    "provider/config/config.schema.json": "fc5b8d83b0ca6fa5cd4a713e49d8ac41f1b0b26d8ebf8ccb0c33b27c8848595f",
+    "provider/config/descriptor.h.in": "e92f3c51de042191c4f4bb131ed55a7c308ddc23ebfcc633177c26ae434face8",
+    "provider/expected_vectors.h": "39f93f15b89f93b098b76e3f3f5dae9555d20564fdc5f35c47ca36e73de6e23a",
+    "provider/speex_ns_advisory_analysis.h": "87702d244598ad68e4146d600f53c2e3649479299fc279e00ca1519f4556686a",
+    "provider/speex_ns_advisory_provider.c": "b45fca3e58a9c47968b5918c789f36de2691b1687365123a72987c8b4436718d",
+    "provider/tests/test_provider.c": "58c0efaff3ec8bcb4caa592c7401361f4538ac75db987814f590fe940556b8b8"
+  },
+  "reproduction": {
+    "report_command": "PYTHONDONTWRITEBYTECODE=1 python3 run.py --report",
+    "python_tests_command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_reference.py",
+    "strict_schema_python": "/Users/htsakanyan/.pyenv/versions/3.12.16/bin/python",
+    "comparisons": "exact SHA-256, no tolerance, no oracle substitution, three byte-identical repeats"
+  },
+  "qualification": {
+    "status": "synthetic-fixture-only",
+    "candidate_status": "synthetic-reference-only",
+    "boundary_status": "opt-in-unregistered",
+    "python_tests": 24,
+    "sdk_baseline_ctest": 11,
+    "consumer_off_ctest": 1,
+    "consumer_on_ctest": 1,
+    "missing_result_promoted": false,
+    "all_required_results_present": true
+  },
+  "historical_source_reported": {
+    "values": "paired AMI FN 4.44% / FP 68.84% in pinned PIPELINE_DESIGN_REPORT.md",
+    "rerun_here": false,
+    "pooled_with_local_scores": false,
+    "oracle_for_this_task": false
+  },
+  "release_gates": [
+    "BLK-01 held-out validation of combined settings before any control use",
+    "BLK-02 no real-speech/device/quality/pacing/release claim",
+    "BLK-03 no upstream SpeexDSP oracle or substitution",
+    "BLK-04 historical AMI values remain historical and unpooled",
+    "BLK-05 independent provider intake before registration",
+    "BLK-06 S10/protocol clearance and approved reference adapter before any Tiny16 comparison"
+  ],
+  "non_claims": [
+    "No upstream SpeexDSP source, binary or runtime is used; this is an integer energy surrogate.",
+    "No probability gate, suppression decision, endpointing rule, registry default or public symbol.",
+    "No real speech, device timing, listening, quality, pacing, release or public benchmark result.",
+    "No adverse Tiny16 comparison."
+  ]
+}

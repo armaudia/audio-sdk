@@ -1,0 +1,51 @@
+{
+  "schema_id": "audio-sdk/srmr-reverb-evidence-contract/0.1",
+  "task": "SDK-SRMR-AND-REVERB-METRICS",
+  "component": "srmr-and-reverb-metrics",
+  "base_commit": "a64e1096905f0d05a46303fc0167b6f356027765",
+  "branch": "swarm/SDK-SRMR-AND-REVERB-METRICS",
+  "verification_profile": "evidence",
+  "mode": "research-control",
+  "write_scope": [
+    "docs/task-evidence/srmr-and-reverb-metrics/"
+  ],
+  "evidence_contract": {
+    "scorer": "pinned upstream SRMRpy fast path plus exact stdlib port",
+    "corpus": "one synthetic voiced source and three synthetic RIRs generated from pinned seeds",
+    "cohort": "three RT60 conditions; full-RIR versus 50 ms early-target pair per condition",
+    "aggregation": "descriptive median across three conditions; no selection or threshold",
+    "failed_items": "invalid, missing, nonfinite, silence and unsupported-rate cases rejected explicitly",
+    "controls": "dry source, identity repeats, representative medium-RT60 result, upstream cross-check",
+    "evidence_separation": [
+      "paired_synthetic",
+      "unpaired_synthetic",
+      "synthetic",
+      "human",
+      "source_reported",
+      "real_rir_or_device",
+      "public_benchmark"
+    ]
+  },
+  "decision": {
+    "evidence_adapter": "proceed",
+    "sdk_processor": "defer",
+    "registration": "none"
+  },
+  "public_boundary": {
+    "public_api_abi_changed": false,
+    "sdk_default_changed": false,
+    "provider_registered": false,
+    "bench_bundle_produced": false,
+    "build_artifacts_added": false
+  },
+  "claim_boundary": {
+    "real_rir": false,
+    "device": false,
+    "listening": false,
+    "quality": false,
+    "pacing": false,
+    "release": false,
+    "official_reverb_benchmark": false,
+    "tiny16_adverse_comparison": false
+  }
+}

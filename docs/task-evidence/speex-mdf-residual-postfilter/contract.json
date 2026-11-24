@@ -1,0 +1,84 @@
+{
+  "schema_id": "audio-sdk/speex-mdf-residual-postfilter-contract/0.1",
+  "task": "SDK-SPEEX-MDF-RESIDUAL-POSTFILTER",
+  "component": "speex-mdf-residual-postfilter",
+  "repository": "audio-sdk",
+  "base_commit": "941cabfc39f7e33f01881b6e50e3a1e49e7eb9ce",
+  "branch": "swarm/SDK-SPEEX-MDF-RESIDUAL-POSTFILTER",
+  "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-SPEEX-MDF-RESIDUAL-POSTFILTER",
+  "decision": {
+    "status": "defer",
+    "postfilter_enabled": false,
+    "postfilter_default": "OFF",
+    "postfilter_registered": false,
+    "reason": "near-end preservation against MDF alone was not recovered",
+    "no_tolerance_widening": true,
+    "no_provider_substitution": true,
+    "three_byte_identical_repeats": true,
+    "no_tiny16_comparison": true,
+    "no_public_api_abi_default_or_shared_code_change": true
+  },
+  "write_scope": [
+    "docs/task-evidence/speex-mdf-residual-postfilter/**",
+    "docs/task-evidence/SDK-SPEEX-MDF-RESIDUAL-POSTFILTER.md"
+  ],
+  "acceptance_profile": {
+    "profile": "room",
+    "evidence_scope": true,
+    "reference": "audio-benchmark-platform/plan/swarm/VERIFICATION.md"
+  },
+  "scorer_pin_sha256": "179dc4a88a64e87841a550915ed6d9c347fe66957fa96a0263a4820151c91df6",
+  "source_pins": {
+    "ws:research/aec_research_20261028.md": "dc733f29c999ed83d9b3a8c14b21df4abd6cfeecd6ba0c3b78e1c6f4d2218180",
+    "ws:REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "ws:audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "ws:audio-benchmark-platform/plan/swarm/check.py": "5488bf52cea2965b0b36a7ec6bbba45c1b3be7b2f514051ac56f994d3101d539",
+    "sdk:docs/task-evidence/SDK-SPEEXDSP-MDF-REFERENCE.md": "a217c035044b1d10cefbcaa974d1fd40577a33423054c13c390a9c921c6b2add",
+    "sdk:docs/task-evidence/speexdsp-mdf-reference/evidence/REPORT.md": "a5b1a6e91203d18eac546e130bf02515eea22139b222e0b4c52dd4bab2dc0eb6",
+    "sdk:docs/task-evidence/erle-and-double-talk-preservation/README.md": "0f8ddc78f41459734f4ed096eb71789ecf5bcc809d833c5b65f63319ef11db2e",
+    "sdk:third_party/speexdsp/libspeexdsp/preprocess.c": "76b78805acce558177a57029ce4da02554a49a465cdd8dd0651ea7807f4eba2d",
+    "sdk:third_party/speexdsp/include/speex/speex_preprocess.h": "7c12339881fce3250c69af7f36b8440a8d8012976b54331b3c980b8074393b25",
+    "sdk:third_party/speexdsp/libspeexdsp/mdf.c": "15e08b7fa89562d74aaa3e61911a07e56078ea00f8476daf28d9cf6d5d22c07f",
+    "sdk:third_party/speexdsp/include/speex/speex_echo.h": "19e722fdfe03864ae9dadc91637270e8c70191950c49892fa8a62478be79e71d",
+    "sdk:third_party/speexdsp/libspeexdsp/fftwrap.c": "fd96f1e44245a403bbba3d3328f4f60b763132f939c217c76409621c3f66b8f0",
+    "sdk:third_party/speexdsp/libspeexdsp/filterbank.c": "0c925d5bd0be9668853e262f3474c3b8203c7cf31aecb63531257e126e87631d",
+    "sdk:third_party/speexdsp/libspeexdsp/smallft.c": "d2baa3d5378ed9fd344d2ee61f92c30c8d930db4968b3a8a2cf0760ca0ef376d",
+    "sdk:third_party/speexdsp/libspeexdsp/kiss_fft.c": "cf0da304f5067c71cf85df711af74252802805714dfda736be93be391e7c4c1c",
+    "sdk:third_party/speexdsp/libspeexdsp/kiss_fftr.c": "13b7ec32c17b927e0978195ce9eeb09e9791b236fcee94b807fd0086d14cb25e"
+  },
+  "boundary_pins": {
+    "sdk:api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "sdk:api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "sdk:deps/lock.json": "7e834253dad944604a2e2283f4d809ab1383c9db4f08b83482a8b41efc043e3a",
+    "sdk:deps/speexdsp-files.sha256": "3ff2b43a21b28a10a87f5a30b3c0339bef67a6b491c22f0f90c45696bd8f7a29"
+  },
+  "legacy_repo": "/Users/htsakanyan/workspace/audio/audioml/cpp-library",
+  "legacy_commit": "3e2446fc58886fc02b099b54651adc9a10a65454",
+  "legacy_blobs": {
+    "sdk:third_party/speexdsp/libspeexdsp/preprocess.c": "192fbddca6dbd4c9c6740ff10154a99239caaaf4",
+    "sdk:third_party/speexdsp/include/speex/speex_preprocess.h": "6c598b2f2dbbab4bbd0665f10d03726372fc21b0",
+    "sdk:third_party/speexdsp/libspeexdsp/mdf.c": "ccbc95f2c256ec89ce2939ecb599e13f45321f0d",
+    "sdk:third_party/speexdsp/include/speex/speex_echo.h": "a5a633b914528779497a114c5b18b7449969b34c",
+    "sdk:third_party/speexdsp/libspeexdsp/fftwrap.c": "fa3b23fc7d920de8837348466871c3505b09e77d",
+    "sdk:third_party/speexdsp/libspeexdsp/filterbank.c": "670c523e2bad6641223d2dc9b52aa5a92f3b1ef8",
+    "sdk:third_party/speexdsp/libspeexdsp/smallft.c": "fd53cdf90e0a5adf43e689c018b93ed5d5124bb9",
+    "sdk:third_party/speexdsp/libspeexdsp/kiss_fft.c": "8dc9345428b13a3694c1d909574ae56596b1403d",
+    "sdk:third_party/speexdsp/libspeexdsp/kiss_fftr.c": "827e0b14df9675d61d0cd9618f1bd3603ad205be"
+  },
+  "mutable_provenance": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "7cd94ec7a32f3ff8ff8df1c7a8e40db0f888c31634721ec2e58bd147d2605a53",
+    "qualification": "informational only; never a gate"
+  },
+  "report": {
+    "canonical_sha256": "ad15c446442058b82c003f15527637edae02a819a2033b0f289bc89042b170b6",
+    "file_sha256": "ad15c446442058b82c003f15527637edae02a819a2033b0f289bc89042b170b6",
+    "fixture_digest": "c26dbcbbb5d39789dce05f1c0eb0b024031a87b808424ac6fb05c62583f3e537"
+  },
+  "release_gates": [
+    "Rights-qualified paired real-speech room cohort with frozen RIRs, delay, movement, noise and capture-clock drift.",
+    "Agreed near-end preservation, ERLE, alignment, availability and nonfinite margins with independent sealed review.",
+    "Paced target-device CPU, memory, deadline and buffer/backpressure evidence.",
+    "Provider, ABI, license and default-policy intake; postfilter remains unregistered and OFF until explicitly approved."
+  ]
+}
