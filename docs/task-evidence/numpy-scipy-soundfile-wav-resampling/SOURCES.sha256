@@ -1,0 +1,27 @@
+# SHA-256 pins for SDK-NUMPY-SCIPY-SOUNDFILE-WAV-AND-RESAMPLING.
+# source: = workspace root, py312: = pinned site-packages, others = SDK worktree.
+# SOURCES.sha256 cannot pin its own bytes and is intentionally omitted.
+0809b1cc1daa207e46125b0fcfa321088b4b6cccfadf04fabc2cd8b74c947e20  source:src/audioml_eval/audio.py
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  source:audio-benchmark-platform/audio-sdk/REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+09295a80660f17925ae23765ce8cbd7ff7ceae968d5f2f89349f1cb74c0b9e11  py312:numpy/__init__.py
+e2b909d6a37d76c2bc130f528d7fed0c517322bce16dc7846b6a6df30e200403  py312:numpy-2.5.4.dist-info/METADATA
+af36cbbb39b27651a8b9f7dfa491775016f331a58e8d116eb6b4cfd5e22efb77  py312:numpy/_core/_multiarray_umath.cpython-312-darwin.so
+ae162c8d1c43ee90fae826ab9f9232425bf66042b84d97fcd808b270d9309a51  py312:scipy/signal/_signaltools.py
+1adfbde8be136cbf348b889c51028e7e1824cdb90d29a26d8e81501948864fae  py312:scipy-1.18.1.dist-info/METADATA
+ef178698287fc0ff2cd4ded9308aba9b34cd50abc426efc18eee9bae4d693099  py312:scipy/signal/_sigtools.cpython-312-darwin.so
+7473575ea92fecd7a2e3bb92155bbdb78ad92ceb79de45c04279a2c6f9d8fbc6  py312:scipy/signal/_upfirdn_apply.cpython-312-darwin.so
+085feb318464c2a5e82747e0d6da43c214f3a6a4ed3a7a18f2c07fe7b3750df2  py312:soundfile.py
+266fbe4cb310c5222edd5216564149585c55395db7b29630f2e4b0ff8ac9cd47  py312:soundfile-0.14.0.dist-info/METADATA
+e9fd4d76bc457dcfb956617e8d467df85087ce069747fccd78e1e702d8629c14  py312:_soundfile_data/libsndfile_arm64.dylib
+82d7eae07bb247830e5d953deed4c3d28ca91ad2e8828f54a04ef7da1794ca90  docs/task-evidence/numpy-scipy-soundfile-wav-resampling/fixture.py
+8594b4ee5612614b270ebe18b67dfbd4b479301dd600b265d04ac1c1ae181d38  docs/task-evidence/numpy-scipy-soundfile-wav-resampling/test_fixture.py
+8ea1e9cb8c83113fcdb54467bcd9a3f5921b91b2c1a7d8b02f2d6168cd3455c3  docs/task-evidence/numpy-scipy-soundfile-wav-resampling/verify.py
+e60837e7c4677d65a9425f518ee9ae5475a358638112a68585350132a10c40bf  docs/task-evidence/numpy-scipy-soundfile-wav-resampling/run.py
+091b57f366c1c5d4d395f955da7d237848bdc7564c970e1a087d423fb702f225  docs/task-evidence/numpy-scipy-soundfile-wav-resampling/report.json
+eae5d5a41c41fee345e3e2b1c68a6cbce05055575e28cc7e1456e38f0d6331f3  docs/task-evidence/numpy-scipy-soundfile-wav-resampling/report.json.sha256
+9f91d406909fe2f9fa7cfd4b954639d081a12ab16005be761707b6f5c998f40c  docs/task-evidence/numpy-scipy-soundfile-wav-resampling/README.md
+3a1bd724723d5d59cb7b6277c5d13def0922ced55d1a173831d71e7adffb2144  docs/task-evidence/numpy-scipy-soundfile-wav-resampling/runtime-measurements.json
