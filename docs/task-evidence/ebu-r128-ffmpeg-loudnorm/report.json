@@ -1,0 +1,1931 @@
+{
+  "alignment_pass": true,
+  "all_outputs_finite": true,
+  "all_valid_frames_conserved": true,
+  "artifact_pins": [
+    {
+      "kind": "task_fixture",
+      "path": "reference.py",
+      "sha256": "b22ed92b7581bcc9fdc82231f70ac1ac0ae7e7ba244e25443921c627dc13113c"
+    },
+    {
+      "kind": "task_fixture",
+      "path": "run.py",
+      "sha256": "dc9c890173c12e6c5dfb2de39a99104f6d49fc5858e938c0c13ba73c3e1e34a4"
+    },
+    {
+      "kind": "task_fixture",
+      "path": "test_reference.py",
+      "sha256": "1b41a87dffaa94c4ae29a57d304c40df58c244c441b5e8943479606980274658"
+    },
+    {
+      "kind": "task_fixture",
+      "path": "verify.py",
+      "sha256": "7e6a00166c1c9b687001271a35c94a84bfc857573b310228ac5f518637732a41"
+    },
+    {
+      "kind": "task_fixture",
+      "path": "tool-provenance.json",
+      "sha256": "e4b4f6e9f04da792a27fa60ebbf1821bc2d067b77693a65de50b11d7614d3f5d"
+    }
+  ],
+  "base_commit": "bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0",
+  "blockers": [
+    {
+      "id": "local_external_tool",
+      "reason": "ffmpeg is absent; no exact version/configuration output, no synthetic two-pass loudnorm invocation and no GPL dependency build string were captured.",
+      "reopen": "Invoke an approved local FFmpeg build, capture its exact version/configuration and hash, review its GPL dependency configuration separately, and only then run a synthetic two-pass loudnorm probe under an approved license.",
+      "status": "blocked"
+    },
+    {
+      "id": "independent_ebu_meter",
+      "reason": "No independent BS.1770/EBU Mode loudness or true-peak meter is available; the fixture's estimator is not a standards meter.",
+      "reopen": "Pin and independently review a licensed standards meter, then remeasure frozen synthetic vectors with an explicit agreement protocol.",
+      "status": "blocked"
+    },
+    {
+      "id": "ebu_test_set_and_programme_cohort",
+      "reason": "The EBU loudness test set, complete programmes and rights-qualified real speech are not present in this task-local fixture.",
+      "reopen": "Freeze an approved test set and complete-programme cohort with rights, target conditions and independent scoring.",
+      "status": "blocked"
+    },
+    {
+      "id": "dynamic_mode_and_lra_enforcement",
+      "reason": "Only one static gain is implemented; dynamic loudnorm mode and the LRA=7 LU target are recorded but not enforced.",
+      "reopen": "Implement and independently test a deterministic dynamic-mode reference with explicit LRA and true-peak interaction before making any matching claim.",
+      "status": "blocked"
+    },
+    {
+      "id": "live_provider_intake",
+      "reason": "Offline whole-stream analysis cannot be a causal v0 process provider; the conceptual ID is unregistered, OFF by default and has empty descriptor settings.",
+      "reopen": "Define, review and opt into an analyzer/host protocol with explicit lookahead, delay and descriptor settings; no automatic registration or default.",
+      "status": "blocked"
+    },
+    {
+      "id": "target_runtime_timing",
+      "reason": "No paced target-device deadline, CPU or memory evidence exists for any implementation of this task.",
+      "reopen": "Measure the exact approved runtime on the target under pacing, load and bounded resource budgets.",
+      "status": "blocked"
+    }
+  ],
+  "boundary": {
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "note": "Python model of an offline host analyzer plus a static-gain frame adapter at the public v0 geometry; no C provider, registry change or public flag.",
+    "provider_id": "dsp.ebu-r128-loudnorm-ref.v0",
+    "registered": false
+  },
+  "candidate_status": "proposal_only_synthetic_incomplete",
+  "cohort": {
+    "clean_digest": "fd97ef083def8b4a18a7e42d708bc940d8a66388cb7c25c08fa8a1846fce91d2",
+    "duration_seconds": 2.5,
+    "frames": 250,
+    "kind": "deterministic_synthetic_paired",
+    "regions": [
+      [
+        0,
+        40,
+        "voiced"
+      ],
+      [
+        40,
+        60,
+        "unvoiced"
+      ],
+      [
+        60,
+        70,
+        "silence"
+      ],
+      [
+        70,
+        110,
+        "voiced"
+      ],
+      [
+        110,
+        130,
+        "unvoiced"
+      ],
+      [
+        130,
+        140,
+        "silence"
+      ],
+      [
+        140,
+        190,
+        "voiced"
+      ],
+      [
+        190,
+        215,
+        "unvoiced"
+      ],
+      [
+        215,
+        230,
+        "silence"
+      ],
+      [
+        230,
+        250,
+        "voiced"
+      ]
+    ],
+    "samples": 40000,
+    "seed": 20261124
+  },
+  "conditions": {
+    "candidate_linear_loudnorm_ref": {
+      "at_or_above_one_count": 0,
+      "buffering_delay_samples": 0,
+      "counts": {
+        "accepted_frames": 250,
+        "frames": 250,
+        "output_samples": 40000,
+        "produced_frames": 250,
+        "rejections": 0,
+        "source_samples": 40000,
+        "valid_samples": 40000
+      },
+      "finite_output": true,
+      "gain_error_db": 7.9e-05,
+      "input_analysis": {
+        "blocks": [
+          -32.968161,
+          -32.730137,
+          -32.94612,
+          -33.787382,
+          -34.602907,
+          -34.130573,
+          -34.517058,
+          -32.86573,
+          -32.635583,
+          -32.946301,
+          -33.768708,
+          -34.743061,
+          -34.474556,
+          -35.215438,
+          -33.649375,
+          -33.435165,
+          -33.688206,
+          -33.219026,
+          -33.86895,
+          -35.095719,
+          -35.635882,
+          -35.866462
+        ],
+        "gate_threshold_lufs": -43.846402,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -33.846402,
+        "reason": null,
+        "rms": 0.023384,
+        "sample_peak_abs": 0.130588,
+        "samples": 40000,
+        "true_peak_abs": 0.138575,
+        "true_peak_dbtp": -17.16632,
+        "ungated_lufs": -33.846402
+      },
+      "input_digest": "fd97ef083def8b4a18a7e42d708bc940d8a66388cb7c25c08fa8a1846fce91d2",
+      "invalid_reasons": [],
+      "mode": "candidate",
+      "output_analysis": {
+        "blocks": [
+          -22.121759,
+          -21.883735,
+          -22.099718,
+          -22.94098,
+          -23.756505,
+          -23.284171,
+          -23.670656,
+          -22.019328,
+          -21.789181,
+          -22.099899,
+          -22.922306,
+          -23.896659,
+          -23.628154,
+          -24.369036,
+          -22.802973,
+          -22.588763,
+          -22.841804,
+          -22.372624,
+          -23.022548,
+          -24.249317,
+          -24.78948,
+          -25.02006
+        ],
+        "gate_threshold_lufs": -33.0,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -23.0,
+        "reason": null,
+        "rms": 0.081516,
+        "sample_peak_abs": 0.455221,
+        "samples": 40000,
+        "true_peak_abs": 0.483063,
+        "true_peak_dbtp": -6.319918,
+        "ungated_lufs": -23.0
+      },
+      "output_digest": "1a6726730794e5698b3bb96ea5e0a629cecc2f305f53f1c1b08738422b8d4f88",
+      "plan": {
+        "gain": 3.485942,
+        "limiting_factor": "loudness_target",
+        "loudness_gain": 3.485942,
+        "mode": "linear_loudness",
+        "true_peak_gain": 6.431542
+      },
+      "rms_gain_ratio": 3.485973,
+      "source_mapping_ok": true,
+      "target_error_lu": 0.0,
+      "true_peak_headroom_db": 5.319918
+    },
+    "fixed_plus_6db_control": {
+      "at_or_above_one_count": 0,
+      "buffering_delay_samples": 0,
+      "counts": {
+        "accepted_frames": 250,
+        "frames": 250,
+        "output_samples": 40000,
+        "produced_frames": 250,
+        "rejections": 0,
+        "source_samples": 40000,
+        "valid_samples": 40000
+      },
+      "finite_output": true,
+      "gain_error_db": -4e-05,
+      "input_analysis": {
+        "blocks": [
+          -32.968161,
+          -32.730137,
+          -32.94612,
+          -33.787382,
+          -34.602907,
+          -34.130573,
+          -34.517058,
+          -32.86573,
+          -32.635583,
+          -32.946301,
+          -33.768708,
+          -34.743061,
+          -34.474556,
+          -35.215438,
+          -33.649375,
+          -33.435165,
+          -33.688206,
+          -33.219026,
+          -33.86895,
+          -35.095719,
+          -35.635882,
+          -35.866462
+        ],
+        "gate_threshold_lufs": -43.846402,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -33.846402,
+        "reason": null,
+        "rms": 0.023384,
+        "sample_peak_abs": 0.130588,
+        "samples": 40000,
+        "true_peak_abs": 0.138575,
+        "true_peak_dbtp": -17.16632,
+        "ungated_lufs": -33.846402
+      },
+      "input_digest": "fd97ef083def8b4a18a7e42d708bc940d8a66388cb7c25c08fa8a1846fce91d2",
+      "invalid_reasons": [],
+      "mode": "fixed_gain",
+      "output_analysis": {
+        "blocks": [
+          -26.968161,
+          -26.730137,
+          -26.94612,
+          -27.787382,
+          -28.602907,
+          -28.130573,
+          -28.517058,
+          -26.86573,
+          -26.635583,
+          -26.946301,
+          -27.768708,
+          -28.743061,
+          -28.474556,
+          -29.215438,
+          -27.649375,
+          -27.435165,
+          -27.688206,
+          -27.219026,
+          -27.86895,
+          -29.095719,
+          -29.635882,
+          -29.866462
+        ],
+        "gate_threshold_lufs": -37.846402,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -27.846402,
+        "reason": null,
+        "rms": 0.046657,
+        "sample_peak_abs": 0.260556,
+        "samples": 40000,
+        "true_peak_abs": 0.276493,
+        "true_peak_dbtp": -11.16632,
+        "ungated_lufs": -27.846402
+      },
+      "output_digest": "b3f26471fe1331d2c2e0382b0e4029a54efbed147fd4a6f22abf2ca04133b0db",
+      "plan": {
+        "gain": 1.995262,
+        "limiting_factor": "none",
+        "loudness_gain": null,
+        "mode": "control_fixed_gain",
+        "true_peak_gain": null
+      },
+      "rms_gain_ratio": 1.995253,
+      "source_mapping_ok": true,
+      "target_error_lu": -4.846402,
+      "true_peak_headroom_db": 10.16632
+    },
+    "identity_control": {
+      "at_or_above_one_count": 0,
+      "buffering_delay_samples": 0,
+      "counts": {
+        "accepted_frames": 250,
+        "frames": 250,
+        "output_samples": 40000,
+        "produced_frames": 250,
+        "rejections": 0,
+        "source_samples": 40000,
+        "valid_samples": 40000
+      },
+      "finite_output": true,
+      "gain_error_db": 0.0,
+      "input_analysis": {
+        "blocks": [
+          -32.968161,
+          -32.730137,
+          -32.94612,
+          -33.787382,
+          -34.602907,
+          -34.130573,
+          -34.517058,
+          -32.86573,
+          -32.635583,
+          -32.946301,
+          -33.768708,
+          -34.743061,
+          -34.474556,
+          -35.215438,
+          -33.649375,
+          -33.435165,
+          -33.688206,
+          -33.219026,
+          -33.86895,
+          -35.095719,
+          -35.635882,
+          -35.866462
+        ],
+        "gate_threshold_lufs": -43.846402,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -33.846402,
+        "reason": null,
+        "rms": 0.023384,
+        "sample_peak_abs": 0.130588,
+        "samples": 40000,
+        "true_peak_abs": 0.138575,
+        "true_peak_dbtp": -17.16632,
+        "ungated_lufs": -33.846402
+      },
+      "input_digest": "fd97ef083def8b4a18a7e42d708bc940d8a66388cb7c25c08fa8a1846fce91d2",
+      "invalid_reasons": [],
+      "mode": "identity",
+      "output_analysis": {
+        "blocks": [
+          -32.968161,
+          -32.730137,
+          -32.94612,
+          -33.787382,
+          -34.602907,
+          -34.130573,
+          -34.517058,
+          -32.86573,
+          -32.635583,
+          -32.946301,
+          -33.768708,
+          -34.743061,
+          -34.474556,
+          -35.215438,
+          -33.649375,
+          -33.435165,
+          -33.688206,
+          -33.219026,
+          -33.86895,
+          -35.095719,
+          -35.635882,
+          -35.866462
+        ],
+        "gate_threshold_lufs": -43.846402,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -33.846402,
+        "reason": null,
+        "rms": 0.023384,
+        "sample_peak_abs": 0.130588,
+        "samples": 40000,
+        "true_peak_abs": 0.138575,
+        "true_peak_dbtp": -17.16632,
+        "ungated_lufs": -33.846402
+      },
+      "output_digest": "fd97ef083def8b4a18a7e42d708bc940d8a66388cb7c25c08fa8a1846fce91d2",
+      "plan": {
+        "gain": 1.0,
+        "limiting_factor": "none",
+        "loudness_gain": null,
+        "mode": "control_identity",
+        "true_peak_gain": null
+      },
+      "rms_gain_ratio": 1.0,
+      "source_mapping_ok": true,
+      "target_error_lu": -10.846402,
+      "true_peak_headroom_db": 16.16632
+    },
+    "sample_peak_control": {
+      "at_or_above_one_count": 0,
+      "buffering_delay_samples": 0,
+      "counts": {
+        "accepted_frames": 250,
+        "frames": 250,
+        "output_samples": 40000,
+        "produced_frames": 250,
+        "rejections": 0,
+        "source_samples": 40000,
+        "valid_samples": 40000
+      },
+      "finite_output": true,
+      "gain_error_db": 2.1e-05,
+      "input_analysis": {
+        "blocks": [
+          -32.968161,
+          -32.730137,
+          -32.94612,
+          -33.787382,
+          -34.602907,
+          -34.130573,
+          -34.517058,
+          -32.86573,
+          -32.635583,
+          -32.946301,
+          -33.768708,
+          -34.743061,
+          -34.474556,
+          -35.215438,
+          -33.649375,
+          -33.435165,
+          -33.688206,
+          -33.219026,
+          -33.86895,
+          -35.095719,
+          -35.635882,
+          -35.866462
+        ],
+        "gate_threshold_lufs": -43.846402,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -33.846402,
+        "reason": null,
+        "rms": 0.023384,
+        "sample_peak_abs": 0.130588,
+        "samples": 40000,
+        "true_peak_abs": 0.138575,
+        "true_peak_dbtp": -17.16632,
+        "ungated_lufs": -33.846402
+      },
+      "input_digest": "fd97ef083def8b4a18a7e42d708bc940d8a66388cb7c25c08fa8a1846fce91d2",
+      "invalid_reasons": [],
+      "mode": "sample_peak",
+      "output_analysis": {
+        "blocks": [
+          -16.286226,
+          -16.048202,
+          -16.264185,
+          -17.105447,
+          -17.920973,
+          -17.448639,
+          -17.835124,
+          -16.183795,
+          -15.953648,
+          -16.264367,
+          -17.086773,
+          -18.061127,
+          -17.792621,
+          -18.533503,
+          -16.96744,
+          -16.75323,
+          -17.006271,
+          -16.537091,
+          -17.187015,
+          -18.413785,
+          -18.953948,
+          -19.184528
+        ],
+        "gate_threshold_lufs": -27.164467,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -17.164467,
+        "reason": null,
+        "rms": 0.159594,
+        "sample_peak_abs": 0.891248,
+        "samples": 40000,
+        "true_peak_abs": 0.94576,
+        "true_peak_dbtp": -0.484385,
+        "ungated_lufs": -17.164467
+      },
+      "output_digest": "74d640532f1196d32e346fdbb4f0cd2fedf041a04ae5da07da3fb6f9ade292d4",
+      "plan": {
+        "gain": 6.824907,
+        "limiting_factor": "none",
+        "loudness_gain": null,
+        "mode": "control_sample_peak",
+        "true_peak_gain": null
+      },
+      "rms_gain_ratio": 6.824923,
+      "source_mapping_ok": true,
+      "target_error_lu": 5.835533,
+      "true_peak_headroom_db": -0.515615
+    }
+  },
+  "contract": "audio-sdk/ebu-r128-loudnorm/0.1",
+  "control": {
+    "fixed_plus_6db": {
+      "at_or_above_one_count": 0,
+      "buffering_delay_samples": 0,
+      "counts": {
+        "accepted_frames": 250,
+        "frames": 250,
+        "output_samples": 40000,
+        "produced_frames": 250,
+        "rejections": 0,
+        "source_samples": 40000,
+        "valid_samples": 40000
+      },
+      "finite_output": true,
+      "gain_error_db": -4e-05,
+      "input_analysis": {
+        "blocks": [
+          -32.968161,
+          -32.730137,
+          -32.94612,
+          -33.787382,
+          -34.602907,
+          -34.130573,
+          -34.517058,
+          -32.86573,
+          -32.635583,
+          -32.946301,
+          -33.768708,
+          -34.743061,
+          -34.474556,
+          -35.215438,
+          -33.649375,
+          -33.435165,
+          -33.688206,
+          -33.219026,
+          -33.86895,
+          -35.095719,
+          -35.635882,
+          -35.866462
+        ],
+        "gate_threshold_lufs": -43.846402,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -33.846402,
+        "reason": null,
+        "rms": 0.023384,
+        "sample_peak_abs": 0.130588,
+        "samples": 40000,
+        "true_peak_abs": 0.138575,
+        "true_peak_dbtp": -17.16632,
+        "ungated_lufs": -33.846402
+      },
+      "input_digest": "fd97ef083def8b4a18a7e42d708bc940d8a66388cb7c25c08fa8a1846fce91d2",
+      "invalid_reasons": [],
+      "mode": "fixed_gain",
+      "output_analysis": {
+        "blocks": [
+          -26.968161,
+          -26.730137,
+          -26.94612,
+          -27.787382,
+          -28.602907,
+          -28.130573,
+          -28.517058,
+          -26.86573,
+          -26.635583,
+          -26.946301,
+          -27.768708,
+          -28.743061,
+          -28.474556,
+          -29.215438,
+          -27.649375,
+          -27.435165,
+          -27.688206,
+          -27.219026,
+          -27.86895,
+          -29.095719,
+          -29.635882,
+          -29.866462
+        ],
+        "gate_threshold_lufs": -37.846402,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -27.846402,
+        "reason": null,
+        "rms": 0.046657,
+        "sample_peak_abs": 0.260556,
+        "samples": 40000,
+        "true_peak_abs": 0.276493,
+        "true_peak_dbtp": -11.16632,
+        "ungated_lufs": -27.846402
+      },
+      "output_digest": "b3f26471fe1331d2c2e0382b0e4029a54efbed147fd4a6f22abf2ca04133b0db",
+      "plan": {
+        "gain": 1.995262,
+        "limiting_factor": "none",
+        "loudness_gain": null,
+        "mode": "control_fixed_gain",
+        "true_peak_gain": null
+      },
+      "rms_gain_ratio": 1.995253,
+      "source_mapping_ok": true,
+      "target_error_lu": -4.846402,
+      "true_peak_headroom_db": 10.16632
+    },
+    "identity": {
+      "at_or_above_one_count": 0,
+      "buffering_delay_samples": 0,
+      "counts": {
+        "accepted_frames": 250,
+        "frames": 250,
+        "output_samples": 40000,
+        "produced_frames": 250,
+        "rejections": 0,
+        "source_samples": 40000,
+        "valid_samples": 40000
+      },
+      "finite_output": true,
+      "gain_error_db": 0.0,
+      "input_analysis": {
+        "blocks": [
+          -32.968161,
+          -32.730137,
+          -32.94612,
+          -33.787382,
+          -34.602907,
+          -34.130573,
+          -34.517058,
+          -32.86573,
+          -32.635583,
+          -32.946301,
+          -33.768708,
+          -34.743061,
+          -34.474556,
+          -35.215438,
+          -33.649375,
+          -33.435165,
+          -33.688206,
+          -33.219026,
+          -33.86895,
+          -35.095719,
+          -35.635882,
+          -35.866462
+        ],
+        "gate_threshold_lufs": -43.846402,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -33.846402,
+        "reason": null,
+        "rms": 0.023384,
+        "sample_peak_abs": 0.130588,
+        "samples": 40000,
+        "true_peak_abs": 0.138575,
+        "true_peak_dbtp": -17.16632,
+        "ungated_lufs": -33.846402
+      },
+      "input_digest": "fd97ef083def8b4a18a7e42d708bc940d8a66388cb7c25c08fa8a1846fce91d2",
+      "invalid_reasons": [],
+      "mode": "identity",
+      "output_analysis": {
+        "blocks": [
+          -32.968161,
+          -32.730137,
+          -32.94612,
+          -33.787382,
+          -34.602907,
+          -34.130573,
+          -34.517058,
+          -32.86573,
+          -32.635583,
+          -32.946301,
+          -33.768708,
+          -34.743061,
+          -34.474556,
+          -35.215438,
+          -33.649375,
+          -33.435165,
+          -33.688206,
+          -33.219026,
+          -33.86895,
+          -35.095719,
+          -35.635882,
+          -35.866462
+        ],
+        "gate_threshold_lufs": -43.846402,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -33.846402,
+        "reason": null,
+        "rms": 0.023384,
+        "sample_peak_abs": 0.130588,
+        "samples": 40000,
+        "true_peak_abs": 0.138575,
+        "true_peak_dbtp": -17.16632,
+        "ungated_lufs": -33.846402
+      },
+      "output_digest": "fd97ef083def8b4a18a7e42d708bc940d8a66388cb7c25c08fa8a1846fce91d2",
+      "plan": {
+        "gain": 1.0,
+        "limiting_factor": "none",
+        "loudness_gain": null,
+        "mode": "control_identity",
+        "true_peak_gain": null
+      },
+      "rms_gain_ratio": 1.0,
+      "source_mapping_ok": true,
+      "target_error_lu": -10.846402,
+      "true_peak_headroom_db": 16.16632
+    },
+    "sample_peak": {
+      "at_or_above_one_count": 0,
+      "buffering_delay_samples": 0,
+      "counts": {
+        "accepted_frames": 250,
+        "frames": 250,
+        "output_samples": 40000,
+        "produced_frames": 250,
+        "rejections": 0,
+        "source_samples": 40000,
+        "valid_samples": 40000
+      },
+      "finite_output": true,
+      "gain_error_db": 2.1e-05,
+      "input_analysis": {
+        "blocks": [
+          -32.968161,
+          -32.730137,
+          -32.94612,
+          -33.787382,
+          -34.602907,
+          -34.130573,
+          -34.517058,
+          -32.86573,
+          -32.635583,
+          -32.946301,
+          -33.768708,
+          -34.743061,
+          -34.474556,
+          -35.215438,
+          -33.649375,
+          -33.435165,
+          -33.688206,
+          -33.219026,
+          -33.86895,
+          -35.095719,
+          -35.635882,
+          -35.866462
+        ],
+        "gate_threshold_lufs": -43.846402,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -33.846402,
+        "reason": null,
+        "rms": 0.023384,
+        "sample_peak_abs": 0.130588,
+        "samples": 40000,
+        "true_peak_abs": 0.138575,
+        "true_peak_dbtp": -17.16632,
+        "ungated_lufs": -33.846402
+      },
+      "input_digest": "fd97ef083def8b4a18a7e42d708bc940d8a66388cb7c25c08fa8a1846fce91d2",
+      "invalid_reasons": [],
+      "mode": "sample_peak",
+      "output_analysis": {
+        "blocks": [
+          -16.286226,
+          -16.048202,
+          -16.264185,
+          -17.105447,
+          -17.920973,
+          -17.448639,
+          -17.835124,
+          -16.183795,
+          -15.953648,
+          -16.264367,
+          -17.086773,
+          -18.061127,
+          -17.792621,
+          -18.533503,
+          -16.96744,
+          -16.75323,
+          -17.006271,
+          -16.537091,
+          -17.187015,
+          -18.413785,
+          -18.953948,
+          -19.184528
+        ],
+        "gate_threshold_lufs": -27.164467,
+        "gated_blocks": 22,
+        "lra_estimate": 2.269318,
+        "lra_reason": null,
+        "lufs": -17.164467,
+        "reason": null,
+        "rms": 0.159594,
+        "sample_peak_abs": 0.891248,
+        "samples": 40000,
+        "true_peak_abs": 0.94576,
+        "true_peak_dbtp": -0.484385,
+        "ungated_lufs": -17.164467
+      },
+      "output_digest": "74d640532f1196d32e346fdbb4f0cd2fedf041a04ae5da07da3fb6f9ade292d4",
+      "plan": {
+        "gain": 6.824907,
+        "limiting_factor": "none",
+        "loudness_gain": null,
+        "mode": "control_sample_peak",
+        "true_peak_gain": null
+      },
+      "rms_gain_ratio": 6.824923,
+      "source_mapping_ok": true,
+      "target_error_lu": 5.835533,
+      "true_peak_headroom_db": -0.515615
+    },
+    "tone_1khz": {
+      "at_or_above_one_count": 0,
+      "buffering_delay_samples": 0,
+      "counts": {
+        "accepted_frames": 100,
+        "frames": 100,
+        "output_samples": 16000,
+        "produced_frames": 100,
+        "rejections": 0,
+        "source_samples": 16000,
+        "valid_samples": 16000
+      },
+      "finite_output": true,
+      "gain_error_db": 9.5e-05,
+      "input_analysis": {
+        "blocks": [
+          -29.31676,
+          -29.316573,
+          -29.316573,
+          -29.316573,
+          -29.316573,
+          -29.316573,
+          -29.316573
+        ],
+        "gate_threshold_lufs": -39.3166,
+        "gated_blocks": 7,
+        "lra_estimate": null,
+        "lra_reason": "insufficient_gated_blocks",
+        "lufs": -29.3166,
+        "reason": null,
+        "rms": 0.035355,
+        "sample_peak_abs": 0.05,
+        "samples": 16000,
+        "true_peak_abs": 0.05,
+        "true_peak_dbtp": -26.0206,
+        "ungated_lufs": -29.3166
+      },
+      "input_digest": "a0f0c1f07c381fcf63275b7dc9ed2643884c2cbf28624b1ff014b4e16f1478e9",
+      "invalid_reasons": [],
+      "mode": "candidate",
+      "output_analysis": {
+        "blocks": [
+          -23.00016,
+          -22.999973,
+          -22.999973,
+          -22.999973,
+          -22.999973,
+          -22.999973,
+          -22.999973
+        ],
+        "gate_threshold_lufs": -33.0,
+        "gated_blocks": 7,
+        "lra_estimate": null,
+        "lra_reason": "insufficient_gated_blocks",
+        "lufs": -23.0,
+        "reason": null,
+        "rms": 0.073162,
+        "sample_peak_abs": 0.103467,
+        "samples": 16000,
+        "true_peak_abs": 0.103467,
+        "true_peak_dbtp": -19.704,
+        "ungated_lufs": -23.0
+      },
+      "output_digest": "6253457fe958f2fe77c2b21cef5e292b29fe39624fc63dfd4bff1e9d4394bafb",
+      "plan": {
+        "gain": 2.069331,
+        "limiting_factor": "loudness_target",
+        "loudness_gain": 2.069331,
+        "mode": "linear_loudness",
+        "true_peak_gain": 17.825019
+      },
+      "rms_gain_ratio": 2.069354,
+      "source_mapping_ok": true,
+      "target_error_lu": 0.0,
+      "true_peak_headroom_db": 18.704
+    }
+  },
+  "controls_all_pass": true,
+  "delay": {
+    "analysis_lookahead": "whole synthetic programme before first process call; control-plane only, not audio delay",
+    "declared_buffering_delay_samples": 0,
+    "expected_impulse_lag_samples": 0,
+    "impulse_input_peak_index": 4000,
+    "impulse_output_peak_index": 4000,
+    "measured_impulse_lag_samples": 0,
+    "pass": true,
+    "source_mapping_ok": true
+  },
+  "evidence_classes": {
+    "historical_source_reported": "FFmpeg 7.1 two-pass loudnorm and same-filter results in pinned research are context only, not rerun or pooled.",
+    "independent_standard_measurement": "none",
+    "real_audio_rights_qualified": "none",
+    "synthetic_reference": "Generated here from fixed seeds and explicit formulas; no real audio or external tool output."
+  },
+  "ffmpeg_provenance": {
+    "base_commit": "bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0",
+    "binary_handling": {
+      "downloaded": false,
+      "note": "No FFmpeg binary, GPL component or WAV generated by FFmpeg is present in this evidence directory.",
+      "shipped": false,
+      "vendored": false,
+      "wrapped": false
+    },
+    "external_tool_invocations": [
+      {
+        "argv": [
+          "ffmpeg",
+          "-version"
+        ],
+        "cwd": "/Users/htsakanyan/workspace/audio/audioml",
+        "exception": "FileNotFoundError",
+        "message": "[Errno 2] No such file or directory: 'ffmpeg'",
+        "note": "First external developer-tool invocation; no local executable resolution.",
+        "returncode": null,
+        "stderr": "",
+        "stdout": ""
+      },
+      {
+        "argv": [
+          "which",
+          "-a",
+          "ffmpeg"
+        ],
+        "cwd": "/Users/htsakanyan/workspace/audio/audioml",
+        "note": "No ffmpeg path on PATH.",
+        "returncode": 1,
+        "stderr": "",
+        "stdout": ""
+      },
+      {
+        "argv": [
+          "/Users/htsakanyan/workspace/audio/audioml/data/envs/ffmpeg/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+          "-version"
+        ],
+        "cwd": "/Users/htsakanyan/workspace/audio/audioml",
+        "exception": "FileNotFoundError",
+        "message": "[Errno 2] No such file or directory: '/Users/htsakanyan/workspace/audio/audioml/data/envs/ffmpeg/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1'",
+        "note": "The historical bundled binary path is absent; no exact local build/configuration output could be captured.",
+        "returncode": null,
+        "stderr": "",
+        "stdout": ""
+      },
+      {
+        "argv": [
+          "which",
+          "-a",
+          "ebur128",
+          "bs1770gain"
+        ],
+        "cwd": "/Users/htsakanyan/workspace/audio/audioml",
+        "note": "No independent local BS.1770/EBU Mode meter invocation was possible.",
+        "returncode": 2,
+        "stderr": "",
+        "stdout": ""
+      }
+    ],
+    "historical_ffmpeg_provenance": {
+      "binary_bytes": 49368728,
+      "binary_sha256": "6d175a4743ca50256e89a8cdd731100f9cee33bd79aeea46894d209410dc6617",
+      "build_configuration": null,
+      "configuration_available_locally": false,
+      "dependency_configuration": "GPL-2.0-or-later reported by local asset ledger; exact configure flags not recorded in pinned source",
+      "license": "GPL-2.0-or-later",
+      "note": "Historical provenance only. The exact build string and configure flags cannot be recovered from the absent binary; they are not invented here.",
+      "path": "data/envs/ffmpeg/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+      "source": "research/voice-enhancement-20261101/agent-r128-eval/REPORT.md; research/voice-enhancement-20261101/agent-r128-eval/results.json; research/noise_suppression_assets_20261027.json",
+      "version": "7.1"
+    },
+    "schema_id": "audio-sdk/task-evidence/ebu-r128-ffmpeg-loudnorm/report/0.1/tool-provenance",
+    "status": "blocked",
+    "synthetic_loudnorm_invocation": {
+      "reason": "No local ffmpeg executable exists in this task environment; no two-pass invocation or generated-WAV measurement was performed.",
+      "status": "not_run"
+    }
+  },
+  "final_partial_window": {
+    "at_or_above_one_count": 0,
+    "buffering_delay_samples": 0,
+    "counts": {
+      "accepted_frames": 9,
+      "frames": 9,
+      "output_samples": 1317,
+      "produced_frames": 9,
+      "rejections": 0,
+      "source_samples": 1317,
+      "valid_samples": 1317
+    },
+    "finite_output": true,
+    "gain_error_db": 0.0,
+    "input_analysis": {
+      "blocks": [],
+      "gate_threshold_lufs": null,
+      "gated_blocks": 0,
+      "lra_estimate": null,
+      "lra_reason": null,
+      "lufs": null,
+      "reason": "no_positive_block",
+      "rms": 0.021743,
+      "sample_peak_abs": 0.111001,
+      "samples": 1317,
+      "true_peak_abs": 0.11812,
+      "true_peak_dbtp": -18.553515,
+      "ungated_lufs": null
+    },
+    "input_digest": "5ecf1b225681369a99d42ccbf2fade2723fec6868669075622df39f5b8d72b21",
+    "invalid_reasons": [
+      "no_positive_block"
+    ],
+    "mode": "candidate",
+    "output_analysis": {
+      "blocks": [],
+      "gate_threshold_lufs": null,
+      "gated_blocks": 0,
+      "lra_estimate": null,
+      "lra_reason": null,
+      "lufs": null,
+      "reason": "no_positive_block",
+      "rms": 0.021743,
+      "sample_peak_abs": 0.111001,
+      "samples": 1317,
+      "true_peak_abs": 0.11812,
+      "true_peak_dbtp": -18.553515,
+      "ungated_lufs": null
+    },
+    "output_digest": "5ecf1b225681369a99d42ccbf2fade2723fec6868669075622df39f5b8d72b21",
+    "plan": {
+      "gain": 1.0,
+      "limiting_factor": "no_gated_loudness",
+      "loudness_gain": null,
+      "mode": "identity_no_gate",
+      "true_peak_gain": 7.545301
+    },
+    "rms_gain_ratio": 1.0,
+    "source_mapping_ok": true,
+    "target_error_lu": null,
+    "true_peak_headroom_db": 17.553515
+  },
+  "fixture_digest": "9580e377fcb59d83875b1a38311c449490a50f2cb71987276d70ef6afca360e0",
+  "format": {
+    "buffering_delay_samples": 0,
+    "channels": 1,
+    "frame_samples": 160,
+    "sample_format": "f32",
+    "sample_rate_hz": 16000
+  },
+  "gates": {
+    "dsp_profile_synthetic": {
+      "reason": "Sweeps, steps, impulse, silence, synthetic speech, control, gain/response, headroom, true peak, delay, numerics and state are recorded.",
+      "reopen": "Not a release gate; real programme and independent-meter evidence remain blocked.",
+      "status": "pass"
+    },
+    "dynamic_mode_and_lra_enforcement": {
+      "reason": "Only one static gain is implemented; dynamic loudnorm mode and the LRA=7 LU target are recorded but not enforced.",
+      "reopen": "Implement and independently test a deterministic dynamic-mode reference with explicit LRA and true-peak interaction before making any matching claim.",
+      "status": "blocked"
+    },
+    "ebu_test_set_and_programme_cohort": {
+      "reason": "The EBU loudness test set, complete programmes and rights-qualified real speech are not present in this task-local fixture.",
+      "reopen": "Freeze an approved test set and complete-programme cohort with rights, target conditions and independent scoring.",
+      "status": "blocked"
+    },
+    "gpl_binary_exclusion": {
+      "reason": "No FFmpeg binary, GPL component, licensed asset or generated WAV is vendored, downloaded, shipped or wrapped in this evidence directory.",
+      "reopen": "Not a release gate; separate license review is required before any external runtime is used.",
+      "status": "pass"
+    },
+    "independent_ebu_meter": {
+      "reason": "No independent BS.1770/EBU Mode loudness or true-peak meter is available; the fixture's estimator is not a standards meter.",
+      "reopen": "Pin and independently review a licensed standards meter, then remeasure frozen synthetic vectors with an explicit agreement protocol.",
+      "status": "blocked"
+    },
+    "live_provider_intake": {
+      "reason": "Offline whole-stream analysis cannot be a causal v0 process provider; the conceptual ID is unregistered, OFF by default and has empty descriptor settings.",
+      "reopen": "Define, review and opt into an analyzer/host protocol with explicit lookahead, delay and descriptor settings; no automatic registration or default.",
+      "status": "blocked"
+    },
+    "local_external_tool": {
+      "reason": "ffmpeg is absent; no exact version/configuration output, no synthetic two-pass loudnorm invocation and no GPL dependency build string were captured.",
+      "reopen": "Invoke an approved local FFmpeg build, capture its exact version/configuration and hash, review its GPL dependency configuration separately, and only then run a synthetic two-pass loudnorm probe under an approved license.",
+      "status": "blocked"
+    },
+    "public_frame_boundary": {
+      "reason": "160-sample f32 frames, exact source mapping, validity/epoch/reset/close checks in synthetic state evidence.",
+      "reopen": "Not a release gate; independent review still required for any provider intake.",
+      "status": "pass"
+    },
+    "target_runtime_timing": {
+      "reason": "No paced target-device deadline, CPU or memory evidence exists for any implementation of this task.",
+      "reopen": "Measure the exact approved runtime on the target under pacing, load and bounded resource budgets.",
+      "status": "blocked"
+    }
+  },
+  "headroom_and_true_peak": {
+    "determinism": {
+      "canonical_bytes_repeated": true,
+      "generator_digest_repeated": true
+    },
+    "full_scale_tone": {
+      "at_or_above_one_count": 0,
+      "finite": true,
+      "gain": 0.114963,
+      "gain_mode": "linear_loudness",
+      "headroom_db": 18.704,
+      "output_true_peak_dbtp": -19.704
+    },
+    "intersample_peak": {
+      "gain_mode": "linear_loudness",
+      "headroom_db": 7.221504,
+      "input_sample_peak": 0.4,
+      "input_true_peak_estimate": 0.45,
+      "output_sample_peak": 0.344963,
+      "output_true_peak_estimate": 0.388083,
+      "overshoot_db": 1.02305
+    },
+    "near_silence_gain_cap": {
+      "gain": 64.0,
+      "gain_mode": "max_gain_limited",
+      "input_lufs": -63.296,
+      "limiting_factor": "gain_safety_cap",
+      "target_error_lu": -4.172401
+    },
+    "nonfinite_analysis": {
+      "reason": "nonfinite_input",
+      "status": "rejected"
+    },
+    "silence": {
+      "finite": true,
+      "gain": 1.0,
+      "gain_mode": "identity_no_gate",
+      "loudness": null,
+      "output_peak": 0.0,
+      "reason": "no_positive_block"
+    },
+    "sparse_intersample_ceiling": {
+      "gain": 0.880248,
+      "gain_mode": "true_peak_limited",
+      "headroom_db": 0.0,
+      "input_sample_peak": 0.9,
+      "input_true_peak_estimate": 1.0125,
+      "output_true_peak_dbtp": -1.0,
+      "overshoot_db": 1.02305,
+      "target_error_lu": -6.914641
+    }
+  },
+  "impulse": {
+    "at_or_above_one_count": 0,
+    "buffering_delay_samples": 0,
+    "counts": {
+      "accepted_frames": 250,
+      "frames": 250,
+      "output_samples": 40000,
+      "produced_frames": 250,
+      "rejections": 0,
+      "source_samples": 40000,
+      "valid_samples": 40000
+    },
+    "finite_output": true,
+    "gain_error_db": -0.000496,
+    "input_analysis": {
+      "blocks": [
+        -41.499042,
+        -41.499042,
+        -41.499042,
+        -149.355525,
+        -346.420201,
+        -549.226133,
+        -753.632884,
+        -958.807746,
+        -1164.435342,
+        -1370.36182,
+        -1576.500479,
+        -1782.797607,
+        -1989.217615,
+        -2195.735702,
+        -2402.333891,
+        -2608.998736,
+        -2815.719915,
+        -3022.489334,
+        -3228.981941,
+        null,
+        null,
+        null
+      ],
+      "gate_threshold_lufs": -59.515365,
+      "gated_blocks": 3,
+      "lra_estimate": null,
+      "lra_reason": "insufficient_gated_blocks",
+      "lufs": -41.499042,
+      "reason": null,
+      "rms": 0.0025,
+      "sample_peak_abs": 0.5,
+      "samples": 40000,
+      "true_peak_abs": 0.5,
+      "true_peak_dbtp": -6.0206,
+      "ungated_lufs": -49.515365
+    },
+    "input_digest": "48d667bf5d0396b180c85a9f00956be5dc86ecea20bd485c82223ebddac5aad3",
+    "invalid_reasons": [],
+    "mode": "candidate",
+    "output_analysis": {
+      "blocks": [
+        -36.478442,
+        -36.478442,
+        -36.478442,
+        -144.334925,
+        -341.399601,
+        -544.205533,
+        -748.612284,
+        -953.787146,
+        -1159.414742,
+        -1365.34122,
+        -1571.479879,
+        -1777.777007,
+        -1984.197015,
+        -2190.715102,
+        -2397.313291,
+        -2603.978136,
+        -2810.699315,
+        -3017.468734,
+        -3224.210728,
+        null,
+        null,
+        null
+      ],
+      "gate_threshold_lufs": -54.494765,
+      "gated_blocks": 3,
+      "lra_estimate": null,
+      "lra_reason": "insufficient_gated_blocks",
+      "lufs": -36.478442,
+      "reason": null,
+      "rms": 0.004456,
+      "sample_peak_abs": 0.891251,
+      "samples": 40000,
+      "true_peak_abs": 0.891251,
+      "true_peak_dbtp": -1.0,
+      "ungated_lufs": -44.494765
+    },
+    "output_digest": "a8fde0ccfb889131e277b7dd110b0fbc816d519a1ac1a7f3955d592f6a9ce1bb",
+    "plan": {
+      "gain": 1.782502,
+      "limiting_factor": "true_peak_ceiling",
+      "loudness_gain": 8.413023,
+      "mode": "true_peak_limited",
+      "true_peak_gain": 1.782502
+    },
+    "rms_gain_ratio": 1.7824,
+    "source_mapping_ok": true,
+    "target_error_lu": -13.478442,
+    "true_peak_headroom_db": 0.0
+  },
+  "no_missing_result_qualifies_candidate": true,
+  "note": "Synthetic observations only. Historical FFmpeg same-filter results are pinned context and are not rerun, pooled or qualified here.",
+  "numerical_behavior": {
+    "determinism": {
+      "canonical_bytes_repeated": true,
+      "generator_digest_repeated": true
+    },
+    "full_scale_tone": {
+      "at_or_above_one_count": 0,
+      "finite": true,
+      "gain": 0.114963,
+      "gain_mode": "linear_loudness",
+      "headroom_db": 18.704,
+      "output_true_peak_dbtp": -19.704
+    },
+    "intersample_peak": {
+      "gain_mode": "linear_loudness",
+      "headroom_db": 7.221504,
+      "input_sample_peak": 0.4,
+      "input_true_peak_estimate": 0.45,
+      "output_sample_peak": 0.344963,
+      "output_true_peak_estimate": 0.388083,
+      "overshoot_db": 1.02305
+    },
+    "near_silence_gain_cap": {
+      "gain": 64.0,
+      "gain_mode": "max_gain_limited",
+      "input_lufs": -63.296,
+      "limiting_factor": "gain_safety_cap",
+      "target_error_lu": -4.172401
+    },
+    "nonfinite_analysis": {
+      "reason": "nonfinite_input",
+      "status": "rejected"
+    },
+    "silence": {
+      "finite": true,
+      "gain": 1.0,
+      "gain_mode": "identity_no_gate",
+      "loudness": null,
+      "output_peak": 0.0,
+      "reason": "no_positive_block"
+    },
+    "sparse_intersample_ceiling": {
+      "gain": 0.880248,
+      "gain_mode": "true_peak_limited",
+      "headroom_db": 0.0,
+      "input_sample_peak": 0.9,
+      "input_true_peak_estimate": 1.0125,
+      "output_true_peak_dbtp": -1.0,
+      "overshoot_db": 1.02305,
+      "target_error_lu": -6.914641
+    }
+  },
+  "profile": "DSP",
+  "qualification_status": "not_qualified",
+  "regressions": [
+    {
+      "condition": "identity_control",
+      "interpretation": "outside the historical +/-0.2 LU target tolerance",
+      "metric": "target_error_lu",
+      "tolerance_lu": 0.2,
+      "value": -10.846402
+    },
+    {
+      "condition": "fixed_plus_6db_control",
+      "interpretation": "outside the historical +/-0.2 LU target tolerance",
+      "metric": "target_error_lu",
+      "tolerance_lu": 0.2,
+      "value": -4.846402
+    },
+    {
+      "condition": "sample_peak_control",
+      "interpretation": "outside the historical +/-0.2 LU target tolerance",
+      "metric": "target_error_lu",
+      "tolerance_lu": 0.2,
+      "value": 5.835533
+    },
+    {
+      "condition": "sample_peak_control",
+      "interpretation": "estimated true peak above the -1 dBTP cap",
+      "metric": "true_peak_headroom_db",
+      "value": -0.515615
+    },
+    {
+      "condition": "impulse",
+      "interpretation": "true-peak or gain-safety cap prevented the loudness target",
+      "metric": "target_error_lu",
+      "value": -13.478442
+    },
+    {
+      "condition": "sparse_intersample_ceiling",
+      "interpretation": "true-peak or gain-safety cap prevented the loudness target",
+      "metric": "target_error_lu",
+      "value": -6.914641
+    },
+    {
+      "condition": "near_silence",
+      "interpretation": "true-peak or gain-safety cap prevented the loudness target",
+      "metric": "target_error_lu",
+      "value": -4.172401
+    },
+    {
+      "condition": "all_conditions",
+      "interpretation": "LRA setting is recorded but not implemented or enforced",
+      "metric": "lra_target",
+      "value": 7.0
+    },
+    {
+      "condition": "all_conditions",
+      "interpretation": "dynamic loudnorm mode is not implemented; only one static gain is evaluated",
+      "metric": "dynamic_mode",
+      "value": null
+    }
+  ],
+  "schema_id": "audio-sdk/task-evidence/ebu-r128-ffmpeg-loudnorm/report/0.1",
+  "scope": "optional task-local synthetic loudness-target reference; not a standards meter, FFmpeg wrapper, release or real-audio qualification",
+  "silence": {
+    "at_or_above_one_count": 0,
+    "buffering_delay_samples": 0,
+    "counts": {
+      "accepted_frames": 250,
+      "frames": 250,
+      "output_samples": 40000,
+      "produced_frames": 250,
+      "rejections": 0,
+      "source_samples": 40000,
+      "valid_samples": 40000
+    },
+    "finite_output": true,
+    "gain_error_db": null,
+    "input_analysis": {
+      "blocks": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "gate_threshold_lufs": null,
+      "gated_blocks": 0,
+      "lra_estimate": null,
+      "lra_reason": null,
+      "lufs": null,
+      "reason": "no_positive_block",
+      "rms": 0.0,
+      "sample_peak_abs": 0.0,
+      "samples": 40000,
+      "true_peak_abs": 0.0,
+      "true_peak_dbtp": null,
+      "ungated_lufs": null
+    },
+    "input_digest": "b9ce164d30e4101b009fe4be765a070593cfbdd48f897853de159a8c177fabe8",
+    "invalid_reasons": [
+      "no_positive_block"
+    ],
+    "mode": "candidate",
+    "output_analysis": {
+      "blocks": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "gate_threshold_lufs": null,
+      "gated_blocks": 0,
+      "lra_estimate": null,
+      "lra_reason": null,
+      "lufs": null,
+      "reason": "no_positive_block",
+      "rms": 0.0,
+      "sample_peak_abs": 0.0,
+      "samples": 40000,
+      "true_peak_abs": 0.0,
+      "true_peak_dbtp": null,
+      "ungated_lufs": null
+    },
+    "output_digest": "b9ce164d30e4101b009fe4be765a070593cfbdd48f897853de159a8c177fabe8",
+    "plan": {
+      "gain": 1.0,
+      "limiting_factor": "no_gated_loudness",
+      "loudness_gain": null,
+      "mode": "identity_no_gate",
+      "true_peak_gain": null
+    },
+    "rms_gain_ratio": null,
+    "source_mapping_ok": true,
+    "target_error_lu": null,
+    "true_peak_headroom_db": null
+  },
+  "source_pins": [
+    {
+      "path": "research/voice-enhancement-20261101/candidate_matrix.csv",
+      "root": "source",
+      "sha256": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245",
+      "summary": "Row 73 pins the partially evaluated EBU R 128 / FFmpeg 7.1 loudnorm screen and its blockers."
+    },
+    {
+      "path": "research/voice-enhancement-20261101/agent-r128-eval/REPORT.md",
+      "root": "source",
+      "sha256": "b6afa2b82f888882dd3c7d24d262848aa6218b65d5fb490d88cb007d17b23ef5",
+      "summary": "Historical same-implementation two-pass loudnorm protocol, exact binary digest and GPL-2.0-or-later classification."
+    },
+    {
+      "path": "research/voice-enhancement-20261101/agent-r128-eval/results.json",
+      "root": "source",
+      "sha256": "9bdfef51364931b351d07fb425c7f08f1845b3e1168095369964da746ddfb783",
+      "summary": "Historical per-item R128 results and environment record; not rerun or pooled here."
+    },
+    {
+      "path": "research/voice-enhancement-20261101/agent-r128-independent-audit/REPORT.md",
+      "root": "source",
+      "sha256": "12616c2eb6b394484f359c910a84dac7b327558b0dbae381906b8b8dc3ad6896",
+      "summary": "No independent BS.1770/EBU Mode meter was available; R128 self-measurement is not standards conformance."
+    },
+    {
+      "path": "research/noise_suppression_assets_20261027.json",
+      "root": "source",
+      "sha256": "35f871e7d7362070c20fa35a5832115ea5388ffae550be3b25368a72bf5cebf4",
+      "summary": "Local asset ledger entry: FFmpeg 7.1 imageio-ffmpeg binary, exact digest and GPL-2.0-or-later build/report."
+    },
+    {
+      "path": "audio-benchmark-platform/audio-sdk/CONTRACTS.md",
+      "root": "source",
+      "sha256": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+      "summary": "Fixed v0 format, frame geometry, source mapping, flags and reset/validity rules."
+    },
+    {
+      "path": "audio-benchmark-platform/plan/swarm/VERIFICATION.md",
+      "root": "source",
+      "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+      "summary": "DSP profile: sweeps, steps, impulses, silence, clean speech/control, gain, response, headroom, delay, numerics and state."
+    },
+    {
+      "path": "api/include/audio_sdk/provider_v0.h",
+      "root": "worktree",
+      "sha256": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+      "summary": "Public provider ABI boundary mirrored by the Python frame adapter."
+    },
+    {
+      "path": "api/include/audio_sdk/session_v0.h",
+      "root": "worktree",
+      "sha256": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+      "summary": "Public session facade boundary: epoch, reset, close and source mapping semantics."
+    }
+  ],
+  "state": {
+    "buffering_delay_samples": 0,
+    "closed_session_rejects_process": true,
+    "drain_frames": 0,
+    "first_valid_frame_accepted": true,
+    "invalid_cases": {
+      "bad_padding": {
+        "non_rejected_counters_unchanged": true,
+        "status": "rejected_bad_padding"
+      },
+      "closed_rejects_process": {
+        "non_rejected_counters_unchanged": true,
+        "status": "rejected_closed"
+      },
+      "duplicate_frame": {
+        "non_rejected_counters_unchanged": false,
+        "status": "rejected_duplicate"
+      },
+      "future_packet": {
+        "non_rejected_counters_unchanged": false,
+        "status": "rejected_future_packet"
+      },
+      "invalid_reset_epoch": {
+        "non_rejected_counters_unchanged": true,
+        "status": "rejected_stale_epoch"
+      },
+      "missing_frame": {
+        "non_rejected_counters_unchanged": true,
+        "status": "rejected_missing"
+      },
+      "nonfinite_frame": {
+        "non_rejected_counters_unchanged": true,
+        "status": "rejected_shape"
+      },
+      "out_of_order_frame": {
+        "non_rejected_counters_unchanged": false,
+        "status": "rejected_out_of_order"
+      },
+      "process_after_final": {
+        "final_accepted": true,
+        "status": "rejected_after_final"
+      },
+      "short_frame": {
+        "non_rejected_counters_unchanged": true,
+        "status": "rejected_shape"
+      },
+      "stale_epoch": {
+        "non_rejected_counters_unchanged": true,
+        "status": "rejected_stale_epoch"
+      },
+      "wrong_shape": {
+        "non_rejected_counters_unchanged": true,
+        "status": "rejected_shape"
+      }
+    },
+    "queue_depth": 0,
+    "reset_accepted": true,
+    "reset_bit_identical_to_fresh_epoch2": true,
+    "sessions_independent": true,
+    "stale_epoch_after_reset_rejected": true
+  },
+  "state_pass": true,
+  "steps": {
+    "at_or_above_one_count": 0,
+    "buffering_delay_samples": 0,
+    "counts": {
+      "accepted_frames": 250,
+      "frames": 250,
+      "output_samples": 40000,
+      "produced_frames": 250,
+      "rejections": 0,
+      "source_samples": 40000,
+      "valid_samples": 40000
+    },
+    "finite_output": true,
+    "gain_error_db": 0.000143,
+    "input_analysis": {
+      "blocks": [
+        -38.193489,
+        -41.112113,
+        -82.010168,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617,
+        -83.835617
+      ],
+      "gate_threshold_lufs": -59.82442,
+      "gated_blocks": 2,
+      "lra_estimate": null,
+      "lra_reason": "insufficient_gated_blocks",
+      "lufs": -39.412102,
+      "reason": null,
+      "rms": 0.016081,
+      "sample_peak_abs": 0.1201,
+      "samples": 40000,
+      "true_peak_abs": 0.131616,
+      "true_peak_dbtp": -17.613811,
+      "ungated_lufs": -49.82442
+    },
+    "input_digest": "4d30b6bb8a514824247fb86e7943d7c631df5579c26be88adbf138e5b3cea252",
+    "invalid_reasons": [],
+    "mode": "candidate",
+    "output_analysis": {
+      "blocks": [
+        -21.781387,
+        -24.700011,
+        -65.598066,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515,
+        -67.423515
+      ],
+      "gate_threshold_lufs": -43.412318,
+      "gated_blocks": 2,
+      "lra_estimate": null,
+      "lra_reason": "insufficient_gated_blocks",
+      "lufs": -23.0,
+      "reason": null,
+      "rms": 0.106396,
+      "sample_peak_abs": 0.794599,
+      "samples": 40000,
+      "true_peak_abs": 0.870792,
+      "true_peak_dbtp": -1.201709,
+      "ungated_lufs": -33.412318
+    },
+    "output_digest": "647ca3e70697c4c5d0d2d61c5f173fd4db6b2b6187096b24b087e9a5c8c707fb",
+    "plan": {
+      "gain": 6.616146,
+      "limiting_factor": "loudness_target",
+      "loudness_gain": 6.616146,
+      "mode": "linear_loudness",
+      "true_peak_gain": 6.7716
+    },
+    "rms_gain_ratio": 6.616255,
+    "source_mapping_ok": true,
+    "target_error_lu": 0.0,
+    "true_peak_headroom_db": 0.201709
+  },
+  "sweeps": {
+    "chirp": {
+      "at_or_above_one_count": 0,
+      "buffering_delay_samples": 0,
+      "counts": {
+        "accepted_frames": 100,
+        "frames": 100,
+        "output_samples": 16000,
+        "produced_frames": 100,
+        "rejections": 0,
+        "source_samples": 16000,
+        "valid_samples": 16000
+      },
+      "finite_output": true,
+      "gain_error_db": -5.3e-05,
+      "input_analysis": {
+        "blocks": [
+          -32.743866,
+          -31.812436,
+          -31.051819,
+          -30.558561,
+          -30.321409,
+          -30.223977,
+          -30.184766
+        ],
+        "gate_threshold_lufs": -40.898783,
+        "gated_blocks": 7,
+        "lra_estimate": null,
+        "lra_reason": "insufficient_gated_blocks",
+        "lufs": -30.898783,
+        "reason": null,
+        "rms": 0.021213,
+        "sample_peak_abs": 0.03,
+        "samples": 16000,
+        "true_peak_abs": 0.03,
+        "true_peak_dbtp": -30.457575,
+        "ungated_lufs": -30.898783
+      },
+      "input_digest": "0f7ae8acf8492bf7c8c669d9359294d6f8c741150d6ef0493bee5abfcc5b231c",
+      "invalid_reasons": [],
+      "mode": "candidate",
+      "output_analysis": {
+        "blocks": [
+          -24.845083,
+          -23.913653,
+          -23.153036,
+          -22.659778,
+          -22.422626,
+          -22.325194,
+          -22.285983
+        ],
+        "gate_threshold_lufs": -33.0,
+        "gated_blocks": 7,
+        "lra_estimate": null,
+        "lra_reason": "insufficient_gated_blocks",
+        "lufs": -23.0,
+        "reason": null,
+        "rms": 0.052667,
+        "sample_peak_abs": 0.074484,
+        "samples": 16000,
+        "true_peak_abs": 0.074484,
+        "true_peak_dbtp": -22.558792,
+        "ungated_lufs": -23.0
+      },
+      "output_digest": "722d21b099480ea4ebe2db100f69fa00411f455b9b659c58b16152d92c25bc2a",
+      "plan": {
+        "gain": 2.482785,
+        "limiting_factor": "loudness_target",
+        "loudness_gain": 2.482785,
+        "mode": "linear_loudness",
+        "true_peak_gain": 29.708365
+      },
+      "rms_gain_ratio": 2.48277,
+      "source_mapping_ok": true,
+      "target_error_lu": 0.0,
+      "true_peak_headroom_db": 21.558792
+    },
+    "frequencies": {
+      "100": {
+        "applied_gain": 2.482336,
+        "frequency_hz": 100.0,
+        "gain_error_db": 0.000101,
+        "gain_mode": "linear_loudness",
+        "measured_rms_ratio": 2.482365,
+        "true_peak_headroom_db": 17.12339
+      },
+      "1000": {
+        "applied_gain": 2.069331,
+        "frequency_hz": 1000.0,
+        "gain_error_db": 9.5e-05,
+        "gain_mode": "linear_loudness",
+        "measured_rms_ratio": 2.069354,
+        "true_peak_headroom_db": 18.704
+      },
+      "2000": {
+        "applied_gain": 1.587281,
+        "frequency_hz": 2000.0,
+        "gain_error_db": 0.000106,
+        "gain_mode": "linear_loudness",
+        "measured_rms_ratio": 1.5873,
+        "true_peak_headroom_db": 21.007524
+      },
+      "250": {
+        "applied_gain": 2.217948,
+        "frequency_hz": 250.0,
+        "gain_error_db": 4.8e-05,
+        "gain_mode": "linear_loudness",
+        "measured_rms_ratio": 2.217961,
+        "true_peak_headroom_db": 18.101571
+      },
+      "4000": {
+        "applied_gain": 1.377014,
+        "frequency_hz": 4000.0,
+        "gain_error_db": 0.000122,
+        "gain_mode": "linear_loudness",
+        "measured_rms_ratio": 1.377033,
+        "true_peak_headroom_db": 22.241835
+      },
+      "500": {
+        "applied_gain": 2.173646,
+        "frequency_hz": 500.0,
+        "gain_error_db": 8.3e-05,
+        "gain_mode": "linear_loudness",
+        "measured_rms_ratio": 2.173667,
+        "true_peak_headroom_db": 18.276822
+      },
+      "6000": {
+        "applied_gain": 1.368307,
+        "frequency_hz": 6000.0,
+        "gain_error_db": 9.1e-05,
+        "gain_mode": "linear_loudness",
+        "measured_rms_ratio": 1.368321,
+        "true_peak_headroom_db": 22.296929
+      }
+    },
+    "max_abs_gain_error_db": 0.000122,
+    "rms_ratio_max": 2.482365,
+    "rms_ratio_min": 1.368321
+  },
+  "targets": {
+    "dynamic_mode_supported": false,
+    "integrated_lufs": -23.0,
+    "lra_enforced": false,
+    "lra_lu": 7.0,
+    "tolerance_lu": 0.2,
+    "true_peak_dbtp": -1.0
+  }
+}
