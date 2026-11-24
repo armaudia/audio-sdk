@@ -1,0 +1,158 @@
+{
+  "fixture_id": "stoi-estoi-synthetic-target-masker-v1",
+  "numpy_version": "2.4.6",
+  "protocol": "sdk.stoi-estoi-crosscheck.v1",
+  "pystoi_version": "0.4.1",
+  "scipy_version": "1.17.1",
+  "source_sha256": {
+    "pystoi/stoi.py": "482b30bfa8e60f1453200315afcd5564fc9e9aa1d14aeb9710a58fd7a9f52658",
+    "pystoi/utils.py": "0222df0354a248ccc7f8525eda9bda9da815e5d60106f611a5f4750d1ba7f321"
+  },
+  "use": "external scorer cross-check only; not a candidate oracle, threshold or acceptance result",
+  "vectors": [
+    {
+      "abs_delta_estoi": 8.92688700737665e-15,
+      "abs_delta_stoi": 1.304512053934559e-15,
+      "clean_digest": "6f0420bafb9f5a77af6de01b8fc8dc6ee645cbe8da4c2d73c091c64fbfbf92ca",
+      "estimate_digest": "54cdf101edf074beffefd9103375c91c7586c906ea527ed15f2e4a4aadc362b5",
+      "item_id": "steady-snr-5",
+      "port_estoi": 0.008427640048497536,
+      "port_stoi": 0.14228926565164057,
+      "pystoi_estoi": 0.008427640048488609,
+      "pystoi_stoi": 0.14228926565163927,
+      "variant": "identity_noisy"
+    },
+    {
+      "abs_delta_estoi": 8.847089727481716e-15,
+      "abs_delta_stoi": 1.3877787807814457e-15,
+      "clean_digest": "6f0420bafb9f5a77af6de01b8fc8dc6ee645cbe8da4c2d73c091c64fbfbf92ca",
+      "estimate_digest": "e92381dd5cf39d0d2ac630cad7c801b0a8fa79fc50196906556f873acc572d41",
+      "item_id": "steady-snr-5",
+      "port_estoi": 0.008941662144944539,
+      "port_stoi": 0.14310124790992357,
+      "pystoi_estoi": 0.008941662144935691,
+      "pystoi_stoi": 0.14310124790992218,
+      "variant": "tilt"
+    },
+    {
+      "abs_delta_estoi": 9.811595980124821e-15,
+      "abs_delta_stoi": 1.2212453270876722e-15,
+      "clean_digest": "6f0420bafb9f5a77af6de01b8fc8dc6ee645cbe8da4c2d73c091c64fbfbf92ca",
+      "estimate_digest": "9153bdbde1bc19c420929b42b3b485e9b34b8cf82a4b03060f9a2301c9021869",
+      "item_id": "steady-snr+0",
+      "port_estoi": 0.04787950248745628,
+      "port_stoi": 0.2522083213553414,
+      "pystoi_estoi": 0.04787950248744647,
+      "pystoi_stoi": 0.25220832135534016,
+      "variant": "identity_noisy"
+    },
+    {
+      "abs_delta_estoi": 9.520162436160717e-15,
+      "abs_delta_stoi": 1.3877787807814457e-15,
+      "clean_digest": "6f0420bafb9f5a77af6de01b8fc8dc6ee645cbe8da4c2d73c091c64fbfbf92ca",
+      "estimate_digest": "bd936786ea569ed910c9dfa93afeb5665142d281507b5bfdafd86dfc1015253b",
+      "item_id": "steady-snr+0",
+      "port_estoi": 0.04892042864670339,
+      "port_stoi": 0.2540612615589575,
+      "pystoi_estoi": 0.04892042864669387,
+      "pystoi_stoi": 0.2540612615589561,
+      "variant": "tilt"
+    },
+    {
+      "abs_delta_estoi": 1.0047518372857667e-14,
+      "abs_delta_stoi": 1.609823385706477e-15,
+      "clean_digest": "6f0420bafb9f5a77af6de01b8fc8dc6ee645cbe8da4c2d73c091c64fbfbf92ca",
+      "estimate_digest": "87014b0b3111258a5a2c8407431adc31b5e7ca9fbbf0f173729cd8de41a22bfb",
+      "item_id": "steady-snr+5",
+      "port_estoi": 0.10004087138994071,
+      "port_stoi": 0.3739919743324411,
+      "pystoi_estoi": 0.10004087138993066,
+      "pystoi_stoi": 0.37399197433243947,
+      "variant": "identity_noisy"
+    },
+    {
+      "abs_delta_estoi": 1.0075273948473296e-14,
+      "abs_delta_stoi": 1.27675647831893e-15,
+      "clean_digest": "6f0420bafb9f5a77af6de01b8fc8dc6ee645cbe8da4c2d73c091c64fbfbf92ca",
+      "estimate_digest": "bbbc3ae0d393872f5863c118f4c8297942b4789a925c64cc80369bc4aed269b5",
+      "item_id": "steady-snr+5",
+      "port_estoi": 0.10151939715162123,
+      "port_stoi": 0.37624463936657093,
+      "pystoi_estoi": 0.10151939715161115,
+      "pystoi_stoi": 0.37624463936656966,
+      "variant": "tilt"
+    },
+    {
+      "abs_delta_estoi": 6.522560269672795e-15,
+      "abs_delta_stoi": 2.1510571102112408e-15,
+      "clean_digest": "6f0420bafb9f5a77af6de01b8fc8dc6ee645cbe8da4c2d73c091c64fbfbf92ca",
+      "estimate_digest": "6874c698d94a22f50abdc1f4f940549170da231b39828fbd6ae328cac4d8c290",
+      "item_id": "modulated-snr-5",
+      "port_estoi": 0.14085953304684334,
+      "port_stoi": 0.0324153778710739,
+      "pystoi_estoi": 0.14085953304683682,
+      "pystoi_stoi": 0.03241537787107175,
+      "variant": "identity_noisy"
+    },
+    {
+      "abs_delta_estoi": 6.2727600891321345e-15,
+      "abs_delta_stoi": 2.123301534595612e-15,
+      "clean_digest": "6f0420bafb9f5a77af6de01b8fc8dc6ee645cbe8da4c2d73c091c64fbfbf92ca",
+      "estimate_digest": "715183c5e6b48b88285d3889b600d5c4dff2107405220683941b8f31ce23a727",
+      "item_id": "modulated-snr-5",
+      "port_estoi": 0.14183886236825613,
+      "port_stoi": 0.03218014606446883,
+      "pystoi_estoi": 0.14183886236824986,
+      "pystoi_stoi": 0.03218014606446671,
+      "variant": "tilt"
+    },
+    {
+      "abs_delta_estoi": 6.467049118441537e-15,
+      "abs_delta_stoi": 1.9984014443252818e-15,
+      "clean_digest": "6f0420bafb9f5a77af6de01b8fc8dc6ee645cbe8da4c2d73c091c64fbfbf92ca",
+      "estimate_digest": "324f1b458af45f29e458e8c6da71ef439d84d5f15495e9fb34a23ae6403daf52",
+      "item_id": "modulated-snr+0",
+      "port_estoi": 0.16638984953351252,
+      "port_stoi": 0.16384931429528402,
+      "pystoi_estoi": 0.16638984953350605,
+      "pystoi_stoi": 0.16384931429528202,
+      "variant": "identity_noisy"
+    },
+    {
+      "abs_delta_estoi": 6.5503158452884236e-15,
+      "abs_delta_stoi": 2.0816681711721685e-15,
+      "clean_digest": "6f0420bafb9f5a77af6de01b8fc8dc6ee645cbe8da4c2d73c091c64fbfbf92ca",
+      "estimate_digest": "110dad1f372b4cea5b2c839e913b8bece9b0e0d0c50cdc6c5de321e7f03fdb23",
+      "item_id": "modulated-snr+0",
+      "port_estoi": 0.1673952250019662,
+      "port_stoi": 0.16575689076201386,
+      "pystoi_estoi": 0.16739522500195966,
+      "pystoi_stoi": 0.16575689076201178,
+      "variant": "tilt"
+    },
+    {
+      "abs_delta_estoi": 6.689093723366568e-15,
+      "abs_delta_stoi": 1.887379141862766e-15,
+      "clean_digest": "6f0420bafb9f5a77af6de01b8fc8dc6ee645cbe8da4c2d73c091c64fbfbf92ca",
+      "estimate_digest": "6bae9e165ec7f09fde065e1abaaa80f0a052ca85c99bf93fe3370839fab4cbd3",
+      "item_id": "modulated-snr+5",
+      "port_estoi": 0.20442912709535135,
+      "port_stoi": 0.3016604936722405,
+      "pystoi_estoi": 0.20442912709534466,
+      "pystoi_stoi": 0.3016604936722386,
+      "variant": "identity_noisy"
+    },
+    {
+      "abs_delta_estoi": 6.8833827526759706e-15,
+      "abs_delta_stoi": 1.887379141862766e-15,
+      "clean_digest": "6f0420bafb9f5a77af6de01b8fc8dc6ee645cbe8da4c2d73c091c64fbfbf92ca",
+      "estimate_digest": "dd524756bb416d217f852a99a46d06b48fb6b54076d864b11188d25df7831407",
+      "item_id": "modulated-snr+5",
+      "port_estoi": 0.205441836136887,
+      "port_stoi": 0.30481145935796694,
+      "pystoi_estoi": 0.2054418361368801,
+      "pystoi_stoi": 0.30481145935796505,
+      "variant": "tilt"
+    }
+  ]
+}
