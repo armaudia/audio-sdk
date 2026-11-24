@@ -12,7 +12,7 @@ acoustics, real recording, licensed corpus, AECMOS model, listening test,
 loudspeaker loop measurement, device timing or release approval is claimed.
 
 Branch scope: `swarm/SDK-FIXED-RLS-TO-NLMS-AEC`, rebased onto the refreshed SDK
-main `941cabfc39f7e33f01881b6e50e3a1e49e7eb9ce` (parent of the single local
+main `7d245d4c03f7fa0b23935716c052000ddc854ef1` (parent of the single local
 commit). All changes are new files under `docs/task-evidence/fixed-rls-to-nlms-aec/`.
 
 ## Scope and boundary
@@ -56,22 +56,22 @@ Paths are relative to `/Users/htsakanyan/workspace/audio/audioml` unless noted.
 | `api/include/audio_sdk/session_v0.h` (boundary) | `a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1` | Public session facade, unchanged. |
 
 The mutable board snapshot `audio-benchmark-platform/plan/swarm/TASKS.json` had
-SHA-256 `47ba70216c23a07b3829696d5536ba830ec742bcccaa8070bbdedbe03c3419ed`
+SHA-256 `7cd94ec7a32f3ff8ff8df1c7a8e40db0f888c31634721ec2e58bd147d2605a53`
 when read. It is provenance only and never qualifies this evidence.
 
 ## Local artifacts (SHA-256)
 
 | Path | SHA-256 |
 | --- | --- |
-| `contract.json` | `ce63275054bee04c7a2cf878fe944ad6a9fc433d9150c78d62da4b05728f9d82` |
+| `contract.json` | `ac53aedea1e5e31473c6bb75ca4129d55cce783b6ad56484255d173b1218255c` |
 | `adapter.json` | `52314de137351634c3bd96c4eace703eb4721bc209ce0e5b04bc63cfb875bbf8` |
-| `check_licensing.py` | `7ce288a4413f44c05523ef8d7d639ef180ddc8365ead572d3b5e1e6adb9e7c9b` |
+| `check_licensing.py` | `21343828611fa09d1460a484f401e8e96c85f2e90bf7253b5f2241c742b3bf15` |
 | `crosscheck.py` | `d9ffb14625185e393de1ae249acc0d190fd583832fdef8f5942bef3b5fdb62cb` |
-| `reference.py` | `20ca866e6f2839719320aa01e39bbee1f7ffd9a2ec2fa3912e44874f712faaf9` |
+| `reference.py` | `91668635a7a0b61732f17815833a81bb5e90406124a2ccdadfb3351614a826fd` |
 | `run.py` | `3183a97e1d11dd0e0db8ea2c0b0251064b13509052bedb4d38514e9bf4cde174` |
 | `test_reference.py` | `18a3983c441f6e817b881d043d230dc0d7d8219c53b86ca140469276807c9cb9` |
-| `report.json` (file bytes) | `94cc863242f8b7b0320ae670cd24722ce197e6c588bfe8bb498bfa8ae0684fce` |
-| `report.json.sha256` (file bytes) | `23252c3060c17c0a4d74b7918d209026abbcafb81c5c48eb624400659c24ef56` |
+| `report.json` (file bytes) | `3e32b57fc0c48b53316e3a80d5b564b3c0981c3258dc772a5cacda68c7568519` |
+| `report.json.sha256` (file bytes) | `ffd84e736b23106d8c3ea0c388ff3af17cea57ccfcec8ec300abf36936035038` |
 | `provider/CMakeLists.txt` | `85a1ecb78665c5dedcf5f9869b33a9c25b82d04c6968bd77d69433a78a6256d4` |
 | `provider/crosscheck_vectors.h` | `6fa68adf9ec355cd2a37629bfd5bd7b89eb13970232728b2dd56ff22805e0617` |
 | `provider/fixed_rls_nlms_provider.c` | `2d6ce909bda8e3de813df2bd5122350e4806d0f23b0241d1e647c1f2b0183f06` |
@@ -86,7 +86,7 @@ self-referential digest cycle. `report.json` is canonical JSON
 (`sort_keys=True`, compact separators, `allow_nan=False`) plus one trailing
 newline:
 
-- canonical report digest: `df0a622f0fb2f496d88ddae7c114837f4262b5b2227a2fb8b8ed7c37324c46ff`
+- canonical report digest: `e0c5e56b7810d4c8fb074ed6914895038e0b149170804c411be88e7f500a337e`
 - fixture specification digest: `bf01e40b6c2b18668edae534116e39055b2f90d1c6af4ad0020d5c5ea510dd91`
 - regeneration from `python3 run.py --report` is byte-identical and asserted by
   `test_reference.py`.

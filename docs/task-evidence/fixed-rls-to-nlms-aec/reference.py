@@ -109,7 +109,7 @@ BOUNDARY_PINS = {
 }
 BOARD_SNAPSHOT = {
     "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
-    "sha256_at_read": "47ba70216c23a07b3829696d5536ba830ec742bcccaa8070bbdedbe03c3419ed",
+    "sha256_at_read": "7cd94ec7a32f3ff8ff8df1c7a8e40db0f888c31634721ec2e58bd147d2605a53",
     "mutable": True,
 }
 

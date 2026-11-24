@@ -32,10 +32,8 @@ def check() -> Dict[str, object]:
         if explicit:
             text = path.read_text(encoding="utf-8", errors="replace")
             head = "\n".join(text.splitlines()[:12])
-            # REUSE-IgnoreStart: split literals below are assertions, not tags.
             if ("SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes" not in head
                     or "SPDX" "-License-Identifier: Apache-2.0" not in head):
-                # REUSE-IgnoreEnd
                 problems.append("missing SPDX header: " + relative)
             else:
                 headers += 1
@@ -49,10 +47,8 @@ def check() -> Dict[str, object]:
 
     generator = (ROOT / "crosscheck.py").read_text(encoding="utf-8")
     body = "\n".join(generator.splitlines()[2:])
-    # REUSE-IgnoreStart: split literals below are assertions, not tags.
     if "SPDX" "-License-Identifier:" in body:
         problems.append("generated-header script embeds a full SPDX identifier token")
-    # REUSE-IgnoreEnd
     if '"SPDX" "-License-Identifier: Apache-2.0"' not in generator:
         problems.append("generated-header script is not split as required")
     return {
