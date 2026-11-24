@@ -1,0 +1,114 @@
+{
+  "schema_id": "audio-sdk/stoi-estoi-evidence/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-STOI-ESTOI",
+  "component": "stoi-estoi",
+  "repository": "audio-sdk",
+  "base_commit": "a64e1096905f0d05a46303fc0167b6f356027765",
+  "branch": "swarm/SDK-STOI-ESTOI",
+  "status": "optional-task-local-developer-evidence-only",
+  "verification_profile": "evidence",
+  "scope": "Pinned paired synthetic STOI/ESTOI comparison at a task-local protocol-shaped developer adapter boundary; no processor exposure, public metric, listener/quality/device/release claim",
+  "public_boundary": {
+    "header": null,
+    "abi_major": null,
+    "abi_minor": null,
+    "registration": "none; this task adds no C provider, descriptor, registry entry, installed default, public catalog entry, CMake target or audio-bench metric",
+    "c_provider_added": false,
+    "public_api_abi_changed": false,
+    "shared_code_changed": false,
+    "installed_behavior": "unchanged",
+    "note": "All code and reports are under docs/task-evidence/stoi-estoi/. The opt-in adapter is Python-only and never registers itself."
+  },
+  "adapter": {
+    "adapter_id": "stoi-estoi-evidence-v1",
+    "entry_point": "run.py",
+    "operations": ["inspect", "run", "--report"],
+    "protocol_version": 1,
+    "opt_in_only": true,
+    "default_enabled": false,
+    "registered": false,
+    "produces_bench_bundle": false,
+    "external_scorer_required_for_report": false
+  },
+  "decision": {
+    "promotion": "defer",
+    "expose_as_processor": false,
+    "registered": false,
+    "default_enabled": false,
+    "basis": "Only frozen synthetic STOI/ESTOI scores are available. No rights-cleared held-out inputs, listener protocol, independent reference adapter, device profile, scorer intake or release approval is cleared."
+  },
+  "scorer_pins": {
+    "pystoi_version": "0.4.1",
+    "source_sha256": {
+      "pystoi/stoi.py": "482b30bfa8e60f1453200315afcd5564fc9e9aa1d14aeb9710a58fd7a9f52658",
+      "pystoi/utils.py": "0222df0354a248ccc7f8525eda9bda9da815e5d60106f611a5f4750d1ba7f321"
+    },
+    "algorithm_pins": [
+      "pystoi-0.4.1.non-extended.algorithm-port.no-dither",
+      "pystoi-0.4.1.extended.algorithm-port.no-dither"
+    ],
+    "crosscheck": "crosscheck_vectors.json records 12 external pystoi 0.4.1 comparisons; exact recorded deltas only, no oracle or acceptance threshold"
+  },
+  "fixture_pins": {
+    "fixture_id": "stoi-estoi-synthetic-target-masker-v1",
+    "sample_rate_hz": 16000,
+    "samples_per_item": 9600,
+    "seed": 20261124,
+    "clean_digest": "6f0420bafb9f5a77af6de01b8fc8dc6ee645cbe8da4c2d73c091c64fbfbf92ca",
+    "masker_digests": {
+      "steady": "b6567fbeb780f01f687a513df02407d953f18a5f5697679a9fd4bff03502a386",
+      "modulated": "8861ea2ad4d8de64dc83c9ded3e0e466f4f1e0c53b55961f28c091a52059e9b6"
+    },
+    "assets": [],
+    "network": false,
+    "real_speech": false
+  },
+  "source_pins": {
+    "handoff": {
+      "path": "audio-benchmark-platform/plan/swarm/handoffs/SDK-STOI-ESTOI.md",
+      "sha256": "0b399de730acf7233406c513b215bf9754e96b5484ac2b1e63716fff1085492f"
+    },
+    "verification_profile": {
+      "path": "audio-benchmark-platform/plan/swarm/VERIFICATION.md",
+      "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
+    },
+    "historical_context": {
+      "path": "research/listening_intelligibility_20261028.md",
+      "sha256": "f29de5cdb58676b6f61ac8489ff5af44a88b2125c2022920436a6f064405992a",
+      "use": "historical source-reported CLN-12 screen; not reproduced, not an oracle"
+    }
+  },
+  "artifact_pins": {
+    "report_canonical_sha256": "1557ea1b0079f4ad5856e15f54add1af5d4fb09f5a0a863ede7f346369598ead",
+    "report_file_sha256": "a74820ff3e42f80d5ab06038de6ec70989876c6d91b98b34dc059ed2a6858f82",
+    "crosscheck_vectors_sha256": "b31018f150c1b8e852f48d621c32217e57279c4eee72d692844e736a03ca4546"
+  },
+  "board_snapshot": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "7cd94ec7a32f3ff8ff8df1c7a8e40db0f888c31634721ec2e58bd147d2605a53",
+    "mutable": true
+  },
+  "invariants": [
+    "The comparison is paired synthetic developer evidence at 16 kHz mono; every variant reuses one clean target and one masker realization per item.",
+    "The canonical scorer is a deterministic no-dither port of the pinned pystoi 0.4.1 non-extended and extended algorithms. External pystoi is a recorded cross-check only, never a candidate oracle or acceptance threshold.",
+    "Three in-process regenerations and three cold-start run.py --report invocations must be byte-identical; no tolerance widening or provider substitution is used.",
+    "Missing, nonfinite and short controls are blocked, invalid and failed respectively; no missing result qualifies as a score.",
+    "No public API, ABI, default, registry, shared code, audio-bench metric, CMake target or installed behavior is changed.",
+    "No real-speech, corpus, listening, MOS, intelligibility, quality, device, pacing, deadline, release, public-benchmark or Tiny16 comparison claim is made."
+  ],
+  "blockers": [
+    "Exact-head independent review.",
+    "Hosted CI on the exact implementation head.",
+    "Rights-cleared held-out inputs with pinned provenance and a declared protocol.",
+    "Independent approved reference adapter and permitted case manifest before any adverse Tiny16 comparison.",
+    "Scorer source/license intake for pystoi 0.4.1 and its runtime dependencies.",
+    "Release approval before any processor exposure."
+  ],
+  "reopening_conditions": [
+    "Freeze rights-cleared matched inputs and a declared listener or metric protocol, then rerun the pinned paired comparison with independent review.",
+    "Complete scorer/license intake and hosted CI on the exact head.",
+    "Obtain S10/protocol clearance, an approved independent reference adapter and a permitted case manifest before any Tiny16 comparison.",
+    "Review exact-head evidence and obtain release approval before proposing any processor or default change."
+  ]
+}

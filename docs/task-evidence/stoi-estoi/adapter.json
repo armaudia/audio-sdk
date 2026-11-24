@@ -1,0 +1,36 @@
+{
+  "schema_id": "audio-sdk/stoi-estoi-adapter/0.1",
+  "adapter_id": "stoi-estoi-evidence-v1",
+  "task": "SDK-STOI-ESTOI",
+  "component": "stoi-estoi",
+  "status": "task-local-developer-evidence-only",
+  "protocol_version": 1,
+  "entry_point": "run.py",
+  "operations": ["inspect", "run", "--report"],
+  "supported_items": ["steady-snr-5", "steady-snr+0", "steady-snr+5", "modulated-snr-5", "modulated-snr+0", "modulated-snr+5"],
+  "supported_variants": ["identity_noisy", "less_masker", "more_masker", "tilt", "gain_only", "missing", "nonfinite", "short"],
+  "supported_metrics": ["stoi", "estoi"],
+  "registration": {
+    "unregistered": true,
+    "default_enabled": false,
+    "opt_in_only": true,
+    "sdk_provider_registry_changed": false,
+    "catalog_entry": false,
+    "cmake_target_added": false,
+    "public_abi_changed": false,
+    "installed_behavior": "unchanged",
+    "audio_bench_metric": false
+  },
+  "decision": {
+    "promotion": "defer",
+    "expose_as_processor": false,
+    "basis": "Pinned synthetic scorer comparison only; no held-out speech, rights, listening, device, license or release gate is cleared."
+  },
+  "inputs": {
+    "corpus": "none; deterministic synthetic target and maskers generated in fixture.py",
+    "assets": [],
+    "network": false,
+    "external_scorer_required_for_report": false,
+    "external_scorer_cross_check": "pystoi 0.4.1, recorded in crosscheck_vectors.json only"
+  }
+}
