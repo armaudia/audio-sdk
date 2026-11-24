@@ -1,0 +1,30 @@
+{
+  "schema_id": "audio-sdk/task-evidence/rnnoise-speech-probability/adapter/0.1",
+  "task_local_id": "analysis.rnnoise-speech-probability-ref.v0",
+  "protocol_version": 1,
+  "identity": "rnnoise-speech-probability.synthetic.v0",
+  "source_adapter_identity": "Xiph-RNNoise-70f1d256acd4b34a572f999a05c87bf00b67730d",
+  "source_adapter_output_kinds": [
+    "waveform"
+  ],
+  "source_adapter_tasks": [
+    "CLN-01"
+  ],
+  "source_adapter_probability_output": false,
+  "proposed_output_kinds": [
+    "speech_probability",
+    "speech_event"
+  ],
+  "input_kind": "waveform",
+  "sample_rate_hz": 16000,
+  "channels": 1,
+  "native_hop_samples": 160,
+  "probability_window_samples": 480,
+  "decision_threshold": 0.5,
+  "availability_clock_id": "fixture-monotonic-v0",
+  "registered": false,
+  "enabled_by_default": false,
+  "descriptor_settings": {},
+  "public_api_abi_change": false,
+  "note": "Task-local proposal-only analysis boundary. The shipped public RNNoise adapter declares waveform output only; this fixture does not run native RNNoise and adds no provider, default or public surface."
+}
