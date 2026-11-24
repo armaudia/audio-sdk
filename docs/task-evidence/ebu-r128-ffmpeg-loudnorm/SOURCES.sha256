@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
+b6afa2b82f888882dd3c7d24d262848aa6218b65d5fb490d88cb007d17b23ef5  source:research/voice-enhancement-20261101/agent-r128-eval/REPORT.md
+9bdfef51364931b351d07fb425c7f08f1845b3e1168095369964da746ddfb783  source:research/voice-enhancement-20261101/agent-r128-eval/results.json
+12616c2eb6b394484f359c910a84dac7b327558b0dbae381906b8b8dc3ad6896  source:research/voice-enhancement-20261101/agent-r128-independent-audit/REPORT.md
+35f871e7d7362070c20fa35a5832115ea5388ffae550be3b25368a72bf5cebf4  source:research/noise_suppression_assets_20261027.json
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+04c3100ce7aa392b74c7d11cde3fdc9910f24a78a9afee1d8fc17e3e3e9b2f8b  docs/task-evidence/ebu-r128-ffmpeg-loudnorm/README.md
+b22ed92b7581bcc9fdc82231f70ac1ac0ae7e7ba244e25443921c627dc13113c  docs/task-evidence/ebu-r128-ffmpeg-loudnorm/reference.py
+dc9c890173c12e6c5dfb2de39a99104f6d49fc5858e938c0c13ba73c3e1e34a4  docs/task-evidence/ebu-r128-ffmpeg-loudnorm/run.py
+1b41a87dffaa94c4ae29a57d304c40df58c244c441b5e8943479606980274658  docs/task-evidence/ebu-r128-ffmpeg-loudnorm/test_reference.py
+7e6a00166c1c9b687001271a35c94a84bfc857573b310228ac5f518637732a41  docs/task-evidence/ebu-r128-ffmpeg-loudnorm/verify.py
+186639e731d78ea00939c5491311c599fb63d1c563777588ff186320aa311e4d  docs/task-evidence/ebu-r128-ffmpeg-loudnorm/report.json
+b804fef530fe0ae803a88d7a80153d9850d9c1f3d804f7c516a3effc0139451b  docs/task-evidence/ebu-r128-ffmpeg-loudnorm/report.json.sha256
+e4b4f6e9f04da792a27fa60ebbf1821bc2d067b77693a65de50b11d7614d3f5d  docs/task-evidence/ebu-r128-ffmpeg-loudnorm/tool-provenance.json
