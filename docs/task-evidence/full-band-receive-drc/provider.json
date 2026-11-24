@@ -1,0 +1,23 @@
+{
+  "provider_id": "full-band-receive-drc-reference-provider/0.1",
+  "identity": "full-band-receive-drc-reference-provider/0.1",
+  "status": "conceptual_only_not_installed",
+  "registered": false,
+  "enabled_by_default": false,
+  "opt_in_required": true,
+  "descriptor_settings": {},
+  "public_abi_change": false,
+  "descriptor_registration": false,
+  "sdk_default_change": false,
+  "implementation": "task-local Python reference in reference.py; no C provider compiled or linked",
+  "supported_formats": ["f32/16000/mono/160"],
+  "content_delay_samples": 0,
+  "external_assets": [],
+  "execution_mode": "reference.sequential.v0",
+  "qualification": "not_qualified",
+  "reopen": "Independent opt-in provider intake, license review and exact-head verification before any exposure",
+  "licensing": {
+    "spdx_license_identifier": "Apache-2.0",
+    "spdx_file_copyright_text": "2026 Tsakanyan Hovhannes"
+  }
+}
