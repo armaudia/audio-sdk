@@ -64,7 +64,7 @@ applied as follows:
 | response | chirp/step output metrics, impulse peak location |
 | attack/release | step cases, fast-config case, reset case |
 | headroom | `peak_abs`, `clipped_or_at_one` on every case |
-| delay | impulse peak measured at 560 for both identity and combined, i.e. 160 samples (10 ms) of shared preprocessor lookahead; AGC adds no second delay |
+| delay | impulse peak measured at 560 for both identity and combined; 160 samples (10 ms) of shared preprocessor lookahead are recorded, with no separate gain-delay assertion |
 | numerical behavior | fail-closed nonfinite control plus finite-output checks |
 | state transitions | reset at frame 10, silence→burst sequences, loud→quiet steps |
 | interacting nonlinear configurations | combined AGC+VAD, `combined_denoise`, prob-threshold variants, target-level variants |
@@ -104,7 +104,7 @@ Representative frozen results (all from synthetic stimuli):
   JSON/schema) and protocol-v1-shaped `inspect`/`run` operations.
 - `test_fixture.py`: 21 task-local unittest checks.
 - `evidence/report.json`: canonical frozen report, SHA-256
-  `951a004027740a93080204d02215844376ad2f74a6ce6ca2872855a19b255b91`.
+  `690da975dff985cd91126cb42400b3ab28df5cabf7435cc551028fd57723671e`.
 - `SOURCES.sha256`: exact vendored-source and policy pins; file digest
   is recorded in the report.
 

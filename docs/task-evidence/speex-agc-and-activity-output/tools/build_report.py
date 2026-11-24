@@ -20,8 +20,7 @@ import fixtures as f
 VERIFICATION_WS = c.WS_ROOT / "audio-benchmark-platform/plan/swarm/VERIFICATION.md"
 VERIFICATION_PAGES = c.WS_ROOT / "audio-benchmark-platform/plan/swarm/VERIFICATION_PAGES.md"
 VERIFICATION_DIGEST = "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
-AGENT_LOG = c.WS_ROOT / "audio-benchmark-platform/plan/swarm/logs/agents/SDK-SPEEX-AGC-AND-ACTIVITY-OUTPUT.jsonl"
-TASK_DEF = c.WS_ROOT / "audio-benchmark-platform/plan/swarm/TASKS.json"
+SWARM_CHECK = c.WS_ROOT / "audio-benchmark-platform/plan/swarm/check.py"
 
 
 def digest_path(path: Path) -> str:
@@ -124,8 +123,8 @@ def main() -> int:
     # before emitting output, so a lone impulse placed at input sample 400 is
     # observed at output sample 560. This is true even with AGC, VAD and
     # denoise all disabled, so "identity" here means identity of the feature
-    # flags, not bit-exact passthrough. Recording both locations measures the
-    # shared preprocessor delay and confirms AGC does not add a second delay.
+    # flags, not bit-exact passthrough. Only the measured peak indices are
+    # reported; no separate gain-delay assertion is made.
     input_impulse_index = 400
     impulse_raw = (scratch / ("identity_impulse-r0.f32")).read_bytes()
     identity_peak_index = max(range(f.SAMPLES), key=lambda i: abs(struct.unpack_from("<f", impulse_raw, i * 4)[0]))
@@ -139,27 +138,23 @@ def main() -> int:
     if any(pin["status"] != "match" for pin in pins):
         raise RuntimeError("source pin mismatch: " + str([p for p in pins if p["status"] != "match"]))
 
-    # Read-only board and task metadata; verification itself is read-only.
-    # No live git state is embedded: the report must regenerate byte-identically
-    # before and after the single DCO commit. Base and parent are pinned from
-    # the task definition and worktree history observed before the commit.
+    # Read-only board check; verification itself is read-only and contains no
+    # mutable board snapshot. The report must regenerate byte-identically from
+    # any clean export at this exact head. Base and parent are pinned from the
+    # task definition and worktree history observed before the commit.
     base_parent = "56d9781b984aa493e5c56e0479a20c746351102e"
     verification_digest = digest_path(VERIFICATION_WS)
     if verification_digest != VERIFICATION_DIGEST:
         raise RuntimeError("VERIFICATION.md digest changed: " + verification_digest)
     verification_pages_digest = digest_path(VERIFICATION_PAGES) if VERIFICATION_PAGES.is_file() else None
-    task_def_digest = digest_path(TASK_DEF)
-    agent_log_digest = digest_path(AGENT_LOG) if AGENT_LOG.is_file() else None
-    check_proc = run(["python3", str(c.WS_ROOT / "audio-benchmark-platform/plan/swarm/check.py"),
-                      "--task", c.TASK_ID], cwd=c.SDK_ROOT, check=False)
-    check_digest = c.digest_bytes(check_proc.stdout.encode("utf-8"))
+    check_proc = run(["python3", str(SWARM_CHECK), "--task", c.TASK_ID],
+                     cwd=c.SDK_ROOT, check=False)
     if check_proc.returncode != 0:
         raise RuntimeError("swarm check failed: " + check_proc.stderr)
 
     sources_digest = c.digest_bytes((c.TASK / "SOURCES.sha256").read_bytes())
     adapter_json_digest = sha256_file(c.TASK / "adapter.json")
     contract_json_digest = sha256_file(c.TASK / "contract.json")
-    cli_digest = sha256_file(cli)
 
     report = {
         "schema": c.SCHEMA,
@@ -176,7 +171,6 @@ def main() -> int:
             "verification_pages_sha256": verification_pages_digest,
             "check_command": ["python3", "plan/swarm/check.py", "--task", c.TASK_ID],
             "check_exit": check_proc.returncode,
-            "check_stdout_sha256": check_digest,
             "read_only": True,
         },
         "scope": {
@@ -203,7 +197,6 @@ def main() -> int:
             "contract_json_sha256": contract_json_digest,
             "source_pins": pins,
             "sources_sha256_file_sha256": sources_digest,
-            "cli_sha256": cli_digest,
             "protocol_version": 1,
             "identity": "speex-agc-activity-reference-v1",
             "registration": "unregistered-developer-only",
@@ -229,7 +222,7 @@ def main() -> int:
             "combined_impulse_peak_index": combined_peak_index,
             "identity_delay_samples": identity_peak_index - input_impulse_index,
             "combined_delay_samples": combined_peak_index - input_impulse_index,
-            "delay_note": "160-sample (10 ms at 16 kHz) preprocessor lookahead is present even with all feature flags off; AGC adds no second delay",
+            "delay_note": "160-sample (10 ms at 16 kHz) shared preprocessor lookahead is present even with all feature flags off; only measured impulse peak indices are reported",
             "combined_activity_sequence_differs_from_agc_only": (
                 next(item for item in cases if item["id"] == "combined_speech_like")["output"]["activity"]["advisory_vad_sequence"]
                 != next(item for item in cases if item["id"] == "agc_only_speech_like")["output"]["activity"]["advisory_vad_sequence"]),
@@ -274,10 +267,6 @@ def main() -> int:
             "compiler": run(["cc", "--version"]).stdout.splitlines()[0],
             "jsonschema_dependency_used": False,
             "strict_json_validation": "duplicate keys and NaN/Infinity constants rejected; exact key sets and integer types checked",
-        },
-        "metadata_digests": {
-            "task_definition": task_def_digest,
-            "agent_log": agent_log_digest,
         },
     }
     report_path = Path(os.environ.get("SPEEX_ACTIVITY_REPORT_PATH", str(c.REPORT_PATH)))
