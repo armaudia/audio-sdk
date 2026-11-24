@@ -1,0 +1,14 @@
+# SHA-256 pins for SDK-RIDGE-STATIC-GAIN; source: paths are workspace-relative, others SDK-worktree-relative. SOURCES.sha256 itself is not self-pinned.
+b9178c7c486bec81222919977f8111d4e5c5508ee31d8dbd44c6600e51e25c44  source:research/level_tone_control_20261028.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+b9b09816bb6a44df340e52a2e994ba7b7c4776698b002b9bf4887119c711b28b  docs/task-evidence/ridge-static-gain/reference.py
+ce1e263ee3e5425696431719c42ce9cb537c3a5532ab5c5de41a0a5493e8e600  docs/task-evidence/ridge-static-gain/run.py
+e9a1785fd5c27e2ce04135f891ef9f06682ca43d4437b195da688beb8f9a8d9c  docs/task-evidence/ridge-static-gain/test_reference.py
+4b9250986128b210564ad5b51d350b7efc92acec4ce54b04e4422e5e0acca155  docs/task-evidence/ridge-static-gain/verify.py
+a0a81ae8ff9d7d966b1a47d6ac001f14fc0c4a7a82be316c8f5522ed06c37e2a  docs/task-evidence/ridge-static-gain/report.json
+65a75dddfa582d430c84fa0ffd293b9082986b4b4e133743597fe8ab4590a34f  docs/task-evidence/ridge-static-gain/report.json.sha256
+d7a8f6e65a033ea83b1dce100414a60814eb27624aa599695b18c5249ed71f63  docs/task-evidence/ridge-static-gain/README.md

@@ -1,0 +1,6247 @@
+{
+  "adverse": {
+    "bad_padding": {
+      "state_unchanged": true,
+      "status": "rejected_bad_padding"
+    },
+    "closed_rejects_process": {
+      "state_unchanged": true,
+      "status": "rejected_closed"
+    },
+    "duplicate_packet": {
+      "state_unchanged": true,
+      "status": "rejected_duplicate"
+    },
+    "future_packet": {
+      "state_unchanged": true,
+      "status": "rejected_future_packet"
+    },
+    "invalid_gain_rejected": {
+      "state_unchanged": true,
+      "status": "rejected_invalid_gain"
+    },
+    "missing_frame": {
+      "state_unchanged": true,
+      "status": "rejected_missing"
+    },
+    "nonfinite_input": {
+      "state_unchanged": true,
+      "status": "rejected_nonfinite"
+    },
+    "order_recovery": {
+      "consistent_counts": true,
+      "first_two_accepted": true,
+      "status": "ok"
+    },
+    "out_of_order_packet": {
+      "state_unchanged": true,
+      "status": "rejected_out_of_order"
+    },
+    "process_after_final": {
+      "state_unchanged": true,
+      "status": "rejected_after_final"
+    },
+    "short_frame": {
+      "state_unchanged": true,
+      "status": "rejected_short"
+    },
+    "stale_epoch": {
+      "state_unchanged": true,
+      "status": "rejected_stale_epoch"
+    },
+    "wrong_frame_shape": {
+      "state_unchanged": true,
+      "status": "rejected_shape"
+    },
+    "zero_length_frame": {
+      "state_unchanged": true,
+      "status": "rejected_shape"
+    }
+  },
+  "all_outputs_finite": true,
+  "artifact_pins": [
+    {
+      "kind": "task_fixture",
+      "path": "reference.py",
+      "sha256": "b9b09816bb6a44df340e52a2e994ba7b7c4776698b002b9bf4887119c711b28b"
+    },
+    {
+      "kind": "task_fixture",
+      "path": "run.py",
+      "sha256": "ce1e263ee3e5425696431719c42ce9cb537c3a5532ab5c5de41a0a5493e8e600"
+    },
+    {
+      "kind": "task_fixture",
+      "path": "test_reference.py",
+      "sha256": "e9a1785fd5c27e2ce04135f891ef9f06682ca43d4437b195da688beb8f9a8d9c"
+    },
+    {
+      "kind": "task_fixture",
+      "path": "verify.py",
+      "sha256": "4b9250986128b210564ad5b51d350b7efc92acec4ce54b04e4422e5e0acca155"
+    }
+  ],
+  "base_commit": "bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0",
+  "blockers": [
+    {
+      "id": "real_speech_benchmark",
+      "reason": "No rights-qualified paired real-speech cohort exists here. The pinned research document says its real-speech benchmark is not established.",
+      "reopen": "Freeze a permitted, speaker/session-split paired cohort with fixed crop, RMS target and peak policy.",
+      "status": "blocked"
+    },
+    {
+      "id": "blinded_listening_quality",
+      "reason": "No consented listeners, WER, intelligibility or listening test was run; synthetic dB error is not a quality claim.",
+      "reopen": "Run an independently reviewed blinded listening and intelligibility protocol on permitted material.",
+      "status": "blocked"
+    },
+    {
+      "id": "pinned_external_controls",
+      "reason": "WebRTC AGC2 and FFmpeg loudness/limiter implementations are literature links in the pinned research note only; no pinned code, version, hash or runtime is installed in this fixture and none was downloaded.",
+      "reopen": "Pin exact external control code, version, license, hashes and runtime, then rerun the same frozen cohort.",
+      "status": "blocked"
+    },
+    {
+      "id": "target_runtime_deadline",
+      "reason": "No paced target-device, deadline, CPU or memory measurement is included; this is a Python reference only.",
+      "reopen": "Measure the exact installed build on the target under pacing, load, deadline, CPU and memory budgets.",
+      "status": "blocked"
+    },
+    {
+      "id": "provider_intake",
+      "reason": "No C provider is compiled, registered or packaged. The conceptual ID is unregistered, OFF by default and has empty descriptor settings.",
+      "reopen": "Complete opt-in provider intake with independent review, OFF default and empty descriptor settings.",
+      "status": "blocked"
+    },
+    {
+      "id": "default_selection",
+      "reason": "No default is selected or advertised by this task. Held-out comparisons are reported without ranking any strategy as the shipped choice.",
+      "reopen": "Require a jointly reviewed real-speech cohort, listening result, pinned external controls and explicit default-selection approval.",
+      "status": "blocked"
+    }
+  ],
+  "boundary": {
+    "default_selected": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "note": "Python model of a v0 inline provider at the public process/drain boundary; no C provider, registry change, public flag or descriptor change.",
+    "provider_id": "dsp.ridge-static-gain-ref.v0",
+    "registered": false
+  },
+  "candidate_status": "proposal_only_synthetic_incomplete",
+  "contract": "audio-sdk/ridge-static-gain/0.1",
+  "controls_complete": true,
+  "dsp_probes": {
+    "headroom_peak": {
+      "applied_gain": 0.384998,
+      "cap_engaged": true,
+      "clipped_frames": 1,
+      "description": "Tone plus frozen overloaded transient; scalar ceiling cap, never hard clipping.",
+      "headroom_linear": 0.0,
+      "input_peak": 2.207805,
+      "output_at_or_above_one_count": 0,
+      "output_peak": 0.85,
+      "raw_gain": 0.48586
+    },
+    "impulse": {
+      "declared_buffering_delay_samples": 0,
+      "description": "Isolated impulse at source sample 4000; verifies zero intrinsic delay and one-to-one frame mapping.",
+      "gain": 1.7,
+      "measured_content_delay_samples": 0,
+      "measured_output_peak_index": 4000,
+      "nonzero_output_samples": 1,
+      "output": {
+        "at_or_above_one_count": 0,
+        "digest": "767eec444a143ec4e8492b76fe88617db7a74ca031a00d0f899b44cd4cd9e881",
+        "finite": true,
+        "nonfinite_count": 0,
+        "peak_abs": 0.85,
+        "rms": 0.009503,
+        "rms_dbfs": -40.442521,
+        "samples": 8000
+      },
+      "source_mapping_checks": true,
+      "source_peak_index": 4000
+    },
+    "interacting_nonlinearity": {
+      "cap_engaged_frames": 94,
+      "description": "Stateful attack/release control plus peak ceiling and gain clamp on the overloaded transient.",
+      "first_40_gain_trace": [
+        0.489447,
+        0.49083,
+        0.490035,
+        0.489785,
+        0.489575,
+        0.48937,
+        0.489825,
+        0.488878,
+        0.48852,
+        0.488255,
+        0.488066,
+        0.488861,
+        0.488009,
+        0.487732,
+        0.487511,
+        0.48737,
+        0.48847,
+        0.487752,
+        0.487589,
+        0.487493,
+        0.487486,
+        0.488912,
+        0.4883,
+        0.48821,
+        0.488001,
+        0.48783,
+        0.488887,
+        0.488114,
+        0.487894,
+        0.487725,
+        0.384998,
+        0.377178,
+        0.372031,
+        0.369402,
+        0.368698,
+        0.372312,
+        0.380511,
+        0.388957,
+        0.399068,
+        0.408121
+      ],
+      "note": "Smoothing and ceiling interact: the peak cap limits the smoothed target, so the envelope does not reach the RMS target on overloaded frames.",
+      "unique_gain_values": 99
+    },
+    "no_gain_control": {
+      "bit_identical_to_input": true,
+      "description": "Identity control on the same frozen speech probe; no peak ceiling.",
+      "gain": 1.0,
+      "output": {
+        "at_or_above_one_count": 0,
+        "digest": "ce6706fc0d7d8600ff3f30c907313712ed238597e76d226d0591515f81335d08",
+        "finite": true,
+        "nonfinite_count": 0,
+        "peak_abs": 0.272757,
+        "rms": 0.123676,
+        "rms_dbfs": -18.154267,
+        "samples": 20000
+      },
+      "unique_gain_values": 1
+    },
+    "silence": {
+      "description": "All-zero stream: undefined RMS falls back to identity gain, not infinity.",
+      "fallback_gain": 1.0,
+      "frames": 50,
+      "headroom_linear": 0.85,
+      "nonfinite_count": 0,
+      "output_peak": 0.0
+    },
+    "steps": {
+      "description": "Eight 25-frame level steps from -42 dBFS to -6 dBFS and back; static gain cannot track steps.",
+      "envelope_control_first_frame_gain_trace": [
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        64.0,
+        61.880953,
+        59.096291,
+        56.455212,
+        53.903879,
+        51.634944,
+        49.644493,
+        47.805923,
+        46.220134,
+        44.781177,
+        43.533688,
+        42.455425,
+        41.466852,
+        40.630384,
+        39.86901,
+        39.216939,
+        38.661883,
+        38.139463,
+        37.711789,
+        37.31172,
+        36.97621,
+        36.698512,
+        36.420171,
+        36.206216
+      ],
+      "envelope_control_unique_gain_values": 176,
+      "output": {
+        "at_or_above_one_count": 0,
+        "digest": "7b1fa7e3dcc2422195a12edfbc59384889778483f96ba41b0ac52c9e5c228e56",
+        "finite": true,
+        "nonfinite_count": 0,
+        "peak_abs": 0.20037,
+        "rms": 0.063096,
+        "rms_dbfs": -24.0,
+        "samples": 32000
+      },
+      "per_step_input_rms_db": [
+        -60.9279,
+        -54.9279,
+        -48.9279,
+        -42.9279,
+        -36.9279,
+        -30.9279,
+        -24.9279,
+        -30.9279
+      ],
+      "source_frames": 200,
+      "static_gain": 2.498691,
+      "static_gain_trace_sampled": [
+        2.498691,
+        2.498691,
+        2.498691,
+        2.498691,
+        2.498691
+      ],
+      "static_gain_unique_values": 1
+    },
+    "sweep": {
+      "band_gain_ratios": [
+        0.405661,
+        0.405661,
+        0.405661,
+        0.405661,
+        0.405661,
+        0.405661,
+        0.405661,
+        0.405661,
+        0.405661,
+        0.405661
+      ],
+      "cap_engaged_frames": 0,
+      "description": "20 Hz to 8 kHz exponential sine sweep, static gain calibrated once from the whole probe.",
+      "frames": 200,
+      "output": {
+        "at_or_above_one_count": 0,
+        "digest": "93770045533e52059e1d52f47064a9e97ee1da0cb381829daa7befca0074deb6",
+        "finite": true,
+        "nonfinite_count": 0,
+        "peak_abs": 0.089245,
+        "rms": 0.063096,
+        "rms_dbfs": -24.0,
+        "samples": 32000
+      },
+      "response_flatness_db": 0.0,
+      "source_frames": 200,
+      "static_gain": 0.405661
+    },
+    "synthetic_speech": {
+      "description": "Frozen 125-frame harmonic/formant surrogate with voiced, unvoiced and pause-floor regions.",
+      "noise_floor_note": "A single static scalar scales voiced and pause-floor content equally; SNR is unchanged and no noise gating is applied.",
+      "output": {
+        "at_or_above_one_count": 0,
+        "digest": "ea946f761826e882edc5feb3ecee160427c6d4b47898b7230c3809b5b549898a",
+        "finite": true,
+        "nonfinite_count": 0,
+        "peak_abs": 0.139152,
+        "rms": 0.063096,
+        "rms_dbfs": -24.0,
+        "samples": 20000
+      },
+      "per_region": [
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -20.550657,
+          "region": "voiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -21.505959,
+          "region": "voiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -20.125391,
+          "region": "voiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -19.83722,
+          "region": "voiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -18.619092,
+          "region": "unvoiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -19.180787,
+          "region": "unvoiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -17.054588,
+          "region": "voiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -16.631097,
+          "region": "voiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -61.071112,
+          "region": "pause_floor"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -61.085422,
+          "region": "pause_floor"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -15.948004,
+          "region": "voiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -15.316961,
+          "region": "voiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -15.054894,
+          "region": "voiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -14.495118,
+          "region": "voiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -16.078718,
+          "region": "unvoiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -14.80415,
+          "region": "unvoiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -15.684789,
+          "region": "voiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -16.350203,
+          "region": "voiced"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -60.976927,
+          "region": "pause_floor"
+        },
+        {
+          "applied_gain": 0.510168,
+          "input_rms_db": -60.891336,
+          "region": "pause_floor"
+        }
+      ],
+      "static_gain": 0.510168,
+      "unique_gain_values": 1
+    }
+  },
+  "evidence_classes": {
+    "real_audio_rights_qualified": "none",
+    "source_reported_context": "0.000/3.825/4.414/2.577 dB values in the pinned research note are context only; not rerun or pooled.",
+    "synthetic_paired": "Generated here under fixed seeds; both train and held-out splits are synthetic.",
+    "unpaired_predictive_or_listening": "none"
+  },
+  "final_partial_window": {
+    "final_frame_flagged_final": true,
+    "final_frame_valid_count": 37,
+    "output_samples_in_window": 1280,
+    "padding_bits_identical": true,
+    "produced_frames": 8,
+    "result_flags": [
+      2
+    ],
+    "source_samples": 1157,
+    "valid_content_samples": 1157
+  },
+  "fixture_digest": "5445a2009ef886738e1bfb4b1c5214edc22ff3ab2642a3a1411ae43c57aed4bd",
+  "format": {
+    "buffering_delay_samples": 0,
+    "channels": 1,
+    "frame_samples": 160,
+    "sample_format": "f32",
+    "sample_rate_hz": 16000,
+    "samples_per_call": 160
+  },
+  "held_out": {
+    "aggregates": {
+      "envelope_agc": {
+        "all_finite": true,
+        "cap_engaged_clips": 60,
+        "clipped_samples": 0,
+        "clips": 60,
+        "max_abs_rms_error_db": 1.483478,
+        "max_peak": 0.85,
+        "mean_abs_rms_error_db": 0.561937,
+        "mean_signed_rms_error_db": 0.415642,
+        "nonfinite_samples": 0,
+        "rms_of_rms_error_db": 0.66993
+      },
+      "no_gain": {
+        "all_finite": true,
+        "cap_engaged_clips": 0,
+        "clipped_samples": 8,
+        "clips": 60,
+        "max_abs_rms_error_db": 29.522561,
+        "max_peak": 1.123759,
+        "mean_abs_rms_error_db": 17.213793,
+        "mean_signed_rms_error_db": -17.213793,
+        "nonfinite_samples": 0,
+        "rms_of_rms_error_db": 18.351371
+      },
+      "ridge": {
+        "all_finite": true,
+        "cap_engaged_clips": 8,
+        "clipped_samples": 0,
+        "clips": 60,
+        "max_abs_rms_error_db": 18.841516,
+        "max_peak": 0.85,
+        "mean_abs_rms_error_db": 4.234889,
+        "mean_signed_rms_error_db": -4.234889,
+        "nonfinite_samples": 0,
+        "rms_of_rms_error_db": 6.72979
+      },
+      "target_rms": {
+        "all_finite": true,
+        "cap_engaged_clips": 8,
+        "clipped_samples": 0,
+        "clips": 60,
+        "max_abs_rms_error_db": 18.841516,
+        "max_peak": 0.85,
+        "mean_abs_rms_error_db": 2.290003,
+        "mean_signed_rms_error_db": -2.290003,
+        "nonfinite_samples": 0,
+        "rms_of_rms_error_db": 6.299514
+      }
+    },
+    "all_metrics_available": true,
+    "comparisons": {
+      "envelope_agc_minus_target_rms": {
+        "mean_abs_error_delta_db": -1.728066,
+        "no_worse_clips": 8,
+        "per_clip_delta_db": {
+          "180": 0.888995,
+          "181": 0.478543,
+          "182": 0.923762,
+          "183": 0.061223,
+          "184": 0.507835,
+          "185": -14.666633,
+          "186": 0.254929,
+          "187": 0.653821,
+          "188": 0.350894,
+          "189": 1.161898,
+          "190": 0.930494,
+          "191": 0.690556,
+          "192": -17.945294,
+          "193": 0.013895,
+          "194": 0.370316,
+          "195": 0.624781,
+          "196": 0.133524,
+          "197": 0.576858,
+          "198": 0.796829,
+          "199": -15.337964,
+          "200": 1.288846,
+          "201": 0.904867,
+          "202": 0.361613,
+          "203": 0.908037,
+          "204": 0.100208,
+          "205": 0.386938,
+          "206": -17.818563,
+          "207": 0.368212,
+          "208": 0.745051,
+          "209": 0.544878,
+          "210": 1.192519,
+          "211": 0.984898,
+          "212": 0.605357,
+          "213": -15.558048,
+          "214": 0.030859,
+          "215": 0.270053,
+          "216": 0.382734,
+          "217": 0.238149,
+          "218": 0.485988,
+          "219": 1.019709,
+          "220": -18.51624,
+          "221": 1.290191,
+          "222": 0.654914,
+          "223": 0.261628,
+          "224": 0.649528,
+          "225": 0.135575,
+          "226": 0.268367,
+          "227": -15.811218,
+          "228": 0.188593,
+          "229": 0.696252,
+          "230": 0.739221,
+          "231": 1.085582,
+          "232": 1.181947,
+          "233": 0.471084,
+          "234": -17.358038,
+          "235": 0.048444,
+          "236": 0.148308,
+          "237": 0.484081,
+          "238": 0.355486,
+          "239": 0.430777
+        },
+        "worse_clips": 52
+      },
+      "no_gain_minus_target_rms": {
+        "mean_abs_error_delta_db": 14.92379,
+        "no_worse_clips": 8,
+        "per_clip_delta_db": {
+          "180": 23.160734,
+          "181": 21.592411,
+          "182": 19.817561,
+          "183": 18.337289,
+          "184": 16.302794,
+          "185": -2.270459,
+          "186": 12.987756,
+          "187": 11.174963,
+          "188": 9.87912,
+          "189": 7.884023,
+          "190": 6.470664,
+          "191": 29.109497,
+          "192": -2.2409,
+          "193": 25.748566,
+          "194": 23.94147,
+          "195": 21.945753,
+          "196": 20.576576,
+          "197": 18.601644,
+          "198": 17.196272,
+          "199": -2.213578,
+          "200": 13.829209,
+          "201": 12.35791,
+          "202": 10.865529,
+          "203": 8.970727,
+          "204": 7.478539,
+          "205": 29.522561,
+          "206": -2.179185,
+          "207": 26.259474,
+          "208": 24.365848,
+          "209": 23.17903,
+          "210": 21.252942,
+          "211": 19.716572,
+          "212": 18.2722,
+          "213": -2.271189,
+          "214": 14.840263,
+          "215": 13.126099,
+          "216": 11.131876,
+          "217": 9.769597,
+          "218": 7.914668,
+          "219": 6.37985,
+          "220": -2.234678,
+          "221": 27.034266,
+          "222": 25.533031,
+          "223": 24.101734,
+          "224": 22.127574,
+          "225": 20.568491,
+          "226": 18.753401,
+          "227": -2.425086,
+          "228": 15.545862,
+          "229": 13.619148,
+          "230": 12.408399,
+          "231": 10.606922,
+          "232": 9.072346,
+          "233": 7.39037,
+          "234": -2.23301,
+          "235": 27.936635,
+          "236": 26.28384,
+          "237": 24.381759,
+          "238": 22.948548,
+          "239": 21.223177
+        },
+        "worse_clips": 52
+      },
+      "ridge_minus_target_rms": {
+        "mean_abs_error_delta_db": 1.944886,
+        "no_worse_clips": 8,
+        "per_clip_delta_db": {
+          "180": 1.249612,
+          "181": 1.528448,
+          "182": 1.844004,
+          "183": 2.107186,
+          "184": 2.468905,
+          "185": 0.0,
+          "186": 3.058296,
+          "187": 3.380598,
+          "188": 3.61099,
+          "189": 3.965704,
+          "190": 4.216989,
+          "191": 0.191963,
+          "192": 0.0,
+          "193": 0.789513,
+          "194": 1.110802,
+          "195": 1.465627,
+          "196": 1.709057,
+          "197": 2.060186,
+          "198": 2.310051,
+          "199": 0.0,
+          "200": 2.908691,
+          "201": 3.170278,
+          "202": 3.435613,
+          "203": 3.772496,
+          "204": 4.037796,
+          "205": 0.118523,
+          "206": 0.0,
+          "207": 0.698677,
+          "208": 1.035351,
+          "209": 1.246359,
+          "210": 1.588804,
+          "211": 1.861959,
+          "212": 2.118759,
+          "213": 0.0,
+          "214": 2.728933,
+          "215": 3.0337,
+          "216": 3.388258,
+          "217": 3.630462,
+          "218": 3.960255,
+          "219": 4.233135,
+          "220": 0.0,
+          "221": 0.560925,
+          "222": 0.827834,
+          "223": 1.082308,
+          "224": 1.4333,
+          "225": 1.710494,
+          "226": 2.033204,
+          "227": 0.0,
+          "228": 2.603483,
+          "229": 2.946039,
+          "230": 3.161302,
+          "231": 3.481591,
+          "232": 3.754428,
+          "233": 4.053472,
+          "234": 0.0,
+          "235": 0.40049,
+          "236": 0.694345,
+          "237": 1.032522,
+          "238": 1.287337,
+          "239": 1.594096
+        },
+        "worse_clips": 52
+      }
+    },
+    "per_clip": [
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.888995,
+          "no_gain": 23.160734,
+          "ridge": 1.249612,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 12.461092,
+          "target_rms": 14.389202
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 180,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "79df12edb2671af11f50f0bc5f824c2a57bbbca4f7cfe8c4d7ec18ccd51ea17b",
+        "input_peak": 0.01370180715989552,
+        "input_rms_db": -47.160734,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "63f1c1649de20a651b47f26d1b95de6ae485204e65c576e35ca8a5d46d7b2b3a",
+          "no_gain": "79df12edb2671af11f50f0bc5f824c2a57bbbca4f7cfe8c4d7ec18ccd51ea17b",
+          "ridge": "1bea2f33eb307ecfd876f72d0f57d7c95469b44570d16339415f16829ed23f41",
+          "target_rms": "88242b4a29394f356bbc8b7d0848c5daf47f6388f18c8140db984e0a7a285dae"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.111005,
+          "no_gain": -47.160734,
+          "ridge": -25.249612,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.250041,
+          "no_gain": 0.013702,
+          "ridge": 0.170739,
+          "target_rms": 0.197158
+        },
+        "perturbation_db": -29.099554,
+        "signed_error_db": {
+          "envelope_agc": 0.888995,
+          "no_gain": -23.160734,
+          "ridge": -1.249612,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 14.389202,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.478543,
+          "no_gain": 21.592411,
+          "ridge": 1.528448,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 10.073912,
+          "target_rms": 12.012145
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 181,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "da3f39e5c301e14c3d12b83f092313e75c35269952c660d681cc159919cb264e",
+        "input_peak": 0.01649744747301442,
+        "input_rms_db": -45.592411,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "81eba033cff46e57cbb790979467b0712609f98ad074c5428adcd0cab0118c88",
+          "no_gain": "da3f39e5c301e14c3d12b83f092313e75c35269952c660d681cc159919cb264e",
+          "ridge": "28666ab2a28ab0a5a90b6b52dd299c6fc5b1afac44b8c3e231208e63ed4b4163",
+          "target_rms": "cefc2221e256e4644879e1c235e54477a9199c76fc04281a2deb5360d9bf468c"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.521457,
+          "no_gain": -45.592411,
+          "ridge": -25.528448,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.244134,
+          "no_gain": 0.016497,
+          "ridge": 0.166194,
+          "target_rms": 0.19817
+        },
+        "perturbation_db": -27.44289,
+        "signed_error_db": {
+          "envelope_agc": 0.478543,
+          "no_gain": -21.592411,
+          "ridge": -1.528448,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 12.012145,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.923762,
+          "no_gain": 19.817561,
+          "ridge": 1.844004,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 7.919136,
+          "target_rms": 9.79215
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 182,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "89882d2383cbc093df7459166f11675c58f5288b755fb56f7d02b02e5597d878",
+        "input_peak": 0.019728397831481934,
+        "input_rms_db": -43.817561,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "88a11a593e233bf1021d44be47f7a588732502d46aecd2095b69a1fd2a9e045d",
+          "no_gain": "89882d2383cbc093df7459166f11675c58f5288b755fb56f7d02b02e5597d878",
+          "ridge": "cfddd99f9bb6f235059def1a7c02ec494cd2fa4feb96470577102d8f0c315bae",
+          "target_rms": "2be6d09564b3d8185f776ab78a0393072ee133c4a40b732ddd98454786a429d3"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.076238,
+          "no_gain": -43.817561,
+          "ridge": -25.844004,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.223449,
+          "no_gain": 0.019728,
+          "ridge": 0.156232,
+          "target_rms": 0.193183
+        },
+        "perturbation_db": -25.786226,
+        "signed_error_db": {
+          "envelope_agc": 0.923762,
+          "no_gain": -19.817561,
+          "ridge": -1.844004,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 9.79215,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.061223,
+          "no_gain": 18.337289,
+          "ridge": 2.107186,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 6.478958,
+          "target_rms": 8.257802
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 183,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "0e1c762bea737e3c522e25ca871e2cec29f21ffbd459b2e975bb36ca1c9017df",
+        "input_peak": 0.024079274938852258,
+        "input_rms_db": -42.337289,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "70063542a2d7635a58968a84f850f1f78be4964b6478d7437f219efda725e555",
+          "no_gain": "0e1c762bea737e3c522e25ca871e2cec29f21ffbd459b2e975bb36ca1c9017df",
+          "ridge": "ca136bf1cc53cd5b3244597cea5a8315f159fd044aca0449d75c8a1c12b9cfa9",
+          "target_rms": "059fd43ea83c8b3a320544bf83c4087eba1ce6af62d7182110094bb28af1e559"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.938777,
+          "no_gain": -42.337289,
+          "ridge": -26.107186,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.217018,
+          "no_gain": 0.024079,
+          "ridge": 0.156009,
+          "target_rms": 0.198842
+        },
+        "perturbation_db": -24.129562,
+        "signed_error_db": {
+          "envelope_agc": 0.061223,
+          "no_gain": -18.337289,
+          "ridge": -2.107186,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 8.257802,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.507835,
+          "no_gain": 16.302794,
+          "ridge": 2.468905,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 4.916935,
+          "target_rms": 6.533407
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 184,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "f0e9fa8619bf51dd083c9658d806eb936ad7c198f9f0e1136587caba366b94de",
+        "input_peak": 0.029292969234083217,
+        "input_rms_db": -40.302794,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "1df66fd5d6dad1d5f605357c584b4b627a16d14e3867d62d153b379d82915682",
+          "no_gain": "f0e9fa8619bf51dd083c9658d806eb936ad7c198f9f0e1136587caba366b94de",
+          "ridge": "bfb155bc59edc30ecfe9c7aea3a5cfd7738e595030ec976f64fcc4fabcde5b20",
+          "target_rms": "be50092ed14fefc869bca1e4c19b86b13220a8f17abba9128cb0037dde8971cf"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.492165,
+          "no_gain": -40.302794,
+          "ridge": -26.468905,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.225802,
+          "no_gain": 0.029293,
+          "ridge": 0.144032,
+          "target_rms": 0.191383
+        },
+        "perturbation_db": -22.472898,
+        "signed_error_db": {
+          "envelope_agc": 0.507835,
+          "no_gain": -16.302794,
+          "ridge": -2.468905,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 6.533407,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.240436,
+          "no_gain": 12.63661,
+          "ridge": 14.907069,
+          "target_rms": 14.907069
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 0.769976,
+          "target_rms": 0.769976
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": true,
+          "target_rms": true
+        },
+        "clip_index": 185,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 1,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "b8a3b274290677aa7db8528d5e009bc979f89c5ae1f0505f41c999aa0c334992",
+        "input_peak": 1.1039308593293342,
+        "input_rms_db": -36.63661,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "b7328dd04f7868aad3cb95f0944ff5589483075ce99b383de3a97c618d268061",
+          "no_gain": "b8a3b274290677aa7db8528d5e009bc979f89c5ae1f0505f41c999aa0c334992",
+          "ridge": "ab3c58c7315cc8cf1ecc66621f49e25b2cbece177c0e36ba40779eee122a4545",
+          "target_rms": "ab3c58c7315cc8cf1ecc66621f49e25b2cbece177c0e36ba40779eee122a4545"
+        },
+        "output_rms_db": {
+          "envelope_agc": -24.240436,
+          "no_gain": -36.63661,
+          "ridge": -38.907069,
+          "target_rms": -38.907069
+        },
+        "peak": {
+          "envelope_agc": 0.85,
+          "no_gain": 1.103931,
+          "ridge": 0.85,
+          "target_rms": 0.85
+        },
+        "perturbation_db": -20.816233,
+        "signed_error_db": {
+          "envelope_agc": -0.240436,
+          "no_gain": -12.63661,
+          "ridge": -14.907069,
+          "target_rms": -14.907069
+        },
+        "target_raw_gain": 4.283813,
+        "transient_overload": true
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.254929,
+          "no_gain": 12.987756,
+          "ridge": 3.058296,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 3.1367,
+          "target_rms": 4.460544
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 186,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "df43ea7d708bcefc19d46c837b767ef4f5a1fa35e70619743a174ddfb51c9020",
+        "input_peak": 0.042857609232551774,
+        "input_rms_db": -36.987756,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "6b8b4b0387afccc1df876b8e95565f72b7e4b79fb5f329b1ae5af11d24ea056a",
+          "no_gain": "df43ea7d708bcefc19d46c837b767ef4f5a1fa35e70619743a174ddfb51c9020",
+          "ridge": "bb5856dce8ca3e939e93e54250bfe013d9ffeb7c9d2281456d90c1f0ae0ee6cf",
+          "target_rms": "2f312b64dfb6f1577481b25959a0dd09af0cc9df3c6e089a714829530fbda9d7"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.745071,
+          "no_gain": -36.987756,
+          "ridge": -27.058296,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.220963,
+          "no_gain": 0.042858,
+          "ridge": 0.134431,
+          "target_rms": 0.191168
+        },
+        "perturbation_db": -19.159569,
+        "signed_error_db": {
+          "envelope_agc": 0.254929,
+          "no_gain": -12.987756,
+          "ridge": -3.058296,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 4.460544,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.653821,
+          "no_gain": 11.174963,
+          "ridge": 3.380598,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 2.453117,
+          "target_rms": 3.62033
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 187,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "e91371319d354802bef44aa754ac3c83ca3658363f6ba59630a4c0a328832a5f",
+        "input_peak": 0.05201738162831932,
+        "input_rms_db": -35.174963,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "0ede956e202cdc35e17d4cd71367f5308514ba597c7a1c1323a373f71a167e3b",
+          "no_gain": "e91371319d354802bef44aa754ac3c83ca3658363f6ba59630a4c0a328832a5f",
+          "ridge": "07e21c11226a4c2aae5c26b8b20c360e4818c7df41d4fd14a165cfe366202227",
+          "target_rms": "dbbf627b20f124192a24725309cc0e813852a7f7a8770001e59e48a1de45fdd0"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.346179,
+          "no_gain": -35.174963,
+          "ridge": -27.380598,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.220894,
+          "no_gain": 0.052017,
+          "ridge": 0.127605,
+          "target_rms": 0.18832
+        },
+        "perturbation_db": -17.502905,
+        "signed_error_db": {
+          "envelope_agc": 0.653821,
+          "no_gain": -11.174963,
+          "ridge": -3.380598,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 3.62033,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.350894,
+          "no_gain": 9.87912,
+          "ridge": 3.61099,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 2.057816,
+          "target_rms": 3.118574
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 188,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "30d85b8d3699b174a65e9f3e195ab5f999d4ff45c17f0fc72b884af5faf92b23",
+        "input_peak": 0.0630958604963711,
+        "input_rms_db": -33.87912,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "7203628d100954511b4af5f718ca63c33fa97fd2bf44db54ca7517b44f196990",
+          "no_gain": "30d85b8d3699b174a65e9f3e195ab5f999d4ff45c17f0fc72b884af5faf92b23",
+          "ridge": "1c741aa552eda45c6f9490ad4d4aaa2cb81c3312ae7413da996abee3e804961a",
+          "target_rms": "0995fdf02a5d174410deaf8c01ada49c5826a62da56fdafe36b0827f994495ae"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.649106,
+          "no_gain": -33.87912,
+          "ridge": -27.61099,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.219837,
+          "no_gain": 0.063096,
+          "ridge": 0.12984,
+          "target_rms": 0.196769
+        },
+        "perturbation_db": -15.846241,
+        "signed_error_db": {
+          "envelope_agc": 0.350894,
+          "no_gain": -9.87912,
+          "ridge": -3.61099,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 3.118574,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 1.161898,
+          "no_gain": 7.884023,
+          "ridge": 3.965704,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 1.570059,
+          "target_rms": 2.47857
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 189,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "faecf304afdbf7d1beb6d99869f52e7476b13f50aa535a2830f92db088a8fc01",
+        "input_peak": 0.07612888603953157,
+        "input_rms_db": -31.884023,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "6b461159647b932c5741580fa3b4078fea63bbabf28cb19b365fca2c053476c6",
+          "no_gain": "faecf304afdbf7d1beb6d99869f52e7476b13f50aa535a2830f92db088a8fc01",
+          "ridge": "14a7b1a70cd595c74aaa8d38ec4772aa7ed7f9d32fffde7bb671725bfdb876a1",
+          "target_rms": "afaf4e083bc08a973f91fb77f6569886d98a72b459dd93c95e2fa7d202274849"
+        },
+        "output_rms_db": {
+          "envelope_agc": -22.838102,
+          "no_gain": -31.884023,
+          "ridge": -27.965704,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.224976,
+          "no_gain": 0.076129,
+          "ridge": 0.119527,
+          "target_rms": 0.188691
+        },
+        "perturbation_db": -14.189577,
+        "signed_error_db": {
+          "envelope_agc": 1.161898,
+          "no_gain": -7.884023,
+          "ridge": -3.965704,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 2.47857,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.930494,
+          "no_gain": 6.470664,
+          "ridge": 4.216989,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 1.296235,
+          "target_rms": 2.106363
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 190,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "d0270ed184ee9f8c538ee91c3ebe9c333d924f8de6f1e4c7e1474802a857ee04",
+        "input_peak": 0.09228073910453176,
+        "input_rms_db": -30.470664,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "cd2aa6b49f10917dd8903e2fc93ff9fc2e0e4d9875bbdaf3a09cdd655c1694ad",
+          "no_gain": "d0270ed184ee9f8c538ee91c3ebe9c333d924f8de6f1e4c7e1474802a857ee04",
+          "ridge": "a5c278fb2979e92f553f982e53de54941373bd97807a6cba3842935bf9b63158",
+          "target_rms": "f8e92a0312f0ee7239d54dc504be73ad8f8ae5a954384c8b2978d1cc7afb20fa"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.069506,
+          "no_gain": -30.470664,
+          "ridge": -28.216989,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.265325,
+          "no_gain": 0.092281,
+          "ridge": 0.119618,
+          "target_rms": 0.194377
+        },
+        "perturbation_db": -12.532913,
+        "signed_error_db": {
+          "envelope_agc": 0.930494,
+          "no_gain": -6.470664,
+          "ridge": -4.216989,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 2.106363,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.690556,
+          "no_gain": 29.109497,
+          "ridge": 0.191963,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 27.917512,
+          "target_rms": 28.541373
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 191,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "17cf6b7f0a66742494c5e7090c4b22cd30410ead20135f9c94975798a8c0b545",
+        "input_peak": 0.007056553903564087,
+        "input_rms_db": -53.109497,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "df98517a9ae3fdd6beee9d7c31140db17ee97e34a38d39f8ad24acd4aa7b020d",
+          "no_gain": "17cf6b7f0a66742494c5e7090c4b22cd30410ead20135f9c94975798a8c0b545",
+          "ridge": "febbfc860a57419357cd9014c2a280c765c964143373577988292b59bd9f4eb3",
+          "target_rms": "25074e24d334132432e698fb58e6e853b648bdc79aa4ff8b85d559d57624bb1b"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.309444,
+          "no_gain": -53.109497,
+          "ridge": -24.191963,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.254099,
+          "no_gain": 0.007057,
+          "ridge": 0.197001,
+          "target_rms": 0.201404
+        },
+        "perturbation_db": -34.876249,
+        "signed_error_db": {
+          "envelope_agc": 0.690556,
+          "no_gain": -29.109497,
+          "ridge": -0.191963,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 28.541373,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.730252,
+          "no_gain": 16.434646,
+          "ridge": 18.675546,
+          "target_rms": 18.675546
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 0.7726,
+          "target_rms": 0.7726
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": true,
+          "target_rms": true
+        },
+        "clip_index": 192,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 1,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "5c7d6c57194a57086e9ede356b8c0cebd0b4ad356b8cf0965207e23c6e8cd1c5",
+        "input_peak": 1.100180518569141,
+        "input_rms_db": -40.434646,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "944df5033976b69034755df450efbe4e747045143f5d5b0506a3e693592efc21",
+          "no_gain": "5c7d6c57194a57086e9ede356b8c0cebd0b4ad356b8cf0965207e23c6e8cd1c5",
+          "ridge": "9d7875bac0a96e981511d757a52790ddff6861df00f85979ecf38c5147d1606a",
+          "target_rms": "9d7875bac0a96e981511d757a52790ddff6861df00f85979ecf38c5147d1606a"
+        },
+        "output_rms_db": {
+          "envelope_agc": -24.730252,
+          "no_gain": -40.434646,
+          "ridge": -42.675546,
+          "target_rms": -42.675546
+        },
+        "peak": {
+          "envelope_agc": 0.85,
+          "no_gain": 1.100181,
+          "ridge": 0.85,
+          "target_rms": 0.85
+        },
+        "perturbation_db": -33.219585,
+        "signed_error_db": {
+          "envelope_agc": -0.730252,
+          "no_gain": -16.434646,
+          "ridge": -18.675546,
+          "target_rms": -18.675546
+        },
+        "target_raw_gain": 6.63334,
+        "transient_overload": true
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.013895,
+          "no_gain": 25.748566,
+          "ridge": 0.789513,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 17.699158,
+          "target_rms": 19.383325
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 193,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "19484d60fa02f2aa40d8cddce3e7dda0f590af2565f1eb74172df387ee043a23",
+        "input_peak": 0.010331729122734612,
+        "input_rms_db": -49.748566,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "0d17cddd63802a615dec494e11960874fd8c51b9171fa375b5a301b90c4e6f85",
+          "no_gain": "19484d60fa02f2aa40d8cddce3e7dda0f590af2565f1eb74172df387ee043a23",
+          "ridge": "a954093e25a4ea8c1371d0c169f7ebe04fa29c663659d39e7340dfd39a52548c",
+          "target_rms": "a16465c3f7bbb67ca8188bfbc9e97d70707932b67126a92d46583fcca6540a58"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.986105,
+          "no_gain": -49.748566,
+          "ridge": -24.789513,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.209348,
+          "no_gain": 0.010332,
+          "ridge": 0.182863,
+          "target_rms": 0.200263
+        },
+        "perturbation_db": -31.562921,
+        "signed_error_db": {
+          "envelope_agc": 0.013895,
+          "no_gain": -25.748566,
+          "ridge": -0.789513,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 19.383325,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.370316,
+          "no_gain": 23.94147,
+          "ridge": 1.110802,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 13.852667,
+          "target_rms": 15.742493
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 194,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "193cbcf4606fe5e4ba8f5ae10db9b928e00b8f13dd0e062349499770d15e17c5",
+        "input_peak": 0.012468470173124751,
+        "input_rms_db": -47.94147,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "969a0e112a7f95b98af2cccea1ec0fdd14d61efc2370c365a4f91f88d8c68cb9",
+          "no_gain": "193cbcf4606fe5e4ba8f5ae10db9b928e00b8f13dd0e062349499770d15e17c5",
+          "ridge": "3cf22687d0ff645db55ac1248fbd62a44b536551e7db62d2abccb3097bfa383c",
+          "target_rms": "d04b815f1586e1da1f2005128aaaf3587b85b469bb019db17f8df40729eac21a"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.629684,
+          "no_gain": -47.94147,
+          "ridge": -25.110802,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.222406,
+          "no_gain": 0.012468,
+          "ridge": 0.172722,
+          "target_rms": 0.196285
+        },
+        "perturbation_db": -29.906257,
+        "signed_error_db": {
+          "envelope_agc": 0.370316,
+          "no_gain": -23.94147,
+          "ridge": -1.110802,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 15.742493,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.624781,
+          "no_gain": 21.945753,
+          "ridge": 1.465627,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 10.568329,
+          "target_rms": 12.510874
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 195,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "4427af976b4dcb0bebff82e5a1b479fb6dc75cf079d0460fa5985b5a170b27f7",
+        "input_peak": 0.015098467170327822,
+        "input_rms_db": -45.945753,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "fab0f5549f88a9e73a4a0cd71f9890a4b463ea7c7e1adb505aa31cf0d451e05e",
+          "no_gain": "4427af976b4dcb0bebff82e5a1b479fb6dc75cf079d0460fa5985b5a170b27f7",
+          "ridge": "24ccda0e23a46985e9044a37a8c4d3f5f19ba28508525dbb577044ad6ca49a1e",
+          "target_rms": "cf87afb2315983fbd98e5f3145cd15d3121139683edee35094904cc2cc819921"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.375219,
+          "no_gain": -45.945753,
+          "ridge": -25.465627,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.224258,
+          "no_gain": 0.015098,
+          "ridge": 0.159566,
+          "target_rms": 0.188895
+        },
+        "perturbation_db": -28.249593,
+        "signed_error_db": {
+          "envelope_agc": 0.624781,
+          "no_gain": -21.945753,
+          "ridge": -1.465627,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 12.510874,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.133524,
+          "no_gain": 20.576576,
+          "ridge": 1.709057,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 8.777604,
+          "target_rms": 10.686336
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 196,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "c1e7f3684df666a8a5dd65a3487b9cdd2e1bb183e9f4bf5cb5eb3e7c745e457f",
+        "input_peak": 0.018247465236762402,
+        "input_rms_db": -44.576576,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "2a98c467ef4d6b71fa90b2e52418345e4ce8aaa7f6ce5501fd1a119a8af2d55b",
+          "no_gain": "c1e7f3684df666a8a5dd65a3487b9cdd2e1bb183e9f4bf5cb5eb3e7c745e457f",
+          "ridge": "a05785687abf2932a11be0d90b0bc357aac64695c660212135f412f8087e248f",
+          "target_rms": "50014e8b871f21318355443127b9eeaa47fb7bf738a15cefdba3bedc9317e73c"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.866476,
+          "no_gain": -44.576576,
+          "ridge": -25.709057,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.220094,
+          "no_gain": 0.018247,
+          "ridge": 0.160169,
+          "target_rms": 0.194999
+        },
+        "perturbation_db": -26.592928,
+        "signed_error_db": {
+          "envelope_agc": 0.133524,
+          "no_gain": -20.576576,
+          "ridge": -1.709057,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 10.686336,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.576858,
+          "no_gain": 18.601644,
+          "ridge": 2.060186,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 6.715416,
+          "target_rms": 8.512991
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 197,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "7a4219d917c341e2b29fcbb7a8bcd8598d627154b981c64f91171ec2b04dd081",
+        "input_peak": 0.02211616743241287,
+        "input_rms_db": -42.601644,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "4283032298d9bd8017d104d4d406c9103d0f029069031b208c14c9b7689c28e7",
+          "no_gain": "7a4219d917c341e2b29fcbb7a8bcd8598d627154b981c64f91171ec2b04dd081",
+          "ridge": "75577d80121e9c01d8c461ff502d9af807905af1ec1693095ac4169eebb9a66e",
+          "target_rms": "8e36a98129855b2732e1686b93fe1f8eb66690164b1545dfea9d7acd55ce1497"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.423142,
+          "no_gain": -42.601644,
+          "ridge": -26.060186,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.224255,
+          "no_gain": 0.022116,
+          "ridge": 0.148519,
+          "target_rms": 0.188275
+        },
+        "perturbation_db": -24.936264,
+        "signed_error_db": {
+          "envelope_agc": 0.576858,
+          "no_gain": -18.601644,
+          "ridge": -2.060186,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 8.512991,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.796829,
+          "no_gain": 17.196272,
+          "ridge": 2.310051,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 5.550231,
+          "target_rms": 7.241251
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 198,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "242e5c9c11a21778d09cd7f237ef366e4ea9fec26664bd70e4e92fe31040a023",
+        "input_peak": 0.026608961885184055,
+        "input_rms_db": -41.196272,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "95f8ceab0fa8936f425022e02e474f4a1b06210f5d2c6339231a9ba05c61ae7b",
+          "no_gain": "242e5c9c11a21778d09cd7f237ef366e4ea9fec26664bd70e4e92fe31040a023",
+          "ridge": "117c7a03f843780e16b16f6259bf033b61e92a493bb7cf58b062fb5bf9d70058",
+          "target_rms": "e8fce4da95a6da109080a8a33f031bfdcbf2421e4d707b6353004f677838ea7f"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.203171,
+          "no_gain": -41.196272,
+          "ridge": -26.310051,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.22189,
+          "no_gain": 0.026609,
+          "ridge": 0.147686,
+          "target_rms": 0.192682
+        },
+        "perturbation_db": -23.2796,
+        "signed_error_db": {
+          "envelope_agc": 0.796829,
+          "no_gain": -17.196272,
+          "ridge": -2.310051,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 7.241251,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.030177,
+          "no_gain": 13.154563,
+          "ridge": 15.368141,
+          "target_rms": 15.368141
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 0.775035,
+          "target_rms": 0.775035
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": true,
+          "target_rms": true
+        },
+        "clip_index": 199,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 1,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "1448fef9dbfcc7d3b77bcc6e0b0755b2247995a89e93d89432fbeaa6ca835120",
+        "input_peak": 1.0967252911723118,
+        "input_rms_db": -37.154563,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "638da83802d208efe017fb4cd47b562c9f4ec8a4ccc99acd40a9892f1c614fd2",
+          "no_gain": "1448fef9dbfcc7d3b77bcc6e0b0755b2247995a89e93d89432fbeaa6ca835120",
+          "ridge": "fc93c3e879191c665dcc6b8516caef76a2c1f3fb590ec43db1377fa1bac70943",
+          "target_rms": "fc93c3e879191c665dcc6b8516caef76a2c1f3fb590ec43db1377fa1bac70943"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.969823,
+          "no_gain": -37.154563,
+          "ridge": -39.368141,
+          "target_rms": -39.368141
+        },
+        "peak": {
+          "envelope_agc": 0.85,
+          "no_gain": 1.096725,
+          "ridge": 0.85,
+          "target_rms": 0.85
+        },
+        "perturbation_db": -21.622936,
+        "signed_error_db": {
+          "envelope_agc": 0.030177,
+          "no_gain": -13.154563,
+          "ridge": -15.368141,
+          "target_rms": -15.368141
+        },
+        "target_raw_gain": 4.547033,
+        "transient_overload": true
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 1.288846,
+          "no_gain": 13.829209,
+          "ridge": 2.908691,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 3.515814,
+          "target_rms": 4.914286
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 200,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "80b44f8e378b45f976c50a57ed4637fed81b6e2f9c87f98f9ed2a624d1fa575b",
+        "input_peak": 0.03918121748280174,
+        "input_rms_db": -37.829209,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "d8590de9de1a04a8f28079cf991459c9165f594e385e9c921fca1bd8ea4790cb",
+          "no_gain": "80b44f8e378b45f976c50a57ed4637fed81b6e2f9c87f98f9ed2a624d1fa575b",
+          "ridge": "2f386f13850f1b641a131b31865b9b3695a00876d794e783695bfabdede02f05",
+          "target_rms": "a3335a1ab7617d15bc0f63b7e45268448c446468e179eb1c5b36e1fe2c4fc2c3"
+        },
+        "output_rms_db": {
+          "envelope_agc": -22.711154,
+          "no_gain": -37.829209,
+          "ridge": -26.908691,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.228036,
+          "no_gain": 0.039181,
+          "ridge": 0.137754,
+          "target_rms": 0.192548
+        },
+        "perturbation_db": -19.966272,
+        "signed_error_db": {
+          "envelope_agc": 1.288846,
+          "no_gain": -13.829209,
+          "ridge": -2.908691,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 4.914286,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.904867,
+          "no_gain": 12.35791,
+          "ridge": 3.170278,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 2.879928,
+          "target_rms": 4.148542
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 201,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "55da9b881085b3a5439db0dad94e36526c9ff309f90af2834a06012b9201025d",
+        "input_peak": 0.0473204398554297,
+        "input_rms_db": -36.35791,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "6ae330b9de3d0fe663b63ac8bc3ab308a2849449892784db7da2d2e68d52d3e5",
+          "no_gain": "55da9b881085b3a5439db0dad94e36526c9ff309f90af2834a06012b9201025d",
+          "ridge": "0e06a6d8f5bc77971737dbd6564e64a4fa17c4a1a2c1f6a6551b9d2fcb0997df",
+          "target_rms": "cdc20ff97e28307726249d0f4fe82af44c58fca1a31f1d70bffb3a5b4bfc0186"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.095133,
+          "no_gain": -36.35791,
+          "ridge": -27.170278,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.264415,
+          "no_gain": 0.04732,
+          "ridge": 0.136279,
+          "target_rms": 0.196311
+        },
+        "perturbation_db": -18.309608,
+        "signed_error_db": {
+          "envelope_agc": 0.904867,
+          "no_gain": -12.35791,
+          "ridge": -3.170278,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 4.148542,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.361613,
+          "no_gain": 10.865529,
+          "ridge": 3.435613,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 2.352317,
+          "target_rms": 3.493626
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 202,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "5b08630c74723b970fd919940410ad1af7b2dcc86f8e2e28e798fa55e79f3990",
+        "input_peak": 0.05714177392651111,
+        "input_rms_db": -34.865529,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "86794d15b3cfb811dfcaa743d24f3ed6bdb301c5d88f2afa87a475c7fe646ea0",
+          "no_gain": "5b08630c74723b970fd919940410ad1af7b2dcc86f8e2e28e798fa55e79f3990",
+          "ridge": "ff5cd211dc2360f7821decdbb2fe5415b4d4422c6a40f9acd051497b01a12dfa",
+          "target_rms": "9a26eb1065ae6d649a0e5e68eb2fc3c4bb3c0592da2475cc4c4a61565de1e029"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.638387,
+          "no_gain": -34.865529,
+          "ridge": -27.435613,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.231817,
+          "no_gain": 0.057142,
+          "ridge": 0.134416,
+          "target_rms": 0.199632
+        },
+        "perturbation_db": -16.652944,
+        "signed_error_db": {
+          "envelope_agc": 0.361613,
+          "no_gain": -10.865529,
+          "ridge": -3.435613,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 3.493626,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.908037,
+          "no_gain": 8.970727,
+          "ridge": 3.772496,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 1.81933,
+          "target_rms": 2.8089
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 203,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "c07d8635916ffae1d7a6c8307f7b4bfb472269ff6c4b7bdbb4b0960dc2105795",
+        "input_peak": 0.06912967015749082,
+        "input_rms_db": -32.970727,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "85cf892563ca630e5a2369c35c9faba5dcdaec3fff02f99375a92a07296f59c7",
+          "no_gain": "c07d8635916ffae1d7a6c8307f7b4bfb472269ff6c4b7bdbb4b0960dc2105795",
+          "ridge": "db979759e95ceb73612a272765fd8c1bbf7bb7f910df087027b289983f1fbbcd",
+          "target_rms": "9108d582cc457fb165e1e431e484194ba26c0c9c7f74cfcc6eae30249f561994"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.091963,
+          "no_gain": -32.970727,
+          "ridge": -27.772496,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.228528,
+          "no_gain": 0.06913,
+          "ridge": 0.12577,
+          "target_rms": 0.194178
+        },
+        "perturbation_db": -14.99628,
+        "signed_error_db": {
+          "envelope_agc": 0.908037,
+          "no_gain": -8.970727,
+          "ridge": -3.772496,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 2.8089,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.100208,
+          "no_gain": 7.478539,
+          "ridge": 4.037796,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 1.486063,
+          "target_rms": 2.365522
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 204,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "d1509ef57d9437a72428601970099b1b1b7a9e874a3b9f93c2385feb16bbfd85",
+        "input_peak": 0.08395112883675472,
+        "input_rms_db": -31.478539,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "634ab25750b974cc3b3f81f7f98b5f8e94b4bda28ba76e2dadbbe5221f231349",
+          "no_gain": "d1509ef57d9437a72428601970099b1b1b7a9e874a3b9f93c2385feb16bbfd85",
+          "ridge": "0591e0348840fdd7fb26c6a45eac42e5202381ecec3b92274e895b44d97e6309",
+          "target_rms": "acf9fa82ee5097f7aaf54726a5826022189a0d8205ac8d4ce87de3f7338475c6"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.899792,
+          "no_gain": -31.478539,
+          "ridge": -28.037796,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.21982,
+          "no_gain": 0.083951,
+          "ridge": 0.124757,
+          "target_rms": 0.198588
+        },
+        "perturbation_db": -13.339616,
+        "signed_error_db": {
+          "envelope_agc": 0.100208,
+          "no_gain": -7.478539,
+          "ridge": -4.037796,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 2.365522,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.386938,
+          "no_gain": 29.522561,
+          "ridge": 0.118523,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 29.525814,
+          "target_rms": 29.93147
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 205,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "aa79cfc8e03abc58216c4a90b44b83141a473c94ee9a0b75aa4c921f46c29d15",
+        "input_peak": 0.006391335858274045,
+        "input_rms_db": -53.522561,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "f7da51cca56f730cf5be5bf34accfcec9697be918acb1bb904ed208f2de203ae",
+          "no_gain": "aa79cfc8e03abc58216c4a90b44b83141a473c94ee9a0b75aa4c921f46c29d15",
+          "ridge": "4d5b10d24cc8f924f6b6f279de653d88f60118faf2662c02fd950810177c0bcc",
+          "target_rms": "88a1932e5a52080fe7e67238119e73874d843217cf9330266038eca9ae097218"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.613062,
+          "no_gain": -53.522561,
+          "ridge": -24.118523,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.226871,
+          "no_gain": 0.006391,
+          "ridge": 0.188709,
+          "target_rms": 0.191302
+        },
+        "perturbation_db": -35.682952,
+        "signed_error_db": {
+          "envelope_agc": 0.386938,
+          "no_gain": -29.522561,
+          "ridge": -0.118523,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 29.93147,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.922211,
+          "no_gain": 16.561589,
+          "ridge": 18.740774,
+          "target_rms": 18.740774
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 0.77811,
+          "target_rms": 0.77811
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": true,
+          "target_rms": true
+        },
+        "clip_index": 206,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 1,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "71f0c93e9d81e8c5e73343feae22ccf82b347a73465ddaab1a59d83e285229d0",
+        "input_peak": 1.0923911097162193,
+        "input_rms_db": -40.561589,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "05cb9a82459afb1939def895ea12a89b6467c87ec4ac9452cd96f6dde6d9d3ef",
+          "no_gain": "71f0c93e9d81e8c5e73343feae22ccf82b347a73465ddaab1a59d83e285229d0",
+          "ridge": "127bd588c96b6dd1d1a388ea4b06cc622bda4ee8d647c57fc10059a4dc3ae0dc",
+          "target_rms": "127bd588c96b6dd1d1a388ea4b06cc622bda4ee8d647c57fc10059a4dc3ae0dc"
+        },
+        "output_rms_db": {
+          "envelope_agc": -24.922211,
+          "no_gain": -40.561589,
+          "ridge": -42.740774,
+          "target_rms": -42.740774
+        },
+        "peak": {
+          "envelope_agc": 0.85,
+          "no_gain": 1.092391,
+          "ridge": 0.85,
+          "target_rms": 0.85
+        },
+        "perturbation_db": -34.026288,
+        "signed_error_db": {
+          "envelope_agc": -0.922211,
+          "no_gain": -16.561589,
+          "ridge": -18.740774,
+          "target_rms": -18.740774
+        },
+        "target_raw_gain": 6.730998,
+        "transient_overload": true
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.368212,
+          "no_gain": 26.259474,
+          "ridge": 0.698677,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 18.968798,
+          "target_rms": 20.55766
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 207,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "8c1af1ad14d119b39dc386e6f699d994e478c06ad91624c19ce63be12d25ef20",
+        "input_peak": 0.009371849739397782,
+        "input_rms_db": -50.259474,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "b738ed5c9ae92fc97e6ef00c2b7f29e99cf3dc447772a603cd89e17fc0834a47",
+          "no_gain": "8c1af1ad14d119b39dc386e6f699d994e478c06ad91624c19ce63be12d25ef20",
+          "ridge": "45c2710fb451f6009df319b27f093ff53b98b47e4291002314d9f5f48b8bee39",
+          "target_rms": "4583586956d292ccfbe03aa2b0b0c31f256ad9072bb8ff10c58b68701194ba66"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.631788,
+          "no_gain": -50.259474,
+          "ridge": -24.698677,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.228911,
+          "no_gain": 0.009372,
+          "ridge": 0.177773,
+          "target_rms": 0.192663
+        },
+        "perturbation_db": -32.369623,
+        "signed_error_db": {
+          "envelope_agc": 0.368212,
+          "no_gain": -26.259474,
+          "ridge": -0.698677,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 20.55766,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.745051,
+          "no_gain": 24.365848,
+          "ridge": 1.035351,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 14.6732,
+          "target_rms": 16.530743
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 208,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "c7e88a7939e22709e815972a6f9cf3426a2d385926b621f7dc235af2217f29c1",
+        "input_peak": 0.011327472366568092,
+        "input_rms_db": -48.365848,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "9f50dbeb7afbc60db443b7beb2b11a1dbcf4f3f08fdb7b2d5cd496fbd8b4a8fd",
+          "no_gain": "c7e88a7939e22709e815972a6f9cf3426a2d385926b621f7dc235af2217f29c1",
+          "ridge": "4619e517cc62e15ab02ce748a622481ca851f2c4a60cc5779365dd7017bc1a9c",
+          "target_rms": "0e95c28190d397302adbd5fa259cd10a5c6024f5293d102125bbb1169ebaddfb"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.254949,
+          "no_gain": -48.365848,
+          "ridge": -25.035351,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.228196,
+          "no_gain": 0.011327,
+          "ridge": 0.16621,
+          "target_rms": 0.187252
+        },
+        "perturbation_db": -30.712959,
+        "signed_error_db": {
+          "envelope_agc": 0.745051,
+          "no_gain": -24.365848,
+          "ridge": -1.035351,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 16.530743,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.544878,
+          "no_gain": 23.17903,
+          "ridge": 1.246359,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 12.492046,
+          "target_rms": 14.419544
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 209,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "4aae5e013d2b721a3f246aa85755fa91846acd1430c78b48435af5f558db5986",
+        "input_peak": 0.013734154469220447,
+        "input_rms_db": -47.17903,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "0a144e10446d0760a674f73fd6d46da6ac9d962d5571c4d4e09d13945c57b97f",
+          "no_gain": "4aae5e013d2b721a3f246aa85755fa91846acd1430c78b48435af5f558db5986",
+          "ridge": "cdeaea77e08e42117a61e2b19325b66cd77c99793f23965d336cf86d634032e2",
+          "target_rms": "1d826f606df679c16ca49dc5548e7b0fc522e98769c3d2248641c8cacb8aff35"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.455122,
+          "no_gain": -47.17903,
+          "ridge": -25.246359,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.223966,
+          "no_gain": 0.013734,
+          "ridge": 0.171568,
+          "target_rms": 0.19804
+        },
+        "perturbation_db": -29.056295,
+        "signed_error_db": {
+          "envelope_agc": 0.544878,
+          "no_gain": -23.17903,
+          "ridge": -1.246359,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 14.419544,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 1.192519,
+          "no_gain": 21.252942,
+          "ridge": 1.588804,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 9.620705,
+          "target_rms": 11.551732
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 210,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "6b4b409ddb85a00893fdf109d078d97e67adb012c65a3b5e198b3e1e3cbb68a9",
+        "input_peak": 0.016701254448573313,
+        "input_rms_db": -45.252942,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "e617309764718e522ae6b84d208972be711b48d9a967744a570ec0a594828a0c",
+          "no_gain": "6b4b409ddb85a00893fdf109d078d97e67adb012c65a3b5e198b3e1e3cbb68a9",
+          "ridge": "3c64fb7057852de756cf4e2e29278b355fc50a5b52b3e3ec1e92201cb9a492af",
+          "target_rms": "113032d9d7ffd8ce0af68793111b60d69af1d87e9564f6b41d2a60ac7013b3d5"
+        },
+        "output_rms_db": {
+          "envelope_agc": -22.807481,
+          "no_gain": -45.252942,
+          "ridge": -25.588804,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.227285,
+          "no_gain": 0.016701,
+          "ridge": 0.160678,
+          "target_rms": 0.192928
+        },
+        "perturbation_db": -27.399631,
+        "signed_error_db": {
+          "envelope_agc": 1.192519,
+          "no_gain": -21.252942,
+          "ridge": -1.588804,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 11.551732,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.984898,
+          "no_gain": 19.716572,
+          "ridge": 1.861959,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 7.811432,
+          "target_rms": 9.678958
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 211,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "b3ad654e2530ca142bfce4a4806a921a3d54be30e5d3a57ed8050efeaf0eaf10",
+        "input_peak": 0.02013059262016327,
+        "input_rms_db": -43.716572,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "c0f5a0c0d696b4811f9d989f8b83534bab35426791d14a4d222fc1c744eae354",
+          "no_gain": "b3ad654e2530ca142bfce4a4806a921a3d54be30e5d3a57ed8050efeaf0eaf10",
+          "ridge": "5aea267a444818cfaeba8b213c13ecf69b53e4e3cef0f0b11946e97f279535af",
+          "target_rms": "0a843bdbac40cf902d3f43867c6c011956d2de27557d39e7b694698207428979"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.015102,
+          "no_gain": -43.716572,
+          "ridge": -25.861959,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.26264,
+          "no_gain": 0.020131,
+          "ridge": 0.157249,
+          "target_rms": 0.194843
+        },
+        "perturbation_db": -25.742967,
+        "signed_error_db": {
+          "envelope_agc": 0.984898,
+          "no_gain": -19.716572,
+          "ridge": -1.861959,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 9.678958,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.605357,
+          "no_gain": 18.2722,
+          "ridge": 2.118759,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 6.422026,
+          "target_rms": 8.196152
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 212,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "2a39beff005a718983ff5c457d9eaf9bfef2730b6db96a8fb0759eb1523eab2a",
+        "input_peak": 0.024406530061419174,
+        "input_rms_db": -42.2722,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "dde44ab1f6af5230d0cea2ff99d97c8309cadd5f6853c5f90c224edb339ea0b0",
+          "no_gain": "2a39beff005a718983ff5c457d9eaf9bfef2730b6db96a8fb0759eb1523eab2a",
+          "ridge": "ac229b209fe8d5a998d9fdd41150c1506126b3f2e25dfa06ea009f9453f3085b",
+          "target_rms": "6e0d6ef9507b6ada9ca4506ac3fb56d0091006180c2e21444f46c00bb0dbbc47"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.394643,
+          "no_gain": -42.2722,
+          "ridge": -26.118759,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.241376,
+          "no_gain": 0.024407,
+          "ridge": 0.156739,
+          "target_rms": 0.20004
+        },
+        "perturbation_db": -24.086303,
+        "signed_error_db": {
+          "envelope_agc": 0.605357,
+          "no_gain": -18.2722,
+          "ridge": -2.118759,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 8.196152,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.317457,
+          "no_gain": 13.604316,
+          "ridge": 15.875505,
+          "target_rms": 15.875505
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 0.769911,
+          "target_rms": 0.769911
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": true,
+          "target_rms": true
+        },
+        "clip_index": 213,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 1,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "76567060933cc7726448a2b9b4e5e503794926b34e69afd7b5ae3584e23d3d71",
+        "input_peak": 1.1040237016487204,
+        "input_rms_db": -37.604316,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "d9be9a6e95eddd72da7477064e7b97ec2c440122dd99d8c12b8c45231d100b00",
+          "no_gain": "76567060933cc7726448a2b9b4e5e503794926b34e69afd7b5ae3584e23d3d71",
+          "ridge": "863b88b100873299d3d624b315ec22cd589c7ec3ab229a73eb2276520a4d72fe",
+          "target_rms": "863b88b100873299d3d624b315ec22cd589c7ec3ab229a73eb2276520a4d72fe"
+        },
+        "output_rms_db": {
+          "envelope_agc": -24.317457,
+          "no_gain": -37.604316,
+          "ridge": -39.875505,
+          "target_rms": -39.875505
+        },
+        "peak": {
+          "envelope_agc": 0.85,
+          "no_gain": 1.104024,
+          "ridge": 0.85,
+          "target_rms": 0.85
+        },
+        "perturbation_db": -22.429639,
+        "signed_error_db": {
+          "envelope_agc": -0.317457,
+          "no_gain": -13.604316,
+          "ridge": -15.875505,
+          "target_rms": -15.875505
+        },
+        "target_raw_gain": 4.78868,
+        "transient_overload": true
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.030859,
+          "no_gain": 14.840263,
+          "ridge": 2.728933,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 4.032427,
+          "target_rms": 5.520941
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 214,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "2e91d0572017d65bb0e3b56900aa5255c910b368a5c6fa34d2afaa05020f84c7",
+        "input_peak": 0.03556149340469728,
+        "input_rms_db": -38.840263,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "caf173e80eaaffed244c133fefea9b9f2dfd00ee49e99522338f3b95213fea7a",
+          "no_gain": "2e91d0572017d65bb0e3b56900aa5255c910b368a5c6fa34d2afaa05020f84c7",
+          "ridge": "63a4b9ae572a8d13eeeb52911a6c88676ffef4105ecee0f67b0703d13f5c8e58",
+          "target_rms": "68cd06347ad16f3893d1c6c7753003c95a54b6eb5e359aa5c48ce3efde752555"
+        },
+        "output_rms_db": {
+          "envelope_agc": -24.030859,
+          "no_gain": -38.840263,
+          "ridge": -26.728933,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.199982,
+          "no_gain": 0.035561,
+          "ridge": 0.143399,
+          "target_rms": 0.196333
+        },
+        "perturbation_db": -20.772975,
+        "signed_error_db": {
+          "envelope_agc": -0.030859,
+          "no_gain": -14.840263,
+          "ridge": -2.728933,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 5.520941,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.270053,
+          "no_gain": 13.126099,
+          "ridge": 3.0337,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 3.196097,
+          "target_rms": 4.532157
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 215,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "58fb33de9ca1a886f8d9514641f5bd6ce80e5fa6818e8e43c2d147489240c33f",
+        "input_peak": 0.043105547426094494,
+        "input_rms_db": -37.126099,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "171c30f9267e7e785961881d7258ceed1dc27c7356b165ffeb18e83312bf0b6f",
+          "no_gain": "58fb33de9ca1a886f8d9514641f5bd6ce80e5fa6818e8e43c2d147489240c33f",
+          "ridge": "42698023b0f3f3fb73982b0e01172730c11a21e9c126fb7244160694891cc10c",
+          "target_rms": "96abfde5164daf92ec7da620937e554fb29a859ff0980ce478bebcc04b4a0da2"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.729947,
+          "no_gain": -37.126099,
+          "ridge": -27.0337,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.21993,
+          "no_gain": 0.043106,
+          "ridge": 0.13777,
+          "target_rms": 0.195361
+        },
+        "perturbation_db": -19.116311,
+        "signed_error_db": {
+          "envelope_agc": 0.270053,
+          "no_gain": -13.126099,
+          "ridge": -3.0337,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 4.532157,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.382734,
+          "no_gain": 11.131876,
+          "ridge": 3.388258,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 2.438826,
+          "target_rms": 3.602416
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 216,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "1a06f7b7f5dd1d04cc4076bd0c694ee0e1dd912c1e09663f40a52eb6a0457747",
+        "input_peak": 0.052209193339098146,
+        "input_rms_db": -35.131876,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "18a6859aa6e946b41da3b49f3c802bdd3ecef6e14751bf52e5d37e7b12558d94",
+          "no_gain": "1a06f7b7f5dd1d04cc4076bd0c694ee0e1dd912c1e09663f40a52eb6a0457747",
+          "ridge": "17445bb7f277bf49c12b3e742bf718e459f38e33eb6b23f0337d239fd4d68000",
+          "target_rms": "4f6e6ab88457e2546f74c88a736a286e436cfba25cd33f9fa4da772e8e046f33"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.617266,
+          "no_gain": -35.131876,
+          "ridge": -27.388258,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.221091,
+          "no_gain": 0.052209,
+          "ridge": 0.127329,
+          "target_rms": 0.188079
+        },
+        "perturbation_db": -17.459647,
+        "signed_error_db": {
+          "envelope_agc": 0.382734,
+          "no_gain": -11.131876,
+          "ridge": -3.388258,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 3.602416,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.238149,
+          "no_gain": 9.769597,
+          "ridge": 3.630462,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 2.027481,
+          "target_rms": 3.079498
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 217,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "4bf1d808d544af3f9428fb839b1676c50493f5eed68e2443461c8618bfdb7d0b",
+        "input_peak": 0.06340203322147847,
+        "input_rms_db": -33.769597,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "2ce85576785ba5b65b0316b054f75504b2b042f49aacbfe534fbbba6f4bc4e81",
+          "no_gain": "4bf1d808d544af3f9428fb839b1676c50493f5eed68e2443461c8618bfdb7d0b",
+          "ridge": "9cbd6e7b625e58d0942742f8a9835f35788d15b82e96493188ed33057c02a5ba",
+          "target_rms": "b3584ebf6110dd89f668db001e582dfae9ea8f1521b78dfe6070cbb00a7abec3"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.761851,
+          "no_gain": -33.769597,
+          "ridge": -27.630462,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.226705,
+          "no_gain": 0.063402,
+          "ridge": 0.128546,
+          "target_rms": 0.195246
+        },
+        "perturbation_db": -15.802983,
+        "signed_error_db": {
+          "envelope_agc": 0.238149,
+          "no_gain": -9.769597,
+          "ridge": -3.630462,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 3.079498,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.485988,
+          "no_gain": 7.914668,
+          "ridge": 3.960255,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 1.576597,
+          "target_rms": 2.48733
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 218,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "966f1432b9a48e048167b89c2c570f806a2c0cfde6c561fd15b5a8009acd71f7",
+        "input_peak": 0.07668119795843542,
+        "input_rms_db": -31.914668,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "782f8aaa26ffc3a4d6bd292ffa45a749aeca5020c96c8c8a6ba8ea34048359a8",
+          "no_gain": "966f1432b9a48e048167b89c2c570f806a2c0cfde6c561fd15b5a8009acd71f7",
+          "ridge": "31116e508df9798559ed94509210b70553820bc3cddfb9b73aad836cc2723568",
+          "target_rms": "9d16e07ac9f5c570bdeb5130d63229c9568b215c7df315541d4b7d686eb9de04"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.514012,
+          "no_gain": -31.914668,
+          "ridge": -27.960255,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.225341,
+          "no_gain": 0.076681,
+          "ridge": 0.120895,
+          "target_rms": 0.190731
+        },
+        "perturbation_db": -14.146318,
+        "signed_error_db": {
+          "envelope_agc": 0.485988,
+          "no_gain": -7.914668,
+          "ridge": -3.960255,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 2.48733,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 1.019709,
+          "no_gain": 6.37985,
+          "ridge": 4.233135,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 1.280371,
+          "target_rms": 2.084455
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 219,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "5009a991d593440c1062aa90d1afc8826f65ae46628036edd15bc64dcc16ba66",
+        "input_peak": 0.09275148936258915,
+        "input_rms_db": -30.37985,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "71789f948c23ae3a9d24ae5229f4479f37a9e98d191a326c0d9775045fc600f1",
+          "no_gain": "5009a991d593440c1062aa90d1afc8826f65ae46628036edd15bc64dcc16ba66",
+          "ridge": "567e4b816d3fd53bfb5c7196fd737b9e9015cbe6a239096ec6f745980d4f5769",
+          "target_rms": "9e27680c71c271c51ad77738c10085ca4d69c6b7a23d52a3efefdd33b50f6218"
+        },
+        "output_rms_db": {
+          "envelope_agc": -22.980291,
+          "no_gain": -30.37985,
+          "ridge": -28.233135,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.222443,
+          "no_gain": 0.092751,
+          "ridge": 0.118756,
+          "target_rms": 0.193336
+        },
+        "perturbation_db": -12.489654,
+        "signed_error_db": {
+          "envelope_agc": 1.019709,
+          "no_gain": -6.37985,
+          "ridge": -4.233135,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 2.084455,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.283004,
+          "no_gain": 16.564566,
+          "ridge": 18.799244,
+          "target_rms": 18.799244
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 0.773154,
+          "target_rms": 0.773154
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": true,
+          "target_rms": true
+        },
+        "clip_index": 220,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 1,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "d7884557f8db8864ffdf3507d1579fb3e628442c83e2f52a429b218ab9126515",
+        "input_peak": 1.099392690690218,
+        "input_rms_db": -40.564566,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "0bc469f169664a21bbfd79f125f8d0fa1d659cffb2f0b926c4a0918151db6d9c",
+          "no_gain": "d7884557f8db8864ffdf3507d1579fb3e628442c83e2f52a429b218ab9126515",
+          "ridge": "6270306d1663ab305ed5162d1933f94624045a1d97ea708a1478034c5ef5e2a3",
+          "target_rms": "6270306d1663ab305ed5162d1933f94624045a1d97ea708a1478034c5ef5e2a3"
+        },
+        "output_rms_db": {
+          "envelope_agc": -24.283004,
+          "no_gain": -40.564566,
+          "ridge": -42.799244,
+          "target_rms": -42.799244
+        },
+        "peak": {
+          "envelope_agc": 0.85,
+          "no_gain": 1.099393,
+          "ridge": 0.85,
+          "target_rms": 0.85
+        },
+        "perturbation_db": -34.83299,
+        "signed_error_db": {
+          "envelope_agc": -0.283004,
+          "no_gain": -16.564566,
+          "ridge": -18.799244,
+          "target_rms": -18.799244
+        },
+        "target_raw_gain": 6.733305,
+        "transient_overload": true
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 1.290191,
+          "no_gain": 27.034266,
+          "ridge": 0.560925,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 21.070123,
+          "target_rms": 22.475705
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 221,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "a8590f19c96129cab6f9e9676550b416e3996b85d52e1a3a6a7c5d8a58610249",
+        "input_peak": 0.00855949559520917,
+        "input_rms_db": -51.034266,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "c05bb256e936e8c6262e0982a3baab73e411126acb7e97b9b7e18eb0adf1dec9",
+          "no_gain": "a8590f19c96129cab6f9e9676550b416e3996b85d52e1a3a6a7c5d8a58610249",
+          "ridge": "9ce19645234f44d7d035c27ae8a9085a9c1d2e866d7fcfc65f4fce77610b18ea",
+          "target_rms": "9dd2372d0a620be09e2012ba7a4674a9f4b28d974025b319579be00139c6ddee"
+        },
+        "output_rms_db": {
+          "envelope_agc": -22.709809,
+          "no_gain": -51.034266,
+          "ridge": -24.560925,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.223767,
+          "no_gain": 0.008559,
+          "ridge": 0.18035,
+          "target_rms": 0.192381
+        },
+        "perturbation_db": -33.176326,
+        "signed_error_db": {
+          "envelope_agc": 1.290191,
+          "no_gain": -27.034266,
+          "ridge": -0.560925,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 22.475705,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.654914,
+          "no_gain": 25.533031,
+          "ridge": 0.827834,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 17.189367,
+          "target_rms": 18.90826
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 222,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "0da0a948bdf417f6a6af7ddd3c44fb022b48b72dd4a3f33f99ea3c1da3189af3",
+        "input_peak": 0.010398593876292732,
+        "input_rms_db": -49.533031,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "1d20a90f12af38419f1a3f23aaa949b5c4156e19d8103630eb85f17cb6397b11",
+          "no_gain": "0da0a948bdf417f6a6af7ddd3c44fb022b48b72dd4a3f33f99ea3c1da3189af3",
+          "ridge": "1020267c8ee98717a4184c13e48ce745409cb873e719ae2d221837d790302873",
+          "target_rms": "abfbb9ad8c419b5dfb353e96864b7939161e4a9e0bf2a8fca13a15958dc58c05"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.345086,
+          "no_gain": -49.533031,
+          "ridge": -24.827834,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.242249,
+          "no_gain": 0.010399,
+          "ridge": 0.178745,
+          "target_rms": 0.196619
+        },
+        "perturbation_db": -31.519662,
+        "signed_error_db": {
+          "envelope_agc": 0.654914,
+          "no_gain": -25.533031,
+          "ridge": -0.827834,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 18.90826,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.261628,
+          "no_gain": 24.101734,
+          "ridge": 1.082308,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 14.157001,
+          "target_rms": 16.035654
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 223,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "14e33f88099ebab770bfba72247caf1131e4c3b9b0839945ba5d33bf05a0b0c6",
+        "input_peak": 0.012442875950554733,
+        "input_rms_db": -48.101734,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "41fb995db177fe0239d4dea3b9d8b0c1a1e4feee5256634c11b3a494efac1e7b",
+          "no_gain": "14e33f88099ebab770bfba72247caf1131e4c3b9b0839945ba5d33bf05a0b0c6",
+          "ridge": "e05a5b6a598c1b453127b2d72ea77ef86dbde58c55d1dd7d971c219bc24c37d9",
+          "target_rms": "3f56a01fa0b90b09fe6f42f7ab76a62612a4ba33960c312687ea111dff276be7"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.738372,
+          "no_gain": -48.101734,
+          "ridge": -25.082308,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.232231,
+          "no_gain": 0.012443,
+          "ridge": 0.176154,
+          "target_rms": 0.19953
+        },
+        "perturbation_db": -29.862998,
+        "signed_error_db": {
+          "envelope_agc": 0.261628,
+          "no_gain": -24.101734,
+          "ridge": -1.082308,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 16.035654,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.649528,
+          "no_gain": 22.127574,
+          "ridge": 1.4333,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 10.832126,
+          "target_rms": 12.775524
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 224,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "8feb8fa7f2da41cfa10f4bf2c8366020b5eaf9deb4b3dad2aba4743dda687cc4",
+        "input_peak": 0.01523240978969163,
+        "input_rms_db": -46.127574,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "12f7cc208b9668d69ae60cec846b13750b489369df12dc2fc1d84226d1e73972",
+          "no_gain": "8feb8fa7f2da41cfa10f4bf2c8366020b5eaf9deb4b3dad2aba4743dda687cc4",
+          "ridge": "cf09585d47ccdd346ace8b39b4f773360b9655fd9858470d983d688cdeda84be",
+          "target_rms": "bb1b409cc96f914d658d42a4225ca04363c170e73bad8dfcc7f5b9cdce8af898"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.350472,
+          "no_gain": -46.127574,
+          "ridge": -25.4333,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.232222,
+          "no_gain": 0.015232,
+          "ridge": 0.164999,
+          "target_rms": 0.194602
+        },
+        "perturbation_db": -28.206334,
+        "signed_error_db": {
+          "envelope_agc": 0.649528,
+          "no_gain": -22.127574,
+          "ridge": -1.4333,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 12.775524,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.135575,
+          "no_gain": 20.568491,
+          "ridge": 1.710494,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 8.767985,
+          "target_rms": 10.676393
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 225,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "73d60f69aa75696d81485adaeb69ec7d34ba6a29af5b1223e85d8ec018f4b796",
+        "input_peak": 0.01822376198877888,
+        "input_rms_db": -44.568491,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "4962df88e646a35a223a0df8539ffdc52a7184fc9df335bb988b73061acd7b95",
+          "no_gain": "73d60f69aa75696d81485adaeb69ec7d34ba6a29af5b1223e85d8ec018f4b796",
+          "ridge": "e77dbbbc5acf394cfd3793d3a85efe81f209da7bce2ae90121c32b54f398c307",
+          "target_rms": "979a2d99bbe0c665c3782fb660b1bf936bca7cddcb7ca34ba4de97cabf897117"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.864425,
+          "no_gain": -44.568491,
+          "ridge": -25.710494,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.212357,
+          "no_gain": 0.018224,
+          "ridge": 0.159786,
+          "target_rms": 0.194564
+        },
+        "perturbation_db": -26.54967,
+        "signed_error_db": {
+          "envelope_agc": 0.135575,
+          "no_gain": -20.568491,
+          "ridge": -1.710494,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 10.676393,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.268367,
+          "no_gain": 18.753401,
+          "ridge": 2.033204,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 6.855038,
+          "target_rms": 8.663035
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 226,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "8343d9a35623928cc1f24802bf68106bf94c024c891fe663da0311f8f2e2b3eb",
+        "input_peak": 0.022194463044527563,
+        "input_rms_db": -42.753401,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "9779b78bed98131454aa6be800d77abf3957f251a3565e4f3402562a2e37e3aa",
+          "no_gain": "8343d9a35623928cc1f24802bf68106bf94c024c891fe663da0311f8f2e2b3eb",
+          "ridge": "2e294b690232e2f241b7b11526e51c1c1d0aa8afd5353b889ac3bfedb9784c99",
+          "target_rms": "7dd463685daf68e2bd2248c0b370aa9bb96cb3a0e17c5efc0f8449ce6b61892a"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.731633,
+          "no_gain": -42.753401,
+          "ridge": -26.033204,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.222203,
+          "no_gain": 0.022194,
+          "ridge": 0.152144,
+          "target_rms": 0.192271
+        },
+        "perturbation_db": -24.893006,
+        "signed_error_db": {
+          "envelope_agc": 0.268367,
+          "no_gain": -18.753401,
+          "ridge": -2.033204,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 8.663035,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.381178,
+          "no_gain": 13.76731,
+          "ridge": 16.192396,
+          "target_rms": 16.192396
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 0.75639,
+          "target_rms": 0.75639
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": true,
+          "target_rms": true
+        },
+        "clip_index": 227,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 1,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "a53ef171663b91e330067e457c2b58c60a35ea5fc71ff403c4c751328dc94169",
+        "input_peak": 1.1237591215195473,
+        "input_rms_db": -37.76731,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "e05297407651438437f1539393e4479ba499b4be23f518f0726cdd20c9249ade",
+          "no_gain": "a53ef171663b91e330067e457c2b58c60a35ea5fc71ff403c4c751328dc94169",
+          "ridge": "afe07b47031759681dfd77e9ef5bfba12d83407e5b2b218860c3ccefd1494da9",
+          "target_rms": "afe07b47031759681dfd77e9ef5bfba12d83407e5b2b218860c3ccefd1494da9"
+        },
+        "output_rms_db": {
+          "envelope_agc": -24.381178,
+          "no_gain": -37.76731,
+          "ridge": -40.192396,
+          "target_rms": -40.192396
+        },
+        "peak": {
+          "envelope_agc": 0.85,
+          "no_gain": 1.123759,
+          "ridge": 0.85,
+          "target_rms": 0.85
+        },
+        "perturbation_db": -23.236342,
+        "signed_error_db": {
+          "envelope_agc": -0.381178,
+          "no_gain": -13.76731,
+          "ridge": -16.192396,
+          "target_rms": -16.192396
+        },
+        "target_raw_gain": 4.87939,
+        "transient_overload": true
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.188593,
+          "no_gain": 15.545862,
+          "ridge": 2.603483,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 4.437302,
+          "target_rms": 5.988156
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 228,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "85eabb4458ed47512d7684b6669d83e90b268c1799dc8c4dfd0ba654aea89f14",
+        "input_peak": 0.03227353366616508,
+        "input_rms_db": -39.545862,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "ccfa7a987f275e57bf15c9b8d530ef0898a63ceef19641c3a9c9048a5980c2ee",
+          "no_gain": "85eabb4458ed47512d7684b6669d83e90b268c1799dc8c4dfd0ba654aea89f14",
+          "ridge": "12aa19e6266e25a96d09ec850cac497908411843ac93e4cd65854ae4480a85b2",
+          "target_rms": "46a1fd4e3fbea202926301d87585eab5fd6db6c11f0123b17f0b8d4ca26f15d6"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.811407,
+          "no_gain": -39.545862,
+          "ridge": -26.603483,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.226506,
+          "no_gain": 0.032274,
+          "ridge": 0.143207,
+          "target_rms": 0.193259
+        },
+        "perturbation_db": -21.579678,
+        "signed_error_db": {
+          "envelope_agc": 0.188593,
+          "no_gain": -15.545862,
+          "ridge": -2.603483,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 5.988156,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.696252,
+          "no_gain": 13.619148,
+          "ridge": 2.946039,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 3.417082,
+          "target_rms": 4.796864
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 229,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "7e044ae6374c16ee99fa91a0c9d909f72872eb4251eda544087782acbb76d796",
+        "input_peak": 0.03923911015511929,
+        "input_rms_db": -37.619148,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "d76d55329bf5d96081a36d972e53721a8247fdfafcdfff1a79dcb551fa0a3516",
+          "no_gain": "7e044ae6374c16ee99fa91a0c9d909f72872eb4251eda544087782acbb76d796",
+          "ridge": "33b36671c2726143e76cd75075d7d16ba4f86d8ceddcb52d96215ea9bb6e4a7f",
+          "target_rms": "dfa87d78ac2bd2f7df594185eb2a082dbb2f854f6a769f22854f5f1fd2853976"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.303748,
+          "no_gain": -37.619148,
+          "ridge": -26.946039,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.223237,
+          "no_gain": 0.039239,
+          "ridge": 0.134083,
+          "target_rms": 0.188225
+        },
+        "perturbation_db": -19.923013,
+        "signed_error_db": {
+          "envelope_agc": 0.696252,
+          "no_gain": -13.619148,
+          "ridge": -2.946039,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 4.796864,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.739221,
+          "no_gain": 12.408399,
+          "ridge": 3.161302,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 2.899712,
+          "target_rms": 4.172727
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 230,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "c14a4bda9cd55a8dbfa393b38f9870c344d7cc7dbcda835a1ec0df0dd17c4ad5",
+        "input_peak": 0.047775642000276446,
+        "input_rms_db": -36.408399,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "11349a84272ffb543d04ca599f43bda4e46b09e77351e35b3383f3aa294e23c6",
+          "no_gain": "c14a4bda9cd55a8dbfa393b38f9870c344d7cc7dbcda835a1ec0df0dd17c4ad5",
+          "ridge": "3115d6027255cf95401d43acf5968d3750ed8f143cdf2f14f614bba8882d2e35",
+          "target_rms": "f6eee6177999e6d46f7d17b677deda019a1f54f333a36c3e3169910502c4b6fd"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.260779,
+          "no_gain": -36.408399,
+          "ridge": -27.161302,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.218088,
+          "no_gain": 0.047776,
+          "ridge": 0.138536,
+          "target_rms": 0.199355
+        },
+        "perturbation_db": -18.266349,
+        "signed_error_db": {
+          "envelope_agc": 0.739221,
+          "no_gain": -12.408399,
+          "ridge": -3.161302,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 4.172727,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 1.085582,
+          "no_gain": 10.606922,
+          "ridge": 3.481591,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 2.271258,
+          "target_rms": 3.391143
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 231,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "4fc900de2b7bdbb0520090664af84434369b982ec9b166198454f3cd6f739f2b",
+        "input_peak": 0.057610599801389155,
+        "input_rms_db": -34.606922,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "f1d0bdfe88609eb9e1680e519f6a972f2c478edc6bbaee59babc514a6837ea79",
+          "no_gain": "4fc900de2b7bdbb0520090664af84434369b982ec9b166198454f3cd6f739f2b",
+          "ridge": "e014b439a096c4e9b1013d91d2f1a4d6a0ecfd7ca92aa619bd6fd0d17e0f3c81",
+          "target_rms": "f898049798ce932eaacdf8451d7136a94e956d52f98de0817256ab9e145ca8e7"
+        },
+        "output_rms_db": {
+          "envelope_agc": -22.914418,
+          "no_gain": -34.606922,
+          "ridge": -27.481591,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.229856,
+          "no_gain": 0.057611,
+          "ridge": 0.130849,
+          "target_rms": 0.195366
+        },
+        "perturbation_db": -16.609685,
+        "signed_error_db": {
+          "envelope_agc": 1.085582,
+          "no_gain": -10.606922,
+          "ridge": -3.481591,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 3.391143,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 1.181947,
+          "no_gain": 9.072346,
+          "ridge": 3.754428,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 1.844573,
+          "target_rms": 2.841956
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 232,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "6b7add48dab4ef8d052e223eff3a8613fb101c08014151c341bc25ad4c77c926",
+        "input_peak": 0.06978854588186198,
+        "input_rms_db": -33.072346,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "de9a799a6ecdd6c632a015c980e37457e5da9435a2d53f9ad66421053761ec44",
+          "no_gain": "6b7add48dab4ef8d052e223eff3a8613fb101c08014151c341bc25ad4c77c926",
+          "ridge": "020100233158efa580c2fbe314b5187d1330362ed4999e3a9f067d8aed8a3f6e",
+          "target_rms": "8ff2a9041ece73b2b8013ee4d372c4085e0a8f1be69c1bb5a46c44544ce9c38e"
+        },
+        "output_rms_db": {
+          "envelope_agc": -22.818053,
+          "no_gain": -33.072346,
+          "ridge": -27.754428,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.224064,
+          "no_gain": 0.069789,
+          "ridge": 0.12873,
+          "target_rms": 0.198336
+        },
+        "perturbation_db": -14.953021,
+        "signed_error_db": {
+          "envelope_agc": 1.181947,
+          "no_gain": -9.072346,
+          "ridge": -3.754428,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 2.841956,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.471084,
+          "no_gain": 7.39037,
+          "ridge": 4.053472,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 1.468402,
+          "target_rms": 2.341631
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 233,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "74fc949f20ae55d6ec4eba688315c95dea121d74b7f066cc84bc9dc1f875bfbe",
+        "input_peak": 0.08381626317689085,
+        "input_rms_db": -31.39037,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "80467b92f61897388cbe9458a5eb703aa262ef702841181a03f4ad12d0af9802",
+          "no_gain": "74fc949f20ae55d6ec4eba688315c95dea121d74b7f066cc84bc9dc1f875bfbe",
+          "ridge": "8f8c0cb9a257161d5fe130fa6777de2f4875d736b06c9f2d8c4c5de699140e0e",
+          "target_rms": "5eed0d4222ec51b7a11256f92e4d66143d05f3cc2267ab65f62756f01e468c15"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.528916,
+          "no_gain": -31.39037,
+          "ridge": -28.053472,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.234637,
+          "no_gain": 0.083816,
+          "ridge": 0.123076,
+          "target_rms": 0.196267
+        },
+        "perturbation_db": -13.296357,
+        "signed_error_db": {
+          "envelope_agc": 0.471084,
+          "no_gain": -7.39037,
+          "ridge": -4.053472,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 2.341631,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 1.483478,
+          "no_gain": 16.608506,
+          "ridge": 18.841516,
+          "target_rms": 18.841516
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 0.773303,
+          "target_rms": 0.773303
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": true,
+          "target_rms": true
+        },
+        "clip_index": 234,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 1,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "87eaace728d1a546f87f9b0c0db28abbf26523457ebf78fd68378c8fbb8f8292",
+        "input_peak": 1.0991815214230782,
+        "input_rms_db": -40.608506,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "55e7f027f02f920afc681b5649a10bfc4442dc9d4d1d28877f65f91704755b04",
+          "no_gain": "87eaace728d1a546f87f9b0c0db28abbf26523457ebf78fd68378c8fbb8f8292",
+          "ridge": "369a3b522327ed57fe14f54d05cd1ac6bb3d428b11ede34c7a713595274dfdc4",
+          "target_rms": "369a3b522327ed57fe14f54d05cd1ac6bb3d428b11ede34c7a713595274dfdc4"
+        },
+        "output_rms_db": {
+          "envelope_agc": -25.483478,
+          "no_gain": -40.608506,
+          "ridge": -42.841516,
+          "target_rms": -42.841516
+        },
+        "peak": {
+          "envelope_agc": 0.85,
+          "no_gain": 1.099182,
+          "ridge": 0.85,
+          "target_rms": 0.85
+        },
+        "perturbation_db": -35.639693,
+        "signed_error_db": {
+          "envelope_agc": -1.483478,
+          "no_gain": -16.608506,
+          "ridge": -18.841516,
+          "target_rms": -18.841516
+        },
+        "target_raw_gain": 6.767454,
+        "transient_overload": true
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.048444,
+          "no_gain": 27.936635,
+          "ridge": 0.40049,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 23.812624,
+          "target_rms": 24.936284
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 235,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "f9671e886c896480faa8f8254b75902180a4a7945a68ed3731cf6b4f5614076b",
+        "input_peak": 0.0078013383374378195,
+        "input_rms_db": -51.936635,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "d4c278d84df99973b9db6e6b103c7a55c4c603cfe5fc16938721d990fb51bb02",
+          "no_gain": "f9671e886c896480faa8f8254b75902180a4a7945a68ed3731cf6b4f5614076b",
+          "ridge": "46db9715033e6df29e7dbc6fc61e84e5a3eeb2603cea71eec321b521dd01395f",
+          "target_rms": "a7553f7a0078315e8d6c1aa3652c7fd56add944cf96570aa6176acf6b94bc416"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.951556,
+          "no_gain": -51.936635,
+          "ridge": -24.40049,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.20125,
+          "no_gain": 0.007801,
+          "ridge": 0.18577,
+          "target_rms": 0.194536
+        },
+        "perturbation_db": -33.983029,
+        "signed_error_db": {
+          "envelope_agc": 0.048444,
+          "no_gain": -27.936635,
+          "ridge": -0.40049,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 24.936284,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.148308,
+          "no_gain": 26.28384,
+          "ridge": 0.694345,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 19.031575,
+          "target_rms": 20.615411
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 236,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "bd73717a32996ace1ad1c784ce4dc9d670e0c718f82cf3cdb7dd8a7d8a1d6d77",
+        "input_peak": 0.009441026889859976,
+        "input_rms_db": -50.28384,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "59184133d984d51ba83fa66aa5478d5ab26debea06f2a9722e3f59d08c06f0c0",
+          "no_gain": "bd73717a32996ace1ad1c784ce4dc9d670e0c718f82cf3cdb7dd8a7d8a1d6d77",
+          "ridge": "f9151325d3aa38739b521f9d62c2f8d80bd9e40e50da9d60639fc066781826f4",
+          "target_rms": "a4536dce35d297bc5ca1d14eec9704c87785696879f31da25db0cc86e83cf0d2"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.851692,
+          "no_gain": -50.28384,
+          "ridge": -24.694345,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.219547,
+          "no_gain": 0.009441,
+          "ridge": 0.179678,
+          "target_rms": 0.194631
+        },
+        "perturbation_db": -32.326365,
+        "signed_error_db": {
+          "envelope_agc": 0.148308,
+          "no_gain": -26.28384,
+          "ridge": -0.694345,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 20.615411,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.484081,
+          "no_gain": 24.381759,
+          "ridge": 1.032522,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 14.704893,
+          "target_rms": 16.561054
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 237,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "94aa3541430c766497322fc42fa8fe076c53ad19f22b936017720de046847b8e",
+        "input_peak": 0.011364827098392056,
+        "input_rms_db": -48.381759,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "76dd2a35125b1379b5870c0dc6950143833080175e7977fbf8eec41421ca199e",
+          "no_gain": "94aa3541430c766497322fc42fa8fe076c53ad19f22b936017720de046847b8e",
+          "ridge": "d34f145e89ab564656a222c9f9b56d7016c01a6b15bcbb84a0063dd47673535c",
+          "target_rms": "4c26f74eb24f201afa6bc0f001de3e5986a881cb6f9a2998aa5bdc5a76b8dbdd"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.515919,
+          "no_gain": -48.381759,
+          "ridge": -25.032522,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.225859,
+          "no_gain": 0.011365,
+          "ridge": 0.167119,
+          "target_rms": 0.188214
+        },
+        "perturbation_db": -30.669701,
+        "signed_error_db": {
+          "envelope_agc": 0.484081,
+          "no_gain": -24.381759,
+          "ridge": -1.032522,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 16.561054,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.355486,
+          "no_gain": 22.948548,
+          "ridge": 1.287337,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 12.10767,
+          "target_rms": 14.04195
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 238,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "2cf12ca04781b248c4b9010b9e90f5a593b39357abf241d0f7482719c97ea11b",
+        "input_peak": 0.013756835268123312,
+        "input_rms_db": -46.948548,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "a8775cb55aedc75fbdcd878904e32d2eaf24ee38df520cb823c3b541226f5896",
+          "no_gain": "2cf12ca04781b248c4b9010b9e90f5a593b39357abf241d0f7482719c97ea11b",
+          "ridge": "eb89f8ef2b929951c98a407eee8e48bd1fc155a5d235b41e16d8b4902302c390",
+          "target_rms": "737fe865d961c0942f5658ddf4be6a8112dea9abd1fed9c46d52e7d61a40ff8e"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.644514,
+          "no_gain": -46.948548,
+          "ridge": -25.287337,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.222353,
+          "no_gain": 0.013757,
+          "ridge": 0.166563,
+          "target_rms": 0.193173
+        },
+        "perturbation_db": -29.013037,
+        "signed_error_db": {
+          "envelope_agc": 0.355486,
+          "no_gain": -22.948548,
+          "ridge": -1.287337,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 14.04195,
+        "transient_overload": false
+      },
+      {
+        "abs_error_db": {
+          "envelope_agc": 0.430777,
+          "no_gain": 21.223177,
+          "ridge": 1.594096,
+          "target_rms": 0.0
+        },
+        "applied_gain": {
+          "no_gain": 1.0,
+          "ridge": 9.581954,
+          "target_rms": 11.512214
+        },
+        "cap_engaged": {
+          "envelope_agc": true,
+          "no_gain": false,
+          "ridge": false,
+          "target_rms": false
+        },
+        "clip_index": 239,
+        "clipped_samples": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "finite": {
+          "envelope_agc": true,
+          "no_gain": true,
+          "ridge": true,
+          "target_rms": true
+        },
+        "input_digest": "d2d98f5b6a91be77ecea35672fdb6d17cdf08a18aed3cdfc0ddf97a56eb1c503",
+        "input_peak": 0.01656719299143584,
+        "input_rms_db": -45.223177,
+        "nonfinite": {
+          "envelope_agc": 0,
+          "no_gain": 0,
+          "ridge": 0,
+          "target_rms": 0
+        },
+        "output_digest": {
+          "envelope_agc": "5a423d24f1b26ca6c2659fb08e10f1fa873623f231debfe9f5d5f6bb7913e52a",
+          "no_gain": "d2d98f5b6a91be77ecea35672fdb6d17cdf08a18aed3cdfc0ddf97a56eb1c503",
+          "ridge": "c2bb62b36fd7f3ecd53f59853ac6b0287a43580b13420726d180e9a69f278770",
+          "target_rms": "8647c96395a38b7277ab80184c5d1cdfbd1f2e3bdfe78d2e0dbcffb9009bf9de"
+        },
+        "output_rms_db": {
+          "envelope_agc": -23.569223,
+          "no_gain": -45.223177,
+          "ridge": -25.594096,
+          "target_rms": -24.0
+        },
+        "peak": {
+          "envelope_agc": 0.222445,
+          "no_gain": 0.016567,
+          "ridge": 0.158746,
+          "target_rms": 0.190725
+        },
+        "perturbation_db": -27.356373,
+        "signed_error_db": {
+          "envelope_agc": 0.430777,
+          "no_gain": -21.223177,
+          "ridge": -1.594096,
+          "target_rms": 0.0
+        },
+        "target_raw_gain": 11.512214,
+        "transient_overload": false
+      }
+    ],
+    "regressions": [
+      {
+        "clip_index": 180,
+        "compared_with": "target_rms",
+        "delta": 1.249612,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 181,
+        "compared_with": "target_rms",
+        "delta": 1.528448,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 182,
+        "compared_with": "target_rms",
+        "delta": 1.844004,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 183,
+        "compared_with": "target_rms",
+        "delta": 2.107186,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 184,
+        "compared_with": "target_rms",
+        "delta": 2.468905,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 186,
+        "compared_with": "target_rms",
+        "delta": 3.058296,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 187,
+        "compared_with": "target_rms",
+        "delta": 3.380598,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 188,
+        "compared_with": "target_rms",
+        "delta": 3.61099,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 189,
+        "compared_with": "target_rms",
+        "delta": 3.965704,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 190,
+        "compared_with": "target_rms",
+        "delta": 4.216989,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 191,
+        "compared_with": "target_rms",
+        "delta": 0.191963,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 193,
+        "compared_with": "target_rms",
+        "delta": 0.789513,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 194,
+        "compared_with": "target_rms",
+        "delta": 1.110802,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 195,
+        "compared_with": "target_rms",
+        "delta": 1.465627,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 196,
+        "compared_with": "target_rms",
+        "delta": 1.709057,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 197,
+        "compared_with": "target_rms",
+        "delta": 2.060186,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 198,
+        "compared_with": "target_rms",
+        "delta": 2.310051,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 200,
+        "compared_with": "target_rms",
+        "delta": 2.908691,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 201,
+        "compared_with": "target_rms",
+        "delta": 3.170278,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 202,
+        "compared_with": "target_rms",
+        "delta": 3.435613,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 203,
+        "compared_with": "target_rms",
+        "delta": 3.772496,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 204,
+        "compared_with": "target_rms",
+        "delta": 4.037796,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 205,
+        "compared_with": "target_rms",
+        "delta": 0.118523,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 207,
+        "compared_with": "target_rms",
+        "delta": 0.698677,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 208,
+        "compared_with": "target_rms",
+        "delta": 1.035351,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 209,
+        "compared_with": "target_rms",
+        "delta": 1.246359,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 210,
+        "compared_with": "target_rms",
+        "delta": 1.588804,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 211,
+        "compared_with": "target_rms",
+        "delta": 1.861959,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 212,
+        "compared_with": "target_rms",
+        "delta": 2.118759,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 214,
+        "compared_with": "target_rms",
+        "delta": 2.728933,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 215,
+        "compared_with": "target_rms",
+        "delta": 3.0337,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 216,
+        "compared_with": "target_rms",
+        "delta": 3.388258,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 217,
+        "compared_with": "target_rms",
+        "delta": 3.630462,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 218,
+        "compared_with": "target_rms",
+        "delta": 3.960255,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 219,
+        "compared_with": "target_rms",
+        "delta": 4.233135,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 221,
+        "compared_with": "target_rms",
+        "delta": 0.560925,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 222,
+        "compared_with": "target_rms",
+        "delta": 0.827834,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 223,
+        "compared_with": "target_rms",
+        "delta": 1.082308,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 224,
+        "compared_with": "target_rms",
+        "delta": 1.4333,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 225,
+        "compared_with": "target_rms",
+        "delta": 1.710494,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 226,
+        "compared_with": "target_rms",
+        "delta": 2.033204,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 228,
+        "compared_with": "target_rms",
+        "delta": 2.603483,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 229,
+        "compared_with": "target_rms",
+        "delta": 2.946039,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 230,
+        "compared_with": "target_rms",
+        "delta": 3.161302,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 231,
+        "compared_with": "target_rms",
+        "delta": 3.481591,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 232,
+        "compared_with": "target_rms",
+        "delta": 3.754428,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 233,
+        "compared_with": "target_rms",
+        "delta": 4.053472,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 235,
+        "compared_with": "target_rms",
+        "delta": 0.40049,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 236,
+        "compared_with": "target_rms",
+        "delta": 0.694345,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 237,
+        "compared_with": "target_rms",
+        "delta": 1.032522,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 238,
+        "compared_with": "target_rms",
+        "delta": 1.287337,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 239,
+        "compared_with": "target_rms",
+        "delta": 1.594096,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "ridge"
+      },
+      {
+        "clip_index": 180,
+        "compared_with": "target_rms",
+        "delta": 23.160734,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 181,
+        "compared_with": "target_rms",
+        "delta": 21.592411,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 182,
+        "compared_with": "target_rms",
+        "delta": 19.817561,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 183,
+        "compared_with": "target_rms",
+        "delta": 18.337289,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 184,
+        "compared_with": "target_rms",
+        "delta": 16.302794,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 186,
+        "compared_with": "target_rms",
+        "delta": 12.987756,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 187,
+        "compared_with": "target_rms",
+        "delta": 11.174963,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 188,
+        "compared_with": "target_rms",
+        "delta": 9.87912,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 189,
+        "compared_with": "target_rms",
+        "delta": 7.884023,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 190,
+        "compared_with": "target_rms",
+        "delta": 6.470664,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 191,
+        "compared_with": "target_rms",
+        "delta": 29.109497,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 193,
+        "compared_with": "target_rms",
+        "delta": 25.748566,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 194,
+        "compared_with": "target_rms",
+        "delta": 23.94147,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 195,
+        "compared_with": "target_rms",
+        "delta": 21.945753,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 196,
+        "compared_with": "target_rms",
+        "delta": 20.576576,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 197,
+        "compared_with": "target_rms",
+        "delta": 18.601644,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 198,
+        "compared_with": "target_rms",
+        "delta": 17.196272,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 200,
+        "compared_with": "target_rms",
+        "delta": 13.829209,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 201,
+        "compared_with": "target_rms",
+        "delta": 12.35791,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 202,
+        "compared_with": "target_rms",
+        "delta": 10.865529,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 203,
+        "compared_with": "target_rms",
+        "delta": 8.970727,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 204,
+        "compared_with": "target_rms",
+        "delta": 7.478539,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 205,
+        "compared_with": "target_rms",
+        "delta": 29.522561,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 207,
+        "compared_with": "target_rms",
+        "delta": 26.259474,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 208,
+        "compared_with": "target_rms",
+        "delta": 24.365848,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 209,
+        "compared_with": "target_rms",
+        "delta": 23.17903,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 210,
+        "compared_with": "target_rms",
+        "delta": 21.252942,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 211,
+        "compared_with": "target_rms",
+        "delta": 19.716572,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 212,
+        "compared_with": "target_rms",
+        "delta": 18.2722,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 214,
+        "compared_with": "target_rms",
+        "delta": 14.840263,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 215,
+        "compared_with": "target_rms",
+        "delta": 13.126099,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 216,
+        "compared_with": "target_rms",
+        "delta": 11.131876,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 217,
+        "compared_with": "target_rms",
+        "delta": 9.769597,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 218,
+        "compared_with": "target_rms",
+        "delta": 7.914668,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 219,
+        "compared_with": "target_rms",
+        "delta": 6.37985,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 221,
+        "compared_with": "target_rms",
+        "delta": 27.034266,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 222,
+        "compared_with": "target_rms",
+        "delta": 25.533031,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 223,
+        "compared_with": "target_rms",
+        "delta": 24.101734,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 224,
+        "compared_with": "target_rms",
+        "delta": 22.127574,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 225,
+        "compared_with": "target_rms",
+        "delta": 20.568491,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 226,
+        "compared_with": "target_rms",
+        "delta": 18.753401,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 228,
+        "compared_with": "target_rms",
+        "delta": 15.545862,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 229,
+        "compared_with": "target_rms",
+        "delta": 13.619148,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 230,
+        "compared_with": "target_rms",
+        "delta": 12.408399,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 231,
+        "compared_with": "target_rms",
+        "delta": 10.606922,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 232,
+        "compared_with": "target_rms",
+        "delta": 9.072346,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 233,
+        "compared_with": "target_rms",
+        "delta": 7.39037,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 235,
+        "compared_with": "target_rms",
+        "delta": 27.936635,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 236,
+        "compared_with": "target_rms",
+        "delta": 26.28384,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 237,
+        "compared_with": "target_rms",
+        "delta": 24.381759,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 238,
+        "compared_with": "target_rms",
+        "delta": 22.948548,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 239,
+        "compared_with": "target_rms",
+        "delta": 21.223177,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "no_gain"
+      },
+      {
+        "clip_index": 180,
+        "compared_with": "target_rms",
+        "delta": 0.888995,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 181,
+        "compared_with": "target_rms",
+        "delta": 0.478543,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 182,
+        "compared_with": "target_rms",
+        "delta": 0.923762,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 183,
+        "compared_with": "target_rms",
+        "delta": 0.061223,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 184,
+        "compared_with": "target_rms",
+        "delta": 0.507835,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 186,
+        "compared_with": "target_rms",
+        "delta": 0.254929,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 187,
+        "compared_with": "target_rms",
+        "delta": 0.653821,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 188,
+        "compared_with": "target_rms",
+        "delta": 0.350894,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 189,
+        "compared_with": "target_rms",
+        "delta": 1.161898,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 190,
+        "compared_with": "target_rms",
+        "delta": 0.930494,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 191,
+        "compared_with": "target_rms",
+        "delta": 0.690556,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 193,
+        "compared_with": "target_rms",
+        "delta": 0.013895,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 194,
+        "compared_with": "target_rms",
+        "delta": 0.370316,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 195,
+        "compared_with": "target_rms",
+        "delta": 0.624781,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 196,
+        "compared_with": "target_rms",
+        "delta": 0.133524,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 197,
+        "compared_with": "target_rms",
+        "delta": 0.576858,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 198,
+        "compared_with": "target_rms",
+        "delta": 0.796829,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 200,
+        "compared_with": "target_rms",
+        "delta": 1.288846,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 201,
+        "compared_with": "target_rms",
+        "delta": 0.904867,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 202,
+        "compared_with": "target_rms",
+        "delta": 0.361613,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 203,
+        "compared_with": "target_rms",
+        "delta": 0.908037,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 204,
+        "compared_with": "target_rms",
+        "delta": 0.100208,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 205,
+        "compared_with": "target_rms",
+        "delta": 0.386938,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 207,
+        "compared_with": "target_rms",
+        "delta": 0.368212,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 208,
+        "compared_with": "target_rms",
+        "delta": 0.745051,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 209,
+        "compared_with": "target_rms",
+        "delta": 0.544878,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 210,
+        "compared_with": "target_rms",
+        "delta": 1.192519,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 211,
+        "compared_with": "target_rms",
+        "delta": 0.984898,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 212,
+        "compared_with": "target_rms",
+        "delta": 0.605357,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 214,
+        "compared_with": "target_rms",
+        "delta": 0.030859,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 215,
+        "compared_with": "target_rms",
+        "delta": 0.270053,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 216,
+        "compared_with": "target_rms",
+        "delta": 0.382734,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 217,
+        "compared_with": "target_rms",
+        "delta": 0.238149,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 218,
+        "compared_with": "target_rms",
+        "delta": 0.485988,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 219,
+        "compared_with": "target_rms",
+        "delta": 1.019709,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 221,
+        "compared_with": "target_rms",
+        "delta": 1.290191,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 222,
+        "compared_with": "target_rms",
+        "delta": 0.654914,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 223,
+        "compared_with": "target_rms",
+        "delta": 0.261628,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 224,
+        "compared_with": "target_rms",
+        "delta": 0.649528,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 225,
+        "compared_with": "target_rms",
+        "delta": 0.135575,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 226,
+        "compared_with": "target_rms",
+        "delta": 0.268367,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 228,
+        "compared_with": "target_rms",
+        "delta": 0.188593,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 229,
+        "compared_with": "target_rms",
+        "delta": 0.696252,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 230,
+        "compared_with": "target_rms",
+        "delta": 0.739221,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 231,
+        "compared_with": "target_rms",
+        "delta": 1.085582,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 232,
+        "compared_with": "target_rms",
+        "delta": 1.181947,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 233,
+        "compared_with": "target_rms",
+        "delta": 0.471084,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 235,
+        "compared_with": "target_rms",
+        "delta": 0.048444,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 236,
+        "compared_with": "target_rms",
+        "delta": 0.148308,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 237,
+        "compared_with": "target_rms",
+        "delta": 0.484081,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 238,
+        "compared_with": "target_rms",
+        "delta": 0.355486,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 239,
+        "compared_with": "target_rms",
+        "delta": 0.430777,
+        "interpretation": "strategy worse than direct target-RMS rule",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "envelope_agc"
+      },
+      {
+        "clip_index": 185,
+        "compared_with": "uncapped_target",
+        "delta": 14.907069,
+        "interpretation": "peak ceiling prevents exact RMS target on overloaded synthetic transient",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "target_rms"
+      },
+      {
+        "clip_index": 192,
+        "compared_with": "uncapped_target",
+        "delta": 18.675546,
+        "interpretation": "peak ceiling prevents exact RMS target on overloaded synthetic transient",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "target_rms"
+      },
+      {
+        "clip_index": 199,
+        "compared_with": "uncapped_target",
+        "delta": 15.368141,
+        "interpretation": "peak ceiling prevents exact RMS target on overloaded synthetic transient",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "target_rms"
+      },
+      {
+        "clip_index": 206,
+        "compared_with": "uncapped_target",
+        "delta": 18.740774,
+        "interpretation": "peak ceiling prevents exact RMS target on overloaded synthetic transient",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "target_rms"
+      },
+      {
+        "clip_index": 213,
+        "compared_with": "uncapped_target",
+        "delta": 15.875505,
+        "interpretation": "peak ceiling prevents exact RMS target on overloaded synthetic transient",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "target_rms"
+      },
+      {
+        "clip_index": 220,
+        "compared_with": "uncapped_target",
+        "delta": 18.799244,
+        "interpretation": "peak ceiling prevents exact RMS target on overloaded synthetic transient",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "target_rms"
+      },
+      {
+        "clip_index": 227,
+        "compared_with": "uncapped_target",
+        "delta": 16.192396,
+        "interpretation": "peak ceiling prevents exact RMS target on overloaded synthetic transient",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "target_rms"
+      },
+      {
+        "clip_index": 234,
+        "compared_with": "uncapped_target",
+        "delta": 18.841516,
+        "interpretation": "peak ceiling prevents exact RMS target on overloaded synthetic transient",
+        "metric": "held_out_abs_rms_error_db",
+        "strategy": "target_rms"
+      }
+    ]
+  },
+  "no_missing_result_qualifies_candidate": true,
+  "profile": "DSP",
+  "qualification_status": "not_qualified",
+  "ridge_fit": {
+    "feature": "log10(measured clip RMS)",
+    "intercept": -1.681723,
+    "label": "log10(applied static gain from direct rule with peak ceiling)",
+    "lambda": 1e-06,
+    "mean_x": -2.081989,
+    "mean_y": 0.770429,
+    "slope": -1.177793,
+    "train_feature_digest": "5d0f14d8fb98dcd0ed30250527fc55538d9cd77b9e58b99ce34bfe52c3ef455e",
+    "train_items": 180,
+    "train_label_digest": "a1400bfefd5c6ac7dbdad1e4f39944b244081b929277110b822e85f79d23aff5"
+  },
+  "schema_id": "audio-sdk/task-evidence/ridge-static-gain/report/0.1",
+  "scope": "optional task-local synthetic static-gain reference; not a release, default or real-audio qualification",
+  "source_pins": [
+    {
+      "path": "research/level_tone_control_20261028.md",
+      "root": "source",
+      "sha256": "b9178c7c486bec81222919977f8111d4e5c5508ee31d8dbd44c6600e51e25c44",
+      "summary": "CLN-09/CLN-10 source: static RMS target gain, ridge gain estimate and envelope AGC; source-reported held-out 0.000/3.825/4.414 dB are context only."
+    },
+    {
+      "path": "audio-benchmark-platform/audio-sdk/CONTRACTS.md",
+      "root": "source",
+      "sha256": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+      "summary": "Fixed v0 geometry, 160-sample process contract, D=0 source mapping and final-padding rules."
+    },
+    {
+      "path": "audio-benchmark-platform/plan/swarm/VERIFICATION.md",
+      "root": "source",
+      "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+      "summary": "DSP acceptance profile: sweeps, steps, impulse, silence, control, gain, headroom, delay, numerical and state evidence."
+    },
+    {
+      "path": "api/include/audio_sdk/provider_v0.h",
+      "root": "worktree",
+      "sha256": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+      "summary": "Public provider ABI boundary mirrored by this Python model."
+    },
+    {
+      "path": "api/include/audio_sdk/session_v0.h",
+      "root": "worktree",
+      "sha256": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+      "summary": "Public session facade boundary: process, drain, reset, epoch and close semantics."
+    },
+    {
+      "path": "REUSE.toml",
+      "root": "worktree",
+      "sha256": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+      "summary": "Aggregate docs/** Apache-2.0 annotation covering this task-local directory."
+    }
+  ],
+  "split": {
+    "clip_samples": 16000,
+    "held_out_clips": 60,
+    "held_out_indices": [
+      180,
+      239
+    ],
+    "kind": "deterministic_synthetic_clip_split",
+    "no_shuffling": true,
+    "overlap": 0,
+    "perturbation_db_range": [
+      -36.0,
+      -12.0
+    ],
+    "seed": 20261028,
+    "train_clips": 180,
+    "train_indices": [
+      0,
+      179
+    ],
+    "transient_overload_rule": "clip index % 7 == 3, frozen 1.1-amplitude transient"
+  },
+  "state": {
+    "envelope_state_changes_within_stream": true,
+    "final_padding_bits_zero": true,
+    "no_hidden_queue": true,
+    "reset_accepted": true,
+    "reset_bit_identical_to_fresh_epoch2": true,
+    "separate_sessions_uncoupled": true,
+    "stale_epoch_after_reset_rejected": true,
+    "static_gain_invariant_across_frames": true
+  },
+  "strategy_settings": {
+    "envelope_attack_frames": 2,
+    "envelope_release_frames": 8,
+    "gain_cap_policy": "min(direct_gain, ceiling/input_peak, max_gain); no hard clipping",
+    "max_gain": 64.0,
+    "peak_ceiling": 0.85,
+    "ridge_lambda": 1e-06,
+    "target_rms_db": -24.0,
+    "target_rms_linear": 0.06309573444801933
+  }
+}
