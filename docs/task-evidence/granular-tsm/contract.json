@@ -1,0 +1,163 @@
+{
+  "schema_id": "audio-sdk/granular-tsm-evidence/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-GRANULAR-TSM",
+  "component": "granular-tsm",
+  "status": "optional-task-local-reference",
+  "verification_profile": "rate",
+  "profile_interpretation": "Rate profile applied to deterministic synthetic fixtures only; no target-device pacing, listening, real-speech preservation or release claim",
+  "base_commit": "97a2299d42517b9d50dcb1251dd5e313c866699e",
+  "branch": "swarm/SDK-GRANULAR-TSM",
+  "write_scope": "docs/task-evidence/granular-tsm/",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "public_boundary": {
+    "provider_header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "provider_table_operations": ["create", "process", "reset", "drain", "destroy"],
+    "registration": "explicit caller-side as_register_provider_v0 only; no installed registry entry",
+    "registration_gate": "AS_ENABLE_GRANULAR_TSM, default OFF in the task-local consumer CMake project",
+    "installed_v0_unchanged": true,
+    "public_surface_changed": false
+  },
+  "provider": {
+    "provider_id": "rate.granular-tsm-reference.v0",
+    "implementation_id": "rate.granular_tsm.reference",
+    "implementation_version": "0.1.0-reference",
+    "execution_modes": [2],
+    "required_assets": [],
+    "buffering_delay_samples": 0,
+    "native_hop_samples": 160,
+    "max_drain_calls": 16,
+    "descriptor_settings": {
+      "density": 2,
+      "grain_samples": 512,
+      "overlap_samples": 384
+    },
+    "unregistered_by_default": true
+  },
+  "reference": {
+    "candidates": ["granular_ola_density_2"],
+    "grain_samples": 512,
+    "overlap_samples": 384,
+    "overlap_ratio": 0.75,
+    "density": 2,
+    "analysis_hop_samples": 128,
+    "synth_hop_samples": 64,
+    "grid_grain_samples": [256, 512],
+    "grid_overlap_ratios": [0.5, 0.75, 0.875],
+    "grid_densities": [1, 2],
+    "window": "Hann with overlap-add denominator normalization",
+    "phase_denominator": 1000000,
+    "rate_min": 0.75,
+    "rate_max": 1.50,
+    "max_rate_step_per_grain": 0.006,
+    "dynamic_schedule": [[0, 1.0], [3600, 1.25], [7200, 1.0], [10000, 1.5]],
+    "fixed_schedule": [[0, 1.25]],
+    "drift_schedule": [[0, 1.0], [3200, 1.05], [6400, 0.95], [9600, 1.0]],
+    "controls": ["identity_1x_control", "fixed_rate_density1_baseline", "granular_density1_control", "varispeed_control", "unsmoothed_rate_step_adverse"],
+    "stimuli": ["silence", "speech_like", "tonal", "music_like", "c_vector"],
+    "deterministic_synthetic_only": true,
+    "model_weights": false,
+    "downloads": false,
+    "real_speech": false,
+    "music_recording": false,
+    "device_or_timing_claim": false,
+    "release_claim": false
+  },
+  "source_pins": {
+    "audio-benchmark-platform/audio-sdk/CONTRACTS.md": {
+      "actual": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+      "sha256": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+      "verified": true
+    },
+    "audio-benchmark-platform/audio-sdk/README.md": {
+      "actual": "9047036096a967bed5cd59e7d3b939258d327578b2079445da1b683b52a8fdb9",
+      "sha256": "9047036096a967bed5cd59e7d3b939258d327578b2079445da1b683b52a8fdb9",
+      "verified": true
+    },
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": {
+      "actual": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+      "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+      "verified": true
+    },
+    "cpp-library/pipeline-validation/playback-speed-candidates.md": {
+      "actual": "661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3",
+      "sha256": "661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3",
+      "verified": true
+    }
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": {
+      "actual": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+      "sha256": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+      "verified": true
+    },
+    "api/include/audio_sdk/session_v0.h": {
+      "actual": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+      "sha256": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+      "verified": true
+    }
+  },
+  "board_snapshot": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "b0901b9e1d26a484577181d949d94d6ec6288c82f6c508e5fba030127e5fc1e1",
+    "mutable": true
+  },
+  "artifact_pins": {
+    "README.md": "d97f06911fd90667288fe571c7a3f4210ece629f7e839c1d41200ceec48ec0a0",
+    "contract.json": null,
+    "reference.py": "dc20abb215d17e14b56d593a5a6954425bf8015819b65e62d4a9596fdd09cb65",
+    "run.py": "72a1a09b0afb1429e0a5bed9c77f5932ce7b6ff2b3ee29fd2bbcb75311643841",
+    "test_reference.py": "68934b64941944d83a813d7730e49ebcd2bd8fb7565984a8ca33301f0578baac",
+    "report.json": "3aefe97a4d6f7ba28ca5ab7111e0e3b83f623afd382bc50ece0f36868e881138",
+    "report.json.sha256": "ef23ba904f6c791708ee3341edbf5010f1c7cff13281c4c1847bec0065f163d1",
+    "provider/CMakeLists.txt": "2c272ab91723a8818da32bd24b855b36456338b7827b616e9466d9d9fc2097da",
+    "provider/granular_tsm_provider.c": "a6c111b31beb73e2ec7dbc00d8d350f28318d736935f0351869855ee6883e906",
+    "provider/expected_vectors.h": "290273860450fc6e71d60652972c72b229648144072e52ea6f39c3cc55e4f238",
+    "provider/config/config.json": "99f0a09c669ad689b21995c4c82d61b7dc86d7ab893c69a1e97952b410de35c3",
+    "provider/config/descriptor.h.in": "ff982868ec04fb90e16d597fa9b6dc43534c480278eebfd0fb94829810405bb6",
+    "provider/tests/test_provider.c": "ffa1791f00df12a7fecb0c10c05e7cac2147b9a4489e2cc422bc64d73d007562"
+  },
+  "canonical_report": {
+    "format": "canonical JSON: sort_keys=True, compact separators, allow_nan=False, one trailing newline",
+    "file_sha256": "3aefe97a4d6f7ba28ca5ab7111e0e3b83f623afd382bc50ece0f36868e881138",
+    "canonical_digest": "9deec12b5c317c79a3dae8659b0c21be01f850a89670790134a141c180ff4055",
+    "content_digest": "b46b464caa4dcea221996aae155c87e433642f19e9bf7cc10278d6d8f65a8c9c",
+    "provider_source_digest": "a6c111b31beb73e2ec7dbc00d8d350f28318d736935f0351869855ee6883e906",
+    "byte_identical_regeneration_asserted": true
+  },
+  "qualification": {
+    "status": "synthetic-fixture-only",
+    "candidate_status": "synthetic-reference-only",
+    "boundary_status": "conditional-blocked",
+    "all_required_results_present": true,
+    "missing_result_promoted": false,
+    "python_tests": 39,
+    "sdk_baseline_ctest": 11,
+    "consumer_off_ctest": 1,
+    "consumer_on_ctest": 1
+  },
+  "invariants": [
+    "Installed v0 stays 16 kHz, mono f32, 160-sample frames; no public API, ABI, descriptor registry, default, shared CMakeLists.txt, installed behavior or main branch was changed.",
+    "Whole-clip and streaming granular fixtures are task-local only and are not an installed playback actuator.",
+    "The C provider is task-local, unregistered and compiled only when the caller opts in with AS_ENABLE_GRANULAR_TSM=ON.",
+    "Identity, fixed-rate density-1, density-1 dynamic, varispeed and unsmoothed rate-step adverse controls are recorded separately and never promote a candidate.",
+    "Grain size, overlap, density, rate updates with bounded slew, source/output duration mapping, pitch proxy, synthetic transient proxy, reset replay, final partial windows and finite/peak checks are recorded.",
+    "All stimuli are deterministic synthetic or analytic surrogates pinned by SHA-256; byte-identical regeneration is asserted.",
+    "No target-device pacing, playback buffering measurement, fill/flush, CPU/deadline telemetry, listening, real speech, music recording, model weights, downloads or release qualification is claimed."
+  ],
+  "release_gates": [
+    "A versioned variable-frame playback actuator or caller-owned TSM FIFO with explicit source/output timestamps outside v0 for r<1 device-time expansion",
+    "Paced target-device workload with buffer occupancy, fill/flush, deadline misses, CPU, memory and availability telemetry",
+    "Rights-qualified real-speech and music cohorts with matched controls and authorized listening/intelligibility scoring",
+    "Rights-cleared exact granular source or caller-supplied runtime with pinned build and matched reference evidence",
+    "Explicit provider intake, rights/license review, versioned public surface decision and independent review before any promotion"
+  ]
+}
