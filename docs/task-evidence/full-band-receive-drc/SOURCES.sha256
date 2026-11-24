@@ -1,0 +1,19 @@
+# SHA-256 pins for SDK-FULL-BAND-RECEIVE-DRC-CONTROL; source: paths are workspace-relative, others SDK-worktree-relative.
+# board snapshot (mutable, provenance only): 934ea753acc6788300a96d413d34fae13f3a32e968f1e397b80edaf940266e21 audio-benchmark-platform/plan/swarm/TASKS.json
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+f29de5cdb58676b6f61ac8489ff5af44a88b2125c2022920436a6f064405992a  source:research/listening_intelligibility_20261028.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+16caec5cecb021b193505d6017dce9e73368c5db9d2a18de3c3822362189d167  docs/task-evidence/full-band-receive-drc/README.md
+c92db89334b1d80f1e388ec10bbe83958e27d98c5c9b8b030077f46f72e58dda  docs/task-evidence/full-band-receive-drc/adapter.json
+27847faf8d5bb79f788fd9c7d0ee28d2bac293e3f448b54e18a1306cc30ab398  docs/task-evidence/full-band-receive-drc/check_licensing.py
+caba2a2ca8667b12023cd71ee37f16c0d606f4e03539a8779f8a678b9ade7c3a  docs/task-evidence/full-band-receive-drc/contract.json
+af0364dcbc338cf51eafa1c470a6d0d47f0487b74a04de98379cba48afee3ace  docs/task-evidence/full-band-receive-drc/fixture.py
+0db24b94129a57580d9abddb94de88cf24dad29487b07b02393802c9f60a00f4  docs/task-evidence/full-band-receive-drc/provider.json
+718ec527269999cd277c0e121e53439332deba64e64704ef8866552a47e9da9f  docs/task-evidence/full-band-receive-drc/reference.py
+9a685e1868e8290aa99131d810aa919df5c64712f3eebba40ab754788624d3f9  docs/task-evidence/full-band-receive-drc/report.json
+0a8f67cd0d8727462bff08efd5696873073f64d9a1c47ef03150867b8e6e949b  docs/task-evidence/full-band-receive-drc/report.json.sha256
+53335ea80495501dd447cacf50ac50739e95127e42c65445d6e67235ca638097  docs/task-evidence/full-band-receive-drc/run.py
+cbd7e19eae22a7573720626accea499fc15a1c38c13286661e6a5c1a90bfbd21  docs/task-evidence/full-band-receive-drc/scorer.py
+9a4ef0eeca60ccb8983aabfabac64c68a6f47f8dbadf9378d3a82d38520603c6  docs/task-evidence/full-band-receive-drc/test_reference.py
+4042708a162432e12a9dd31207e0f675ccf90b35d4d0e41ec8b595c01d3c3f30  docs/task-evidence/full-band-receive-drc/verify.py

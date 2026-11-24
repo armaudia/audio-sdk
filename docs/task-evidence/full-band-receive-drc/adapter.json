@@ -1,0 +1,28 @@
+{
+  "adapter_id": "full-band-receive-drc-reference-v1",
+  "protocol_version": 1,
+  "kind": "task_local_waveform_adapter",
+  "bound_to_public_v0_grid": true,
+  "real_time_v0_provider": false,
+  "registered": false,
+  "default_enabled": false,
+  "opt_in_required": true,
+  "descriptor_settings": {},
+  "operations": ["inspect", "run"],
+  "controls": ["identity", "compressor_only", "limiter_only", "drc"],
+  "stimuli": ["clean_speech", "synthetic_masker", "near_clip_speech", "preclipped_speech", "impulse", "silence", "step", "causal_probe", "sweep_1k"],
+  "levels_dbfs_rms": [-30.0, -18.0, -12.0, -6.0, 0.0],
+  "tmrs_db": [-5.0, 0.0, 5.0],
+  "request_fields": {
+    "inspect": ["protocol_version", "operation", "candidate_ref", "adapter_ref", "configuration"],
+    "run": ["protocol_version", "operation", "candidate_ref", "adapter_ref", "configuration", "attempt_id", "stimulus_id", "samples"]
+  },
+  "configuration_fields": ["control", "provider_enabled", "level_dbfs", "tmr_db"],
+  "identity_when_disabled": true,
+  "content_delay_samples": 0,
+  "public_c_boundary": "not used; installed v0 provider path is unchanged",
+  "licensing": {
+    "spdx_license_identifier": "Apache-2.0",
+    "spdx_file_copyright_text": "2026 Tsakanyan Hovhannes"
+  }
+}
