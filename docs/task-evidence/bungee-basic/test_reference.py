@@ -5,6 +5,7 @@
 import hashlib
 import subprocess
 import sys
+import tempfile
 import unittest
 from fractions import Fraction
 from itertools import pairwise
@@ -69,3 +70,15 @@ class RateTests(unittest.TestCase):
             self.assertEqual(subprocess.check_output(command, cwd=HERE), expected)
         self.assertEqual((HERE / "report.json.sha256").read_text(),
                          hashlib.sha256(expected).hexdigest() + "  report.json\n")
+
+    def test_runner_writes_report_and_sidecar_to_requested_path(self):
+        tracked = [HERE / "report.json", HERE / "report.json.sha256"]
+        before = [(path.read_bytes(), path.stat().st_mtime_ns) for path in tracked]
+        with tempfile.TemporaryDirectory() as scratch:
+            output = Path(scratch) / "report.json"
+            subprocess.run([sys.executable, "-B", str(HERE / "run.py"), str(output)],
+                           cwd=HERE, capture_output=True, check=True)
+            self.assertEqual(output.read_bytes(), before[0][0])
+            self.assertEqual(output.with_suffix(".json.sha256").read_bytes(), before[1][0])
+        self.assertEqual([(path.read_bytes(), path.stat().st_mtime_ns)
+                          for path in tracked], before)

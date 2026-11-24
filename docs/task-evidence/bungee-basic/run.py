@@ -14,13 +14,15 @@ import reference  # noqa: E402
 
 
 def main(argv: list[str]) -> int:
-    if len(argv) != 2 or argv[1] != "report.json":
-        print("usage: run.py report.json", file=sys.stderr)
+    if len(argv) != 2:
+        print("usage: run.py OUTPUT_REPORT", file=sys.stderr)
         return 2
+    output = Path(argv[1])
     payload = reference.canonical_report_bytes(reference.build_report())
-    (HERE / "report.json").write_bytes(payload)
+    output.write_bytes(payload)
     digest = hashlib.sha256(payload).hexdigest()
-    (HERE / "report.json.sha256").write_text(f"{digest}  report.json\n", encoding="utf-8")
+    output.with_name(output.name + ".sha256").write_text(
+        f"{digest}  {output.name}\n", encoding="utf-8")
     print(f"report_sha256={digest} bytes={len(payload)}")
     return 0
 

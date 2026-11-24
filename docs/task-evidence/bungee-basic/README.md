@@ -24,13 +24,16 @@ invoked; the control is not a substitute or a parity oracle.
 From this directory, with Python 3.12.16:
 
 ```sh
-python3.12 -B run.py report.json
+scratch=$(mktemp -d)
+python3.12 -B run.py "$scratch/report.json"
+cmp "$scratch/report.json" report.json
+cmp "$scratch/report.json.sha256" report.json.sha256
 python3.12 -B -m unittest -v test_reference.py
 python3.12 -B verify.py
 ```
 
 `reference.py` builds the mapping and observations; `run.py` writes the
-canonical report and sidecar; `test_reference.py` checks six behaviors,
+canonical report and sidecar at the requested path; `test_reference.py` runs seven tests,
 including three independent cold starts; `verify.py` verifies the pins,
 licensing, scope and report reproduction. `report.json.sha256` records the
 digest of the exact report bytes.
