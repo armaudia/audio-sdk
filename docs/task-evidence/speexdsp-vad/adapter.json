@@ -1,0 +1,26 @@
+{
+  "protocol_version": 1,
+  "identity": "speexdsp-vad-7a158783df74efe7c2d1c6ee8363c1e695c71226",
+  "input_kind": "waveform",
+  "output_kinds": [
+    "annotation"
+  ],
+  "tasks": [
+    "DET-01"
+  ],
+  "modes": [
+    "offline",
+    "streaming"
+  ],
+  "entrypoint": [
+    "python",
+    "adapters/speexdsp-vad/run.py"
+  ],
+  "configuration": {
+    "frame_samples": 320,
+    "sample_rate": 16000,
+    "probability_start": 0.35,
+    "probability_continue": 0.2
+  },
+  "weights": "none"
+}
