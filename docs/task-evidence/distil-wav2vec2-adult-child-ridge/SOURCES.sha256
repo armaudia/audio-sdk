@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  worktree:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  worktree:api/include/audio_sdk/session_v0.h
+c29a11ad0c5968e935f916cbb95144e79ceae7de34c543539bd66076d64c66de  docs/task-evidence/distil-wav2vec2-adult-child-ridge/reference.py
+0dc47a8078abfb9cda3a7ae4c91dc5660428ab4dcacb4676dd176625864a9bad  docs/task-evidence/distil-wav2vec2-adult-child-ridge/run.py
+5ccf9748b40e4b67fa8ce68e64bf8650470fd5efc229679ec316f448e7ddba91  docs/task-evidence/distil-wav2vec2-adult-child-ridge/test_reference.py
+682f17526f8c455e7c17f759c8c4cf201fdb0909bfc93e15edefa254b92b3686  docs/task-evidence/distil-wav2vec2-adult-child-ridge/verify.py
+cc2a35db9a02866a7220d56cc4b6ee3ef3499fc331373a5e2fd9dac68d2b7165  docs/task-evidence/distil-wav2vec2-adult-child-ridge/README.md
+f487af68e8d1d6aea7c8ed0e6a61257d3b48048618bc830a9a8d1b8216af9879  docs/task-evidence/distil-wav2vec2-adult-child-ridge/adapter.json
+ea885b93715fb92c794075c9767c26bac5fa0976824d43a2b19550197376c844  docs/task-evidence/distil-wav2vec2-adult-child-ridge/report.json
+58810d29f143afeafda0ead99f09de9608ba9fcf2b9ee86c99df8bc2ebb7f517  docs/task-evidence/distil-wav2vec2-adult-child-ridge/report.json.sha256

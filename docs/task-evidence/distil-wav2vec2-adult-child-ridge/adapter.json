@@ -1,0 +1,22 @@
+{
+  "schema_id": "audio-sdk/task-evidence/distil-wav2vec2-adult-child-ridge/adapter/0.1",
+  "task_local_id": "analysis.distil-wav2vec2-adult-child-ridge-ref.v0",
+  "requested_model_id": "bookbot/distil-wav2vec2-adult-child-cls-37m",
+  "protocol_version": 1,
+  "identity": "distil-wav2vec2-adult-child-ridge.synthetic.v0",
+  "proposed_output_kinds": [
+    "adult_child_probability",
+    "adult_child_label"
+  ],
+  "input_kind": "waveform",
+  "sample_rate_hz": 16000,
+  "channels": 1,
+  "frame_samples": 160,
+  "registered": false,
+  "enabled_by_default": false,
+  "descriptor_settings": {},
+  "public_api_abi_change": false,
+  "weights_downloaded": false,
+  "real_audio_used": false,
+  "note": "Task-local proposal-only analysis boundary. No model weights downloaded/executed; no provider/default/public surface changed."
+}
