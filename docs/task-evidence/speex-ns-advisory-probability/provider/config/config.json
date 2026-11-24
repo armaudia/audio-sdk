@@ -1,0 +1,1 @@
+{"provider_id":"analysis.speex-ns-advisory-reference.v0","schema_id":"audio-sdk/provider-config/0.1","settings":{"probability_units":"milli","threshold_milli":500,"window_samples":320,"noise_floor":2000000,"probability_span":8000000},"units":{"available":"monotonic_ns","source":"samples"}}

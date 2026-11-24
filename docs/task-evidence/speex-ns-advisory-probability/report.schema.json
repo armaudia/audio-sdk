@@ -1,0 +1,615 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "audio-sdk/speex-ns-advisory-probability-evidence/0.1",
+  "title": "Speex NS advisory probability synthetic evidence report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "task",
+    "component",
+    "base_commit",
+    "branch",
+    "status",
+    "profile",
+    "scope",
+    "provider",
+    "public_boundary",
+    "source_pins",
+    "boundary_pins",
+    "stimuli",
+    "conditions",
+    "analysis",
+    "controls",
+    "all_controls_pass",
+    "state",
+    "all_state_pass",
+    "all_source_pins_verified",
+    "all_boundary_pins_verified",
+    "all_repeats_byte_identical",
+    "acceptance_profile",
+    "c_boundary_expected",
+    "qualification",
+    "historical_source_reported",
+    "release_gates",
+    "non_claims"
+  ],
+  "properties": {
+    "schema_id": { "const": "audio-sdk/speex-ns-advisory-probability-evidence/0.1" },
+    "task": { "const": "SDK-SPEEX-NS-ADVISORY-PROBABILITY" },
+    "component": { "const": "speex-ns-advisory-probability" },
+    "base_commit": { "const": "941cabfc39f7e33f01881b6e50e3a1e49e7eb9ce" },
+    "branch": { "const": "swarm/SDK-SPEEX-NS-ADVISORY-PROBABILITY" },
+    "status": { "const": "synthetic-fixture-only" },
+    "profile": { "const": "Analysis" },
+    "scope": { "$ref": "#/$defs/scope" },
+    "provider": { "$ref": "#/$defs/provider" },
+    "public_boundary": { "$ref": "#/$defs/publicBoundary" },
+    "source_pins": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "type": "string", "minLength": 1 },
+      "additionalProperties": { "$ref": "#/$defs/sourcePin" }
+    },
+    "boundary_pins": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "type": "string", "minLength": 1 },
+      "additionalProperties": { "$ref": "#/$defs/boundaryPin" }
+    },
+    "stimuli": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary", "silence", "impulse", "loud_noise_only"],
+      "properties": {
+        "primary": { "$ref": "#/$defs/stimulus" },
+        "silence": { "$ref": "#/$defs/stimulus" },
+        "impulse": { "$ref": "#/$defs/stimulus" },
+        "loud_noise_only": { "$ref": "#/$defs/stimulus" }
+      }
+    },
+    "conditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary", "silence", "impulse", "loud_noise_only"],
+      "properties": {
+        "primary": { "$ref": "#/$defs/condition" },
+        "silence": { "$ref": "#/$defs/condition" },
+        "impulse": { "$ref": "#/$defs/condition" },
+        "loud_noise_only": { "$ref": "#/$defs/condition" }
+      }
+    },
+    "analysis": { "$ref": "#/$defs/analysis" },
+    "controls": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "type": "string", "minLength": 1 },
+      "additionalProperties": { "$ref": "#/$defs/control" }
+    },
+    "all_controls_pass": { "const": true },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "separate_instances_uncoupled",
+        "different_stimuli_differ",
+        "reset_bit_identical",
+        "fresh_epoch2_bit_identical_to_reset",
+        "invalid_frame_state_unchanged"
+      ],
+      "properties": {
+        "separate_instances_uncoupled": { "const": true },
+        "different_stimuli_differ": { "const": true },
+        "reset_bit_identical": { "const": true },
+        "fresh_epoch2_bit_identical_to_reset": { "const": true },
+        "invalid_frame_state_unchanged": { "const": true }
+      }
+    },
+    "all_state_pass": { "const": true },
+    "all_source_pins_verified": { "const": true },
+    "all_boundary_pins_verified": { "const": true },
+    "all_repeats_byte_identical": { "const": true },
+    "acceptance_profile": { "$ref": "#/$defs/acceptanceProfile" },
+    "c_boundary_expected": { "$ref": "#/$defs/cBoundary" },
+    "qualification": { "$ref": "#/$defs/qualification" },
+    "historical_source_reported": { "$ref": "#/$defs/historical" },
+    "release_gates": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "non_claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture_only",
+        "synthetic_only",
+        "real_speech",
+        "device_timing",
+        "listening_or_quality",
+        "release_qualification",
+        "public_benchmark",
+        "tiny16_comparison",
+        "advisory_probability_is_control_signal",
+        "held_out_validation_of_combined_settings",
+        "installed_v0_or_shared_code_changed",
+        "public_api_abi_descriptor_default_changed"
+      ],
+      "properties": {
+        "fixture_only": { "const": true },
+        "synthetic_only": { "const": true },
+        "real_speech": { "const": false },
+        "device_timing": { "const": false },
+        "listening_or_quality": { "const": false },
+        "release_qualification": { "const": false },
+        "public_benchmark": { "const": false },
+        "tiny16_comparison": { "const": false },
+        "advisory_probability_is_control_signal": { "const": false },
+        "held_out_validation_of_combined_settings": { "const": false },
+        "installed_v0_or_shared_code_changed": { "const": false },
+        "public_api_abi_descriptor_default_changed": { "const": false }
+      }
+    },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_id",
+        "implementation_id",
+        "implementation_version",
+        "contract_version",
+        "opt_in_only",
+        "default_enabled",
+        "unregistered_by_default",
+        "audio_path",
+        "probability_path",
+        "registration_gate",
+        "sample_rate_hz",
+        "channels",
+        "sample_format",
+        "frame_samples",
+        "execution_modes",
+        "buffering_delay_samples",
+        "required_assets",
+        "config_digest",
+        "source_digest"
+      ],
+      "properties": {
+        "provider_id": { "const": "analysis.speex-ns-advisory-reference.v0" },
+        "implementation_id": { "const": "analysis.speex-ns-advisory.reference" },
+        "implementation_version": { "const": "0.1.0-reference" },
+        "contract_version": { "const": "0.1" },
+        "opt_in_only": { "const": true },
+        "default_enabled": { "const": false },
+        "unregistered_by_default": { "const": true },
+        "audio_path": { "type": "string", "minLength": 1 },
+        "probability_path": { "type": "string", "minLength": 1 },
+        "registration_gate": { "const": "AS_ENABLE_SPEEX_NS_ADVISORY_PROBABILITY, default OFF" },
+        "sample_rate_hz": { "const": 16000 },
+        "channels": { "const": 1 },
+        "sample_format": { "const": "f32" },
+        "frame_samples": { "const": 160 },
+        "execution_modes": { "const": [2] },
+        "buffering_delay_samples": { "const": 0 },
+        "required_assets": { "const": [] },
+        "config_digest": { "$ref": "#/$defs/digest" },
+        "source_digest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "publicBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "abi_major",
+        "abi_minor",
+        "installed_v0_unchanged",
+        "public_surface_changed",
+        "provider_header",
+        "session_header",
+        "registration",
+        "analysis_side_channel",
+        "provider_table_operations"
+      ],
+      "properties": {
+        "abi_major": { "const": 0 },
+        "abi_minor": { "const": 1 },
+        "installed_v0_unchanged": { "const": true },
+        "public_surface_changed": { "const": false },
+        "provider_header": { "const": "api/include/audio_sdk/provider_v0.h" },
+        "session_header": { "const": "api/include/audio_sdk/session_v0.h" },
+        "registration": { "type": "string", "minLength": 1 },
+        "analysis_side_channel": { "type": "string", "minLength": 1 },
+        "provider_table_operations": { "const": ["create", "process", "reset", "drain", "destroy"] }
+      }
+    },
+    "sourcePin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256", "actual", "verified", "use"],
+      "properties": {
+        "sha256": { "$ref": "#/$defs/digest" },
+        "actual": { "$ref": "#/$defs/digest" },
+        "verified": { "const": true },
+        "use": { "type": "string", "minLength": 1 }
+      }
+    },
+    "boundaryPin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256", "actual", "verified"],
+      "properties": {
+        "sha256": { "$ref": "#/$defs/digest" },
+        "actual": { "$ref": "#/$defs/digest" },
+        "verified": { "const": true }
+      }
+    },
+    "stimulus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["samples", "generation", "peak_q15", "digest"],
+      "properties": {
+        "samples": { "const": 16000 },
+        "generation": { "type": "string", "minLength": 1 },
+        "peak_q15": { "type": "integer", "minimum": 0, "maximum": 20000 },
+        "digest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "repeat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pcm_bytes",
+        "pcm_digest",
+        "event_hop0_digest",
+        "event_hop1_digest",
+        "event_hop0_binary_digest",
+        "event_hop1_binary_digest",
+        "event_count"
+      ],
+      "properties": {
+        "pcm_bytes": { "const": 64000 },
+        "pcm_digest": { "$ref": "#/$defs/digest" },
+        "event_hop0_digest": { "$ref": "#/$defs/digest" },
+        "event_hop1_digest": { "$ref": "#/$defs/digest" },
+        "event_hop0_binary_digest": { "$ref": "#/$defs/digest" },
+        "event_hop1_binary_digest": { "$ref": "#/$defs/digest" },
+        "event_count": { "type": "integer", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repeats",
+        "byte_identical_repeats",
+        "pcm_bytes",
+        "pcm_digest",
+        "event_hop0_digest",
+        "event_hop1_digest",
+        "event_hop0_binary_digest",
+        "event_hop1_binary_digest",
+        "event_count"
+      ],
+      "properties": {
+        "repeats": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/repeat" }
+        },
+        "byte_identical_repeats": { "const": true },
+        "pcm_bytes": { "const": 64000 },
+        "pcm_digest": { "$ref": "#/$defs/digest" },
+        "event_hop0_digest": { "$ref": "#/$defs/digest" },
+        "event_hop1_digest": { "$ref": "#/$defs/digest" },
+        "event_hop0_binary_digest": { "$ref": "#/$defs/digest" },
+        "event_hop1_binary_digest": { "$ref": "#/$defs/digest" },
+        "event_count": { "type": "integer", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "window_samples",
+        "producers",
+        "probability_units",
+        "threshold_milli",
+        "source_intervals",
+        "availability",
+        "confusion_samples",
+        "speech_miss_rate",
+        "false_alarm_rate",
+        "strata",
+        "cross_hop",
+        "validity_separate_from_nonspeech",
+        "event_stream"
+      ],
+      "properties": {
+        "window_samples": { "const": 320 },
+        "producers": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["tap_id", "hop", "basis"],
+            "properties": {
+              "tap_id": { "enum": ["pcm.in", "pcm.out"] },
+              "hop": { "enum": [0, 1] },
+              "basis": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "probability_units": { "type": "string", "minLength": 1 },
+        "threshold_milli": { "const": 500 },
+        "source_intervals": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["count", "exact_expected", "cover_stream_once", "gap_or_overlap_count"],
+          "properties": {
+            "count": { "const": 50 },
+            "exact_expected": { "const": true },
+            "cover_stream_once": { "const": true },
+            "gap_or_overlap_count": { "const": 0 }
+          }
+        },
+        "availability": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "clock_id",
+            "origin_monotonic_ns",
+            "ns_per_source_sample",
+            "monotonic",
+            "cross_hop_offset_samples"
+          ],
+          "properties": {
+            "clock_id": { "const": "fixture-monotonic-v0" },
+            "origin_monotonic_ns": { "const": 1000000000 },
+            "ns_per_source_sample": { "const": 62500 },
+            "monotonic": { "const": true },
+            "cross_hop_offset_samples": { "const": 160 }
+          }
+        },
+        "confusion_samples": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["TP", "FN", "FP", "TN"],
+          "properties": {
+            "TP": { "type": "integer", "minimum": 0 },
+            "FN": { "type": "integer", "minimum": 0 },
+            "FP": { "type": "integer", "minimum": 0 },
+            "TN": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "speech_miss_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "false_alarm_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "strata": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "quiet_idle_1",
+            "quiet_speech",
+            "active_speech",
+            "loud_idle_noise",
+            "quiet_idle_tail"
+          ],
+          "properties": {
+            "quiet_idle_1": { "$ref": "#/$defs/stratum" },
+            "quiet_speech": { "$ref": "#/$defs/stratum" },
+            "active_speech": { "$ref": "#/$defs/stratum" },
+            "loud_idle_noise": { "$ref": "#/$defs/stratum" },
+            "quiet_idle_tail": { "$ref": "#/$defs/stratum" }
+          }
+        },
+        "cross_hop": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "event_count_per_hop",
+            "source_intervals_and_values_match",
+            "pcm_unchanged_by_analysis"
+          ],
+          "properties": {
+            "event_count_per_hop": { "const": 50 },
+            "source_intervals_and_values_match": { "const": true },
+            "pcm_unchanged_by_analysis": { "const": true }
+          }
+        },
+        "validity_separate_from_nonspeech": { "const": true },
+        "event_stream": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["hop0_digest", "hop1_digest", "event_count"],
+          "properties": {
+            "hop0_digest": { "$ref": "#/$defs/digest" },
+            "hop1_digest": { "$ref": "#/$defs/digest" },
+            "event_count": { "const": 100 }
+          }
+        }
+      }
+    },
+    "stratum": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "samples",
+        "label",
+        "decision_samples",
+        "TP",
+        "FN",
+        "FP",
+        "TN",
+        "detected_interval",
+        "onset_delay_samples",
+        "offset_delay_samples"
+      ],
+      "properties": {
+        "samples": { "type": "integer", "minimum": 1 },
+        "label": { "enum": ["speech", "nonspeech"] },
+        "decision_samples": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["speech", "nonspeech"],
+          "properties": {
+            "speech": { "type": "integer", "minimum": 0 },
+            "nonspeech": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "TP": { "type": "integer", "minimum": 0 },
+        "FN": { "type": "integer", "minimum": 0 },
+        "FP": { "type": "integer", "minimum": 0 },
+        "TN": { "type": "integer", "minimum": 0 },
+        "detected_interval": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": { "type": "integer", "minimum": 0, "maximum": 16000 }
+            }
+          ]
+        },
+        "onset_delay_samples": { "type": ["integer", "null"] },
+        "offset_delay_samples": { "type": ["integer", "null"] }
+      }
+    },
+    "control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected", "status", "observed"],
+      "properties": {
+        "expected": { "type": "string", "minLength": 1 },
+        "status": { "const": "pass" },
+        "observed": { "type": "object" }
+      }
+    },
+    "acceptanceProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile",
+        "timestamped_probabilities",
+        "event_boundaries",
+        "quiet_and_active_speech",
+        "idle_noise",
+        "known_positives_and_negatives",
+        "onset_offset_delay",
+        "stratified_fn_fp",
+        "validity_separate_from_nonspeech",
+        "independent_state",
+        "exact_source_intervals",
+        "availability",
+        "dropped_stale_events",
+        "cross_hop_behavior"
+      ],
+      "properties": {
+        "profile": { "const": "Analysis" },
+        "timestamped_probabilities": { "const": true },
+        "event_boundaries": { "const": true },
+        "quiet_and_active_speech": { "const": true },
+        "idle_noise": { "const": true },
+        "known_positives_and_negatives": { "const": true },
+        "onset_offset_delay": { "const": true },
+        "stratified_fn_fp": { "const": true },
+        "validity_separate_from_nonspeech": { "const": true },
+        "independent_state": { "const": true },
+        "exact_source_intervals": { "const": true },
+        "availability": { "const": true },
+        "dropped_stale_events": { "const": true },
+        "cross_hop_behavior": { "const": true }
+      }
+    },
+    "cBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stimulus_length",
+        "frame_count",
+        "window_samples",
+        "event_count",
+        "event_hop0_digest",
+        "event_hop1_digest",
+        "event_hop0_binary_digest",
+        "event_hop1_binary_digest",
+        "pcm_byte_count",
+        "pcm_digest",
+        "invalid_count",
+        "final_valid_count",
+        "repeats",
+        "provider_source_digest",
+        "config_digest"
+      ],
+      "properties": {
+        "stimulus_length": { "const": 16000 },
+        "frame_count": { "const": 100 },
+        "window_samples": { "const": 320 },
+        "event_count": { "const": 100 },
+        "event_hop0_digest": { "$ref": "#/$defs/digest" },
+        "event_hop1_digest": { "$ref": "#/$defs/digest" },
+        "event_hop0_binary_digest": { "$ref": "#/$defs/digest" },
+        "event_hop1_binary_digest": { "$ref": "#/$defs/digest" },
+        "pcm_byte_count": { "const": 64000 },
+        "pcm_digest": { "$ref": "#/$defs/digest" },
+        "invalid_count": { "const": 0 },
+        "final_valid_count": { "const": 160 },
+        "repeats": { "const": 3 },
+        "provider_source_digest": { "$ref": "#/$defs/digest" },
+        "config_digest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "candidate_status",
+        "boundary_status",
+        "python_tests",
+        "sdk_baseline_ctest",
+        "consumer_off_ctest",
+        "consumer_on_ctest",
+        "missing_result_promoted",
+        "all_required_results_present"
+      ],
+      "properties": {
+        "status": { "const": "synthetic-fixture-only" },
+        "candidate_status": { "const": "synthetic-reference-only" },
+        "boundary_status": { "const": "opt-in-unregistered" },
+        "python_tests": { "const": 24 },
+        "sdk_baseline_ctest": { "const": 11 },
+        "consumer_off_ctest": { "const": 1 },
+        "consumer_on_ctest": { "const": 1 },
+        "missing_result_promoted": { "const": false },
+        "all_required_results_present": { "const": true }
+      }
+    },
+    "historical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "values",
+        "rerun_here",
+        "pooled_with_local_scores",
+        "oracle_for_this_task"
+      ],
+      "properties": {
+        "values": { "type": "string", "minLength": 1 },
+        "rerun_here": { "const": false },
+        "pooled_with_local_scores": { "const": false },
+        "oracle_for_this_task": { "const": false }
+      }
+    }
+  }
+}
