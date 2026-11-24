@@ -1,0 +1,32 @@
+{
+  "protocol_version": 1,
+  "identity": "speex-mdf-residual-postfilter-v1",
+  "input_kind": "paired_render_capture_f32",
+  "output_kinds": [
+    "canonical_report_json",
+    "synthetic_output_f32_in_caller_scratch"
+  ],
+  "tasks": [
+    "duplex-mdf-residual-postfilter-evidence"
+  ],
+  "modes": [
+    "causal_framewise",
+    "paired_render_reference"
+  ],
+  "configuration_keys": [
+    "variant",
+    "condition"
+  ],
+  "registration": "unregistered developer-only; no installed SDK provider",
+  "processor_exposure": "none",
+  "supported_formats": [
+    "mono 16 kHz float32, 160-sample frames"
+  ],
+  "provider_option": {
+    "cmake_option": "AS_ENABLE_SPEEX_MDF_RESIDUAL_POSTFILTER",
+    "default": "OFF",
+    "registered": false,
+    "installed_sdk_target": false
+  },
+  "qualification": "synthetic-only; not qualified for processor exposure or release"
+}
