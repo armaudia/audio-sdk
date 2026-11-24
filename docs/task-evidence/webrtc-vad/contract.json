@@ -1,0 +1,98 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "artifact_pins": {
+    "README.md": "1b3c5968c187b97bd67dcf2006581bd111d3cddc03911d5530d9e14325dfbc65",
+    "SOURCES.sha256.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
+    "adapter.json": "b51b1f03b103104d562708a31cfb1443fc5d4a67045647d98ecda95397466492",
+    "fixture.py": "b3aca27b38cbc033e9f43237800479b9ae15cb234da810494e61e64784944777",
+    "provider.json": "4366365e7327e424d2272b140702433c9d9d25acf389301c08ceeba1bc47f067",
+    "reference.py": "2d799ad3770af940be344117f938cd83e915ccd1aeb7eb674ba538fe926c8f67",
+    "report.json": "762086dffc6cfc504035c99648e66065157e852cc4fb4b2500d646d7ce77d6cb",
+    "report.json.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
+    "report.json.sha256": "60cd5cd3db65405d85c09cce4605e75e70a42ac0666467148f5509b6c279b588",
+    "report.json.sha256.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
+    "run.py": "3f324a730767de28a1ed531d58c74833b397e27ce34636aeec6e9b2b08b93220",
+    "scorer.py": "e53e39d70d8d31e77a39db53f18df622ffb8b5f830c8718766d7148503a09a19",
+    "test_reference.py": "ca7eba912efd093073a3dee454c6f857a63cbb0566f71d142f76eca83a2648f9",
+    "verify.py": "8106ac87c94bb297006cb69c2a00825ce31b39fe7154a7938ddecf1136cb3848"
+  },
+  "base_commit": "bb8b2849a57c6d1848f14f75d3d54a68fdf16ee0",
+  "boundary_pins": {
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "branch": "swarm/SDK-WEBRTC-VAD",
+  "component": "webrtc-vad",
+  "mutable_provenance": {
+    "gate": false,
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "721c972afbce171752475a1f082f822b29b59c31cd22b3534124d481530f724a"
+  },
+  "profile": "analysis",
+  "public_surface": {
+    "api_abi_changed": false,
+    "changed": false,
+    "descriptor_registry_changed": false,
+    "installed_v0_changed": false,
+    "processor_exposure": false,
+    "shared_cmakelists_changed": false
+  },
+  "qualification": {
+    "all_required_results_present": true,
+    "decision": "DEFER",
+    "missing_result_promoted": false,
+    "note": "No missing result qualifies a candidate; all release gates remain open.",
+    "processor_exposure": false,
+    "python_tests_minimum": 30,
+    "qualifies": false,
+    "sdk_build_ctest": 11,
+    "status": "incomplete"
+  },
+  "release_gates": [
+    "Independent exact-head review of this proposal before any processor exposure",
+    "No registered provider, descriptor default or public API/ABI change without intake approval",
+    "No WebRTC VAD runtime, wheel, licensed asset or upstream oracle in the default package",
+    "Rights-cleared, label-complete held-out cohort and frozen candidate outputs before any accuracy claim",
+    "Pinned target runtime, device clock, deadline budget and matched workload before any availability claim",
+    "S10/protocol clearance and approved reference adapter before any Tiny16 comparison",
+    "Release approval; DEFER remains in force until every gate above is closed"
+  ],
+  "reproduction": {
+    "comparison": "exact SHA-256 over canonical JSON; no tolerance; three byte-identical repeats",
+    "crosscheck": "PYTHONDONTWRITEBYTECODE=1 python3 run.py --crosscheck",
+    "report": "PYTHONDONTWRITEBYTECODE=1 python3 run.py --report",
+    "sources": "PYTHONDONTWRITEBYTECODE=1 python3 run.py --sources",
+    "tests": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_reference.py",
+    "verify": "PYTHONDONTWRITEBYTECODE=1 python3 verify.py"
+  },
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "scope": {
+    "device_timing": false,
+    "installed_v0_format": "16 kHz mono float32, 160 samples",
+    "licensed_runtime": false,
+    "listening": false,
+    "numeric_parity_with_wheel": false,
+    "public_benchmark": false,
+    "real_runtime": false,
+    "real_speech": false,
+    "release_claim": false,
+    "synthetic_only": true,
+    "task_local_only": true,
+    "wheel_download": false
+  },
+  "source_pins": {
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "adapters/webrtcvad-wheels/adapter.json": "beb429aadd4927a981af3b8c12a5a0cc2e79979ca0f65b8b73257d1b0a98886c",
+    "adapters/webrtcvad-wheels/run.py": "814147bf1c2a27872b63dd79412cd4865ecff3a9fdede347a0230eca44615306",
+    "audio-benchmark-platform/audio-sdk/CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "audio-benchmark-platform/audio-sdk/api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "audio-benchmark-platform/audio-sdk/api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "reports/vad-research/chaining-evaluation.md": "f8bf02a7465c880d1a8968b26a3425f55e0bbd6965eea6b0dc734e0fa1f5a234",
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245"
+  },
+  "status": "proposal_only_not_qualified",
+  "task": "SDK-WEBRTC-VAD"
+}
