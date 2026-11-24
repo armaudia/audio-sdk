@@ -1,0 +1,37 @@
+{
+  "clock": "time.perf_counter (monotonic)",
+  "deadline_ns": null,
+  "native_probability_inference_measured": false,
+  "non_qualifying_reason": "Unpaced Python wall-clock on this host only; no native library, target device, pacing, deadline, CPU or memory budget. Not a timing qualification and not added to any standalone-VAD cost.",
+  "paced": false,
+  "per_call_ms": {
+    "always_speech_control": {
+      "first_call_ms": 0.000375,
+      "max": 0.000375,
+      "median": 0.000125
+    },
+    "rnnoise_style_probability": {
+      "first_call_ms": 0.037167,
+      "max": 0.037167,
+      "median": 0.021209
+    },
+    "silent_control": {
+      "first_call_ms": 0.000542,
+      "max": 0.000625,
+      "median": 0.000125
+    },
+    "standalone_vad_control": {
+      "first_call_ms": 0.018875,
+      "max": 0.033167,
+      "median": 0.011916
+    }
+  },
+  "qualification_status": "blocked",
+  "quality_metrics_in_this_file": false,
+  "schema_id": "audio-sdk/task-evidence/rnnoise-speech-probability/timing/0.1",
+  "separate_from_quality": true,
+  "standalone_vad_cost_pooled": false,
+  "stream_frames": 200,
+  "stream_samples": 32000,
+  "stream_wall_s": 0.006962
+}
