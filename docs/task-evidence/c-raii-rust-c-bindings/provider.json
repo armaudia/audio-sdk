@@ -1,0 +1,27 @@
+{
+  "spdx": {
+    "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+    "SPDX-License-Identifier": "Apache-2.0"
+  },
+  "task": "SDK-C-RAII-RUST-AND-C-BINDINGS",
+  "provider_added": false,
+  "provider_source_added": false,
+  "descriptor_added": false,
+  "descriptor_registry_changed": false,
+  "default_changed": false,
+  "registration_call_added": false,
+  "installed_behavior": "unchanged",
+  "builtins_used_by_harness": [
+    "speex.ns.v0"
+  ],
+  "builtins_untouched": [
+    "speex.ns.v0",
+    "dsp.highpass80.v0"
+  ],
+  "fixture_provider": {
+    "task_local_only": true,
+    "registered_by_this_task": false,
+    "sdk_upstream_fixture_off_on_tests": "executed as existing installed-consumer coverage; not modified"
+  },
+  "note": "The C boundary is a build-time opt-in harness inside docs/task-evidence only. It adds no provider, descriptor, registry entry, CMake target in the SDK, default selection or installed artifact."
+}

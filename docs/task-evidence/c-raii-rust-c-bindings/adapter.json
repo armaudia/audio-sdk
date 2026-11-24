@@ -1,0 +1,90 @@
+{
+  "spdx": {
+    "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+    "SPDX-License-Identifier": "Apache-2.0"
+  },
+  "identity": "raii-model-evidence-v1",
+  "kind": "developer-only binding model and task-local C harness; not a production adapter",
+  "registration": {
+    "unregistered": true,
+    "default_enabled": false,
+    "opt_in_only": true,
+    "cmake_target_added": false,
+    "installed": false,
+    "linked_into_sdk_by_default": false
+  },
+  "binding_model": {
+    "c_shared_contract": {
+      "abi_source_of_truth": "published audio_sdk/provider_v0.h and session_v0.h",
+      "handles": "opaque as_registry_v0 and as_session_v0 pointers created and destroyed only through the ABI",
+      "structs": "initialize with the matching as_*_v0_init helper; struct_size, abi_major and abi_minor are validated",
+      "strings": "(pointer,length) on input; NUL-terminated borrowed output strings are copied immediately and never freed",
+      "buffers": "all PCM, result and caller-configuration storage belongs to the caller",
+      "calling_convention": "Cdecl / C ABI; no C++ or managed types cross the boundary"
+    },
+    "cpp": {
+      "ownership": "one unique owner; destructor releases session before registry and cannot copy the owner",
+      "borrow": "Span-like non-owning views over caller PCM; copy config bytes before create",
+      "status": "documented model only; no shared C++ wrapper added"
+    },
+    "rust": {
+      "ownership": "Drop releases session before registry; process requires an exclusive borrow; no Send/Sync claim",
+      "borrow": "caller retains input/output slices and the effective-config buffer for the duration of each call",
+      "status": "DEFER: no rustc/cargo locally available; no registry download or native Rust build performed"
+    },
+    "csharp": {
+      "ownership": "SafeHandle-style ReleaseHandle calls as_session_close_v0, then the registry handle is released",
+      "borrow": "Span<float> over caller memory; no library pointer is retained past the call",
+      "status": "documented model only; no .NET SDK or build claim"
+    }
+  },
+  "abi_functions_used": [
+    "as_registry_create_v0",
+    "as_effective_config_create_v0",
+    "as_create_config_v0_init",
+    "as_frame_v0_init",
+    "as_output_v0_init",
+    "as_result_v0_init",
+    "as_error_v0_init",
+    "as_session_create_v0",
+    "as_session_process_v0",
+    "as_session_close_v0",
+    "as_registry_close_v0"
+  ],
+  "caller_owned_inputs": [
+    "as_error_v0 storage for every control call",
+    "char effective[4096] for canonical effective-configuration bytes",
+    "as_create_config_v0 whose config_json slice is borrowed for the create call",
+    "float input[160] and float output[160] in separate, naturally aligned buffers",
+    "as_frame_v0, as_output_v0 and as_result_v0 initialized before use"
+  ],
+  "mutation_cases": {
+    "malformed": [
+      "malformed_struct_tag",
+      "wrong_input_count",
+      "partial_without_final"
+    ],
+    "missing_optional": [
+      "assets_omitted",
+      "missing_output_buffer",
+      "missing_provider_selection",
+      "missing_config_json"
+    ],
+    "invalid": [
+      "unknown_provider"
+    ],
+    "nonfinite": [
+      "nonfinite_input"
+    ]
+  },
+  "c_boundary": {
+    "directory": "c_boundary",
+    "cmake_option": "AS_RAII_EVIDENCE_ENABLE_C_BOUNDARY",
+    "default": "OFF",
+    "off_mode": "guard executable only; no AudioSDK find_package, link, header include or registration",
+    "on_mode": "links installed AudioSDK::audio_sdk for the task-local synthetic harness only",
+    "installed": false,
+    "registered": false,
+    "parity": "harness_output.json is compared exactly against the Python contract model"
+  }
+}
