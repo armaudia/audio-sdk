@@ -156,10 +156,10 @@ Expected: 28 tests pass; `run.py` prints `qualification_status=not_qualified`,
 `pins_ok=... json_ok=... licensing_ok=... scope_ok=1 reproduction_ok=1` and
 `changed_files` limited to this directory.
 
-Canonical report SHA-256: `cc6ede988b8a7948ca7e043fc2d94a66b571e45402c473e8da863e4f50b1c5e5`.
+Canonical report SHA-256: `f30abce9371e053f962ff1619fad29bc3a97305a69e1e1651da5a2c6b1c3add6`.
 
 ## Licensing
 
 New files use `SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes` and
-`SPDX-License-Identifier: Apache-2.0`, already covered by `REUSE.toml` `docs/**`.
+`SPDX&#45;License-Identifier: Apache-2.0`, already covered by `REUSE.toml` `docs/**`.
 Read-only pinned sources keep their own SPDX headers and are never modified.
