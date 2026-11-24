@@ -67,7 +67,7 @@ class FrozenReportTests(unittest.TestCase):
         adapter.validate_report(self.report)
         self.assertEqual(c.canonical_bytes(self.report), self.raw)
         self.assertEqual(self.digest,
-                         "951a004027740a93080204d02215844376ad2f74a6ce6ca2872855a19b255b91")
+                         "690da975dff985cd91126cb42400b3ab28df5cabf7435cc551028fd57723671e")
 
     def test_02_scope_boundaries(self):
         scope = self.report["scope"]

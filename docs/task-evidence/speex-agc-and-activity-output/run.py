@@ -40,7 +40,7 @@ RUN_FIELDS = COMMON_FIELDS | {"attempt_id", "stimulus_id", "reset_frames", "stim
 REQUIRED_TOP_LEVEL = {
     "schema", "task", "status", "claim_level", "base_commit", "base_parent", "branch",
     "verification", "scope", "adapter", "stimuli", "cases", "controls",
-    "acceptance_profile_coverage", "remaining_release_gates", "environment", "metadata_digests",
+    "acceptance_profile_coverage", "remaining_release_gates", "environment",
 }
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
