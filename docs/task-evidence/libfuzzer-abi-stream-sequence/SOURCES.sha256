@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
+# SHA-256 pins for SDK-LIBFUZZER-ABI-STREAM-SEQUENCE-INSTRUMENTATION; source: paths are workspace-relative, toolchain: is absolute-without-leading-slash, task files are SDK-worktree-relative.
+12b7c17d6ae969cb3e9697f3309667518048f27792b283178d326746e1bbfb81  source:realtime-audio-library/implementation_record.md
+828586fe4f6a96c0c27cfc4f211db23856f5aad6eb66730147a4917e151f22d1  source:realtime-audio-library/tools/fuzz/stream_sequences.cpp
+77d63431e6d05350bafcdd47e6d3d4587dd1f7344326c22ea4e8687b4bd89768  source:realtime-audio-library/tools/fuzz/direct_request_fuzzer.cpp
+57b7c1386423db0a39ba8fd94651d931c6da342393d690f6ab316ac1e3b3d012  source:realtime-audio-library/tools/fuzz/abi_config_fuzzer.cpp
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  source:audio-benchmark-platform/audio-sdk/api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  source:audio-benchmark-platform/audio-sdk/api/include/audio_sdk/session_v0.h
+99fbbcbef1df8ce4612c003ec16d1303b53d90ee794186f1d83f1d053427191a  toolchain:opt/homebrew/Cellar/llvm/23.1.4/lib/clang/23/lib/darwin/libclang_rt.fuzzer_osx.a
+98e0200bf03207e8e312bd2e04c87de12a0d9184064f66fe7dca778039fea2b1  docs/task-evidence/libfuzzer-abi-stream-sequence/fixture.py
+8d5a5f546d99ccdefab83b620b4733626f47c2f0043ef0afd6f1a0f7e69ff11f  docs/task-evidence/libfuzzer-abi-stream-sequence/run.py
+ef71a0038cb1160d14639eb27bcd6917a6c562017eed9e33d234f75c0a15ddf2  docs/task-evidence/libfuzzer-abi-stream-sequence/adapter.json
+c5958735133be42e9ea86ded933bc65532770e1882ccfd4806e41c171eed38c7  docs/task-evidence/libfuzzer-abi-stream-sequence/test_fixture.py
+b0f2a216bb165e73e92dae900aa289e8cfde511623d6ab589c1c8bcf8e3399ac  docs/task-evidence/libfuzzer-abi-stream-sequence/verify.py
+b147f383ba4935dd13a167dda7387da0fd20596ba9e3e8d5414f6c04bd890f37  docs/task-evidence/libfuzzer-abi-stream-sequence/README.md
+03c07ef25fe705b5123511727c3044ebf3c0d5512598d9663092dfe8eed1bf35  docs/task-evidence/libfuzzer-abi-stream-sequence/report.json
+3dc975acfbb59371cca3dfdc524973970bbcc9bb56d598d879f6e3ef25421d08  docs/task-evidence/libfuzzer-abi-stream-sequence/report.json.sha256
