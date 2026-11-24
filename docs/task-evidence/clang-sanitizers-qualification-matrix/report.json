@@ -30,12 +30,12 @@
     {
       "kind": "task_fixture",
       "path": "adapter.json",
-      "sha256": "292799858e46cebfaf7e27dbcf78c94cab069bda726db000df5e6d8f8184b71c"
+      "sha256": "882c27a7bd8222aeb447a68c42ba731fd8d09e563d3fe99072e901bbaf31a738"
     },
     {
       "kind": "task_fixture",
       "path": "fixture.py",
-      "sha256": "fdef13a876bab9612a57be02acc7ead5ec20f3109c7c04051e40882bb1cf73e2"
+      "sha256": "2162adc5639e7bc6703b9816a4f23960bc4c1c3ebfa5ec076db486da0eee1559"
     },
     {
       "kind": "task_fixture",
@@ -45,7 +45,7 @@
     {
       "kind": "task_fixture",
       "path": "test_fixture.py",
-      "sha256": "ed171dec8beb27aa1c16659b50d08ad17700012e016a697b77cb2c253780046e"
+      "sha256": "849780e1a59a1766d509bbe5b02e5de033e8f8e97f39285a1a7f8774988e7025"
     },
     {
       "kind": "task_fixture",
@@ -192,7 +192,7 @@
     "task_artifact_pins": 5
   },
   "digests": {
-    "adapter": "292799858e46cebfaf7e27dbcf78c94cab069bda726db000df5e6d8f8184b71c",
+    "adapter": "882c27a7bd8222aeb447a68c42ba731fd8d09e563d3fe99072e901bbaf31a738",
     "fuzz_corpus": "98e3e8b20cedae91242ed96ca0e06c3ff03ccf2009968c22fd8aba6c7ccd9fa5",
     "installed_payload": "4e5255802e2be73b84599979855d59d03a4f06eff8e439d23ab7ee09e95be459",
     "installed_pcm_f32": "9c6165076289d999de0a523ecacc83a840f74edf1dcb9c2a59f1c34756355ff2",
@@ -18879,7 +18879,7 @@
   "source_pins_ok": true,
   "spdx": {
     "copyright": "SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes",
-    "license": "SPDX-License-Identifier: Apache-2.0"
+    "license": "SPDX\u002dLicense-Identifier: Apache-2.0"
   },
   "state": {
     "all_pass": true,

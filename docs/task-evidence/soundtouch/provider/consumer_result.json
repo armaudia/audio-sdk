@@ -1,0 +1,36 @@
+{
+  "spdx": {
+    "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+    "SPDX-License-Identifier": "Apache-2.0"
+  },
+  "kind": "recorded local SDK build/install and task-local consumer ctest summary; build evidence only, not device timing or release qualification",
+  "task": "SDK-SOUNDTOUCH",
+  "base_commit": "ddce4bc6b7b5a6fb1761933dad50f87c8168bd10",
+  "sdk_ctest": "11/11",
+  "consumer_off": "1/1",
+  "consumer_on": "1/1",
+  "commands": {
+    "sdk_configure": "cmake -S <worktree> -B <scratch>/sdk-build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_LIBDIR=lib",
+    "sdk_build": "cmake --build <scratch>/sdk-build --parallel 4",
+    "sdk_ctest": "ctest --test-dir <scratch>/sdk-build --output-on-failure",
+    "sdk_install": "cmake --install <scratch>/sdk-build --prefix <scratch>/sdk-prefix",
+    "consumer_off": "cmake -S provider -B <scratch>/consumer-off -DCMAKE_PREFIX_PATH=<scratch>/sdk-prefix -DAS_ENABLE_SOUNDTOUCH_REFERENCE=OFF && cmake --build <scratch>/consumer-off && ctest --test-dir <scratch>/consumer-off --output-on-failure",
+    "consumer_on": "cmake -S provider -B <scratch>/consumer-on -DCMAKE_PREFIX_PATH=<scratch>/sdk-prefix -DAS_ENABLE_SOUNDTOUCH_REFERENCE=ON && cmake --build <scratch>/consumer-on && ctest --test-dir <scratch>/consumer-on --output-on-failure"
+  },
+  "test_summary": {
+    "sdk_native_passed": 11,
+    "sdk_native_failed": 0,
+    "consumer_off_passed": 1,
+    "consumer_off_failed": 0,
+    "consumer_on_passed": 1,
+    "consumer_on_failed": 0,
+    "python_unit": "40/40",
+    "reuse_lint": "6.3.0 repo-wide clean (1052/1052 files)"
+  },
+  "non_claims": [
+    "no target-device pacing, deadline, memory or availability result",
+    "no listening, corpus, model or WER result",
+    "no installed SDK, public API, ABI, descriptor registry or default change",
+    "no upstream SoundTouch source, binary or licensed runtime used"
+  ]
+}
