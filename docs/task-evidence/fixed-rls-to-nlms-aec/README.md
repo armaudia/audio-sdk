@@ -63,9 +63,9 @@ when read. It is provenance only and never qualifies this evidence.
 
 | Path | SHA-256 |
 | --- | --- |
-| `contract.json` | `ce63275054bee04c7a2cf878fe944ad6a9fc433d9150c78d62da4b05728f9d82` |
+| `contract.json` | `3ff52a7bb3004bc24761b76ed420c72cab95a2f9201b64d520ce078a3e3a2192` |
 | `adapter.json` | `52314de137351634c3bd96c4eace703eb4721bc209ce0e5b04bc63cfb875bbf8` |
-| `check_licensing.py` | `7ce288a4413f44c05523ef8d7d639ef180ddc8365ead572d3b5e1e6adb9e7c9b` |
+| `check_licensing.py` | `a82ae223c30fecde4d504c3222a9511e4a78066a5f312780c8ce770e2c7f4d30` |
 | `crosscheck.py` | `d9ffb14625185e393de1ae249acc0d190fd583832fdef8f5942bef3b5fdb62cb` |
 | `reference.py` | `20ca866e6f2839719320aa01e39bbee1f7ffd9a2ec2fa3912e44874f712faaf9` |
 | `run.py` | `3183a97e1d11dd0e0db8ea2c0b0251064b13509052bedb4d38514e9bf4cde174` |
