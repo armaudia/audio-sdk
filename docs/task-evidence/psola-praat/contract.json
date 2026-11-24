@@ -1,0 +1,220 @@
+{
+  "artifact_pins": {
+    "README.md": "7e64ec614937533168ef31c34d4c8ec4aa7d6d52670e663f0f88ce5f4ec7a6ef",
+    "contract.json": null,
+    "provider/CMakeLists.txt": "be5a2cbb4819db5b8da2d9ffbb278c1fa39370cc3138cfb1ef0372162f62e129",
+    "provider/config/config.json": "f3f1270cc6fff80abd377aeccc33bdfc6c2621403afb4ba9580148b5776a8212",
+    "provider/config/descriptor.h.in": "86b2a7418375b0af58d05ad40d578e6a8ccda8e282c66c55b9937025b9c2d9e7",
+    "provider/expected_vectors.h": "18198cec430faf06a59aeb387d301f3a2279a82befea2090c2d5efc4f2d0a8a0",
+    "provider/psola_praat_provider.c": "4fb961b2a3ee0ee0bb439a4e6a1dd8f21d92e0cd2caacc8a57e47305a8a418a9",
+    "provider/tests/test_provider.c": "59da0ddf13e00d2b76129a7bcca6484e9a15e30377576c7b3925457799a27924",
+    "reference.py": "a7d1a61d75ba78fd56e80471056fa0c5862e131a014df2cb91256c46c5d451ab",
+    "report.json": "c8126e10ec682b6960bc379a2d5a5db9222abedcd37b6fe62d176c47e07de614",
+    "report.json.sha256": "fcf031c88edbd29347989f43b747328d2342d28380385dfbdb0ca1519ee5d684",
+    "run.py": "893f666dfb8c512083e31565284fe647bbea1b2eff94e0cb43b21959770aaeff",
+    "test_reference.py": "715d57eb77e97648bb95b7183b61d0a55bfaab6daf00426a07199953c22bb77f"
+  },
+  "base_commit": "68e3e292b0b2c4b0a96b5f3d3002bb9cb36282d4",
+  "board_snapshot": {
+    "mutable": true,
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "cc3601a45e58e3ad37ce85647d011bc17a1a35810c79f55d37f080b670abddcf"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": {
+      "actual": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+      "sha256": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+      "verified": true
+    },
+    "api/include/audio_sdk/session_v0.h": {
+      "actual": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+      "sha256": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+      "verified": true
+    }
+  },
+  "branch": "swarm/SDK-PSOLA-PRAAT",
+  "canonical_report": {
+    "byte_identical_regeneration_asserted": true,
+    "canonical_digest": "9f53748ad93800f67a487f86d5184e4b5dcedb1afdfa9df30287794dbe1a8fce",
+    "content_digest": "68c36aa288f0d36017dd5b83c44c02649667825fe9505d5c667e1e2daa4d666e",
+    "file_sha256": "c8126e10ec682b6960bc379a2d5a5db9222abedcd37b6fe62d176c47e07de614",
+    "format": "canonical JSON: sort_keys=True, compact separators, allow_nan=False, one trailing newline",
+    "provider_source_digest": "4fb961b2a3ee0ee0bb439a4e6a1dd8f21d92e0cd2caacc8a57e47305a8a418a9"
+  },
+  "component": "psola-praat",
+  "contract_version": "0.1",
+  "format": {
+    "channels": 1,
+    "frame_samples": 160,
+    "sample_format": "f32",
+    "sample_rate_hz": 16000
+  },
+  "invariants": [
+    "Installed v0 stays 16 kHz, mono f32, 160-sample frames; no public API, ABI, descriptor registry, default, shared CMakeLists.txt or main branch was changed.",
+    "Whole-clip and 160-frame streaming PSOLA fixtures are task-local only and are not an installed playback actuator.",
+    "The C provider is task-local, unregistered and compiled only when the caller opts in with AS_ENABLE_PSOLA_PRAAT=ON.",
+    "Identity, fixed-rate PSOLA, varispeed, mismarked, unnormalized, short-window and unsmoothed rate-step adverse controls are recorded separately and never promote a candidate.",
+    "Pitch marks, overlap/add normalization, source/output duration mapping, rate and frequency-scale changes, rate-update discontinuities, reset replay, final partial windows, drift/rebuffer and finite/peak checks are recorded.",
+    "All stimuli are deterministic synthetic or analytic surrogates pinned by SHA-256; byte-identical regeneration is asserted.",
+    "No target-device pacing, fill/flush, CPU/deadline telemetry, listening, real speech/music, model weights, downloads or release qualification is claimed."
+  ],
+  "profile_interpretation": "Rate profile applied to deterministic synthetic fixtures only; no target-device pacing, listening or release claim",
+  "provider": {
+    "buffering_delay_samples": 0,
+    "descriptor_settings": {},
+    "execution_modes": [
+      2
+    ],
+    "implementation_id": "rate.psola_praat.reference",
+    "implementation_version": "0.1.0-reference",
+    "max_drain_calls": 16,
+    "native_hop_samples": 160,
+    "provider_id": "rate.psola-praat-reference.v0",
+    "required_assets": [],
+    "unregistered_by_default": true
+  },
+  "public_boundary": {
+    "abi_major": 0,
+    "abi_minor": 1,
+    "installed_v0_unchanged": true,
+    "provider_header": "api/include/audio_sdk/provider_v0.h",
+    "provider_table_operations": [
+      "create",
+      "process",
+      "reset",
+      "drain",
+      "destroy"
+    ],
+    "registration": "explicit caller-side as_register_provider_v0 only; no installed registry entry",
+    "registration_gate": "AS_ENABLE_PSOLA_PRAAT, default OFF in the task-local consumer CMake project",
+    "session_header": "api/include/audio_sdk/session_v0.h"
+  },
+  "qualification": {
+    "all_required_results_present": true,
+    "boundary_status": "conditional-blocked",
+    "candidate_status": "synthetic-reference-only",
+    "missing_result_promoted": false,
+    "status": "synthetic-fixture-only"
+  },
+  "reference": {
+    "algorithm": "minimal TD-PSOLA: absolute-value pitch marks, Hann excision, overlap/add denominator normalization, pitch-synchronous mark selection",
+    "controls": [
+      "identity_1x_control",
+      "fixed_rate_psola_baseline",
+      "varispeed_adverse",
+      "mismarked_adverse",
+      "unnormalized_overlap_adverse",
+      "short_window_excision_adverse",
+      "unsmoothed_rate_step_adverse"
+    ],
+    "deterministic_synthetic_only": true,
+    "device_or_timing_claim": false,
+    "downloads": false,
+    "drift_schedule": [
+      [
+        0,
+        1.0
+      ],
+      [
+        3200,
+        1.05
+      ],
+      [
+        6400,
+        0.95
+      ],
+      [
+        9600,
+        1.0
+      ]
+    ],
+    "dynamic_schedule": [
+      [
+        0,
+        1.0
+      ],
+      [
+        4800,
+        1.25
+      ],
+      [
+        8000,
+        1.0
+      ],
+      [
+        11200,
+        1.5
+      ]
+    ],
+    "fixed_schedule": [
+      [
+        0,
+        1.25
+      ]
+    ],
+    "half_window_samples": 56,
+    "model_weights": false,
+    "phase_denominator": 1000000,
+    "pitch_mark_min_period_samples": 64,
+    "pitch_mark_threshold": 0.045,
+    "rate_max": 1.5,
+    "rate_min": 0.75,
+    "real_music": false,
+    "real_speech": false,
+    "release_claim": false,
+    "slew_per_mark": 0.05,
+    "slow_schedule": [
+      [
+        0,
+        0.95
+      ]
+    ],
+    "stimuli": [
+      "silence",
+      "tonal",
+      "speech_like",
+      "unfamiliar_speech",
+      "music_like",
+      "c_vector"
+    ],
+    "stimulus_length": 12457
+  },
+  "release_gates": [
+    "A versioned variable-frame playback actuator or caller-owned TSM FIFO with explicit source/output timestamps outside v0 for r<1 device-time expansion",
+    "Paced target-device workload with fill/flush, deadline misses, CPU, memory and availability telemetry",
+    "Rights-qualified real-speech/music cohort with matched controls and authorized listening/intelligibility scoring",
+    "Explicit provider intake, rights/license review, versioned public surface decision and independent review before any promotion"
+  ],
+  "schema_id": "audio-sdk/psola-praat-evidence/0.1",
+  "source_pins": {
+    "REALTIME_COMPONENT_CANDIDATES.md": {
+      "actual": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+      "sha256": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+      "verified": true
+    },
+    "audio-benchmark-platform/audio-sdk/CONTRACTS.md": {
+      "actual": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+      "sha256": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+      "verified": true
+    },
+    "audio-benchmark-platform/audio-sdk/README.md": {
+      "actual": "9047036096a967bed5cd59e7d3b939258d327578b2079445da1b683b52a8fdb9",
+      "sha256": "9047036096a967bed5cd59e7d3b939258d327578b2079445da1b683b52a8fdb9",
+      "verified": true
+    },
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": {
+      "actual": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+      "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+      "verified": true
+    },
+    "research/tsm-followup-20261101/README.md": {
+      "actual": "01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f",
+      "sha256": "01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f",
+      "verified": true
+    }
+  },
+  "status": "optional-task-local-reference",
+  "task": "SDK-PSOLA-PRAAT",
+  "verification_profile": "rate",
+  "write_scope": "docs/task-evidence/psola-praat/"
+}
