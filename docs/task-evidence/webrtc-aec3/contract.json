@@ -1,6 +1,6 @@
 {
   "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
-  "SPDX\u002dLicense-Identifier": "Apache-2.0",
+  "SPDX-License-Identifier": "Apache-2.0",
   "artifact_pins": {
     "SOURCES.sha256.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
     "adapter.json": "760e25b5e5f5b722d40817f721808a52077adb19e6a389844620cf8a583d9ef5",
@@ -23,8 +23,8 @@
     "report.json.sha256.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
     "run.py": "8b143af9b3d602d538c4ab34b029e9353d56c725b2beeb13a22271ee44b292d3",
     "scorer.py": "744907554b53677764d10ff605b7c0505b95944f3735c66c066f454c07c15786",
-    "test_reference.py": "fc40803b3734d1be74dd3463e133f24cd3fc248e679962f092a1c896e242787a",
-    "verify.py": "3204db7c89d53e1f50d69e6841e92d256ba431ae420a8e54e87776ebb1eb49e6"
+    "test_reference.py": "b918d7ebcb1c72f7a472c59961ce8d89346dae8e1f0fd822263163744d74e5c1",
+    "verify.py": "94f37042ec62b276bb8530eabeaf720b23dcd48dc7adce993265bd73e2a1d268"
   },
   "base_commit": "2bc2a13aa4c5b398933fd9097d09746ce151216e",
   "boundary_pins": {
