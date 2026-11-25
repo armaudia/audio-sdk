@@ -66,6 +66,8 @@ SOURCE_PINS: Dict[str, str] = {
 EVIDENCE_PINS: Dict[str, str] = {
     "docs/task-evidence/bungee-basic/README.md":
         "ee6edcc68764888500aed41963169e6e311cec447b511fcbd1f2d4189453d485",
+    "docs/task-evidence/ffmpeg-atempo/README.md":
+        "11773a543c6dab54ff4754989501a0a70a29b247612e51aee5fb54c0050457b8",
     "docs/task-evidence/granular-tsm/README.md":
         "d97f06911fd90667288fe571c7a3f4210ece629f7e839c1d41200ceec48ec0a0",
     "docs/task-evidence/ola-sola/README.md":
@@ -170,6 +172,149 @@ GATE_NAMES = [
     "exact_reference_parity",
 ]
 
+COMPARISON_INPUTS: List[Dict[str, str]] = [
+    {
+        "id": "CI-1",
+        "input": ("Ten four-second AMI meeting windows rendered at 0.5x, 0.8x, 1x, 1.25x, "
+                  "1.5x and 2.5x"),
+        "class": "historical_local_paired_speech",
+        "source_pin": "research/tsm-followup-20261101/README.md",
+        "boundary": ("Historical source-reported run; not rerun by this survey. Audio bytes, "
+                     "AMI terms and listening rights are not present."),
+    },
+    {
+        "id": "CI-2",
+        "input": ("Ten held-out AMI speech windows at 1.25x and 0.8x for the FFmpeg 7.1 "
+                  "atempo classical control"),
+        "class": "historical_local_paired_speech_control",
+        "source_pin": "research/voice-enhancement-20261101/candidate_matrix.csv",
+        "boundary": ("Measured control only; the exact FFmpeg build and GPL configuration are "
+                     "not reproduced here and this is not a neural candidate."),
+    },
+    {
+        "id": "CI-3",
+        "input": ("Deterministic synthetic PCM ticks, tones, a two-tone music proxy, impulses "
+                  "and silence with rational rate schedules and a 160-sample consumer drain"),
+        "class": "task_local_synthetic_rate_fixture",
+        "source_pin": "docs/task-evidence/ffmpeg-atempo/README.md",
+        "boundary": ("Synthetic only; no real speech, rendered audio, device timing or "
+                     "listening result."),
+    },
+    {
+        "id": "CI-4",
+        "input": ("Bungee Basic offline rate-map fixture with six speeds, step/ramp "
+                  "schedules, a final partial window and a synthetic rebuffer schedule"),
+        "class": "task_local_synthetic_rate_map",
+        "source_pin": "docs/task-evidence/bungee-basic/README.md",
+        "boundary": ("Offline fixture only; its linear-interpolation control deliberately "
+                     "changes pitch and is not Bungee or a parity oracle."),
+    },
+    {
+        "id": "CI-5",
+        "input": ("Candidate role, licence and latency notes for Bungee, SoundTouch, Rubber "
+                  "Band, Sonic, PSOLA and FFmpeg atempo"),
+        "class": "source_reported_text_only",
+        "source_pin": "cpp-library/pipeline-validation/playback-speed-candidates.md",
+        "boundary": ("Text only; no pinned binary, source tree, corpus or runtime is present "
+                     "in this task."),
+    },
+]
+
+CONTROLS: List[Dict[str, str]] = [
+    {
+        "id": "CT-1",
+        "name": "identity / 1x",
+        "role": ("Paired no-change baseline; exact identity only where the fixture supports "
+                 "it, never a quality result."),
+        "source_pin": "research/tsm-followup-20261101/README.md",
+    },
+    {
+        "id": "CT-2",
+        "name": "linear interpolation",
+        "role": ("Deliberately pitch-changing control; it is not TSM, not Bungee and not a "
+                 "numeric parity oracle."),
+        "source_pin": "docs/task-evidence/bungee-basic/README.md",
+    },
+    {
+        "id": "CT-3",
+        "name": "FFmpeg atempo measured control",
+        "role": ("Classical OLA control in the historical screen; source-reported only, with no "
+                 "local FFmpeg runtime or exact build."),
+        "source_pin": "research/voice-enhancement-20261101/candidate_matrix.csv",
+    },
+    {
+        "id": "CT-4",
+        "name": "exact rational source/output mapping",
+        "role": ("Synthetic clock control for duration, interval and final-partial-window "
+                 "accounting; it does not measure pitch or audibility."),
+        "source_pin": "docs/task-evidence/ffmpeg-atempo/README.md",
+    },
+    {
+        "id": "CT-5",
+        "name": "fixed-rate no-change baseline",
+        "role": ("Constant-ratio baseline used to separate rate-change behaviour from identity; "
+                 "no listening or device inference follows."),
+        "source_pin": "research/tsm-followup-20261101/README.md",
+    },
+]
+
+ASSETS: List[Dict[str, str]] = [
+    {
+        "id": "AS-1",
+        "asset": "Ten four-second AMI meeting windows and 136 reference words",
+        "class": "historical_research_audio_text",
+        "source_pin": "research/tsm-followup-20261101/README.md",
+        "status": ("Described in the pinned report; bytes are not present or verified here and "
+                   "redistribution/listening rights are not cleared."),
+    },
+    {
+        "id": "AS-2",
+        "asset": "Task-local synthetic PCM fixtures",
+        "class": "generated_synthetic",
+        "source_pin": "docs/task-evidence/ffmpeg-atempo/README.md",
+        "status": ("Generated deterministically in-process from tones, impulses, silence and "
+                   "integer ticks; no real audio is stored or played."),
+    },
+    {
+        "id": "AS-3",
+        "asset": "Bungee Basic rate-map fixture and interpolation control",
+        "class": "generated_synthetic",
+        "source_pin": "docs/task-evidence/bungee-basic/README.md",
+        "status": ("Task-local offline fixture only; no upstream Bungee code, binary, model or "
+                   "real corpus is included."),
+    },
+    {
+        "id": "AS-4",
+        "asset": "Upstream engine source leads",
+        "class": "metadata_text_only",
+        "source_pin": "cpp-library/pipeline-validation/playback-speed-candidates.md",
+        "status": ("URLs, roles and licence notes only; no SoundTouch, Rubber Band, Sonic, Bungee "
+                   "or FFmpeg source/binary is vendored, fetched or invoked."),
+    },
+    {
+        "id": "AS-5",
+        "asset": "ML checkpoints, weights and runtimes",
+        "class": "absent",
+        "source_pin": "research/voice-enhancement-20261101/candidate_matrix.csv",
+        "status": ("No neural TSM checkpoint, weight file or runtime is present; every ML family "
+                   "record remains blocked or considered."),
+    },
+    {
+        "id": "AS-6",
+        "asset": "Installed v0 headers and contracts",
+        "class": "read_only_boundary",
+        "source_pin": "CONTRACTS.md",
+        "status": ("Pinned provenance only; 16 kHz mono float32 160-sample geometry is unchanged "
+                   "and no SDK callback is invoked."),
+    },
+]
+
+CROSS_COMPARISON_REASON = (
+    "No matched frozen asset, runtime, settings or listening protocol is shared between the "
+    "historical source reports and the task-local synthetic fixtures; no numeric parity or "
+    "outcome promotion is performed."
+)
+
 # Curated, bounded map. Every component id below is checked against the pinned
 # inventory and every follow-up id against the pinned board at report build time.
 FAMILIES: List[Dict[str, Any]] = [
@@ -196,6 +341,12 @@ FAMILIES: List[Dict[str, Any]] = [
         "components": [
             {"component_id": "ola-sola", "relation": "direct_family",
              "note": "Explicit OLA/SOLA inventory record and task-local evidence."},
+            {"component_id": "bungee-basic", "relation": "adjacent_granular_variant",
+             "note": ("Streaming granular time-domain engine; task-local offline rate-map fixture "
+                      "only, not an upstream runtime or parity oracle.")},
+            {"component_id": "ffmpeg-atempo", "relation": "classical_ola_control_reference",
+             "note": ("Task-local synthetic OLA-style rate reference and historical measured "
+                      "control; not an FFmpeg runtime, emulation or parity result.")},
             {"component_id": "sonic", "relation": "direct_family",
              "note": "Pitch-synchronous OLA synthetic reference, not an upstream Sonic runtime."},
             {"component_id": "granular-tsm", "relation": "adjacent_variant",
@@ -279,7 +430,9 @@ SOURCE_LEADS: List[Dict[str, Any]] = [
 
 GAPS: List[Dict[str, str]] = [
     {"id": "gap-wsola-reference", "family_id": "sola_wsola",
-     "description": "WSOLA family has a considered inventory record but no task-local reference evidence.",
+     "description": ("WSOLA has a considered inventory record but no dedicated task-local reference; "
+                     "Sonic, SoundTouch, Bungee and the synthetic OLA control are adjacent evidence, "
+                     "not WSOLA parity."),
      "followup_task_id": "SDK-WSOLA-REFERENCE",
      "reopen_condition": "Compare Sonic, SoundTouch and a fixed-rate baseline under the Rate profile."},
     {"id": "gap-phase-locking-phase-vocoder", "family_id": "phase_vocoder",
@@ -832,6 +985,90 @@ def gap_map(inputs: Dict[str, Any]) -> List[Dict[str, Any]]:
     return result
 
 
+def outcome_ledger(inputs: Dict[str, Any], historical: List[Dict[str, Any]],
+                   local: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Pair each mapped component's reported and task-local outcome classes."""
+    reported_by = {item["component_id"]: item for item in historical}
+    local_by = {item["component_id"]: item for item in local}
+    result = []
+    for component_id in sorted(set(reported_by) | set(local_by)):
+        record = inputs["components"][component_id]
+        reported = reported_by.get(component_id)
+        local_item = local_by.get(component_id)
+        result.append({
+            "component_id": component_id,
+            "inventory_task": record["task"],
+            "inventory_evidence_status": record["evidence_status"],
+            "reported": {
+                "recorded": reported is not None,
+                "classification": ("source_reported_not_reproduced"
+                                   if reported else "no_reported_outcome"),
+                "source_entry_count": len(reported["source_reported_entries"]) if reported else 0,
+            },
+            "local": {
+                "recorded": local_item is not None,
+                "classification": ("task_local_synthetic_reference_only"
+                                   if local_item else "no_task_local_execution"),
+                "evidence_pin": local_item["path"] if local_item else None,
+            },
+            "comparison_performed": False,
+            "qualifies_candidate": False,
+        })
+    return result
+
+
+def local_vs_reported_outcomes(inputs: Dict[str, Any]) -> Dict[str, Any]:
+    historical = historical_executions(inputs)
+    local = task_local_executions(inputs)
+    return {
+        "reported": {
+            "recorded_in": "historical_executions",
+            "classification": "source_reported_not_reproduced",
+            "count": len(historical),
+            "component_ids": sorted(item["component_id"] for item in historical),
+            "qualifies_candidate": False,
+        },
+        "local": {
+            "recorded_in": "task_local_executions",
+            "classification": "task_local_synthetic_reference_only",
+            "count": len(local),
+            "component_ids": sorted(item["component_id"] for item in local),
+            "qualifies_candidate": False,
+        },
+        "cross_comparison": {
+            "performed": False,
+            "numeric_parity_claimed": False,
+            "reason": CROSS_COMPARISON_REASON,
+        },
+        "ledger": outcome_ledger(inputs, historical, local),
+    }
+
+
+def release_boundary() -> Dict[str, Any]:
+    return {
+        "release_allowed": False,
+        "release_claim": False,
+        "qualification_status": QUALIFICATION,
+        "decision": DECISION,
+        "installed_v0_geometry": copy.deepcopy(FORMAT),
+        "provider_registration": False,
+        "enabled_by_default": False,
+        "default_selected": False,
+        "public_api_abi_change": False,
+        "board_write": False,
+        "handoff_write": False,
+        "gated_claims": [
+            "pitch_preservation",
+            "transient_audibility",
+            "listening",
+            "device_timing",
+            "public_benchmark",
+            "release",
+        ],
+        "blocked_gates": list(GATE_NAMES),
+    }
+
+
 def core_report() -> Dict[str, Any]:
     inputs = load_inputs()
     state = state_snapshot(inputs)
@@ -887,10 +1124,15 @@ def core_report() -> Dict[str, Any]:
         },
         "families": families,
         "source_leads": source_lead_map(inputs),
+        "comparison_inputs": copy.deepcopy(COMPARISON_INPUTS),
+        "controls": copy.deepcopy(CONTROLS),
+        "assets": copy.deepcopy(ASSETS),
         "historical_executions": historical_executions(inputs),
         "task_local_executions": task_local_executions(inputs),
+        "local_vs_reported_outcomes": local_vs_reported_outcomes(inputs),
         "gaps": gaps,
         "gates": gates(),
+        "release_boundary": release_boundary(),
         "missing_evidence": list(MISSING_EVIDENCE),
         "adverse": adverse(state),
         "evidence_classes": [

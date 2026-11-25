@@ -113,6 +113,42 @@ class MapTests(unittest.TestCase):
         self.assertEqual(mapped, set(reference.mapped_component_ids()))
         self.assertTrue(self.inputs["components"])
 
+    def test_bungee_and_ffmpeg_handoffs_are_mapped(self) -> None:
+        mapped = set(reference.mapped_component_ids())
+        self.assertIn("bungee-basic", mapped)
+        self.assertIn("ffmpeg-atempo", mapped)
+        self.assertIn("docs/task-evidence/ffmpeg-atempo/README.md",
+                      reference.EVIDENCE_PINS)
+        overlap = next(item for item in reference.FAMILIES if item["id"] == "overlap_add")
+        ids = {item["component_id"] for item in overlap["components"]}
+        self.assertTrue({"bungee-basic", "ffmpeg-atempo"} <= ids)
+        local = {item["component_id"] for item in
+                 reference.task_local_executions(self.inputs)}
+        self.assertTrue({"bungee-basic", "ffmpeg-atempo"} <= local)
+
+    def test_comparison_controls_assets_and_boundary_are_recorded(self) -> None:
+        report = reference.core_report()
+        self.assertEqual([item["id"] for item in report["comparison_inputs"]],
+                         [item["id"] for item in reference.COMPARISON_INPUTS])
+        self.assertEqual([item["id"] for item in report["controls"]],
+                         [item["id"] for item in reference.CONTROLS])
+        self.assertEqual([item["id"] for item in report["assets"]],
+                         [item["id"] for item in reference.ASSETS])
+        outcome = report["local_vs_reported_outcomes"]
+        self.assertEqual(outcome["reported"]["classification"],
+                         "source_reported_not_reproduced")
+        self.assertEqual(outcome["local"]["classification"],
+                         "task_local_synthetic_reference_only")
+        self.assertFalse(outcome["cross_comparison"]["performed"])
+        self.assertFalse(outcome["cross_comparison"]["numeric_parity_claimed"])
+        self.assertTrue(all(not item["qualifies_candidate"]
+                            for item in outcome["ledger"]))
+        release = report["release_boundary"]
+        self.assertFalse(release["release_allowed"])
+        self.assertFalse(release["release_claim"])
+        self.assertEqual(release["blocked_gates"], reference.GATE_NAMES)
+        self.assertEqual(release["installed_v0_geometry"], reference.FORMAT)
+
     def test_source_leads_are_pinned_text_only(self) -> None:
         leads = reference.source_lead_map(self.inputs)
         self.assertEqual([item["source_id"] for item in leads], ["S32", "S33", "S51"])

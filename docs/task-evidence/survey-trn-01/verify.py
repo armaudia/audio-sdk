@@ -35,6 +35,8 @@ REQUIRED_REPORT_KEYS = {
     "verification_profile", "families", "source_leads", "historical_executions",
     "task_local_executions", "gaps", "gates", "missing_evidence", "adverse",
     "evidence_classes", "state_sha256", "repeatability",
+    "comparison_inputs", "controls", "assets", "local_vs_reported_outcomes",
+    "release_boundary",
 }
 
 
@@ -190,6 +192,61 @@ def check_report(errors: List[str]) -> Dict[str, Any]:
         if lead["url_fetched"] is not False or lead["classification"] != (
                 "source_text_only_not_reproduced"):
             errors.append("source_lead_claim_invalid:" + lead["source_id"])
+    valid_pins = (set(reference.SOURCE_PINS) | set(reference.EVIDENCE_PINS)
+                  | set(reference.BOUNDARY_PINS))
+    for key, expected in (
+            ("comparison_inputs", reference.COMPARISON_INPUTS),
+            ("controls", reference.CONTROLS),
+            ("assets", reference.ASSETS)):
+        items = report[key]
+        if [item["id"] for item in items] != [item["id"] for item in expected]:
+            errors.append(key + "_set_mismatch")
+            continue
+        for item in items:
+            if item["source_pin"] not in valid_pins:
+                errors.append(key + "_pin_unknown:" + item["id"])
+            if key == "comparison_inputs" and not item.get("boundary"):
+                errors.append("comparison_input_boundary_missing:" + item["id"])
+            if key == "controls" and not item.get("role"):
+                errors.append("control_role_missing:" + item["id"])
+            if key == "assets" and not item.get("status"):
+                errors.append("asset_status_missing:" + item["id"])
+    outcome = report["local_vs_reported_outcomes"]
+    if (outcome["reported"]["classification"] != "source_reported_not_reproduced"
+            or outcome["local"]["classification"] !=
+            "task_local_synthetic_reference_only"
+            or outcome["reported"]["qualifies_candidate"] is not False
+            or outcome["local"]["qualifies_candidate"] is not False):
+        errors.append("outcome_classification_invalid")
+    if (outcome["cross_comparison"]["performed"] is not False
+            or outcome["cross_comparison"]["numeric_parity_claimed"] is not False
+            or not outcome["cross_comparison"]["reason"]):
+        errors.append("cross_comparison_not_gated")
+    ledger_ids = [item["component_id"] for item in outcome["ledger"]]
+    expected_ledger_ids = sorted(
+        {item["component_id"] for item in report["historical_executions"]}
+        | {item["component_id"] for item in report["task_local_executions"]})
+    if ledger_ids != expected_ledger_ids:
+        errors.append("outcome_ledger_set_mismatch")
+    for item in outcome["ledger"]:
+        if item["comparison_performed"] is not False or item["qualifies_candidate"] is not False:
+            errors.append("outcome_ledger_promoted:" + item["component_id"])
+    release = report["release_boundary"]
+    if (release["release_allowed"] is not False or release["release_claim"] is not False
+            or release["qualification_status"] != reference.QUALIFICATION
+            or release["decision"] != reference.DECISION
+            or release["installed_v0_geometry"] != reference.FORMAT
+            or release["provider_registration"] is not False
+            or release["enabled_by_default"] is not False
+            or release["default_selected"] is not False
+            or release["public_api_abi_change"] is not False
+            or release["board_write"] is not False
+            or release["handoff_write"] is not False):
+        errors.append("release_boundary_claim_invalid")
+    if release["blocked_gates"] != reference.GATE_NAMES or set(release["gated_claims"]) != {
+            "pitch_preservation", "transient_audibility", "listening", "device_timing",
+            "public_benchmark", "release"}:
+        errors.append("release_boundary_gates_invalid")
     expected_components = set(reference.mapped_component_ids())
     report_components = set()
     for family in report["families"]:
