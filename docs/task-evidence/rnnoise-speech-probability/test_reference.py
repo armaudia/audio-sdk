@@ -309,7 +309,7 @@ class FixtureTests(unittest.TestCase):
                              pin["sha256"], pin["path"])
         for path in sorted(HERE.glob("*.py")):
             head = "\n".join(path.read_text(encoding="utf-8").splitlines()[:4])
-            self.assertIn("SPDX-License-Identifier: Apache-2.0", head, path.name)
+            self.assertIn("SPDX" "-License-Identifier: Apache-2.0", head, path.name)
             self.assertIn("SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes",
                           head, path.name)
 
