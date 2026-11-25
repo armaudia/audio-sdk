@@ -1,0 +1,18 @@
+/* SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+ * SPDX-License-Identifier: Apache-2.0
+ */
+#define RB3_PROVIDER_ID "rate.rubber-band-r3-streaming-reference.v0"
+static const char kDescriptor[] =
+    "{\"buffering_delay_samples\":0,\"callback_safe\":false,"
+    "\"configuration_schema_digest\":\"sha256:@RB3_CONFIG_DIGEST@\","
+    "\"contract_version\":\"0.1\",\"edge_exclusions\":{\"end_samples\":0,\"start_samples\":0},"
+    "\"execution_modes\":[2],\"implementation_id\":\"rate.rubber_band_r3_streaming.reference\","
+    "\"implementation_version\":\"0.1.0-reference\",\"max_drain_calls\":16,"
+    "\"native_hop_samples\":160,"
+    "\"platform\":{\"architectures\":[\"arm64\",\"x86_64\"],\"cpu_requirements\":\"baseline\"},"
+    "\"provider_id\":\"rate.rubber-band-r3-streaming-reference.v0\",\"required_assets\":[],"
+    "\"schema_id\":\"audio-sdk/descriptor/0.1\","
+    "\"source_digest\":\"sha256:@RB3_SOURCE_DIGEST@\",\"source_revision\":null,"
+    "\"supported_formats\":[{\"channels\":1,\"frame_samples\":160,\"sample_format\":\"f32\",\"sample_rate_hz\":16000}],"
+    "\"upstream\":{\"license\":\"Apache-2.0\",\"name\":\"audio-sdk task-local rubber-band R3 synthetic streaming reference\","
+    "\"notice_path\":\"licenses/Apache-2.0.txt\"}}";

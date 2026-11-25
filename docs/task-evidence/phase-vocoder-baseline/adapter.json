@@ -1,0 +1,13 @@
+{
+  "protocol_version": 1,
+  "identity": "phase-vocoder-baseline-task-local-v1",
+  "boundary": "audio-sdk/elastic-pcm-packets/0.1",
+  "input_kind": "synthetic mono float32 PCM with contiguous source-sample regions",
+  "entrypoint": ["python3", "docs/task-evidence/phase-vocoder-baseline/run.py"],
+  "sample_rate_hz": 16000,
+  "max_input_samples": 32768,
+  "default_enabled": false,
+  "registered": false,
+  "public_c_boundary": "not used",
+  "scope": "whole-clip offline synthetic comparison, not an installed SDK capability"
+}
