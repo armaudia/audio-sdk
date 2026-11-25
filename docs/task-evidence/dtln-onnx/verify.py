@@ -337,6 +337,10 @@ def check_content(errors: List[str], payloads: Dict[str, Dict[str, Any]]) -> Non
         errors.append("asset_gate_control_did_not_reach_ready")
     if len(report["gates"]) != len(reference.GATE_NAMES):
         errors.append("gate_count_changed")
+    if [gate["name"] for gate in report["gates"]] != list(reference.GATE_NAMES):
+        errors.append("report_gate_list_mismatch")
+    if contract.get("gates") != list(reference.GATE_NAMES):
+        errors.append("contract_gate_list_mismatch")
     for gate in report["gates"]:
         if gate["status"] != "blocked" or not gate["reopen_condition"]:
             errors.append("gate_not_blocked:" + gate["name"])
@@ -412,6 +416,36 @@ def check_strict_rejections(errors: List[str]) -> None:
             pass
 
 
+def check_readme(errors: List[str]) -> None:
+    path = HERE / "README.md"
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError as error:
+        errors.append("readme_unreadable:" + str(error))
+        return
+    try:
+        rows = reference.readme_artifact_digests(text)
+    except ValueError as error:
+        errors.append("readme_digest_table_invalid:" + str(error))
+    else:
+        expected = set(reference.README_ARTIFACT_FILES)
+        if set(rows) != expected:
+            errors.append("readme_digest_table_files_mismatch")
+        for name in reference.README_ARTIFACT_FILES:
+            target = HERE / name
+            if not target.is_file():
+                errors.append("readme_digest_target_missing:" + name)
+            elif rows.get(name) != reference.sha256(target.read_bytes()):
+                errors.append("readme_digest_stale:" + name)
+    try:
+        items = reference.readme_gate_items(text)
+    except ValueError as error:
+        errors.append("readme_gate_list_invalid:" + str(error))
+    else:
+        if len(items) != len(reference.GATE_NAMES):
+            errors.append("readme_gate_count_mismatch:" + str(len(items)))
+
+
 def check_licensing(errors: List[str]) -> None:
     for path in sorted(HERE.glob("*.py")):
         head = "\n".join(path.read_text(encoding="utf-8").splitlines()[:4])
@@ -470,6 +504,7 @@ def main() -> int:
     check_scorer(errors)
     check_upstream_identity(errors)
     check_strict_rejections(errors)
+    check_readme(errors)
     check_licensing(errors)
     changed = check_scope(errors)
     digest = reference.sha256(REPORT.read_bytes()) if REPORT.is_file() else "unavailable"
@@ -480,7 +515,7 @@ def main() -> int:
               f"report_sha256={digest} failures={len(errors)}")
         return 1
     print(f"PASS pins={pins} json_ok=2 interpreter=3.12.16 upstream_identity_ok=1 "
-          f"strict_rejections_ok=9 reproduction_ok=3 licensing_ok=1 scope_ok=1 "
+          f"strict_rejections_ok=9 readme_ok=1 reproduction_ok=3 licensing_ok=1 scope_ok=1 "
           f"changed_files={changed} profile=enhancement status={reference.STATUS} "
           f"qualification={reference.QUALIFICATION} decision={reference.DECISION} "
           f"report_sha256={digest}")

@@ -184,17 +184,20 @@ worktree change outside this directory, and `git diff --check`.
 | `contract.json` | `a498c80cdf8f764af8e102f986e6c39a3e4fa8757cdb2e95495a73214324947b` |
 | `report.json` | `db37b4c88bf81bca5e0397dd3fcb5d45ffccf95a217cd1f59e198f2fae562bdf` |
 | `report.json.sha256` | `ec0d610033e77fb6363ed537b091f92a197de747fa9d089519cc7e7f3beae74d` |
-| `reference.py` | `5727e654190a6c50d07f321e373dbb13db33d51799f432146adabdc785cedd58` |
+| `reference.py` | `51e253e5a57975dc2162062e6a0fd7552632b311e174d799304f9b9bc98fa396` |
 | `scorer.py` | `962b37ad0abd80c55cc2c99a9bfd63eaa8fb10d12a07bbea1af19ec47742b8aa` |
 | `run.py` | `e366081d62129b49b0384b66fd26d4842f20046cb300a35a15f1bd97d40ceff2` |
-| `verify.py` | `9f0ebb64fa988ead9d8d4862d1c7539cc8ebebd3c5f6bfc57e6c311c4173ae48` |
-| `test_reference.py` | `95e187771e88f24023405be3a70c9052d81a395ca1ea36c4fcb398f26d20a023` |
+| `verify.py` | `eae5e3cf3009a63f9b7b989b494322ef062c0dc0fceb7f63054e652aecc084c2` |
+| `test_reference.py` | `a90ac45ed294ff70eb1e4ce14cc77dec812b32bc0396b3d19de4e16f93f1474a` |
 
 `report.json` is canonical JSON (`sort_keys`, minimal separators, no
 `-0.0`/NaN/Infinity, trailing newline). `report.json.sha256` is regenerated
 from those exact bytes. `SOURCES.sha256` is a generated manifest of every
 pinned boundary, provenance input, scorer and file in this directory except
 itself; the README is pinned there and is therefore not listed above.
+`verify.py` recomputes every digest in this table from the committed bytes and
+requires the numbered remaining-gate list below to match the seven
+contract/report gate objects.
 
 ## Licensing analysis
 
@@ -227,7 +230,7 @@ surrogate or used as thresholds here.
 - `report.json` / `report.json.sha256` — canonical evidence and digest.
 - `SOURCES.sha256` — SHA-256 manifest for pinned provenance, boundaries and task files.
 - `test_reference.py` — Python unittest acceptance suite.
-- `verify.py` — read-only pins/JSON/reproduction/invalid-case/asset-gate/licensing/scope verifier.
+- `verify.py` — read-only pins/JSON/reproduction/invalid-case/asset-gate/README-digest-table/gate-list/licensing/scope verifier.
 - `*.json.license`, `SOURCES.sha256.license` — REUSE sidecars for generated artifacts.
 
 ## Reproduction
@@ -250,15 +253,15 @@ digest is the SHA-256 of `SOURCES.sha256` itself.
 
 ## Remaining gates (all blocked)
 
-1. Both hash-pinned graphs present in an approved runner plus a pinned
-   3.12.16-compatible runtime (or recorded 3.10 environment).
-2. Product/redistribution and training-data rights clearance.
-3. Rights-cleared held-out real paired cohort with clean references.
-4. Independent listening or a separately labeled authorized predictive screen.
-5. Target-runtime content/availability timing, memory and deadline evidence.
-6. Opt-in provider intake, descriptor and catalog review.
-7. Explicit public default selection.
-8. Exact approved DTLN reference parity.
+1. Both hash-pinned graphs plus a pinned 3.12.16-compatible runtime (or a
+   recorded 3.10 environment) in an approved runner, and product/redistribution
+   and training-data rights clearance.
+2. Rights-cleared held-out real paired cohort with clean references.
+3. Independent listening or a separately labeled authorized predictive screen.
+4. Target-runtime content/availability timing, memory and deadline evidence.
+5. Opt-in provider intake, descriptor and catalog review.
+6. Explicit public default selection.
+7. Exact approved DTLN reference parity.
 
 No missing result qualifies the candidate. This task remains
 `proposal_only_synthetic_incomplete` / `not_qualified` / `DEFER`.

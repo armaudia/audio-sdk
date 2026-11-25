@@ -1311,6 +1311,61 @@ def sources_bytes() -> bytes:
     return ("\n".join(lines) + "\n").encode("ascii")
 
 
+README_DIGEST_SECTION = "## Canonical artifacts and local digests"
+README_GATES_SECTION = "## Remaining gates (all blocked)"
+README_ARTIFACT_FILES = (
+    "contract.json",
+    "report.json",
+    "report.json.sha256",
+    "reference.py",
+    "scorer.py",
+    "run.py",
+    "verify.py",
+    "test_reference.py",
+)
+README_ROW_RE = re.compile(r"^\| `([^`]+)` \| `([0-9a-f]{64})` \|$")
+README_GATE_RE = re.compile(r"^(\d+)\. ")
+
+
+def _readme_section(text: str, heading: str) -> str:
+    if heading not in text:
+        raise ValueError("readme_section_missing:" + heading)
+    body = text.split(heading, 1)[1]
+    if "\n## " in body:
+        body = body.split("\n## ", 1)[0]
+    return body
+
+
+def readme_artifact_digests(text: str) -> Dict[str, str]:
+    """Parse the README digest table; malformed or duplicate rows fail closed."""
+    rows: Dict[str, str] = {}
+    for line in _readme_section(text, README_DIGEST_SECTION).splitlines():
+        if not line.startswith("|") or line in ("| File | SHA-256 |", "| --- | --- |"):
+            continue
+        match = README_ROW_RE.fullmatch(line)
+        if match is None:
+            raise ValueError("readme_digest_row_malformed:" + repr(line))
+        name, digest = match.groups()
+        if name in rows:
+            raise ValueError("readme_digest_duplicate:" + name)
+        rows[name] = digest
+    return rows
+
+
+def readme_gate_items(text: str) -> List[str]:
+    """Parse the numbered remaining-gate list; numbering must be sequential."""
+    items: List[str] = []
+    for line in _readme_section(text, README_GATES_SECTION).splitlines():
+        match = README_GATE_RE.match(line)
+        if match is None:
+            continue
+        if int(match.group(1)) != len(items) + 1:
+            raise ValueError("readme_gate_numbering:" + repr(line))
+        items.append(line)
+    return items
+
+
+
 def contract() -> Dict[str, Any]:
     return {
         "schema_id": CONTRACT_SCHEMA_ID,

@@ -346,6 +346,39 @@ class PackageTests(unittest.TestCase):
     def test_31_interpreter_is_pinned(self) -> None:
         self.assertTrue(reference.interpreter_is_pinned(), sys.version)
 
+    def test_32_readme_digest_table_matches_committed_files(self) -> None:
+        text = (HERE / "README.md").read_text(encoding="utf-8")
+        rows = reference.readme_artifact_digests(text)
+        self.assertEqual(set(rows), set(reference.README_ARTIFACT_FILES))
+        for name, digest in rows.items():
+            self.assertEqual(digest, reference.sha256((HERE / name).read_bytes()), name)
+
+    def test_33_readme_gate_list_matches_contract(self) -> None:
+        text = (HERE / "README.md").read_text(encoding="utf-8")
+        items = reference.readme_gate_items(text)
+        self.assertEqual(len(items), len(reference.GATE_NAMES))
+        self.assertEqual(self.contract["gates"], list(reference.GATE_NAMES))
+        self.assertEqual([gate["name"] for gate in self.report["gates"]],
+                         list(reference.GATE_NAMES))
+
+    def test_34_readme_parsers_fail_closed(self) -> None:
+        bad_digest = (
+            reference.README_DIGEST_SECTION + "\n\n"
+            "| File | SHA-256 |\n| --- | --- |\n"
+            "| `report.json` | `" + "a" * 64 + "` |\n"
+            "| malformed | row |\n")
+        with self.assertRaises(ValueError):
+            reference.readme_artifact_digests(bad_digest)
+        duplicate = (
+            reference.README_DIGEST_SECTION + "\n\n"
+            "| `report.json` | `" + "a" * 64 + "` |\n"
+            "| `report.json` | `" + "b" * 64 + "` |\n")
+        with self.assertRaises(ValueError):
+            reference.readme_artifact_digests(duplicate)
+        bad_gates = reference.README_GATES_SECTION + "\n\n1. one\n3. three\n"
+        with self.assertRaises(ValueError):
+            reference.readme_gate_items(bad_gates)
+
 
 if __name__ == "__main__":
     unittest.main()
