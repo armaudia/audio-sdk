@@ -1,0 +1,37 @@
+# SHA-256 pins for SDK-DYNAMIC-INT8-WAV2VEC2-BASE readiness evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# The mutable shared board is not pinned; only its stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f  source:research/tsm-followup-20261101/README.md
+f2f1b55234364eceff8b0626411590fbb97476cac918d9bf34138babc5820b73  source:research/tsm-followup-20261101/agent-neural/REPORT.md
+09b7e3cc4ff5fa01768cd925f38d972b555f9864feaf38036fafac7c6350f660  source:research/tsm-followup-20261101/agent-neural/run/run_ssl_encoder_cv.py
+3c7b3731cf6d2312e42e3333cae03bc631f6d1dbf557b773e134468c867897e2  source:research/tsm-followup-20261101/agent-neural/run/syl_eval_manifest.json
+8e5a4aadd0b7d88b363658e82e72c087950dd40a378e6ebcdc451c1db9ad8c92  source:research/tsm-followup-20261101/agent-neural/run/wav2vec2-base-960h_fp32_embeddings.npz
+3cb27bbede1983807ae99f62e15dbb52fd8df88c22052df49fd3b0fa3c2567a5  source:research/tsm-followup-20261101/agent-neural/run/wav2vec2-base-960h_int8_embeddings.npz
+11c0aef3121857f71e037acbca64a2546d1f206a9271fd95922530b85267d9d1  source:research/tsm-followup-20261101/agent-neural/run/wav2vec2-base-960h_results.json
+6d56532312237861170b63bcecaa8d9071b30f80e6be1195ff9dfc1436b436d6  source:research/tsm-followup-20261101/agent-neural/run/wav2vec2-base-960h_source.json
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+adb751885024bcaab88a373602f3d19326cee356559d62b0cc334cbc25afceca  docs/task-evidence/distil-wav2vec2-adult-child-ridge/README.md
+ff7b70f389b8c7908c917aa2488728d7f972a8acd22bf66c56d9a671cd5a65d4  docs/task-evidence/distil-wav2vec2-adult-child-ridge/report.json
+2fdd5b97ea785d30c31cf33c9392aa559c728e77fb1f71632915f38c348d4c9b  docs/task-evidence/dynamic-int8-wav2vec2-base/LICENSES.md
+3da6772383eb9b44ccd8eeab4272bf69e4dbd2640f045e42c4fa6ed24f275533  docs/task-evidence/dynamic-int8-wav2vec2-base/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/dynamic-int8-wav2vec2-base/SOURCES.sha256.license
+ccc997cb695fde535c5408a91cd9f0e5ecdbd6cc1687f5abf82530944c5ef509  docs/task-evidence/dynamic-int8-wav2vec2-base/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/dynamic-int8-wav2vec2-base/contract.json.license
+92789bf942d82b9403760e45fc4a8aa7fbdacb1a7e01d8a7d4352cd4c0b2b5ba  docs/task-evidence/dynamic-int8-wav2vec2-base/reference.py
+6f166a5bc05a31064780f0957e5d1fb2046d5939180175b40b72f70a36e856c9  docs/task-evidence/dynamic-int8-wav2vec2-base/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/dynamic-int8-wav2vec2-base/report.json.license
+b1521f0db7fabf6e556f46f02d138bba61b9af13e2de538aea46907eaa2b5edd  docs/task-evidence/dynamic-int8-wav2vec2-base/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/dynamic-int8-wav2vec2-base/report.json.sha256.license
+b73de930f1256894e68b1f556ac98a8c0a09876105d13a0e80ddf36023fcdc9d  docs/task-evidence/dynamic-int8-wav2vec2-base/run.py
+493a8b48a66fa8def4a85d401b8db227f6475c648e55ef32df1bda133140c5d2  docs/task-evidence/dynamic-int8-wav2vec2-base/test_reference.py
+41be498769b35eab5420228d13a8edb267ddda324f4a4d6938e9d4ea2fccccc7  docs/task-evidence/dynamic-int8-wav2vec2-base/verify.py
