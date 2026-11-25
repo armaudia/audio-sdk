@@ -1,0 +1,1112 @@
+{
+  "base_commit": "ff0d92cc1a994e3f93adcab4b1d37bcd2a8a4a5d",
+  "boundary": {
+    "channels": 1,
+    "clock_id": "fixture-monotonic-v0",
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "frame_samples": 160,
+    "origin_ns": "1767225600000000000",
+    "provider_id": "analysis.distil-wav2vec2-frozen-rate-ridge.v0",
+    "public_api_abi_change": false,
+    "registered": false,
+    "sample_format": "f32",
+    "sample_rate_hz": 16000,
+    "window_frames": 400,
+    "window_samples": 64000
+  },
+  "cohort": {
+    "active_seconds_by_stratum": {
+      "clean": 3.8,
+      "overlap": 3.2,
+      "quiet_boundary": 3.6,
+      "short_active": 2.0
+    },
+    "examples": [
+      {
+        "active_seconds": 3.6,
+        "feature_digest": "166a3f068131403b6d113b3c2b83021f8e5a570a8117ea2046ac3d96e7272eb0",
+        "label_syllables_per_second": 4.166666667,
+        "stratum": "quiet_boundary",
+        "syllable_count": 15,
+        "window_id": "win-000"
+      },
+      {
+        "active_seconds": 3.8,
+        "feature_digest": "799fb960fa5558781055e2bedc6104b407fe42eead534c0a731d8c132808406a",
+        "label_syllables_per_second": 4.473684211,
+        "stratum": "clean",
+        "syllable_count": 17,
+        "window_id": "win-001"
+      },
+      {
+        "active_seconds": 3.8,
+        "feature_digest": "07f2e04fbe56b910749a19c15dec92cdf88ec0592be02c75322ac7f410234852",
+        "label_syllables_per_second": 4.736842105,
+        "stratum": "clean",
+        "syllable_count": 18,
+        "window_id": "win-002"
+      },
+      {
+        "active_seconds": 3.8,
+        "feature_digest": "c3c99c1cb3255d4c5769769972e30f4ee8039a06f916701ae67e7d569e51d7f9",
+        "label_syllables_per_second": 4.736842105,
+        "stratum": "clean",
+        "syllable_count": 18,
+        "window_id": "win-003"
+      },
+      {
+        "active_seconds": 3.8,
+        "feature_digest": "5e90e4954be3ec1fb17a9f8b5a05f6975cf0967aee999a7eda2fac0978824e4a",
+        "label_syllables_per_second": 5.0,
+        "stratum": "clean",
+        "syllable_count": 19,
+        "window_id": "win-004"
+      }
+    ],
+    "feature_digest": "4050c7fe20489345cf97229d3a33e1370ccd115fda082209d84a1849451a6e70",
+    "folds": 5,
+    "human_syllable_labels": false,
+    "label_definition": "round(latent_rate * active_seconds) / active_seconds",
+    "label_digest": "c635c58b35edf87201fc1617f22b3a44e3dd3012cd5c8ae2113be26dff44610a",
+    "labels_matched_to_caller_features_by_latent": true,
+    "real_audio": false,
+    "seed": 20261124,
+    "strata": [
+      "clean",
+      "short_active",
+      "overlap",
+      "quiet_boundary"
+    ],
+    "type": "deterministic_synthetic",
+    "windows": 210,
+    "windows_per_fold": 42
+  },
+  "contract_id": "audio-sdk/distil-wav2vec2-frozen-rate-ridge/0.1",
+  "controls": {
+    "constant_train_mean": {
+      "metrics": {
+        "bias_syllables_per_second": 0.126936,
+        "count": 42,
+        "mae_syllables_per_second": 1.197024,
+        "negative_predictions": 0,
+        "pearson_r": null,
+        "rmse_syllables_per_second": 1.368579
+      },
+      "status": "reference_failure"
+    },
+    "identity_caller_features": {
+      "embedding_digest": "a10cc2ebf2c0bf6abb39bd4e8fe66be4c9f0ec3477bad7aad2315694b68e76af",
+      "note": "Caller vectors returned bitwise unchanged; only the ridge head is fitted locally.",
+      "status": "pass"
+    },
+    "nonnegative_clipping": {
+      "clipped_mae": 0.290807,
+      "raw_mae": 0.290807,
+      "raw_negative_count": 0
+    },
+    "permutation_adverse": {
+      "description": "Same claimed model identity, deterministically reversed caller vectors.",
+      "metrics_are_unaccepted": true,
+      "nonnegative": {
+        "bias_syllables_per_second": -0.241227,
+        "count": 42,
+        "mae_syllables_per_second": 1.625632,
+        "negative_predictions": 0,
+        "pearson_r": -0.890098,
+        "rmse_syllables_per_second": 1.872855
+      },
+      "raw": {
+        "bias_syllables_per_second": -0.241227,
+        "count": 42,
+        "mae_syllables_per_second": 1.625632,
+        "negative_predictions": 0,
+        "pearson_r": -0.890098,
+        "rmse_syllables_per_second": 1.872855
+      },
+      "status": "expected_failure",
+      "strict_gate_rejected": true,
+      "worse_than_identity": true
+    }
+  },
+  "evidence_classes": {
+    "caller_supplied_real_features": "none",
+    "human_rate_labels": "none",
+    "rate_policy_conditions": "none",
+    "real_audio": "none",
+    "real_model_weights": "none",
+    "speech_preservation": "none",
+    "synthetic_deterministic": "used",
+    "synthetic_wiring_mae_rmse_r": "wiring_only_not_accuracy",
+    "target_runtime_timing": "none"
+  },
+  "gates": [
+    {
+      "id": "model_revision_and_rights",
+      "reason": "No exact checkpoint revision, file hashes, license confirmation or permission to redistribute/execute the named weights is established here.",
+      "reopen": "Pin the exact revision and hashes, confirm Apache-2.0 terms and obtain authorized access on an approved runner.",
+      "status": "blocked"
+    },
+    {
+      "id": "real_frozen_extractor_and_head",
+      "reason": "No real feature extractor was invoked. Caller vectors are deterministic synthetic stand-ins and the head is fitted to synthetic labels.",
+      "reopen": "Run the caller-supplied frozen extractor and a fitted head on cleared audio; keep the classification head unused.",
+      "status": "blocked"
+    },
+    {
+      "id": "rights_qualified_labeled_audio",
+      "reason": "No real speech, transcript-derived syllable labels, consent or rights-qualified corpus is used. Synthetic labels are not human syllable judgements.",
+      "reopen": "Freeze a permitted, speaker-disjoint labeled rate cohort with independent scoring.",
+      "status": "blocked"
+    },
+    {
+      "id": "external_accuracy_generalization",
+      "reason": "Synthetic five-fold results only. The pinned research reports one external pilot; this fixture does not reproduce or extend it.",
+      "reopen": "Evaluate the exact pinned extractor/head on an independently reviewed corpus and report MAE/RMSE/r with baselines.",
+      "status": "blocked"
+    },
+    {
+      "id": "preferred_speed_claim",
+      "reason": "Measured syllables/second is not a listener-preferred speed factor. No preference labels or rate-to-speed policy exist here.",
+      "reopen": "Collect preference/acceptability judgments and define a separately reviewed rate-to-speed policy.",
+      "status": "blocked"
+    },
+    {
+      "id": "target_runtime_timing",
+      "reason": "No paced target-device timing, CPU, memory or deadline measurement. The 157 ms/4 s figure is quoted research context, not a local measurement.",
+      "reopen": "Measure the exact installed build on the target with pacing, load and deadline budgets.",
+      "status": "blocked"
+    },
+    {
+      "id": "rate_profile_condition_coverage",
+      "reason": "No measured 1x/rate-change/unfamiliar-speech/music/silence/rebuffer/drift/final-partial-window coverage; synthetic 4 s windows only.",
+      "reopen": "Score the exact rate policy on the full Rate-profile condition matrix with separate source-reference conditions.",
+      "status": "blocked"
+    },
+    {
+      "id": "source_output_mapping_and_preservation",
+      "reason": "No pitch/transient audibility, playback buffering, speech-preservation or timestamp-tied pause/filler decision evidence; this fixture predicts a rate, it does not apply a rate change.",
+      "reopen": "Measure source/output mapping, duration, quality and buffer behavior for a reviewed rate policy on permitted audio.",
+      "status": "blocked"
+    },
+    {
+      "id": "provider_intake",
+      "reason": "Conceptual boundary is unregistered, OFF by default, with empty descriptor settings; no public API/ABI/default/registry/build change.",
+      "reopen": "Complete opt-in provider intake with independent review after the model/data/runtime gates clear.",
+      "status": "blocked"
+    }
+  ],
+  "held_out": {
+    "by_stratum_nonnegative": {
+      "clean": {
+        "bias_syllables_per_second": 0.018483,
+        "count": 25,
+        "mae_syllables_per_second": 0.289469,
+        "negative_predictions": 0,
+        "pearson_r": 0.970186,
+        "rmse_syllables_per_second": 0.333205
+      },
+      "overlap": {
+        "bias_syllables_per_second": -0.051039,
+        "count": 6,
+        "mae_syllables_per_second": 0.251784,
+        "negative_predictions": 0,
+        "pearson_r": 0.983097,
+        "rmse_syllables_per_second": 0.279843
+      },
+      "quiet_boundary": {
+        "bias_syllables_per_second": 0.03844,
+        "count": 4,
+        "mae_syllables_per_second": 0.375361,
+        "negative_predictions": 0,
+        "pearson_r": 0.985222,
+        "rmse_syllables_per_second": 0.383871
+      },
+      "short_active": {
+        "bias_syllables_per_second": -0.081048,
+        "count": 7,
+        "mae_syllables_per_second": 0.280716,
+        "negative_predictions": 0,
+        "pearson_r": 0.967903,
+        "rmse_syllables_per_second": 0.363567
+      }
+    },
+    "calibration_folds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "calibration_windows": 168,
+    "constant_train_mean": {
+      "bias_syllables_per_second": 0.126936,
+      "count": 42,
+      "mae_syllables_per_second": 1.197024,
+      "negative_predictions": 0,
+      "pearson_r": null,
+      "rmse_syllables_per_second": 1.368579
+    },
+    "evaluation_labels_used_for_alpha_selection": false,
+    "evaluation_labels_used_in_fit": false,
+    "events": [
+      {
+        "active_seconds": 3.2,
+        "available_ns": "1767226276000000000",
+        "clock_id": "fixture-monotonic-v0",
+        "epoch": "1",
+        "event_id": "evt-1-win-168",
+        "feature_digest": "a20f98994118f9ced83e8bb021781abdb90ef6336d65d0c978f490f480990d92",
+        "label_syllables_per_second": 2.1875,
+        "producer_id": "analysis.distil-wav2vec2-frozen-rate-ridge.v0",
+        "rate_syllables_per_second": 1.879872627,
+        "source_first_sample": "10752000",
+        "source_last_sample_exclusive": "10816000",
+        "stratum": "overlap",
+        "syllable_count": 7,
+        "tap_id": "rate.measured_syllables_per_second.v0",
+        "validity": "known",
+        "window_id": "win-168"
+      },
+      {
+        "active_seconds": 3.8,
+        "available_ns": "1767226280000000000",
+        "clock_id": "fixture-monotonic-v0",
+        "epoch": "1",
+        "event_id": "evt-1-win-169",
+        "feature_digest": "79da44f100edace8322bb0676f745295544ef83ea5f137325646ee28273f7b9e",
+        "label_syllables_per_second": 2.368421053,
+        "producer_id": "analysis.distil-wav2vec2-frozen-rate-ridge.v0",
+        "rate_syllables_per_second": 2.594526248,
+        "source_first_sample": "10816000",
+        "source_last_sample_exclusive": "10880000",
+        "stratum": "clean",
+        "syllable_count": 9,
+        "tap_id": "rate.measured_syllables_per_second.v0",
+        "validity": "known",
+        "window_id": "win-169"
+      },
+      {
+        "active_seconds": 2.0,
+        "available_ns": "1767226284000000000",
+        "clock_id": "fixture-monotonic-v0",
+        "epoch": "1",
+        "event_id": "evt-1-win-170",
+        "feature_digest": "90918414f3a2288dc6d603f619395550c5fd2eb05ac8f92e2fb5d4b9bfd72b03",
+        "label_syllables_per_second": 2.5,
+        "producer_id": "analysis.distil-wav2vec2-frozen-rate-ridge.v0",
+        "rate_syllables_per_second": 2.176071027,
+        "source_first_sample": "10880000",
+        "source_last_sample_exclusive": "10944000",
+        "stratum": "short_active",
+        "syllable_count": 5,
+        "tap_id": "rate.measured_syllables_per_second.v0",
+        "validity": "known",
+        "window_id": "win-170"
+      }
+    ],
+    "events_digest": "1d8fbbcac6d1d85e7a85c5bb882f61d7aa272888a6d92c69f1ea6146088079ce",
+    "fold": 4,
+    "head": {
+      "alpha": 10.0,
+      "bias": 4.314949701,
+      "feature_dim": 16,
+      "mean": [
+        0.122936082,
+        0.109921279,
+        -0.087480597,
+        0.061488632,
+        -0.05921385,
+        0.04618365,
+        0.064209107,
+        -0.026334955,
+        0.130370912,
+        0.111371254,
+        -0.084285475,
+        0.047186091,
+        -0.051342971,
+        0.046839078,
+        0.027741168,
+        -0.024279952
+      ],
+      "scale": [
+        0.580226343,
+        0.510469999,
+        0.427326385,
+        0.406301344,
+        0.362632931,
+        0.348024829,
+        0.292916358,
+        0.312550306,
+        0.622220193,
+        0.526785674,
+        0.459056757,
+        0.394413044,
+        0.36362503,
+        0.345024628,
+        0.30816683,
+        0.299216532
+      ],
+      "type": "standardized_ridge",
+      "weights": [
+        0.250134233,
+        0.173016006,
+        -0.094540916,
+        0.088292637,
+        -0.070971251,
+        0.043793745,
+        0.020988192,
+        -0.055791383,
+        0.251785565,
+        0.189821441,
+        -0.157560481,
+        0.066928619,
+        -0.035996032,
+        0.053589573,
+        0.040388484,
+        -0.028747275
+      ]
+    },
+    "nonnegative": {
+      "bias_syllables_per_second": -0.006137,
+      "count": 42,
+      "mae_syllables_per_second": 0.290807,
+      "negative_predictions": 0,
+      "pearson_r": 0.969427,
+      "rmse_syllables_per_second": 0.336658
+    },
+    "raw": {
+      "bias_syllables_per_second": -0.006137,
+      "count": 42,
+      "mae_syllables_per_second": 0.290807,
+      "negative_predictions": 0,
+      "pearson_r": 0.969427,
+      "rmse_syllables_per_second": 0.336658
+    },
+    "train_mean_label_syllables_per_second": 4.314949701,
+    "windows": 42
+  },
+  "missing_evidence": [
+    {
+      "path": "ml-audio-research-experience.md",
+      "reason": "Referenced by the original task prompt but absent from the accessible workspace; no bytes pinned or reused.",
+      "status": "missing_in_workspace"
+    },
+    {
+      "path": "research/speech_intelligence_20261028.md",
+      "reason": "Referenced by the original task prompt but absent from the accessible workspace; no bytes pinned or reused.",
+      "status": "missing_in_workspace"
+    }
+  ],
+  "model": {
+    "classifier_head_used": false,
+    "documented_context_not_reproduced": {
+      "mae_syllables_per_second": 0.741,
+      "mean_encoder_ms_per_4s_clip": 157.0,
+      "note": "External prior result quoted as context only. No exact weights, revision, permission or local execution; these numbers are not claimed by this fixture.",
+      "p95_encoder_ms_per_4s_clip": 222.0,
+      "parameters": 37900000,
+      "pearson_r": 0.768,
+      "reproduced_here": false,
+      "rmse_syllables_per_second": 0.929,
+      "rtf": 0.0393,
+      "source_pin": "research/tsm-followup-20261101/README.md line 31",
+      "weight_bytes_approx": 151500000
+    },
+    "identity_control": {
+      "all_caller_vectors_match_pinned_digests": true,
+      "all_caller_vectors_returned_unchanged": true,
+      "calls": 882,
+      "distinct_caller_vectors": 210,
+      "extractor_model_id": "bookbot/distil-wav2vec2-adult-child-cls-37m",
+      "frozen": true,
+      "identity_pairs_checked": 882,
+      "internal_model": false,
+      "revision": "caller-pinned-not-verified"
+    },
+    "license_from_model_card": "Apache-2.0",
+    "requested_model_id": "bookbot/distil-wav2vec2-adult-child-cls-37m",
+    "role": "caller_supplied_frozen_feature_extractor",
+    "weights_downloaded": false,
+    "weights_executed": false
+  },
+  "no_missing_result_qualifies_candidate": true,
+  "profile": "rate",
+  "qualification_status": "not_qualified",
+  "schema_id": "audio-sdk/task-evidence/distil-wav2vec2-frozen-rate-ridge/report/0.1",
+  "source_pins": [
+    {
+      "path": "audio-benchmark-platform/audio-sdk/CONTRACTS.md",
+      "root": "source",
+      "sha256": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+      "summary": "Fixed v0 geometry, exact source intervals, decimal-string sample/time serialization and analysis-event validity."
+    },
+    {
+      "path": "audio-benchmark-platform/plan/swarm/VERIFICATION.md",
+      "root": "source",
+      "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+      "summary": "Analysis acceptance profile: timestamped events, validity, state isolation and cross-hop interval coverage."
+    },
+    {
+      "path": "research/tsm-followup-20261101/README.md",
+      "root": "source",
+      "sha256": "01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f",
+      "summary": "Line 31 documents the prior external experiment (MAE .741, RMSE .929, r .768, 157 ms/4 s, Apache-2.0, 37.9M/151.5MB). Context only; not reproduced here."
+    },
+    {
+      "path": "api/include/audio_sdk/provider_v0.h",
+      "root": "worktree",
+      "sha256": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+      "summary": "Public provider ABI boundary mirrored by this Python model; unchanged."
+    },
+    {
+      "path": "api/include/audio_sdk/session_v0.h",
+      "root": "worktree",
+      "sha256": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+      "summary": "Public session facade boundary; unchanged. No analysis hook is added."
+    }
+  ],
+  "state_and_cross_hop": {
+    "cross_hop": {
+      "session_a": {
+        "contiguous_transitions": 2,
+        "exact_half_open_interval": true,
+        "exact_window_samples": true,
+        "first_sample": "0",
+        "frames_covered": [
+          400,
+          400,
+          400
+        ],
+        "gap_count": 0,
+        "last_sample_exclusive": "192000",
+        "overlap_count": 0,
+        "total_source_samples": 192000,
+        "windows": 3
+      },
+      "session_b": {
+        "contiguous_transitions": 2,
+        "exact_half_open_interval": true,
+        "exact_window_samples": true,
+        "first_sample": "192000",
+        "frames_covered": [
+          400,
+          400,
+          400
+        ],
+        "gap_count": 0,
+        "last_sample_exclusive": "384000",
+        "overlap_count": 0,
+        "total_source_samples": 192000,
+        "windows": 3
+      }
+    },
+    "reset_epoch_accepted": true,
+    "session_a_keys": 3,
+    "session_b_keys": 3,
+    "session_keys_disjoint": true,
+    "stale_epoch_rejected": true
+  },
+  "status": "proposal_only_synthetic_incomplete",
+  "task": {
+    "excluded_claims": [
+      "adult_child_classification",
+      "age_or_preferred_speed_prediction",
+      "reproduction_of_pinned_research_metrics",
+      "real_model_or_audio_evaluation",
+      "target_device_runtime_qualification",
+      "provider_registration_or_default"
+    ],
+    "kind": "measured_syllable_rate_regression",
+    "rate_to_speed_factor_policy": null,
+    "target_unit": "syllables_per_second"
+  },
+  "task_id": "SDK-DISTIL-WAV2VEC2-BOOKBOT-DISTIL-WAV2VEC2-ADULT-CHILD-CLS-37M-RIDGE",
+  "title": "Distil-Wav2Vec2 frozen caller features + ridge syllable-rate head",
+  "training": {
+    "alpha": 10.0,
+    "calibration_folds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "evaluation_fold": 4,
+    "evaluation_fold_used_for_alpha_selection": false,
+    "fold_nonnegative_mae": [
+      0.251719,
+      0.294784,
+      0.264617,
+      0.275705
+    ],
+    "folds": [
+      {
+        "constant_train_mean": {
+          "bias_syllables_per_second": 0.083235,
+          "count": 42,
+          "mae_syllables_per_second": 1.074631,
+          "negative_predictions": 0,
+          "pearson_r": null,
+          "rmse_syllables_per_second": 1.268274
+        },
+        "fold": 0,
+        "head": {
+          "alpha": 10.0,
+          "bias": 4.335758377,
+          "feature_dim": 16,
+          "mean": [
+            0.129584091,
+            0.116554627,
+            -0.098617042,
+            0.07032161,
+            -0.056812587,
+            0.054210408,
+            0.032067187,
+            -0.024898716,
+            0.137877823,
+            0.113377423,
+            -0.086546495,
+            0.075624958,
+            -0.057209558,
+            0.047494702,
+            0.015731559,
+            -0.022128225
+          ],
+          "scale": [
+            0.595945978,
+            0.504499789,
+            0.431251543,
+            0.39760512,
+            0.372135252,
+            0.339979503,
+            0.294855941,
+            0.313678167,
+            0.633037864,
+            0.536254356,
+            0.462160545,
+            0.405811597,
+            0.375311265,
+            0.334628757,
+            0.312543904,
+            0.317525415
+          ],
+          "type": "standardized_ridge",
+          "weights": [
+            0.235521729,
+            0.165622339,
+            -0.082563731,
+            0.040879577,
+            -0.074567296,
+            0.033505342,
+            0.0195217,
+            -0.062229795,
+            0.252725035,
+            0.20738094,
+            -0.161150837,
+            0.080280179,
+            -0.062315274,
+            0.03766617,
+            0.052660832,
+            -0.062453356
+          ]
+        },
+        "nonnegative": {
+          "bias_syllables_per_second": 0.025113,
+          "count": 42,
+          "mae_syllables_per_second": 0.251719,
+          "negative_predictions": 0,
+          "pearson_r": 0.970305,
+          "rmse_syllables_per_second": 0.328152
+        },
+        "raw": {
+          "bias_syllables_per_second": 0.025113,
+          "count": 42,
+          "mae_syllables_per_second": 0.251719,
+          "negative_predictions": 0,
+          "pearson_r": 0.970305,
+          "rmse_syllables_per_second": 0.328152
+        },
+        "test_windows": 42,
+        "train_windows": 126
+      },
+      {
+        "constant_train_mean": {
+          "bias_syllables_per_second": -0.015357,
+          "count": 42,
+          "mae_syllables_per_second": 1.092111,
+          "negative_predictions": 0,
+          "pearson_r": null,
+          "rmse_syllables_per_second": 1.260384
+        },
+        "fold": 1,
+        "head": {
+          "alpha": 10.0,
+          "bias": 4.311110531,
+          "feature_dim": 16,
+          "mean": [
+            0.12012563,
+            0.108785834,
+            -0.084235073,
+            0.060477932,
+            -0.053373746,
+            0.037443892,
+            0.107132699,
+            -0.030671024,
+            0.134460517,
+            0.116629924,
+            -0.089986238,
+            0.015673649,
+            -0.052227071,
+            0.047547037,
+            0.03637024,
+            -0.02440927
+          ],
+          "scale": [
+            0.559055718,
+            0.526107179,
+            0.426671069,
+            0.412900998,
+            0.36428951,
+            0.343430876,
+            0.30202099,
+            0.310619726,
+            0.627337365,
+            0.527252116,
+            0.457267258,
+            0.38271176,
+            0.352754629,
+            0.355043825,
+            0.322152375,
+            0.27978964
+          ],
+          "type": "standardized_ridge",
+          "weights": [
+            0.244682261,
+            0.154820115,
+            -0.1106501,
+            0.088965908,
+            -0.071080267,
+            0.04580722,
+            0.019279044,
+            -0.051880819,
+            0.23447128,
+            0.210978853,
+            -0.177936325,
+            0.060858919,
+            -0.020476689,
+            0.087290876,
+            0.035232456,
+            -0.003217712
+          ]
+        },
+        "nonnegative": {
+          "bias_syllables_per_second": -0.01754,
+          "count": 42,
+          "mae_syllables_per_second": 0.294784,
+          "negative_predictions": 0,
+          "pearson_r": 0.961799,
+          "rmse_syllables_per_second": 0.347485
+        },
+        "raw": {
+          "bias_syllables_per_second": -0.01754,
+          "count": 42,
+          "mae_syllables_per_second": 0.294784,
+          "negative_predictions": 0,
+          "pearson_r": 0.961799,
+          "rmse_syllables_per_second": 0.347485
+        },
+        "test_windows": 42,
+        "train_windows": 126
+      },
+      {
+        "constant_train_mean": {
+          "bias_syllables_per_second": 0.084824,
+          "count": 42,
+          "mae_syllables_per_second": 1.117211,
+          "negative_predictions": 0,
+          "pearson_r": null,
+          "rmse_syllables_per_second": 1.294283
+        },
+        "fold": 2,
+        "head": {
+          "alpha": 10.0,
+          "bias": 4.336155783,
+          "feature_dim": 16,
+          "mean": [
+            0.132889391,
+            0.121096406,
+            -0.087789613,
+            0.058491397,
+            -0.064299985,
+            0.057423408,
+            0.090531545,
+            -0.031363966,
+            0.137392418,
+            0.116152267,
+            -0.087552966,
+            0.042944563,
+            -0.045736648,
+            0.06053588,
+            0.012961302,
+            -0.029547459
+          ],
+          "scale": [
+            0.583089766,
+            0.50691191,
+            0.417277328,
+            0.402643865,
+            0.354034835,
+            0.35657195,
+            0.271756387,
+            0.314185725,
+            0.621824177,
+            0.514939126,
+            0.459830975,
+            0.405062669,
+            0.359675965,
+            0.34199548,
+            0.277798436,
+            0.305535051
+          ],
+          "type": "standardized_ridge",
+          "weights": [
+            0.262765889,
+            0.197736708,
+            -0.090075147,
+            0.134479258,
+            -0.056183301,
+            0.036697119,
+            0.012930533,
+            -0.041124481,
+            0.236101743,
+            0.170588157,
+            -0.172741361,
+            0.067306691,
+            -0.030028553,
+            0.028494771,
+            0.035340922,
+            -0.031443525
+          ]
+        },
+        "nonnegative": {
+          "bias_syllables_per_second": 0.021255,
+          "count": 42,
+          "mae_syllables_per_second": 0.264617,
+          "negative_predictions": 0,
+          "pearson_r": 0.967418,
+          "rmse_syllables_per_second": 0.331378
+        },
+        "raw": {
+          "bias_syllables_per_second": 0.021255,
+          "count": 42,
+          "mae_syllables_per_second": 0.264617,
+          "negative_predictions": 0,
+          "pearson_r": 0.967418,
+          "rmse_syllables_per_second": 0.331378
+        },
+        "test_windows": 42,
+        "train_windows": 126
+      },
+      {
+        "constant_train_mean": {
+          "bias_syllables_per_second": -0.152702,
+          "count": 42,
+          "mae_syllables_per_second": 1.171971,
+          "negative_predictions": 0,
+          "pearson_r": null,
+          "rmse_syllables_per_second": 1.345685
+        },
+        "fold": 3,
+        "head": {
+          "alpha": 10.0,
+          "bias": 4.276774111,
+          "feature_dim": 16,
+          "mean": [
+            0.109145216,
+            0.093248248,
+            -0.07928066,
+            0.056663592,
+            -0.062369081,
+            0.035656892,
+            0.027104995,
+            -0.018406115,
+            0.11175289,
+            0.099325403,
+            -0.073056201,
+            0.054501192,
+            -0.050198606,
+            0.031778692,
+            0.04590157,
+            -0.021034854
+          ],
+          "scale": [
+            0.58191108,
+            0.50358895,
+            0.433685378,
+            0.411719165,
+            0.359725889,
+            0.351330024,
+            0.293677729,
+            0.311529256,
+            0.605977268,
+            0.528286963,
+            0.456757924,
+            0.380980557,
+            0.36628341,
+            0.34750424,
+            0.316958088,
+            0.292613923
+          ],
+          "type": "standardized_ridge",
+          "weights": [
+            0.241583757,
+            0.18324982,
+            -0.087956276,
+            0.103720091,
+            -0.089176467,
+            0.056643797,
+            0.032167003,
+            -0.073050286,
+            0.24904685,
+            0.158585214,
+            -0.104884834,
+            0.065419644,
+            -0.052468577,
+            0.063388506,
+            0.050475788,
+            -0.026323274
+          ]
+        },
+        "nonnegative": {
+          "bias_syllables_per_second": -0.01506,
+          "count": 42,
+          "mae_syllables_per_second": 0.275705,
+          "negative_predictions": 0,
+          "pearson_r": 0.968324,
+          "rmse_syllables_per_second": 0.336309
+        },
+        "raw": {
+          "bias_syllables_per_second": -0.01506,
+          "count": 42,
+          "mae_syllables_per_second": 0.275705,
+          "negative_predictions": 0,
+          "pearson_r": 0.968324,
+          "rmse_syllables_per_second": 0.336309
+        },
+        "test_windows": 42,
+        "train_windows": 126
+      }
+    ],
+    "note": "Synthetic matched features/labels are wiring/regression evidence only; alpha is fixed before any split and no accuracy or research reproduction is claimed.",
+    "oof_constant_train_mean": {
+      "bias_syllables_per_second": 0.0,
+      "count": 168,
+      "mae_syllables_per_second": 1.113481,
+      "negative_predictions": 0,
+      "pearson_r": null,
+      "rmse_syllables_per_second": 1.290992
+    },
+    "oof_nonnegative": {
+      "bias_syllables_per_second": 0.003442,
+      "count": 168,
+      "mae_syllables_per_second": 0.271706,
+      "negative_predictions": 0,
+      "pearson_r": 0.965619,
+      "rmse_syllables_per_second": 0.335911
+    },
+    "oof_raw": {
+      "bias_syllables_per_second": 0.003442,
+      "count": 168,
+      "mae_syllables_per_second": 0.271706,
+      "negative_predictions": 0,
+      "pearson_r": 0.965619,
+      "rmse_syllables_per_second": 0.335911
+    },
+    "protocol": "four_contiguous_chronological_calibration_folds_evaluation_fold_reserved"
+  },
+  "validation": {
+    "all_rejected": true,
+    "cases": [
+      {
+        "error": "missing_feature_extractor",
+        "name": "missing_feature_extractor",
+        "reason": "caller must supply a frozen extractor",
+        "status": "rejected"
+      },
+      {
+        "error": "extractor_not_frozen",
+        "name": "unfrozen_extractor",
+        "reason": "extractor must be frozen",
+        "status": "rejected"
+      },
+      {
+        "error": "missing_features",
+        "name": "extractor_none",
+        "reason": "missing feature vector",
+        "status": "rejected"
+      },
+      {
+        "error": "nonfinite_feature",
+        "name": "extractor_nan",
+        "reason": "nonfinite feature",
+        "status": "rejected"
+      },
+      {
+        "error": "nonfinite_feature",
+        "name": "extractor_inf",
+        "reason": "nonfinite feature",
+        "status": "rejected"
+      },
+      {
+        "error": "bad_feature_dimension",
+        "name": "extractor_short_vector",
+        "reason": "wrong feature dimension",
+        "status": "rejected"
+      },
+      {
+        "error": "non_numeric_feature",
+        "name": "extractor_non_numeric",
+        "reason": "non-numeric feature",
+        "status": "rejected"
+      },
+      {
+        "error": "extractor_identity_mismatch",
+        "name": "extractor_identity_mismatch",
+        "reason": "claimed model id must match",
+        "status": "rejected"
+      },
+      {
+        "error": "extractor_revision_mismatch",
+        "name": "extractor_revision_mismatch",
+        "reason": "claimed revision must match",
+        "status": "rejected"
+      },
+      {
+        "error": "caller_vector_identity_mismatch",
+        "name": "caller_vector_identity_mismatch",
+        "reason": "returned vector must equal the caller vector bitwise",
+        "status": "rejected"
+      },
+      {
+        "error": "caller_vector_digest_mismatch",
+        "name": "caller_vector_digest_mismatch",
+        "reason": "caller vector must match the pinned cohort digest",
+        "status": "rejected"
+      },
+      {
+        "error": "missing_label",
+        "name": "missing_label",
+        "reason": "label required",
+        "status": "rejected"
+      },
+      {
+        "error": "nonfinite_label",
+        "name": "label_nan",
+        "reason": "nonfinite label",
+        "status": "rejected"
+      },
+      {
+        "error": "nonpositive_label",
+        "name": "label_nonpositive",
+        "reason": "positive label required",
+        "status": "rejected"
+      },
+      {
+        "error": "bad_label_type",
+        "name": "label_string",
+        "reason": "numeric label required",
+        "status": "rejected"
+      },
+      {
+        "error": "nonfinite_rate",
+        "name": "nonfinite_rate",
+        "reason": "rate must be finite",
+        "status": "rejected"
+      },
+      {
+        "error": "non_decimal_source_first_sample",
+        "name": "non_decimal_sample",
+        "reason": "decimal-string sample field required",
+        "status": "rejected"
+      },
+      {
+        "error": "non_decimal_source_first_sample",
+        "name": "plus_sign_interval",
+        "reason": "unsigned decimal-string required",
+        "status": "rejected"
+      },
+      {
+        "error": "empty_interval",
+        "name": "empty_interval",
+        "reason": "nonempty interval required",
+        "status": "rejected"
+      },
+      {
+        "error": "misaligned_interval",
+        "name": "misaligned_interval",
+        "reason": "frame-aligned interval required",
+        "status": "rejected"
+      },
+      {
+        "error": "wrong_window_samples",
+        "name": "short_window",
+        "reason": "exactly 64,000 samples required",
+        "status": "rejected"
+      },
+      {
+        "error": "available_ns_mismatch",
+        "name": "available_ns_mismatch",
+        "reason": "availability must match exclusive source end",
+        "status": "rejected"
+      },
+      {
+        "error": "stale_epoch",
+        "name": "stale_epoch",
+        "reason": "epoch must be positive",
+        "status": "rejected"
+      },
+      {
+        "error": "invalid_validity",
+        "name": "invalid_validity",
+        "reason": "validity tag restricted",
+        "status": "rejected"
+      }
+    ],
+    "known_event": {
+      "active_seconds": 3.6,
+      "available_ns": "1767225604000000000",
+      "clock_id": "fixture-monotonic-v0",
+      "epoch": "1",
+      "event_id": "evt-1-win-000",
+      "feature_digest": "166a3f068131403b6d113b3c2b83021f8e5a570a8117ea2046ac3d96e7272eb0",
+      "label_syllables_per_second": 4.166666667,
+      "producer_id": "analysis.distil-wav2vec2-frozen-rate-ridge.v0",
+      "rate_syllables_per_second": 3.0,
+      "source_first_sample": "0",
+      "source_last_sample_exclusive": "64000",
+      "stratum": "quiet_boundary",
+      "syllable_count": 15,
+      "tap_id": "rate.measured_syllables_per_second.v0",
+      "validity": "known",
+      "window_id": "win-000"
+    },
+    "unknown_event": {
+      "active_seconds": 3.6,
+      "available_ns": "1767225604000000000",
+      "clock_id": "fixture-monotonic-v0",
+      "epoch": "1",
+      "event_id": "evt-1-win-000",
+      "feature_digest": "166a3f068131403b6d113b3c2b83021f8e5a570a8117ea2046ac3d96e7272eb0",
+      "label_syllables_per_second": 4.166666667,
+      "producer_id": "analysis.distil-wav2vec2-frozen-rate-ridge.v0",
+      "rate_syllables_per_second": null,
+      "source_first_sample": "0",
+      "source_last_sample_exclusive": "64000",
+      "stratum": "quiet_boundary",
+      "syllable_count": 15,
+      "tap_id": "rate.measured_syllables_per_second.v0",
+      "validity": "unknown",
+      "window_id": "win-000"
+    },
+    "unknown_retained": true
+  }
+}
