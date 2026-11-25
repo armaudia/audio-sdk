@@ -1,0 +1,94 @@
+{
+  "schema_id": "audio-sdk/learned-inverse-eq/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-LEARNED-INVERSE-EQ",
+  "component": "learned-inverse-eq",
+  "status": "proposal_only_not_qualified",
+  "qualification": "incomplete",
+  "verification_profile": "dsp",
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "public_boundary": {
+    "header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "installed_behavior": "unchanged",
+    "registration": "none; task-local Python-only evidence"
+  },
+  "decision": {
+    "expose_as_processor": false,
+    "registered": false,
+    "default_enabled": false,
+    "public_api_abi_change": false,
+    "descriptor_registry_change": false,
+    "installed_v0_behavior": "unchanged",
+    "release_claim": false
+  },
+  "reference": {
+    "entrypoint": "python3 docs/task-evidence/learned-inverse-eq/run.py",
+    "modes": ["identity", "fixed_eq", "learned_inverse"],
+    "candidate": "learned_inverse",
+    "controls": ["identity", "fixed_eq"],
+    "causal": true,
+    "buffering_delay_samples": 0,
+    "frozen_coefficient_fixture": true,
+    "frozen_response_fixture": true,
+    "external_model": false,
+    "external_weights": false,
+    "downloads": false,
+    "licensed_runtime": false,
+    "real_speech": false,
+    "device_timing_claim": false,
+    "listening_claim": false
+  },
+  "dsp_profile_coverage": [
+    "logarithmic sweep",
+    "step",
+    "impulse",
+    "silence",
+    "synthetic clean speech",
+    "level/tone control",
+    "tone interference",
+    "out-of-band noise",
+    "near-clip and clipped input",
+    "state transitions and reset",
+    "nonlinear tanh interaction with ablation",
+    "ill-conditioned inverse and out-of-band amplification"
+  ],
+  "source_pins": {
+    "research/level_tone_control_20261028.md": "b9178c7c486bec81222919977f8111d4e5c5508ee31d8dbd44c6600e51e25c44",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "audio-benchmark-platform/plan/swarm/check.py": "5488bf52cea2965b0b36a7ec6bbba45c1b3be7b2f514051ac56f994d3101d539"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "board_snapshot": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "b3e8aa913076c0b0496756cdbd1b717cc9f7e65206824198b33278e70c935294",
+    "mutable": true,
+    "qualifying": false
+  },
+  "invariants": [
+    "All files are under docs/task-evidence/learned-inverse-eq/; no shared SDK file is modified.",
+    "The installed v0 format and behavior stay fixed at 16 kHz mono float32, 160 samples per frame.",
+    "Identity and fixed EQ are measured before the learned inverse; no processor is exposed.",
+    "Frozen synthetic coefficient and response fixtures are pinned by SHA-256; no external model, weights, downloads or licensed runtime are used.",
+    "Invalid, missing, nonfinite, stale-state, out-of-range and clipped inputs are explicit; no missing result qualifies a candidate.",
+    "Ill-conditioning and out-of-band noise amplification are reported as adverse, non-qualifying results.",
+    "Canonical report regeneration, source manifest and crosscheck vectors are byte-identical across cold starts."
+  ],
+  "release_gates": [
+    "Held-out real-speech paired response and quality evidence with pinned rights and blinded listening",
+    "Desired-response definition and calibration for natural spectral balance",
+    "Ill-conditioning guard, band limits and out-of-band amplification limits",
+    "Target-device CPU, memory, deadline and real-time pacing measurement",
+    "Provider intake, license, descriptor and public catalog review before any processor exposure"
+  ]
+}

@@ -59,9 +59,12 @@ FLAG_FINAL_INPUT = 1
 FLAG_STARTUP_PADDING = 1
 FLAG_FINAL_PADDING = 2
 
+SPDX_LICENSE_TEXT = "SPDX" "-License-Identifier: Apache-2.0"
+SPDX_LICENSE_JSON_ESCAPED = "SPDX\\u002d" "License-Identifier: Apache-2.0"
+
 SPDX = {
     "copyright": "SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes",
-    "license": "SPDX-License-Identifier: Apache-2.0",
+    "license": SPDX_LICENSE_TEXT,
 }
 
 # Exact copied constants from the pinned installed-consumer fixture. They are
@@ -103,14 +106,21 @@ def _reject_constant(value: str) -> None:
     raise ValueError(f"non-finite JSON constant {value}")
 
 
+def _escape_spdx_json(text: str) -> str:
+    """Preserve the parsed SPDX value without a raw token in serialized JSON."""
+    return text.replace(SPDX_LICENSE_TEXT, SPDX_LICENSE_JSON_ESCAPED)
+
+
 def canonical_bytes(value: Any) -> bytes:
-    return json.dumps(value, sort_keys=True, indent=2, ensure_ascii=False,
-                      allow_nan=False).encode("utf-8") + b"\n"
+    text = json.dumps(value, sort_keys=True, indent=2, ensure_ascii=False,
+                      allow_nan=False)
+    return _escape_spdx_json(text).encode("utf-8") + b"\n"
 
 
 def canonical_compact_bytes(value: Any) -> bytes:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"),
-                      allow_nan=False).encode("utf-8")
+    text = json.dumps(value, sort_keys=True, separators=(",", ":"),
+                      allow_nan=False)
+    return _escape_spdx_json(text).encode("utf-8")
 
 
 def object_digest(value: Any) -> str:

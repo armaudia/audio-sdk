@@ -1,0 +1,34 @@
+{
+  "spdx": {
+    "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+    "SPDX-License-Identifier": "Apache-2.0"
+  },
+  "task": "SDK-SOUNDTOUCH",
+  "provider_added": false,
+  "provider_source_in_sdk": false,
+  "descriptor_added_to_sdk": false,
+  "descriptor_registry_changed": false,
+  "default_changed": false,
+  "registration_call_added_to_sdk": false,
+  "installed_behavior": "unchanged",
+  "builtins_used_by_consumer_test": [
+    "speex.ns.v0",
+    "dsp.highpass80.v0"
+  ],
+  "builtins_untouched": [
+    "speex.ns.v0",
+    "dsp.highpass80.v0"
+  ],
+  "task_local_c_reference": {
+    "id": "rate.soundtouch-reference.v0",
+    "location": "docs/task-evidence/soundtouch/provider/",
+    "registered_by_this_task_in_sdk": false,
+    "cmake_option": "AS_ENABLE_SOUNDTOUCH_REFERENCE",
+    "default": "OFF",
+    "on_mode": "one caller-local consumer executable; unlinked and unregistered when OFF",
+    "source_license": "Apache-2.0",
+    "upstream_soundtouch_code": false,
+    "commercial_or_lgpl_runtime": false
+  },
+  "note": "The opt-in consumer is a build-time harness inside docs/task-evidence only. It adds no SDK provider, descriptor, registry entry, CMake target, default selection or installed artifact."
+}
