@@ -1,0 +1,327 @@
+{
+  "acceptance_profile": {
+    "mapped_cases": [
+      "identity and noisy-input controls",
+      "paired synthetic SI-SDR and STOI",
+      "clean-speech preservation",
+      "peaks and invalid outputs",
+      "critical synthetic adverse cases",
+      "alignment, state, memory and timing boundary"
+    ],
+    "name": "enhancement",
+    "not_applicable": [
+      "no real paired cohort, so no real-speech score is reported",
+      "no target runtime, so device timing, memory and deadlines are not measured",
+      "no authorized listening or predictive screen was run"
+    ],
+    "source": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
+  },
+  "base_commit": "6f58f3d721908806f8c4a0a1e0dc6de846cef54c",
+  "boundary": {
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "registered": false,
+    "shared_cmakelists_change": false
+  },
+  "boundary_pins": {
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "branch": "swarm/SDK-DTLN-ONNX",
+  "caller_supplied_asset_contract": {
+    "block_samples": 512,
+    "delay_samples": 384,
+    "engine": "two ONNX graphs in fixed order: mask estimation then signal estimation",
+    "fail_closed": true,
+    "graph_1_role": "mask estimation over a 257-bin magnitude block with recurrent state",
+    "graph_2_role": "time-domain signal estimation over the masked 512-sample block with recurrent state",
+    "graphs": [
+      {
+        "bytes": 1458237,
+        "path": "data/checkouts/DTLN/pretrained_model/model_1.onnx",
+        "role": "mask_estimation_graph",
+        "sha256": "22b91cae3855e5a0620e66a917ca6c82c58db0e842c770f58d86751c5e8d4ae3"
+      },
+      {
+        "bytes": 2510010,
+        "path": "data/checkouts/DTLN/pretrained_model/model_2.onnx",
+        "role": "signal_estimation_graph",
+        "sha256": "e20c92f9233fccf29cddf86970d0d0161a03aebccc26d6f4d5639c4d5ec2e639"
+      }
+    ],
+    "hop_samples": 128,
+    "inputs_outputs": "two inputs and two outputs per graph, matching the pinned runner's state hand-off; exact state shapes are runtime-derived and not asserted here",
+    "root": "caller-supplied read-only directory",
+    "runtime_lock": {
+      "numpy": "1.26.4",
+      "onnxruntime": "1.20.1",
+      "path": "adapters/dtln-onnx/requirements.lock",
+      "python": "3.10",
+      "sha256": "1195f7e838fd20dc1fff30b3808324131c9f7acbedf63f9bf4084de78aa6a86c",
+      "soundfile": "0.13.1",
+      "target": "CPython 3.10, macOS arm64"
+    },
+    "sample_rate_hz": 16000,
+    "source_commit": "1de1f15a8b5b7e1c44905618ff2ef70ca8277fbc"
+  },
+  "component": "dtln-onnx",
+  "decision": "DEFER",
+  "defer_before": "processor_exposure",
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    "Both pinned ONNX graphs are absent from this SDK worktree: model_1.onnx (1458237 bytes, sha256 22b91cae3855e5a0620e66a917ca6c82c58db0e842c770f58d86751c5e8d4ae3) and model_2.onnx (2510010 bytes, sha256 e20c92f9233fccf29cddf86970d0d0161a03aebccc26d6f4d5639c4d5ec2e639). The adapter lock targets CPython 3.10/macOS arm64 with onnxruntime 1.20.1, while the pinned evidence interpreter is CPython 3.12.16 and onnxruntime is not importable there; no graph, runtime or weight was downloaded, installed, built or executed.",
+    "Product/redistribution rights and training-data provenance for the upstream pretrained checkpoints are not cleared. The pinned MIT LICENSE covers the repository snapshot as distributed but is not a product or redistribution clearance, and no legal review exists.",
+    "No rights-cleared real paired cohort was scored, no real audio was read, and no independent listening or separately labeled authorized predictive screen was run. The 30-pair DNS2020 pilot values are source-reported provenance only.",
+    "No target-runtime content/availability timing, memory, deadline or installed-provider evidence exists, and no provider intake, descriptor, catalog or public-default review was performed."
+  ],
+  "format": {
+    "channels": 1,
+    "content_delay_samples": 0,
+    "frame_samples": 160,
+    "hop_samples": 160,
+    "public_v0_geometry_preserved": true,
+    "sample_format": "f32",
+    "sample_rate_hz": 16000,
+    "sdk_callback_invoked": false
+  },
+  "gates": [
+    "exact_graphs_runtime_and_rights",
+    "real_paired_cohort",
+    "independent_listening_or_predictive_screen",
+    "target_runtime_timing_memory",
+    "provider_intake",
+    "public_default_selection",
+    "exact_reference_parity"
+  ],
+  "invariants": [
+    "Only this task directory is written; no shared SDK file, CMake, contract, header, registry, default, board, handoff or CI file changes.",
+    "The fixture is opt-in, unregistered, disabled by default and not a provider or production callback.",
+    "All signals are frozen deterministic synthetic floats; no graph, model, media, weight or runtime asset is read or produced.",
+    "Configuration, geometry, shape, missing, invalid, nonfinite, epoch, position and lifecycle rejections fail closed without advancing state.",
+    "Caller-supplied asset, commit, size, hash and runtime checks fail closed and never open a graph.",
+    "Source-reported DTLN pilot and upstream values are provenance only and never used as thresholds.",
+    "Three cold-start passes are byte-identical; canonical JSON and digest sidecars regenerate deterministically.",
+    "Missing evidence never qualifies the candidate; decision remains DEFER."
+  ],
+  "licensing_analysis": {
+    "asset_copied_vendored_built_or_downloaded": false,
+    "blocked_gate": "exact_graphs_runtime_and_rights",
+    "conclusion": "MIT source licensing is pinned, but product/redistribution rights, training-data provenance and any separate model/weights or ONNX-runtime terms are not cleared. The rights gate remains blocked; this package distributes no upstream asset.",
+    "legal_review_completed": false,
+    "mit_notice_obligation": "Preserve the copyright and permission notice in copies or substantial portions; this package copies no upstream portion.",
+    "onnx_runtime_redistribution_terms_established": false,
+    "product_use_clearance": false,
+    "redistribution_clearance": false,
+    "separate_weights_terms_established": false,
+    "task_files_license": "Apache-2.0",
+    "training_data_provenance_established": false,
+    "upstream_license_scope": "Pinned MIT LICENSE for the exact repository snapshot, including tracked pretrained model files as distributed at that commit; no separate model-card, weights or runtime terms were found in that snapshot.",
+    "upstream_license_sha256": "aa95acd8c8a7341bfcdb2823694dcbb27a2a4143e860bb52db1ff0f29c85e5a1",
+    "upstream_license_text_pinned": true,
+    "upstream_repository_license": "MIT"
+  },
+  "missing_evidence": [
+    "both pinned ONNX graphs present in an approved isolated runner, with hashes and bytes verified",
+    "a pinned CPython 3.12.16-compatible onnxruntime environment (or a separately recorded 3.10 environment)",
+    "product/redistribution and training-data rights clearance for the pretrained graphs",
+    "rights-cleared held-out real paired cohort with clean references",
+    "independent listening or a separately labeled authorized predictive screen",
+    "target-runtime content/availability timing, memory and deadline evidence",
+    "exact approved DTLN reference parity vector",
+    "opt-in provider intake, descriptor and catalog review",
+    "explicit public default selection"
+  ],
+  "model_provenance": {
+    "adapter": {
+      "entrypoint": [
+        "python",
+        "adapters/dtln-onnx/run.py"
+      ],
+      "identity": "DTLN-1de1f15a8b5b7e1c44905618ff2ef70ca8277fbc",
+      "modes": [
+        "offline"
+      ],
+      "path": "adapters/dtln-onnx/adapter.json",
+      "sha256": "d048fc48252c47b11598dfd1e881878868676434cc7ab6f2a505e34015d60c69",
+      "tasks": [
+        "CLN-01"
+      ],
+      "weights": "required_local"
+    },
+    "asset_policy": "Hash-pinned provenance only; no upstream source, graph, weight, runtime, audio or other asset is copied, vendored, built, packaged, downloaded or redistributed by this package.",
+    "candidate": "DTLN ONNX",
+    "graphs": [
+      {
+        "bytes": 1458237,
+        "file": "data/checkouts/DTLN/pretrained_model/model_1.onnx",
+        "loaded_or_executed": false,
+        "present_in_sdk_worktree": false,
+        "role": "mask_estimation_graph",
+        "sha256": "22b91cae3855e5a0620e66a917ca6c82c58db0e842c770f58d86751c5e8d4ae3",
+        "tracked_in_upstream_commit": true
+      },
+      {
+        "bytes": 2510010,
+        "file": "data/checkouts/DTLN/pretrained_model/model_2.onnx",
+        "loaded_or_executed": false,
+        "present_in_sdk_worktree": false,
+        "role": "signal_estimation_graph",
+        "sha256": "e20c92f9233fccf29cddf86970d0d0161a03aebccc26d6f4d5639c4d5ec2e639",
+        "tracked_in_upstream_commit": true
+      }
+    ],
+    "repository_resolution": {
+      "expected_commit": "1de1f15a8b5b7e1c44905618ff2ef70ca8277fbc",
+      "expected_remote": "https://github.com/breizhn/DTLN",
+      "method": "git config --get remote.origin.url and git rev-parse HEAD in the pinned external checkout",
+      "snapshot": "data/checkouts/DTLN"
+    },
+    "runtime_lock": {
+      "installed_in_sdk_worktree": false,
+      "numpy": "1.26.4",
+      "onnxruntime": "1.20.1",
+      "onnxruntime_importable": false,
+      "path": "adapters/dtln-onnx/requirements.lock",
+      "python": "3.10",
+      "sha256": "1195f7e838fd20dc1fff30b3808324131c9f7acbedf63f9bf4084de78aa6a86c",
+      "soundfile": "0.13.1",
+      "target": "CPython 3.10, macOS arm64"
+    },
+    "source_files": {
+      "DTLN_model.py": "cb5fc13f9d24ff5b98c65ba0a9f814ed4943048526acf310aebef0d4cdf47d55",
+      "README.md": "1f518d30bc8fbd4cdd0cfa5735630162852a33510ad149fd3204f124d3ad51d2",
+      "convert_weights_to_onnx.py": "a222ff4207a769d2e9d7c2764b2996d76aeb83e10c4ec93c49ac1a4999e4b97b",
+      "real_time_processing_onnx.py": "e15f0fc092f03f372dff34770a9a7d1f4b664337f514bf6f0880c0b87f3a2016"
+    },
+    "source_snapshot": "data/checkouts/DTLN",
+    "source_snapshot_in_sdk_worktree": false,
+    "upstream_commit": "1de1f15a8b5b7e1c44905618ff2ef70ca8277fbc",
+    "upstream_license": "MIT",
+    "upstream_license_copyright": "Copyright (c) 2020 Nils L. Westhausen",
+    "upstream_license_file": "data/checkouts/DTLN/LICENSE",
+    "upstream_license_sha256": "aa95acd8c8a7341bfcdb2823694dcbb27a2a4143e860bb52db1ff0f29c85e5a1",
+    "upstream_repository": "https://github.com/breizhn/DTLN"
+  },
+  "profile": "enhancement",
+  "reopening_conditions": [
+    "both pinned ONNX graphs present in an approved isolated runner, with hashes and bytes verified",
+    "a pinned CPython 3.12.16-compatible onnxruntime environment (or a separately recorded 3.10 environment)",
+    "product/redistribution and training-data rights clearance for the pretrained graphs",
+    "rights-cleared held-out real paired cohort with clean references",
+    "independent listening or a separately labeled authorized predictive screen",
+    "target-runtime content/availability timing, memory and deadline evidence",
+    "exact approved DTLN reference parity vector",
+    "opt-in provider intake, descriptor and catalog review",
+    "explicit public default selection"
+  ],
+  "repository": "audio-sdk",
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "scope": "Deterministic synthetic enhancement evidence at a task-local caller-supplied-asset boundary for the pinned DTLN two-graph ONNX stream; no selection, superiority, real-model, device, listening, benchmark or release claim.",
+  "scorer_pins": {
+    "docs/task-evidence/online-multichannel-wpe/crosscheck_vectors.json": "7bdd131858306648b4f24b1544a6afb4da2660b3f2d3edcdfb3b715e574a18a2",
+    "docs/task-evidence/online-multichannel-wpe/scorer.py": "a0c1ba9ff21b0d0125c792053f0acefe1eda9266ab276aa370838c0f42dd55a1"
+  },
+  "source_pins": {
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "adapters/dtln-onnx/README.md": "77853cc7606cd789bd0b65df469f98bfc2b9e082540bed115501bc0b89e91a95",
+    "adapters/dtln-onnx/adapter.json": "d048fc48252c47b11598dfd1e881878868676434cc7ab6f2a505e34015d60c69",
+    "adapters/dtln-onnx/requirements.lock": "1195f7e838fd20dc1fff30b3808324131c9f7acbedf63f9bf4084de78aa6a86c",
+    "adapters/dtln-onnx/run.py": "a12d90df72d1bdafe8d2a204741227ecd7c2ca8d410829e2f2f912256168fdd6",
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "data/checkouts/DTLN/DTLN_model.py": "cb5fc13f9d24ff5b98c65ba0a9f814ed4943048526acf310aebef0d4cdf47d55",
+    "data/checkouts/DTLN/LICENSE": "aa95acd8c8a7341bfcdb2823694dcbb27a2a4143e860bb52db1ff0f29c85e5a1",
+    "data/checkouts/DTLN/README.md": "1f518d30bc8fbd4cdd0cfa5735630162852a33510ad149fd3204f124d3ad51d2",
+    "data/checkouts/DTLN/convert_weights_to_onnx.py": "a222ff4207a769d2e9d7c2764b2996d76aeb83e10c4ec93c49ac1a4999e4b97b",
+    "data/checkouts/DTLN/pretrained_model/model_1.onnx": "22b91cae3855e5a0620e66a917ca6c82c58db0e842c770f58d86751c5e8d4ae3",
+    "data/checkouts/DTLN/pretrained_model/model_2.onnx": "e20c92f9233fccf29cddf86970d0d0161a03aebccc26d6f4d5639c4d5ec2e639",
+    "data/checkouts/DTLN/real_time_processing_onnx.py": "e15f0fc092f03f372dff34770a9a7d1f4b664337f514bf6f0880c0b87f3a2016",
+    "research/noise_suppression_assets_20261027.json": "35f871e7d7362070c20fa35a5832115ea5388ffae550be3b25368a72bf5cebf4",
+    "research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+    "research/noise_suppression_pilot_20261027.md": "90adcfb7b612d5a661baf16e69f78df95eebc6f65bbfece973022af902bd9aae",
+    "research/selected_audio_enhancement_candidates.md": "0364d8d6963192789c839fd37ae6bfdfb405303986066a1ac8e30555d9a1f946",
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245"
+  },
+  "source_reported": {
+    "findings": [
+      {
+        "metric": "median_snr_gain_db",
+        "value": 6.444
+      },
+      {
+        "metric": "median_si_sdr_gain_db",
+        "value": 6.529
+      },
+      {
+        "metric": "stoi",
+        "value": 0.9624
+      },
+      {
+        "metric": "median_rtf",
+        "value": 0.0324
+      },
+      {
+        "metric": "measured_stream_lag_samples",
+        "value": 384
+      }
+    ],
+    "note": "Provenance only. These values are never reproduced, pooled, assigned to the surrogate or used as an acceptance threshold.",
+    "scope": "30 paired DNS2020 items scored offline with the measured 384-sample stream lag compensated; the upstream README DNS-Challenge rank/MOS values and 32 ms model delay are separate source-reported conditions.",
+    "sources": [
+      "research/noise_suppression_pilot_20261027.md",
+      "research/voice-enhancement-20261101/candidate_matrix.csv",
+      "research/selected_audio_enhancement_candidates.md",
+      "REALTIME_COMPONENT_CANDIDATES.md",
+      "data/checkouts/DTLN/README.md"
+    ],
+    "status": "source_reported_not_reproduced",
+    "upstream_reported": {
+      "dns_challenge_real_time_rank": "8/17",
+      "mos_gain_over_challenge_baseline": 0.24,
+      "note": "Transcribed from the pinned upstream README; not reproduced here.",
+      "reported_model_delay_ms": 32
+    },
+    "used_for_qualification": false
+  },
+  "status": "optional-task-local-developer-fixture",
+  "stream": {
+    "block_samples": 512,
+    "channels": 1,
+    "delay_hops": 3,
+    "delay_samples": 384,
+    "delay_source": "three-hop consistent lag measured against paired noisy input",
+    "graphs_required": 2,
+    "hop_samples": 128,
+    "installed_v0_behavior_changed": false,
+    "installed_v0_geometry_preserved": true,
+    "magnitude_bins": 257,
+    "output_alignment": "caller compensates 384 samples; raw stream is scored uncompensated as a control",
+    "sample_format": "f32",
+    "sample_rate_hz": 16000
+  },
+  "surrogate": {
+    "audio_read": false,
+    "block_samples": 512,
+    "caller_supplied_frozen_signals": true,
+    "delay_samples": 384,
+    "device_clock": false,
+    "graph": false,
+    "hop_samples": 128,
+    "identity": "two_stage_scalar_gain_envelope_proxy_v0",
+    "is_dtln_source": false,
+    "is_spectral_mask": false,
+    "signal_samples": 15360,
+    "weights": false
+  },
+  "task": "SDK-DTLN-ONNX",
+  "title": "DTLN ONNX",
+  "verification_profile": "enhancement"
+}
