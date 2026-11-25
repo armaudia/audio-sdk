@@ -165,7 +165,7 @@ separate owner, exact clock-domain policy and task-local qualification under
   family coverage, gap boundary and prohibited claims.
 - [`test_evidence_map.py`](test_evidence_map.py): deterministic unit tests.
 
-Report SHA-256: `5b927755513a046cd19ec1855c08b90d9407eb5f8666a028c4ae7c2019883b45`.
+Report SHA-256: `8f15aad4fdf2b12d1aaa0d86633a7f70e736f2c4a142ffa47fc400c9edf8d008`.
 
 ## Reproduction
 
