@@ -1,0 +1,33 @@
+# SHA-256 pins for SDK-OPUS-DRED task-local readiness evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# The mutable shared board is not pinned; only its stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d  source:REALTIME_COMPONENT_CANDIDATES.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+cdf1782853fde1291bb8fd3c64144b9e857939856f8caca1666d2d617845728c  source:research/category_registry.json
+8371790cdb2b25a5ef55f07d8a52bc74850522d5e30968c34984c754af95cb71  source:research/distortion_restoration_20261028.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+ac4ed82328dbbfc1af8aefbd43f2efc5ce36bde9f004e6f40bbc46b23db962df  docs/task-evidence/opus-1-4-standard-decoder-plc/README.md
+ec4c9ea5e46e02d9866920458b4d6365d300d8bcd626d2e05bf7f4c4955a080e  docs/task-evidence/opus-1-4-standard-decoder-plc/report.json
+8fb323ffd7ce59c361ac1078d7c434b1b3c0b5f088d9a7d07ae5b2278cfa3ea9  docs/task-evidence/pitch-period-repeat-plc/README.md
+2981af78b51bdbe1d83b9cbbfdf75a055a4ab79f588ddfcaba574fc14fc7e9db  docs/task-evidence/opus-dred/LICENSES.md
+c3ee6231e0a8008e996d858db5b16edccd21a244bafe449d54831e339a405712  docs/task-evidence/opus-dred/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/opus-dred/SOURCES.sha256.license
+f1cb404eaf8dcb0ae52fd48b6fadad47cfc7a2c8f42ff3ec223d90ea182b8784  docs/task-evidence/opus-dred/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/opus-dred/contract.json.license
+cc90c9d37819df069dbbf5671d447f5215307390757c6ba712d1ce3c93bd42f4  docs/task-evidence/opus-dred/reference.py
+2997dc6cc9e623a762379ca498c178c22a9607591a39ea8bcf6ef2691544a3f2  docs/task-evidence/opus-dred/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/opus-dred/report.json.license
+de63134a0cfa7a444054f0df568be3f326a4803797b6809dde29793fe4d02ee8  docs/task-evidence/opus-dred/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/opus-dred/report.json.sha256.license
+6370907345ca9b91220389f0d70dd736c8ebed179d485b0b8d8814779d8eeff5  docs/task-evidence/opus-dred/run.py
+dfddb08ca28c2ee26e377decee354130db9fba3607839e1d3f7ac2a9de657b39  docs/task-evidence/opus-dred/test_reference.py
+3ccb4f086c74a0a88ba7b0bd99f5fa8b1b93b1f4b12ffd00c8707c772138d706  docs/task-evidence/opus-dred/verify.py
