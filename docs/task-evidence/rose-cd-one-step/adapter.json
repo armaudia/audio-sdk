@@ -1,0 +1,30 @@
+{
+  "activation": "deferred_until_gates_clear",
+  "asset_present": false,
+  "caller_supplied_asset_required": true,
+  "default_selected": false,
+  "descriptor_registry_change": false,
+  "descriptor_settings": {},
+  "enabled_by_default": false,
+  "entrypoint": null,
+  "implemented": false,
+  "input_kind": "waveform",
+  "installed_v0_behavior_change": false,
+  "modes": [
+    "offline"
+  ],
+  "note": "Proposal-only task-local descriptor. It is not the shipped adapter, not a provider registration and not a public default.",
+  "output_kinds": [
+    "waveform"
+  ],
+  "provider_registration": false,
+  "public_api_abi_change": false,
+  "registered": false,
+  "schema_id": "audio-sdk/task-evidence/rose-cd-one-step/adapter/0.1",
+  "task_id": "SDK-ROSE-CD-ONE-STEP",
+  "task_local": true,
+  "tasks": [
+    "CLN-01"
+  ],
+  "weights": "caller_supplied_asset_required_not_present"
+}

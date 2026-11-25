@@ -1,0 +1,1854 @@
+{
+  "adverse": {
+    "config_rejections": {
+      "caller_asset_admission_control": {
+        "processing_attempted": false,
+        "reason_codes": [],
+        "session_created": true,
+        "state_digest": "b220aa8ef71135fcbe1c923dd1850f434b7581843305e5dae7442eab9b1a5d7e",
+        "status": "created"
+      },
+      "caller_asset_unavailable": {
+        "processing_attempted": false,
+        "reason_codes": [
+          "asset_not_admitted"
+        ],
+        "session_created": false,
+        "status": "rejected"
+      },
+      "caller_asset_wrong_checkpoint_sha": {
+        "processing_attempted": false,
+        "reason_codes": [
+          "checkpoint_sha256_mismatch",
+          "asset_not_admitted"
+        ],
+        "session_created": false,
+        "status": "rejected"
+      },
+      "mode_unsupported": {
+        "processing_attempted": false,
+        "reason_codes": [
+          "mode_unsupported"
+        ],
+        "session_created": false,
+        "status": "rejected"
+      },
+      "surrogate_without_opt_in": {
+        "processing_attempted": false,
+        "reason_codes": [
+          "surrogate_opt_in_required"
+        ],
+        "session_created": false,
+        "status": "rejected"
+      },
+      "wrong_channels": {
+        "processing_attempted": false,
+        "reason_codes": [
+          "channels_mismatch"
+        ],
+        "session_created": false,
+        "status": "rejected"
+      },
+      "wrong_model_name": {
+        "processing_attempted": false,
+        "reason_codes": [
+          "model_name_mismatch"
+        ],
+        "session_created": false,
+        "status": "rejected"
+      },
+      "wrong_package_version": {
+        "processing_attempted": false,
+        "reason_codes": [
+          "package_version_mismatch"
+        ],
+        "session_created": false,
+        "status": "rejected"
+      },
+      "wrong_sample_format": {
+        "processing_attempted": false,
+        "reason_codes": [
+          "sample_format_mismatch"
+        ],
+        "session_created": false,
+        "status": "rejected"
+      },
+      "wrong_sample_rate": {
+        "processing_attempted": false,
+        "reason_codes": [
+          "sample_rate_hz_mismatch"
+        ],
+        "session_created": false,
+        "status": "rejected"
+      }
+    },
+    "frame_cases": {
+      "cases": {
+        "boolean_sample": {
+          "state_digest": "9d9888f987ec41d8203d18b394ff387d575a56a9751b2ce3097bd0b6b8dce118",
+          "state_unchanged": true,
+          "status": "rejected:sample_type_invalid"
+        },
+        "empty_chunk": {
+          "state_digest": "9d9888f987ec41d8203d18b394ff387d575a56a9751b2ce3097bd0b6b8dce118",
+          "state_unchanged": true,
+          "status": "rejected:chunk_empty"
+        },
+        "finish_after_close": {
+          "state_digest": "5214d1adb0353f1a1f25fcc4bdedbe7379180806525ca689e5b82d245720114f",
+          "state_unchanged": true,
+          "status": "rejected:session_closed"
+        },
+        "finish_after_finish": {
+          "state_digest": "506618f61f5846fd69ad61815000dcca0dcb05ce27f9fa8360c26e60aed8c040",
+          "state_unchanged": true,
+          "status": "rejected:session_already_finished"
+        },
+        "infinite_sample": {
+          "state_digest": "9d9888f987ec41d8203d18b394ff387d575a56a9751b2ce3097bd0b6b8dce118",
+          "state_unchanged": true,
+          "status": "rejected:sample_nonfinite"
+        },
+        "nonfinite_sample": {
+          "state_digest": "9d9888f987ec41d8203d18b394ff387d575a56a9751b2ce3097bd0b6b8dce118",
+          "state_unchanged": true,
+          "status": "rejected:sample_nonfinite"
+        },
+        "out_of_range_sample": {
+          "state_digest": "9d9888f987ec41d8203d18b394ff387d575a56a9751b2ce3097bd0b6b8dce118",
+          "state_unchanged": true,
+          "status": "rejected:sample_out_of_range"
+        },
+        "oversized_chunk": {
+          "state_digest": "9d9888f987ec41d8203d18b394ff387d575a56a9751b2ce3097bd0b6b8dce118",
+          "state_unchanged": true,
+          "status": "rejected:chunk_oversized"
+        },
+        "process_after_close": {
+          "state_digest": "5214d1adb0353f1a1f25fcc4bdedbe7379180806525ca689e5b82d245720114f",
+          "state_unchanged": true,
+          "status": "rejected:session_closed"
+        },
+        "process_after_finish": {
+          "state_digest": "506618f61f5846fd69ad61815000dcca0dcb05ce27f9fa8360c26e60aed8c040",
+          "state_unchanged": true,
+          "status": "rejected:session_already_finished"
+        },
+        "reset_after_close": {
+          "state_digest": "5214d1adb0353f1a1f25fcc4bdedbe7379180806525ca689e5b82d245720114f",
+          "state_unchanged": true,
+          "status": "rejected:session_closed"
+        },
+        "string_chunk": {
+          "state_digest": "9d9888f987ec41d8203d18b394ff387d575a56a9751b2ce3097bd0b6b8dce118",
+          "state_unchanged": true,
+          "status": "rejected:chunk_type_invalid"
+        }
+      },
+      "closed_after_double_close": true,
+      "finish_output_samples": 160,
+      "state_after_close_unchanged_by_rejected_calls": true,
+      "state_after_finish_unchanged_by_rejected_calls": true
+    },
+    "lifecycle": {
+      "close_idempotent": true,
+      "finish_after_close": "rejected:session_closed",
+      "finish_returns_samples": true,
+      "process_after_close": "rejected:session_closed",
+      "reset_after_close": "rejected:session_closed",
+      "reset_finish_empty": true,
+      "second_finish": "rejected:session_already_finished",
+      "zero_length_finish": true
+    }
+  },
+  "asset_admission": {
+    "asset_bytes_read": false,
+    "download_attempted": false,
+    "reason_codes": [
+      "model_revision_unpinned",
+      "download_revision_unrecorded",
+      "pointer_artifact_unverified",
+      "asset_bytes_absent",
+      "runtime_unavailable",
+      "rights_not_cleared"
+    ],
+    "status": "blocked",
+    "vendor_runtime_invoked": false
+  },
+  "asset_boundary": {
+    "asset": {
+      "asset_id": "MossFormerGAN_SE_16K/last_best_checkpoint.pt",
+      "byte_count": 38845593,
+      "code_license_metadata": "Apache-2.0",
+      "model_download_revision": null,
+      "model_license_metadata": "Apache-2.0",
+      "model_name": "MossFormerGAN_SE_16K",
+      "model_revision": null,
+      "package": "clearvoice==0.1.2",
+      "package_identity": "ClearerVoice-Studio-clearvoice-0.1.2",
+      "sha256": "04bf00db575389e1ea8b1fcca48d9efcf073e50ad170e6dd5230df3bac98be27",
+      "source_repository": "https://github.com/modelscope/ClearerVoice-Studio",
+      "source_revision": "dcb1b20e1e44d435090072ab9b223c792ea1f624",
+      "storage": "external",
+      "training_data_note": "model card states open and private data; exact corpus exposure not disclosed"
+    },
+    "asset_bytes_read": false,
+    "auxiliary_assets": [
+      {
+        "asset_id": "MossFormerGAN_SE_16K/last_best_checkpoint",
+        "byte_count": 24,
+        "content_verified": false,
+        "required_content": "last_best_checkpoint.pt",
+        "sha256": "315744c841441f8831cb2f896e06102b4d864776bf272febaa30c639c903e1c0"
+      }
+    ],
+    "bytes_present_in_worktree": false,
+    "candidate": "ClearerVoice-MossFormerGAN_SE_16K",
+    "contract": "CONTRACTS.md as_asset_v0: ID, byte count, SHA-256, storage=external, no download",
+    "download_attempted": false,
+    "kind": "caller-supplied external asset reference",
+    "readiness": "blocked",
+    "reason_codes": [
+      "model_revision_unpinned",
+      "download_revision_unrecorded",
+      "pointer_artifact_unverified",
+      "asset_bytes_absent",
+      "runtime_unavailable",
+      "rights_not_cleared"
+    ],
+    "reopen_condition": "Reopen asset identity only when the exact MossFormerGAN_SE_16K checkpoint bytes are addressed by an immutable model artifact revision plus byte count and SHA-256 in a retrieval record, the 24-byte pointer content is verified to name the checkpoint, and both resolve from the caller's own storage without a provider file access or download. Reopen runtime admission only when a pinned clearvoice 0.1.2 runtime artifact with a recorded digest installs in the intended environment, adapters/clearvoice/run.py runs under the research requirements lock, and its distribution and product-use terms are documented. Reopen rights only after written artifact-specific weight, runtime and training-data terms are recorded and a legal/redistribution decision exists; Apache-2.0 metadata alone is not clearance.",
+    "rights_cleared": false,
+    "runtime_installed_in_worktree": false,
+    "surrogate_policy": {
+      "available": true,
+      "labelled": "deterministic offline soft-mask surrogate",
+      "opt_in_required": true,
+      "substitutes_for_candidate": false
+    },
+    "synthetic_admission_control": {
+      "not_the_pinned_candidate": true,
+      "note": "Admission logic only; no upstream bytes, runtime or rights exist and none are implied.",
+      "reason_codes": [],
+      "status": "admitted"
+    },
+    "vendor_runtime_invoked": false
+  },
+  "base_commit": "c7cb12877fb8dce8620ba4963f0496a8061d9f7b",
+  "boundary": {
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "installed_v0_geometry_preserved": true,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "registered": false,
+    "shared_build_or_ci_change": false,
+    "task_board_or_handoff_write": false
+  },
+  "boundary_pins": {
+    "CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "LICENSES/Apache-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "REUSE.toml": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "scripts/ci.py": "64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f"
+  },
+  "branch": "swarm/SDK-CLEARVOICE-MOSSFORMERGAN",
+  "claims": {
+    "asset_downloaded": false,
+    "attention_or_gan_executed": false,
+    "benchmark_result": false,
+    "content_latency_measured": false,
+    "device_timing_measured": false,
+    "listening_result_produced": false,
+    "mossformergan_model_loaded": false,
+    "quality_claim": false,
+    "real_audio_read": false,
+    "real_clearvoice_runtime": false,
+    "real_media_read": false,
+    "release_claim": false,
+    "weights_accessed": false
+  },
+  "comparison": {
+    "established_task_matched_baseline_reproduced": false,
+    "identity_control": "same_mixture_identity",
+    "provider": "mossformergan-offline-boundary-surrogate-v0",
+    "quality_pass": false,
+    "quality_pass_reason": "No MossFormerGAN runtime, rights-cleared real cohort or permitted listening; the surrogate is a boundary conformance fixture and its synthetic metrics are not a quality claim.",
+    "real_cohort_scored": false,
+    "regression_count": 2,
+    "source_reported_used_for_qualification": false
+  },
+  "component": "clearvoice-mossformergan",
+  "conditions": {
+    "active_speech": {
+      "chunk_invariance_digest": "bcfe807c91a63446e99858c909c811ffd7a0fced853576ff4ee702bb7f7a5fc8",
+      "improvements": {
+        "si_sdr_db": 2.187858,
+        "snr_db": 2.265295,
+        "stoi": 0.224647
+      },
+      "input_samples": 32000,
+      "noise_attenuation_db": -0.95885,
+      "preservation": {
+        "identity_target_projection_snr_db": 10.561038,
+        "rms_gain_ratio": 0.895483,
+        "target_projection_snr_db": 12.748896,
+        "target_projection_snr_delta_db": 2.187858,
+        "target_projection_snr_reason": null,
+        "target_retention": 0.909624
+      },
+      "reference": "synthetic_clean",
+      "scored_samples": 32000,
+      "tail_validity": {
+        "attributable_samples": 32000,
+        "delay_compensation_samples": 0,
+        "input_samples": 32000,
+        "internal_frame_padding_samples": 0,
+        "output_samples": 32000,
+        "padded_samples_emitted": 0,
+        "source_time_mapping": "identity",
+        "valid_samples": 32000
+      },
+      "variants": {
+        "identity_passthrough": {
+          "clipped_samples": 0,
+          "exact_passthrough": true,
+          "nonfinite_samples": 0,
+          "output_rms": 0.061129,
+          "peak_abs_output": 0.254112,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 10.561038
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 10.565896
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.500347
+          }
+        },
+        "noisy_control": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.061129,
+          "peak_abs_output": 0.254112,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 10.561038
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 10.565896
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.500347
+          }
+        },
+        "surrogate_offline_chunked_160": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.05474,
+          "peak_abs_output": 0.241621,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 12.748896
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 12.831191
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.724994
+          }
+        },
+        "surrogate_offline_whole_clip": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.05474,
+          "peak_abs_output": 0.241621,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 12.748896
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 12.831191
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.724994
+          }
+        }
+      },
+      "whole_clip_matches_chunked": true,
+      "whole_clip_output_digest": "bcfe807c91a63446e99858c909c811ffd7a0fced853576ff4ee702bb7f7a5fc8"
+    },
+    "clean_speech": {
+      "chunk_invariance_digest": "dbc08be3ab03e8cd6fae2bb6f8498aa06c639812511373c9cb33af97551c6044",
+      "improvements": {
+        "si_sdr_db": null,
+        "snr_db": null,
+        "stoi": -0.018295
+      },
+      "input_samples": 32000,
+      "noise_attenuation_db": -0.109107,
+      "preservation": {
+        "identity_target_projection_snr_db": null,
+        "rms_gain_ratio": 0.987517,
+        "target_projection_snr_db": 30.88925,
+        "target_projection_snr_delta_db": null,
+        "target_projection_snr_reason": null,
+        "target_retention": 0.98709
+      },
+      "reference": "synthetic_clean",
+      "scored_samples": 32000,
+      "tail_validity": {
+        "attributable_samples": 32000,
+        "delay_compensation_samples": 0,
+        "input_samples": 32000,
+        "internal_frame_padding_samples": 0,
+        "output_samples": 32000,
+        "padded_samples_emitted": 0,
+        "source_time_mapping": "identity",
+        "valid_samples": 32000
+      },
+      "variants": {
+        "identity_passthrough": {
+          "clipped_samples": 0,
+          "exact_passthrough": true,
+          "nonfinite_samples": 0,
+          "output_rms": 0.034207,
+          "peak_abs_output": 0.133053,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": "zero_error_identity_exact",
+            "valid": false,
+            "value": null
+          },
+          "snr_db": {
+            "invalid_reason": "zero_error_identity_exact",
+            "valid": false,
+            "value": null
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 1.0
+          }
+        },
+        "noisy_control": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.034207,
+          "peak_abs_output": 0.133053,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": "zero_error_identity_exact",
+            "valid": false,
+            "value": null
+          },
+          "snr_db": {
+            "invalid_reason": "zero_error_identity_exact",
+            "valid": false,
+            "value": null
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 1.0
+          }
+        },
+        "surrogate_offline_chunked_160": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.03378,
+          "peak_abs_output": 0.132788,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 30.88925
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 30.174544
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.981705
+          }
+        },
+        "surrogate_offline_whole_clip": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.03378,
+          "peak_abs_output": 0.132788,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 30.88925
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 30.174544
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.981705
+          }
+        }
+      },
+      "whole_clip_matches_chunked": true,
+      "whole_clip_output_digest": "dbc08be3ab03e8cd6fae2bb6f8498aa06c639812511373c9cb33af97551c6044"
+    },
+    "idle_noise": {
+      "chunk_invariance_digest": "6b25820c1c84b4fec39366dff2f8de9a71d0b9626a96504596e1667478b34998",
+      "improvements": {
+        "si_sdr_db": null,
+        "snr_db": null,
+        "stoi": null
+      },
+      "input_samples": 32000,
+      "noise_attenuation_db": -13.687895,
+      "preservation": {
+        "identity_target_projection_snr_db": null,
+        "rms_gain_ratio": 0.206826,
+        "target_projection_snr_db": null,
+        "target_projection_snr_delta_db": null,
+        "target_projection_snr_reason": "zero_reference_energy",
+        "target_retention": null
+      },
+      "reference": "zero_reference",
+      "scored_samples": 32000,
+      "tail_validity": {
+        "attributable_samples": 32000,
+        "delay_compensation_samples": 0,
+        "input_samples": 32000,
+        "internal_frame_padding_samples": 0,
+        "output_samples": 32000,
+        "padded_samples_emitted": 0,
+        "source_time_mapping": "identity",
+        "valid_samples": 32000
+      },
+      "variants": {
+        "identity_passthrough": {
+          "clipped_samples": 0,
+          "exact_passthrough": true,
+          "nonfinite_samples": 0,
+          "output_rms": 0.016144,
+          "peak_abs_output": 0.028,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": "zero_reference_energy",
+            "valid": false,
+            "value": null
+          },
+          "snr_db": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          },
+          "stoi": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          }
+        },
+        "noisy_control": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.016144,
+          "peak_abs_output": 0.028,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": "zero_reference_energy",
+            "valid": false,
+            "value": null
+          },
+          "snr_db": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          },
+          "stoi": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          }
+        },
+        "surrogate_offline_chunked_160": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.003339,
+          "peak_abs_output": 0.025962,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": "zero_reference_energy",
+            "valid": false,
+            "value": null
+          },
+          "snr_db": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          },
+          "stoi": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          }
+        },
+        "surrogate_offline_whole_clip": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.003339,
+          "peak_abs_output": 0.025962,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": "zero_reference_energy",
+            "valid": false,
+            "value": null
+          },
+          "snr_db": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          },
+          "stoi": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          }
+        }
+      },
+      "whole_clip_matches_chunked": true,
+      "whole_clip_output_digest": "6b25820c1c84b4fec39366dff2f8de9a71d0b9626a96504596e1667478b34998"
+    },
+    "low_snr_speech": {
+      "chunk_invariance_digest": "cac4d420bc3fb345bf7cbccd0479f858d55c7cee7d8958be6527c4296784fd79",
+      "improvements": {
+        "si_sdr_db": 0.088029,
+        "snr_db": 8.626889,
+        "stoi": 0.041164
+      },
+      "input_samples": 32000,
+      "noise_attenuation_db": -13.490118,
+      "preservation": {
+        "identity_target_projection_snr_db": -8.377887,
+        "rms_gain_ratio": 0.21159,
+        "target_projection_snr_db": -8.289858,
+        "target_projection_snr_delta_db": 0.088029,
+        "target_projection_snr_reason": null,
+        "target_retention": 0.211028
+      },
+      "reference": "synthetic_clean",
+      "scored_samples": 32000,
+      "tail_validity": {
+        "attributable_samples": 32000,
+        "delay_compensation_samples": 0,
+        "input_samples": 32000,
+        "internal_frame_padding_samples": 0,
+        "output_samples": 32000,
+        "padded_samples_emitted": 0,
+        "source_time_mapping": "identity",
+        "valid_samples": 32000
+      },
+      "variants": {
+        "identity_passthrough": {
+          "clipped_samples": 0,
+          "exact_passthrough": true,
+          "nonfinite_samples": 0,
+          "output_rms": 0.03391,
+          "peak_abs_output": 0.101768,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": -8.377887
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": -8.278311
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.410314
+          }
+        },
+        "noisy_control": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.03391,
+          "peak_abs_output": 0.101768,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": -8.377887
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": -8.278311
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.410314
+          }
+        },
+        "surrogate_offline_chunked_160": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.007175,
+          "peak_abs_output": 0.062761,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": -8.289858
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.348578
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.451478
+          }
+        },
+        "surrogate_offline_whole_clip": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.007175,
+          "peak_abs_output": 0.062761,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": -8.289858
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.348578
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.451478
+          }
+        }
+      },
+      "whole_clip_matches_chunked": true,
+      "whole_clip_output_digest": "cac4d420bc3fb345bf7cbccd0479f858d55c7cee7d8958be6527c4296784fd79"
+    },
+    "onset_offset": {
+      "chunk_invariance_digest": "2851afdeddad068974a6dbbd55a3fdb676c08e128fd7b7e17ab2546ee2107daa",
+      "improvements": {
+        "si_sdr_db": 2.065676,
+        "snr_db": 2.097239,
+        "stoi": -0.214232
+      },
+      "input_samples": 32000,
+      "noise_attenuation_db": -0.496372,
+      "preservation": {
+        "identity_target_projection_snr_db": 13.635536,
+        "rms_gain_ratio": 0.944455,
+        "target_projection_snr_db": 15.701212,
+        "target_projection_snr_delta_db": 2.065676,
+        "target_projection_snr_reason": null,
+        "target_retention": 0.951772
+      },
+      "reference": "synthetic_clean",
+      "scored_samples": 32000,
+      "tail_validity": {
+        "attributable_samples": 32000,
+        "delay_compensation_samples": 0,
+        "input_samples": 32000,
+        "internal_frame_padding_samples": 0,
+        "output_samples": 32000,
+        "padded_samples_emitted": 0,
+        "source_time_mapping": "identity",
+        "valid_samples": 32000
+      },
+      "variants": {
+        "identity_passthrough": {
+          "clipped_samples": 0,
+          "exact_passthrough": true,
+          "nonfinite_samples": 0,
+          "output_rms": 0.051382,
+          "peak_abs_output": 0.17918,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 13.635536
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 13.637355
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.473285
+          }
+        },
+        "noisy_control": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.051382,
+          "peak_abs_output": 0.17918,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 13.635536
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 13.637355
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.473285
+          }
+        },
+        "surrogate_offline_chunked_160": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.048528,
+          "peak_abs_output": 0.175706,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 15.701212
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 15.734594
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.259053
+          }
+        },
+        "surrogate_offline_whole_clip": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.048528,
+          "peak_abs_output": 0.175706,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 15.701212
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 15.734594
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.259053
+          }
+        }
+      },
+      "whole_clip_matches_chunked": true,
+      "whole_clip_output_digest": "2851afdeddad068974a6dbbd55a3fdb676c08e128fd7b7e17ab2546ee2107daa"
+    },
+    "quiet_speech": {
+      "chunk_invariance_digest": "7429429f6c7fc7de22d5aa3c9ccf083ebabc435576871ede04cc3256f33ce8d8",
+      "improvements": {
+        "si_sdr_db": 1.790899,
+        "snr_db": 1.724264,
+        "stoi": 0.178854
+      },
+      "input_samples": 32000,
+      "noise_attenuation_db": -0.655565,
+      "preservation": {
+        "identity_target_projection_snr_db": 13.370777,
+        "rms_gain_ratio": 0.927303,
+        "target_projection_snr_db": 15.161676,
+        "target_projection_snr_delta_db": 1.790899,
+        "target_projection_snr_reason": null,
+        "target_retention": 0.934108
+      },
+      "reference": "synthetic_clean",
+      "scored_samples": 32000,
+      "tail_validity": {
+        "attributable_samples": 32000,
+        "delay_compensation_samples": 0,
+        "input_samples": 32000,
+        "internal_frame_padding_samples": 0,
+        "output_samples": 32000,
+        "padded_samples_emitted": 0,
+        "source_time_mapping": "identity",
+        "valid_samples": 32000
+      },
+      "variants": {
+        "identity_passthrough": {
+          "clipped_samples": 0,
+          "exact_passthrough": true,
+          "nonfinite_samples": 0,
+          "output_rms": 0.013742,
+          "peak_abs_output": 0.056707,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 13.370777
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 13.372167
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.527064
+          }
+        },
+        "noisy_control": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.013742,
+          "peak_abs_output": 0.056707,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 13.370777
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 13.372167
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.527064
+          }
+        },
+        "surrogate_offline_chunked_160": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.012743,
+          "peak_abs_output": 0.055542,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 15.161676
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 15.096431
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.705918
+          }
+        },
+        "surrogate_offline_whole_clip": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.012743,
+          "peak_abs_output": 0.055542,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 15.161676
+          },
+          "snr_db": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 15.096431
+          },
+          "stoi": {
+            "invalid_reason": null,
+            "valid": true,
+            "value": 0.705918
+          }
+        }
+      },
+      "whole_clip_matches_chunked": true,
+      "whole_clip_output_digest": "7429429f6c7fc7de22d5aa3c9ccf083ebabc435576871ede04cc3256f33ce8d8"
+    },
+    "silence": {
+      "chunk_invariance_digest": "eec19bc6af0b3b6dfb97a08782c65f4bb3c3203e789a015d2008b0d689ad08be",
+      "improvements": {
+        "si_sdr_db": null,
+        "snr_db": null,
+        "stoi": null
+      },
+      "input_samples": 32000,
+      "noise_attenuation_db": null,
+      "preservation": {
+        "identity_target_projection_snr_db": null,
+        "rms_gain_ratio": null,
+        "target_projection_snr_db": null,
+        "target_projection_snr_delta_db": null,
+        "target_projection_snr_reason": "zero_reference_energy",
+        "target_retention": null
+      },
+      "reference": "zero_reference",
+      "scored_samples": 32000,
+      "tail_validity": {
+        "attributable_samples": 32000,
+        "delay_compensation_samples": 0,
+        "input_samples": 32000,
+        "internal_frame_padding_samples": 0,
+        "output_samples": 32000,
+        "padded_samples_emitted": 0,
+        "source_time_mapping": "identity",
+        "valid_samples": 32000
+      },
+      "variants": {
+        "identity_passthrough": {
+          "clipped_samples": 0,
+          "exact_passthrough": true,
+          "nonfinite_samples": 0,
+          "output_rms": 0.0,
+          "peak_abs_output": 0.0,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": "zero_reference_energy",
+            "valid": false,
+            "value": null
+          },
+          "snr_db": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          },
+          "stoi": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          }
+        },
+        "noisy_control": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.0,
+          "peak_abs_output": 0.0,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": "zero_reference_energy",
+            "valid": false,
+            "value": null
+          },
+          "snr_db": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          },
+          "stoi": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          }
+        },
+        "surrogate_offline_chunked_160": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.0,
+          "peak_abs_output": 0.0,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": "zero_reference_energy",
+            "valid": false,
+            "value": null
+          },
+          "snr_db": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          },
+          "stoi": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          }
+        },
+        "surrogate_offline_whole_clip": {
+          "clipped_samples": 0,
+          "nonfinite_samples": 0,
+          "output_rms": 0.0,
+          "peak_abs_output": 0.0,
+          "scored_samples": 32000,
+          "si_sdr_db": {
+            "invalid_reason": "zero_reference_energy",
+            "valid": false,
+            "value": null
+          },
+          "snr_db": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          },
+          "stoi": {
+            "invalid_reason": "zero_reference",
+            "valid": false,
+            "value": null
+          }
+        }
+      },
+      "whole_clip_matches_chunked": true,
+      "whole_clip_output_digest": "eec19bc6af0b3b6dfb97a08782c65f4bb3c3203e789a015d2008b0d689ad08be"
+    }
+  },
+  "contract_sha256": "cd98bc7b615b0861923d2a53a24ec91fd939c6dcade0818022912a5a5e34869c",
+  "controls": {
+    "all_present": true,
+    "candidate": {
+      "name": "surrogate_offline_chunked_160",
+      "note": "Deterministic offline soft-mask surrogate, not ClearerVoice MossFormerGAN.",
+      "real_candidate": false
+    },
+    "identity": {
+      "exact_passthrough": true,
+      "name": "identity_passthrough",
+      "note": "No processing; every scored sample is the observed input."
+    },
+    "noisy_control": {
+      "name": "observed_input_no_processing",
+      "note": "Paired control for the synthetic target on the same valid prefix."
+    },
+    "whole_clip": {
+      "name": "surrogate_offline_whole_clip",
+      "note": "Chunk invariance control; must equal the 160-sample fed output."
+    }
+  },
+  "decision": "DEFER",
+  "defer_before": "processor_exposure",
+  "enhancement_profile": {
+    "alignment": {
+      "compensated": false,
+      "declared_lag_samples": 0,
+      "measured": false,
+      "status": "modelled_zero_lag"
+    },
+    "clean_speech_preservation": {
+      "conditions": [
+        "quiet_speech",
+        "active_speech",
+        "clean_speech"
+      ],
+      "status": "synthetic_only"
+    },
+    "content_and_availability_timing": {
+      "device_clock": false,
+      "measured": false,
+      "status": "blocked_unmeasured"
+    },
+    "identity_and_noisy_controls": true,
+    "listening": {
+      "permitted": false,
+      "status": "not_run"
+    },
+    "name": "enhancement",
+    "paired_snr_si_sdr_and_stoi": "synthetic_fixture_only",
+    "peaks_and_invalid_outputs": true,
+    "real_clean_references": false,
+    "real_runtime": false,
+    "release_gate": "blocked",
+    "source": "plan/swarm/VERIFICATION.md",
+    "source_sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "state_and_memory": {
+      "real_memory_measured": false,
+      "status": "synthetic_state_only"
+    },
+    "stoi": {
+      "real_cohort": false,
+      "reason": "pystoi is pinned and scored against authored synthetic clean references; no rights-cleared real clean-reference cohort exists",
+      "status": "synthetic_reference_only"
+    }
+  },
+  "evidence_classes": {
+    "exact_reference_parity": "none",
+    "independent_listening": "none",
+    "real_audio_rights_qualified": "none; no result qualifies a candidate",
+    "source_reported": "Pinned research values retained as provenance only; not reproduced, pooled or used as thresholds.",
+    "synthetic_surrogate": "Deterministic model-free offline boundary surrogate on authored synthetic stimuli; no MossFormerGAN asset, real audio, runtime or device.",
+    "target_runtime": "none"
+  },
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    "The pinned asset ledger records MossFormerGAN_SE_16K/last_best_checkpoint.pt as 38,845,593 bytes with SHA-256 04bf00db575389e1ea8b1fcca48d9efcf073e50ad170e6dd5230df3bac98be27 and a 24-byte MossFormerGAN_SE_16K/last_best_checkpoint pointer with SHA-256 315744c841441f8831cb2f896e06102b4d864776bf272febaa30c639c903e1c0 under ClearerVoice source revision dcb1b20e1e44d435090072ab9b223c792ea1f624, but the ledger records no immutable model artifact revision (model_revision is absent) and no retrieval-time download commit; the 24-byte pointer content is not verified, and neither artifact is present in this SDK worktree.",
+    "The runtime is the external clearvoice 0.1.2 package (adapter identity ClearerVoice-Studio-clearvoice-0.1.2) whose research requirements lock is pinned by digest but which has no wheel or sdist digest, no installed environment and no execution evidence here; adapters/clearvoice/run.py is not executed and no vendor runtime is invoked.",
+    "Apache-2.0 is recorded for the code and the Apache-2.0 model card at https://huggingface.co/alibabasglab/MossFormerGAN_SE_16K, but the model card states open and private training data with exact corpus exposure undisclosed; artifact-specific weight rights, training-data provenance, redistribution and product-use clearance, and legal review are not established. No checkpoint, pointer, runtime or upstream source may be vendored, packaged, downloaded or redistributed by this package.",
+    "No rights-cleared held-out real cohort, independent clean-reference scorer, permitted listening result, target-runtime timing measurement or approved exact MossFormerGAN reference output vector exists; every release gate remains blocked."
+  ],
+  "format": {
+    "channels": 1,
+    "frame_samples": 160,
+    "sample_format": "f32",
+    "sample_rate_hz": 16000,
+    "samples_per_call": 160
+  },
+  "gates": [
+    {
+      "evidence": "Ledger digest and byte counts only; model_revision is absent and the pointer content is unverified.",
+      "name": "exact_asset_identity",
+      "reopen": "Reopen asset identity only when the exact MossFormerGAN_SE_16K checkpoint bytes are addressed by an immutable model artifact revision plus byte count and SHA-256 in a retrieval record, the 24-byte pointer content is verified to name the checkpoint, and both resolve from the caller's own storage without a provider file access or download.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "clearvoice 0.1.2 is absent and its runtime artifact is unpinned here.",
+      "name": "runtime_admission",
+      "reopen": "Reopen runtime admission only when a pinned clearvoice 0.1.2 runtime artifact with a recorded digest installs in the intended environment, adapters/clearvoice/run.py runs under the research requirements lock, and its distribution and product-use terms are documented.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "Apache-2.0 metadata is recorded; artifact-specific terms, training-data provenance and legal review are absent.",
+      "name": "artifact_rights",
+      "reopen": "Reopen rights only after written artifact-specific weight, runtime and training-data terms are recorded and a legal/redistribution decision exists; Apache-2.0 metadata alone is not clearance.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "No approved MossFormerGAN reference output vector exists for these frozen inputs.",
+      "name": "exact_reference_parity",
+      "reopen": "Reopen exact reference parity only when an approved MossFormerGAN reference output vector for these frozen inputs exists and the exact runtime reproduces it.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "No paired real cohort with clean references is available to this task.",
+      "name": "rights_cleared_cohort",
+      "reopen": "Reopen qualification only with a rights-cleared paired cohort, an independent scorer, permitted listening and target-runtime timing evidence; the synthetic surrogate can never stand in for any of these.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "No independent scorer or listening result; surrogate metrics are synthetic only.",
+      "name": "independent_scoring_and_listening",
+      "reopen": "Reopen qualification only with a rights-cleared paired cohort, an independent scorer, permitted listening and target-runtime timing evidence; the synthetic surrogate can never stand in for any of these.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "No device clock, pacing, deadline, throughput or memory measurement was made.",
+      "name": "target_runtime_timing",
+      "reopen": "Reopen qualification only with a rights-cleared paired cohort, an independent scorer, permitted listening and target-runtime timing evidence; the synthetic surrogate can never stand in for any of these.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "No opt-in provider, descriptor or catalog entry exists; the package is unregistered.",
+      "name": "provider_intake",
+      "reopen": "Reopen only after rights, runtime and parity gates clear and an opt-in provider intake with an OFF default and independent review is approved.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "No default selection is proposed or made.",
+      "name": "public_default_selection",
+      "reopen": "Reopen only after provider intake clears and the owner records an explicit default decision with preserving controls.",
+      "status": "blocked"
+    }
+  ],
+  "licensing_analysis": {
+    "asset_copied_vendored_built_or_downloaded": false,
+    "blocked_gate": "artifact_rights",
+    "checkpoint_redistribution_clearance": false,
+    "conclusion": "Apache-2.0 is recorded for the ClearerVoice code and the model card, but artifact-specific checkpoint and runtime redistribution/product-use rights, training-data provenance, a retrieval record and legal review are not cleared. This package distributes no upstream asset.",
+    "legal_review_completed": false,
+    "model_card_declared_license": "Apache-2.0",
+    "model_card_url": "https://huggingface.co/alibabasglab/MossFormerGAN_SE_16K",
+    "product_use_clearance": false,
+    "runtime_redistribution_clearance": false,
+    "task_files_license": "Apache-2.0",
+    "training_data_provenance_established": false,
+    "upstream_code_license": "Apache-2.0",
+    "upstream_model_license_metadata": "Apache-2.0"
+  },
+  "local_file_names": [
+    "README.md",
+    "LICENSES.md",
+    "SOURCES.sha256.license",
+    "adapter.json",
+    "adapter.json.license",
+    "contract.json",
+    "contract.json.license",
+    "readiness.json",
+    "readiness.json.license",
+    "reference.py",
+    "report.json",
+    "report.json.license",
+    "report.json.sha256",
+    "report.json.sha256.license",
+    "requirements.lock",
+    "requirements.lock.license",
+    "run.py",
+    "test_reference.py",
+    "verify.py"
+  ],
+  "missing_evidence": [
+    "immutable MossFormerGAN_SE_16K checkpoint artifact revision plus caller-held bytes",
+    "verified 24-byte last_best_checkpoint pointer content",
+    "pinned clearvoice 0.1.2 runtime artifact, requirements installation and execution evidence",
+    "written artifact-specific weight/runtime/training-data rights clearance",
+    "approved exact MossFormerGAN reference output vectors for the frozen synthetic inputs",
+    "rights-cleared paired real speech cohort with clean references",
+    "independent STOI/SI-SDR/intrusive scorer and permitted listening",
+    "target-runtime timing, memory, throughput and offline availability evidence",
+    "opt-in provider intake, descriptor/catalog review and explicit default decision"
+  ],
+  "model_provenance": {
+    "candidate": "ClearerVoice-MossFormerGAN_SE_16K",
+    "checkpoint": {
+      "asset_id": "MossFormerGAN_SE_16K/last_best_checkpoint.pt",
+      "bytes": 38845593,
+      "downloaded_by_this_package": false,
+      "hashed_in_this_package": false,
+      "loaded_or_executed": false,
+      "present_in_sdk_worktree": false,
+      "sha256": "04bf00db575389e1ea8b1fcca48d9efcf073e50ad170e6dd5230df3bac98be27"
+    },
+    "code_license": "Apache-2.0",
+    "distribution_channel": {
+      "artifact_revision_published": false,
+      "declared": "Hugging Face model card plus ClearerVoice source revision",
+      "note": "the ledger records only byte counts and SHA-256 values; no immutable model artifact revision or retrieval URL is recorded",
+      "retrieval_record": null
+    },
+    "model_card": {
+      "accessed_by_this_package": false,
+      "declared_license": "Apache-2.0",
+      "declared_revision": null,
+      "revision_pin_type": "absent_from_pinned_ledger_not_hashed",
+      "url": "https://huggingface.co/alibabasglab/MossFormerGAN_SE_16K"
+    },
+    "model_license": "Apache-2.0",
+    "model_name": "MossFormerGAN_SE_16K",
+    "package": {
+      "identity": "ClearerVoice-Studio-clearvoice-0.1.2",
+      "installed": false,
+      "requirements_lock": "adapters/clearvoice/requirements.lock",
+      "requirements_lock_sha256": "3914dfba56771fca024d3651db4af02e7a145fb751be7340ee1c39322cb8ab91",
+      "version": "0.1.2",
+      "wheel_or_sdist_digest": null
+    },
+    "pointer": {
+      "asset_id": "MossFormerGAN_SE_16K/last_best_checkpoint",
+      "bytes": 24,
+      "content_verified": false,
+      "present_in_sdk_worktree": false,
+      "required_content": "last_best_checkpoint.pt",
+      "sha256": "315744c841441f8831cb2f896e06102b4d864776bf272febaa30c639c903e1c0"
+    },
+    "runtime": {
+      "device": "cpu",
+      "installed": false,
+      "invoked": false,
+      "kind": "external_python_package",
+      "timing_measured": false,
+      "torch": "2.14.1"
+    },
+    "source_revision": "dcb1b20e1e44d435090072ab9b223c792ea1f624",
+    "training_data_provenance": "model card states open and private data; exact corpus exposure not disclosed",
+    "upstream_repository": "https://github.com/modelscope/ClearerVoice-Studio"
+  },
+  "no_missing_result_qualifies_candidate": true,
+  "notes": [
+    "Every metric in this report is computed on deterministic synthetic stimuli and describes the surrogate only.",
+    "No ClearerVoice checkpoint, pointer, package, runtime, output, corpus, device, listener or release artifact is used or claimed.",
+    "All timestamps are source-sample coordinates; no device, wall-clock, pacing or deadline measurement exists."
+  ],
+  "offline_boundary": {
+    "algorithmic_lag_samples": 0,
+    "delay_compensation_samples": 0,
+    "flush_required": false,
+    "frames_buffered_until_finish": true,
+    "mode": "offline-whole-clip",
+    "output_length_equals_input": true,
+    "padded_samples_emitted": 0,
+    "pointer_required": true,
+    "source_time_mapping": "identity",
+    "whole_clip_required": true
+  },
+  "offline_processing": {
+    "alignment_probe": {
+      "declared_lag_samples": 0,
+      "input_peak_sample": 4000,
+      "measured_latency": false,
+      "modeled_only": true,
+      "output_lag_samples": 0,
+      "output_peak_sample": 4000,
+      "residual_lag_samples": 0
+    },
+    "availability_model": "sample-coordinate only; no wall clock, device clock or deadline",
+    "channels": 1,
+    "chunk_invariance": {
+      "chunk_sizes_tested": [
+        1,
+        7,
+        80,
+        159,
+        160,
+        161,
+        320,
+        1280
+      ],
+      "deadline_measured": false,
+      "device_clock_used": false,
+      "frame_samples": 160,
+      "output_chunk_invariant": true,
+      "records": {
+        "1": {
+          "chunk_count": 32000,
+          "chunks_crossing_frame_boundary": 0,
+          "emitted_before_finish": 0,
+          "finish_emitted": 32000,
+          "output_digest": "bcfe807c91a63446e99858c909c811ffd7a0fced853576ff4ee702bb7f7a5fc8",
+          "output_length": 32000,
+          "valid_samples": 32000
+        },
+        "1280": {
+          "chunk_count": 25,
+          "chunks_crossing_frame_boundary": 25,
+          "emitted_before_finish": 0,
+          "finish_emitted": 32000,
+          "output_digest": "bcfe807c91a63446e99858c909c811ffd7a0fced853576ff4ee702bb7f7a5fc8",
+          "output_length": 32000,
+          "valid_samples": 32000
+        },
+        "159": {
+          "chunk_count": 202,
+          "chunks_crossing_frame_boundary": 198,
+          "emitted_before_finish": 0,
+          "finish_emitted": 32000,
+          "output_digest": "bcfe807c91a63446e99858c909c811ffd7a0fced853576ff4ee702bb7f7a5fc8",
+          "output_length": 32000,
+          "valid_samples": 32000
+        },
+        "160": {
+          "chunk_count": 200,
+          "chunks_crossing_frame_boundary": 0,
+          "emitted_before_finish": 0,
+          "finish_emitted": 32000,
+          "output_digest": "bcfe807c91a63446e99858c909c811ffd7a0fced853576ff4ee702bb7f7a5fc8",
+          "output_length": 32000,
+          "valid_samples": 32000
+        },
+        "161": {
+          "chunk_count": 199,
+          "chunks_crossing_frame_boundary": 198,
+          "emitted_before_finish": 0,
+          "finish_emitted": 32000,
+          "output_digest": "bcfe807c91a63446e99858c909c811ffd7a0fced853576ff4ee702bb7f7a5fc8",
+          "output_length": 32000,
+          "valid_samples": 32000
+        },
+        "320": {
+          "chunk_count": 100,
+          "chunks_crossing_frame_boundary": 100,
+          "emitted_before_finish": 0,
+          "finish_emitted": 32000,
+          "output_digest": "bcfe807c91a63446e99858c909c811ffd7a0fced853576ff4ee702bb7f7a5fc8",
+          "output_length": 32000,
+          "valid_samples": 32000
+        },
+        "7": {
+          "chunk_count": 4572,
+          "chunks_crossing_frame_boundary": 171,
+          "emitted_before_finish": 0,
+          "finish_emitted": 32000,
+          "output_digest": "bcfe807c91a63446e99858c909c811ffd7a0fced853576ff4ee702bb7f7a5fc8",
+          "output_length": 32000,
+          "valid_samples": 32000
+        },
+        "80": {
+          "chunk_count": 400,
+          "chunks_crossing_frame_boundary": 0,
+          "emitted_before_finish": 0,
+          "finish_emitted": 32000,
+          "output_digest": "bcfe807c91a63446e99858c909c811ffd7a0fced853576ff4ee702bb7f7a5fc8",
+          "output_length": 32000,
+          "valid_samples": 32000
+        }
+      },
+      "samples": 32000,
+      "total_frame_boundaries": 199,
+      "whole_call_matches_chunked": true
+    },
+    "chunk_sizes_tested": [
+      1,
+      7,
+      80,
+      159,
+      160,
+      161,
+      320,
+      1280
+    ],
+    "clock_id": "fixture-sample-coordinate-not-device",
+    "declared_algorithmic_lag_ns": 0,
+    "declared_algorithmic_lag_samples": 0,
+    "finish_policy": "Caller chunks are buffered and the whole clip is enhanced once at finish; a partial final frame is zero-padded only for gain estimation and is never emitted.",
+    "fixture_epoch_ns": "1767225600000000000",
+    "frame_samples": 160,
+    "input_range": [
+      -1.0,
+      1.0
+    ],
+    "lag_measured_here": false,
+    "lag_modeled_in_fixture": true,
+    "lag_provenance": "adapters/clearvoice/run.py records source_time_mapping=identity, delay_compensation_samples=0, valid_samples=len(output) and padded_samples=0 for the offline whole-clip adapter; source-reported, not re-measured here.",
+    "max_chunk_samples": 32000,
+    "output_accounting": {
+      "delay_compensation_samples": 0,
+      "finding": "The upstream adapter returns one output sample per input sample with identity source-time mapping and zero delay compensation. This model emits exactly len(input) samples; internal padding exists only for gain estimation.",
+      "internal_frame_padding_samples": "(-input_samples) mod 160",
+      "output_samples": "input_samples",
+      "padded_samples_emitted": 0,
+      "source_time_mapping": "identity"
+    },
+    "pointer_requirement": {
+      "content_verified_here": false,
+      "pointer_asset": "MossFormerGAN_SE_16K/last_best_checkpoint",
+      "required_content": "last_best_checkpoint.pt",
+      "upstream_check": "pointer.read_text().strip() == checkpoint.name"
+    },
+    "protocol": "caller-supplied external asset plus buffered whole-clip calls",
+    "reset_policy": "Explicit reset clears the buffer and finished flag; replay is bit-identical.",
+    "sample_format": "f32",
+    "sample_rate_hz": 16000,
+    "state": {
+      "chunks_processed": 200,
+      "cross_stream_reset_identical": true,
+      "first_state_digest": "4d854fdc68c7b3a76b37b6555b646dc7dcc02a9703be750dc55bf453f66233a7",
+      "independent_session_identical": true,
+      "last_state_digest": "e16309446440f7b647d19894bab7d29193764bb5d94bb24ddaa6232414733083",
+      "real_recurrent_state_loaded": false,
+      "reset_replay_identical": true,
+      "state_digest_chain": "875310da6a00f3a27ea7cb53ab31f681b64528b5e4aa66deb3b3b67d81432a49",
+      "state_is_synthetic": true
+    },
+    "tail_probe": {
+      "delay_compensation_samples": 0,
+      "exact_length": true,
+      "input_samples": 32123,
+      "internal_frame_padding_samples": 37,
+      "output_samples": 32123,
+      "padded_samples_emitted": 0,
+      "source_time_mapping": "identity"
+    },
+    "upstream_config_fields": [
+      "model_name",
+      "package_version",
+      "model_revision",
+      "checkpoint_dir",
+      "checkpoint_file",
+      "checkpoint_sha256",
+      "sample_rate"
+    ]
+  },
+  "profile": "enhancement",
+  "qualification_status": "not_qualified",
+  "readme_digest_files": [
+    "adapters/clearvoice/README.md",
+    "adapters/clearvoice/adapter.json",
+    "adapters/clearvoice/requirements.lock",
+    "adapters/clearvoice/run.py",
+    "audio-benchmark-platform/plan/INVENTORY.json",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md",
+    "research/noise_suppression_assets_20261027.json",
+    "research/noise_suppression_candidate_census.md",
+    "research/voice-enhancement-20261101/agent-mossformer-eval/REPORT.md",
+    "research/voice-enhancement-20261101/agent-mossformer-eval/full30-results.json",
+    "research/voice-enhancement-20261101/candidate_matrix.csv"
+  ],
+  "regressions": [
+    {
+      "better_direction": "higher",
+      "condition": "onset_offset",
+      "control_value": 0.473285,
+      "control_variant": "identity_passthrough",
+      "delta": -0.214232,
+      "metric": "stoi",
+      "note": "Synthetic fixture regression recorded verbatim; not a candidate result.",
+      "surrogate_value": 0.259053
+    },
+    {
+      "better_direction": "higher",
+      "condition": "clean_speech",
+      "control_value": 1.0,
+      "control_variant": "identity_passthrough",
+      "delta": -0.018295,
+      "metric": "stoi",
+      "note": "Synthetic fixture regression recorded verbatim; not a candidate result.",
+      "surrogate_value": 0.981705
+    }
+  ],
+  "reopen_conditions": [
+    "Reopen asset identity only when the exact MossFormerGAN_SE_16K checkpoint bytes are addressed by an immutable model artifact revision plus byte count and SHA-256 in a retrieval record, the 24-byte pointer content is verified to name the checkpoint, and both resolve from the caller's own storage without a provider file access or download.",
+    "Reopen runtime admission only when a pinned clearvoice 0.1.2 runtime artifact with a recorded digest installs in the intended environment, adapters/clearvoice/run.py runs under the research requirements lock, and its distribution and product-use terms are documented.",
+    "Reopen rights only after written artifact-specific weight, runtime and training-data terms are recorded and a legal/redistribution decision exists; Apache-2.0 metadata alone is not clearance.",
+    "Reopen exact reference parity only when an approved MossFormerGAN reference output vector for these frozen inputs exists and the exact runtime reproduces it.",
+    "Reopen qualification only with a rights-cleared paired cohort, an independent scorer, permitted listening and target-runtime timing evidence; the synthetic surrogate can never stand in for any of these."
+  ],
+  "repeatability": {
+    "byte_identical": true,
+    "count": 3,
+    "digests": [
+      "3f710f062bb93630a4ac970809ae4563548be8a09291381bc83057245f611350",
+      "3f710f062bb93630a4ac970809ae4563548be8a09291381bc83057245f611350",
+      "3f710f062bb93630a4ac970809ae4563548be8a09291381bc83057245f611350"
+    ],
+    "tested_core": "report without the repeatability block"
+  },
+  "schema_id": "audio-sdk/task-evidence/clearvoice-mossformergan/report/0.1",
+  "scope": {
+    "attention_or_gan_executed": false,
+    "benchmark_claim": false,
+    "caller_supplied_asset_contract_modeled": true,
+    "caller_supplied_asset_present": false,
+    "checkpoint_present_in_sdk_worktree": false,
+    "clearvoice_source_executed": false,
+    "device_timing": false,
+    "listening_result": false,
+    "model_revision_pinned": false,
+    "network_used": false,
+    "pointer_present_in_sdk_worktree": false,
+    "real_audio": false,
+    "real_labels": false,
+    "registered_provider": false,
+    "release_claim": false,
+    "runtime_installed": false,
+    "synthetic_boundary_surrogate_only": true,
+    "task_local_only": true,
+    "weights_downloaded": false,
+    "weights_loaded": false
+  },
+  "slug": "clearvoice-mossformergan",
+  "source_pins": {
+    "adapters/clearvoice/README.md": "9807cd56073eb35cbef71145ac36487fecdab8cbfaa25741474d10a1af3f50d5",
+    "adapters/clearvoice/adapter.json": "ecc782d25d7d6421ac6a5cf7b219bbccd061a86df6000aab8e2a0a1e7c3253ff",
+    "adapters/clearvoice/requirements.lock": "3914dfba56771fca024d3651db4af02e7a145fb751be7340ee1c39322cb8ab91",
+    "adapters/clearvoice/run.py": "c9896e8fbac4f6eca9e81bb322a17192382eab5ccca218e7c855f64750945d90",
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "research/noise_suppression_assets_20261027.json": "35f871e7d7362070c20fa35a5832115ea5388ffae550be3b25368a72bf5cebf4",
+    "research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+    "research/voice-enhancement-20261101/agent-mossformer-eval/REPORT.md": "8e3171628b3c206cf5153bec13032b7087236756e2f8fcb855f9d40828e57a24",
+    "research/voice-enhancement-20261101/agent-mossformer-eval/full30-results.json": "467697784a5e331161bbc4b39e23eb3c58aca43901e52d0bec8ed8667d43bac5",
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245"
+  },
+  "source_reported_context": {
+    "candidate_row": "Denoising,ClearVoice MossFormerGAN,evaluated,30/30 frozen DNS paired quality outputs verified across three exact-candidate batches; mean SNR 20.70 dB, SI-SDR 20.69 dB, STOI .9825; delta SI-SDR +2.51 dB vs FastEnhancer Small and +0.57 dB vs FRCRN; only four per-item times (RTF 10.50-11.76); earlier CPU batches timed out.",
+    "census_five_clip_screen": {
+      "all_improved": true,
+      "clean_input_check": "pending",
+      "clips": 5,
+      "inferential_interval": null,
+      "mean_delta_snr_db": 7.91,
+      "mean_delta_stoi": 0.0461
+    },
+    "census_row": "Attention/GAN; 16 kHz single-channel quality candidate. Five-clip screening only: mean delta SNR +7.91 dB and mean delta STOI +0.0461, all five improved on both. No inferential interval or full 30-clip comparison is claimed. CPU throughput is several times slower than real time; clean-input check is pending.",
+    "disclaimer": "These values come from pinned research files on 30 DNS2020 pairs, a five-clip screen and an upstream author table. They are not reproduced here, not device timing, not this fixture's metrics, not a listening result and not a release claim.",
+    "full30": {
+      "candidate": "ClearVoice MossFormerGAN_SE_16K",
+      "earlier_partial": {
+        "first_batch_valid": 19,
+        "note": "superseded partial-subset diagnostics, retained as provenance",
+        "partial_mean_delta_snr_db": 9.926,
+        "partial_mean_si_sdr_db": 20.439,
+        "recovery_batch_valid": 26
+      },
+      "evaluation_id": "mossformergan-dns30-complete-quality-20261101",
+      "limitations": [
+        "Complete 30/30 quality scoring spans three exact-candidate worker attempts.",
+        "Full-set per-item runtime is unavailable for the first 26 outputs.",
+        "Bootstrap intervals cover the fixed 30-pair DNS exploratory subset.",
+        "No clean-input distortion diagnostic, subjective listening, mobile timing or power/thermal measurement was added."
+      ],
+      "missing_outputs": 0,
+      "paired_deltas": {
+        "vs_clearvoice_frcrn_16k": {
+          "si_sdr_db": 0.566517,
+          "si_sdr_db_ci95": [
+            0.391825,
+            0.768747
+          ]
+        },
+        "vs_deepfilternet3": {
+          "si_sdr_db": 3.958624,
+          "si_sdr_db_ci95": [
+            3.204654,
+            4.789798
+          ]
+        },
+        "vs_fastenhancer_small": {
+          "si_sdr_db": 2.506199,
+          "si_sdr_db_ci95": [
+            2.103115,
+            2.916512
+          ]
+        },
+        "vs_identity": {
+          "si_sdr_db": 10.618209,
+          "si_sdr_db_ci95": [
+            8.930154,
+            12.350129
+          ],
+          "snr_db": 10.635817,
+          "snr_db_ci95": [
+            8.94549,
+            12.401612
+          ],
+          "stoi": 0.049336,
+          "stoi_ci95": [
+            0.038601,
+            0.060941
+          ]
+        }
+      },
+      "quality_means": {
+        "clearvoice_frcrn_16k": {
+          "si_sdr_db": 20.121437,
+          "snr_db": 20.169594,
+          "stoi": 0.980633
+        },
+        "deepfilternet3": {
+          "si_sdr_db": 16.729331,
+          "snr_db": 16.604206,
+          "stoi": 0.958974
+        },
+        "fastenhancer_small": {
+          "si_sdr_db": 18.181756,
+          "snr_db": 18.246842,
+          "stoi": 0.9656
+        },
+        "identity": {
+          "si_sdr_db": 10.069746,
+          "snr_db": 10.066655,
+          "stoi": 0.933184
+        },
+        "mossformer": {
+          "si_sdr_db": 20.687954,
+          "snr_db": 20.702472,
+          "stoi": 0.98252
+        }
+      },
+      "requested_pairs": 30,
+      "tail_adapter_seconds": {
+        "47": 105.7445,
+        "48": 104.989825,
+        "49": 117.586727,
+        "50": 104.957503
+      },
+      "tail_peak_rss_gb": 4.53,
+      "tail_rtf": {
+        "max": 11.76,
+        "median": 10.53,
+        "min": 10.5
+      },
+      "tail_worker_wall_seconds": 449.74,
+      "valid_outputs": 30
+    },
+    "scope": "Pinned research provenance only; not reproduced, not pooled and not used as a threshold or a quality claim.",
+    "training_data_note": "model card states open and private data; exact corpus exposure not disclosed",
+    "upstream_author_reported_dns2020": {
+      "BAK": 4.18,
+      "OVRL": 3.36,
+      "P808_MOS": 4.05,
+      "PESQ": 3.57,
+      "SIG": 3.58,
+      "SI_SDR_dB": 20.6,
+      "STOI": 0.98,
+      "source": "ClearerVoice README SpeechScore table; not independently reproduced"
+    }
+  },
+  "status": "proposal_only_synthetic_incomplete",
+  "stimuli": {
+    "clean_reference": "authored synthetic target waveform",
+    "conditions": [
+      "quiet_speech",
+      "active_speech",
+      "low_snr_speech",
+      "onset_offset",
+      "idle_noise",
+      "clean_speech",
+      "silence"
+    ],
+    "network": false,
+    "peak_limit": 1.0,
+    "real_audio": false,
+    "real_labels": false,
+    "sample_rate_hz": 16000,
+    "samples_per_condition": 32000,
+    "seed_base": 20261126
+  },
+  "surrogate": {
+    "asset_geometry": "16 kHz mono f32, offline whole clip",
+    "attention_blocks": false,
+    "checkpoint": false,
+    "deterministic": true,
+    "gan_generator_or_discriminator": false,
+    "identity": "mossformergan-offline-boundary-surrogate-v0",
+    "is_candidate": false,
+    "is_neural_network": false,
+    "kind": "deterministic offline soft-mask surrogate",
+    "method": "deterministic frame-power soft mask with a 35th-percentile noise floor, 1.30 over-subtraction, exponent 0.85, gain floor 0.20 and attack/release smoothing; one whole-clip pass with interpolated gains, zero lag and exact output length",
+    "public_input_geometry": "16 kHz mono f32 160-sample frames",
+    "pure_synthetic": true,
+    "quality_claim": false,
+    "vendor_runtime": false,
+    "weights": false
+  },
+  "task_id": "SDK-CLEARVOICE-MOSSFORMERGAN",
+  "title": "ClearVoice MossFormerGAN",
+  "tool_provenance": [
+    "ClearerVoice MossFormerGAN_SE_16K checkpoint, pointer, clearvoice 0.1.2 package and PyTorch runtime are absent; nothing was downloaded, installed, loaded or invoked.",
+    "The checkpoint and pointer digests/byte counts, source revision, absent model revision and license metadata are quoted from research/noise_suppression_assets_20261027.json.",
+    "The input range, identity source-time mapping, zero delay compensation, zero padded samples, pointer-content requirement and package check are quoted from adapters/clearvoice/run.py, adapter.json and README.md.",
+    "The 30-pair and five-clip values are pinned research provenance only; this package does not reproduce them and measures no runtime.",
+    "All signals, targets, observations and surrogate outputs are generated by reference.py; no WAV, media, corpus, checkpoint or provider output is read."
+  ]
+}

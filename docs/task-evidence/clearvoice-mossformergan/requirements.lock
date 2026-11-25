@@ -1,0 +1,7 @@
+# Pinned Python environment for deterministic task-local evidence.
+# Reproduced with CPython 3.12.16 on Darwin arm64.
+# This is the evidence runtime, not the ClearerVoice runtime;
+# adapters/clearvoice/requirements.lock is pinned separately as provenance.
+numpy==2.5.4
+scipy==1.18.1
+pystoi==0.4.1
