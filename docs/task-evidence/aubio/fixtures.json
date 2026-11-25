@@ -1,0 +1,97 @@
+{
+  "spdx": {
+    "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+    "SPDX-License-Identifier": "Apache-2.0"
+  },
+  "protocol": "audio-sdk/aubio-evidence/0.1",
+  "task": "SDK-AUBIO",
+  "stimuli": {
+    "music_like_1x": {
+      "kind": "periodic",
+      "length_samples": 64137,
+      "period_samples": 9600,
+      "beats": 7,
+      "accent_every": 4,
+      "amplitude_milli": 600,
+      "accent_amplitude_milli": 900,
+      "noise_amplitude_milli": 0,
+      "noise_seed": 0
+    },
+    "rate_0_8": {
+      "kind": "periodic",
+      "length_samples": 64137,
+      "period_samples": 12000,
+      "beats": 6,
+      "accent_every": 4,
+      "amplitude_milli": 600,
+      "accent_amplitude_milli": 900,
+      "noise_amplitude_milli": 0,
+      "noise_seed": 0
+    },
+    "rate_1_2": {
+      "kind": "periodic",
+      "length_samples": 64137,
+      "period_samples": 8000,
+      "beats": 9,
+      "accent_every": 4,
+      "amplitude_milli": 600,
+      "accent_amplitude_milli": 900,
+      "noise_amplitude_milli": 0,
+      "noise_seed": 0
+    },
+    "speech_like_unfamiliar": {
+      "kind": "irregular",
+      "length_samples": 64137,
+      "starts_frames": [4, 13, 25, 32, 46, 58, 67, 81, 92, 106, 117, 130],
+      "durations_frames": [4, 3, 5, 3, 4, 5, 3, 4, 5, 3, 4, 3],
+      "amplitudes_milli": [700, 500, 650, 550, 720, 480, 660, 540, 700, 500, 680, 520]
+    },
+    "silence": {
+      "kind": "silence",
+      "length_samples": 64137
+    },
+    "drift": {
+      "kind": "drift",
+      "length_samples": 64137,
+      "periods_frames": [60, 59, 58, 57, 56, 55, 54],
+      "amplitude_milli": 700
+    },
+    "rebuffer": {
+      "kind": "periodic_with_gap",
+      "length_samples": 64137,
+      "period_samples": 9600,
+      "beats_before_gap": 4,
+      "beats_after_gap": 4,
+      "gap_samples": 16000,
+      "amplitude_milli": 700
+    },
+    "low_snr_adverse": {
+      "kind": "periodic",
+      "length_samples": 64137,
+      "period_samples": 9600,
+      "beats": 7,
+      "accent_every": 4,
+      "amplitude_milli": 300,
+      "accent_amplitude_milli": 300,
+      "noise_amplitude_milli": 600,
+      "noise_seed": 1234567
+    },
+    "tempo_out_of_range_adverse": {
+      "kind": "periodic",
+      "length_samples": 64137,
+      "period_samples": 3200,
+      "beats": 20,
+      "accent_every": 4,
+      "amplitude_milli": 600,
+      "accent_amplitude_milli": 900,
+      "noise_amplitude_milli": 0,
+      "noise_seed": 0
+    },
+    "final_partial": {
+      "kind": "final_partial",
+      "length_samples": 64137,
+      "onset_sample": 64050,
+      "amplitude_milli": 700
+    }
+  }
+}
