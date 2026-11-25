@@ -1,11 +1,12 @@
 # SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
 # SPDX-License-Identifier: Apache-2.0
-"""Read-only strict verification of the task-local ENG category evidence map.
+"""Read-only strict verification of the ENG-03 evidence map.
 
 Run from this directory. The verifier never writes evidence. It fails closed on
-stale or malformed pins, non-canonical/duplicate-key/nonfinite JSON, stale
-digests, missing adverse rejections, invented follow-up tasks, licensing gaps
-and any worktree change outside this task directory.
+stale or malformed pins, quote drift, non-canonical/duplicate-key/nonfinite
+JSON, stale digests, an out-of-scope ENG category, missing adverse rejections,
+invented follow-up tasks, pooled adjacent speed control, licensing gaps and any
+worktree change outside this task directory.
 """
 
 from __future__ import annotations
@@ -26,15 +27,24 @@ CONTRACT = HERE / "contract.json"
 SPDX_LICENSE = "SPDX" "-License-Identifier: Apache-2.0"
 SPDX_COPYRIGHT = "SPDX" "-FileCopyrightText: 2026 Tsakanyan Hovhannes"
 REQUIRED_REPORT_KEYS = {
-    "schema_id", "task_id", "title", "base_commit", "branch", "profile",
-    "profile_application", "status", "qualification_status", "decision",
-    "no_missing_result_qualifies_candidate", "category_scope", "scope",
-    "boundary", "format", "deliverable", "contract_id", "contract_sha256",
+    "schema_id", "task_id", "title", "task_title", "mode", "base_commit",
+    "branch", "worktree", "profile", "profile_application", "status",
+    "qualification_status", "decision", "no_missing_result_qualifies_candidate",
+    "catalogue", "scope", "boundary", "format", "deliverable",
+    "board_deliverable", "board_acceptance", "contract_id", "contract_sha256",
     "source_pins", "source_pin_selectors", "boundary_pins",
-    "source_pin_verification", "board_status_is_observation_only",
-    "follow_up_policy", "controls", "categories", "adverse",
-    "missing_evidence", "evidence_classes", "gates", "repeatability",
+    "source_pin_verification", "quote_verification",
+    "board_status_is_observation_only", "follow_up_policy", "controls", "map",
+    "comparison_boundary", "missing_evidence", "adverse", "evidence_classes",
+    "prohibited_claims", "gates", "repeatability",
 }
+FORBIDDEN_SCOPE_KEYS = (
+    "real_corpus", "real_weights", "audio_runtime_executed",
+    "model_runtime_executed", "codec_runtime_executed",
+    "vendor_runtime_executed", "network_trace_used",
+    "jitter_buffer_executed", "adaptive_playout_executed", "listening",
+    "device_timing", "benchmark", "release_claim", "registered_provider",
+)
 
 
 def strict_json(path: Path) -> Dict[str, Any]:
@@ -110,7 +120,11 @@ def check_report(errors: List[str]) -> Dict[str, Any]:
         report = strict_json(REPORT)
         contract = strict_json(CONTRACT)
         board = reference.strict_json_path(
-            reference.SOURCE_ROOT / "audio-benchmark-platform/plan/swarm/TASKS.json")
+            reference.SOURCE_ROOT /
+            "audio-benchmark-platform/plan/swarm/TASKS.json")
+        inventory = reference.strict_json_path(
+            reference.SOURCE_ROOT /
+            "audio-benchmark-platform/plan/INVENTORY.json")
     except (OSError, UnicodeError, reference.Rejected) as error:
         errors.append("strict_json_failed:" + str(error))
         return {}
@@ -127,30 +141,47 @@ def check_report(errors: List[str]) -> Dict[str, Any]:
         errors.append("report_digest_sidecar_stale")
     if report["base_commit"] != reference.BASE_COMMIT:
         errors.append("base_commit_mismatch")
-    if report["profile"] != reference.PROFILE:
-        errors.append("evidence_profile_not_applied")
+    if report["profile"] != reference.PROFILE or report["mode"] != reference.MODE:
+        errors.append("evidence_profile_or_mode_not_applied")
+    if report["task_title"] != reference.TASK_TITLE:
+        errors.append("task_title_mismatch")
     if (report["status"] != reference.STATUS
             or report["qualification_status"] != reference.QUALIFICATION):
         errors.append("proposal_status_mismatch")
     if report["decision"] != reference.DECISION or not report[
             "no_missing_result_qualifies_candidate"]:
         errors.append("missing_DEFER_disposition")
-    if report["category_scope"] != reference.CATEGORY_SCOPE:
-        errors.append("category_scope_mismatch")
+
+    catalogue = report["catalogue"]
+    category = catalogue.get("category", {})
+    if category.get("id") != reference.CATEGORY_ID:
+        errors.append("category_is_not_eng_03")
+    if category.get("name") != "Jitter buffering and adaptive playout":
+        errors.append("category_name_mismatch")
+    if category.get("method_families", {}).get("classic") != (
+            "Adaptive buffers; acceleration/deceleration; PLC integration"):
+        errors.append("classic_family_text_mismatch")
+    if category.get("method_families", {}).get("ml") != "No ML requirement":
+        errors.append("ml_family_text_mismatch")
+    if catalogue.get("companion_source") != "audio_categories.md":
+        errors.append("companion_source_mismatch")
+    if catalogue.get("legacy_backlog_entry", {}).get("family_id") != "F16":
+        errors.append("legacy_backlog_family_mismatch")
+    if report["scope"].get("category_ids") != [reference.CATEGORY_ID]:
+        errors.append("scope_is_not_eng_03_only")
     for key, value in report["boundary"].items():
         if key == "descriptor_settings":
             if value != {}:
                 errors.append("descriptor_settings_not_empty")
         elif value is not False:
             errors.append("boundary_claim_not_false:" + key)
-    for key in ("real_corpus", "real_weights", "audio_runtime_executed",
-                "model_runtime_executed", "vendor_runtime_executed", "listening",
-                "device_timing", "benchmark", "release_claim", "registered_provider"):
+    for key in FORBIDDEN_SCOPE_KEYS:
         if report["scope"].get(key) is not False:
             errors.append("forbidden_claim:" + key)
     fmt = report["format"]
-    if (fmt.get("sample_rate_hz"), fmt.get("channels"), fmt.get("sample_format"),
-            fmt.get("frame_samples")) != (16000, 1, "f32", 160):
+    if (fmt.get("sample_rate_hz"), fmt.get("channels"),
+            fmt.get("sample_format"), fmt.get("frame_samples")) != (
+                16000, 1, "f32", 160):
         errors.append("public_v0_geometry_changed")
     if fmt.get("sdk_callback_invoked") is not False:
         errors.append("sdk_callback_claimed")
@@ -164,20 +195,34 @@ def check_report(errors: List[str]) -> Dict[str, Any]:
         errors.append("contract_source_pin_selectors_mismatch")
     if report["boundary_pins"] != reference.BOUNDARY_PINS:
         errors.append("report_boundary_pins_mismatch")
+    if contract.get("source_pins") != reference.SOURCE_PINS:
+        errors.append("contract_source_pins_mismatch")
+    if contract.get("boundary_pins") != reference.BOUNDARY_PINS:
+        errors.append("contract_boundary_pins_mismatch")
     if not all(report["source_pin_verification"].values()):
         errors.append("source_pin_verification_false")
-    if len(report["source_pin_verification"]) != len(reference.SOURCE_PINS) + len(
-            reference.BOUNDARY_PINS):
+    if len(report["source_pin_verification"]) != len(
+            reference.SOURCE_PINS) + len(reference.BOUNDARY_PINS):
         errors.append("source_pin_verification_incomplete")
+    if not all(report["quote_verification"].values()):
+        errors.append("quote_verification_false")
+    if set(report["quote_verification"]) != set(reference.QUOTE_CHECKS):
+        errors.append("quote_verification_incomplete")
+    try:
+        reference.validate_quotes()
+    except reference.Rejected as error:
+        errors.append("quote_drift:" + error.reason)
     if report["contract_sha256"] != reference.sha256(CONTRACT.read_bytes()):
         errors.append("contract_digest_mismatch")
     if contract.get("task") != reference.TASK or contract.get("profile") != (
             reference.PROFILE):
         errors.append("contract_profile_or_task_mismatch")
-    if contract.get("source_pins") != reference.SOURCE_PINS:
-        errors.append("contract_source_pins_mismatch")
-    if contract.get("boundary_pins") != reference.BOUNDARY_PINS:
-        errors.append("contract_boundary_pins_mismatch")
+    if contract.get("decision") != reference.DECISION or contract.get(
+            "status") != reference.STATUS:
+        errors.append("contract_disposition_mismatch")
+    if contract.get("category_scope", {}).get("category_id") != (
+            reference.CATEGORY_ID):
+        errors.append("contract_category_is_not_eng_03")
     if contract.get("boundary", {}).get("registered") is not False:
         errors.append("contract_registered_true")
     if report["follow_up_policy"] != reference.FOLLOW_UP_POLICY:
@@ -185,42 +230,100 @@ def check_report(errors: List[str]) -> Dict[str, Any]:
     for task_id in reference.FOLLOW_UP_POLICY["existing_feasibility_task_ids"]:
         if tasks.get(task_id, {}).get("mode") != "feasibility":
             errors.append("policy_task_not_feasibility:" + task_id)
-    if set(report["categories"]) != set(reference.CATEGORY_IDS):
-        errors.append("category_set_mismatch")
-    for category_id in reference.CATEGORY_IDS:
-        entry = report["categories"].get(category_id, {})
-        if entry.get("owning_task") != reference.OWNING_TASK[category_id]:
-            errors.append("owning_task_mismatch:" + category_id)
-        if set(entry.get("method_families", {})) != {"classic", "ml"}:
-            errors.append("method_family_mismatch:" + category_id)
-        if entry.get("status") != reference.STATUS or entry.get(
-                "qualification_status") != reference.QUALIFICATION:
-            errors.append("category_status_mismatch:" + category_id)
-        for gap in entry.get("gaps", []):
-            if gap.get("invented") is not False or gap.get("actionable") is not True:
-                errors.append("gap_not_validated:" + gap.get("id", "?"))
-            task_id = gap.get("follow_up_task_id")
-            if task_id is None:
-                if not gap.get("no_task_reason"):
-                    errors.append("gap_without_task_or_reason:" + gap.get("id", "?"))
-            elif tasks.get(task_id, {}).get("mode") != "feasibility":
-                errors.append("follow_up_not_board_feasibility:" + task_id)
+
+    payload = report["map"]
+    if any(key in report for key in ("categories", "category_scope")):
+        errors.append("out_of_scope_category_container_present")
+    if payload.get("category_id") != reference.CATEGORY_ID:
+        errors.append("map_category_is_not_eng_03")
+    if payload.get("owning_task") != reference.TASK:
+        errors.append("map_owning_task_mismatch")
+    if payload.get("status") != reference.STATUS or payload.get(
+            "qualification_status") != reference.QUALIFICATION:
+        errors.append("map_status_mismatch")
+    if set(payload.get("method_families", {})) != {"classic", "ml"}:
+        errors.append("map_method_family_keys_mismatch")
+    entries = payload.get("method_families", {}).get("classic", {}).get(
+        "entries", [])
+    if [entry.get("family") for entry in entries] != [
+            "Adaptive buffers", "Acceleration/deceleration",
+            "PLC integration"]:
+        errors.append("map_classic_families_incomplete")
+    for entry in entries:
+        if not entry.get("local_outcomes"):
+            errors.append("family_without_local_outcomes:" +
+                          str(entry.get("family")))
+        if not entry.get("reported_outcomes"):
+            errors.append("family_without_reported_outcomes:" +
+                          str(entry.get("family")))
+        if not entry.get("comparison_inputs") or not entry.get("controls"):
+            errors.append("family_without_inputs_or_controls:" +
+                          str(entry.get("family")))
+    ml = payload.get("method_families", {}).get("ml", {})
+    if ml.get("audited") is not True or ml.get(
+            "catalogued_text") != "No ML requirement":
+        errors.append("ml_family_not_audited")
+    if not ml.get("missing_evidence"):
+        errors.append("ml_missing_evidence_not_explained")
+    for collection in ("component_matches", "foundation_matches",
+                       "adjacent_speed_controls"):
+        items = payload.get(collection)
+        if not isinstance(items, list):
+            errors.append("map_collection_missing:" + collection)
+            continue
+        for item in items:
+            if item.get("qualifies_candidate") is not False:
+                errors.append("component_qualifies_candidate:" +
+                              str(item.get("component_id")))
+    for item in payload.get("adjacent_speed_controls", []):
+        if (item.get("counted_as_jitter_buffer") is not False
+                or item.get("counted_as_adaptive_playout") is not False):
+            errors.append("adjacent_speed_control_pooled:" +
+                          str(item.get("component_id")))
+    for gap in payload.get("gaps", []):
+        if gap.get("invented") is not False or gap.get("actionable") is not True:
+            errors.append("gap_not_validated:" + str(gap.get("id", "?")))
+        task_id = gap.get("follow_up_task_id")
+        if task_id is None:
+            if not gap.get("no_task_reason"):
+                errors.append("gap_without_task_or_reason:" +
+                              str(gap.get("id", "?")))
+        elif tasks.get(task_id, {}).get("mode") != "feasibility":
+            errors.append("follow_up_not_board_feasibility:" + task_id)
+    try:
+        expected_map = reference.build_map(
+            reference._catalogue(), inventory, board)
+        if reference.canonical_bytes(payload) != reference.canonical_bytes(
+                expected_map):
+            errors.append("map_does_not_match_pinned_inputs")
+    except reference.Rejected as error:
+        errors.append("map_rebuild_failed:" + error.reason)
+
     controls = report["controls"]
-    if not controls.get("all_present") or not all(controls.get("identity", {}).values()):
+    if not controls.get("all_present") or not all(
+            controls.get("identity", {}).values()):
         errors.append("identity_controls_not_satisfied")
     adverse = report["adverse"]
-    if not adverse.get("all_rejected") or not adverse.get("state_unchanged"):
+    if not adverse.get("all_rejected") or not adverse.get(
+            "state_unchanged"):
         errors.append("adverse_controls_failed")
     if not adverse.get("valid_map_accepted"):
         errors.append("valid_map_not_accepted")
     for name, case in adverse.get("cases", {}).items():
-        if case.get("status") != "rejected" or case.get("state_unchanged") is not True:
+        if case.get("status") != "rejected" or case.get(
+                "state_unchanged") is not True:
             errors.append("adverse_case_failed:" + name)
-    if [gate["name"] for gate in report["gates"]] != reference.GATE_NAMES:
+    if [gate["name"] for gate in report["gates"]] != [
+            name for name, _ in reference.GATES]:
         errors.append("gate_names_mismatch")
     for gate in report["gates"]:
-        if gate.get("status") != "blocked" or not gate.get("reopen_condition"):
-            errors.append("release_gate_not_blocked:" + gate.get("name", "?"))
+        if gate.get("status") != "blocked" or not gate.get(
+                "reopen_condition"):
+            errors.append("release_gate_not_blocked:" +
+                          str(gate.get("name", "?")))
+    for key, value in report["prohibited_claims"].items():
+        if value != "not_made":
+            errors.append("prohibited_claim_made:" + key)
     repeat = report["repeatability"]
     if repeat.get("count") != 3 or repeat.get("byte_identical") is not True:
         errors.append("repeatability_not_byte_identical")
@@ -238,17 +341,20 @@ def check_licensing(errors: List[str]) -> None:
             errors.append("missing_python_spdx:" + path.name)
     for name in ("SOURCES.sha256.license", "contract.json.license",
                  "report.json.license", "report.json.sha256.license"):
-        text = (HERE / name).read_text(encoding="utf-8") if (HERE / name).is_file() else ""
+        text = (HERE / name).read_text(
+            encoding="utf-8") if (HERE / name).is_file() else ""
         if SPDX_LICENSE not in text or SPDX_COPYRIGHT not in text:
             errors.append("missing_license_sidecar:" + name)
     reuse = (SDK_ROOT / "REUSE.toml").read_text(encoding="utf-8")
-    if '"docs/**"' not in reuse or 'SPDX-License-Identifier = "Apache-2.0"' not in reuse:
+    if '"docs/**"' not in reuse or (
+            'SPDX-License-Identifier = "Apache-2.0"' not in reuse):
         errors.append("REUSE.toml_docs_coverage_missing")
 
 
 def check_scope(errors: List[str]) -> List[str]:
     result = subprocess.run(
-        ["git", "-C", str(SDK_ROOT), "status", "--porcelain=v1", "--untracked-files=all"],
+        ["git", "-C", str(SDK_ROOT), "status", "--porcelain=v1",
+         "--untracked-files=all"],
         capture_output=True, text=True)
     if result.returncode != 0:
         errors.append("git_status_failed:" + result.stderr.strip())
@@ -266,7 +372,8 @@ def check_scope(errors: List[str]) -> List[str]:
                           capture_output=True, text=True)
     if diff.returncode != 0:
         errors.append("git_diff_check_failed:" + diff.stdout.strip())
-    pinned = {reference.TASK_PREFIX + name for name in reference.LOCAL_PIN_PATHS}
+    pinned = {reference.TASK_PREFIX + name
+              for name in reference.LOCAL_PIN_PATHS}
     pinned.add(reference.TASK_PREFIX + "SOURCES.sha256")
     for path in sorted(HERE.iterdir()):
         if path.is_file() and reference.TASK_PREFIX + path.name not in pinned:
@@ -280,15 +387,28 @@ def main() -> int:
     report = check_report(errors)
     check_licensing(errors)
     changed = check_scope(errors)
-    digest = reference.sha256(REPORT.read_bytes()) if REPORT.is_file() else "unavailable"
+    digest = reference.sha256(
+        REPORT.read_bytes()) if REPORT.is_file() else "unavailable"
+    expected_pins = (len(reference.SOURCE_PINS)
+                     + len(reference.BOUNDARY_PINS)
+                     + len(reference.LOCAL_PIN_PATHS))
     if errors:
         for error in errors:
             print("FAIL: " + error)
-        print(f"pins_ok={pins == len(reference.SOURCE_PINS) + len(reference.BOUNDARY_PINS) + len(reference.LOCAL_PIN_PATHS) and not any(e.startswith(('malformed_pin', 'duplicate_pin', 'unexpected_pin', 'pin_', 'pinned_', 'SOURCES')) for e in errors)} "
-              f"json_ok={bool(report)} reproduction_ok={not any('canonical' in e or 'sidecar' in e or 'repeat' in e for e in errors)} "
-              f"report_sha256={digest} changed_files={len(changed)} failures={len(errors)}")
+        pin_prefixes = ("malformed_pin", "duplicate_pin", "unexpected_pin",
+                        "pin_", "pinned_", "SOURCES")
+        pins_ok = (pins == expected_pins
+                   and not any(e.startswith(pin_prefixes) for e in errors))
+        reproduction_ok = not any(
+            "canonical" in e or "sidecar" in e or "repeat" in e
+            for e in errors)
+        print(f"pins_ok={pins_ok} json_ok={bool(report)} "
+              f"reproduction_ok={reproduction_ok} "
+              f"report_sha256={digest} changed_files={len(changed)} "
+              f"failures={len(errors)}")
         return 1
     print(f"PASS pins={pins} files={len(changed)} profile={report['profile']} "
+          f"category={report['map']['category_id']} "
           f"status={report['status']} decision={report['decision']} "
           f"report_sha256={digest}")
     return 0
