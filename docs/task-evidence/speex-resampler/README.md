@@ -131,16 +131,16 @@ nonfinite values.
 
 | Artifact | SHA-256 |
 | --- | --- |
-| `report.json` | `abc096dd8ca3153c9f8a70fb2bc04f87e170ae5f4479939bf782802780b519cd` |
-| `report.json` canonical text | `119ae84bfa18f10341fbc7c434f6c5363b94a66bf7edaafc19290036d5b5369a` |
-| `contract.json` | `3a28b41b97920ac0f4aaa69408b5ad850eeb3040375f13fbcd1ff7deb0553952` |
+| `report.json` | `6640c7995d3b0bb85338a508a64895d02f298b228eb4d79b8baa273713170898` |
+| `report.json` canonical text | `daf3e297be6fc54b61a2c825a876df1596127d72df7b62613b024681d087d52f` |
+| `contract.json` | `d63e972b488b6b0b4135a7a5489e736120e3bb4dd4e5a99f88da91474808e3c8` |
 | `harness.c` | `6032be99aba28d706444fc7235f893dcf54e32b4f1a0da7656f9632353a6a447` |
-| `reference.py` | `14ac812bee7e993056cfa638ec31a7def5f58addb528065a514e49317530f430` |
-| `run.py` | `af7ee05687d8550359d359785423d6a83d48b6ce35b848f03cf53997b9115251` |
+| `reference.py` | `cc2e19796c1e723563d5a23bc22aa9da2286dff8865775fd8353f02e192b328d` |
+| `run.py` | `2d7019121c06b105b90d23479af416f70a51a68e49c42bcb287e0cab2724cc6f` |
 | `verify.py` | `5da473dbe9761448d93b883fd810bb45176cf9bb88691885fd99402ec6476cca` |
 | `test_reference.py` | `b3e91126e245375a24c43695d48eb0be18ca0bae94b2b31d2b94e3aa3a9c01e5` |
 | `check_licensing.py` | `92572bb4e16edc4d05c025a62dd65483d21ffa5dfd259f422ca5312cf1c86504` |
-| `README.md` | `README_SHA256` |
+| `README.md` | recorded in `SOURCES.sha256` (self-referential) |
 | `LICENSE` | `806d46225a31c67e84db5ee50e5f09260e356fccb91c1e3d1e1b436cb0c74fdb` |
 | `THIRD_PARTY_NOTICES.md` | `b00cca99ac97efd5d07fcb3c4d42d67807cab8caeabdbf229ce57e9aa7408555` |
 
