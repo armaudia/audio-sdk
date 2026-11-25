@@ -59,8 +59,10 @@ tail/drain conformance. These limits are blockers, not waivers.
 
 Regeneration was performed with Python 3.12.16 (stdlib only) in a fresh private
 scratch copy. The canonical report contains no absolute checkout path, Python
-version string, platform string or other environment-dependent field, so a
-detached checkout regenerates identical bytes.
+version string, platform string or other environment-dependent field. Aggregate
+statistics use `math.fsum` rather than built-in `sum`, whose float accumulation
+changed in CPython 3.12, so canonical bytes were confirmed identical under
+Python 3.11.5, 3.12.16 and 3.15.2, including from a detached scratch copy.
 
 Run from this directory:
 

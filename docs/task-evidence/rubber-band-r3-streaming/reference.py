@@ -588,8 +588,11 @@ def finite_stats(values: Sequence[float]) -> dict:
         "peak_abs": peak,
         "clipping_count": sum(1 for value in values
                               if math.isfinite(value) and abs(value) > MAX_ABS),
-        "rms": math.sqrt(sum(value * value for value in values
-                             if math.isfinite(value)) / max(1, len(values))),
+        # sum() uses compensated float addition from CPython 3.12 onward;
+        # math.fsum() is exactly rounded on every supported interpreter, so
+        # canonical report bytes stay identical across Python versions.
+        "rms": math.sqrt(math.fsum(value * value for value in values
+                                   if math.isfinite(value)) / max(1, len(values))),
         "digest": tensor_digest(values),
     }
 
