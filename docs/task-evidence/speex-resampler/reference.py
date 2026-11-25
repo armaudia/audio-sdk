@@ -102,9 +102,8 @@ VENDORED_PINS = {
 
 BOARD_SNAPSHOT = {
     "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
-    "sha256_at_read": "1f0432bafc9116562b5351c24d6cb766bd441945c6ab48cca0f6f58f9baf4e73",
     "mutable": True,
-    "note": "Mutable board snapshot recorded at read time; provenance only, never a gate or a result.",
+    "note": "Mutable board path recorded for provenance only; never hashed, gated or treated as a result.",
 }
 
 # Stable linked-row identity: deliberately excludes mutable line numbers and
@@ -699,11 +698,8 @@ def _adverse_controls() -> Dict[str, Any]:
             ("out_of_range_speed_low", [0.0], 1, 4, DEFAULT_QUALITY),
             ("out_of_range_speed_high", [0.0], 3, 1, DEFAULT_QUALITY),
             ("invalid_quality", [0.0], 5, 4, 11),
-            ("invalid_frame_geometry", [0.0], 5, 4, DEFAULT_QUALITY),
     ):
         try:
-            if control_id == "invalid_frame_geometry":
-                raise InvalidQuality("frame_must_be_160")
             resample(samples, num, den, quality)
             controls[control_id] = {
                 "control_id": control_id,

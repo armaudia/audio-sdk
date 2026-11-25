@@ -93,7 +93,6 @@ def generate_sources() -> str:
         "the workspace root; other rows are relative to this SDK worktree "
         "unless prefixed with " + reference.TASK_PREFIX + ".\n",
         "# board snapshot (mutable, provenance only): "
-        + reference.BOARD_SNAPSHOT["sha256_at_read"] + " "
         + reference.BOARD_SNAPSHOT["path"] + "\n",
     ]
     for path, digest in sorted(reference.SOURCE_PINS.items()):

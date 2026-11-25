@@ -1,5 +1,5 @@
 # SHA-256 pins for SDK-SPEEX-RESAMPLER. source: rows are relative to the workspace root; other rows are relative to this SDK worktree unless prefixed with docs/task-evidence/speex-resampler/.
-# board snapshot (mutable, provenance only): 1f0432bafc9116562b5351c24d6cb766bd441945c6ab48cca0f6f58f9baf4e73 audio-benchmark-platform/plan/swarm/TASKS.json
+# board snapshot (mutable, provenance only): audio-benchmark-platform/plan/swarm/TASKS.json
 294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d  source:REALTIME_COMPONENT_CANDIDATES.md
 3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
 661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3  source:cpp-library/pipeline-validation/playback-speed-candidates.md
@@ -17,14 +17,14 @@ adae4ec8c26f2ed0fcc9cb5d1bdc029b0e21fde99af6dbcbd430e729a48afa18  third_party/sp
 5ab9c979e8ac1f72c7441d24e39e7840828dd9356aac49a31eabeddb808bf1d3  third_party/speexdsp/libspeexdsp/os_support.h
 c4ec3bc71fc4414d7ebd62fc745290c7b5b06b149a05dd70cf72553bc57c8c76  third_party/speexdsp/libspeexdsp/resample.c
 806d46225a31c67e84db5ee50e5f09260e356fccb91c1e3d1e1b436cb0c74fdb  docs/task-evidence/speex-resampler/LICENSE
-1eeb891afa45a933eb253e58ab584f4060b951abc1950c9e577f7774fd1b5860  docs/task-evidence/speex-resampler/README.md
+16597242b9937c2c69806278d4852620ec6c72f823afda25ebd2842f3e0da04d  docs/task-evidence/speex-resampler/README.md
 b00cca99ac97efd5d07fcb3c4d42d67807cab8caeabdbf229ce57e9aa7408555  docs/task-evidence/speex-resampler/THIRD_PARTY_NOTICES.md
 92572bb4e16edc4d05c025a62dd65483d21ffa5dfd259f422ca5312cf1c86504  docs/task-evidence/speex-resampler/check_licensing.py
-3a28b41b97920ac0f4aaa69408b5ad850eeb3040375f13fbcd1ff7deb0553952  docs/task-evidence/speex-resampler/contract.json
+d63e972b488b6b0b4135a7a5489e736120e3bb4dd4e5a99f88da91474808e3c8  docs/task-evidence/speex-resampler/contract.json
 6032be99aba28d706444fc7235f893dcf54e32b4f1a0da7656f9632353a6a447  docs/task-evidence/speex-resampler/harness.c
-14ac812bee7e993056cfa638ec31a7def5f58addb528065a514e49317530f430  docs/task-evidence/speex-resampler/reference.py
-abc096dd8ca3153c9f8a70fb2bc04f87e170ae5f4479939bf782802780b519cd  docs/task-evidence/speex-resampler/report.json
-166a52776d65146a6f186bdc81e01c03e89b57bf2424d69dd28446368cb8d2e9  docs/task-evidence/speex-resampler/report.json.sha256
-af7ee05687d8550359d359785423d6a83d48b6ce35b848f03cf53997b9115251  docs/task-evidence/speex-resampler/run.py
+cc2e19796c1e723563d5a23bc22aa9da2286dff8865775fd8353f02e192b328d  docs/task-evidence/speex-resampler/reference.py
+6640c7995d3b0bb85338a508a64895d02f298b228eb4d79b8baa273713170898  docs/task-evidence/speex-resampler/report.json
+3ff73eb9998a1c79ba93ce51b6f20aaa2a1fad10e9e8cdfd680cb67942d1b90e  docs/task-evidence/speex-resampler/report.json.sha256
+2d7019121c06b105b90d23479af416f70a51a68e49c42bcb287e0cab2724cc6f  docs/task-evidence/speex-resampler/run.py
 b3e91126e245375a24c43695d48eb0be18ca0bae94b2b31d2b94e3aa3a9c01e5  docs/task-evidence/speex-resampler/test_reference.py
 5da473dbe9761448d93b883fd810bb45176cf9bb88691885fd99402ec6476cca  docs/task-evidence/speex-resampler/verify.py

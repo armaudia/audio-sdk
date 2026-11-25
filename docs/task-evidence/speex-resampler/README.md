@@ -124,8 +124,8 @@ byte-identical across three cold-start processes.
 | 1.5× | 6,400 | yes | 1.5 | 0 samples | > 10 dB |
 
 Adverse controls (all fail closed, no metrics): nonfinite input, 0.25× speed,
-3.0× speed, quality 11, empty stimulus and a non-160 frame declaration. The
-harness also scans output for nonfinite values.
+3.0× speed, quality 11 and empty stimulus. The harness also scans output for
+nonfinite values.
 
 ## Exact digests
 
