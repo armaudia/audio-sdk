@@ -1,0 +1,39 @@
+# SHA-256 pins for SDK-SMALL-LOG-MEL-GRU readiness evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# The mutable shared board is not pinned; only its stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f  source:research/tsm-followup-20261101/README.md
+f2f1b55234364eceff8b0626411590fbb97476cac918d9bf34138babc5820b73  source:research/tsm-followup-20261101/agent-neural/REPORT.md
+8740b3078433f758c9d0b3106d5de40beae8653a1c9cc3ac49edb1a65a114e7f  source:research/tsm-followup-20261101/agent-neural/run/small_gru_last_fold.pt
+9206b6ff1fff8dd25ec511b88c2227178f67f95d603521370c460427f7cf15ef  source:research/tsm-followup-20261101/agent-neural/run/small_gru_results.json
+3c7b3731cf6d2312e42e3333cae03bc631f6d1dbf557b773e134468c867897e2  source:research/tsm-followup-20261101/agent-neural/run/syl_eval_manifest.json
+dba40141ca2a6d74f98a814e8c5fa8e3762b550e4d42233394978f1508e37291  source:research/tsm-followup-20261101/agent-neural/run/train_small_gru.py
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+adb751885024bcaab88a373602f3d19326cee356559d62b0cc334cbc25afceca  docs/task-evidence/distil-wav2vec2-adult-child-ridge/README.md
+ff7b70f389b8c7908c917aa2488728d7f972a8acd22bf66c56d9a671cd5a65d4  docs/task-evidence/distil-wav2vec2-adult-child-ridge/report.json
+3da6772383eb9b44ccd8eeab4272bf69e4dbd2640f045e42c4fa6ed24f275533  docs/task-evidence/dynamic-int8-wav2vec2-base/README.md
+6f166a5bc05a31064780f0957e5d1fb2046d5939180175b40b72f70a36e856c9  docs/task-evidence/dynamic-int8-wav2vec2-base/report.json
+6d45f0d27be9e0d461181bfa3c9e23ca6c955a15dda08527b46f15eadfd8f510  docs/task-evidence/mobilenetv3-small-on-log-mels/README.md
+2f179b4b49afcf9fd866e0a6339f0ede60a85192d04ba5d2629984b3d6828f50  docs/task-evidence/mobilenetv3-small-on-log-mels/report.json
+4cb8519863d1623f95bd58dd76f46e7b448ffe4f7310b80021b1f13db48a5ead  docs/task-evidence/small-log-mel-gru/LICENSES.md
+d22e2e39c8433719bb594351538b2597e8949ba9962bd1192dd78034c6ec59d2  docs/task-evidence/small-log-mel-gru/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/small-log-mel-gru/SOURCES.sha256.license
+17e8b0a3d508f5f5a8955c9ef24cb0fcb2978740dee8afdc61902ad65c0b094f  docs/task-evidence/small-log-mel-gru/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/small-log-mel-gru/contract.json.license
+28110e2cb3b06162745468cc4c76256fcef17eccbd9b074b9941ed9a2e12676c  docs/task-evidence/small-log-mel-gru/reference.py
+619a4bf03655c3d49afd666ee8eaabaef3e452c98dfab1c36202d6ae44d7091c  docs/task-evidence/small-log-mel-gru/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/small-log-mel-gru/report.json.license
+c8e8280c7e27845a5cb15c10efc032cce3dab9e8fe709a1cbeb7869e72f5176e  docs/task-evidence/small-log-mel-gru/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/small-log-mel-gru/report.json.sha256.license
+d0bdb23b6a3af5309fc3c8cd48fa1ed10d94f2370a5f0e1075735f5e11b6607f  docs/task-evidence/small-log-mel-gru/run.py
+d64e674d9a48ef4c0133d27238686f43fcc19e1043023c9c62b5c09b5ba42b89  docs/task-evidence/small-log-mel-gru/test_reference.py
+42f003337b30470b02b0e87335ff1dcb563207fe3ab6d51d0d99aa4883819423  docs/task-evidence/small-log-mel-gru/verify.py
