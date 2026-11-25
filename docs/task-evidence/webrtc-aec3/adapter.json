@@ -1,0 +1,23 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX\u002dLicense-Identifier": "Apache-2.0",
+  "asset_readiness": [],
+  "boundary_identity": "webrtc-aec3-task-local",
+  "configuration": {
+    "control": ["adaptive", "identity", "fixed_attenuation", "no_reference_passthrough"],
+    "reference_modes": ["explicit", "delayed", "withheld", "dropout"]
+  },
+  "decision": "DEFER",
+  "entrypoint": ["python3", "run.py"],
+  "identity": "webrtc-aec3-synthetic-reference-v1",
+  "input_kind": "paired_mono_f32_frames",
+  "modes": ["causal_framewise", "explicit_render_sidechain"],
+  "output_kinds": ["mono_f32_frames", "metrics"],
+  "processor_exposure": false,
+  "protocol_version": 1,
+  "real_runtime_used": false,
+  "registration": "unregistered; proposal only",
+  "status": "proposal_only_not_qualified",
+  "supported_formats": ["mono 16 kHz float32, 160-sample SDK frames"],
+  "tasks": ["AEC-ROOM-SYNTHETIC"]
+}
