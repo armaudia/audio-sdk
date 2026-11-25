@@ -353,7 +353,8 @@ class ReportAndCLITests(unittest.TestCase):
         for key in ("far_end", "near_end", "capture_noise", "microphone",
                     "echo_path", "double_talk", "reference_sidechain"):
             self.assertTrue(model[key], key)
-        self.assertIn("microphone", model["microphone"])
+        self.assertIn("far_end", model["microphone"])
+        self.assertIn("capture_noise", model["microphone"])
         self.assertIn("never supplied", model["near_end"])
         for key in ("erle_proxy", "near_snr", "alignment", "matched_controls"):
             self.assertTrue(spec["metrics"][key], key)
