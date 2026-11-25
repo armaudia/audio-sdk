@@ -307,6 +307,8 @@ class Controller:
             return self._reject("rejected_session")
         if not isinstance(frame, (list, tuple)) or len(frame) != FORMAT["frame_samples"]:
             return self._reject("rejected_tensor")
+        if any(isinstance(value, bool) for value in frame):
+            return self._reject("rejected_invalid")
         if any(not isinstance(value, (int, float)) or not math.isfinite(value) for value in frame):
             return self._reject("rejected_nonfinite")
         if any(abs(value) > MAX_ABS_INPUT for value in frame):
@@ -475,6 +477,7 @@ def adverse() -> Dict[str, Any]:
 
     frame_rejections = {
         "wrong_shape": frame_case(frame[:-1]),
+        "bool_sample": frame_case([True] * FORMAT["frame_samples"]),
         "nonfinite": frame_case([float("nan")] * FORMAT["frame_samples"]),
         "out_of_range": frame_case([MAX_ABS_INPUT + 1.0] * FORMAT["frame_samples"]),
         "stale_epoch": frame_case(frame, epoch=0),
