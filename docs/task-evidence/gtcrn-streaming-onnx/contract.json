@@ -1,0 +1,204 @@
+{
+  "schema_id": "audio-sdk/gtcrn-streaming-onnx/contract/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-GTCRN-STREAMING-ONNX",
+  "component": "gtcrn-streaming-onnx",
+  "repository": "audio-sdk",
+  "base_commit": "6f58f3d721908806f8c4a0a1e0dc6de846cef54c",
+  "branch": "swarm/SDK-GTCRN-STREAMING-ONNX",
+  "status": "optional-task-local-developer-fixture",
+  "evidence_status": "incomplete",
+  "decision": "DEFER",
+  "defer_before": "provider_registration",
+  "verification_profile": "enhancement",
+  "reference_family": "gtcrn",
+  "adapter_id": "gtcrn-streaming-onnx-caller-asset-surrogate-v1",
+  "scope": "Deterministic synthetic streaming fixture at the documented GTCRN streaming ONNX boundary with a caller-supplied-asset reference; no selection, real-model, device, listening, benchmark, provider or release claim.",
+  "source_identity": {
+    "path": "adapters/gtcrn-streaming/run.py",
+    "sha256": "272cea7120a1e21e67c1f6bfcd37848dd79fe5a7910ee79f2d48c6c31f856ec9",
+    "documented_constraints": [
+      "CPUExecutionProvider only, one ONNX session per adapter instance",
+      "one 257-bin real/imag STFT frame per call with shape [1,257,1,2]",
+      "conv_cache [2,1,16,16,33], tra_cache [2,3,1,1,16] and inter_cache [2,1,33,16] persist across calls and are zeroed by reset",
+      "512-point square-root-Hann analysis/synthesis window with a 256-sample hop",
+      "process() resets model caches per utterance and pads 256 samples on both sides",
+      "frame shape mismatches and inputs shorter than two samples raise"
+    ],
+    "note": "Source inspection is a boundary anchor only. No ONNX session is created and no model weight is loaded here."
+  },
+  "frontend_contract": {
+    "identity": "audio-sdk/v0-f32-16k-mono-160",
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "hop_samples": 160,
+    "content_delay_samples": 0,
+    "public_api_abi_changed": false,
+    "installed_v0_behavior_changed": false,
+    "provider_registration": false,
+    "enabled_by_default": false,
+    "default_selected": false,
+    "descriptor_settings": {},
+    "note": "The installed v0 frontend contract is recorded and preserved. The model hop below is task-local geometry and is not an installed v0 geometry change."
+  },
+  "model_geometry": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "window_samples": 512,
+    "hop_samples": 256,
+    "hop_ms": 16.0,
+    "stft_bins": 257,
+    "frame_representation": "real_imag",
+    "analysis_synthesis_window": "sqrt_periodic_hann_512",
+    "stft_lookahead_samples": 256,
+    "stft_lookahead_ms": 16.0,
+    "wola_synthesis_delay_samples": 256,
+    "content_delay_samples": 512,
+    "content_delay_ms": 32.0,
+    "state_caches": {
+      "conv_cache": [2, 1, 16, 16, 33],
+      "tra_cache": [2, 3, 1, 1, 16],
+      "inter_cache": [2, 1, 33, 16]
+    },
+    "state_persisted_across_hops": true,
+    "reset_behavior": "explicit_reset_zeroes_all_stream_and_model_state"
+  },
+  "asset_boundary": {
+    "mode": "caller_supplied_asset_reference",
+    "expected_filename": "gtcrn_simple.onnx",
+    "asset_present": false,
+    "asset_sha256": null,
+    "asset_rights_verified": false,
+    "onnx_runtime_available": false,
+    "onnx_runtime_invoked": false,
+    "real_path_status": "rejected_asset_unavailable",
+    "surrogate_path": "streaming_surrogate",
+    "silent_fallback_to_surrogate": false
+  },
+  "public_boundary": {
+    "header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "contract_file": "CONTRACTS.md",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "c_provider_added": false,
+    "public_api_abi_changed": false,
+    "registry_change": false,
+    "default_change": false,
+    "installed_v0_behavior_changed": false,
+    "note": "No public header, contract, descriptor, registry, shared build, CMake file, CI file or installed behavior is modified."
+  },
+  "reference": {
+    "adapter_id": "gtcrn-streaming-onnx-caller-asset-surrogate-v1",
+    "modes": ["streaming_surrogate", "caller_supplied_onnx"],
+    "controls": ["identity_no_processing", "noisy_input_no_processing", "half_window_wola_spectral_shrinkage_surrogate"],
+    "candidate": "half_window_wola_spectral_shrinkage_surrogate",
+    "control": "noisy_input_no_processing",
+    "configuration_keys": ["mode", "asset"],
+    "configuration_value": {"mode": "streaming_surrogate", "asset": "caller_supplied_asset"},
+    "signal_samples": 9728,
+    "causal": true,
+    "model_weights": false,
+    "downloads": false,
+    "real_speech": false,
+    "licensed_runtime": false,
+    "device_or_timing_claim": false,
+    "registered_in_bench": false,
+    "produces_bench_bundle": false,
+    "opt_in_manifest": "provider.json",
+    "default_enabled": false
+  },
+  "source_pins": {
+    "adapters/gtcrn-streaming/run.py": "272cea7120a1e21e67c1f6bfcd37848dd79fe5a7910ee79f2d48c6c31f856ec9",
+    "research/dereverberation_candidates_20261028.md": "6f0f1a07aeb7b865dce766576bcc99cb97a78120253b1f9e1e9618f964098468",
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69"
+  },
+  "artifact_pins": {
+    "docs/task-evidence/gtcrn-streaming-onnx/adapter.json": "cdf4b5d0f13de18c7972ebdfc9123f04e7bf6a021c6d0eb3dcb4bbe38fcee987",
+    "docs/task-evidence/gtcrn-streaming-onnx/provider.json": "cac831bf03b39a619e17a39750d9c19ca25d4170e07589c63fc8f758b0bb18b3",
+    "docs/task-evidence/gtcrn-streaming-onnx/asset.json": "dd0310752e5a43e8fb95c6d06caa1a92c9be4df733d87fac996fdb5382616871",
+    "docs/task-evidence/gtcrn-streaming-onnx/scorer.py": "f21d7d1d563fdc0b5afce6ce17ec4b730ac6d941fb4d8079cf7060f2f92fb521",
+    "docs/task-evidence/online-multichannel-wpe/scorer.py": "a0c1ba9ff21b0d0125c792053f0acefe1eda9266ab276aa370838c0f42dd55a1",
+    "docs/task-evidence/online-multichannel-wpe/crosscheck_vectors.json": "7bdd131858306648b4f24b1544a6afb4da2660b3f2d3edcdfb3b715e574a18a2"
+  },
+  "acceptance_profile": {
+    "name": "enhancement",
+    "source": "audio-benchmark-platform/plan/swarm/VERIFICATION.md",
+    "mapped_cases": [
+      "identity and noisy control",
+      "established task-matched noisy-input baseline",
+      "paired synthetic SI-SDR and STOI",
+      "clean-speech preservation",
+      "peaks and invalid outputs",
+      "alignment, state, memory and timing boundary"
+    ],
+    "not_applicable": [
+      "unpaired-speech predictive screen or authorized listening: no licensed speech or listening result",
+      "target-device timing and memory: no exact runtime measurement"
+    ],
+    "remaining_gates": [
+      "rights-cleared exact weight asset and ONNX Runtime build",
+      "real streaming ONNX parity",
+      "held-out real paired denoising cohort",
+      "independent listening or authorized predictive screen",
+      "target-runtime deadline and memory",
+      "provider intake and descriptor review",
+      "explicit public default selection",
+      "exact approved external reference parity"
+    ]
+  },
+  "independent_timing_evidence": {
+    "status": "source_reported_proposal_only",
+    "measured_here": false,
+    "used_for_qualification": false,
+    "sources": [
+      "REALTIME_COMPONENT_CANDIDATES.md",
+      "research/dereverberation_candidates_20261028.md"
+    ],
+    "note": "Source-reported RTF and frame timings are provenance only. They are not reproduced, pooled as a controlled benchmark, assigned to this surrogate or used as an acceptance threshold."
+  },
+  "rights_gap": {
+    "blocked": true,
+    "exact_upstream_source_verified": false,
+    "model_weight_terms_verified": false,
+    "onnx_runtime_terms_verified": false,
+    "evidence": "No weight file, checkpoint license text or ONNX Runtime redistribution grant is present or downloaded here.",
+    "consequence": "No vendoring, build, installed provider, descriptor, default or release claim until rights are cleared."
+  },
+  "invariants": [
+    "Only this task directory is written; no shared SDK file, CMake, contract, public header, registry, default, board, handoff, CI file or installed behavior changes.",
+    "The fixture is opt-in, unregistered and disabled by default with no C provider or production callback.",
+    "The caller-supplied-asset path fails closed and never silently falls back to the surrogate.",
+    "All signals are frozen deterministic synthetic floats; no model, media, weight or runtime asset is read or produced.",
+    "Configuration, hop shape, finite range, epoch, position and lifecycle rejections fail closed without advancing stream state.",
+    "Identity and noisy-input controls are reported with the candidate; regressions are recorded verbatim.",
+    "Three cold-start passes are byte-identical; canonical JSON and digest sidecars are regenerated deterministically.",
+    "Source-reported timing and the prior dereverberation screen are proposal-only provenance, never measured results or thresholds.",
+    "Missing evidence never qualifies the candidate; decision remains DEFER and conclusion not_ready."
+  ],
+  "blockers": [
+    "No exact GTCRN weight asset with an immutable URI, SHA-256 and byte size is available.",
+    "No checkpoint license or ONNX Runtime redistribution terms are cleared for packaging.",
+    "No real streaming ONNX parity, paired denoising cohort, listening or target-device timing exists.",
+    "No provider intake, descriptor, catalog or default-selection review has been completed.",
+    "No exact approved external reference parity result exists."
+  ],
+  "reopening_conditions": [
+    "An authorized caller supplies a rights-cleared immutable weight asset with SHA-256, byte size, license and pinned ONNX Runtime version.",
+    "Rerun real streaming parity with preserved hop, state and lookahead at the documented boundary.",
+    "Run a held-out real paired denoising cohort with matched identity and noisy controls and paired SI-SDR/STOI.",
+    "Run independent listening or a separately labeled authorized predictive screen.",
+    "Measure content/availability timing, memory and deadlines on the exact target runtime.",
+    "Complete provider intake and explicit default-selection review before any registry or catalog change."
+  ]
+}
