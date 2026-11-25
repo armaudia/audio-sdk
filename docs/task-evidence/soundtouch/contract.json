@@ -1,0 +1,119 @@
+{
+  "spdx": {
+    "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+    "SPDX-License-Identifier": "Apache-2.0"
+  },
+  "protocol": "audio-sdk/soundtouch-evidence/0.1",
+  "task": "SDK-SOUNDTOUCH",
+  "component": "soundtouch",
+  "verification_profile": "rate",
+  "base_commit": "ddce4bc6b7b5a6fb1761933dad50f87c8168bd10",
+  "original_claimed_base": "add40f5cab979995b6114deb2a05302e547c148c",
+  "branch": "swarm/SDK-SOUNDTOUCH",
+  "status": "proposal_only_not_qualified",
+  "decision": {
+    "status": "incomplete",
+    "promotion": "defer",
+    "production_exposure": "DEFER",
+    "proposal_only_not_qualified": true,
+    "incomplete": true,
+    "expose_as_processor": false,
+    "registered": false,
+    "default_enabled": false
+  },
+  "exact_scope": {
+    "write_scope": "docs/task-evidence/soundtouch/ only",
+    "shared_files_changed": false,
+    "public_api_or_abi_changed": false,
+    "headers_changed": false,
+    "descriptor_registry_changed": false,
+    "descriptor_default_changed": false,
+    "provider_registration_changed": false,
+    "installed_v0_changed": false,
+    "board_handoff_ruleset_or_main_changed": false,
+    "other_task_changed": false
+  },
+  "installed_v0": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "frame_samples": 160,
+    "sample_format": "float32",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "changed": false,
+    "note": "The frozen v0 boundary cannot express device-time expansion for r<1; slow-down is task-local whole-clip evidence only."
+  },
+  "synthetic_reference": {
+    "algorithm": "documented WSOLA-style waveform-similarity overlap-add with fractional source/output clocks and transient-aware placement",
+    "not_upstream_soundtouch": true,
+    "upstream_source_binary_weights_or_license_runtime_vendored": false,
+    "real_corpus_or_device_used": false,
+    "listening_or_timing_claim": false,
+    "rate_range": [0.75, 1.5],
+    "rate_slew_per_segment": 0.005,
+    "final_partial_window": true,
+    "source_anchored_pause_filler_policy": true
+  },
+  "pins": [
+    {
+      "id": "research/tsm-followup-20261101/README.md",
+      "sha256": "01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f",
+      "use": "source-reported SoundTouch 2.4.1 duration, RTF, F0 and paired Whisper proxy context; explicitly historical, not re-measured here"
+    },
+    {
+      "id": "cpp-library/pipeline-validation/playback-speed-candidates.md",
+      "sha256": "661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3",
+      "use": "rate semantics, 160-frame Stage incompatibility, LGPL/commercial condition and proposed gates"
+    },
+    {
+      "id": "REALTIME_COMPONENT_CANDIDATES.md",
+      "sha256": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+      "use": "stateful tempo API and buffered-playback disposition"
+    },
+    {
+      "id": "audio-benchmark-platform/plan/swarm/VERIFICATION.md",
+      "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+      "use": "Rate acceptance profile"
+    },
+    {
+      "id": "audio-benchmark-platform/audio-sdk/CONTRACTS.md",
+      "sha256": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+      "use": "published SDK v0 contract provenance"
+    },
+    {
+      "id": "audio-benchmark-platform/audio-sdk/README.md",
+      "sha256": "9047036096a967bed5cd59e7d3b939258d327578b2079445da1b683b52a8fdb9",
+      "use": "SDK boundary provenance"
+    },
+    {
+      "id": "audio-sdk/api/include/audio_sdk/provider_v0.h",
+      "sha256": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+      "use": "published provider ABI v0"
+    },
+    {
+      "id": "audio-sdk/api/include/audio_sdk/session_v0.h",
+      "sha256": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+      "use": "published session facade v0"
+    }
+  ],
+  "accepted_evidence": {
+    "profile": "Rate",
+    "source_output_mapping": "duration_mapping,rate_updates",
+    "duration": "duration_mapping,pause_policy,drift_rebuffer",
+    "pitch": "steady_state.frequency_scale",
+    "transient_proxies": "transient_behavior",
+    "playback_buffering": "streaming,final_partial,c_boundary_expected",
+    "speech_preservation": "variants.speech_like,transient_behavior.speech_like",
+    "invalid_missing_nonfinite_adverse": "streaming.frame_rejections,streaming.config_rejections,fixture.cases",
+    "separation": "synthetic, source-reported, build and unclaimed workload evidence are kept separate"
+  },
+  "remaining_gates": [
+    "exact-head independent review",
+    "hosted CI on the exact branch head",
+    "upstream SoundTouch provenance, LGPL-2.1 or commercial distribution decision and notice review",
+    "permitted held-out speech/music cohort with matched controls and authorized listening or intelligibility scoring",
+    "paced target-device playback workload with fill/flush, deadlines, CPU, memory and availability telemetry",
+    "versioned public-surface and descriptor intake decision before any registration or default enablement",
+    "release approval; no missing, invalid, nonfinite or adverse result qualifies a candidate"
+  ]
+}

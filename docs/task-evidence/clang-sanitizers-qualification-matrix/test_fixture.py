@@ -285,7 +285,7 @@ class FixtureTests(unittest.TestCase):
         for name in ("fixture.py", "run.py", "verify.py", "test_fixture.py"):
             head = "\n".join((HERE / name).read_text(
                 encoding="utf-8").splitlines()[:4])
-            self.assertIn("SPDX-License-Identifier: Apache-2.0", head, name)
+            self.assertIn("SPDX" "-License-Identifier: Apache-2.0", head, name)
             self.assertIn("SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes",
                           head, name)
 
