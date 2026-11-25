@@ -29,10 +29,13 @@ The pins include the registry, taxonomy table, legacy backlog,
 verification profiles, inventory, historical AEC and real-corpus reports,
 clock-domain implementation record, composition report, SDK contracts,
 evidence-handoff rules and the two proposal-only clock fixtures. The mutable
-board row is represented only by a stable row projection, never by a
-whole-file hash, so unrelated board status edits cannot change canonical
-bytes. A digest is a content pin only: it grants no rights and attests to no
-media, device or provider outcome.
+`plan/swarm/TASKS.json` board is referenced by path with `gate=false` and is
+never hashed into canonical bytes; only the linked row's `id`/`title`/`mode`
+projection is gated, so unrelated status, owner, review, history or handoff
+edits cannot change this map or break its digest. The canonical worktree is the
+board claim literal, not the checkout path, so a fresh clone regenerates the
+same bytes. A digest is a content pin only: it grants no rights and attests to
+no media, device or provider outcome.
 
 ## Original catalogue and source leads
 
@@ -167,7 +170,7 @@ separate owner, exact clock-domain policy and task-local qualification under
   family coverage, gap boundary and prohibited claims.
 - [`test_evidence_map.py`](test_evidence_map.py): deterministic unit tests.
 
-Report SHA-256: `302f07be53868c31cc9ce27942919475a73a726f55d88e66f825dcf67e4f71d8`.
+Report SHA-256: `7c451d6c6543cb09858ffa03ff3a45b30fbebfd012172229110969a532f7d491`.
 
 ## Reproduction
 

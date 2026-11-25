@@ -13,18 +13,29 @@ import json
 from pathlib import Path
 
 TASK_DIR = Path(__file__).resolve().parent
-SDK_ROOT = TASK_DIR.parents[2]
+WORKTREE = TASK_DIR.parents[2]
+SDK_ROOT = WORKTREE
 
 SCHEMA_ID = "audio-sdk/survey-evidence-map/0.1"
 BASE_COMMIT = "c9296ae96a2b58efae559bd22e7760122c886df8"
 BRANCH = "swarm/SDK-SURVEY-ENG-02"
-WORKTREE = "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-SURVEY-ENG-02"
+# Canonical bytes carry the board row's claim worktree literal, not the checkout
+# path, so a fresh clone at any location regenerates the same digest.
+CLAIM_WORKTREE = "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-SURVEY-ENG-02"
 GAP_ID = "SDK-SURVEY-ENG-02-LIVE-CLOCK-DRIFT-FEASIBILITY"
+
+# The shared board is mutable and is referenced by path only. Its whole-file
+# digest must never enter canonical bytes: status, owner, review, history and
+# handoff edits would otherwise break reproducibility. Only the linked row
+# identity (id/title/mode) is projected and gated.
 BOARD_PATH = "audio-benchmark-platform/plan/swarm/TASKS.json"
-BOARD_PROJECTION_FIELDS = (
-    "id", "title", "mode", "repository", "owner", "depends_on",
-    "write_scope", "deliverable", "acceptance",
-)
+BOARD_PROJECTION_FIELDS = ("id", "title", "mode")
+BOARD_IDENTITY = {
+    "id": "SDK-SURVEY-ENG-02",
+    "title": "Review coverage for Clock drift, alignment and reference synchronization",
+    "mode": "taxonomy",
+}
+REPOSITORY = "audio-sdk"
 RELEASE_GATES = [
     {"id": "RG-01", "blocked": True, "requirement": "Rights-qualified real paired cohort with frozen candidate outputs"},
     {"id": "RG-02", "blocked": True, "requirement": "Independent authorized listening with declared analysis plan"},
@@ -295,11 +306,44 @@ def canonical(obj: object) -> bytes:
     return (json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode("utf-8")
 
 
-def build_report(workspace: Path) -> tuple[bytes, dict[str, str]]:
+def load_board(workspace: Path) -> dict:
+    """Read the mutable shared board without feeding its whole-file hash forward."""
+    return json.loads(read_text(workspace, BOARD_PATH))
+
+
+def linked_task(board: dict) -> dict:
+    """Return the linked board row after checking its stable identity only."""
+    rows = [item for item in board.get("tasks", []) if item.get("id") == BOARD_IDENTITY["id"]]
+    if len(rows) != 1:
+        raise RuntimeError(f"expected exactly one linked board row: {BOARD_IDENTITY['id']}")
+    task = rows[0]
+    for field in BOARD_PROJECTION_FIELDS:
+        if task.get(field) != BOARD_IDENTITY[field]:
+            raise RuntimeError(
+                f"linked board identity changed: {field}={task.get(field)!r} "
+                f"!= {BOARD_IDENTITY[field]!r}"
+            )
+    if task.get("repository") != REPOSITORY:
+        raise RuntimeError(f"linked board repository changed: {task.get('repository')!r}")
+    return task
+
+
+def board_projection(task: dict) -> dict:
+    """Gate only id/title/mode; mutable board fields stay out of canonical bytes."""
+    projection = {field: task[field] for field in BOARD_PROJECTION_FIELDS}
+    return {
+        "fields": list(BOARD_PROJECTION_FIELDS),
+        "sha256": sha256_bytes(canonical(projection)),
+    }
+
+
+def build_report(workspace: Path, board: dict | None = None) -> tuple[bytes, dict[str, str]]:
     """Reconstruct the canonical report bytes and source digests.
 
     The function is deliberately free of output writes so the verifier and
-    tests can rebuild the same artifact without mutating pinned sources.
+    tests can rebuild the same artifact without mutating pinned sources. A
+    caller may inject a board mapping to prove unrelated board edits cannot
+    change the canonical bytes.
     """
     texts = {path: read_text(workspace, path) for path in PINS}
     for path, quote in QUOTES:
@@ -315,14 +359,14 @@ def build_report(workspace: Path) -> tuple[bytes, dict[str, str]]:
 
     registry = json.loads(texts["research/category_registry.json"])
     backlog = json.loads(texts["research/task_backlog.json"])
-    tasks_path = "audio-benchmark-platform/plan/swarm/TASKS.json"
-    board = json.loads(read_text(workspace, tasks_path))
+    if board is None:
+        board = load_board(workspace)
     inventory = json.loads(texts["audio-benchmark-platform/plan/INVENTORY.json"])
 
     category = next(item for item in registry["categories"] if item["id"] == "ENG-02")
     sources = {item["id"]: item for item in registry["sources"]}
     backlog_entry = next(item for item in backlog["entries"] if item["category_id"] == "ENG-02")
-    task = next(item for item in board["tasks"] if item["id"] == "SDK-SURVEY-ENG-02")
+    task = linked_task(board)
     components = {item["id"]: item for item in inventory["components"]}
     for component_id, expected in COMPONENTS.items():
         record = components[component_id]
@@ -334,11 +378,7 @@ def build_report(workspace: Path) -> tuple[bytes, dict[str, str]]:
 
     digests = {path: sha256_bytes((workspace / path).read_bytes()) for path in sorted(PINS)}
     source_pins = [{"path": path, "sha256": digests[path], "use": use} for path, use in sorted(PINS.items())]
-    projection = {field: task[field] for field in BOARD_PROJECTION_FIELDS}
-    board_projection = {
-        "fields": list(BOARD_PROJECTION_FIELDS),
-        "sha256": sha256_bytes(canonical(projection)),
-    }
+    projection = board_projection(task)
 
     report = {
         "schema_id": SCHEMA_ID,
@@ -346,13 +386,9 @@ def build_report(workspace: Path) -> tuple[bytes, dict[str, str]]:
         "task_title": task["title"],
         "mode": task["mode"],
         "repository": task["repository"],
-        "owner": task["owner"],
-        "reviewer": task["claim"]["reviewer"],
         "base_commit": BASE_COMMIT,
         "branch": BRANCH,
-        "worktree": WORKTREE,
-        "dependencies": task["depends_on"],
-        "write_scope": task["write_scope"],
+        "worktree": CLAIM_WORKTREE,
         "disposition": "survey_only: read-only taxonomy and comparison map; no execution or qualification claim",
         "decision": "DEFER",
         "status": "proposal_only_survey_incomplete",
@@ -364,11 +400,11 @@ def build_report(workspace: Path) -> tuple[bytes, dict[str, str]]:
             "processor_exposure": False,
         },
         "release_gates": RELEASE_GATES,
-        "board_projection": board_projection,
+        "board_projection": projection,
         "mutable_provenance": {
             "gate": False,
             "path": BOARD_PATH,
-            "note": "Board status is mutable and never hashed into canonical bytes; only the stable row projection is gated.",
+            "note": "Board status, owner, review, history and handoff are mutable and never hashed into canonical bytes; only the linked id/title/mode projection is gated.",
         },
         "catalogue": {
             "registry_source": "research/category_registry.json",
@@ -382,8 +418,6 @@ def build_report(workspace: Path) -> tuple[bytes, dict[str, str]]:
             "legacy_backlog": backlog_entry,
             "legacy_backlog_snapshot": backlog["snapshot"],
         },
-        "board_deliverable": task["deliverable"],
-        "board_acceptance": task["acceptance"],
         "source_leads": [
             {
                 **{key: sources[lead["id"]][key] for key in ("id", "title", "url", "researcher", "access_scope")},
@@ -440,6 +474,7 @@ def build_report(workspace: Path) -> tuple[bytes, dict[str, str]]:
         "source_pin_policy": {
             "sidecar": "SOURCES.sha256",
             "paths": "workspace-relative; SDK paths use the canonical audio-benchmark-platform/audio-sdk checkout and are compared byte-for-byte with this worktree",
+            "board": "plan/swarm/TASKS.json is referenced by path with gate=false and is never hashed; only the linked id/title/mode projection is gated",
             "meaning": "Document/metadata digests only; a pin grants no rights and verifies no media, device or provider claim",
         },
         "source_pins": source_pins,

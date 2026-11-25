@@ -15,6 +15,7 @@ import subprocess
 import sys
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import build
 
@@ -226,16 +227,46 @@ class EvidenceMapTests(unittest.TestCase):
     def test_19_mutable_board_is_not_a_full_file_pin(self) -> None:
         self.assertNotIn(build.BOARD_PATH, build.PINS)
         self.assertFalse(self.report["mutable_provenance"]["gate"])
+        self.assertEqual(self.report["mutable_provenance"]["path"], build.BOARD_PATH)
         board = json.loads(build.read_text(WORKSPACE, build.BOARD_PATH))
         task = next(item for item in board["tasks"] if item["id"] == "SDK-SURVEY-ENG-02")
-        projection = {field: task[field] for field in build.BOARD_PROJECTION_FIELDS}
-        self.assertEqual(
-            self.report["board_projection"],
-            {
-                "fields": list(build.BOARD_PROJECTION_FIELDS),
-                "sha256": build.sha256_bytes(build.canonical(projection)),
-            },
-        )
+        self.assertEqual(self.report["board_projection"], build.board_projection(task))
+        self.assertEqual(self.report["board_projection"]["fields"], ["id", "title", "mode"])
+        self.assertNotIn(build.BOARD_PATH, SOURCES.read_text(encoding="utf-8"))
+
+    def test_20_unrelated_board_mutations_keep_canonical_bytes(self) -> None:
+        board = build.load_board(WORKSPACE)
+        mutated = json.loads(json.dumps(board))
+        linked_id = build.BOARD_IDENTITY["id"]
+        for row in mutated["tasks"]:
+            if row["id"] == linked_id:
+                continue
+            row["status"] = "mutated"
+            row["owner"] = "mutated-owner"
+            row["review"] = {"state": "mutated", "at": "2099-01-01"}
+            row["handoff"] = {"state": "mutated"}
+            row["history"] = [{"action": "mutated"}]
+        self.assertNotEqual(mutated, board)
+        rebuilt, _ = build.build_report(WORKSPACE, board=mutated)
+        self.assertEqual(rebuilt, self.expected_bytes)
+
+    def test_21_linked_board_identity_is_gated(self) -> None:
+        for field, replacement in (("title", "Mutated linked title"),
+                                   ("mode", "feasibility")):
+            board = json.loads(json.dumps(build.load_board(WORKSPACE)))
+            linked = next(row for row in board["tasks"]
+                          if row["id"] == build.BOARD_IDENTITY["id"])
+            linked[field] = replacement
+            with self.assertRaises(RuntimeError):
+                build.build_report(WORKSPACE, board=board)
+
+    def test_22_canonical_bytes_are_location_independent(self) -> None:
+        self.assertEqual(self.report["worktree"], build.CLAIM_WORKTREE)
+        task = build.linked_task(build.load_board(WORKSPACE))
+        self.assertEqual(self.report["worktree"], task["claim"]["worktree"])
+        with mock.patch.object(build, "WORKTREE", Path("/relocated/sdk/checkout")):
+            relocated, _ = build.build_report(WORKSPACE)
+        self.assertEqual(relocated, self.expected_bytes)
 
 
 if __name__ == "__main__":

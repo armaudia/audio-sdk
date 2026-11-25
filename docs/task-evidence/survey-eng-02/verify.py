@@ -101,21 +101,19 @@ def check_scope() -> None:
 
 
 def check_report(report: dict) -> None:
-    board = json.loads(build.read_text(WORKSPACE, "audio-benchmark-platform/plan/swarm/TASKS.json"))
-    task = next(item for item in board["tasks"] if item["id"] == "SDK-SURVEY-ENG-02")
-    report_keys = {"id": "task_id", "title": "task_title"}
-    for key in ("id", "title", "mode", "repository", "owner"):
-        report_key = report_keys.get(key, key)
-        ensure(report[report_key] == task[key], f"board drift for task.{key}")
-    ensure(report["reviewer"] == task["claim"]["reviewer"], "board drift for task.claim.reviewer")
-    for key in ("depends_on", "write_scope", "deliverable", "acceptance"):
-        report_key = "dependencies" if key == "depends_on" else (
-            "board_deliverable" if key == "deliverable" else (
-                "board_acceptance" if key == "acceptance" else key))
-        ensure(report[report_key] == task[key], f"board drift for task.{key}")
+    board = build.load_board(WORKSPACE)
+    task = build.linked_task(board)
+    ensure(report["task_id"] == build.BOARD_IDENTITY["id"], "linked board id changed")
+    ensure(report["task_title"] == build.BOARD_IDENTITY["title"], "linked board title changed")
+    ensure(report["mode"] == build.BOARD_IDENTITY["mode"], "linked board mode changed")
+    ensure(report["repository"] == build.REPOSITORY, "repository changed")
+    for key in ("owner", "reviewer", "dependencies", "write_scope",
+                "board_deliverable", "board_acceptance"):
+        ensure(key not in report, f"mutable board field leaked into canonical bytes: {key}")
     ensure(report["base_commit"] == build.BASE_COMMIT, "wrong base commit")
     ensure(report["branch"] == build.BRANCH, "wrong branch")
-    ensure(report["worktree"] == build.WORKTREE, "wrong worktree")
+    ensure(report["worktree"] == build.CLAIM_WORKTREE, "wrong worktree literal")
+    ensure(report["worktree"] == task["claim"]["worktree"], "claim worktree drifted from the board")
     ensure(report["schema_id"] == build.SCHEMA_ID, "wrong schema id")
     ensure(report["disposition"].startswith("survey_only:"), "survey-only disposition missing")
     ensure(report["decision"] == "DEFER", "decision must remain DEFER")
@@ -128,13 +126,10 @@ def check_report(report: dict) -> None:
     ensure(len(report["release_gates"]) == 8, "release gate set incomplete")
     ensure(all(gate["blocked"] is True for gate in report["release_gates"]),
            "release gate is not blocked")
-    ensure(report["mutable_provenance"]["gate"] is False, "mutable board file is gated")
-    projection = {field: task[field] for field in build.BOARD_PROJECTION_FIELDS}
-    expected_projection = {
-        "fields": list(build.BOARD_PROJECTION_FIELDS),
-        "sha256": build.sha256_bytes(build.canonical(projection)),
-    }
-    ensure(report["board_projection"] == expected_projection, "board projection drifted")
+    provenance = report["mutable_provenance"]
+    ensure(provenance["gate"] is False, "mutable board file is gated")
+    ensure(provenance["path"] == build.BOARD_PATH, "wrong mutable board path")
+    ensure(report["board_projection"] == build.board_projection(task), "board projection drifted")
     ensure(build.BOARD_PATH not in build.PINS, "mutable board file is still a full-file pin")
 
     category = report["catalogue"]["category"]
@@ -217,12 +212,15 @@ def check_artifacts() -> str:
     expected_sources = "".join(f"{digests[path]}  {path}\n" for path in sorted(digests))
     sources_text = (TASK_DIR / "SOURCES.sha256").read_text(encoding="utf-8")
     ensure(sources_text == expected_sources, "SOURCES.sha256 is stale")
+    ensure(build.BOARD_PATH not in sources_text, "mutable board file is still in SOURCES.sha256")
 
     report = json.loads(report_bytes)
     ensure(report["source_pins"] == [
         {"path": path, "sha256": digests[path], "use": build.PINS[path]}
         for path in sorted(build.PINS)
     ], "report source pins disagree with the sidecar")
+    ensure(all(pin["path"] != build.BOARD_PATH for pin in report["source_pins"]),
+           "mutable board file is still reported as a source pin")
     return report_digest
 
 
