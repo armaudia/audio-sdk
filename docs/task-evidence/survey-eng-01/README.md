@@ -125,8 +125,13 @@ PYTHONDONTWRITEBYTECODE=1 "$PY" -m unittest -v test_survey_map.py
 PYTHONDONTWRITEBYTECODE=1 "$PY" verify.py
 ```
 
-`build_report.py` regenerates byte-identical outputs; `verify.py` is read-only
-and checks scope, Python pin, pins, board projection, canonical bytes, report
+`build_report.py` regenerates byte-identical outputs. Canonical bytes carry the
+board row's claim worktree literal, not the checkout path, so a fresh clone at
+any location regenerates the same digest. Workspace lookup for the external
+pinned documents tries `AUDIOML_WORKSPACE_ROOT`, then enclosing-directory
+markers, then the pinned `audioml` default; that lookup never enters canonical
+bytes. `verify.py` is read-only and checks scope, Python pin, pins, board
+projection, canonical bytes, report
 digest, manifest, SPDX sidecars, family/component coverage, S42 mapping,
 historical-record fields, gap bounds, claim gates and text hygiene. From the
 enclosing workspace, also run:

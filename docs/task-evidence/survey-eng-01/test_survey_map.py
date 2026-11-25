@@ -11,6 +11,7 @@ import json
 import sys
 import unittest
 from pathlib import Path
+from unittest import mock
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
@@ -35,6 +36,14 @@ class SurveyEng01MapTest(unittest.TestCase):
         for path in HERE.iterdir():
             self.assertFalse(path.is_symlink(), f"symlink: {path.name}")
             self.assertLess(path.stat().st_size, 200_000, f"large file: {path.name}")
+
+    def test_canonical_bytes_are_location_independent(self) -> None:
+        raw, report = load_report()
+        self.assertEqual(report["worktree"], spec.CLAIM_WORKTREE)
+        self.assertEqual(report["worktree"], checker.claim_worktree_from_board())
+        with mock.patch.object(spec, "WORKTREE", Path("/relocated/sdk/checkout")):
+            relocated = spec.canonical_json(spec.build_report()).encode("utf-8")
+        self.assertEqual(raw, relocated)
 
     def test_canonical_report_and_sidecar(self) -> None:
         raw, _ = load_report()

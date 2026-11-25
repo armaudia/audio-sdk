@@ -6,11 +6,35 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 WORKTREE = HERE.parents[2]
-WORKSPACE = HERE.parents[5]
+# The canonical bytes must not depend on where the checkout lives. This literal
+# is the board row's claim worktree; verify.py checks it against the board.
+CLAIM_WORKTREE = (
+    "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-SURVEY-ENG-01"
+)
+PINNED_WORKSPACE = Path("/Users/htsakanyan/workspace/audio/audioml")
+
+
+def _find_workspace() -> Path:
+    """Locate the pinned audioml workspace without affecting canonical bytes."""
+    override = os.environ.get("AUDIOML_WORKSPACE_ROOT")
+    candidates = [Path(override)] if override else []
+    candidates.extend(HERE.parents)
+    candidates.append(PINNED_WORKSPACE)
+    for candidate in candidates:
+        if (
+            (candidate / "research/category_registry.json").is_file()
+            and (candidate / "audio-benchmark-platform/plan/INVENTORY.json").is_file()
+        ):
+            return candidate
+    raise RuntimeError("audioml workspace not found; set AUDIOML_WORKSPACE_ROOT")
+
+
+WORKSPACE = _find_workspace()
 PLATFORM = WORKSPACE / "audio-benchmark-platform"
 TASK_ID = "SDK-SURVEY-ENG-01"
 CATEGORY_ID = "ENG-01"
@@ -135,7 +159,7 @@ def build_report() -> dict:
         "title": "Framing, format conversion and resampling",
         "base_commit": BASE_COMMIT,
         "branch": BRANCH,
-        "worktree": str(WORKTREE),
+        "worktree": CLAIM_WORKTREE,
         "survey_owner": "agent-SURVEY-ENG-01",
         "reviewer": REVIEWER,
         "disposition": "taxonomy_and_comparison_only",

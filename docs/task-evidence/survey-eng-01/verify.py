@@ -54,6 +54,16 @@ def digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def claim_worktree_from_board() -> str:
+    board = json.loads(
+        (spec.PLATFORM / "plan/swarm/TASKS.json").read_text(encoding="utf-8")
+    )
+    rows = [row for row in board["tasks"] if row["id"] == spec.TASK_ID]
+    if len(rows) != 1:
+        raise RuntimeError(f"expected one board row for {spec.TASK_ID}")
+    return rows[0]["claim"]["worktree"]
+
+
 def git(*args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         ("git", "-C", str(spec.WORKTREE), *args),
@@ -139,8 +149,13 @@ def main() -> int:
     board_ok = (
         report.get("source_pin_verification", {}).get("board")
         == spec.board_projection()
+        and report.get("worktree") == spec.CLAIM_WORKTREE
+        and report.get("worktree") == claim_worktree_from_board()
     )
-    results.append(("board", board_ok, "stable board-row projection matches"))
+    results.append((
+        "board", board_ok,
+        "stable board-row projection and claim worktree literal match",
+    ))
 
     claims = report.get("claim_gate", {})
     claim_ok = (
