@@ -1,0 +1,63 @@
+{
+  "spdx": {
+    "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+    "SPDX-License-Identifier": "Apache-2.0"
+  },
+  "identity": "soundtouch-synthetic-reference-adapter-v1",
+  "kind": "developer-only task-local WSOLA-style rate adapter model; not a production playback actuator",
+  "registration": {
+    "unregistered": true,
+    "default_enabled": false,
+    "opt_in_only": true,
+    "cmake_target_added_to_sdk": false,
+    "installed": false,
+    "linked_into_sdk_by_default": false
+  },
+  "public_boundary": {
+    "headers_used": [
+      "audio_sdk/provider_v0.h",
+      "audio_sdk/session_v0.h"
+    ],
+    "api_abi_changed": false,
+    "installed_behavior": "unchanged",
+    "frame_samples": 160,
+    "channels": 1,
+    "sample_format": "float32",
+    "sample_rate_hz": 16000
+  },
+  "rate_model": {
+    "source_clock": "integer source sample index; rate schedule keyed by source sample",
+    "output_clock": "caller-owned fractional accumulator; 1/r output frames per source frame",
+    "algorithm": "WSOLA-style bounded waveform-similarity search, triangular overlap-add and transient-aware placement",
+    "rate_range": [0.75, 1.5],
+    "rate_change": "slew by 0.005 per synthesis hop; adverse unsmoothed step is a failure control",
+    "pitch": "preserved by time-domain overlap-add; varispeed resampling is an adverse control only",
+    "silence": "zero-valued analytic control with the same duration clock",
+    "pause_filler": "source-anchored voiced/pause schedule; no output-time filler invention",
+    "final_window": "partial input valid count plus explicit drain padding; missing tail rejected"
+  },
+  "evidence_sections": {
+    "source_output_mapping": "report.duration_mapping",
+    "duration": "report.duration_mapping, report.pause_policy, report.drift_rebuffer",
+    "pitch": "report.steady_state.frequency_scale",
+    "transients": "report.transient_behavior",
+    "buffering": "report.streaming, report.final_partial, crosscheck.json",
+    "controls": "report.streaming.frame_rejections, report.streaming.config_rejections, fixture.cases"
+  },
+  "c_boundary": {
+    "directory": "provider",
+    "cmake_option": "AS_ENABLE_SOUNDTOUCH_REFERENCE",
+    "default": "OFF",
+    "off_mode": "guard executable only; no provider source, descriptor header, AudioSDK link or registration",
+    "on_mode": "caller-local registration and exact Python/C parity test in one consumer executable",
+    "installed": false,
+    "registered_by_sdk": false,
+    "parity": "float32 content digest, frame count, valid counts, final partial window and drain status compared exactly with the Python model"
+  },
+  "non_claims": [
+    "not the upstream SoundTouch library",
+    "no GPL/LGPL or commercial SoundTouch dependency is added",
+    "no real speech, music, corpus, model, device, listening or timing result",
+    "no installed v0, descriptor default, provider registry or public-surface change"
+  ]
+}
