@@ -1,0 +1,11 @@
+SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+SPDX-License-Identifier: Apache-2.0
+
+This task-local evidence package is licensed under Apache-2.0. The canonical
+license text is ../../../LICENSES/Apache-2.0.txt in this worktree.
+
+No WebRTC source, header, native library, wheel, NOTICE text or upstream licence
+file is included. WebRTC is expected to be Apache-2.0 at an exact revision, but
+that upstream artifact and its NOTICE are absent from the workspace. See
+THIRD_PARTY_NOTICES.md and LICENSES.md for the exact blocker and the obligations
+that must be reviewed before any use.
