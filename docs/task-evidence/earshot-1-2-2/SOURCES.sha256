@@ -1,0 +1,35 @@
+# SHA-256 pins for SDK-EARSHOT-1-2-2 task-local evidence.
+# source: paths are relative to the pinned research workspace root
+294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d  source:REALTIME_COMPONENT_CANDIDATES.md
+f3d391cf015cc897be20b19fab563bdef4f63310f4aceaad4d1c0bab0db3d091  source:adapters/earshot-vad/adapter.json
+541e08619480b63c2a77bd7fd45f454ee8828a90737a65af707a4c017a6fd8a8  source:adapters/earshot-vad/run.py
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+d8bc5d7481ffc40ee7c16caba6b570255e24aef2a99e7f03b0293721c37d8df3  source:reports/vad-research/20261028-synthesis-v6.md
+cefe94dea241e7ce98071f0be336e463cbf2b9f5fa90785b0e4c4b5439f14a8f  source:reports/vad-research/attempt-earshot-20261028-01/findings.md
+3b66ba722c06673fdcc698e3f10e716e13aae74bc2f2c0ebd046316ed6fd068c  source:reports/vad-research/chaining-evaluation-status.json
+f8bf02a7465c880d1a8968b26a3425f55e0bbd6965eea6b0dc734e0fa1f5a234  source:reports/vad-research/chaining-evaluation.md
+374784f6f1cea620f376da59691e4260aafc582e1203be4f98837752cfdf75ec  source:research/plans/F02/vad_sources.md
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
+962bd5a8f75e64a7ba22bc51ff26cb5bdb648002544c87cacbef64dad62d723a  source:research/voice-enhancement-20261101/evaluation_records.md
+8f07e1375efaa47a9aafed39550310b8053c326d219775c0c1859aadc3c6148f  docs/task-evidence/earshot-1-2-2/LICENSES.md
+fd275bdd65f6b3ab4c7b610eb525c8a3ae67e6583fd37e4916485332b93800bc  docs/task-evidence/earshot-1-2-2/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/earshot-1-2-2/SOURCES.sha256.license
+49967a5d47a2dab0c06fa1437012a23d4a4a9556a01d6b7c7a740393e7c6fff9  docs/task-evidence/earshot-1-2-2/adapter.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/earshot-1-2-2/adapter.json.license
+debcb9edcc7b53ccf77e113aa90799c104fa31c5c081c66afec98d031214c3ab  docs/task-evidence/earshot-1-2-2/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/earshot-1-2-2/contract.json.license
+9ef1013c926b71a12b12000bb128269757de08a9f26e456296ef7a9b162c7485  docs/task-evidence/earshot-1-2-2/fixture.py
+d396929aa01695c134bd3b68b66888855e2db6d9574d3a822382a282193d070d  docs/task-evidence/earshot-1-2-2/readiness.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/earshot-1-2-2/readiness.json.license
+26be3925de29e1894041b976a623ef14c7b55cca6559d696d41d2143042150f9  docs/task-evidence/earshot-1-2-2/reference.py
+b0a8585df49bb0eaa49d175ba7113c9ea5281ca265a02d97d62f42cb6ff1815b  docs/task-evidence/earshot-1-2-2/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/earshot-1-2-2/report.json.license
+3890e6fc71d036c60d7ee04557bd6ffd033f0a2d1c5de074b68bc153c59e88e0  docs/task-evidence/earshot-1-2-2/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/earshot-1-2-2/report.json.sha256.license
+b2b1cd05c7cdec1a178b2da8f24da7df1fbbd33523d7a1ba5918c407e9a6a53e  docs/task-evidence/earshot-1-2-2/requirements.lock
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/earshot-1-2-2/requirements.lock.license
+b5f895b572ea5c28833d4e2026a10f5569dacd19901218f33e5c11618f45c377  docs/task-evidence/earshot-1-2-2/run.py
+18ed157621032d9c48bc2f7d1dc53835c0fb6f611ae96fabd92db9cf6a64e321  docs/task-evidence/earshot-1-2-2/scorer.py
+8ec05384cc59c7030c564f508d602e988446abd21f9e3b86de12de7d2867a451  docs/task-evidence/earshot-1-2-2/test_reference.py
+07497fb1f4fa8706338361974554a55c9ee71366fbf9695f0ee66b1dcef66f0b  docs/task-evidence/earshot-1-2-2/verify.py
