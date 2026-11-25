@@ -493,7 +493,14 @@ class ReportSemanticsTests(unittest.TestCase):
         projected = scorer.sha256_bytes(json.dumps(
             rows, sort_keys=True, separators=(",", ":")).encode("utf-8"))
         self.assertEqual(projected, self.report["board_link_projection_sha256"])
-        self.assertTrue(self.report["board_snapshot"]["mutable"])
+        snapshot = self.report["board_snapshot"]
+        self.assertEqual(set(snapshot), {"path", "mutable", "note"})
+        self.assertTrue(snapshot["mutable"])
+        self.assertNotIn("sha256_at_read", snapshot)
+        with open(HERE / "SOURCES.sha256", encoding="utf-8") as handle:
+            manifest = handle.read()
+        self.assertNotIn("1f0432ba", manifest)
+        self.assertNotIn("sha256_at_read", manifest)
 
     def test_65_boundary_invariants_hold(self):
         boundary = self.report["boundary"]

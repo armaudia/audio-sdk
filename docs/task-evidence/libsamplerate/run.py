@@ -314,7 +314,6 @@ def generate_sources() -> str:
         "# SHA-256 pins for SDK-LIBSAMPLERATE; source: paths are workspace-relative, "
         "others SDK-worktree-relative.\n",
         "# board snapshot (mutable provenance, never a gate): "
-        + reference.BOARD_SNAPSHOT["sha256_at_read"] + " "
         + reference.BOARD_SNAPSHOT["path"] + "\n",
     ]
     for path, digest in sorted(reference.SOURCE_PINS.items()):
