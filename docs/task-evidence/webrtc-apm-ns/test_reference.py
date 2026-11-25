@@ -4,11 +4,13 @@
 
 from __future__ import annotations
 
+import json
 import math
 import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import unittest
 
 import check_licensing
@@ -261,14 +263,21 @@ class ReferenceTests(unittest.TestCase):
         self.assertNotEqual(first["digest"], second["digest"])
 
     def test_reset_replays(self):
-        samples = self.items[0]["noisy"][:3 * fixture.FRAME_SAMPLES]
-        first = reference.render(reference.CANDIDATE_VARIANT, samples, epoch=9)
-        session = reference.Session(epoch=9)
-        collected = []
-        for position, frame in enumerate(fixture.frame_view(samples)):
-            result = session.process_frame(frame, 9, position, reference.CANDIDATE_VARIANT)
-            collected.extend(result["samples"])
-        self.assertEqual(first["digest"], reference.digest_values(collected))
+        samples = self.items[0]["noisy"]
+        evidence = reference.state_evidence()["state"]
+        fresh = reference.render(reference.CANDIDATE_VARIANT, samples[:3 * fixture.FRAME_SAMPLES])
+        self.assertEqual(evidence["reset_epoch_replay_digest"], fresh["digest"])
+        session = reference.Session()
+        for position, frame in enumerate(fixture.frame_view(samples)[:11]):
+            self.assertEqual(session.process_frame(frame, 1, position)["status"], "ok")
+        self.assertNotEqual(session.tail, [0.0] * 96)
+        self.assertNotEqual(session.prev_snr, [0.0] * reference.FFT_BINS)
+        session.reset(epoch=7)
+        self.assertEqual(session.tail, [0.0] * 96)
+        self.assertEqual(session.prev_snr, [0.0] * reference.FFT_BINS)
+        self.assertEqual(session.prev_gain, [1.0] * reference.FFT_BINS)
+        self.assertEqual(session.noise_psd, [0.0] * reference.FFT_BINS)
+        self.assertEqual((session.epoch, session.position, session.calibration_frames), (7, 0, 0))
 
     def test_reject_wrong_shape(self):
         result = reference.Session().process_frame([0.0] * 159, 1, 0)
@@ -335,7 +344,93 @@ class ReferenceTests(unittest.TestCase):
         self.assertEqual(reference.Session().drain()["frames"], 0)
 
     def test_memory_is_analytic(self):
-        self.assertEqual(reference.Session().memory_floats, 3 * reference.FFT_BINS + 2)
+        session = reference.Session()
+        self.assertEqual(len(session.tail), 96)
+        self.assertEqual(session.memory_floats, 483)
+        report = reference.read_strict_json(ROOT / "report.json")
+        self.assertEqual(report["alignment_state_memory_timing"]["memory"]["retained_floats_per_session"], 483)
+
+
+class AdapterCLITests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.items, _ = fixture.cohort()
+
+    def invoke(self, text):
+        with tempfile.TemporaryDirectory() as directory:
+            request = Path(directory) / "request.json"
+            result = Path(directory) / "result.json"
+            request.write_text(text, encoding="utf-8")
+            completed = subprocess.run(
+                [sys.executable, str(ROOT / "run.py"), "--request", str(request), "--result", str(result)],
+                capture_output=True, text=True, timeout=10,
+            )
+            return completed, json.loads(result.read_text(encoding="utf-8")) if result.exists() else None
+
+    def assert_rejected(self, text, reason):
+        completed, result = self.invoke(text)
+        self.assertEqual(completed.returncode, 2)
+        self.assertEqual(completed.stdout, "")
+        self.assertEqual(completed.stderr, reason + "\n")
+        self.assertIsNone(result)
+
+    def test_cli_rejects_non_object_json(self):
+        for value in ([], None, True, "run", 1):
+            with self.subTest(value=value):
+                self.assert_rejected(json.dumps(value), "request_not_object")
+
+    def test_cli_rejects_wrong_refs(self):
+        for operation in ("inspect", "run"):
+            request = run._request(operation, self.items[0]["item_id"])
+            for ref in ("candidate_ref", "adapter_ref"):
+                mutations = [(field, wrong, dict(request[ref], **{field: wrong}))
+                             for field, wrong in (("kind", []), ("kind", "unrelated"), ("id", "other"),
+                                                  ("revision", 2), ("revision", True), ("revision", 1.0))]
+                mutations.append(("missing", "id", {key: value for key, value in request[ref].items()
+                                                   if key != "id"}))
+                mutations.append(("extra", "unexpected", dict(request[ref], unexpected=1)))
+                mutations.extend((label, value, value)
+                                 for label, value in (("non_object", []), ("string", "ref"), ("null", None)))
+                for label, wrong, value in mutations:
+                    with self.subTest(operation=operation, ref=ref, mutation=label, wrong=wrong):
+                        modified = dict(request, **{ref: value})
+                        self.assert_rejected(json.dumps(modified), "invalid_" + ref)
+
+    def test_cli_rejects_wrong_variant_type(self):
+        for variant in ([], {}, None, 2):
+            with self.subTest(variant=variant):
+                request = run._request("run", self.items[0]["item_id"], variant)
+                self.assert_rejected(json.dumps(request), "unknown_variant")
+
+    def test_cli_rejects_overflowing_integer_and_float(self):
+        request = run._request("run", self.items[0]["item_id"], samples=[0] * fixture.SAMPLES)
+        request["samples"][0] = 10 ** 400
+        self.assert_rejected(json.dumps(request), "invalid_samples")
+        request["samples"][0] = 1e308
+        self.assert_rejected(json.dumps(request).replace("1e+308", "1e309"), "invalid_samples")
+
+    def test_cli_accepts_only_matching_frozen_pair(self):
+        for item, other in (self.items, self.items[::-1]):
+            request = run._request("run", item["item_id"], reference.CONTROL_VARIANT, item["noisy"])
+            with self.subTest(item=item["item_id"]):
+                completed, result = self.invoke(json.dumps(request))
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                self.assertEqual(result["status"], "scored")
+                self.assertEqual(result["digest"], fixture.NOISY_DIGESTS[item["item_id"]])
+                self.assertEqual(result["metrics"]["delta_si_sdr_db"], 0.0)
+                self.assert_rejected(json.dumps(dict(request, samples=other["noisy"])),
+                                     "sample_digest_mismatch")
+                changed = list(item["noisy"])
+                changed[0] = math.nextafter(changed[0], math.inf)
+                self.assert_rejected(json.dumps(dict(request, samples=changed)), "sample_digest_mismatch")
+
+    def test_cli_null_samples_are_blocked(self):
+        request = run._request("run", self.items[0]["item_id"])
+        completed, result = self.invoke(json.dumps(request))
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(result["status"], "blocked")
+        self.assertIsNone(result["metrics"])
+        self.assertIsNone(result["digest"])
 
 
 class AdapterAndReportTests(unittest.TestCase):
@@ -369,6 +464,12 @@ class AdapterAndReportTests(unittest.TestCase):
         text, digest = reference.canonical_report(report)
         self.assertEqual((ROOT / "report.json").read_bytes(), text.encode("utf-8") + b"\n")
         self.assertEqual((ROOT / "report.json.sha256").read_text(encoding="ascii").strip(), digest)
+
+    def test_readme_links_report_digest_sidecar(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("[`report.json.sha256`](report.json.sha256)", readme)
+        sidecar = (ROOT / "report.json.sha256").read_text(encoding="ascii").strip()
+        self.assertNotIn(sidecar, readme)
 
     def test_report_status_defer(self):
         report = reference.read_strict_json(ROOT / "report.json")

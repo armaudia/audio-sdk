@@ -61,7 +61,7 @@ only as public-boundary provenance. The mutable board snapshot
 | Clean-speech preservation | Clean input scores, peaks and finite checks are reported per variant; SI-SDR at exact identity is explicitly undefined, not a claimed infinite score. |
 | Peaks / invalid outputs | All peaks are below clipping; nonfinite input/output, wrong shape/type/range, stale epoch/position, unknown variant, closed session and invalid config are explicit rejections. |
 | Unpaired speech | `unpaired_predictive_screen` is a separately labeled predictive proxy only; no clean reference, no MOS/STOI claim, no human listening, no qualification. |
-| Alignment / state / memory / timing | Frame-index zero added delay, impulse index, independent state configurations, reset replay, analytic retained-float count; all labeled unpaced synthetic, device measurement `false`. |
+| Alignment / state / memory / timing | Frame-index zero added delay, impulse index, independent state configurations, real `Session.reset(epoch=7)` replay over the first three frames, analytic 483 retained floats (three 129-bin PSD/gain/SNR arrays plus a 96-sample overlap tail); all labeled unpaced synthetic, device measurement `false`. |
 | Missing results | `blocked`/`unscored` with `metrics: null`; `missing_result_qualifies: false`. |
 | Adverse results | Negative or non-positive paired deltas are retained in `adverse_results`; they do not qualify any variant and are never hidden. |
 
@@ -97,7 +97,7 @@ Adverse retained results (explicit, not hidden): mild-snr+6:spectral_subtraction
 
 Unpaired predictive screen (`unpaired-synthetic-speech`): `predictive_proxy_only_not_intelligibility_or_quality`; qualifies_candidate=False; human_listening=False.
 
-Report digest: `ae059b6b6264d8ade583c51589df7ff907719ce43a42476dfa2de0af84555e59`. Fixture clean digest `c2a039fc1c127b3501dc08dac00b77c5d2a6d7948eeefcedc31841c4715006bc`. Artifact pins are in `SOURCES.sha256` and `report.json`.
+Report digest: see [`report.json.sha256`](report.json.sha256), the canonical SHA-256 emitted by `run.py --report` and checked by `verify.py` for the byte-identical [`report.json`](report.json); no self-referential digest is repeated here. Fixture clean digest `c2a039fc1c127b3501dc08dac00b77c5d2a6d7948eeefcedc31841c4715006bc`. Artifact pins are in `SOURCES.sha256` and `report.json`.
 
 ## Reproduction
 
@@ -118,16 +118,30 @@ bytes, three cold-start report regenerations, scope invariants, paired results
 and licensing. JSON is canonical (`sort_keys=True`, compact separators,
 `allow_nan=False`) with one trailing newline.
 
-Baseline SDK verification was run outside the worktree at the rebased head:
-CMake configure/build/install, `ctest` 11/11, read-only swarm `check.py`,
-`git diff --check`, `git diff --cached --check` and REUSE 6.3.0 lint (no
-violations in this task-local package).
+Verification used Python 3.12.16 from a private, fresh copy of this directory
+with the pinned source paths exposed read-only; no worktree bytecode or
+generated artifact was reused. The full unit suite, `verify.py` (three
+cold-start regenerations), `check_licensing.py`, `run.py --sources` and
+`git diff --check` pass on the exact head. CLI controls cover non-object
+requests, wrong candidate/adapter refs, non-string variants, overflowing
+sample values and cross-fixture caller data: paired scoring is gated on the
+selected condition's frozen noisy digest, so a different fixture cannot be
+paired with a selected clean reference.
+
+Baseline installed-package checks were run outside the worktree at the
+rebased head: CMake configure/build/install, `ctest` 11/11, read-only swarm
+`check.py`, `git diff --check`, `git diff --cached --check` and REUSE 6.3.0
+lint (no violations in this task-local package). They establish only the
+unchanged v0 boundary. Hosted CI on the exact branch head, exact-runtime
+review, rights-cleared real speech, authorized listening and target-device
+measurement remain prerequisites; none was performed here and `DEFER` is
+unchanged.
 
 ## Failure controls and explicit non-claims
 
 - `report.json` includes a bundled representative valid result, a missing case
-  that is `blocked` with `metrics: null`, an invalid-samples rejection and a
-  bit-exact identity control.
+  that is `blocked` with `metrics: null`, invalid-samples and
+  mismatched-fixture rejections, and a bit-exact identity control.
 - No numpy, scipy, pystoi, torch, download, WAV, checkpoint, model file,
   licensed runtime, real speech, device timing, listening test or release
   claim is used. `check_licensing.py` verifies dependency and SPDX boundaries.

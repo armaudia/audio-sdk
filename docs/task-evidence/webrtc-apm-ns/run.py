@@ -31,18 +31,21 @@ PROTOCOL_VERSION = 1
 COMMON_FIELDS = {"protocol_version", "operation", "candidate_ref", "adapter_ref", "configuration"}
 RUN_FIELDS = COMMON_FIELDS | {"item_id", "variant", "samples"}
 VALID_VARIANTS = set(reference.PROCESS_VARIANTS)
+CANDIDATE_REF = {"kind": "synthetic-candidate", "id": "webrtc-apm-ns-synthetic-v1", "revision": 1}
+ADAPTER_REF = {"kind": "developer-adapter", "id": IDENTITY, "revision": 1}
 
 
 class RequestError(ValueError):
     pass
 
 
-def validate_ref(value: Any, name: str) -> None:
-    if (not isinstance(value, dict) or set(value) != {"kind", "id", "revision"}
-            or not isinstance(value["id"], str) or not value["id"]
-            or isinstance(value["revision"], bool)
-            or not isinstance(value["revision"], int) or value["revision"] < 1):
+def validate_ref(value: Any, expected: Dict[str, Any], name: str) -> None:
+    if not isinstance(value, dict) or set(value) != set(expected):
         raise RequestError("invalid_" + name)
+    for key, wanted in expected.items():
+        got = value[key]
+        if type(got) is not type(wanted) or got != wanted:
+            raise RequestError("invalid_" + name)
 
 
 def validate_request(request: Any, operation: str) -> Dict[str, Any]:
@@ -51,28 +54,38 @@ def validate_request(request: Any, operation: str) -> Dict[str, Any]:
     required = COMMON_FIELDS if operation == "inspect" else RUN_FIELDS
     if set(request) != required:
         raise RequestError("invalid_request_fields")
-    if request["protocol_version"] != PROTOCOL_VERSION or request["operation"] != operation:
+    if (type(request["protocol_version"]) is not int or request["protocol_version"] != PROTOCOL_VERSION
+            or request["operation"] != operation):
         raise RequestError("invalid_protocol_or_operation")
-    validate_ref(request["candidate_ref"], "candidate_ref")
-    validate_ref(request["adapter_ref"], "adapter_ref")
+    validate_ref(request["candidate_ref"], CANDIDATE_REF, "candidate_ref")
+    validate_ref(request["adapter_ref"], ADAPTER_REF, "adapter_ref")
     config = request["configuration"]
     if (not isinstance(config, dict) or set(config) != {"profile"}
             or config["profile"] != reference.TASK_ID):
         raise RequestError("invalid_configuration")
     if operation == "inspect":
         return config
-    items, _ = fixture.cohort()
-    item_ids = {str(item["item_id"]) for item in items}
-    if not isinstance(request["item_id"], str) or request["item_id"] not in item_ids:
+    item_id = request["item_id"]
+    if not isinstance(item_id, str) or item_id not in fixture.NOISY_DIGESTS:
         raise RequestError("unknown_item")
-    if request["variant"] not in VALID_VARIANTS:
+    variant = request["variant"]
+    if not isinstance(variant, str) or variant not in VALID_VARIANTS:
         raise RequestError("unknown_variant")
     samples = request["samples"]
     if samples is not None:
-        if (not isinstance(samples, list) or len(samples) != fixture.SAMPLES
-                or any(isinstance(value, bool) or not isinstance(value, (int, float))
-                       or not math.isfinite(value) for value in samples)):
+        # A caller's vector must be the frozen noisy vector of the selected
+        # condition; otherwise paired scoring could mix two fixtures.
+        try:
+            valid_samples = (isinstance(samples, list) and len(samples) == fixture.SAMPLES
+                             and all(type(value) in (int, float) and math.isfinite(value)
+                                     for value in samples))
+            matches = valid_samples and fixture.digest(samples) == fixture.NOISY_DIGESTS[item_id]
+        except OverflowError:
+            raise RequestError("invalid_samples") from None
+        if not valid_samples:
             raise RequestError("invalid_samples")
+        if not matches:
+            raise RequestError("sample_digest_mismatch")
     return config
 
 
@@ -124,8 +137,8 @@ def _request(operation: str, item_id: str = "", variant: str = reference.CANDIDA
     request: Dict[str, Any] = {
         "protocol_version": PROTOCOL_VERSION,
         "operation": operation,
-        "candidate_ref": {"kind": "synthetic-candidate", "id": "webrtc-apm-ns-synthetic-v1", "revision": 1},
-        "adapter_ref": {"kind": "developer-adapter", "id": IDENTITY, "revision": 1},
+        "candidate_ref": dict(CANDIDATE_REF),
+        "adapter_ref": dict(ADAPTER_REF),
         "configuration": {"profile": reference.TASK_ID},
     }
     if operation == "run":
@@ -134,31 +147,36 @@ def _request(operation: str, item_id: str = "", variant: str = reference.CANDIDA
 
 
 def bundle_validation() -> Dict[str, Any]:
-    """One representative valid result plus explicit missing/invalid controls."""
+    """One representative valid result plus explicit missing and rejection controls."""
     items, _ = fixture.cohort()
     valid_request = _request("run", str(items[0]["item_id"]), reference.CANDIDATE_VARIANT,
                              list(items[0]["noisy"]))
     valid = run(valid_request)
     missing = run(_request("run", str(items[0]["item_id"]), reference.CANDIDATE_VARIANT, None))
-    try:
-        run(_request("run", str(items[0]["item_id"]), reference.CANDIDATE_VARIANT,
-                     [float("nan")] + [0.0] * (fixture.SAMPLES - 1)))
-        invalid_rejected = False
-    except RequestError:
-        invalid_rejected = True
+    def rejection(samples: List[float]) -> Dict[str, Any]:
+        try:
+            run(dict(valid_request, samples=samples))
+        except RequestError as error:
+            return {"status": "rejected_" + str(error), "metrics": None}
+        raise ValueError("expected_bundle_rejection")
+
+    invalid = rejection([float("nan")] + [0.0] * (fixture.SAMPLES - 1))
+    mismatch = rejection(list(items[1]["noisy"]))
     control = run(_request("run", str(items[0]["item_id"]), reference.CONTROL_VARIANT,
                            list(items[0]["noisy"])))
     checks = {
         "representative_valid_scored": valid["status"] == "scored" and valid["metrics"] is not None,
         "missing_case_blocked": missing["status"] == "blocked" and missing["metrics"] is None,
-        "invalid_samples_rejected": invalid_rejected,
+        "invalid_samples_rejected": invalid["status"] == "rejected_invalid_samples",
+        "mismatched_fixture_rejected": mismatch["status"] == "rejected_sample_digest_mismatch",
         "identity_control_bit_exact": control["digest"] == reference.digest_values(items[0]["noisy"]),
         "inspect_is_dev_only": inspect(_request("inspect"))["expose_as_processor"] is False,
     }
     return {
         "representative_valid": valid,
         "missing_case": missing,
-        "invalid_case": {"status": "rejected_invalid_samples", "metrics": None},
+        "invalid_case": invalid,
+        "mismatched_fixture_case": mismatch,
         "identity_control": {"status": control["status"], "digest": control["digest"]},
         "checks": checks,
         "all_explicit": all(checks.values()),
@@ -194,7 +212,7 @@ def main() -> int:
     parser.add_argument("--result", type=Path, help="destination for canonical result JSON")
     options = parser.parse_args()
     selected = sum(bool(value) for value in (options.report, options.sources, options.request))
-    if selected != 1 or (options.result and not options.request):
+    if selected != 1 or bool(options.result) != bool(options.request):
         parser.error("choose exactly one of --report, --sources or --request/--result")
     if options.report:
         print(generate_report())
@@ -204,12 +222,14 @@ def main() -> int:
         return 0
     try:
         request = reference.read_strict_json(options.request)
+        if not isinstance(request, dict):
+            raise RequestError("request_not_object")
         result = inspect(request) if request.get("operation") == "inspect" else run(request)
-    except (RequestError, ValueError, OSError) as error:
+        options.result.write_text(json.dumps(result, sort_keys=True, separators=(",", ":"),
+                                             allow_nan=False) + "\n", encoding="utf-8")
+    except (ValueError, OSError) as error:
         print(str(error), file=sys.stderr)
         return 2
-    options.result.write_text(json.dumps(result, sort_keys=True, separators=(",", ":"),
-                                         allow_nan=False) + "\n", encoding="utf-8")
     return 0
 
 

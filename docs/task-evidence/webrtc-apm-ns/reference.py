@@ -103,7 +103,7 @@ def _reject_constant(value: str) -> None:
     raise ValueError("non_json_constant:" + value)
 
 
-def read_strict_json(path: Path) -> Dict[str, Any]:
+def read_strict_json(path: Path) -> Any:
     """Parse JSON strictly; NaN/Infinity and duplicate keys are not accepted."""
     def unique_pairs(pairs: List[Tuple[str, Any]]) -> Dict[str, Any]:
         result: Dict[str, Any] = {}
@@ -204,7 +204,7 @@ class Session:
 
     @property
     def memory_floats(self) -> int:
-        return 3 * FFT_BINS + 2  # noise PSD, previous gains, previous SNR, epoch, position
+        return len(self.noise_psd) + len(self.prev_gain) + len(self.prev_snr) + len(self.tail)
 
     def reset(self, epoch: int = 1) -> Dict[str, Any]:
         if isinstance(epoch, bool) or not isinstance(epoch, int) or epoch < 1:
@@ -422,12 +422,16 @@ def state_evidence() -> Dict[str, Any]:
         result = session.process_frame(frame, 1, position, CANDIDATE_VARIANT)
         frame_digests.append(result["digest"])
         frame_outputs.extend(result["samples"])
-    replay = render(CANDIDATE_VARIANT, samples[:FRAME_SAMPLES * 3], epoch=7)
-    session = Session(epoch=7)
-    for position, frame in enumerate(fixture.frame_view(samples[:FRAME_SAMPLES * 3])):
+    session.reset(epoch=7)
+    replay_outputs: List[float] = []
+    for position, frame in enumerate(first_frames[:3]):
         replay_frame = session.process_frame(frame, 7, position, CANDIDATE_VARIANT)
         if replay_frame["status"] != "ok":
             raise ReferenceError("replay_failed")
+        replay_outputs.extend(replay_frame["samples"])
+    replay_digest = digest_values(replay_outputs)
+    if replay_digest != digest_values(frame_outputs[:3 * FRAME_SAMPLES]):
+        raise ReferenceError("reset_replay_digest_mismatch")
     impulse = [0.0] * 320
     impulse[0] = 0.5
     impulse_out = render(CANDIDATE_VARIANT, impulse)
@@ -445,7 +449,7 @@ def state_evidence() -> Dict[str, Any]:
         "state": {
             "independent_state_configuration_digests_differ": first["digest"] != alternate["digest"],
             "different_condition_digest_differs": first["digest"] != other["digest"],
-            "reset_epoch_replay_digest": replay["digest"],
+            "reset_epoch_replay_digest": replay_digest,
             "reset_replay_scoped": "first_three_frames_only",
             "invalid_state_mutation": "rejected frames leave PSD, gain and position unchanged",
         },

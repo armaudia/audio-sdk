@@ -28,6 +28,10 @@ CONDITIONS: Tuple[Dict[str, object], ...] = (
     {"item_id": "mild-snr+6", "snr_db": 6.0, "noise_seed": 0x4D494C44},
     {"item_id": "hard-snr-3", "snr_db": -3.0, "noise_seed": 0x48415244},
 )
+NOISY_DIGESTS = {
+    "mild-snr+6": "ed2ca8fc765c1db0070a109b832aabd2772bd67ac30b9826ae069eb902fbcd38",
+    "hard-snr-3": "4fc354be61ed6dbe7e00200a5d97dd36b0f065a814c2928f166fc4fe73f7b283",
+}
 UNCALIBRATED_ITEM = "unpaired-synthetic-speech"
 
 
@@ -114,6 +118,8 @@ def cohort() -> Tuple[List[Dict[str, object]], Dict[str, str]]:
         noisy, noise_gain = _scale_to_snr(clean_reference, noise, snr_db)
         noise_digest = digest(noise)
         noisy_digest = digest(noisy)
+        if noisy_digest != NOISY_DIGESTS[item_id]:
+            raise ValueError("noisy_fixture_digest_mismatch:" + item_id)
         pinned[item_id + ".noisy"] = noisy_digest
         pinned[item_id + ".noise"] = noise_digest
         items.append({
