@@ -1,0 +1,488 @@
+{
+  "acceptance_profile": {
+    "mapped_cases": [
+      "identity / noisy control on the same frozen clip",
+      "raw surrogate enhancer as the task-linked baseline",
+      "whole-clip noisy-input RMS matching as the second stage",
+      "paired SI-SDR and SNR against the synthetic clean reference",
+      "clean-speech waveform preservation under positive gain",
+      "peak, clipping, silence and nonfinite-output checks",
+      "whole-clip scope and explicit non-streaming conclusion",
+      "fail-closed caller-asset, config, shape and nonfinite controls",
+      "deterministic three-run regeneration of the matched output"
+    ],
+    "name": "enhancement",
+    "not_applicable": [
+      "no exact ROSE-CD checkpoint or runtime, so no ROSE-CD output is reproduced",
+      "no real corpus or clean reference, so no quality or generalization claim is made",
+      "STOI is not implemented here; no intelligibility number is reported",
+      "no target device, so no timing, memory or deadline result is claimed",
+      "no independent listening, ASR or intrusive perceptual score is performed"
+    ],
+    "source": "audio-benchmark-platform/plan/swarm/VERIFICATION.md"
+  },
+  "asset_pins": {
+    "asset:checkpoint": {
+      "byte_count": 1313064415,
+      "executed": false,
+      "expected_path": "data/models/rose-cd/last.ckpt",
+      "filename": "last.ckpt",
+      "huggingface_path": "logs/CT_pesq5e-4_L2/8ar2h6zv/last.ckpt",
+      "loaded": false,
+      "present": false,
+      "revision": "1c80e0863c1a8682f52a8e5be2efdf58a130eb62",
+      "sha256": "5f4fcf08b4f751b1c6d5d7575522a633327302aee0de4613b45d98f7285637a4"
+    },
+    "asset:runtime": {
+      "admitted": false,
+      "declaration": "Python 3.11 + PyTorch/PyTorch-Lightning CPU",
+      "executed": false,
+      "expected_path": "data/envs/rose-cd-rms-matched",
+      "present": false
+    }
+  },
+  "base_commit": "ab7ce893032ea7771d9d367638e8d09076ff5db3",
+  "board_row": {
+    "full_tasks_json_hashed": false,
+    "stable_fields": {
+      "component": "rose-cd-rms-matched",
+      "depends_on": [
+        "SDK-FND-AUDIT",
+        "SDK-FND-EVIDENCE",
+        "SDK-FND-NN",
+        "SDK-FND-PROVIDER"
+      ],
+      "id": "SDK-ROSE-CD-RMS-MATCHED",
+      "mode": "implementation",
+      "repository": "audio-sdk",
+      "title": "ROSE-CD RMS-matched"
+    },
+    "stable_sha256": "9994eb124d313f8d8d6e10d625848cd1a594598b4c2b3a68072346ced912513b"
+  },
+  "boundary": {
+    "adapter_json_added": false,
+    "asset_bundled": false,
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "native_engine_built": false,
+    "neural_runtime_invoked": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "readiness_json_added": false,
+    "registered": false,
+    "sdk_data_dir_added": false,
+    "shared_build_or_ci_change": false,
+    "weights_vendored": false
+  },
+  "branch": "swarm/SDK-ROSE-CD-RMS-MATCHED",
+  "caller_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/rose-cd-rms-matched/caller-supplied-asset/0.1",
+    "present_behavior": "validate_hash_geometry_and_revision_only; do_not_load_or_execute_in_this_package",
+    "required_fields": [
+      "channels",
+      "checkpoint_path",
+      "checkpoint_revision",
+      "checkpoint_sha256",
+      "frame_samples",
+      "peak_policy",
+      "rms_match_reference",
+      "rms_match_scope",
+      "sample_rate_hz",
+      "source_dir",
+      "source_revision",
+      "variant"
+    ],
+    "separate_model_archive_required": true,
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "checkpoint_path and source_dir are caller-owned absolute paths",
+      "SHA-256 of the checkpoint file matches the manifest",
+      "source_revision equals the pinned ROSE-CD commit",
+      "checkpoint_revision equals the pinned Hugging Face revision",
+      "sample rate, channels and frame size equal 16 kHz mono / 160",
+      "variant is one-step-rms-matched; raw output is a separate task",
+      "rms matching is whole_clip against the noisy input, never clean",
+      "peak_policy remains unpinned until an approved recipe exists",
+      "the pinned digest is checked separately; a placeholder is rejected",
+      "no download, copy, import, load or execution occurs in this package"
+    ],
+    "weights_embedded_in_wheel": false
+  },
+  "claim": {
+    "base_commit": "ab7ce893032ea7771d9d367638e8d09076ff5db3",
+    "branch": "swarm/SDK-ROSE-CD-RMS-MATCHED",
+    "reviewer": "reviewer-ROSE-CD-RMS-MATCHED",
+    "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-ROSE-CD-RMS-MATCHED"
+  },
+  "component_id": "rose-cd-rms-matched",
+  "contract_sha256": "70baa5ccfe13b02910d10e33bad7d88c7370d463888dd5869b908075377a2659",
+  "controls": {
+    "asset": {
+      "generic_admission": {
+        "accepted": true,
+        "executed": false,
+        "imported": false,
+        "loaded": false,
+        "pinned_model": false
+      },
+      "rejected_all": true,
+      "rejections": {
+        "absent_checkpoint": "rejected",
+        "checkpoint_hash_mismatch": "rejected",
+        "clean_reference": "rejected",
+        "extra_field": "rejected",
+        "guessed_peak_policy": "rejected",
+        "missing_field": "rejected",
+        "raw_variant": "rejected",
+        "relative_checkpoint": "rejected",
+        "relative_source": "rejected",
+        "streaming_scope": "rejected",
+        "wrong_channels": "rejected",
+        "wrong_checkpoint_revision": "rejected",
+        "wrong_frame": "rejected",
+        "wrong_sample_rate": "rejected",
+        "wrong_source_revision": "rejected"
+      },
+      "workspace_checkpoint_present": false
+    },
+    "config": {
+      "baseline_digest": "bef8953cfe7bc9a087bdf6a2a23afb2fb55c84261cc62602f98d264b84cbff5f",
+      "rejected_all": true,
+      "rejections": {
+        "channels": "rejected",
+        "clean_reference": "rejected",
+        "extra_field": "rejected",
+        "frame": "rejected",
+        "frame_scope": "rejected",
+        "missing_field": "rejected",
+        "model_used": "rejected",
+        "raw_variant": "rejected",
+        "real_runtime": "rejected",
+        "sample_rate": "rejected",
+        "streaming_execution": "rejected"
+      }
+    },
+    "determinism": {
+      "digests": [
+        "bef8953cfe7bc9a087bdf6a2a23afb2fb55c84261cc62602f98d264b84cbff5f",
+        "bef8953cfe7bc9a087bdf6a2a23afb2fb55c84261cc62602f98d264b84cbff5f",
+        "bef8953cfe7bc9a087bdf6a2a23afb2fb55c84261cc62602f98d264b84cbff5f"
+      ],
+      "identical": true,
+      "runs": 3
+    },
+    "invariance": {
+      "correlation_matched_raw": 1.0,
+      "gain": 1.014043686,
+      "gain_matches_rms_ratio": true,
+      "matched_rms": 0.040454532,
+      "matched_rms_equals_noisy_rms": true,
+      "reference_rms": 0.040454532,
+      "si_sdr_delta_db": 0.0,
+      "si_sdr_invariant": true
+    },
+    "scale_restoration": {
+      "applied_gain_db": 12.121133305,
+      "attenuation_gain_db": -12.0,
+      "label": "injected_scale_control_not_a_model_result",
+      "restored_rms_equals_noisy_rms": true,
+      "si_sdr_preserved": true
+    },
+    "shape": {
+      "clip_rejected_all": true,
+      "clip_rejections": {
+        "boolean": "rejected",
+        "empty": "rejected",
+        "infinity": "rejected",
+        "nan": "rejected",
+        "not_sequence": "rejected",
+        "out_of_range": "rejected"
+      },
+      "rms_match_rejected_all": true,
+      "rms_match_rejections": {
+        "length_mismatch": "rejected",
+        "nonfinite_enhanced": "rejected",
+        "zero_enhanced": "rejected"
+      }
+    },
+    "silence": {
+      "exact_zero": true,
+      "gain_defined": false,
+      "length": 640,
+      "policy": "zero_reference_returns_zero_output"
+    },
+    "whole_clip_scope": {
+      "full_gain": 1.014043686,
+      "gains_differ": true,
+      "prefix_gain": 1.019520118,
+      "prefix_matches_full": false,
+      "streaming_capable": false,
+      "whole_clip_only": true
+    }
+  },
+  "decision": "DEFER",
+  "defer_before": "opt_in_adapter_exposure",
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    {
+      "id": "checkpoint_absent",
+      "requirement": "Supply the exact ROSE-CD one-step checkpoint logs/CT_pesq5e-4_L2/8ar2h6zv/last.ckpt (Hugging Face revision 1c80e0863c1a8682f52a8e5be2efdf58a130eb62) with SHA-256 5f4fcf08b4f751b1c6d5d7575522a633327302aee0de4613b45d98f7285637a4 and byte count 1313064415 as a caller-owned external asset, verified locally without a network download.",
+      "state": "data/models/rose-cd/last.ckpt is absent from both the research workspace and this SDK worktree; no caller manifest exists."
+    },
+    {
+      "id": "runtime_absent",
+      "requirement": "Provide the pinned Python 3.11 PyTorch/PyTorch-Lightning CPU runtime in an isolated, hash-pinned environment and record the complete installed dependency set.",
+      "state": "PyTorch is not importable from the available Python 3.10, 3.11 or 3.12 interpreters and no isolated runtime exists at data/envs/rose-cd-rms-matched."
+    },
+    {
+      "id": "rms_match_recipe_unpublished",
+      "requirement": "Publish or approve the exact whole-clip noisy-input RMS-matching recipe: gain formula, zero/silence policy, near-zero tolerance, peak/clip policy, aggregation scope and numerical precision.",
+      "state": "The research record only states 'whole-clip RMS match to the noisy input'. No source file pins the gain formula, silence handling, peak/clip policy or precision, so an exact reproduction is undefined even with the checkpoint."
+    },
+    {
+      "id": "artifact_and_data_rights_uncleared",
+      "requirement": "Clear artifact-specific checkpoint redistribution and product-use rights, runtime dependency terms, and the VoiceBank-DEMAND / EARS-WHAM training-data rights chain with legal review.",
+      "state": "MIT source and model-card declarations do not establish checkpoint-artifact, runtime dependency, training-data or derivative-output rights; no legal review exists."
+    }
+  ],
+  "fixture": {
+    "component_digests": {
+      "clean": "38905ae673d90bf618007abce9f2261770b8ab6ef6681472b4c35fe75a44275a",
+      "noise": "c5ff607bec75d86f58aa742141fa74ee291860f59f169bf135328c2646bdb97e",
+      "noisy": "62a0a158ef196b8b9b35b5c38774caac6bd87d43f6037ce20911daa9a5b0c6e5"
+    },
+    "fixture_id": "rose-cd-rms-matched-dns-like-clip-v1",
+    "segments": [
+      {
+        "end_frame": 25,
+        "id": "silence",
+        "kind": "silence",
+        "start_frame": 0
+      },
+      {
+        "end_frame": 50,
+        "id": "noise-only",
+        "kind": "noise",
+        "noise_gain": 2,
+        "start_frame": 25
+      },
+      {
+        "amplitudes": [
+          55,
+          28,
+          15
+        ],
+        "end_frame": 100,
+        "id": "speech-a",
+        "kind": "speech",
+        "start_frame": 50,
+        "steps": [
+          2,
+          3,
+          5
+        ]
+      },
+      {
+        "amplitudes": [
+          50,
+          26,
+          14
+        ],
+        "end_frame": 150,
+        "id": "noisy-speech",
+        "kind": "speech",
+        "noise_gain": 2,
+        "start_frame": 100,
+        "steps": [
+          3,
+          4,
+          6
+        ]
+      },
+      {
+        "amplitudes": [
+          48,
+          29,
+          16
+        ],
+        "click_amplitude": 900,
+        "click_period": 1024,
+        "end_frame": 200,
+        "id": "speech-b-transient",
+        "kind": "speech",
+        "start_frame": 150,
+        "steps": [
+          1,
+          4,
+          7
+        ]
+      }
+    ],
+    "spec_digest": "5a325a1bb58bba541d4da06e34243d41a319b4b94acc7c87a150ae96c5a268de",
+    "total_frames": 200,
+    "total_samples": 32000
+  },
+  "format": {
+    "asset_channels": 1,
+    "asset_frame_samples": 160,
+    "asset_requires_clean_reference": false,
+    "asset_sample_format": "float32",
+    "asset_sample_rate_hz": 16000,
+    "execution_scope": "offline_whole_clip",
+    "sdk_v0_channels": 1,
+    "sdk_v0_frame_samples": 160,
+    "sdk_v0_geometry_preserved": true,
+    "sdk_v0_sample_format": "f32",
+    "sdk_v0_sample_rate_hz": 16000,
+    "streaming_capable": false,
+    "window_frames": 200,
+    "window_samples": 32000
+  },
+  "gates": [
+    {
+      "id": "exact_model_identity",
+      "requirement": "Local checkpoint matches the pinned filename, byte count and SHA-256; the Hugging Face revision and source commit are immutable and verified without a download.",
+      "status": "blocked"
+    },
+    {
+      "id": "runtime_admission",
+      "requirement": "Hash-pinned isolated Python 3.11 PyTorch/PyTorch-Lightning runtime with an archived dependency set and recorded platform and flags.",
+      "status": "blocked"
+    },
+    {
+      "id": "artifact_rights",
+      "requirement": "Checkpoint, training-data, runtime, corpus, redistribution, product-use and derivative-output rights cleared with complete notices.",
+      "status": "blocked"
+    },
+    {
+      "id": "exact_reference_parity",
+      "requirement": "Approved exact-runtime raw ROSE-CD output vector and byte-level parity on the declared 16 kHz mono geometry.",
+      "status": "blocked"
+    },
+    {
+      "id": "rms_match_recipe_pinned",
+      "requirement": "Exact whole-clip noisy-input RMS-matching recipe, including silence, near-zero, peak/clip and precision policy, approved and reproducible.",
+      "status": "blocked"
+    },
+    {
+      "id": "rights_cleared_real_cohort",
+      "requirement": "Frozen rights-cleared paired DNS2020/EARS cohort with clean references, identity and raw-vs-matched separation.",
+      "status": "blocked"
+    },
+    {
+      "id": "independent_scoring_and_listening",
+      "requirement": "Independent paired SI-SDR/STOI/SNR or permitted listening, including identity and task-matched baselines, with failure controls.",
+      "status": "blocked"
+    },
+    {
+      "id": "target_runtime_timing_and_opt_in_provider",
+      "requirement": "Target-device p50/p95/p99, RTF, memory and deadline, plus opt-in provider intake, descriptor review and an explicit default decision.",
+      "status": "blocked"
+    }
+  ],
+  "metrics": {
+    "clean_reference_used_for_scoring_only": true,
+    "identity": {
+      "peak": 0.140716553,
+      "rms": 0.040454532,
+      "si_sdr_db": 3.978376769,
+      "snr_db": 4.013936232
+    },
+    "max_abs_output": 0.141468058,
+    "raw_surrogate": {
+      "clipped_samples": 0,
+      "nonfinite_samples": 0,
+      "peak": 0.139508839,
+      "rms": 0.03989427,
+      "si_sdr_db": 3.966653915,
+      "snr_db": 4.123133435
+    },
+    "rms_matched_surrogate": {
+      "clipped_samples": 0,
+      "nonfinite_samples": 0,
+      "peak": 0.141468058,
+      "rms": 0.040454532,
+      "si_sdr_db": 3.966653915,
+      "snr_db": 4.005530815
+    },
+    "scored_samples": 32000,
+    "si_sdr_delta_matched_minus_raw_db": 0.0,
+    "snr_delta_matched_minus_raw_db": -0.11760262
+  },
+  "missing_results": [
+    "exact ROSE-CD one-step inference output",
+    "approved exact RMS-matching recipe",
+    "rights-cleared real paired cohort",
+    "independent intrusive score, STOI or permitted listening",
+    "target-device timing, memory and deadline",
+    "opt-in provider intake and default decision"
+  ],
+  "negative_claims": [
+    "No ROSE-CD output, checkpoint, derived weight or PyTorch call was produced.",
+    "No denoising, SNR, SI-SDR, STOI, latency, memory or release result is claimed.",
+    "The synthetic surrogate is not ROSE-CD and cannot qualify the candidate.",
+    "The RMS-matching boundary only rescales an already enhanced clip; it is not a model.",
+    "Whole-clip RMS matching is not streaming-capable and has no device-timing result.",
+    "No real corpus, clean reference, device clock or listener was used.",
+    "No provider, descriptor, registry, installed v0 path, shared build or CI changed.",
+    "Identity and the raw surrogate are controls; no candidate result is a pass."
+  ],
+  "no_missing_result_qualifies_candidate": true,
+  "profile": "enhancement",
+  "qualification_status": "not_qualified",
+  "reopen_condition": "Supply the pinned checkpoint and a hash-pinned Python 3.11 PyTorch runtime, clear artifact and data rights, approve the exact whole-clip RMS-matching recipe, reproduce exact-runtime outputs, score a rights-cleared paired cohort independently, measure target timing and complete opt-in provider intake. Until then the candidate stays DEFER, incomplete and not qualified.",
+  "rms_match": {
+    "contract": {
+      "clean_reference_used": false,
+      "definition": "output = gain * raw_enhanced, gain = rms(noisy_input) / rms(raw_enhanced), computed once over the whole clip",
+      "implicit_peak_clamp": false,
+      "pinned_recipe": false,
+      "reference": "noisy_input",
+      "scope": "whole_clip",
+      "silence_policy": "zero noisy RMS returns exact zeros with an undefined gain; a zero enhanced RMS with nonzero noisy RMS is rejected",
+      "streaming_capable": false,
+      "unknown_fields": [
+        "exact gain formula and numerical precision of the research config",
+        "zero/silence and near-zero tolerance policy",
+        "peak/clip policy and any gain clamp",
+        "per-clip versus per-segment aggregation"
+      ]
+    },
+    "gain": 1.014043686,
+    "implicit_peak_clamp": false,
+    "matched_defined": true,
+    "matched_rms": 0.040454532,
+    "peak_after_match": 0.141468058,
+    "raw_rms": 0.03989427,
+    "reference_rms": 0.040454532
+  },
+  "schema_id": "audio-sdk/task-evidence/rose-cd-rms-matched/report/0.1",
+  "status": "proposal_only_synthetic_incomplete",
+  "surrogate": {
+    "frame_gains_digest": "b543780f56015d803ba6ea11d392a71bd3780be8d317fa05af9798805a957baa",
+    "is_rose_cd": false,
+    "model_free": true,
+    "noise_floor_rms": 0.007172681,
+    "type": "fixed whole-clip per-frame Wiener-amplitude gate"
+  },
+  "task_id": "SDK-ROSE-CD-RMS-MATCHED",
+  "title": "ROSE-CD RMS-matched",
+  "upstream": {
+    "checkpoint_bytes": 1313064415,
+    "checkpoint_huggingface_path": "logs/CT_pesq5e-4_L2/8ar2h6zv/last.ckpt",
+    "checkpoint_revision": "1c80e0863c1a8682f52a8e5be2efdf58a130eb62",
+    "checkpoint_sha256": "5f4fcf08b4f751b1c6d5d7575522a633327302aee0de4613b45d98f7285637a4",
+    "commit": "8a7477f046a133737d6f1744b643fbe3f3ea96cd",
+    "license": "MIT",
+    "repository": "https://github.com/LiangXu123/ROSE-CD",
+    "source_present": true
+  }
+}
