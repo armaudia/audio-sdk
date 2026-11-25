@@ -1,22 +1,31 @@
 {
-  "schema_id": "audio-sdk/task-evidence/distil-wav2vec2-adult-child-ridge/adapter/0.1",
-  "task_local_id": "analysis.distil-wav2vec2-adult-child-ridge-ref.v0",
+  "schema_id": "audio-sdk/task-evidence/distil-wav2vec2-frozen-rate-ridge/adapter/0.1",
+  "task_local_id": "analysis.distil-wav2vec2-frozen-rate-ridge.v0",
   "requested_model_id": "bookbot/distil-wav2vec2-adult-child-cls-37m",
   "protocol_version": 1,
-  "identity": "distil-wav2vec2-adult-child-ridge.synthetic.v0",
-  "proposed_output_kinds": [
-    "adult_child_probability",
-    "adult_child_label"
+  "identity": "distil-wav2vec2-frozen-features-rate-ridge.synthetic.v0",
+  "model_role": "caller_supplied_frozen_feature_extractor",
+  "head": "standardized_ridge_regressor",
+  "target": "measured_syllables_per_second",
+  "classifier_head_used": false,
+  "excluded_claims": [
+    "adult_child_classification",
+    "age_or_preferred_speed_prediction",
+    "reproduction_of_pinned_research_metrics",
+    "real_model_or_audio_evaluation",
+    "provider_registration_or_default"
   ],
-  "input_kind": "waveform",
+  "input_kind": "caller_supplied_feature_vectors",
   "sample_rate_hz": 16000,
   "channels": 1,
   "frame_samples": 160,
+  "window_frames": 400,
   "registered": false,
   "enabled_by_default": false,
   "descriptor_settings": {},
   "public_api_abi_change": false,
   "weights_downloaded": false,
+  "weights_executed": false,
   "real_audio_used": false,
-  "note": "Task-local proposal-only analysis boundary. No model weights downloaded/executed; no provider/default/public surface changed."
+  "note": "Task-local proposal-only Rate-profile fixture. A caller supplies frozen feature vectors; only a small ridge head is fitted locally to deterministic synthetic syllable-rate labels. No provider/default/public surface changed."
 }

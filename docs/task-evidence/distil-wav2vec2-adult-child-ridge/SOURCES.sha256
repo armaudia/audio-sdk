@@ -2,13 +2,14 @@
 # SPDX-License-Identifier: Apache-2.0
 f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
 3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f  source:research/tsm-followup-20261101/README.md
 f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  worktree:api/include/audio_sdk/provider_v0.h
 a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  worktree:api/include/audio_sdk/session_v0.h
-c29a11ad0c5968e935f916cbb95144e79ceae7de34c543539bd66076d64c66de  docs/task-evidence/distil-wav2vec2-adult-child-ridge/reference.py
-0dc47a8078abfb9cda3a7ae4c91dc5660428ab4dcacb4676dd176625864a9bad  docs/task-evidence/distil-wav2vec2-adult-child-ridge/run.py
-5ccf9748b40e4b67fa8ce68e64bf8650470fd5efc229679ec316f448e7ddba91  docs/task-evidence/distil-wav2vec2-adult-child-ridge/test_reference.py
-682f17526f8c455e7c17f759c8c4cf201fdb0909bfc93e15edefa254b92b3686  docs/task-evidence/distil-wav2vec2-adult-child-ridge/verify.py
-cc2a35db9a02866a7220d56cc4b6ee3ef3499fc331373a5e2fd9dac68d2b7165  docs/task-evidence/distil-wav2vec2-adult-child-ridge/README.md
-f487af68e8d1d6aea7c8ed0e6a61257d3b48048618bc830a9a8d1b8216af9879  docs/task-evidence/distil-wav2vec2-adult-child-ridge/adapter.json
-ea885b93715fb92c794075c9767c26bac5fa0976824d43a2b19550197376c844  docs/task-evidence/distil-wav2vec2-adult-child-ridge/report.json
-58810d29f143afeafda0ead99f09de9608ba9fcf2b9ee86c99df8bc2ebb7f517  docs/task-evidence/distil-wav2vec2-adult-child-ridge/report.json.sha256
+01f0a5c12d3a42ee47c1c2bc2626252199cd6e8cdc93922f98240c2d0a75d6bc  docs/task-evidence/distil-wav2vec2-adult-child-ridge/reference.py
+437cf9221a18453152ba61d19a58ee4691b247b49b8977a3cbaaab56f30437ef  docs/task-evidence/distil-wav2vec2-adult-child-ridge/run.py
+8445ecacc6a3819aed227c76ec475b7502ffa7af18783b34e965d3d97b0f9e6f  docs/task-evidence/distil-wav2vec2-adult-child-ridge/test_reference.py
+ef8d4a5c3ccacda6dfac290fd5b38a60b5be078f1697b1817810ae46ffa6befe  docs/task-evidence/distil-wav2vec2-adult-child-ridge/verify.py
+0d51ef7b18cf76a305d8438d7e9b5393c2827dd086183d0de419b6b4e7394686  docs/task-evidence/distil-wav2vec2-adult-child-ridge/README.md
+f5e0cf6a19097c7c89e98343e2f17ce526092772cce46242b51e8ddfb98e75a8  docs/task-evidence/distil-wav2vec2-adult-child-ridge/adapter.json
+f8db5bebd2c250491dba150e9dea0c54790f81f583f02660c71ce7ca37b526e6  docs/task-evidence/distil-wav2vec2-adult-child-ridge/report.json
+77da8827daaee5ede13037dd5c79df85df42739cca990ee67500da4bc4b12cc0  docs/task-evidence/distil-wav2vec2-adult-child-ridge/report.json.sha256

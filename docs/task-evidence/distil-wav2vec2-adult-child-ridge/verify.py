@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
 # SPDX-License-Identifier: Apache-2.0
-"""Read-only task-local verification."""
+"""Read-only task-local verification for the rate-profile fixture."""
 
 from __future__ import annotations
 
@@ -20,6 +20,10 @@ REPORT_SHA = HERE / "report.json.sha256"
 TASK_PREFIX = "docs/task-evidence/distil-wav2vec2-adult-child-ridge/"
 SPDX_L = "SPDX" "-License-Identifier: Apache-2.0"
 SPDX_C = "SPDX" "-FileCopyrightText: 2026 Tsakanyan Hovhannes"
+FORBIDDEN_FIELDS = (
+    "prob_child", "prob_adult", "predicted_label", "ground_truth_label",
+    "fn_rate", "fp_rate", "balanced_error", "threshold_grid",
+)
 
 
 def sha256(data: bytes) -> str:
@@ -27,7 +31,8 @@ def sha256(data: bytes) -> str:
 
 
 def check_pins(errors: list[str]) -> int:
-    lines = [l for l in PINS.read_text(encoding="utf-8").splitlines() if l and not l.startswith("#")]
+    lines = [line for line in PINS.read_text(encoding="utf-8").splitlines()
+             if line and not line.startswith("#")]
     for line in lines:
         parts = line.split("  ", 1)
         if len(parts) != 2 or len(parts[0]) != 64:
@@ -48,12 +53,12 @@ def check_pins(errors: list[str]) -> int:
 
 
 def strict_load(path: Path, errors: list[str]):
-    def reject(x):
-        raise ValueError(f"non-finite {x}")
+    def reject(value):
+        raise ValueError(f"non-finite {value}")
     try:
         obj = json.loads(path.read_text(encoding="utf-8"), parse_constant=reject)
-    except Exception as e:
-        errors.append(f"json invalid {path.name}: {e}")
+    except Exception as exc:
+        errors.append(f"json invalid {path.name}: {exc}")
         return None
     if not isinstance(obj, dict):
         errors.append(f"json root not object: {path.name}")
@@ -70,12 +75,25 @@ def check_json(errors: list[str]) -> bool:
         errors.append("status mismatch")
     if report.get("qualification_status") != "not_qualified":
         errors.append("qualification_status mismatch")
+    if report.get("task", {}).get("kind") != "measured_syllable_rate_regression":
+        errors.append("task kind is not rate regression")
+    if report.get("model", {}).get("classifier_head_used") is not False:
+        errors.append("classifier head marked as used")
+    if report.get("model", {}).get("documented_context_not_reproduced", {}).get("reproduced_here") is not False:
+        errors.append("research context claimed as reproduced")
+    text = REPORT.read_text(encoding="utf-8")
+    for field in FORBIDDEN_FIELDS:
+        if field in text:
+            errors.append(f"classification field present: {field}")
+    for gate in report.get("gates", []):
+        if gate.get("status") != "blocked":
+            errors.append(f"gate not blocked: {gate.get('id')}")
     return True
 
 
 def check_reproduction(errors: list[str]) -> tuple[bool, str]:
     sys.path.insert(0, str(HERE))
-    import reference  # noqa
+    import reference  # noqa: E402
     expected = reference.canonical_report_bytes(reference.build_report())
     actual = REPORT.read_bytes()
     ok = expected == actual
@@ -91,10 +109,10 @@ def check_reproduction(errors: list[str]) -> tuple[bool, str]:
 
 def check_licensing(errors: list[str]) -> bool:
     ok = True
-    for p in sorted(HERE.glob("*.py")):
-        head = "\n".join(p.read_text(encoding="utf-8").splitlines()[:4])
+    for path in sorted(HERE.glob("*.py")):
+        head = "\n".join(path.read_text(encoding="utf-8").splitlines()[:4])
         if SPDX_L not in head or SPDX_C not in head:
-            errors.append(f"missing SPDX: {p.name}")
+            errors.append(f"missing SPDX: {path.name}")
             ok = False
     reuse = (SDK_ROOT / "REUSE.toml").read_text(encoding="utf-8")
     if '"docs/**"' not in reuse or 'SPDX-License-Identifier = "Apache-2.0"' not in reuse:
@@ -104,9 +122,11 @@ def check_licensing(errors: list[str]) -> bool:
 
 
 def check_scope(errors: list[str]) -> bool:
-    r = subprocess.run(["git", "-C", str(SDK_ROOT), "status", "--porcelain=v1", "--untracked-files=all"], capture_output=True, text=True, check=True)
+    result = subprocess.run(
+        ["git", "-C", str(SDK_ROOT), "status", "--porcelain=v1", "--untracked-files=all"],
+        capture_output=True, text=True, check=True)
     ok = True
-    for line in r.stdout.splitlines():
+    for line in result.stdout.splitlines():
         path = line[3:] if len(line) > 3 else ""
         if " -> " in path:
             path = path.split(" -> ", 1)[1]
@@ -120,15 +140,18 @@ def main() -> int:
     errors: list[str] = []
     pins = check_pins(errors)
     json_ok = check_json(errors)
-    repro_ok, digest = check_reproduction(errors)
-    lic_ok = check_licensing(errors)
+    reproduction_ok, digest = check_reproduction(errors)
+    licensing_ok = check_licensing(errors)
     scope_ok = check_scope(errors)
     if errors:
-        for e in errors:
-            print(f"FAIL: {e}")
-        print(f"pins_ok={not any('pin' in e for e in errors)} json_ok={json_ok} licensing_ok={lic_ok} scope_ok={scope_ok} reproduction_ok={repro_ok} report_sha256={digest}")
+        for error in errors:
+            print(f"FAIL: {error}")
+        print(f"pins_ok={not any('pin' in e for e in errors)} json_ok={json_ok} "
+              f"licensing_ok={licensing_ok} scope_ok={scope_ok} "
+              f"reproduction_ok={reproduction_ok} report_sha256={digest}")
         return 1
-    print(f"pins_ok=True json_ok=True licensing_ok=True scope_ok=True reproduction_ok=True pins={pins} report_sha256={digest}")
+    print(f"pins_ok=True json_ok=True licensing_ok=True scope_ok=True reproduction_ok=True "
+          f"pins={pins} report_sha256={digest}")
     return 0
 
 

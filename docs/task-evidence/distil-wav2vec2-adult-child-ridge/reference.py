@@ -1,13 +1,16 @@
 # SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
 # SPDX-License-Identifier: Apache-2.0
-"""Deterministic synthetic Distil-Wav2Vec2 adult/child ridge evidence fixture.
+"""Rate-profile fixture: caller-supplied frozen features plus a ridge head.
 
-Task-local, proposal-only, incomplete, not qualified. This models a head-only
-ridge classifier over frozen synthetic embeddings that stand in for
-`bookbot/distil-wav2vec2-adult-child-cls-37m` encoder outputs. No model
-weights, no real audio, no download, no network, no device, no listening test,
-and no public benchmark is used. The installed v0 geometry is untouched:
-16 kHz, mono, float32, 160 samples per call.
+Task-local, proposal-only, incomplete and not qualified. The named model is
+used only as a *caller-supplied frozen feature extractor*: this fixture never
+loads, downloads or executes its weights. A small ridge regressor maps the
+caller's vectors to a measured syllable rate in syllables/second. The model's
+adult/child classification head is explicitly unused, and neither age nor
+listener-preferred speed is claimed.
+
+No real audio, labels, device timing or listening test is used. The installed
+v0 geometry is untouched: 16 kHz, mono, float32, 160 samples per call.
 """
 
 from __future__ import annotations
@@ -17,49 +20,58 @@ import json
 import math
 import struct
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Any, Sequence
+from typing import Any, Callable, Sequence
 
-CONTRACT_ID = "audio-sdk/distil-wav2vec2-adult-child-ridge/0.1"
-SCHEMA_ID = "audio-sdk/task-evidence/distil-wav2vec2-adult-child-ridge/report/0.1"
+CONTRACT_ID = "audio-sdk/distil-wav2vec2-frozen-rate-ridge/0.1"
+SCHEMA_ID = "audio-sdk/task-evidence/distil-wav2vec2-frozen-rate-ridge/report/0.1"
 BASE_COMMIT = "ff0d92cc1a994e3f93adcab4b1d37bcd2a8a4a5d"
-PROVIDER_ID = "analysis.distil-wav2vec2-adult-child-ridge-ref.v0"
+PROVIDER_ID = "analysis.distil-wav2vec2-frozen-rate-ridge.v0"
 MODEL_ID = "bookbot/distil-wav2vec2-adult-child-cls-37m"
-TASK_KIND = "adult_child_classification"
+TASK_ID = "SDK-DISTIL-WAV2VEC2-BOOKBOT-DISTIL-WAV2VEC2-ADULT-CHILD-CLS-37M-RIDGE"
 
 SAMPLE_RATE_HZ = 16000
 CHANNELS = 1
 FRAME_SAMPLES = 160
+WINDOW_FRAMES = 400  # four-second analysis window, v0-shaped cadence
+WINDOW_SAMPLES = WINDOW_FRAMES * FRAME_SAMPLES
 SAMPLE_FORMAT = "f32"
 SAMPLE_NS = 62500
 CLOCK_ID = "fixture-monotonic-v0"
 ORIGIN_NS = 1767225600000000000
 
 SEED = 20261124
-TRAIN_CLIPS = 120
-HELD_OUT_CLIPS = 60
-CLIP_FRAMES = 20  # 200 ms per clip
+TOTAL_WINDOWS = 210
+FOLDS = 5
+FOLD_SIZE = TOTAL_WINDOWS // FOLDS
 EMBED_DIM = 16
-RIDGE_LAMBDA = 1e-3
-THRESHOLD_GRID = [i / 100 for i in range(5, 96)]
-DEFAULT_THRESHOLD = 0.5
+RIDGE_ALPHA = 10.0
 
-LABEL_ADULT = "adult"
-LABEL_CHILD = "child"
-LABELS = (LABEL_ADULT, LABEL_CHILD)
+STRATA = ("clean", "short_active", "overlap", "quiet_boundary")
+ACTIVE_SECONDS = {
+    "clean": 3.8,
+    "short_active": 2.0,
+    "overlap": 3.2,
+    "quiet_boundary": 3.6,
+}
 
 SOURCE_PINS: tuple[dict[str, str], ...] = (
     {
         "path": "audio-benchmark-platform/audio-sdk/CONTRACTS.md",
         "root": "source",
         "sha256": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
-        "summary": "Fixed v0 geometry, exact source intervals, decimal-string sample/time serialization, analysis-event validity rules.",
+        "summary": "Fixed v0 geometry, exact source intervals, decimal-string sample/time serialization and analysis-event validity.",
     },
     {
         "path": "audio-benchmark-platform/plan/swarm/VERIFICATION.md",
         "root": "source",
         "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
-        "summary": "Analysis acceptance profile: timestamped probabilities, onset/offset delay, stratified FN/FP, validity vs nonspeech, state and cross-hop behavior.",
+        "summary": "Analysis acceptance profile: timestamped events, validity, state isolation and cross-hop interval coverage.",
+    },
+    {
+        "path": "research/tsm-followup-20261101/README.md",
+        "root": "source",
+        "sha256": "01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f",
+        "summary": "Line 31 documents the prior external experiment (MAE .741, RMSE .929, r .768, 157 ms/4 s, Apache-2.0, 37.9M/151.5MB). Context only; not reproduced here.",
     },
     {
         "path": "api/include/audio_sdk/provider_v0.h",
@@ -79,46 +91,67 @@ MISSING_EVIDENCE = (
     {
         "path": "ml-audio-research-experience.md",
         "status": "missing_in_workspace",
-        "reason": "Referenced by task prompt but not present in accessible workspace paths; no bytes pinned or reused.",
+        "reason": "Referenced by the original task prompt but absent from the accessible workspace; no bytes pinned or reused.",
     },
     {
         "path": "research/speech_intelligence_20261028.md",
         "status": "missing_in_workspace",
-        "reason": "Referenced by task prompt but not present in accessible workspace paths; no bytes pinned or reused.",
+        "reason": "Referenced by the original task prompt but absent from the accessible workspace; no bytes pinned or reused.",
     },
 )
 
 GATES: tuple[dict[str, str], ...] = (
     {
-        "id": "real_model_weights_and_runtime",
+        "id": "model_revision_and_rights",
         "status": "blocked",
-        "reason": "No model weights, tokenizer/config/runtime, or Hugging Face asset downloaded or executed. Embeddings are deterministic synthetic stand-ins.",
-        "reopen": "Pin exact model revision, license, hashes, runtime, and execute head-only inference on an approved runner.",
+        "reason": "No exact checkpoint revision, file hashes, license confirmation or permission to redistribute/execute the named weights is established here.",
+        "reopen": "Pin the exact revision and hashes, confirm Apache-2.0 terms and obtain authorized access on an approved runner.",
+    },
+    {
+        "id": "real_frozen_extractor_and_head",
+        "status": "blocked",
+        "reason": "No real feature extractor was invoked. Caller vectors are deterministic synthetic stand-ins and the head is fitted to synthetic labels.",
+        "reopen": "Run the caller-supplied frozen extractor and a fitted head on cleared audio; keep the classification head unused.",
     },
     {
         "id": "rights_qualified_labeled_audio",
         "status": "blocked",
-        "reason": "No real adult/child speech audio, labels, consent, or rights-qualified cohort used.",
-        "reopen": "Freeze a permitted labeled cohort with explicit adult/child/nonspeech/unknown policy and independent scoring.",
+        "reason": "No real speech, transcript-derived syllable labels, consent or rights-qualified corpus is used. Synthetic labels are not human syllable judgements.",
+        "reopen": "Freeze a permitted, speaker-disjoint labeled rate cohort with independent scoring.",
     },
     {
-        "id": "calibration_and_threshold_validation",
+        "id": "external_accuracy_generalization",
         "status": "blocked",
-        "reason": "Threshold is calibrated only on synthetic held-out split; no external calibration/operating-point validation.",
-        "reopen": "Calibrate and validate thresholds on an independently reviewed permitted cohort with fixed operating-point policy.",
+        "reason": "Synthetic five-fold results only. The pinned research reports one external pilot; this fixture does not reproduce or extend it.",
+        "reopen": "Evaluate the exact pinned extractor/head on an independently reviewed corpus and report MAE/RMSE/r with baselines.",
+    },
+    {
+        "id": "preferred_speed_claim",
+        "status": "blocked",
+        "reason": "Measured syllables/second is not a listener-preferred speed factor. No preference labels or rate-to-speed policy exist here.",
+        "reopen": "Collect preference/acceptability judgments and define a separately reviewed rate-to-speed policy.",
     },
     {
         "id": "target_runtime_timing",
         "status": "blocked",
-        "reason": "No paced target-device timing, CPU, memory, or deadline measurement. Any wall-clock observation would be non-qualifying.",
-        "reopen": "Measure exact installed build on target under pacing/load/deadline budgets.",
+        "reason": "No paced target-device timing, CPU, memory or deadline measurement. The 157 ms/4 s figure is quoted research context, not a local measurement.",
+        "reopen": "Measure the exact installed build on the target with pacing, load and deadline budgets.",
     },
     {
         "id": "provider_intake",
         "status": "blocked",
-        "reason": "Conceptual provider is unregistered, OFF by default, empty descriptor settings; no public API/ABI/default/registry change.",
-        "reopen": "Complete opt-in provider intake with independent review and OFF-by-default descriptor.",
+        "reason": "Conceptual boundary is unregistered, OFF by default, with empty descriptor settings; no public API/ABI/default/registry/build change.",
+        "reopen": "Complete opt-in provider intake with independent review after the model/data/runtime gates clear.",
     },
+)
+
+EXCLUDED_CLAIMS = (
+    "adult_child_classification",
+    "age_or_preferred_speed_prediction",
+    "reproduction_of_pinned_research_metrics",
+    "real_model_or_audio_evaluation",
+    "target_device_runtime_qualification",
+    "provider_registration_or_default",
 )
 
 
@@ -151,90 +184,146 @@ def tensor_digest(values: Sequence[float]) -> str:
 
 def dec(value: int) -> str:
     if not isinstance(value, int) or isinstance(value, bool):
-        raise ValueError("decimal field requires int")
+        raise ValueError("decimal_field_requires_int")
     return str(value)
 
 
-def sigmoid(x: float) -> float:
-    x = max(-60.0, min(60.0, x))
-    return 1.0 / (1.0 + math.exp(-x))
-
-
 @dataclass(frozen=True)
-class Clip:
-    clip_id: str
-    split: str
-    label: str
+class Window:
+    window_id: str
+    fold: int
     stratum: str
-    frames: int
-    embedding: tuple[float, ...]
+    latent_rate: float
+    syllable_count: int
+    active_seconds: float
+    label_rate: float
+    features: tuple[float, ...]
     source_first: int
 
 
-def _label_for(index: int) -> tuple[str, str]:
-    label = LABEL_CHILD if index % 2 == 0 else LABEL_ADULT
-    if index % 10 == 0:
-        stratum = "boundary_quiet"
-    elif index % 7 == 0:
-        stratum = "noisy_overlap"
-    elif index % 5 == 0:
-        stratum = "short_utterance"
-    else:
-        stratum = "clean"
-    return label, stratum
+def stratum_for(index: int) -> str:
+    if index % 11 == 0:
+        return "quiet_boundary"
+    if index % 7 == 0:
+        return "overlap"
+    if index % 5 == 0:
+        return "short_active"
+    return "clean"
 
 
-def make_embedding(label: str, stratum: str, seed: int) -> tuple[float, ...]:
-    rng = LCG(seed)
-    base = 0.55 if label == LABEL_CHILD else -0.55
-    noise_scale = 0.35
-    if stratum == "boundary_quiet":
-        base *= 0.35
-        noise_scale = 0.55
-    elif stratum == "noisy_overlap":
-        base *= 0.75
-        noise_scale = 0.65
-    elif stratum == "short_utterance":
-        base *= 0.85
-        noise_scale = 0.45
-    vals = []
-    for i in range(EMBED_DIM):
-        axis = base if i % 2 == 0 else -base * 0.6
-        vals.append(axis + noise_scale * rng.uniform())
-    # deterministic feature interaction
-    vals[0] += 0.15 * base
-    vals[1] -= 0.10 * base
-    return tuple(float(v) for v in vals)
-
-
-def build_cohort() -> list[Clip]:
-    clips: list[Clip] = []
-    total = TRAIN_CLIPS + HELD_OUT_CLIPS
+def build_windows() -> list[Window]:
+    """Matched deterministic latent, labels and caller vectors; no audio."""
+    windows: list[Window] = []
     cursor = 0
-    for idx in range(total):
-        split = "train" if idx < TRAIN_CLIPS else "held_out"
-        label, stratum = _label_for(idx)
-        emb = make_embedding(label, stratum, SEED + idx * 131)
-        clip = Clip(
-            clip_id=f"clip-{idx:03d}",
-            split=split,
-            label=label,
-            stratum=stratum,
-            frames=CLIP_FRAMES,
-            embedding=emb,
-            source_first=cursor,
+    for index in range(TOTAL_WINDOWS):
+        rng = LCG(SEED + index * 131)
+        latent = 2.0 + 4.5 * rng.unit()
+        stratum = stratum_for(index)
+        active = ACTIVE_SECONDS[stratum]
+        # Label follows the research convention: CMUdict-style syllable count
+        # divided by annotated active speech duration, quantized to whole
+        # syllables before division. Features are drawn from the same latent
+        # rate with an independent deterministic noise stream.
+        count = max(1, round(latent * active))
+        label = count / active
+        axis = (latent - 4.0) / 2.5
+        mix = (1.0, 0.85, -0.7, 0.55, -0.45, 0.35, 0.25, -0.2)
+        features = tuple(
+            axis * mix[i % len(mix)] + 0.5 * rng.uniform()
+            for i in range(EMBED_DIM)
         )
-        clips.append(clip)
-        cursor += CLIP_FRAMES * FRAME_SAMPLES
-    return clips
+        windows.append(Window(
+            window_id=f"win-{index:03d}",
+            fold=index // FOLD_SIZE,
+            stratum=stratum,
+            latent_rate=latent,
+            syllable_count=count,
+            active_seconds=active,
+            label_rate=label,
+            features=features,
+            source_first=cursor,
+        ))
+        cursor += WINDOW_SAMPLES
+    return windows
+
+
+class IdentityExtractor:
+    """Caller-owned frozen extractor stand-in; returns supplied vectors as-is."""
+
+    def __init__(self, model_id: str = MODEL_ID, revision: str = "caller-pinned-not-verified") -> None:
+        self.model_id = model_id
+        self.revision = revision
+        self.frozen = True
+        self.calls: list[str] = []
+
+    def __call__(self, features: Sequence[float]) -> tuple[float, ...]:
+        if not self.frozen:
+            raise ValueError("extractor_not_frozen")
+        self.calls.append(tensor_digest(features))
+        return tuple(float(v) for v in features)
+
+
+class ReversedExtractor(IdentityExtractor):
+    """Adverse control: same claimed identity, permuted caller vectors."""
+
+    def __call__(self, features: Sequence[float]) -> tuple[float, ...]:
+        result = super().__call__(features)
+        return tuple(reversed(result))
+
+
+def validate_features(value: Any, expected_dim: int = EMBED_DIM) -> tuple[float, ...]:
+    if value is None:
+        raise ValueError("missing_features")
+    if isinstance(value, (str, bytes)) or not isinstance(value, Sequence):
+        raise ValueError("bad_feature_type")
+    if len(value) != expected_dim:
+        raise ValueError("bad_feature_dimension")
+    out: list[float] = []
+    for item in value:
+        if isinstance(item, bool) or not isinstance(item, (int, float)):
+            raise ValueError("non_numeric_feature")
+        number = float(item)
+        if not math.isfinite(number):
+            raise ValueError("nonfinite_feature")
+        out.append(number)
+    return tuple(out)
+
+
+def validate_label(value: Any) -> float:
+    if value is None:
+        raise ValueError("missing_label")
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError("bad_label_type")
+    number = float(value)
+    if not math.isfinite(number):
+        raise ValueError("nonfinite_label")
+    if number <= 0.0:
+        raise ValueError("nonpositive_label")
+    return number
+
+
+def extract_features(extractor: Any, features: Sequence[float]) -> tuple[float, ...]:
+    if extractor is None:
+        raise ValueError("missing_feature_extractor")
+    if features is None:
+        raise ValueError("missing_features")
+    if isinstance(features, (str, bytes)) or not isinstance(features, Sequence):
+        raise ValueError("bad_feature_type")
+    if not getattr(extractor, "frozen", False):
+        raise ValueError("extractor_not_frozen")
+    if getattr(extractor, "model_id", None) != MODEL_ID:
+        raise ValueError("extractor_identity_mismatch")
+    try:
+        returned = extractor(features)
+    except ValueError:
+        raise
+    except Exception as exc:
+        raise ValueError("feature_extractor_failed") from exc
+    return validate_features(returned)
 
 
 def dot(a: Sequence[float], b: Sequence[float]) -> float:
     return sum(x * y for x, y in zip(a, b))
-
-
-def mat_vec(m: Sequence[Sequence[float]], v: Sequence[float]) -> list[float]:
-    return [dot(row, v) for row in m]
 
 
 def transpose(m: Sequence[Sequence[float]]) -> list[list[float]]:
@@ -246,414 +335,379 @@ def mat_mul(a: Sequence[Sequence[float]], b: Sequence[Sequence[float]]) -> list[
     return [[dot(row, col) for col in bt] for row in a]
 
 
-def invert_matrix(m: Sequence[Sequence[float]]) -> list[list[float]]:
-    n = len(m)
-    a = [list(row) + [1.0 if i == j else 0.0 for j in range(n)] for i, row in enumerate(m)]
+def mat_vec(m: Sequence[Sequence[float]], v: Sequence[float]) -> list[float]:
+    return [dot(row, v) for row in m]
+
+
+def solve(matrix: Sequence[Sequence[float]], rhs: Sequence[float]) -> list[float]:
+    n = len(matrix)
+    a = [list(row) + [float(rhs[i])] for i, row in enumerate(matrix)]
     for i in range(n):
         pivot = max(range(i, n), key=lambda r: abs(a[r][i]))
         if abs(a[pivot][i]) < 1e-12:
-            raise ValueError("singular_matrix")
-        if pivot != i:
-            a[i], a[pivot] = a[pivot], a[i]
-        pv = a[i][i]
-        for j in range(2 * n):
-            a[i][j] /= pv
+            raise ValueError("singular_ridge_system")
+        a[i], a[pivot] = a[pivot], a[i]
+        divisor = a[i][i]
+        for j in range(i, n + 1):
+            a[i][j] /= divisor
         for r in range(n):
-            if r == i:
+            if r == i or a[r][i] == 0.0:
                 continue
-            f = a[r][i]
-            if f == 0.0:
-                continue
-            for j in range(2 * n):
-                a[r][j] -= f * a[i][j]
-    return [row[n:] for row in a]
+            factor = a[r][i]
+            for j in range(i, n + 1):
+                a[r][j] -= factor * a[i][j]
+    return [a[i][n] for i in range(n)]
 
 
-def fit_ridge(clips: Sequence[Clip]) -> dict[str, Any]:
-    # x includes bias term
-    x = [list(c.embedding) + [1.0] for c in clips]
-    y = [1.0 if c.label == LABEL_CHILD else 0.0 for c in clips]
-    xt = transpose(x)
-    xtx = mat_mul(xt, x)
-    for i in range(len(xtx) - 1):  # no reg on bias
-        xtx[i][i] += RIDGE_LAMBDA
-    xty = mat_vec(xt, y)
-    inv = invert_matrix(xtx)
-    w = mat_vec(inv, xty)
-    return {
-        "weights": [float(v) for v in w[:-1]],
-        "bias": float(w[-1]),
-        "lambda": RIDGE_LAMBDA,
-        "train_clips": len(clips),
-        "feature_dim": EMBED_DIM,
-    }
+class RidgeHead:
+    """Standardized ridge regressor with an unregularized intercept."""
 
+    def __init__(self, alpha: float = RIDGE_ALPHA) -> None:
+        self.alpha = alpha
+        self.mean: tuple[float, ...] = ()
+        self.scale: tuple[float, ...] = ()
+        self.weights: tuple[float, ...] = ()
+        self.bias = 0.0
 
-def predict_prob(model: dict[str, Any], emb: Sequence[float]) -> float:
-    z = dot(model["weights"], emb) + float(model["bias"])
-    return sigmoid(z)
+    def fit(self, features: Sequence[Sequence[float]], labels: Sequence[float]) -> "RidgeHead":
+        if not features or len(features) != len(labels):
+            raise ValueError("bad_training_set")
+        rows = [list(row) for row in features]
+        self.mean = tuple(sum(row[i] for row in rows) / len(rows) for i in range(len(rows[0])))
+        self.scale = tuple(
+            math.sqrt(sum((row[i] - self.mean[i]) ** 2 for row in rows) / len(rows)) or 1.0
+            for i in range(len(self.mean))
+        )
+        z = [[(row[i] - self.mean[i]) / self.scale[i] for i in range(len(self.mean))]
+             for row in rows]
+        design = [row + [1.0] for row in z]
+        transposed = transpose(design)
+        xtx = mat_mul(transposed, design)
+        for i in range(len(self.mean)):  # intercept is unregularized
+            xtx[i][i] += self.alpha
+        solution = solve(xtx, mat_vec(transposed, list(labels)))
+        self.weights = tuple(solution[:-1])
+        self.bias = solution[-1]
+        return self
 
+    def predict(self, features: Sequence[float]) -> float:
+        validated = validate_features(features)
+        z = [(validated[i] - self.mean[i]) / self.scale[i] for i in range(len(self.mean))]
+        return dot(self.weights, z) + self.bias
 
-def classify(prob_child: float, threshold: float) -> str:
-    return LABEL_CHILD if prob_child >= threshold else LABEL_ADULT
-
-
-def build_events(clips: Sequence[Clip], probs: Sequence[float], threshold: float, epoch: int = 1) -> list[dict[str, Any]]:
-    events = []
-    for i, (clip, p) in enumerate(zip(clips, probs)):
-        start = clip.source_first
-        end = start + clip.frames * FRAME_SAMPLES
-        pred = classify(p, threshold)
-        events.append({
-            "event_id": f"evt-{epoch}-{i:04d}",
-            "producer_id": PROVIDER_ID,
-            "tap_id": "analysis.adult_child.v0",
-            "epoch": dec(epoch),
-            "source_first_sample": dec(start),
-            "source_last_sample_exclusive": dec(end),
-            "available_ns": dec(ORIGIN_NS + end * SAMPLE_NS),
-            "clock_id": CLOCK_ID,
-            "validity": "known",
-            "prob_child": float(p),
-            "prob_adult": float(1.0 - p),
-            "predicted_label": pred,
-            "ground_truth_label": clip.label,
-            "stratum": clip.stratum,
-            "clip_id": clip.clip_id,
-        })
-    return events
-
-
-def confusion(events: Sequence[dict[str, Any]], positive: str = LABEL_CHILD) -> dict[str, Any]:
-    tp = fp = tn = fn = 0
-    for e in events:
-        if e.get("validity") != "known":
-            continue
-        gt_pos = e["ground_truth_label"] == positive
-        pred_pos = e["predicted_label"] == positive
-        if gt_pos and pred_pos:
-            tp += 1
-        elif gt_pos and not pred_pos:
-            fn += 1
-        elif (not gt_pos) and pred_pos:
-            fp += 1
-        else:
-            tn += 1
-    total_pos = tp + fn
-    total_neg = tn + fp
-    return {
-        "tp": tp, "fp": fp, "tn": tn, "fn": fn,
-        "fn_rate": (fn / total_pos) if total_pos else None,
-        "fp_rate": (fp / total_neg) if total_neg else None,
-        "precision": (tp / (tp + fp)) if (tp + fp) else None,
-        "recall": (tp / (tp + fn)) if (tp + fn) else None,
-    }
-
-
-def stratified(events: Sequence[dict[str, Any]]) -> dict[str, Any]:
-    strata = {}
-    for s in sorted({e["stratum"] for e in events}):
-        subset = [e for e in events if e["stratum"] == s]
-        strata[s] = confusion(subset)
-    by_label = {}
-    for lbl in LABELS:
-        subset = [e for e in events if e["ground_truth_label"] == lbl]
-        c = confusion(subset)
-        by_label[lbl] = {
-            "count": len(subset),
-            "fn": c["fn"] if lbl == LABEL_CHILD else c["fp"],
-            "fp": c["fp"] if lbl == LABEL_CHILD else c["fn"],
-            "fn_rate": c["fn_rate"] if lbl == LABEL_CHILD else c["fp_rate"],
-            "fp_rate": c["fp_rate"] if lbl == LABEL_CHILD else c["fn_rate"],
+    def state(self) -> dict[str, Any]:
+        return {
+            "type": "standardized_ridge",
+            "alpha": self.alpha,
+            "feature_dim": len(self.mean),
+            "weights": [float(v) for v in self.weights],
+            "bias": float(self.bias),
+            "mean": [float(v) for v in self.mean],
+            "scale": [float(v) for v in self.scale],
         }
-    return {"by_stratum": strata, "by_ground_truth_label": by_label}
 
 
-def calibrate_threshold(clips: Sequence[Clip], probs: Sequence[float]) -> dict[str, Any]:
-    rows = []
-    best = None
-    for t in THRESHOLD_GRID:
-        ev = build_events(clips, probs, t)
-        c = confusion(ev)
-        bal_err = None
-        if c["fn_rate"] is not None and c["fp_rate"] is not None:
-            bal_err = 0.5 * (c["fn_rate"] + c["fp_rate"])
-        row = {"threshold": t, "balanced_error": bal_err, **c}
-        rows.append(row)
-        key = (bal_err if bal_err is not None else 9e9, c["fp_rate"] or 9e9, t)
-        if best is None or key < best[0]:
-            best = (key, row)
-    assert best is not None
-    return {"selected": best[1], "grid": rows}
+def pearson(a: Sequence[float], b: Sequence[float]) -> float | None:
+    if len(a) != len(b) or len(a) < 2:
+        return None
+    ma, mb = sum(a) / len(a), sum(b) / len(b)
+    cov = sum((x - ma) * (y - mb) for x, y in zip(a, b))
+    va = sum((x - ma) ** 2 for x in a)
+    vb = sum((y - mb) ** 2 for y in b)
+    if va <= 0.0 or vb <= 0.0:
+        return None
+    return cov / math.sqrt(va * vb)
 
 
-def onset_offset_delay(events: Sequence[dict[str, Any]]) -> dict[str, Any]:
-    # contiguous runs of predicted child as "child activity" against alternating GT segments by clip order.
-    # here each clip is an event; onset when pred switches to child, offset when leaves child.
-    pred_runs = []
-    in_run = False
-    start = None
-    for e in events:
-        is_child = e["predicted_label"] == LABEL_CHILD and e["validity"] == "known"
-        if is_child and not in_run:
-            in_run = True
-            start = int(e["source_first_sample"])
-        if in_run and not is_child:
-            pred_runs.append((start, int(e["source_first_sample"])))
-            in_run = False
-    if in_run and events:
-        pred_runs.append((start, int(events[-1]["source_last_sample_exclusive"])))
-
-    gt_runs = []
-    in_run = False
-    start = None
-    for e in events:
-        is_child = e["ground_truth_label"] == LABEL_CHILD
-        if is_child and not in_run:
-            in_run = True
-            start = int(e["source_first_sample"])
-        if in_run and not is_child:
-            gt_runs.append((start, int(e["source_first_sample"])))
-            in_run = False
-    if in_run and events:
-        gt_runs.append((start, int(events[-1]["source_last_sample_exclusive"])))
-
-    def nearest(vals, target):
-        return min(vals, key=lambda v: abs(v - target)) if vals else None
-
-    onset_delays = []
-    for gs, _ in gt_runs:
-        ps = nearest([r[0] for r in pred_runs], gs)
-        if ps is not None:
-            onset_delays.append(ps - gs)
-    offset_delays = []
-    for _, ge in gt_runs:
-        pe = nearest([r[1] for r in pred_runs], ge)
-        if pe is not None:
-            offset_delays.append(pe - ge)
+def regression_metrics(predictions: Sequence[float], labels: Sequence[float]) -> dict[str, Any]:
+    if len(predictions) != len(labels) or not predictions:
+        raise ValueError("bad_metric_input")
+    errors = [p - y for p, y in zip(predictions, labels)]
+    mae = sum(abs(e) for e in errors) / len(errors)
+    rmse = math.sqrt(sum(e * e for e in errors) / len(errors))
+    r = pearson(predictions, labels)
     return {
-        "ground_truth_child_runs": [{"start": dec(s), "end": dec(e)} for s, e in gt_runs],
-        "predicted_child_runs": [{"start": dec(s), "end": dec(e)} for s, e in pred_runs],
-        "onset_delay_samples": onset_delays,
-        "offset_delay_samples": offset_delays,
-        "mean_onset_delay_samples": (sum(onset_delays) / len(onset_delays)) if onset_delays else None,
-        "mean_offset_delay_samples": (sum(offset_delays) / len(offset_delays)) if offset_delays else None,
+        "count": len(errors),
+        "mae_syllables_per_second": round(mae, 6),
+        "rmse_syllables_per_second": round(rmse, 6),
+        "bias_syllables_per_second": round(sum(errors) / len(errors), 6),
+        "pearson_r": None if r is None else round(r, 6),
+        "negative_predictions": sum(p < 0.0 for p in predictions),
     }
 
 
-def validity_controls(model: dict[str, Any], threshold: float) -> dict[str, Any]:
-    base_clip = Clip("control-base", "control", LABEL_CHILD, "clean", CLIP_FRAMES,
-                     make_embedding(LABEL_CHILD, "clean", SEED + 99991), 0)
-    prob = predict_prob(model, base_clip.embedding)
-    known = build_events([base_clip], [prob], threshold)[0]
+def clipped_metrics(predictions: Sequence[float], labels: Sequence[float]) -> dict[str, Any]:
+    return regression_metrics([max(0.0, p) for p in predictions], labels)
 
-    unknown = dict(known)
-    unknown["event_id"] = "evt-control-unknown"
-    unknown["validity"] = "unknown"
-    unknown["predicted_label"] = "unknown"
-    unknown["prob_child"] = None
-    unknown["prob_adult"] = None
 
-    invalid_cases = []
-
-    def reject(name: str, payload: dict[str, Any], reason: str) -> None:
-        try:
-            validate_event(payload)
-        except ValueError as e:
-            invalid_cases.append({"name": name, "status": "rejected", "reason": reason, "error": str(e)})
-            return
-        invalid_cases.append({"name": name, "status": "accepted_unexpected", "reason": reason})
-
-    bad_prob = dict(known)
-    bad_prob["event_id"] = "evt-bad-prob"
-    bad_prob["prob_child"] = 1.2
-    reject("out_of_range_probability", bad_prob, "prob_child_out_of_range")
-
-    bad_interval = dict(known)
-    bad_interval["event_id"] = "evt-bad-interval"
-    bad_interval["source_first_sample"] = dec(160)
-    bad_interval["source_last_sample_exclusive"] = dec(160)
-    reject("invalid_interval", bad_interval, "empty_interval")
-
-    bad_validity = dict(known)
-    bad_validity["event_id"] = "evt-bad-validity"
-    bad_validity["validity"] = "nonspeech"
-    reject("invalid_validity_tag", bad_validity, "invalid_validity")
-
-    stale = dict(known)
-    stale["event_id"] = "evt-stale-epoch"
-    stale["epoch"] = dec(0)
-    reject("stale_epoch", stale, "stale_epoch")
-
-    # unknown must not count as nonspeech/negative label
-    unknown_not_counted = confusion([unknown])["fp"] == 0 and confusion([unknown])["fn"] == 0
-
+def build_event(window: Window, prediction: float, epoch: int = 1) -> dict[str, Any]:
+    if not math.isfinite(prediction):
+        raise ValueError("nonfinite_rate")
+    # A physical rate cannot be negative. Raw head outputs are retained in the
+    # metrics; only the emitted event is floored at zero.
+    prediction = max(0.0, prediction)
+    start = window.source_first
+    end = start + WINDOW_SAMPLES
     return {
-        "known_event": known,
-        "unknown_event": unknown,
-        "unknown_not_counted_as_nonspeech": unknown_not_counted,
-        "invalid_cases": invalid_cases,
-        "all_invalid_rejected": all(c["status"] == "rejected" for c in invalid_cases),
+        "event_id": f"evt-{epoch}-{window.window_id}",
+        "producer_id": PROVIDER_ID,
+        "tap_id": "rate.measured_syllables_per_second.v0",
+        "epoch": dec(epoch),
+        "source_first_sample": dec(start),
+        "source_last_sample_exclusive": dec(end),
+        "available_ns": dec(ORIGIN_NS + end * SAMPLE_NS),
+        "clock_id": CLOCK_ID,
+        "validity": "known",
+        "rate_syllables_per_second": float(prediction),
+        "label_syllables_per_second": float(window.label_rate),
+        "syllable_count": window.syllable_count,
+        "active_seconds": window.active_seconds,
+        "stratum": window.stratum,
+        "window_id": window.window_id,
+        "feature_digest": tensor_digest(window.features),
     }
 
 
-def validate_event(e: dict[str, Any]) -> None:
-    req = ["event_id","producer_id","tap_id","epoch","source_first_sample","source_last_sample_exclusive","available_ns","clock_id","validity"]
-    for k in req:
-        if k not in e:
-            raise ValueError(f"missing_{k}")
-    if e["validity"] not in {"known","unknown","invalid"}:
+def validate_event(event: dict[str, Any]) -> None:
+    required = (
+        "event_id", "producer_id", "tap_id", "epoch", "source_first_sample",
+        "source_last_sample_exclusive", "available_ns", "clock_id", "validity",
+    )
+    for key in required:
+        if key not in event:
+            raise ValueError(f"missing_{key}")
+    if event["validity"] not in {"known", "unknown", "invalid"}:
         raise ValueError("invalid_validity")
-    try:
-        epoch = int(e["epoch"])
-        s0 = int(e["source_first_sample"])
-        s1 = int(e["source_last_sample_exclusive"])
-        ans = int(e["available_ns"])
-    except Exception as ex:
-        raise ValueError("non_integer_field") from ex
+    for key in ("epoch", "source_first_sample", "source_last_sample_exclusive", "available_ns"):
+        if not isinstance(event[key], str) or not event[key].lstrip("-").isdigit():
+            raise ValueError(f"non_decimal_{key}")
+    epoch = int(event["epoch"])
+    first = int(event["source_first_sample"])
+    last = int(event["source_last_sample_exclusive"])
     if epoch < 1:
         raise ValueError("stale_epoch")
-    if s1 <= s0:
+    if last <= first:
         raise ValueError("empty_interval")
-    if ans < 0:
+    if (last - first) % FRAME_SAMPLES:
+        raise ValueError("misaligned_interval")
+    if int(event["available_ns"]) < 0:
         raise ValueError("bad_available_ns")
-    if e["validity"] == "known":
-        p = e.get("prob_child")
-        pa = e.get("prob_adult")
-        if not isinstance(p, (int,float)) or not math.isfinite(float(p)) or not (0.0 <= float(p) <= 1.0):
-            raise ValueError("prob_child_out_of_range")
-        if not isinstance(pa, (int,float)) or not math.isfinite(float(pa)) or not (0.0 <= float(pa) <= 1.0):
-            raise ValueError("prob_adult_out_of_range")
-        if e.get("predicted_label") not in LABELS:
-            raise ValueError("bad_predicted_label")
+    if event["validity"] == "known":
+        rate = event.get("rate_syllables_per_second")
+        if isinstance(rate, bool) or not isinstance(rate, (int, float)) or not math.isfinite(float(rate)) or rate < 0.0:
+            raise ValueError("bad_rate")
+        label = event.get("label_syllables_per_second")
+        if isinstance(label, bool) or not isinstance(label, (int, float)) or not math.isfinite(float(label)) or label <= 0.0:
+            raise ValueError("bad_label_rate")
 
 
-def state_and_cross_hop(model: dict[str, Any], threshold: float) -> dict[str, Any]:
-    clips = build_cohort()[:4]
-    probs = [predict_prob(model, c.embedding) for c in clips]
-    sess_a = build_events(clips[:2], probs[:2], threshold, epoch=1)
-    for e in sess_a:
-        e["producer_id"] = "session-A"
-    sess_b = build_events(clips[2:], probs[2:], threshold, epoch=1)
-    for e in sess_b:
-        e["producer_id"] = "session-B"
-    keys_a = {(e["producer_id"], e["tap_id"], e["epoch"], e["event_id"]) for e in sess_a}
-    keys_b = {(e["producer_id"], e["tap_id"], e["epoch"], e["event_id"]) for e in sess_b}
-    disjoint = keys_a.isdisjoint(keys_b)
+def cross_validate(windows: Sequence[Window], extractor: IdentityExtractor) -> dict[str, Any]:
+    folds: list[dict[str, Any]] = []
+    oof: list[float] = []
+    labels: list[float] = []
+    per_fold = []
+    for fold in range(FOLDS):
+        test = [w for w in windows if w.fold == fold]
+        train = [w for w in windows if w.fold != fold]
+        train_features = [extract_features(extractor, w.features) for w in train]
+        train_labels = [validate_label(w.label_rate) for w in train]
+        head = RidgeHead().fit(train_features, train_labels)
+        test_features = [extract_features(extractor, w.features) for w in test]
+        predictions = [head.predict(f) for f in test_features]
+        truth = [validate_label(w.label_rate) for w in test]
+        constant = [sum(train_labels) / len(train_labels)] * len(test)
+        fold_record = {
+            "fold": fold,
+            "train_windows": len(train),
+            "test_windows": len(test),
+            "raw": regression_metrics(predictions, truth),
+            "nonnegative": clipped_metrics(predictions, truth),
+            "constant_train_mean": regression_metrics(constant, truth),
+            "head": head.state(),
+        }
+        folds.append(fold_record)
+        oof.extend(predictions)
+        labels.extend(truth)
+        per_fold.append(fold_record["nonnegative"]["mae_syllables_per_second"])
+    return {
+        "protocol": "five_contiguous_chronological_folds",
+        "note": "Matched synthetic features/labels make this a wiring and regression fixture; these scores are not an accuracy result or a reproduction of the pinned research.",
+        "alpha": RIDGE_ALPHA,
+        "folds": folds,
+        "oof_raw": regression_metrics(oof, labels),
+        "oof_nonnegative": clipped_metrics(oof, labels),
+        "oof_constant_train_mean": regression_metrics(
+            [sum(w.label_rate for w in windows if w.fold != i) / (TOTAL_WINDOWS - FOLD_SIZE)
+             for i in range(FOLDS) for _ in range(FOLD_SIZE)], labels),
+        "fold_nonnegative_mae": per_fold,
+    }
 
-    # cross-hop: clip spans multiple 160-sample frames
-    cross_hop = []
-    for e in sess_a:
-        s0 = int(e["source_first_sample"])
-        s1 = int(e["source_last_sample_exclusive"])
-        cross_hop.append({
-            "event_id": e["event_id"],
-            "frames_covered": (s1 - s0) // FRAME_SAMPLES,
-            "exact_source_interval": s1 > s0,
-        })
 
-    # stale/foreign epoch rejected
-    stale = dict(sess_a[0])
-    stale["event_id"] = "evt-stale"
-    stale["epoch"] = dec(0)
+def rejection_cases(windows: Sequence[Window]) -> dict[str, Any]:
+    base = build_event(windows[0], 3.0)
+    cases: list[dict[str, str]] = []
+
+    def reject(name: str, thunk: Callable[[], Any], reason: str) -> None:
+        try:
+            thunk()
+        except ValueError as exc:
+            cases.append({"name": name, "status": "rejected", "reason": reason, "error": str(exc)})
+        else:
+            cases.append({"name": name, "status": "accepted_unexpected", "reason": reason, "error": ""})
+
+    good = windows[0].features
+    reject("missing_feature_extractor", lambda: extract_features(None, good), "caller must supply a frozen extractor")
+    class Unfrozen:
+        frozen = False
+        model_id = MODEL_ID
+
+        def __call__(self, value: Sequence[float]) -> Sequence[float]:
+            return value
+
+    reject("unfrozen_extractor", lambda: extract_features(Unfrozen(), good), "extractor must be frozen")
+    nan_vector = [float("nan")] + list(good[1:])
+    inf_vector = [float("inf")] + list(good[1:])
+    reject("extractor_none", lambda: extract_features(IdentityExtractor(), None), "missing feature vector")
+    reject("extractor_nan", lambda: extract_features(IdentityExtractor(), nan_vector), "nonfinite feature")
+    reject("extractor_inf", lambda: extract_features(IdentityExtractor(), inf_vector), "nonfinite feature")
+    reject("extractor_short_vector", lambda: extract_features(IdentityExtractor(), good[:8]), "wrong feature dimension")
+    reject("extractor_non_numeric", lambda: extract_features(IdentityExtractor(), ["x"] * EMBED_DIM), "non-numeric feature")
+    reject("missing_label", lambda: validate_label(None), "label required")
+    reject("label_nan", lambda: validate_label(float("nan")), "nonfinite label")
+    reject("label_nonpositive", lambda: validate_label(0.0), "positive label required")
+    reject("label_string", lambda: validate_label("3.0"), "numeric label required")
+    reject("nonfinite_rate", lambda: build_event(windows[0], float("nan")), "rate must be finite")
+    bad = dict(base)
+    bad["source_first_sample"] = 1.5
+    reject("non_decimal_sample", lambda: validate_event(bad), "decimal-string sample field required")
+    bad = dict(base, source_first_sample=dec(160), source_last_sample_exclusive=dec(160))
+    reject("empty_interval", lambda: validate_event(bad), "nonempty interval required")
+    bad = dict(base, source_last_sample_exclusive=dec(int(base["source_last_sample_exclusive"]) + 1))
+    reject("misaligned_interval", lambda: validate_event(bad), "frame-aligned interval required")
+    bad = dict(base, epoch=dec(0))
+    reject("stale_epoch", lambda: validate_event(bad), "epoch must be positive")
+    bad = dict(base, validity="adult_child_label")
+    reject("invalid_validity", lambda: validate_event(bad), "validity tag restricted")
+
+    known = dict(base)
+    validate_event(known)
+    unknown = dict(base, validity="unknown", rate_syllables_per_second=None)
+    validate_event(unknown)
+    return {
+        "cases": cases,
+        "all_rejected": all(c["status"] == "rejected" for c in cases),
+        "unknown_retained": unknown["validity"] == "unknown",
+        "known_event": known,
+        "unknown_event": unknown,
+    }
+
+
+def state_and_cross_hop(windows: Sequence[Window]) -> dict[str, Any]:
+    a = [build_event(windows[i], 3.0) for i in range(2)]
+    b = [build_event(windows[i + 2], 3.5) for i in range(2)]
+    for event in a:
+        event["producer_id"] = "session-A"
+    for event in b:
+        event["producer_id"] = "session-B"
+    keys_a = {(e["producer_id"], e["tap_id"], e["epoch"], e["event_id"]) for e in a}
+    keys_b = {(e["producer_id"], e["tap_id"], e["epoch"], e["event_id"]) for e in b}
+    stale = dict(a[0], event_id="evt-stale", epoch=dec(0))
     stale_rejected = False
     try:
         validate_event(stale)
     except ValueError:
         stale_rejected = True
-
-    # reset isolation: epoch bump creates fresh events, old epoch rejected
-    reset = dict(sess_a[0])
-    reset["epoch"] = dec(2)
-    reset["event_id"] = "evt-reset-0000"
-    reset_ok = True
-    try:
-        validate_event(reset)
-    except ValueError:
-        reset_ok = False
-
+    reset = dict(a[0], event_id="evt-reset", epoch=dec(2))
+    validate_event(reset)
     return {
-        "session_independence": disjoint,
+        "session_keys_disjoint": keys_a.isdisjoint(keys_b),
         "session_a_keys": len(keys_a),
         "session_b_keys": len(keys_b),
-        "cross_hop": cross_hop,
+        "cross_hop": [
+            {
+                "window_id": e["window_id"],
+                "frames_covered": (int(e["source_last_sample_exclusive"]) - int(e["source_first_sample"])) // FRAME_SAMPLES,
+                "exact_half_open_interval": True,
+            }
+            for e in a
+        ],
         "stale_epoch_rejected": stale_rejected,
-        "reset_epoch_accepted": reset_ok,
+        "reset_epoch_accepted": True,
     }
 
 
 def build_report() -> dict[str, Any]:
-    cohort = build_cohort()
-    train = [c for c in cohort if c.split == "train"]
-    held = [c for c in cohort if c.split == "held_out"]
-    model = fit_ridge(train)
-    train_probs = [predict_prob(model, c.embedding) for c in train]
-    held_probs = [predict_prob(model, c.embedding) for c in held]
+    windows = build_windows()
+    extractor = IdentityExtractor()
+    cv = cross_validate(windows, extractor)
+    held = [w for w in windows if w.fold == FOLDS - 1]
+    train = [w for w in windows if w.fold != FOLDS - 1]
+    train_features = [extract_features(extractor, w.features) for w in train]
+    head = RidgeHead().fit(train_features, [validate_label(w.label_rate) for w in train])
+    held_features = [extract_features(extractor, w.features) for w in held]
+    predictions = [head.predict(f) for f in held_features]
+    truth = [validate_label(w.label_rate) for w in held]
+    events = [build_event(w, p) for w, p in zip(held, predictions)]
+    for event in events:
+        validate_event(event)
 
-    calibration = calibrate_threshold(held, held_probs)
-    selected_threshold = float(calibration["selected"]["threshold"])
-
-    held_events = build_events(held, held_probs, selected_threshold)
-    for e in held_events:
-        validate_event(e)
-    held_conf = confusion(held_events)
-    held_strat = stratified(held_events)
-    delays = onset_offset_delay(held_events)
-
-    default_events = build_events(held, held_probs, DEFAULT_THRESHOLD)
-    default_conf = confusion(default_events)
-
-    controls = {
-        "always_adult": confusion([dict(e, predicted_label=LABEL_ADULT) for e in held_events]),
-        "always_child": confusion([dict(e, predicted_label=LABEL_CHILD) for e in held_events]),
+    constant = [sum(truth) / len(train)] * len(held)
+    adverse = ReversedExtractor()
+    adverse_features = [extract_features(adverse, w.features) for w in held]
+    adverse_predictions = [head.predict(f) for f in adverse_features]
+    by_stratum = {
+        stratum: clipped_metrics(
+            [p for w, p in zip(held, predictions) if w.stratum == stratum],
+            [y for w, y in zip(held, truth) if w.stratum == stratum],
+        )
+        for stratum in STRATA
     }
-
-    validity = validity_controls(model, selected_threshold)
-    state = state_and_cross_hop(model, selected_threshold)
-
-    # regressions: report where selected threshold is worse than default on some stratum/metric.
-    regressions = []
-    for stratum, c in held_strat["by_stratum"].items():
-        d = default_conf_by = stratified(default_events)["by_stratum"][stratum]
-        if c["fn_rate"] is not None and d["fn_rate"] is not None and c["fn_rate"] > d["fn_rate"]:
-            regressions.append({
-                "type": "threshold_regression",
-                "stratum": stratum,
-                "metric": "fn_rate",
-                "selected_threshold": selected_threshold,
-                "default_threshold": DEFAULT_THRESHOLD,
-                "selected": c["fn_rate"],
-                "default": d["fn_rate"],
-            })
-        if c["fp_rate"] is not None and d["fp_rate"] is not None and c["fp_rate"] > d["fp_rate"]:
-            regressions.append({
-                "type": "threshold_regression",
-                "stratum": stratum,
-                "metric": "fp_rate",
-                "selected_threshold": selected_threshold,
-                "default_threshold": DEFAULT_THRESHOLD,
-                "selected": c["fp_rate"],
-                "default": d["fp_rate"],
-            })
 
     report = {
         "schema_id": SCHEMA_ID,
         "contract_id": CONTRACT_ID,
-        "task_id": "SDK-DISTIL-WAV2VEC2-BOOKBOT-DISTIL-WAV2VEC2-ADULT-CHILD-CLS-37M-RIDGE",
-        "title": "Distil-Wav2Vec2 (bookbot/distil-wav2vec2-adult-child-cls-37m) + ridge",
-        "profile": "Analysis",
+        "task_id": TASK_ID,
+        "title": "Distil-Wav2Vec2 frozen caller features + ridge syllable-rate head",
+        "profile": "rate",
         "status": "proposal_only_synthetic_incomplete",
         "qualification_status": "not_qualified",
         "no_missing_result_qualifies_candidate": True,
         "base_commit": BASE_COMMIT,
+        "task": {
+            "kind": "measured_syllable_rate_regression",
+            "target_unit": "syllables_per_second",
+            "excluded_claims": list(EXCLUDED_CLAIMS),
+            "rate_to_speed_factor_policy": None,
+        },
         "model": {
             "requested_model_id": MODEL_ID,
+            "role": "caller_supplied_frozen_feature_extractor",
+            "classifier_head_used": False,
             "weights_downloaded": False,
             "weights_executed": False,
-            "runtime": "synthetic_embedding_ridge_reference",
-            "embedding_dim": EMBED_DIM,
-            "head": "ridge_logistic",
-            "note": "No real model weights or audio used; embeddings are deterministic synthetic stand-ins.",
+            "license_from_model_card": "Apache-2.0",
+            "documented_context_not_reproduced": {
+                "source_pin": "research/tsm-followup-20261101/README.md line 31",
+                "mae_syllables_per_second": 0.741,
+                "rmse_syllables_per_second": 0.929,
+                "pearson_r": 0.768,
+                "mean_encoder_ms_per_4s_clip": 157.0,
+                "parameters": 37_900_000,
+                "weight_bytes_approx": 151_500_000,
+                "reproduced_here": False,
+                "note": "External prior result quoted as context only. No exact weights, revision, permission or local execution; these numbers are not claimed by this fixture.",
+            },
+            "identity_control": {
+                "extractor_model_id": extractor.model_id,
+                "revision": extractor.revision,
+                "frozen": extractor.frozen,
+                "calls": len(extractor.calls),
+                "distinct_caller_vectors": len(set(extractor.calls)),
+                "all_caller_vectors_returned_unchanged": (
+                    set(extractor.calls) == {tensor_digest(w.features) for w in windows}
+                ),
+                "internal_model": False,
+            },
         },
         "boundary": {
             "provider_id": PROVIDER_ID,
@@ -665,42 +719,77 @@ def build_report() -> dict[str, Any]:
             "channels": CHANNELS,
             "sample_format": SAMPLE_FORMAT,
             "frame_samples": FRAME_SAMPLES,
+            "window_frames": WINDOW_FRAMES,
+            "window_samples": WINDOW_SAMPLES,
             "clock_id": CLOCK_ID,
             "origin_ns": dec(ORIGIN_NS),
         },
         "cohort": {
             "type": "deterministic_synthetic",
             "seed": SEED,
-            "train_clips": len(train),
-            "held_out_clips": len(held),
-            "clip_frames": CLIP_FRAMES,
-            "clip_samples": CLIP_FRAMES * FRAME_SAMPLES,
-            "labels": list(LABELS),
-            "strata": sorted({c.stratum for c in cohort}),
-            "held_out_digest": object_digest([{"id": c.clip_id, "label": c.label, "stratum": c.stratum, "emb": c.embedding} for c in held]),
+            "windows": len(windows),
+            "folds": FOLDS,
+            "windows_per_fold": FOLD_SIZE,
+            "strata": list(STRATA),
+            "active_seconds_by_stratum": ACTIVE_SECONDS,
+            "label_definition": "round(latent_rate * active_seconds) / active_seconds",
+            "labels_matched_to_caller_features_by_latent": True,
+            "real_audio": False,
+            "human_syllable_labels": False,
+            "label_digest": object_digest([w.label_rate for w in windows]),
+            "feature_digest": object_digest([w.features for w in windows]),
+            "examples": [
+                {
+                    "window_id": w.window_id,
+                    "stratum": w.stratum,
+                    "syllable_count": w.syllable_count,
+                    "active_seconds": w.active_seconds,
+                    "label_syllables_per_second": w.label_rate,
+                    "feature_digest": tensor_digest(w.features),
+                }
+                for w in windows[:5]
+            ],
         },
-        "training": {
-            "split": "train_only",
-            "n_train": len(train),
-            "n_held_out": len(held),
-            "model": model,
-            "train_digest": object_digest([c.embedding for c in train]),
-        },
-        "calibration": calibration,
+        "training": cv,
         "held_out": {
-            "threshold_selected": selected_threshold,
-            "default_threshold": DEFAULT_THRESHOLD,
-            "confusion": held_conf,
-            "stratified": held_strat,
-            "default_threshold_confusion": default_conf,
-            "onset_offset_delay": delays,
-            "events_digest": object_digest(held_events),
-            "events": held_events,
+            "fold": FOLDS - 1,
+            "windows": len(held),
+            "raw": regression_metrics(predictions, truth),
+            "nonnegative": clipped_metrics(predictions, truth),
+            "constant_train_mean": regression_metrics(constant, truth),
+            "by_stratum_nonnegative": by_stratum,
+            "events_digest": object_digest(events),
+            "events": events[:3],
+            "head": head.state(),
         },
-        "controls": controls,
-        "validity": validity,
-        "state_and_cross_hop": state,
-        "regressions": regressions,
+        "controls": {
+            "identity_caller_features": {
+                "status": "pass",
+                "note": "Caller vectors returned bitwise unchanged; only the ridge head is fitted locally.",
+                "embedding_digest": object_digest([w.features for w in held]),
+            },
+            "permutation_adverse": {
+                "status": "expected_failure",
+                "description": "Same claimed model identity, deterministically reversed caller vectors.",
+                "raw": regression_metrics(adverse_predictions, truth),
+                "nonnegative": clipped_metrics(adverse_predictions, truth),
+                "worse_than_identity": (
+                    clipped_metrics(adverse_predictions, truth)["mae_syllables_per_second"]
+                    > clipped_metrics(predictions, truth)["mae_syllables_per_second"]
+                ),
+            },
+            "constant_train_mean": {
+                "status": "reference_failure",
+                "metrics": regression_metrics(constant, truth),
+            },
+            "nonnegative_clipping": {
+                "raw_negative_count": sum(p < 0.0 for p in predictions),
+                "clipped_mae": clipped_metrics(predictions, truth)["mae_syllables_per_second"],
+                "raw_mae": regression_metrics(predictions, truth)["mae_syllables_per_second"],
+            },
+        },
+        "validation": rejection_cases(windows),
+        "state_and_cross_hop": state_and_cross_hop(windows),
         "missing_evidence": list(MISSING_EVIDENCE),
         "source_pins": list(SOURCE_PINS),
         "gates": list(GATES),
@@ -708,7 +797,8 @@ def build_report() -> dict[str, Any]:
             "synthetic_deterministic": "used",
             "real_audio": "none",
             "real_model_weights": "none",
-            "rights_qualified_labeled_cohort": "none",
+            "caller_supplied_real_features": "none",
+            "human_rate_labels": "none",
             "target_runtime_timing": "none",
         },
     }

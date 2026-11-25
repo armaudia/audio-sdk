@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
 # SPDX-License-Identifier: Apache-2.0
-"""Regenerate deterministic report.json and report.json.sha256."""
+"""Regenerate a deterministic rate-profile report.json and its sha256 sidecar."""
 
 from __future__ import annotations
 
@@ -15,14 +15,15 @@ import reference  # noqa: E402
 
 
 def main(argv: list[str]) -> int:
-    if len(argv) != 2 or argv[1] != "report.json":
+    if len(argv) != 2 or Path(argv[1]).name != "report.json":
         print("usage: run.py report.json", file=sys.stderr)
         return 2
-    report = reference.build_report()
-    payload = reference.canonical_report_bytes(report)
-    (HERE / "report.json").write_bytes(payload)
+    given = Path(argv[1])
+    output = given if given.is_absolute() else HERE / given
+    payload = reference.canonical_report_bytes(reference.build_report())
+    output.write_bytes(payload)
     digest = hashlib.sha256(payload).hexdigest()
-    (HERE / "report.json.sha256").write_text(f"{digest}  report.json\n", encoding="utf-8")
+    output.with_suffix(".json.sha256").write_text(f"{digest}  report.json\n", encoding="utf-8")
     print(f"report_sha256={digest} bytes={len(payload)}")
     return 0
 
