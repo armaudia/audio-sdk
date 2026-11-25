@@ -110,7 +110,7 @@ LINKED_ROWS = (
         "component": "opus-1-4-standard-decoder-plc",
         "mode": "implementation",
         "repository": "audio-sdk",
-        "depends_on": ["SDK-FND-AUDIT", "SDK-FND-EVIDENCE", "SDK-FND-PROVIDER"],
+        "depends_on": ["SDK-FND-AUDIT", "SDK-FND-ELASTIC", "SDK-FND-EVIDENCE", "SDK-FND-PROVIDER"],
     },
     {
         "id": "SDK-OPUS-PACKETIZATION-FEC-DTX-AND-COMFORT-NOISE",

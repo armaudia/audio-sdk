@@ -230,4 +230,4 @@ artifact.
 ## Expected digest
 
 `report.json` SHA-256:
-`e854990d89ed934eea49f70f0386dbb58519ab035e84c2761e6c336b46eab1e9`.
+`9b98c595d812b724b523a5d748828452980946b9292a9d54c0ac9b804dabbf5b`.
