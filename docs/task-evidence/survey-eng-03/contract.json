@@ -1,0 +1,121 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "task": "SDK-SURVEY-ENG-03",
+  "title": "ENG category evidence map",
+  "category_scope": {
+    "code": "ENG",
+    "meaning": "engineering Delivery and audio interface support",
+    "category_ids": [
+      "ENG-01",
+      "ENG-02",
+      "ENG-03",
+      "ENG-04"
+    ],
+    "not_a_language_scope": true,
+    "excluded_examples": [
+      "REC-02 language identification",
+      "whisper-tiny-en-int8-via-sherpa-onnx"
+    ]
+  },
+  "profile": "evidence",
+  "status": "incomplete",
+  "qualification_status": "not_qualified",
+  "decision": "DEFER",
+  "base_commit": "c9296ae96a2b58efae559bd22e7760122c886df8",
+  "branch": "swarm/SDK-SURVEY-ENG-03",
+  "no_missing_result_qualifies_candidate": true,
+  "follow_up_policy": {
+    "invent_new_tasks": false,
+    "board_only": true,
+    "allowed_modes": [
+      "feasibility"
+    ],
+    "existing_feasibility_task_ids": [
+      "SDK-SPEEX-RESAMPLER",
+      "SDK-3D-MICROPHONE-SPATIAL-TIME-ALIGNMENT",
+      "SDK-WEBRTC-NETEQ",
+      "SDK-CAPSC-BUFFER-OCCUPANCY-PACING",
+      "SDK-OPUS-PACKETIZATION-FEC-DTX-AND-COMFORT-NOISE",
+      "SDK-OPUS-DRED"
+    ]
+  },
+  "scope": {
+    "source_and_board_record_mapping_only": true,
+    "synthetic_state_controls_only": true,
+    "real_corpus": false,
+    "real_weights": false,
+    "audio_runtime_executed": false,
+    "model_runtime_executed": false,
+    "vendor_runtime_executed": false,
+    "listening": false,
+    "device_timing": false,
+    "benchmark": false,
+    "release_claim": false,
+    "registered_provider": false,
+    "task_local_only": true
+  },
+  "boundary": {
+    "registered": false,
+    "enabled_by_default": false,
+    "default_selected": false,
+    "descriptor_settings": {},
+    "public_api_abi_change": false,
+    "provider_registration": false,
+    "descriptor_registry_change": false,
+    "shared_cmakelists_change": false,
+    "ci_workflow_change": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false
+  },
+  "public_v0_geometry": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "public_v0_geometry_preserved": true,
+    "sdk_callback_invoked": false
+  },
+  "source_pins": {
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/audio-sdk/README.md": "f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "audio-benchmark-platform/plan/swarm/TASKS.json": "16b37d5bc3a2018a1f1754ca2436727791d815e55ffc64bf6a3f420729bb8bd3"
+  },
+  "source_pin_selectors": {
+    "audio-benchmark-platform/plan/swarm/TASKS.json": "selected-board-task-records/0.1:id,mode,repository,title,component"
+  },
+  "board_status_is_observation_only": true,
+  "boundary_pins": {
+    ".github/workflows/ci.yml": "ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415",
+    ".github/workflows/release.yml": "6fee1576bf3517cf8aa2a9f963988ea7aac41e16d32df506336a0ee408a4ebfc",
+    "CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "docs/task-evidence/buffer-occupancy-controller/README.md": "862a94c9add8ecd5e15f09a543ff17100dc5680da00f8a0635a884509cb51a33",
+    "docs/task-evidence/duplex-clocks/README.md": "8e1a355bd36e561e8f1b634a5f5ec351e15d1785be8b6f4713bef33ec97e0325",
+    "docs/task-evidence/elastic-pcm-packets/README.md": "15ebaa6b2b7768faa5c1bd2fc45b900db7f71d49b7ad1292685263555953e742",
+    "docs/task-evidence/linear-interpolation-plc/README.md": "5102676797554c3e6bc83207a848d35b72783bead5eac13ad60c5a16bd940742",
+    "docs/task-evidence/numpy-scipy-soundfile-wav-resampling/README.md": "9f91d406909fe2f9fa7cfd4b954639d081a12ab16005be761707b6f5c998f40c",
+    "docs/task-evidence/opus-1-4-standard-decoder-plc/README.md": "ac4ed82328dbbfc1af8aefbd43f2efc5ce36bde9f004e6f40bbc46b23db962df",
+    "docs/task-evidence/typed-frame-resample-and-drift-diagnostics/README.md": "7bcf299b29fee342daa7bae0f141e59d86680e16189e88c34a71d2c0e4fa2e75"
+  },
+  "release_gates": [
+    "Rights-cleared corpus and frozen cohort before any quality claim.",
+    "Pinned permitted runtime, assets and exact licenses before any implementation claim.",
+    "Independent listening before any intelligibility, naturalness or pitch claim.",
+    "Target-device pacing, clock, rebuffer, deadline and resource evidence before any availability claim.",
+    "Opt-in provider intake and licensing clearance before registration.",
+    "Explicit public default selection before any enabled-by-default claim.",
+    "Exact parity with an approved external reference before any parity claim.",
+    "Independent review and board transition before any component acceptance claim."
+  ],
+  "reproduction": {
+    "tests": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_reference.py",
+    "report": "PYTHONDONTWRITEBYTECODE=1 python3 run.py all",
+    "verify": "PYTHONDONTWRITEBYTECODE=1 python3 verify.py",
+    "comparison": "canonical JSON bytes and SHA-256 only; no tolerance"
+  }
+}
