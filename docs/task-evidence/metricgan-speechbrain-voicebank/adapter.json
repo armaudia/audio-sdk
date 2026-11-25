@@ -1,0 +1,71 @@
+{
+  "SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier: Apache-2.0": "Apache-2.0",
+  "protocol_version": 1,
+  "identity": "metricgan-plus-speechbrain-voicebank-caller-asset-reference-v1",
+  "boundary_identity": "task-local-caller-supplied-asset-boundary-v0",
+  "input_kind": "waveform",
+  "output_kinds": [
+    "waveform"
+  ],
+  "tasks": [
+    "SDK-METRICGAN-SPEECHBRAIN-VOICEBANK"
+  ],
+  "modes": [
+    "caller_supplied_asset_reference",
+    "proposal_only",
+    "synthetic_surrogate"
+  ],
+  "configuration": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "synthetic_samples_per_condition": 16000,
+    "whole_utterance": true,
+    "streaming_supported": false,
+    "mask_frame": 256,
+    "mask_hop": 128,
+    "unit_peak_output_normalization": true
+  },
+  "entrypoint": [
+    "python3",
+    "run.py",
+    "--report"
+  ],
+  "supported_formats": [
+    "mono 16 kHz float32, whole-utterance synthetic evaluation only"
+  ],
+  "variants": [
+    "identity_noisy",
+    "level_only_peak_normalized",
+    "mask_only",
+    "peak_normalized_mask",
+    "peak_normalized_mask_rms_matched",
+    "wiener_baseline_surrogate"
+  ],
+  "controls": [
+    "identity_noisy",
+    "noisy_input_no_processing"
+  ],
+  "asset_binding": {
+    "model": "caller_supplied_asset_reference",
+    "checkpoint_sha256": "147bfb866bac8264603546e035bf283370e716ed2f4b7412d308d2bcee88304f",
+    "model_repo_revision": "be514d321f66b5352c5a8d59c44700f57aa8c8f5",
+    "runtime": "SpeechBrain 1.0.3",
+    "corpus": "VoiceBank+DEMAND",
+    "asset_present": false,
+    "loaded": false,
+    "executed": false,
+    "surrogate_substituted": true
+  },
+  "registration": "unregistered task-local proposal; no SDK provider, descriptor, registry or bench entry",
+  "processor_exposure": false,
+  "real_runtime_used": false,
+  "weights_loaded": false,
+  "corpus_used": false,
+  "registered": false,
+  "enabled_by_default": false,
+  "status": "proposal_only_synthetic_incomplete",
+  "decision": "DEFER"
+}
