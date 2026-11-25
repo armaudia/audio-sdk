@@ -1,0 +1,165 @@
+{
+  "adapter_protocol": "audio-sdk/onnx-runtime-adapter/0.1",
+  "base_commit": "6f58f3d721908806f8c4a0a1e0dc6de846cef54c",
+  "branch": "swarm/SDK-ONNX-RUNTIME-REFERENCE-RUNTIME",
+  "component": "onnx-runtime-reference-runtime",
+  "contract_version": "0.1",
+  "decision": "DEFER",
+  "defer_before": "runtime_integration",
+  "evidence_status": "incomplete",
+  "fail_closed": [
+    "unknown or unpinned runtime id",
+    "missing, unknown or extra model asset",
+    "asset byte-count or SHA-256 mismatch",
+    "oversized, malformed, duplicate-key or non-object model document",
+    "wrong schema, runtime family, real-graph claim or evaluation",
+    "tensor name, order, role, dtype or shape mismatch",
+    "coefficient mismatch, nonfinite coefficient or invalid state init",
+    "missing, extra or invalid configuration key",
+    "unsupported execution provider, graph optimization or threading",
+    "missing, extra, wrong-shape, wrong-dtype, nonfinite or out-of-range feed",
+    "missing, extra, wrong-capacity, non-writable or aliased output binding",
+    "run after close; invalid reset; packaging, download or real-model request"
+  ],
+  "frontend_contract": {
+    "channels": 1,
+    "content_delay_samples": 0,
+    "default_selected": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "frame_samples": 160,
+    "hop_samples": 160,
+    "identity": "audio-sdk/v0-f32-16k-mono-160",
+    "installed_v0_behavior_changed": false,
+    "provider_registration": false,
+    "public_api_abi_changed": false,
+    "sample_format": "f32",
+    "sample_rate_hz": 16000
+  },
+  "invariants": [
+    "Only this task evidence directory is written.",
+    "No shared C++, CMake, CI, contract, public header, registry, default, board or handoff file is modified.",
+    "No ONNX Runtime package, library, header or graph is imported, linked, shipped or invoked.",
+    "No model weights, real audio, download or external asset is used.",
+    "The synthetic fixture is a deterministic caller-supplied descriptor, not an ONNX protobuf or executable graph.",
+    "All boundary rejections fail closed without advancing adapter state.",
+    "Three cold-start report regenerations are byte-identical.",
+    "No device timing, listening, benchmark or release result is claimed."
+  ],
+  "io_binding": {
+    "alias_with_input_rejected": true,
+    "foreign_memory_supported": false,
+    "output_capacity_must_be_exact": true,
+    "preallocated_outputs_supported": true,
+    "required": false,
+    "writable_list_required": true
+  },
+  "model_fixture": {
+    "asset_id": "synthetic-ort-adapter-probe",
+    "asset_kind": "synthetic_non_onnx_descriptor",
+    "real_model_weights": false,
+    "real_onnx_graph": false,
+    "rights": {
+      "acquisition": "generated_in_this_evidence_directory",
+      "asset_class": "synthetic",
+      "evaluation": "allowed_synthetic_only",
+      "public_playback": "not_applicable",
+      "redistribution": "not_applicable_no_external_bytes"
+    },
+    "schema_id": "audio-sdk/onnx-runtime-reference-runtime/synthetic-model/0.1",
+    "storage": "external_caller_supplied"
+  },
+  "reference_family": "onnxruntime",
+  "reopening_conditions": [
+    "Pin one exact ONNX Runtime distribution and clear its redistribution terms.",
+    "Add a rights-cleared caller-owned ONNX graph with exact tensor metadata.",
+    "Implement the optional adapter behind an off-by-default build flag without changing installed v0 geometry or shared defaults.",
+    "Compare deterministic CPU outputs with an approved reference and record negative, malformed and missing-asset cases.",
+    "Measure the exact installed runtime on the target host before any availability or benchmark claim.",
+    "Complete provider intake and independent review before any public exposure."
+  ],
+  "repository": "audio-sdk",
+  "rights_gap": {
+    "blocked": true,
+    "consequence": "No ONNX Runtime import, vendoring, linking, installed adapter, public provider or release claim is permitted until the exact runtime and any model asset are pinned and rights are cleared.",
+    "exact_runtime_pinned": false,
+    "real_model_terms_verified": false,
+    "runtime_terms_verified": false
+  },
+  "schema_id": "audio-sdk/onnx-runtime-reference-runtime/contract/0.1",
+  "scope": "Task-local synthetic documentation and exercise of the proposed developer-facing ONNX Runtime adapter boundary. No SDK adapter, public provider, ONNX Runtime import, real graph, weights, audio, device measurement or release claim is added.",
+  "session_requirements": {
+    "configuration": {
+      "deterministic": true,
+      "execution_provider": "cpu_reference",
+      "graph_optimization": "disabled",
+      "inter_op_num_threads": 1,
+      "intra_op_num_threads": 1,
+      "model": "synthetic-ort-adapter-probe"
+    },
+    "deterministic_compute": true,
+    "exact_config_only": true,
+    "execution_provider": "CPUExecutionProvider",
+    "note": "These are declared requirements for a future adapter, not values queried from an installed runtime.",
+    "options": {
+      "deterministic_compute": true,
+      "enable_mem_pattern": false,
+      "execution_mode": "sequential",
+      "execution_provider": "CPUExecutionProvider",
+      "graph_optimization": "disabled",
+      "inter_op_num_threads": 1,
+      "intra_op_num_threads": 1
+    },
+    "runtime_family": "onnxruntime",
+    "runtime_id": "onnxruntime-cpu-reference-synthetic/0.1"
+  },
+  "source_identity": {
+    "documented_constraints": [
+      "ONNX Runtime is optional and guarded by AE_ENABLE_ONNXRUNTIME",
+      "a shared Ort::Env is created only when the optional runtime is enabled",
+      "model assets are resolved by logical id from prepare-time caller assets",
+      "missing asset lists and unknown model ids fail with AE_NOT_READY",
+      "no network, download or filesystem model lookup is performed in stages"
+    ],
+    "note": "Source inspection is a boundary anchor only. No C++ stage is built, no ONNX session is created and no model weight is loaded.",
+    "path": "cpp-library/src/stages/onnx_common.cpp",
+    "sha256": "f8eaee5455fefb1dd0dcaac10092a25f673f138f76af07d21dfed69fa95712c8"
+  },
+  "status": "task_local_proposed_boundary",
+  "task": "SDK-ONNX-RUNTIME-REFERENCE-RUNTIME",
+  "tensors": {
+    "state_in": {
+      "dtype": "f32",
+      "role": "input",
+      "shape": [
+        1,
+        16
+      ]
+    },
+    "state_out": {
+      "dtype": "f32",
+      "role": "output",
+      "shape": [
+        1,
+        16
+      ]
+    },
+    "waveform_in": {
+      "dtype": "f32",
+      "role": "input",
+      "shape": [
+        1,
+        160
+      ]
+    },
+    "waveform_out": {
+      "dtype": "f32",
+      "role": "output",
+      "shape": [
+        1,
+        160
+      ]
+    }
+  },
+  "verification_profile": "tool"
+}
