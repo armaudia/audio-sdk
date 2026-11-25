@@ -1,0 +1,28 @@
+{
+  "protocol_version": 1,
+  "identity": "webrtc-apm-ns-task-local-evidence-v1",
+  "input_kind": "waveform",
+  "output_kinds": ["waveform"],
+  "tasks": ["CLN-01"],
+  "modes": ["offline", "causal_framewise_synthetic"],
+  "controls": ["noisy_identity", "spectral_subtraction", "webrtc_ns_l1", "webrtc_ns_l2", "webrtc_ns_l3"],
+  "candidate": "webrtc_ns_l2",
+  "configuration_keys": ["profile"],
+  "entrypoint": ["python3", "docs/task-evidence/webrtc-apm-ns/run.py"],
+  "registration": {
+    "unregistered": true,
+    "opt_in_only": true,
+    "default_enabled": false,
+    "cmake_target_added": false
+  },
+  "installed_behavior": "unchanged",
+  "external_assets": [],
+  "decision": {
+    "disposition": "DEFER",
+    "expose_as_processor": false,
+    "registered": false,
+    "default_enabled": false,
+    "promote": false,
+    "release_claim": false
+  }
+}
