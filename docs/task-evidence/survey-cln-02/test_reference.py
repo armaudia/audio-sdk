@@ -113,6 +113,25 @@ class MappingTests(unittest.TestCase):
         self.assertIn("source_reported_only", classes)
         self.assertNotIn("human_listening_result", classes)
 
+    def test_evidence_classes_match_mapped_records(self):
+        classes = self.report["evidence_classes"]
+        self.assertIs(classes["paired_synthetic_historical_local"], True)
+        self.assertIs(classes["prepared_listening_without_ratings"], True)
+        self.assertIs(classes["vendor_or_source_reported"], True)
+        self.assertIs(classes["unpaired_predictive_historical_local"], False)
+        self.assertIs(classes["clean_preservation_diagnostic_historical_local"], False)
+        self.assertIs(classes["human_listening_result"], False)
+        text = " ".join(row["label"].lower() for row in self.report["historical_executions"])
+        text += " " + " ".join(row["class"] for row in self.report["comparison_inputs"])
+        self.assertNotIn("predictive", text)
+        self.assertNotIn("preservation", text)
+
+    def test_historical_executions_link_censused_components(self):
+        census = {row["component_id"] for row in self.report["component_census"]}
+        for row in self.report["historical_executions"]:
+            self.assertTrue(row["component_ids"], row["id"])
+            self.assertTrue(set(row["component_ids"]) <= census, row["id"])
+
     def test_controls_and_assets_are_pinned(self):
         pins = set(self.report["source_pins"]) | set(self.report["boundary_pins"])
         for row in self.report["controls"] + self.report["assets"] + self.report["historical_executions"]:
@@ -255,6 +274,22 @@ class AtomicRejectionTests(unittest.TestCase):
                 self.builder.build()
         self._assert_unchanged()
 
+    def test_execution_component_link_is_checked(self):
+        bad = dict(reference.HISTORICAL_EXECUTIONS[0], id="HX", component_ids=["not-a-component"])
+        with mock.patch.object(
+            reference, "HISTORICAL_EXECUTIONS", reference.HISTORICAL_EXECUTIONS + [bad]
+        ):
+            with self.assertRaises(reference.MapError):
+                self.builder.build()
+        self._assert_unchanged()
+
+    def test_unsupported_evidence_class_rejected_without_state_change(self):
+        with mock.patch.dict(
+            reference.EVIDENCE_CLASSES, {"unpaired_predictive_historical_local": True}
+        ):
+            with self.assertRaises(reference.MapError):
+                self.builder.build()
+        self._assert_unchanged()
 
     def test_acoustic_and_digital_subcases_are_separated(self):
         report = reference.build_report()

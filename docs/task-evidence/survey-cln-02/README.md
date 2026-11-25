@@ -40,12 +40,17 @@ transcribed verbatim from pinned reports with their original scope; they are
 ## Evidence classes and failure envelope
 
 - **Historical local paired synthetic:** one-sample click gate, width/amplitude
-  stress sweep, hard-clipping/POCS screen, and supplied-mask PLC screen.
+  stress sweep, hard-clipping/POCS screen, and supplied-mask PLC screen. Every
+  historical row names the censused component it exercised.
 - **Historical local adjacent context:** RNNoise noise-suppression pilot and
   realtime candidate summary; not a click cohort.
 - **Source-reported only:** RNNoise project lead and FFmpeg filter documentation.
 - **Not present:** natural acoustic keyboard events, human ratings, paired
-  real-click cohort, target-device timing, weights, or a new execution.
+  real-click cohort, target-device timing, weights, or a new execution. No
+  clean-preservation diagnostic (clean speech passed through a candidate) and
+  no unpaired predictive score were found, so both evidence classes are
+  recorded as `false` instead of being inherited from the adjacent
+  noise-suppression survey.
 - The fixed detector's own stress screen is an adverse result: 0% recall at
   amplitude 0.20 and at five-sample pulses, despite clean recall for louder
   1–3 sample events. Breaths, fillers and stutters are explicitly separate
@@ -83,10 +88,18 @@ files have SPDX license sidecars.
 
 ```sh
 cd docs/task-evidence/survey-cln-02
-PYTHONDONTWRITEBYTECODE=1 python3.12 run.py all
-PYTHONDONTWRITEBYTECODE=1 python3.12 -m unittest -v test_reference.py
-PYTHONDONTWRITEBYTECODE=1 python3.12 verify.py
+PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 -m unittest -v test_reference.py
+PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 run.py all
+PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 verify.py
+python3 -m reuse lint
+git diff --check
 ```
+
+The change is task-local documentation and stdlib tooling; no installed
+package, descriptor catalog, ABI, build input or CI workflow is touched. The
+repository's installed-package gate `PYTHONDONTWRITEBYTECODE=1
+/Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 scripts/ci.py` is run
+from the SDK root on the exact head as a release-safety check.
 
 Workspace pins are SHA-256 values of read-only documents; a pin does not grant
 rights or verify media. `AUDIOML_WORKSPACE_ROOT` can point to the enclosing

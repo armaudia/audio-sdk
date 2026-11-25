@@ -36,10 +36,12 @@ QUALIFICATION_STATUS = "not_qualified"
 READINESS = "incomplete"
 DECISION = "DEFER"
 
+# REUSE-IgnoreStart
 LICENSE_TEXT = (
     "SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes\n"
     "SPDX-License-Identifier: Apache-2.0\n"
 )
+# REUSE-IgnoreEnd
 
 # Workspace-relative document pins. Every entry is a read-only document or
 # metadata ledger consulted by this survey; a pin never grants rights or
@@ -321,6 +323,7 @@ HISTORICAL_EXECUTIONS: List[Dict[str, Any]] = [
         "id": "HE-1",
         "label": "One-sample synthetic click-gate screen",
         "outcome_class": "historical_local_synthetic",
+        "component_ids": ["median-residual-click-gate"],
         "source_pin": "research/voice-enhancement-20261101/agent-click-gate-eval/REPORT.md",
         "values": {
             "inserted_click_samples": 180,
@@ -337,6 +340,7 @@ HISTORICAL_EXECUTIONS: List[Dict[str, Any]] = [
         "id": "HE-2",
         "label": "Fixed-threshold width and amplitude stress screen",
         "outcome_class": "historical_local_synthetic",
+        "component_ids": ["median-residual-click-gate"],
         "source_pin": "research/voice-enhancement-20261101/agent-click-gate-expanded/REPORT.md",
         "values": {
             "recall_width1_amp0_20_percent": 0.0,
@@ -352,6 +356,10 @@ HISTORICAL_EXECUTIONS: List[Dict[str, Any]] = [
         "id": "HE-3",
         "label": "Declipping and supplied-mask restoration screen",
         "outcome_class": "historical_local_synthetic",
+        "component_ids": [
+            "band-limited-pocs-declipping",
+            "linear-interpolation-declipping",
+        ],
         "source_pin": "research/distortion_restoration_20261028.md",
         "values": {
             "pocs_threshold0_35_mean_si_sdr_db": 15.05,
@@ -365,6 +373,11 @@ HISTORICAL_EXECUTIONS: List[Dict[str, Any]] = [
         "id": "HE-4",
         "label": "Packet-loss concealment screen",
         "outcome_class": "historical_local_synthetic",
+        "component_ids": [
+            "autoregressive-plc",
+            "pitch-period-repeat-plc",
+            "zero-fill-plc",
+        ],
         "source_pin": "research/distortion_restoration_20261028.md",
         "values": {
             "ar_isolated_mean_si_sdr_db": 10.35,
@@ -378,6 +391,7 @@ HISTORICAL_EXECUTIONS: List[Dict[str, Any]] = [
         "id": "HE-5",
         "label": "RNNoise and click-gate context values",
         "outcome_class": "historical_local_adjacent_noise_suppression",
+        "component_ids": ["rnnoise-v0-2", "median-residual-click-gate"],
         "source_pin": "REALTIME_COMPONENT_CANDIDATES.md",
         "values": {
             "rnnoise_mean_delta_si_sdr_db": 3.14,
@@ -437,6 +451,20 @@ ACCEPTANCE_PROFILE: Dict[str, Any] = {
         "Explicit public default selection approval",
         "Exact approved reference parity at frozen revision and settings",
     ],
+}
+
+# Evidence classes are claims about what the reviewed records contain. A class
+# is true only when a mapped row backs it; absence is recorded as false instead
+# of being inherited from an adjacent survey.
+EVIDENCE_CLASSES: Dict[str, bool] = {
+    "paired_synthetic_historical_local": True,
+    "unpaired_predictive_historical_local": False,
+    "clean_preservation_diagnostic_historical_local": False,
+    "prepared_listening_without_ratings": True,
+    "human_listening_result": False,
+    "vendor_or_source_reported": True,
+    "new_execution_in_this_survey": False,
+    "parity_or_qualification_claim": False,
 }
 
 GAPS: List[Dict[str, Any]] = [
@@ -879,6 +907,33 @@ def _check_component_census(workspace: Path) -> None:
         raise MapError("mapped component missing from inventory: " + ",".join(missing))
 
 
+def _check_historical_execution_components() -> None:
+    known = {row["component_id"] for row in COMPONENT_CENSUS}
+    for row in HISTORICAL_EXECUTIONS:
+        ids = row.get("component_ids")
+        if not ids:
+            raise MapError("historical execution has no component link: " + row["id"])
+        missing = sorted(set(ids) - known)
+        if missing:
+            raise MapError(
+                "historical execution links an uncensused component: %s/%s"
+                % (row["id"], ",".join(missing))
+            )
+
+
+def _check_evidence_classes() -> None:
+    comparison = [row["class"] for row in COMPARISON_INPUTS]
+    labels = [row["label"].lower() for row in HISTORICAL_EXECUTIONS]
+    predictive = any("predictive" in c for c in comparison) or any("predictive" in l for l in labels)
+    preservation = any("preservation" in c for c in comparison) or any(
+        "preservation" in l for l in labels
+    )
+    if EVIDENCE_CLASSES["unpaired_predictive_historical_local"] != predictive:
+        raise MapError("unpaired-predictive evidence class does not match mapped records")
+    if EVIDENCE_CLASSES["clean_preservation_diagnostic_historical_local"] != preservation:
+        raise MapError("clean-preservation evidence class does not match mapped records")
+
+
 def _board_projection(board: Mapping[str, Any]) -> str:
     rows = [
         {"id": task["id"], "mode": task["mode"], "title": task["title"]}
@@ -933,6 +988,8 @@ def _build_report(workspace: Optional[str] = None, sdk_root: Optional[str] = Non
     _check_taxonomy(ws)
     _check_backlog(ws)
     _check_component_census(ws)
+    _check_historical_execution_components()
+    _check_evidence_classes()
     board_digest = _check_board(ws)
 
     board = strict_json_load(ws / BOARD_PATH)
@@ -982,16 +1039,7 @@ def _build_report(workspace: Optional[str] = None, sdk_root: Optional[str] = Non
         "assets": [dict(row) for row in ASSETS],
         "historical_executions": [dict(row) for row in HISTORICAL_EXECUTIONS],
         "reported_outcomes": [dict(row) for row in REPORTED_OUTCOMES],
-        "evidence_classes": {
-            "paired_synthetic_historical_local": True,
-            "unpaired_predictive_historical_local": True,
-            "clean_preservation_diagnostic_historical_local": True,
-            "prepared_listening_without_ratings": True,
-            "human_listening_result": False,
-            "vendor_or_source_reported": True,
-            "new_execution_in_this_survey": False,
-            "parity_or_qualification_claim": False,
-        },
+        "evidence_classes": dict(EVIDENCE_CLASSES),
         "acceptance_profile": dict(ACCEPTANCE_PROFILE),
         "gaps": [dict(gap) for gap in GAPS],
         "board_links": links,

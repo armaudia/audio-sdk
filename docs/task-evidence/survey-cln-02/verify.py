@@ -164,6 +164,21 @@ def _check_report() -> str:
     _check(report["boundary_pins"] == reference.WORKTREE_PINS, "report boundary pins")
     _check(report["evidence_classes"]["new_execution_in_this_survey"] is False, "new execution claim")
     _check(report["evidence_classes"]["parity_or_qualification_claim"] is False, "parity/qualification claim")
+    _check(
+        report["evidence_classes"]["unpaired_predictive_historical_local"] is False,
+        "evidence class without a mapped predictive record",
+    )
+    _check(
+        report["evidence_classes"]["clean_preservation_diagnostic_historical_local"] is False,
+        "evidence class without a mapped preservation record",
+    )
+    census = {row["component_id"] for row in report["component_census"]}
+    for row in report["historical_executions"]:
+        _check(row.get("component_ids"), "historical execution without component link: " + row["id"])
+        _check(
+            set(row["component_ids"]) <= census,
+            "historical execution links an uncensused component: " + row["id"],
+        )
 
     digest = reference.sha256_bytes(raw)
     digest_raw = (HERE / "report.json.sha256").read_bytes()
