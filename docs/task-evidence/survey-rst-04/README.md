@@ -33,7 +33,7 @@ candidate census and benchmark both `not_started`.
 | ML: codec-integrated neural loss recovery (`S30`) | `opus-deep-plc`, `opus-1-5-lace`, `opus-1-5-nolace` (considered); `opus-dred` is redundancy-assisted | Source-reported only; no compatible Opus 1.5 build, feature stream, packet trace or score |
 
 `report.json` holds the full records: both catalogued branches, both source
-leads, thirteen censused components, nine comparison inputs, ten controls, five
+leads, thirteen censused components, ten comparison inputs, ten controls, five
 assets, seven historical executions, six reported outcomes, nine gaps,
 sixteen linked board rows and all eight blocked release gates. Historical
 numbers are transcribed verbatim from pinned reports with their original
