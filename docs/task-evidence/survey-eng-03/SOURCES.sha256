@@ -1,0 +1,31 @@
+# SHA-256 pins for SDK-SURVEY-ENG-03.
+# source: paths are relative to SOURCE_ROOT; other paths are SDK-worktree relative.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+16b37d5bc3a2018a1f1754ca2436727791d815e55ffc64bf6a3f420729bb8bd3  source:audio-benchmark-platform/plan/swarm/TASKS.json
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+6fee1576bf3517cf8aa2a9f963988ea7aac41e16d32df506336a0ee408a4ebfc  .github/workflows/release.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+862a94c9add8ecd5e15f09a543ff17100dc5680da00f8a0635a884509cb51a33  docs/task-evidence/buffer-occupancy-controller/README.md
+8e1a355bd36e561e8f1b634a5f5ec351e15d1785be8b6f4713bef33ec97e0325  docs/task-evidence/duplex-clocks/README.md
+15ebaa6b2b7768faa5c1bd2fc45b900db7f71d49b7ad1292685263555953e742  docs/task-evidence/elastic-pcm-packets/README.md
+5102676797554c3e6bc83207a848d35b72783bead5eac13ad60c5a16bd940742  docs/task-evidence/linear-interpolation-plc/README.md
+9f91d406909fe2f9fa7cfd4b954639d081a12ab16005be761707b6f5c998f40c  docs/task-evidence/numpy-scipy-soundfile-wav-resampling/README.md
+ac4ed82328dbbfc1af8aefbd43f2efc5ce36bde9f004e6f40bbc46b23db962df  docs/task-evidence/opus-1-4-standard-decoder-plc/README.md
+7bcf299b29fee342daa7bae0f141e59d86680e16189e88c34a71d2c0e4fa2e75  docs/task-evidence/typed-frame-resample-and-drift-diagnostics/README.md
+a8d0f3e379ef86e1f976527698f6e055784ce4796d595ec9a6e7f0ec8de750ae  docs/task-evidence/survey-eng-03/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/survey-eng-03/SOURCES.sha256.license
+628bf2d913f2cd4e786f4e08f575a97e0eb5e26a2f04ec3651be76e8e6a907f6  docs/task-evidence/survey-eng-03/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/survey-eng-03/contract.json.license
+f19c436de5f8f3eb627b9de5c5fcdd5f79083083dfaee9f135d60f66a94a8a2d  docs/task-evidence/survey-eng-03/reference.py
+9de9f8f9921f0a0dcddcea811d2f68022d74584c407d7efbe1ff42ade7f13b8d  docs/task-evidence/survey-eng-03/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/survey-eng-03/report.json.license
+8edae6609f41c024141f096a44e4595ebd13ded8744be3212f8a1a9a7093f2a0  docs/task-evidence/survey-eng-03/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/survey-eng-03/report.json.sha256.license
+1a4d63072cd3d0e735e244ee96e207dc5ba9921ab78d48ae05f36c1d2932e166  docs/task-evidence/survey-eng-03/run.py
+f2c41d36efe66c808e68d3deb09713dab373d3cd8baa1030c741205f85df8b31  docs/task-evidence/survey-eng-03/test_reference.py
+fd6ffdbc332d6fdb3c7ea229692691758a912c049f9d2f509f8ee50ddd1f822d  docs/task-evidence/survey-eng-03/verify.py
