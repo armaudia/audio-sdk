@@ -1,0 +1,6 @@
+# Pinned Python environment for deterministic task-local evidence.
+# Reproduced with CPython 3.12.16 on Darwin arm64.
+# scipy is pinned as the transitive dependency imported by pystoi.
+numpy==2.5.4
+scipy==1.18.1
+pystoi==0.4.1
