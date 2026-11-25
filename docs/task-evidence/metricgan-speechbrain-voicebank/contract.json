@@ -1,0 +1,260 @@
+{
+  "SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier: Apache-2.0": "Apache-2.0",
+  "artifact_pins": {
+    "ASSET-PROVENANCE.md": "8760cf8c1c0b4884460ff2e7573e8332d9bb33df07eb20712bfe7b164e8cf000",
+    "README.md": "0ce5593cda4ed6412d755ecd013c4ef65f3e1c50c4f264a1abb4782b57990f22",
+    "SOURCES.sha256.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
+    "adapter.json": "50f24f5ff8b934c36f5080fb9cdf8056a2dd3c2520edea494ce88b02680266e6",
+    "adapter.json.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
+    "check_licensing.py": "5380823a4cfb80680c19b1a656344a166954c861d809d48ef71b264db1ea07ca",
+    "contract.json.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
+    "provider.json": "606bd440eacb786c78b7f17beca3201315f3e512209776af336e9bf38fc3fd4c",
+    "provider.json.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
+    "reference.py": "d46e120749a90c0e5220239b87f9dc62f693be977f724a3688b45977feb8c6e6",
+    "report.json": "8f04d6f06cea71f6497277131d3b4adcb7b5381c5fc25b4fa646fe91476935e2",
+    "report.json.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
+    "report.json.sha256": "7f9f95843bced3fb76a114cfe1f83e5315ae2cbe8444bceabdeb46398cb4ac19",
+    "report.json.sha256.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
+    "run.py": "e89a9e9d98478b2398a4cc895587bd867f89adb6d28ebba0f2d46f418d5005ca",
+    "scorer.py": "519daddc1c1526bb01fca09f2c79ae97a0feb670ccdad49dd88eba9e3d7d10fc",
+    "test_reference.py": "8fea748b98202c6e14c9b56fec5583ab6ff714ff8b79ead4a25909b2b09e2d6e",
+    "verify.py": "d596b6c5dd67de50fcd92a556f8bb51f1dbb62284143e19354ede54289439630"
+  },
+  "base_commit": "6f58f3d721908806f8c4a0a1e0dc6de846cef54c",
+  "boundary": {
+    "default_selected": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_geometry_preserved": true,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "registered": false,
+    "shared_build_or_ci_change": false
+  },
+  "boundary_pins": {
+    "worktree:CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "worktree:REUSE.toml": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+    "worktree:api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "worktree:api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "branch": "swarm/SDK-METRICGAN-SPEECHBRAIN-VOICEBANK",
+  "caller_asset_boundary": {
+    "asset_present": false,
+    "executed": false,
+    "fail_closed_codes": [
+      "asset_unavailable",
+      "asset_identity_undeclared",
+      "asset_digest_mismatch",
+      "asset_load_not_permitted_in_task"
+    ],
+    "loaded": false,
+    "model": "caller_supplied_asset_reference",
+    "surrogate_substituted": true
+  },
+  "candidate_identity": {
+    "artifact_specific_terms_reviewed": false,
+    "checkpoint_bytes": 7586021,
+    "checkpoint_name": "enhance_model.ckpt",
+    "checkpoint_sha256": "147bfb866bac8264603546e035bf283370e716ed2f4b7412d308d2bcee88304f",
+    "config_sha256": "18cb713936f15ae4acf84f0fab863e617bfd6faba362bcf5752d85aa1f16f833",
+    "hyperparams_sha256": "7bcc0835243c27f78907de0df27bc5f33d533a675787ab2eff34188404ea225a",
+    "model_card_license": "Apache-2.0",
+    "model_repo": "speechbrain/metricgan-plus-voicebank",
+    "model_repo_revision": "be514d321f66b5352c5a8d59c44700f57aa8c8f5",
+    "verification": "quoted_from_pinned_provenance_bytes_absent_not_verified",
+    "weights_accessed": false
+  },
+  "component": "metricgan-speechbrain-voicebank",
+  "contract_version": "0.1",
+  "corpus_identity": {
+    "attribution_manifest": false,
+    "dataset_license": "CC BY 4.0",
+    "downloaded": false,
+    "file_level_mapping": "unverified",
+    "mirror": "JacobLinCool/VoiceBank-DEMAND-16k",
+    "name": "VoiceBank+DEMAND",
+    "present": false,
+    "primary_deposit": "University of Edinburgh DataShare VoiceBank+DEMAND",
+    "primary_deposit_license": "CC BY 4.0",
+    "revision": "4497db342d7312978c45690591fda86117831940",
+    "source_speech": "CSTR VCTK (96 kHz deposit states ODC-By)",
+    "test_pairs": 824,
+    "test_seconds": 0.576
+  },
+  "decision": "DEFER",
+  "evidence_status": "incomplete",
+  "external_asset_pins": {
+    "bytes_present": false,
+    "checkpoint_bytes": 7586021,
+    "checkpoint_sha256": "147bfb866bac8264603546e035bf283370e716ed2f4b7412d308d2bcee88304f",
+    "config_sha256": "18cb713936f15ae4acf84f0fab863e617bfd6faba362bcf5752d85aa1f16f833",
+    "corpus_revision": "4497db342d7312978c45690591fda86117831940",
+    "hyperparams_sha256": "7bcc0835243c27f78907de0df27bc5f33d533a675787ab2eff34188404ea225a",
+    "model_repo_revision": "be514d321f66b5352c5a8d59c44700f57aa8c8f5",
+    "runtime_wheel_sha256": "9859d4c1b1fb3af3b85523c0c89f52e45a04f305622ed55f31aa32dd2fba19e9",
+    "verified_locally": false
+  },
+  "format": {
+    "channels": 1,
+    "frame_samples": 160,
+    "sample_format": "f32",
+    "sample_rate_hz": 16000,
+    "samples_per_call": 160
+  },
+  "profile": "enhancement",
+  "public_surface": {
+    "api_abi_changed": false,
+    "changed": false,
+    "default_changed": false,
+    "descriptor_registry_changed": false,
+    "installed_v0_changed": false,
+    "processor_exposure": false,
+    "registry_changed": false,
+    "shared_build_or_ci_changed": false,
+    "shared_cmakelists_changed": false
+  },
+  "qualification": {
+    "corpus_used": false,
+    "decision": "DEFER",
+    "listening_result_used": false,
+    "missing_result_promoted": false,
+    "processor_exposure": false,
+    "qualifies": false,
+    "real_runtime_used": false,
+    "release_claim": false,
+    "status": "incomplete",
+    "weights_loaded": false
+  },
+  "release_gates": [
+    {
+      "blocked_by": "Exact checkpoint/hyperparams/config bytes are absent; artifact-specific approval and digest verification are missing.",
+      "name": "checkpoint_config_rights",
+      "reopen_condition": "Approved exact bytes in storage with verified SHA-256.",
+      "status": "blocked"
+    },
+    {
+      "blocked_by": "No pinned SpeechBrain runtime is installed in this worktree.",
+      "name": "pinned_runtime",
+      "reopen_condition": "Approved isolated install of the pinned runtime.",
+      "status": "blocked"
+    },
+    {
+      "blocked_by": "No file-level-cleared VoiceBank+DEMAND test split is present.",
+      "name": "rights_cleared_corpus",
+      "reopen_condition": "Provenance-mapped, attributed and cleared corpus.",
+      "status": "blocked"
+    },
+    {
+      "blocked_by": "No real matched cohort with identity, noisy and comparator controls was run.",
+      "name": "matched_cohort_controls",
+      "reopen_condition": "Run the frozen paired protocol on cleared data.",
+      "status": "blocked"
+    },
+    {
+      "blocked_by": "The recorded local screen is negative; no qualifying margin exists.",
+      "name": "quality_margin",
+      "reopen_condition": "New evidence clears the enhancement margin gates.",
+      "status": "blocked"
+    },
+    {
+      "blocked_by": "Clean preservation is measured on synthetic signals only.",
+      "name": "clean_preservation",
+      "reopen_condition": "Clean-speech preservation on permitted real speech.",
+      "status": "blocked"
+    },
+    {
+      "blocked_by": "No independent listening protocol or result was produced.",
+      "name": "independent_listening",
+      "reopen_condition": "Authorized independent listening result.",
+      "status": "blocked"
+    },
+    {
+      "blocked_by": "Content delay, state, memory and availability were not measured on the exact runtime.",
+      "name": "alignment_state_timing",
+      "reopen_condition": "Measured alignment and timing on the declared target.",
+      "status": "blocked"
+    },
+    {
+      "blocked_by": "No provider intake, descriptor or catalog review was completed.",
+      "name": "provider_intake",
+      "reopen_condition": "Provider intake with independent review.",
+      "status": "blocked"
+    },
+    {
+      "blocked_by": "No explicit default selection was authorized.",
+      "name": "public_default_selection",
+      "reopen_condition": "Explicit written default authorization.",
+      "status": "blocked"
+    },
+    {
+      "blocked_by": "No exact approved reference parity was established.",
+      "name": "exact_reference_parity",
+      "reopen_condition": "Independent parity run against the approved reference.",
+      "status": "blocked"
+    }
+  ],
+  "reproduction": {
+    "comparison": "exact SHA-256 over canonical JSON; three cold-start repeats; no tolerance",
+    "interpreter": "CPython 3.12.16 with PYTHONDONTWRITEBYTECODE=1",
+    "licensing": "PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 check_licensing.py",
+    "report": "PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 run.py --all",
+    "tests": "PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 -m unittest -v test_reference.py",
+    "verify": "PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 verify.py"
+  },
+  "reviewer": "reviewer-METRICGAN-SPEECHBRAIN-VOICEBANK",
+  "runtime_identity": {
+    "installed_in_this_worktree": false,
+    "overlay": "HyperPyYAML 1.2.3, sentencepiece 0.2.2, PyYAML 6.0.3, ruamel.yaml 0.18.17, ruamel.yaml.clib 0.2.15",
+    "speechbrain_version": "1.0.3",
+    "toolkit": "SpeechBrain",
+    "wheel_downloaded": false,
+    "wheel_sha256": "9859d4c1b1fb3af3b85523c0c89f52e45a04f305622ed55f31aa32dd2fba19e9"
+  },
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "scope": {
+    "benchmark": false,
+    "corpus_downloaded": false,
+    "device_timing": false,
+    "listening": false,
+    "model_downloaded": false,
+    "real_media": false,
+    "real_metrics": false,
+    "real_runtime": false,
+    "real_speech": false,
+    "release_claim": false,
+    "runtime_installed": false,
+    "synthetic_only": true,
+    "task_local_only": true,
+    "weights_accessed": false
+  },
+  "source_pins": {
+    "source:REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "source:audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "source:research/cpp-library-voicebank-demand-20261109.md": "7f512f27530cab4262b9901f733ac1c6a396d062fa7f0d8c3bb04423a8c3ecf5",
+    "source:research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+    "source:research/voice-enhancement-20261101/agent-denoise-trials/REPORT.md": "c00e26847c119928f068cb5da00ba88106a2d977b67bf8b325ec27093eca8f4e",
+    "source:research/voice-enhancement-20261101/agent-hush-fixture-audit/REPORT.md": "6357157cfb1d2d9e107a4eb04b4b3be2fa7bd8325da82f16b5205eab0a800b7c",
+    "source:research/voice-enhancement-20261101/agent-metricgan-eval/REPORT.md": "cae46203911914adafb007f6148ca9c1bdc5c1d9eb2875a0fb6205aca7303783",
+    "source:research/voice-enhancement-20261101/agent-metricgan-eval/adapter.json": "18c53358377bc5882fb5a175ae7084aa64b36accb5825f2c126612c3cbb37d67",
+    "source:research/voice-enhancement-20261101/agent-metricgan-eval/requirements.lock": "22b5283ab4f920dc16017d545552a46d2706cbade14e1cfa1209f28c255ddc20",
+    "source:research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245"
+  },
+  "status": "proposal_only_synthetic_incomplete",
+  "surrogate_model": {
+    "emulated_properties": [
+      "whole_utterance_single_pass",
+      "unit_peak_output_normalization"
+    ],
+    "gain_floor": 0.2,
+    "is_candidate_model": false,
+    "is_quality_or_parity_result": false,
+    "kind": "deterministic_synthetic_surrogate",
+    "mask_frame": 256,
+    "mask_hop": 128,
+    "noise_fraction": 0.6,
+    "smoothing_bins": 9
+  },
+  "task": "SDK-METRICGAN-SPEECHBRAIN-VOICEBANK"
+}
