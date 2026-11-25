@@ -161,14 +161,13 @@ def validate_config(value: Any = None) -> RateConfig:
 
 
 def validate_rate(rate: Any, config: RateConfig = DEFAULT_CONFIG) -> float:
-    if isinstance(rate, bool) or not isinstance(rate, (int, float)):
+    if type(rate) not in (int, float):
         raise ConfigError("rate_wrong_type")
-    value = float(rate)
-    if not math.isfinite(value):
+    if isinstance(rate, float) and not math.isfinite(rate):
         raise ConfigError("rate_nonfinite")
-    if not config.min_rate <= value <= config.max_rate:
+    if not config.min_rate <= rate <= config.max_rate:
         raise ConfigError("rate_out_of_range")
-    return value
+    return float(rate)
 
 
 def seed_stream(seed: int):
@@ -376,6 +375,7 @@ def profile_stretch(samples: Sequence[float], anchors: Sequence[Tuple[int, float
     consumed: List[int] = []
     produced_counts: List[int] = []
     boundaries: List[int] = []
+    output_boundaries: List[int] = []
     anchor_index = 0
     for start in range(0, len(source), block):
         end = min(len(source), start + block)
@@ -383,6 +383,7 @@ def profile_stretch(samples: Sequence[float], anchors: Sequence[Tuple[int, float
                and prepared[anchor_index + 1][0] <= start):
             anchor_index += 1
             boundaries.append(start)
+            output_boundaries.append(produced)
         target_rate = prepared[anchor_index][1]
         if smooth:
             if target_rate > current:
@@ -426,6 +427,7 @@ def profile_stretch(samples: Sequence[float], anchors: Sequence[Tuple[int, float
         "blocks": blocks,
         "block_rates": [row["rate"] for row in blocks],
         "boundaries": boundaries,
+        "output_boundaries": output_boundaries,
         "buffer": scorer.buffer_occupancy(
             consumed, produced_counts, prefill_samples=2 * FRAME_SAMPLES),
         "source_digest": scorer.tensor_digest(source),
@@ -435,6 +437,47 @@ def profile_stretch(samples: Sequence[float], anchors: Sequence[Tuple[int, float
         "anchors": [(position, value) for position, value in prepared],
         "smooth": bool(smooth),
         "slew_step_per_block": float(step),
+    }
+
+
+def rebuffer_trace(output_samples: int) -> Dict[str, Any]:
+    """Gate synthetic 160-sample playout through a four-tick arrival gap."""
+    frame = FRAME_SAMPLES
+    prefill = min(2 * frame, output_samples)
+    queued = prefill
+    unplayed = output_samples
+    arrivals = [0] * 4 + [min(frame, output_samples - start)
+                          for start in range(prefill, output_samples, frame)]
+    ticks = []
+    stalled = False
+    # At most two queued frames remain once arrivals end.
+    for arrived in arrivals + [0, 0]:
+        if not unplayed:
+            break
+        queued += arrived
+        request = min(frame, unplayed)
+        played = 0
+        if stalled and queued < min(prefill, unplayed):
+            event = "refill" if arrived else "waiting"
+        elif queued < request:
+            event = "waiting" if stalled else "stall"
+            stalled = True
+        else:
+            event = "resume" if stalled else "play"
+            stalled = False
+            played = request
+        queued -= played
+        unplayed -= played
+        ticks.append({"arrived_samples": arrived, "played_samples": played,
+                      "queued_samples": queued, "event": event})
+    return {
+        "proxy": "synthetic_fifo_sample_counts_not_device_playout",
+        "prefill_samples": prefill,
+        "refill_threshold_samples": prefill,
+        "ticks": ticks,
+        "played_samples": output_samples - unplayed,
+        "stall_refill_resume_observed": {"stall", "refill", "resume"} <= {
+            tick["event"] for tick in ticks},
     }
 
 
@@ -694,6 +737,7 @@ def build_report() -> Dict[str, Any]:
     smoothed = profile_stretch(speech, DYNAMIC_ANCHORS, smooth=True, step=0.005)
     drift = profile_stretch(drift_signal(), DRIFT_ANCHORS)
     rebuffer = profile_stretch(rebuffer_signal(), REBUFFER_ANCHORS)
+    recovery = rebuffer_trace(len(rebuffer["samples"]))
     partial = stretch(partial_signal(), 1.25)
 
     identity = stretch(tonal_signal, 1.0)
@@ -703,14 +747,18 @@ def build_report() -> Dict[str, Any]:
     for rate in RATES:
         result = stretch(transient, rate)
         transient_cases[str(rate)] = scorer.transient_proxy(
-            transient, result["samples"], rate, TRANSIENT_POSITIONS)
+            transient, result["samples"], rate, TRANSIENT_POSITIONS,
+            result["mapping"])
     speech_envelope = scorer.envelope_proxy(
         speech, policy["samples"], policy["mapping"],
         [(start, end) for start, end, label in SPEECH_SPANS if label == "voiced"])
 
-    rate_boundaries = [int(round(position / 1.0)) for position, _ in DYNAMIC_ANCHORS[1:]]
-    unsmoothed_jump = scorer.boundary_jump_ratio(dynamic["samples"], rate_boundaries)
-    smoothed_jump = scorer.boundary_jump_ratio(smoothed["samples"], rate_boundaries)
+    unsmoothed_jump = scorer.boundary_jump_ratio(dynamic["samples"], dynamic["output_boundaries"])
+    smoothed_jump = scorer.boundary_jump_ratio(smoothed["samples"], smoothed["output_boundaries"])
+    boundary_maxima = {
+        label: max((row["ratio_to_clip_p99"] or 0.0 for row in jump["boundaries"]), default=0.0)
+        for label, jump in (("abrupt", unsmoothed_jump), ("smoothed", smoothed_jump))
+    }
     crosschecks = [crosscheck_stretch(tonal_signal, rate) for rate in RATES]
 
     fixtures = {
@@ -727,13 +775,12 @@ def build_report() -> Dict[str, Any]:
                     pitch_metrics(tonal_signal, adverse["samples"])["ratio"],
                     "Varispeed intentionally changes pitch; excluded from the "
                     "pitch-preservation candidate result."),
-        _regression("unsmoothed_rate_step_boundary", "dynamic_unsmoothed",
+        _regression("rate_step_boundary_comparison", "dynamic_abrupt_and_smoothed",
                     "max_ratio_to_clip_p99",
-                    max((row["ratio_to_clip_p99"]
-                         for row in unsmoothed_jump["boundaries"]
-                         if row["ratio_to_clip_p99"] is not None), default=0.0),
-                    "Abrupt source-anchored rate steps produce a larger waveform "
-                    "boundary proxy than the smoothed control; neither is a listening score."),
+                    boundary_maxima,
+                    "Each render is scored at its own output_start boundaries; "
+                    "the recorded maxima are observations, not a preferred "
+                    "rate-step policy or a listening score."),
         _regression("music_like_transient_retention", "music_like_at_1_25",
                     "music_negative_control_digest",
                     rate_cases["music_like@1.25"]["output_digest"],
@@ -749,7 +796,8 @@ def build_report() -> Dict[str, Any]:
             case["events"] for case in transient_cases.values()),
         "playback_buffering": len(dynamic["buffer"]["occupancy_samples"]) > 0,
         "silence": rate_cases["silence@1.5"]["peak_abs"] == 0.0,
-        "rebuffer": rebuffer["final_output_samples"] == rebuffer["expected_output_samples"],
+        "rebuffer": recovery["stall_refill_resume_observed"] and (
+            recovery["played_samples"] == rebuffer["expected_output_samples"]),
         "drift": drift["final_output_samples"] == drift["expected_output_samples"],
         "final_partial_window": partial["target_samples"] == len(partial["samples"]),
         "speech_preservation_proxy": bool(speech_envelope["spans"]),
@@ -813,7 +861,7 @@ def build_report() -> Dict[str, Any]:
             "measured": [
                 "source_output_map", "duration", "pitch_proxy", "transient_proxy",
                 "caller_clock_occupancy", "envelope_proxy", "nonfinite_count",
-                "peak_abs", "crosscheck_digest",
+                "peak_abs", "crosscheck_digest", "synthetic_fifo_stall_refill_resume",
             ],
         },
         "reference": {
@@ -857,6 +905,14 @@ def build_report() -> Dict[str, Any]:
                                == dynamic["expected_output_samples"]),
             "output_digest": dynamic["output_digest"],
             "buffer": dynamic["buffer"],
+            "rate_step_source_to_output": [
+                {"source_sample": position, "output_sample": output}
+                for (position, _rate), output in zip(
+                    DYNAMIC_ANCHORS[1:], dynamic["output_boundaries"])],
+            "smoothed_rate_step_source_to_output": [
+                {"source_sample": position, "output_sample": output}
+                for (position, _rate), output in zip(
+                    DYNAMIC_ANCHORS[1:], smoothed["output_boundaries"])],
             "boundary_jump_unsmoothed": unsmoothed_jump,
             "boundary_jump_smoothed_control": smoothed_jump,
             "smoothed_duration_exact": (len(smoothed["samples"])
@@ -882,7 +938,7 @@ def build_report() -> Dict[str, Any]:
                 "duration_exact": (len(rebuffer["samples"])
                                    == rebuffer["expected_output_samples"]),
                 "output_digest": rebuffer["output_digest"],
-                "buffer": rebuffer["buffer"],
+                "synthetic_fifo": recovery,
             },
         },
         "pitch": {
@@ -917,6 +973,16 @@ def build_report() -> Dict[str, Any]:
                 "status": "rejected_closed",
                 "cases": ["rate_zero", "rate_nonfinite", "rate_too_high",
                           "wrong_sample_rate", "wrong_frame_samples", "unknown_keys"],
+            },
+            "invalid_json_numeric_fields": {
+                "status": "rejected_closed",
+                "cases": ["protocol_version_bool_string_float_or_wrong_int",
+                          "rate_bool_string_none_or_out_of_range",
+                          "samples_bool_string_none_or_out_of_range",
+                          "revision_bool_string_float_or_nonpositive",
+                          "provider_switch_non_bool", "attempt_id_non_string"],
+                "claim": ("JSON booleans, strings and other non-numeric values "
+                          "are rejected before any result file is written."),
             },
             "nonfinite_input": {
                 "status": "rejected_closed",

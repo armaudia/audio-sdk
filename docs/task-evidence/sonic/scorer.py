@@ -11,6 +11,7 @@ synthetic proxy into a perceptual or release claim.
 
 from __future__ import annotations
 
+from bisect import bisect_left
 import hashlib
 import math
 import struct
@@ -48,13 +49,16 @@ def r6(value: float) -> float:
 
 
 def validate_vector(values: Iterable[float], name: str = "samples") -> Tuple[float, ...]:
-    result = tuple(float(value) for value in values)
-    for value in result:
-        if not math.isfinite(value):
+    result = []
+    for value in values:
+        if type(value) not in (int, float):
+            raise ScorerError("invalid_" + name + "_type")
+        if isinstance(value, float) and not math.isfinite(value):
             raise ScorerError("nonfinite_" + name)
         if abs(value) > MAX_ABS_INPUT:
             raise ScorerError("out_of_range_" + name)
-    return result
+        result.append(float(value))
+    return tuple(result)
 
 
 def finite_count(values: Iterable[float]) -> int:
@@ -197,8 +201,19 @@ def adjacent_delta(values: Sequence[float]) -> Tuple[float, ...]:
 
 
 def transient_proxy(source: Sequence[float], output: Sequence[float], rate: float,
-                    positions: Sequence[int], source_radius: int = 24,
+                    positions: Sequence[int], mapping: Sequence[int],
+                    source_radius: int = 24,
                     output_radius: int = 48) -> Dict[str, Any]:
+    """Score peaks at the renderer's mapped output position for each transient.
+
+    ``position / rate`` is only a caller-clock estimate. The renderer's
+    output-to-source map is the authoritative source-to-output index mapping;
+    using the estimate here silently scores the wrong output region after
+    pitch-synchronous grain repetition or dropping.
+    """
+    mapping = tuple(int(value) for value in mapping)
+    if any(left > right for left, right in zip(mapping, mapping[1:])):
+        raise ScorerError("nonmonotonic_mapping")
     source_delta = adjacent_delta(source)
     output_delta = adjacent_delta(output)
     events: List[Dict[str, Any]] = []
@@ -208,7 +223,9 @@ def transient_proxy(source: Sequence[float], output: Sequence[float], rate: floa
         source_slice = source_delta[source_left:source_right]
         source_peak = max(source_slice, default=0.0)
         source_at = source_left + source_slice.index(source_peak) + 1 if source_slice else position
-        expected = int(round(position / rate))
+        # First output sample whose recorded source index reaches the transient.
+        expected = min(bisect_left(mapping, position), max(len(output_delta) - 1, 0))
+        mapped_source = mapping[expected] if mapping else None
         output_left = max(0, expected - output_radius)
         output_right = min(len(output_delta), expected + output_radius + 1)
         output_slice = output_delta[output_left:output_right]
@@ -218,6 +235,8 @@ def transient_proxy(source: Sequence[float], output: Sequence[float], rate: floa
             "source_sample": int(position),
             "source_peak_sample": int(source_at),
             "expected_output_sample": int(expected),
+            "mapped_source_sample": mapped_source,
+            "caller_clock_estimate": int(round(position / rate)),
             "observed_output_sample": int(output_at),
             "timing_error_samples": int(output_at - expected),
             "peak_retention": r6(output_peak / source_peak) if source_peak > 0.0 else None,
@@ -231,7 +250,7 @@ def transient_proxy(source: Sequence[float], output: Sequence[float], rate: floa
         "median_peak_retention": median,
         "max_abs_timing_error_samples": max(
             (abs(int(event["timing_error_samples"])) for event in events), default=0),
-        "proxy": "adjacent_delta_peak_not_audibility",
+        "proxy": "adjacent_delta_peak_at_mapped_output_not_audibility",
     }
 
 

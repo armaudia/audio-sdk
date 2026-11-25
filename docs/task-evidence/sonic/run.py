@@ -15,7 +15,7 @@ import hashlib
 import json
 from pathlib import Path
 import sys
-from typing import Any, Dict, List, Mapping, Optional, Sequence
+from typing import Any, Dict, List, Mapping
 
 import fixture
 import reference
@@ -85,7 +85,8 @@ def validate_request(request: Any, operation: str) -> Dict[str, Any]:
     required = COMMON_FIELDS if operation == "inspect" else RUN_FIELDS
     if set(request) != required:
         raise RequestError("invalid_request_fields")
-    if request["protocol_version"] != PROTOCOL_VERSION or request["operation"] != operation:
+    version = request["protocol_version"]
+    if type(version) is not int or version != PROTOCOL_VERSION or request["operation"] != operation:
         raise RequestError("invalid_protocol_or_operation")
     _validate_ref(request["candidate_ref"], "candidate_ref")
     _validate_ref(request["adapter_ref"], "adapter_ref")
@@ -128,6 +129,7 @@ def inspect(request: Mapping[str, Any]) -> Dict[str, Any]:
 
 def run(request: Mapping[str, Any]) -> Dict[str, Any]:
     config = validate_request(request, "run")
+    rate = reference.validate_rate(request["rate"])
     if config["stimulus_id"] is None and request["samples"] is None:
         raise RequestError("missing_stimulus")
     if request["samples"] is not None:
@@ -144,9 +146,7 @@ def run(request: Mapping[str, Any]) -> Dict[str, Any]:
         output = samples
         status = "complete"
         applied = "identity_provider_off"
-        rate: Optional[float] = None
     else:
-        rate = reference.validate_rate(request["rate"])
         try:
             result = reference.stretch(samples, rate)
         except (scorer.ScorerError, reference.ConfigError) as error:
@@ -171,7 +171,7 @@ def run(request: Mapping[str, Any]) -> Dict[str, Any]:
         "nonfinite_count": scorer.nonfinite_count(output),
         "peak_abs": scorer.r6(scorer.peak_abs(output)),
     }
-    if rate is not None:
+    if config["provider_enabled"]:
         metrics["duration"] = scorer.duration_metrics(len(samples), len(output), rate)
     return {
         "protocol_version": PROTOCOL_VERSION,

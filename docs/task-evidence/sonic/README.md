@@ -41,7 +41,7 @@ status `proposal_only_not_qualified`; readiness `incomplete`; qualification
 | `run.py` | Adapter prototype, report/sidecar generator, source-pin generator and renderer crosscheck. |
 | `verify.py` | Strict read-only verifier for pins, JSON, semantics, byte reproduction, licensing and git scope. |
 | `check_licensing.py` | Local SPDX/REUSE checks with split identifier literals. |
-| `test_reference.py` | 47 deterministic standard-library unit tests. |
+| `test_reference.py` | 49 deterministic standard-library unit tests. |
 | `report.json` | Canonical synthetic evidence report. |
 | `report.json.sha256` | SHA-256 of the canonical report bytes. |
 
@@ -81,10 +81,14 @@ each item to a **synthetic proxy**:
   proxy. A varispeed adverse control intentionally shifts pitch and is
   excluded. These are frequency proxies, not perceived pitch.
 - **Transient audibility** — adjacent-delta peak retention and timing error on
-  a synthetic impulse train. This is a waveform proxy, not a listening score.
+  a synthetic impulse train, centred from the renderer's recorded
+  output-to-source map rather than `position / rate`. This is a waveform proxy,
+  not a listening score.
 - **Playback buffering** — a caller-owned FIFO model with a 320-sample prefill
   records 160-sample-block occupancy for dynamic, drift and rebuffer profiles.
-  No device fill/flush, deadline or availability claim is made.
+  A deterministic synthetic FIFO trace also exercises a four-tick arrival gap,
+  stall, refill and resume; it is not device playout. No device fill/flush,
+  deadline or availability claim is made.
 - **Unfamiliar speech / speech preservation** — speech-like means seeded-noise
   plus analytic harmonics with explicit voiced/pause/filler spans, not real
   speech. Source-anchored RMS ratios are preservation proxies, not WER, MOS
@@ -100,7 +104,7 @@ each item to a **synthetic proxy**:
 
 ## Results summary
 
-- Python acceptance suite: **47/47** passed.
+- Python acceptance suite: **49/49** passed.
 - SDK baseline CTest: **11/11** passed after build and install.
 - No opt-in consumer CTest applies: no C boundary is included in this package.
 - `run.py --report`, `run.py --sources` and `run.py --crosscheck` are
@@ -110,11 +114,19 @@ each item to a **synthetic proxy**:
 - 220 Hz identity ratio is `1.0`; fixed-rate OLA proxies stay within 5% of
   source frequency; the varispeed adverse control shifts to roughly `1.25×`
   and is excluded.
+- Transient timing uses the recorded source/output map; the caller-clock
+  estimate is retained only for comparison, not as a listening result.
 - Source-anchored pause policy maps 12,800 input samples to 12,800 output
   samples with seven observed source boundaries and no underrun in the caller
   FIFO model.
+- Rate-step boundary proxies use each render's recorded output positions:
+  abrupt `4800/7360/10560` with maximum `5.312563`; smoothed control
+  `4800/7843/10900` with maximum `6.061116`. At the correct output boundaries
+  the smoothed control is higher, reversing the earlier source-indexed
+  conclusion. Neither is preferred or scored as audibility.
 - Drift and rebuffer profiles each map 9,600 input samples to 9,600 output
-  samples with exact target lengths.
+  samples with exact target lengths. The synthetic rebuffer FIFO traces
+  stall, refill and resume through a four-tick gap and drains exactly.
 - Independent OLA renderer crosscheck is byte-identical at all four rates.
 
 Full values, digests, adverse observations and gate reasons are in
@@ -127,11 +139,15 @@ imported as results.
   wrong sample rate/frame size, unknown keys) is rejected before any engine is
   created.
 - Nonfinite and out-of-range input samples are rejected with no output metrics.
+- Boolean, string, float and wrong-integer `protocol_version` values and
+  Boolean, string, null, nonfinite or out-of-range sample values are rejected
+  at the CLI boundary before any result file is written.
 - Missing or unknown stimulus is blocked with `metrics: null`; no default
   success is synthesized.
 - Varispeed is an adverse control because it changes pitch by design.
-- Unsmoothed rate steps have a larger waveform boundary proxy than the
-  smoothed control; this is recorded as an adverse observation, not a pass.
+- Rate-step boundary proxies are scored at each render's own recorded
+  `output_start` positions; their maxima are reported without a preferred
+  outcome and are not listening scores.
 - Music-like transient retention and every adverse case are marked
   `excluded_from_qualification`.
 
@@ -157,10 +173,11 @@ The adapter can also be exercised without writing evidence:
 python3 run.py --request request.json --result result.json
 ```
 
-A request carries `protocol_version`, `operation` (`inspect` or `run`),
-`candidate_ref`, `adapter_ref`, `configuration`, and for `run` also
-`attempt_id`, `rate` and `samples`. Results are canonical JSON with a trailing
-newline and a synthetic-only disclosure.
+A request carries integer `protocol_version` `1`, `operation` (`inspect` or
+`run`), `candidate_ref`, `adapter_ref`, `configuration`, and for `run` also
+`attempt_id`, `rate` and numeric `samples`. Boolean or string protocol versions
+and non-numeric sample values fail closed before a result is written. Results
+are canonical JSON with a trailing newline and a synthetic-only disclosure.
 
 SDK build/install and baseline test, from the worktree root with build output
 outside the task directory:
@@ -208,9 +225,9 @@ All remain **blocked**; none is satisfied by this package:
 
 ## Final digests
 
-- `report.json` SHA-256: `b4fea82b9bf596075e7a8ea3844651d6f982ea217f8c40498f16918a1d4ac1ec`
-- `report.json.sha256` content: `b4fea82b9bf596075e7a8ea3844651d6f982ea217f8c40498f16918a1d4ac1ec`
+- `report.json` SHA-256: `2bd9ad4099b20593e0e0e63c114f53a40270517839da43adf4b582c629a0ade2`
+- `report.json.sha256` content: `2bd9ad4099b20593e0e0e63c114f53a40270517839da43adf4b582c629a0ade2`
 - Frozen synthetic fixture digest: `258a0d78c59c17d6f1ae786339890a17d281dbfb21d541cc94120c6f75b702c1`
-- Canonical report digest: `88cc4fd795983a5b342eb6f6597d460d1e1b53daa0b0f466a54199984c86b780`
+- Canonical report digest: `aa5cd90ed16ead85df36c0dbc1c72c727ebfe495adb7a6495bfee3f5d591fe23`
 - Base commit: `add40f5cab979995b6114deb2a05302e547c148c`
 - Rebase base commit: `2bc2a13aa4c5b398933fd9097d09746ce151216e`

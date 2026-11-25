@@ -208,8 +208,32 @@ def check_semantics(errors: List[str]) -> None:
     if report.get("policy", {}).get("anchors_source_sample_rate") != [
             [position, value] for position, value in reference.SPEECH_POLICY_ANCHORS]:
         errors.append("policy anchors are not source-timestamp anchored")
-    if report.get("dynamic_profile", {}).get("buffer", {}).get("underrun_blocks") != 0:
+    dynamic_profile = report.get("dynamic_profile", {})
+    if dynamic_profile.get("buffer", {}).get("underrun_blocks") != 0:
         errors.append("caller-clock buffer reported an underrun")
+    for key, jump_key in (
+            ("rate_step_source_to_output", "boundary_jump_unsmoothed"),
+            ("smoothed_rate_step_source_to_output", "boundary_jump_smoothed_control")):
+        mapping_rows = dynamic_profile.get(key, [])
+        jump_rows = dynamic_profile.get(jump_key, {}).get("boundaries", [])
+        if [row.get("source_sample") for row in mapping_rows] != [
+                position for position, _rate in reference.DYNAMIC_ANCHORS[1:]]:
+            errors.append("rate-step source anchors are not source-indexed: " + key)
+        if [row.get("output_sample") for row in mapping_rows] != [
+                row.get("output_boundary_sample") for row in jump_rows]:
+            errors.append("rate-step score is not at the mapped output boundary: " + key)
+    recovery = report.get("drift_and_rebuffer", {}).get("rebuffer", {}).get(
+        "synthetic_fifo", {})
+    if not recovery.get("stall_refill_resume_observed") \
+            or recovery.get("played_samples") != report.get(
+                "drift_and_rebuffer", {}).get("rebuffer", {}).get(
+                    "expected_output_samples"):
+        errors.append("synthetic rebuffer interruption was not exercised and drained")
+    for case in report.get("transient_proxies", {}).values():
+        if any(event.get("expected_output_sample") is None
+               or event.get("caller_clock_estimate") is None
+               for event in case.get("events", [])):
+            errors.append("transient score is missing its source-to-output index")
     if not report.get("crosscheck", {}).get("byte_identical"):
         errors.append("renderer crosscheck failed")
     if not report.get("final_partial_window", {}).get("output_samples"):

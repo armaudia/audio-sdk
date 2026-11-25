@@ -7,6 +7,9 @@ from __future__ import annotations
 import json
 import math
 from pathlib import Path
+import subprocess
+import sys
+import tempfile
 import unittest
 
 import fixture
@@ -123,9 +126,9 @@ class ConfigAndFixtureTests(unittest.TestCase):
         with self.assertRaises(reference.ConfigError):
             reference.validate_config({"sample_rate_hz": 16000})
 
-    def test_15_validate_rate_range(self):
+    def test_15_validate_rate_range_and_types(self):
         self.assertEqual(reference.validate_rate(1.25), 1.25)
-        for value in (0.0, 2.01, math.nan):
+        for value in (0.0, 2.01, math.nan, True, False, "1.25", None, [1.25]):
             with self.assertRaises(reference.ConfigError):
                 reference.validate_rate(value)
 
@@ -256,31 +259,77 @@ class ProfileAndAdverseTests(unittest.TestCase):
         self.assertEqual(result["final_output_samples"], 9600)
         self.assertEqual(result["final_output_samples"], result["expected_output_samples"])
 
-    def test_36_rebuffer_duration_exact(self):
-        result = reference.profile_stretch(reference.rebuffer_signal(),
-                                           reference.REBUFFER_ANCHORS)
-        self.assertEqual(result["final_output_samples"], 9600)
-        self.assertEqual(result["final_output_samples"], result["expected_output_samples"])
+    def test_36_rebuffer_stalls_refills_resumes_and_drains(self):
+        report = run.strict_load(HERE / "report.json")
+        result = report["drift_and_rebuffer"]["rebuffer"]
+        self.assertEqual(result["output_samples"], 9600)
+        self.assertTrue(result["duration_exact"])
+        fifo = result["synthetic_fifo"]
+        self.assertTrue(fifo["stall_refill_resume_observed"])
+        self.assertEqual(fifo["refill_threshold_samples"], 320)
+        ticks = fifo["ticks"]
+        events = [row["event"] for row in ticks]
+        self.assertEqual(events[:6],
+                         ["play", "play", "stall", "waiting", "refill", "resume"])
+        self.assertLess(events.index("stall"), events.index("refill"))
+        self.assertLess(events.index("refill"), events.index("resume"))
+        self.assertEqual([row["arrived_samples"] for row in ticks[:6]],
+                         [0, 0, 0, 0, 160, 160])
+        self.assertEqual([row["played_samples"] for row in ticks[:6]],
+                         [160, 160, 0, 0, 0, 160])
+        queued = fifo["prefill_samples"]
+        for row in ticks:
+            queued += row["arrived_samples"] - row["played_samples"]
+            self.assertGreaterEqual(queued, 0)
+            self.assertEqual(row["queued_samples"], queued)
+        self.assertEqual(queued, 0)
+        self.assertEqual(sum(row["played_samples"] for row in ticks), result["output_samples"])
+        self.assertEqual(fifo["played_samples"], result["output_samples"])
 
-    def test_37_transient_proxy_measured(self):
+    def test_37_transient_proxy_uses_renderer_source_to_output_map(self):
         signal = reference.transient_train()
         result = reference.stretch(signal, 1.25)
+        mapping = result["mapping"]
         metrics = scorer.transient_proxy(signal, result["samples"], 1.25,
-                                         reference.TRANSIENT_POSITIONS)
+                                         reference.TRANSIENT_POSITIONS, mapping)
         self.assertEqual(len(metrics["events"]), 4)
         self.assertIsNotNone(metrics["median_peak_retention"])
+        for event in metrics["events"]:
+            source = event["source_sample"]
+            expected = event["expected_output_sample"]
+            self.assertTrue(mapping[expected - 1] < source)
+            self.assertGreaterEqual(mapping[expected], source)
+            self.assertEqual(event["mapped_source_sample"], mapping[expected])
+            self.assertLessEqual(abs(event["timing_error_samples"]), 48)
+        self.assertTrue(any(event["expected_output_sample"]
+                            != event["caller_clock_estimate"]
+                            for event in metrics["events"]))
+        report = run.strict_load(HERE / "report.json")
+        self.assertEqual(report["transient_proxies"]["1.25"], metrics)
 
-    def test_38_unsmoothed_rate_step_is_adverse(self):
+    def test_38_boundary_comparison_uses_each_renders_output_positions(self):
+        report = run.strict_load(HERE / "report.json")
+        profile = report["dynamic_profile"]
         signal = reference.synthetic_speech()
-        abrupt = reference.profile_stretch(signal, reference.DYNAMIC_ANCHORS)
-        smooth = reference.profile_stretch(signal, reference.DYNAMIC_ANCHORS,
-                                           smooth=True, step=0.005)
-        boundaries = [int(round(position)) for position, _ in reference.DYNAMIC_ANCHORS[1:]]
-        abrupt_jump = scorer.boundary_jump_ratio(abrupt["samples"], boundaries)
-        smooth_jump = scorer.boundary_jump_ratio(smooth["samples"], boundaries)
-        peak = lambda row: max((entry["ratio_to_clip_p99"] or 0.0)
-                               for entry in row["boundaries"])
-        self.assertGreaterEqual(peak(abrupt_jump), peak(smooth_jump))
+        for smooth, key, map_key, expected in (
+            (False, "boundary_jump_unsmoothed",
+             "rate_step_source_to_output", [4800, 7360, 10560]),
+            (True, "boundary_jump_smoothed_control",
+             "smoothed_rate_step_source_to_output", [4800, 7843, 10900]),
+        ):
+            rendered = reference.profile_stretch(signal, reference.DYNAMIC_ANCHORS, smooth=smooth)
+            block_starts = {row["source_start"]: row["output_start"] for row in rendered["blocks"]}
+            source_anchors = [pos for pos, _rate in reference.DYNAMIC_ANCHORS[1:]]
+            self.assertEqual([block_starts[pos] for pos in source_anchors], expected)
+            self.assertEqual([row["source_sample"] for row in profile[map_key]],
+                             source_anchors)
+            self.assertEqual([row["output_sample"] for row in profile[map_key]],
+                             expected)
+            self.assertEqual(profile[key], scorer.boundary_jump_ratio(rendered["samples"], expected))
+        comparison = next(entry for entry in report["regressions"]
+                          if entry["entry_id"] == "rate_step_boundary_comparison")
+        self.assertEqual(comparison["observed"], {"abrupt": 5.312563, "smoothed": 6.061116})
+        self.assertTrue(comparison["excluded_from_qualification"])
 
     def test_39_nonfinite_input_rejected(self):
         with self.assertRaises(scorer.ScorerError):
@@ -337,6 +386,71 @@ class ProfileAndAdverseTests(unittest.TestCase):
         probe = fixture.repeat_probe()
         self.assertEqual(probe["runs"], 3)
         self.assertTrue(probe["byte_identical"])
+
+    def test_48_cli_rejects_non_numeric_fields_without_writing_result(self):
+        with tempfile.TemporaryDirectory() as temp:
+            request = Path(temp) / "request.json"
+            result = Path(temp) / "result.json"
+            command = [sys.executable, str(HERE / "run.py"),
+                       "--request", str(request), "--result", str(result)]
+            for provider_enabled in (False, True):
+                base = run_request({"provider_enabled": provider_enabled, "stimulus_id": None},
+                                   rate=1, samples=[0, 0.25])
+                invalid = [
+                    ("protocol_version", (True, "1", 1.0, 2),
+                     "invalid_protocol_or_operation"),
+                    ("rate", (True, "1.25", None), "rate_wrong_type"),
+                    ("rate", (10**400,), "rate_out_of_range"),
+                    ("samples", ([True], ["0.25"], [None]),
+                     "invalid_samples_type"),
+                    ("samples", ([10**400],), "out_of_range_samples"),
+                    ("candidate_ref", (
+                        {**request_ref("sonic-reference"), "revision": True},
+                        {**request_ref("sonic-reference"), "revision": "1"},
+                        {**request_ref("sonic-reference"), "revision": 1.0},
+                        {**request_ref("sonic-reference"), "revision": 0},
+                    ), "invalid_candidate_ref"),
+                    ("configuration", (
+                        {**base["configuration"], "provider_enabled": "true"},
+                        {**base["configuration"], "provider_enabled": 1},
+                    ), "invalid_provider_switch"),
+                    ("configuration", (
+                        {**base["configuration"], "stimulus_id": 1},
+                        {**base["configuration"], "stimulus_id": True},
+                    ), "unknown_stimulus"),
+                    ("attempt_id", (1, True), "invalid_attempt_id"),
+                ]
+                for field, values, error in invalid:
+                    for value in values:
+                        with self.subTest(enabled=provider_enabled, field=field, value=value):
+                            request.write_text(json.dumps({**base, field: value}), encoding="utf-8")
+                            completed = subprocess.run(command, capture_output=True, text=True)
+                            self.assertEqual(completed.returncode, 2, completed.stderr)
+                            self.assertEqual(completed.stderr.strip(), error)
+                            self.assertFalse(result.exists())
+                request.write_text(json.dumps(base), encoding="utf-8")
+                subprocess.run(command, check=True)
+                self.assertEqual(run.strict_load(result)["status"], "complete")
+                result.unlink()
+            inspect = {key: base[key] for key in run.COMMON_FIELDS}
+            inspect.update(operation="inspect", protocol_version=True)
+            request.write_text(json.dumps(inspect), encoding="utf-8")
+            completed = subprocess.run(command, capture_output=True, text=True)
+            self.assertEqual(completed.returncode, 2)
+            self.assertEqual(completed.stderr.strip(), "invalid_protocol_or_operation")
+            self.assertFalse(result.exists())
+
+    def test_49_scorer_rejects_non_numeric_samples_and_nonmonotonic_map(self):
+        for value in (True, False, "0.25", None, [0.25]):
+            with self.subTest(value=value):
+                with self.assertRaises(scorer.ScorerError):
+                    scorer.validate_vector([0.0, value])
+        with self.assertRaises(scorer.ScorerError):
+            scorer.transient_proxy((0.0, 1.0), (0.0, 1.0), 1.0, (0,), (1, 0))
+        report = run.strict_load(HERE / "report.json")
+        adverse = report["adverse"]["invalid_json_numeric_fields"]
+        self.assertEqual(adverse["status"], "rejected_closed")
+        self.assertTrue(adverse["cases"])
 
 
 if __name__ == "__main__":
