@@ -1,0 +1,182 @@
+{
+  "schema_id": "audio-sdk/fastenhancer-source-linked-onnx-wrapper/contract/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-FASTENHANCER-SOURCE-LINKED-ONNX-WRAPPER",
+  "component": "fastenhancer-source-linked-onnx-wrapper",
+  "repository": "audio-sdk",
+  "base_commit": "ff0d92cc1a994e3f93adcab4b1d37bcd2a8a4a5d",
+  "branch": "swarm/SDK-FASTENHANCER-SOURCE-LINKED-ONNX-WRAPPER",
+  "status": "optional-task-local-developer-fixture",
+  "evidence_status": "incomplete",
+  "decision": "DEFER",
+  "defer_before": "processor_exposure",
+  "verification_profile": "enhancement",
+  "reference_family": "fastenhancer",
+  "adapter_id": "fastenhancer-source-linked-onnx-wrapper-synthetic-v1",
+  "scope": "Deterministic synthetic enhancement fixture at a task-local protocol-shaped waveform adapter boundary linked to one pinned source identity; no selection, superiority, real-model, device, listening, benchmark or release claim.",
+  "source_identity": {
+    "path": "cpp-library/src/stages/fastenhancer.cpp",
+    "sha256": "b0c0ffc33e5c1c87f65ae9c82ea61ee2c91f4ec9ab16af9393c04376ad931510",
+    "documented_constraints": [
+      "settings.reject_unknown accepts only the model key",
+      "16 kHz or 48 kHz sessions with frames_per_call equal to rate/100",
+      "16 kHz default model fastenhancer_tiny_16k and 256-sample chunk; 48 kHz default fastenhancer_small and 512-sample chunk",
+      "wav_in and wav_out are fixed float32 [1, chunk_samples] tensors with matching cache_in_/cache_out_ tensors",
+      "nonfinite, unknown, asset-missing, shape-mismatched and dynamic-cache cases fail closed"
+    ],
+    "note": "Source inspection is a boundary anchor only. No C++ stage is built, no ONNX session is created and no model weight is loaded."
+  },
+  "frontend_contract": {
+    "identity": "audio-sdk/v0-f32-16k-mono-160",
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "hop_samples": 160,
+    "content_delay_samples": 0,
+    "public_api_abi_changed": false,
+    "installed_v0_behavior_changed": false,
+    "provider_registration": false,
+    "enabled_by_default": false,
+    "default_selected": false,
+    "descriptor_settings": {},
+    "note": "The public reference family identity and installed v0 frontend contract are preserved. Evaluation and future production callback paths are distinct; no production callback is implemented."
+  },
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "hop_samples": 160,
+    "input_frame_shape": [160],
+    "output_frame_shape": [160],
+    "processing_mode": "offline_synthetic_frame_fixture",
+    "content_delay_samples": 0,
+    "realtime_v0_provider": false
+  },
+  "public_boundary": {
+    "header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "contract_file": "CONTRACTS.md",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "c_provider_added": false,
+    "public_api_abi_changed": false,
+    "registry_change": false,
+    "default_change": false,
+    "installed_v0_behavior_changed": false,
+    "note": "No public header, contract, descriptor, registry, shared build, CMake file, CI file or installed behavior is modified."
+  },
+  "reference": {
+    "adapter_id": "fastenhancer-source-linked-onnx-wrapper-synthetic-v1",
+    "modes": ["offline_synthetic_frame_fixture"],
+    "controls": ["identity_no_processing", "noisy_input_no_processing", "causal_smoothing_shrinkage"],
+    "candidate": "causal_smoothing_shrinkage",
+    "control": "noisy_input_no_processing",
+    "configuration_keys": ["model"],
+    "configuration_value": "source_linked_synthetic_v0",
+    "strength": 0.12,
+    "signal_samples": 9600,
+    "causal": true,
+    "model_weights": false,
+    "downloads": false,
+    "real_speech": false,
+    "licensed_runtime": false,
+    "device_or_timing_claim": false,
+    "registered_in_bench": false,
+    "produces_bench_bundle": false,
+    "opt_in_manifest": "provider.json",
+    "default_enabled": false
+  },
+  "source_pins": {
+    "cpp-library/src/stages/fastenhancer.cpp": "b0c0ffc33e5c1c87f65ae9c82ea61ee2c91f4ec9ab16af9393c04376ad931510",
+    "adapters/fastenhancer/README.md": "32a856af0f7f32efb35b0b00c6551564f6383cf6446285c060294504cdf341ea",
+    "cpp-library/PIPELINE_DESIGN_REPORT.md": "f603bd8eb27a44a1861a61e9f90d7085d785cbb77af9694b332677bd5e38b093",
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245",
+    "research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69"
+  },
+  "artifact_pins": {
+    "docs/task-evidence/fastenhancer-source-linked-onnx-wrapper/adapter.json": "44731a4adee09aa03ad1f0cecc376c4582afdcf728a5cd817ebf160834af71c1",
+    "docs/task-evidence/fastenhancer-source-linked-onnx-wrapper/provider.json": "3000d76b0ef5b668e2ecbf41b4d1a12681a1c9ecdc80a30fa8f9b5d8f07fcbc0",
+    "docs/task-evidence/fastenhancer-source-linked-onnx-wrapper/scorer.py": "c9d923646ba75c102ba065ba3f64392e05347c5e5030e812502459b8969dc365",
+    "docs/task-evidence/online-multichannel-wpe/crosscheck_vectors.json": "7bdd131858306648b4f24b1544a6afb4da2660b3f2d3edcdfb3b715e574a18a2"
+  },
+  "acceptance_profile": {
+    "name": "enhancement",
+    "source": "audio-benchmark-platform/plan/swarm/VERIFICATION.md",
+    "mapped_cases": [
+      "identity and noisy control",
+      "established task-matched noisy-input baseline",
+      "paired synthetic SI-SDR and STOI",
+      "clean-speech preservation",
+      "peaks and invalid outputs",
+      "alignment, state, memory and timing boundary"
+    ],
+    "not_applicable": [
+      "unpaired-speech predictive screen or authorized listening: no licensed speech or listening result",
+      "target-device timing and memory: no exact runtime measurement"
+    ],
+    "remaining_gates": [
+      "held-out real paired cohort with pinned rights and clean references",
+      "independent listening or authorized predictive screen",
+      "target-device content/availability timing, memory and deadline evidence",
+      "provider intake, descriptor and catalog review",
+      "explicit public default selection",
+      "exact approved external reference parity",
+      "exact upstream source, model-weight and ONNX-runtime rights clearance"
+    ]
+  },
+  "independent_timing_evidence": {
+    "status": "source_reported_proposal_only",
+    "measured_here": false,
+    "used_for_qualification": false,
+    "sources": [
+      "REALTIME_COMPONENT_CANDIDATES.md",
+      "cpp-library/PIPELINE_DESIGN_REPORT.md",
+      "research/voice-enhancement-20261101/candidate_matrix.csv"
+    ],
+    "note": "Preset timing values are provenance only. They are not reproduced, pooled as a controlled benchmark, assigned to this fixture or used as an acceptance threshold."
+  },
+  "rights_gap": {
+    "blocked": true,
+    "exact_upstream_source_verified": false,
+    "model_weight_terms_verified": false,
+    "onnx_runtime_terms_verified": false,
+    "evidence": "adapters/fastenhancer/README.md records a source release commit but no separate pretrained-model terms; weights remain local evaluation assets pending confirmation.",
+    "consequence": "No vendoring, build, installed provider or release claim until rights are cleared."
+  },
+  "invariants": [
+    "Only this task directory is written; no shared SDK file, CMake, contract, public header, registry, default, board, handoff, CI file or installed behavior changes.",
+    "The adapter is opt-in, unregistered and disabled by default with no C provider or production callback.",
+    "All signals are frozen deterministic synthetic floats; no model, media, weight or runtime asset is read or produced.",
+    "Configuration, frame shape, finite range, epoch, position and lifecycle rejections fail closed without advancing DSP state.",
+    "Identity and noisy-input controls are reported with the candidate; regressions are recorded verbatim.",
+    "Three cold-start passes are byte-identical; canonical JSON and digest sidecars are regenerated deterministically.",
+    "Source-reported preset timing is proposal-only provenance, never a measured result, oracle or threshold.",
+    "Missing evidence never qualifies the candidate; decision remains DEFER."
+  ],
+  "blockers": [
+    "No exact upstream source revision, model-weight terms or ONNX-runtime redistribution terms are cleared for packaging.",
+    "No real paired speech cohort with rights and clean references has been scored.",
+    "No independent listening or authorized predictive screen has been run.",
+    "No target-device timing, memory, pacing or deadline evidence exists for an exact runtime.",
+    "No provider intake, descriptor, catalog or default-selection review has been completed.",
+    "No exact approved external reference parity result exists."
+  ],
+  "reopening_conditions": [
+    "Clear exact source, model and runtime rights and pin immutable identities before any vendoring or installed proposal.",
+    "Run a held-out real paired cohort with matched identity and noisy controls and paired SI-SDR/STOI.",
+    "Run independent listening or a separately labeled authorized predictive screen.",
+    "Measure content/availability timing, memory and deadlines on the exact target runtime.",
+    "Complete provider intake and explicit default-selection review before any registry or catalog change.",
+    "Demonstrate exact approved external reference parity without changing public family identity or frontend contracts."
+  ]
+}
