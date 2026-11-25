@@ -117,10 +117,13 @@ def check_local_manifest() -> None:
             fail("local artifact changed: " + name + " " + actual + " != " + expected)
     pinned = set(manifest)
     for path in TASK.rglob("*"):
-        if path.is_file() and path.name != "SOURCES.sha256":
-            name = path.relative_to(TASK).as_posix()
-            if name not in pinned:
-                fail("unpinned local artifact: " + name)
+        if not path.is_file() or path.name == "SOURCES.sha256":
+            continue
+        if "__pycache__" in path.parts or path.suffix == ".pyc":
+            continue
+        name = path.relative_to(TASK).as_posix()
+        if name not in pinned:
+            fail("unpinned local artifact: " + name)
     print("verify: %d local artifacts exact" % len(manifest))
 
 
