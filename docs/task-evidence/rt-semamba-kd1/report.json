@@ -1,0 +1,1271 @@
+{
+  "adverse": {
+    "all_invalid_cases_rejected": true,
+    "all_rejected": true,
+    "config_rejections": {
+      "absent_file": {
+        "reason": "asset_file_missing:checkpoint",
+        "status": "rejected"
+      },
+      "all_fail_closed": true,
+      "all_present": true,
+      "checkpoint_hash_mismatch": {
+        "reason": "asset_hash_mismatch:checkpoint",
+        "status": "rejected"
+      },
+      "config_hash_mismatch": {
+        "reason": "asset_hash_mismatch:config",
+        "status": "rejected"
+      },
+      "extra_field": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "missing_manifest": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "relative_path": {
+        "reason": "asset_path_must_be_absolute:checkpoint",
+        "status": "rejected"
+      },
+      "valid_manifest": {
+        "executed": false,
+        "loaded": false,
+        "status": "validated",
+        "verified": true
+      },
+      "wrong_algorithm_latency": {
+        "reason": "asset_algorithm_latency_mismatch",
+        "status": "rejected"
+      },
+      "wrong_channels": {
+        "reason": "asset_channels_mismatch",
+        "status": "rejected"
+      },
+      "wrong_hop_samples": {
+        "reason": "asset_hop_samples_mismatch",
+        "status": "rejected"
+      },
+      "wrong_sample_rate": {
+        "reason": "asset_sample_rate_mismatch",
+        "status": "rejected"
+      },
+      "wrong_source_revision": {
+        "reason": "asset_source_revision_mismatch",
+        "status": "rejected"
+      },
+      "wrong_window_samples": {
+        "reason": "asset_window_samples_mismatch",
+        "status": "rejected"
+      }
+    },
+    "frame_rejections": {
+      "all_fail_closed": true,
+      "all_present": true,
+      "missing_reference": {
+        "reason": "missing_reference_or_output",
+        "status": "invalid",
+        "value": null
+      },
+      "nonfinite_input": {
+        "reason": "nonfinite_input",
+        "status": "rejected"
+      },
+      "short_input": {
+        "reason": "input_length_mismatch",
+        "status": "rejected"
+      },
+      "silence_output": {
+        "finite": true,
+        "peak_abs": 0.0,
+        "status": "pass"
+      },
+      "state_unchanged_after_rejection": true,
+      "truncated_output": {
+        "reason": "length_mismatch",
+        "status": "rejected"
+      },
+      "two_dimensional_input": {
+        "reason": "input_not_mono",
+        "status": "rejected"
+      },
+      "wrong_channels": {
+        "reason": "asset_channels_mismatch",
+        "status": "rejected"
+      },
+      "wrong_hop_samples": {
+        "reason": "asset_hop_samples_mismatch",
+        "status": "rejected"
+      },
+      "wrong_sample_rate": {
+        "reason": "asset_sample_rate_mismatch",
+        "status": "rejected"
+      },
+      "wrong_window_samples": {
+        "reason": "asset_window_samples_mismatch",
+        "status": "rejected"
+      }
+    },
+    "valid_manifest_control_present": true
+  },
+  "alignment": {
+    "algorithmic_latency_ms": 25,
+    "algorithmic_latency_samples": 400,
+    "compensated_impulse_index": 4000,
+    "delay_compensation_applied": true,
+    "expected_impulse_index": 4000,
+    "measured_content_lag_samples": 0,
+    "modeled_window_delay_ms": 25,
+    "modeled_window_delay_samples": 400,
+    "sdk_callback_invoked": false,
+    "source_interval": [
+      0,
+      32000
+    ],
+    "uncompensated_impulse_index": 4400,
+    "valid_output_samples": 32000
+  },
+  "asset_pins": {
+    "data/checkouts/RT-SEMamba/LICENSE": "04b1d017b906f5d0c6815e60cadeabb1a3f5b4fb743c1b77343841fd735eb5e8",
+    "data/checkouts/RT-SEMamba/README.md": "c69693beb94f5a84acf076d19e9d24703c0a09ae7d642f670f04645f73c530c8",
+    "data/checkouts/RT-SEMamba/ckpts/g_00259000.pth": "c97bc702d2840f1173ef221e92600a331dbbde64c5a70399f39ef85d4804935b",
+    "data/checkouts/RT-SEMamba/ckpts/g_00766000.pth": "7d76e2c5f322cc0dd58abd0b9b371890b29c3710d7833cdfebb46a823961f5cc",
+    "data/checkouts/RT-SEMamba/inference.py": "290da30c93112fb2d30cb1b88e46eb13262c7946a0cec3e1e01d4335ba988629",
+    "data/checkouts/RT-SEMamba/mamba_install_mps/mamba_ssm/__init__.py": "fd5bb14b209676fc12a2d66c8f9f11d5c1dfef4296ee5633a0e5856ab238cb9d",
+    "data/checkouts/RT-SEMamba/mamba_install_mps/mamba_ssm/modules/mamba_simple.py": "dc035a4dcfbc9f9809e2bb60764f7bfe38259b6397968399fc33cad159300a43",
+    "data/checkouts/RT-SEMamba/mamba_install_mps/mamba_ssm/ops/selective_scan_interface.py": "b0e6f888957f48b94ead8b40c9faa12e67c4cfecd31e2a0cdfecaf28c445bd64",
+    "data/checkouts/RT-SEMamba/models/generator.py": "23380a65d1b12df119985718a339c9dc99469dc3a10b141fee3c3c42b44b9ccd",
+    "data/checkouts/RT-SEMamba/models/stfts.py": "9da92bdf11f162f41f01ee9fc6951c161c07becd07cb6590cebcee89b508296a",
+    "data/checkouts/RT-SEMamba/recipes/KD1/KD1.yaml": "2db65c33e66108d7616d47ca509a3dc46983980cae63a216d1ccb98daf0ee222"
+  },
+  "asset_resolution": {
+    "checkpoint_present_in_external_checkout": true,
+    "checkpoint_present_in_sdk_worktree": false,
+    "config_present_in_external_checkout": true,
+    "config_present_in_sdk_worktree": false,
+    "executed": false,
+    "expected_caller_checkpoint_path": "data/envs/rt-semamba/g_00766000.pth",
+    "expected_caller_config_path": "data/envs/rt-semamba/KD1.yaml",
+    "expected_caller_source_path": "data/envs/rt-semamba/RT-SEMamba",
+    "loaded": false,
+    "manifest_present": false,
+    "reason": "caller_supplied_asset_absent_and_rights_unresolved",
+    "requested": false,
+    "runtime_installed_in_sdk_worktree": false,
+    "source_tree_present_in_external_checkout": true,
+    "source_tree_present_in_sdk_worktree": false,
+    "surrogate_used": true,
+    "verified": false
+  },
+  "base_commit": "62923ffa7dd992da3cea0f6683fab320fb37e6c0",
+  "boundary": {
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "registered": false,
+    "shared_cmakelists_change": false
+  },
+  "boundary_pins": {
+    "CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "LICENSES/Apache-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "REUSE.toml": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "scripts/ci.py": "64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f"
+  },
+  "branch": "swarm/SDK-RT-SEMAMBA-KD1",
+  "caller_supplied_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/rt-semamba-kd1/caller-supplied-asset/0.1",
+    "pinned_values": {
+      "algorithm_latency_samples": 400,
+      "channels": 1,
+      "hop_samples": 100,
+      "sample_rate_hz": 16000,
+      "source_revision": "0c9e8c7c42caadd7badb6cc145c8af93f760863c",
+      "window_samples": 400
+    },
+    "present_behavior": "validate_hashes_and_geometry_only; do_not_import_torch_or_execute_in_this_package",
+    "required_fields": [
+      "algorithm_latency_samples",
+      "channels",
+      "checkpoint_path",
+      "checkpoint_sha256",
+      "config_path",
+      "config_sha256",
+      "hop_samples",
+      "sample_rate_hz",
+      "source_revision",
+      "window_samples"
+    ],
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "checkpoint_path, config_path and the source tree are caller-owned absolute paths",
+      "SHA-256 of the checkpoint and KD1 config matches the manifest",
+      "source_revision equals the pinned upstream revision",
+      "sample rate, channels, STFT window, hop and algorithmic latency equal the pinned 16 kHz / 400 / 100 / 400 geometry",
+      "no download, copy, build, load or execution occurs in this package"
+    ]
+  },
+  "clean_preservation": {
+    "bit_exact_passthrough": true,
+    "clipped_or_nonfinite": 0,
+    "condition": "clean_control",
+    "peak_abs": 0.423909,
+    "rms_change_db": 0.0,
+    "scope": "synthetic exact clean target with a zero noise-floor estimate; not real clean speech",
+    "si_sdr_db": null,
+    "si_sdr_invalid_reason": "zero_error_identity_exact",
+    "stoi": 1.0
+  },
+  "comparison": {
+    "established_task_matched_baseline_reproduced": false,
+    "identity_control": "same_clip_identity",
+    "provider": "rt-semamba-kd1-boundary-surrogate-v0",
+    "quality_pass": false,
+    "quality_pass_reason": "No RT-SEMamba runtime or rights-cleared paired real cohort; the surrogate is a boundary-conformance fixture and its synthetic metrics are not a quality claim.",
+    "regression_count": 2,
+    "source_reported_candidate_screen_used_for_qualification": false
+  },
+  "component_id": "rt-semamba-kd1",
+  "conditions": {
+    "clean_control": {
+      "condition": "clean_control",
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.423909,
+        "rms": 0.175096,
+        "samples": 32000,
+        "waveform_sha256": "40950bf14a536610f7332e6e9b878c381f8572b31267afa16bc120451f38b8f7"
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.423909,
+        "rms": 0.175096,
+        "samples": 32000,
+        "waveform_sha256": "40950bf14a536610f7332e6e9b878c381f8572b31267afa16bc120451f38b8f7"
+      },
+      "reference": "clean_target",
+      "rms_change_db": 0.0,
+      "si_sdr_db": {
+        "identity_invalid_reason": "zero_error_identity_exact",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "zero_error_identity_exact",
+        "provider_surrogate": null
+      },
+      "snr_db": {
+        "identity_invalid_reason": "zero_error_identity_exact",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "zero_error_identity_exact",
+        "provider_surrogate": null
+      },
+      "stoi": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 1.0,
+        "paired_delta": 0.0,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 1.0
+      },
+      "surrogate_mask": {
+        "delay_compensated": true,
+        "frame_count": 325,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "noise_estimate": 0.0
+      }
+    },
+    "idle_noise": {
+      "condition": "idle_noise",
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.471009,
+        "rms": 0.117119,
+        "samples": 32000,
+        "waveform_sha256": "4ddd71e09c77907d5a499efd170301889102c9e356a66c33141f1fe5da3e8a35"
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.239061,
+        "rms": 0.053808,
+        "samples": 32000,
+        "waveform_sha256": "4fa9e7ca4fbb57394f43be2b66aa73547372626d0c89ad4f17ee97c0351de083"
+      },
+      "reference": "none",
+      "rms_change_db": -6.755547,
+      "si_sdr_db": {
+        "identity_invalid_reason": "missing_reference_or_output",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "missing_reference_or_output",
+        "provider_surrogate": null
+      },
+      "snr_db": {
+        "identity_invalid_reason": "missing_reference_or_output",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "missing_reference_or_output",
+        "provider_surrogate": null
+      },
+      "stoi": {
+        "identity_invalid_reason": "missing_reference_or_output",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "missing_reference_or_output",
+        "provider_surrogate": null
+      },
+      "surrogate_mask": {
+        "delay_compensated": true,
+        "frame_count": 325,
+        "max": 0.973016,
+        "mean": 0.319153,
+        "min": 0.2,
+        "noise_estimate": 1.765418
+      }
+    },
+    "noisy_snr0": {
+      "condition": "noisy_snr0",
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.91438,
+        "rms": 0.239411,
+        "samples": 32000,
+        "waveform_sha256": "c365fd6662921a496ce1c6aab3a4e71af09a9f853f7f4ca2ce677cca741d6b33"
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.567948,
+        "rms": 0.172092,
+        "samples": 32000,
+        "waveform_sha256": "183c2eab48056c7a4ded61b10e6b0497ddc18269bbbc54d33e94d68fac3a2ae5"
+      },
+      "reference": "clean_target",
+      "rms_change_db": -2.867688,
+      "si_sdr_db": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 0.441269,
+        "paired_delta": 4.340801,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 4.78207
+      },
+      "snr_db": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 0.518808,
+        "paired_delta": 5.279753,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 5.798561
+      },
+      "stoi": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 0.553513,
+        "paired_delta": -0.040069,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 0.513444
+      },
+      "surrogate_mask": {
+        "delay_compensated": true,
+        "frame_count": 325,
+        "max": 0.981973,
+        "mean": 0.344522,
+        "min": 0.2,
+        "noise_estimate": 2.486324
+      }
+    },
+    "noisy_snr10": {
+      "condition": "noisy_snr10",
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.547656,
+        "rms": 0.182226,
+        "samples": 32000,
+        "waveform_sha256": "af75929d459549765cefe668560880c3989b71e4364736cfa40f35c68a3925a8"
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.422518,
+        "rms": 0.167981,
+        "samples": 32000,
+        "waveform_sha256": "4656ab877c1614a44d4dd1311fb70f64ef520beacfecbc8bbc6dbb67d8af9b28"
+      },
+      "reference": "clean_target",
+      "rms_change_db": -0.706975,
+      "si_sdr_db": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 10.494632,
+        "paired_delta": 3.734353,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 14.228985
+      },
+      "snr_db": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 10.518808,
+        "paired_delta": 3.812369,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 14.331177
+      },
+      "stoi": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 0.777191,
+        "paired_delta": -0.010757,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 0.766434
+      },
+      "surrogate_mask": {
+        "delay_compensated": true,
+        "frame_count": 325,
+        "max": 0.993738,
+        "mean": 0.392155,
+        "min": 0.2,
+        "noise_estimate": 0.786245
+      }
+    },
+    "noisy_snr20": {
+      "condition": "noisy_snr20",
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.461985,
+        "rms": 0.175716,
+        "samples": 32000,
+        "waveform_sha256": "f5232a3abf0bf825615f76d286e4a343fd811fb7ec9f68891871b99568262c74"
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.417724,
+        "rms": 0.172054,
+        "samples": 32000,
+        "waveform_sha256": "2bc4532c31c1f7c3946cb8e740f05f67f65db93b88f0664b386fc4492eb1900f"
+      },
+      "reference": "clean_target",
+      "rms_change_db": -0.182939,
+      "si_sdr_db": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 20.511439,
+        "paired_delta": 3.093531,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 23.60497
+      },
+      "snr_db": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 20.518808,
+        "paired_delta": 2.879721,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 23.398529
+      },
+      "stoi": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 0.904367,
+        "paired_delta": 0.000124,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 0.904491
+      },
+      "surrogate_mask": {
+        "delay_compensated": true,
+        "frame_count": 325,
+        "max": 0.997956,
+        "mean": 0.450589,
+        "min": 0.2,
+        "noise_estimate": 0.248632
+      }
+    },
+    "silence": {
+      "condition": "silence",
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.0,
+        "rms": 0.0,
+        "samples": 32000,
+        "waveform_sha256": "eec19bc6af0b3b6dfb97a08782c65f4bb3c3203e789a015d2008b0d689ad08be"
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.0,
+        "rms": 0.0,
+        "samples": 32000,
+        "waveform_sha256": "eec19bc6af0b3b6dfb97a08782c65f4bb3c3203e789a015d2008b0d689ad08be"
+      },
+      "reference": "none",
+      "rms_change_db": null,
+      "si_sdr_db": {
+        "identity_invalid_reason": "missing_reference_or_output",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "missing_reference_or_output",
+        "provider_surrogate": null
+      },
+      "snr_db": {
+        "identity_invalid_reason": "missing_reference_or_output",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "missing_reference_or_output",
+        "provider_surrogate": null
+      },
+      "stoi": {
+        "identity_invalid_reason": "missing_reference_or_output",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "missing_reference_or_output",
+        "provider_surrogate": null
+      },
+      "surrogate_mask": {
+        "delay_compensated": true,
+        "frame_count": 325,
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0,
+        "noise_estimate": 0.0
+      }
+    }
+  },
+  "contract_sha256": "fb3e9e5a7e1604f015ffdd66aa971ac1f1023e5e1e93c167cef8eb466b77d402",
+  "controls": {
+    "caller_asset": {
+      "absent_file": {
+        "reason": "asset_file_missing:checkpoint",
+        "status": "rejected"
+      },
+      "all_fail_closed": true,
+      "all_present": true,
+      "checkpoint_hash_mismatch": {
+        "reason": "asset_hash_mismatch:checkpoint",
+        "status": "rejected"
+      },
+      "config_hash_mismatch": {
+        "reason": "asset_hash_mismatch:config",
+        "status": "rejected"
+      },
+      "extra_field": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "missing_manifest": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "relative_path": {
+        "reason": "asset_path_must_be_absolute:checkpoint",
+        "status": "rejected"
+      },
+      "valid_manifest": {
+        "executed": false,
+        "loaded": false,
+        "status": "validated",
+        "verified": true
+      },
+      "wrong_algorithm_latency": {
+        "reason": "asset_algorithm_latency_mismatch",
+        "status": "rejected"
+      },
+      "wrong_channels": {
+        "reason": "asset_channels_mismatch",
+        "status": "rejected"
+      },
+      "wrong_hop_samples": {
+        "reason": "asset_hop_samples_mismatch",
+        "status": "rejected"
+      },
+      "wrong_sample_rate": {
+        "reason": "asset_sample_rate_mismatch",
+        "status": "rejected"
+      },
+      "wrong_source_revision": {
+        "reason": "asset_source_revision_mismatch",
+        "status": "rejected"
+      },
+      "wrong_window_samples": {
+        "reason": "asset_window_samples_mismatch",
+        "status": "rejected"
+      }
+    },
+    "clean_control": {
+      "description": "clean target without noise; checks clean-speech preservation",
+      "status": "present"
+    },
+    "frame": {
+      "all_fail_closed": true,
+      "all_present": true,
+      "missing_reference": {
+        "reason": "missing_reference_or_output",
+        "status": "invalid",
+        "value": null
+      },
+      "nonfinite_input": {
+        "reason": "nonfinite_input",
+        "status": "rejected"
+      },
+      "short_input": {
+        "reason": "input_length_mismatch",
+        "status": "rejected"
+      },
+      "silence_output": {
+        "finite": true,
+        "peak_abs": 0.0,
+        "status": "pass"
+      },
+      "state_unchanged_after_rejection": true,
+      "truncated_output": {
+        "reason": "length_mismatch",
+        "status": "rejected"
+      },
+      "two_dimensional_input": {
+        "reason": "input_not_mono",
+        "status": "rejected"
+      },
+      "wrong_channels": {
+        "reason": "asset_channels_mismatch",
+        "status": "rejected"
+      },
+      "wrong_hop_samples": {
+        "reason": "asset_hop_samples_mismatch",
+        "status": "rejected"
+      },
+      "wrong_sample_rate": {
+        "reason": "asset_sample_rate_mismatch",
+        "status": "rejected"
+      },
+      "wrong_window_samples": {
+        "reason": "asset_window_samples_mismatch",
+        "status": "rejected"
+      }
+    },
+    "identity": {
+      "baseline": "same_clip_identity",
+      "description": "unprocessed mixture is the identity control at each SNR",
+      "status": "present"
+    },
+    "idle_noise": {
+      "description": "noise without target; no clean reference, never scored as speech",
+      "status": "present"
+    },
+    "silence": {
+      "description": "digital silence; no clean reference, never scored as speech",
+      "status": "present"
+    }
+  },
+  "decision": "DEFER",
+  "defer_before": "opt_in_adapter_exposure",
+  "enhancement_boundary": {
+    "adapter_device": "cpu",
+    "adapter_rejects_non_cpu": true,
+    "algorithmic_latency_ms": 25,
+    "algorithmic_latency_samples": 400,
+    "candidate_family": "causal time-frequency Mamba student (cTF-Mamba)",
+    "cross_corpus_role": "DNS2020 is a cross-corpus check, not a training-matched benchmark, because VCTK-DEMAND is both the reported training and evaluation source",
+    "cuda_available_on_research_host": false,
+    "mps_available_on_research_host": false,
+    "parameter_count": 1050000,
+    "parameter_count_is_source_reported": true,
+    "realtime_chunk_ms": 100,
+    "realtime_chunk_samples": 1600,
+    "stft_center": false,
+    "stft_hop_samples": 100,
+    "stft_window_samples": 400,
+    "streaming_path_evaluated": false,
+    "upstream_mode": "offline whole-utterance in the pinned adapter",
+    "upstream_streaming_capable": true,
+    "upstream_task": "CLN-01 single-channel speech denoising / enhancement",
+    "vctk_demand_training_and_evaluation": true
+  },
+  "enhancement_profile": {
+    "alignment": "modeled_25ms_window_delay_compensated",
+    "clean_speech_preservation": "synthetic_exact_passthrough_only",
+    "content_availability_timing": "not_measured",
+    "established_task_matched_baseline_reproduced": false,
+    "identity_noisy_control": true,
+    "independent_listening": "not_run",
+    "memory": "not_measured",
+    "paired_clean_reference": "synthetic_exact_clean_target",
+    "paired_si_sdr": "synthetic_only",
+    "paired_stoi": "synthetic_only",
+    "peak_and_invalid_output_check": true,
+    "real_cohort_scored": false,
+    "state": "synthetic_single_utterance",
+    "target_runtime": "not_measured"
+  },
+  "evidence_classes": {
+    "enhancement_acceptance": "not cleared; no rights-cleared paired cohort, clean real speech, listening or target timing",
+    "independent_listening": "none",
+    "real_audio_rights_qualified": "none; no result qualifies a candidate",
+    "source_reported": "Pinned research values retained as provenance only; not reproduced, pooled or used as thresholds.",
+    "synthetic_surrogate": "Deterministic model-free STFT-domain gate surrogate on synthetic paired stimuli; no RT-SEMamba asset, real audio or device.",
+    "target_runtime": "none"
+  },
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    "The exact RT-SEMamba KD1 checkpoint, KD1 config and upstream source are pinned by SHA-256 from the external research checkout, but no caller-supplied asset manifest or copy exists in this SDK worktree and no PyTorch/Mamba runtime is installed here; the exact runtime cannot be loaded, reproduced or measured.",
+    "The upstream repository declares MIT and its LICENSE text is pinned, but artifact-specific checkpoint redistribution and product-use rights, VCTK-DEMAND dataset terms and provenance, an immutable artifact distribution record and legal review are not established. No asset was downloaded, copied, built, vendored or redistributed.",
+    "Only a deterministic model-free STFT-domain gate surrogate was executed. It is not RT-SEMamba, has no checkpoint, cTF-Mamba blocks, SSM state or learned mask, and its synthetic paired metrics are boundary-conformance observations, not a quality, streaming, device-timing or benchmark result.",
+    "No rights-cleared held-out paired cohort, independent listening, target-runtime content/availability timing or memory measurement, native streaming-state verification, opt-in provider intake, descriptor/registry review or public default decision exists; every release gate remains blocked."
+  ],
+  "format": {
+    "asset_channels": 1,
+    "asset_chunk_duration_ms": 100,
+    "asset_chunk_samples": 1600,
+    "asset_hop_duration_ms": 6.25,
+    "asset_hop_samples": 100,
+    "asset_is_native_16k": true,
+    "asset_sample_rate_hz": 16000,
+    "asset_window_duration_ms": 25,
+    "asset_window_samples": 400,
+    "clip_duration_ms": 2000,
+    "clip_samples": 32000,
+    "public_channels": 1,
+    "public_frame_duration_ms": 10,
+    "public_frame_samples": 160,
+    "public_sample_format": "f32",
+    "public_sample_rate_hz": 16000,
+    "public_v0_geometry_preserved": true,
+    "resampling_required": false,
+    "sdk_callback_invoked": false
+  },
+  "gates": [
+    {
+      "name": "caller_supplied_asset_present_and_verified",
+      "reopen_condition": "Place the caller-owned KD1 checkpoint, KD1 config and pinned source tree in the worktree (or supply them through the manifest) with SHA-256 values, source revision and STFT geometry matching the pins.",
+      "status": "blocked"
+    },
+    {
+      "name": "artifact_and_runtime_rights",
+      "reopen_condition": "Establish checkpoint-specific redistribution and product-use rights, VCTK-DEMAND dataset terms and provenance, an immutable distribution record and legal review; the repository MIT declaration alone is insufficient.",
+      "status": "blocked"
+    },
+    {
+      "name": "exact_runtime_reproduction",
+      "reopen_condition": "Install the pinned PyTorch and vendored Mamba runtime, load the exact checkpoint and config, and reproduce approved reference outputs on frozen inputs.",
+      "status": "blocked"
+    },
+    {
+      "name": "streaming_boundary_and_state",
+      "reopen_condition": "Verify the native 16 kHz / 400 / 100 streaming boundary, the 25 ms analysis-window latency, chunk scheduling, state reset/flush and realtime-versus-chunked equivalence.",
+      "status": "blocked"
+    },
+    {
+      "name": "rights_cleared_task_matched_cohort",
+      "reopen_condition": "Score a rights-cleared held-out paired cohort with clean references under the Enhancement profile; the VCTK-DEMAND overlap and the DNS cross-corpus limits must be documented.",
+      "status": "blocked"
+    },
+    {
+      "name": "clean_preservation_and_independent_listening",
+      "reopen_condition": "Measure clean-speech preservation and collect independent listening or preference labels; synthetic metrics cannot qualify an enhancer.",
+      "status": "blocked"
+    },
+    {
+      "name": "target_runtime_timing_memory",
+      "reopen_condition": "Measure content/availability timing, memory, deadlines and paced workload on the exact target runtime.",
+      "status": "blocked"
+    },
+    {
+      "name": "opt_in_adapter_intake",
+      "reopen_condition": "Complete rights review and opt-in adapter intake before any descriptor or provider registration.",
+      "status": "blocked"
+    },
+    {
+      "name": "public_default_selection",
+      "reopen_condition": "Record an explicit public default decision; the candidate is currently unregistered and OFF.",
+      "status": "blocked"
+    }
+  ],
+  "licensing_analysis": {
+    "asset_copied_vendored_built_or_downloaded": false,
+    "blocked_gate": "artifact_and_runtime_rights",
+    "checkpoint_redistribution_clearance": false,
+    "checkpoint_terms": "the ledger records the checkpoint as distributed in the MIT-licensed official repository, but the artifact-specific redistribution and product-use grant is not independently reviewed",
+    "conclusion": "The upstream repository declares MIT and its LICENSE text is pinned, but checkpoint-specific redistribution/product-use terms, dataset terms, provenance and legal review are not cleared. This package distributes no upstream asset.",
+    "dataset_terms": "VCTK-DEMAND / VoiceBank-DEMAND dataset terms, consent basis and redistribution scope are not established in this package",
+    "legal_review_completed": false,
+    "product_use_clearance": false,
+    "runtime_redistribution_clearance": false,
+    "task_files_license": "Apache-2.0",
+    "training_data_provenance_established": false,
+    "upstream_license_file": "data/checkouts/RT-SEMamba/LICENSE",
+    "upstream_license_sha256": "04b1d017b906f5d0c6815e60cadeabb1a3f5b4fb743c1b77343841fd735eb5e8",
+    "upstream_license_text_pinned": true,
+    "upstream_repository_license": "MIT"
+  },
+  "memory": {
+    "device_memory_measured": false,
+    "measured": false,
+    "source_reported_process_peak_rss_bytes": 3219685376,
+    "source_reported_scope": "process-level macOS getrusage high-water mark for the 30-crop CPU screen; not isolated model memory and not a device limit"
+  },
+  "missing_evidence": [
+    "caller-supplied KD1 checkpoint, KD1 config and source tree present and SHA-256-verified in this SDK worktree",
+    "checkpoint-specific redistribution/product-use rights, VCTK-DEMAND dataset terms and provenance, and legal review",
+    "immutable artifact distribution record and approved reference-output vector",
+    "exact runtime reproduction with the pinned PyTorch and vendored Mamba fallback",
+    "native streaming boundary, 25 ms latency, chunk scheduling and reset/flush evidence",
+    "rights-cleared held-out paired cohort with clean references",
+    "clean-speech preservation on real speech and independent listening",
+    "target-runtime content/availability timing, memory and deadline evidence",
+    "opt-in adapter intake, descriptor and catalog review",
+    "explicit public default selection"
+  ],
+  "model_provenance": {
+    "candidate": "RT-SEMamba KD1",
+    "checkpoint": {
+      "bytes": 4235024,
+      "copied_or_vendored": false,
+      "downloaded_by_this_package": false,
+      "loaded_or_executed": false,
+      "path": "data/checkouts/RT-SEMamba/ckpts/g_00766000.pth",
+      "present_in_external_checkout": true,
+      "present_in_sdk_worktree": false,
+      "sha256": "7d76e2c5f322cc0dd58abd0b9b371890b29c3710d7833cdfebb46a823961f5cc",
+      "variant": "KD1 8-layer-to-1-layer distilled student"
+    },
+    "config": {
+      "copied_or_vendored": false,
+      "downloaded_by_this_package": false,
+      "loaded_or_executed": false,
+      "path": "data/checkouts/RT-SEMamba/recipes/KD1/KD1.yaml",
+      "present_in_external_checkout": true,
+      "present_in_sdk_worktree": false,
+      "sha256": "2db65c33e66108d7616d47ca509a3dc46983980cae63a216d1ccb98daf0ee222"
+    },
+    "paper": "https://arxiv.org/abs/2608.12099",
+    "public_adapter": {
+      "declared_modes": [
+        "offline"
+      ],
+      "declared_output_kinds": [
+        "waveform"
+      ],
+      "declared_tasks": [
+        "CLN-01"
+      ],
+      "declared_weights": "official pinned KD1 checkpoint",
+      "executed_by_this_package": false,
+      "path": "adapters/rt-semamba",
+      "present_in_research_workspace": true,
+      "present_in_sdk_worktree": false,
+      "source_commit": "0c9e8c7c42caadd7badb6cc145c8af93f760863c"
+    },
+    "runtime": {
+      "accelerator": "the pinned research adapter runs CPU only with the vendored pure-PyTorch Mamba fallback",
+      "framework": "PyTorch >= 2.2",
+      "loaded_or_executed": false,
+      "runtime_installed_in_sdk_worktree": false,
+      "runtime_pinned_by_digest_in_this_package": false
+    },
+    "source_files": {
+      "README.md": "c69693beb94f5a84acf076d19e9d24703c0a09ae7d642f670f04645f73c530c8",
+      "inference.py": "290da30c93112fb2d30cb1b88e46eb13262c7946a0cec3e1e01d4335ba988629",
+      "mamba_install_mps/mamba_ssm/__init__.py": "fd5bb14b209676fc12a2d66c8f9f11d5c1dfef4296ee5633a0e5856ab238cb9d",
+      "mamba_install_mps/mamba_ssm/modules/mamba_simple.py": "dc035a4dcfbc9f9809e2bb60764f7bfe38259b6397968399fc33cad159300a43",
+      "mamba_install_mps/mamba_ssm/ops/selective_scan_interface.py": "b0e6f888957f48b94ead8b40c9faa12e67c4cfecd31e2a0cdfecaf28c445bd64",
+      "models/generator.py": "23380a65d1b12df119985718a339c9dc99469dc3a10b141fee3c3c42b44b9ccd",
+      "models/stfts.py": "9da92bdf11f162f41f01ee9fc6951c161c07becd07cb6590cebcee89b508296a"
+    },
+    "training_data_provenance": "not established in this package; upstream reports VCTK-DEMAND (VoiceBank-DEMAND) as both training and evaluation data, but no dataset manifest, consent basis or rights chain is pinned",
+    "unused_teacher_checkpoint": {
+      "bytes": 11115496,
+      "path": "data/checkouts/RT-SEMamba/ckpts/g_00259000.pth",
+      "reason": "the teacher is pinned only to record exclusion; the KD1 student checkpoint is the evaluated artifact",
+      "sha256": "c97bc702d2840f1173ef221e92600a331dbbde64c5a70399f39ef85d4804935b",
+      "used": false
+    },
+    "upstream_commit": "0c9e8c7c42caadd7badb6cc145c8af93f760863c",
+    "upstream_license": "MIT",
+    "upstream_license_file": "data/checkouts/RT-SEMamba/LICENSE",
+    "upstream_license_sha256": "04b1d017b906f5d0c6815e60cadeabb1a3f5b4fb743c1b77343841fd735eb5e8",
+    "upstream_repository": "https://github.com/RoyChao19477/RT-SEMamba"
+  },
+  "negative_claims": {
+    "abi_changed": false,
+    "benchmark_result": false,
+    "board_or_handoff_changed": false,
+    "ci_changed": false,
+    "descriptor_changed": false,
+    "device_timing_measured": false,
+    "exact_rt_semamba_reproduction_claimed": false,
+    "installed_v0_changed": false,
+    "listening_performed": false,
+    "mamba_package_imported": false,
+    "model_weights_downloaded": false,
+    "model_weights_redistributed": false,
+    "provider_registered": false,
+    "public_default_changed": false,
+    "pytorch_imported": false,
+    "quality_pass": false,
+    "real_audio_used": false,
+    "real_speaker_labels_used": false,
+    "registry_changed": false,
+    "release_claim": false,
+    "rt_semamba_checkpoint_loaded": false,
+    "rt_semamba_runtime_executed": false,
+    "rt_semamba_source_executed": false,
+    "shared_build_changed": false,
+    "streaming_behavior_verified": false
+  },
+  "no_missing_result_qualifies_candidate": true,
+  "peaks_and_invalid": {
+    "all_outputs_finite": true,
+    "all_outputs_same_length": true,
+    "max_output_peak_abs": 0.567948,
+    "per_condition": {
+      "clean_control": {
+        "clipped_or_nonfinite": 0,
+        "peak_abs": 0.423909
+      },
+      "idle_noise": {
+        "clipped_or_nonfinite": 0,
+        "peak_abs": 0.239061
+      },
+      "noisy_snr0": {
+        "clipped_or_nonfinite": 0,
+        "peak_abs": 0.567948
+      },
+      "noisy_snr10": {
+        "clipped_or_nonfinite": 0,
+        "peak_abs": 0.422518
+      },
+      "noisy_snr20": {
+        "clipped_or_nonfinite": 0,
+        "peak_abs": 0.417724
+      },
+      "silence": {
+        "clipped_or_nonfinite": 0,
+        "peak_abs": 0.0
+      }
+    },
+    "total_clipped_or_nonfinite": 0
+  },
+  "profile": "enhancement",
+  "qualification_status": "not_qualified",
+  "regressions": [
+    {
+      "condition": "noisy_snr10",
+      "metric": "stoi",
+      "note": "surrogate is worse than identity on this synthetic condition",
+      "paired_delta": -0.010757
+    },
+    {
+      "condition": "noisy_snr0",
+      "metric": "stoi",
+      "note": "surrogate is worse than identity on this synthetic condition",
+      "paired_delta": -0.040069
+    }
+  ],
+  "reopening_conditions": [
+    "A caller supplies the KD1 checkpoint, KD1 config and pinned source tree with matching SHA-256 values, source revision and STFT geometry, and the manifest validates.",
+    "Checkpoint-specific redistribution/product-use rights, VCTK-DEMAND dataset terms and provenance, an immutable distribution record and legal review are cleared.",
+    "The pinned PyTorch and vendored Mamba runtime are installed and the exact checkpoint reproduces approved reference outputs on frozen inputs.",
+    "The native 16 kHz / 400 / 100 streaming boundary, 25 ms latency, chunk scheduling, reset/flush and realtime-versus-chunked equivalence are verified.",
+    "A rights-cleared held-out paired cohort with clean references is scored under the Enhancement profile with documented training-data overlap.",
+    "Clean-speech preservation on real speech is measured and independent listening or preference labels are collected.",
+    "Target-runtime content/availability timing, memory, deadlines and paced workload are measured.",
+    "Opt-in adapter intake, descriptor and catalog review are completed.",
+    "An explicit public default decision is recorded; the candidate remains OFF until then."
+  ],
+  "repeatability": {
+    "byte_identical": true,
+    "count": 3,
+    "digests": [
+      "572eb7fb7cf2b1c1db24968953cacbab6b7c75bd28f365f0892aa6c61ede8793",
+      "572eb7fb7cf2b1c1db24968953cacbab6b7c75bd28f365f0892aa6c61ede8793",
+      "572eb7fb7cf2b1c1db24968953cacbab6b7c75bd28f365f0892aa6c61ede8793"
+    ],
+    "scope": "report body excluding the repeatability block"
+  },
+  "schema_id": "audio-sdk/task-evidence/rt-semamba-kd1/report/0.1",
+  "scope": {
+    "benchmark_claim": false,
+    "caller_supplied_asset_contract_modeled": true,
+    "caller_supplied_asset_present": false,
+    "device_timing": false,
+    "listening_result": false,
+    "mamba_package_imported": false,
+    "model_weights_downloaded": false,
+    "model_weights_loaded": false,
+    "network_used": false,
+    "pytorch_imported": false,
+    "real_audio": false,
+    "real_labels": false,
+    "registered_provider": false,
+    "release_claim": false,
+    "rt_semamba_checkpoint_loaded": false,
+    "rt_semamba_runtime_executed": false,
+    "rt_semamba_source_executed": false,
+    "synthetic_boundary_surrogate_only": true,
+    "task_local_only": true
+  },
+  "source_pins": {
+    "adapters/rt-semamba/README.md": "497f90ce384570593568c5f597b2f06dc89d9d2bd03b5f4d63e85c5becc65283",
+    "adapters/rt-semamba/adapter.json": "5572eb0ce171ea6d22c334807584230efbf0ba0114d851348841c33535c08a12",
+    "adapters/rt-semamba/requirements.lock": "65906eabf3e9c692cc949257976de1f4b789a6bb1223781cdc8cb46f955410ee",
+    "adapters/rt-semamba/run.py": "c3b006211054b9faa23e8ab518c9acac098e6252c6d8ab4b2315c53c2acae3bb",
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "research/noise_suppression_assets_20261027.json": "35f871e7d7362070c20fa35a5832115ea5388ffae550be3b25368a72bf5cebf4",
+    "research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+    "research/voice-enhancement-20261101/agent-semamba-eval/REPORT.md": "91b5e3642adbfad49878d0238215163fc475a34c135b309521c4d08a982a599c",
+    "research/voice-enhancement-20261101/agent-semamba-eval/crop_screen_30.py": "72b0b198b1124276e4ba4cb0e0be2bd78bae8bfa72399b8e4f49d4577a0473f4",
+    "research/voice-enhancement-20261101/agent-semamba-eval/score_crop_stoi.py": "c4795a0b63723d4c26202ecb2da445234e00233c176abe952c07bc639732795a",
+    "research/voice-enhancement-20261101/agent-semamba-eval/short_crop_diagnostic.py": "18cb6c2618fca837a66db1ab32d952f7c6f5b9b7cc4f01a5f64066e8c60cc51a",
+    "research/voice-enhancement-20261101/agent-semamba-result-audit/REPORT.md": "fbc2703c763eae2dd0146c80b212821d44eacb14e8b029766ddb72839c5e2503",
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245"
+  },
+  "source_reported": {
+    "findings": [
+      {
+        "fixture": "dns_crop_screen_30",
+        "interval_95": [
+          -15.51,
+          -9.13
+        ],
+        "metric": "delta_snr_db",
+        "stratum": "all",
+        "unit": "dB",
+        "value": -12.41
+      },
+      {
+        "fixture": "dns_crop_screen_30",
+        "interval_95": [
+          -16.49,
+          -10.06
+        ],
+        "metric": "delta_si_sdr_db",
+        "stratum": "all",
+        "unit": "dB",
+        "value": -13.43
+      },
+      {
+        "fixture": "dns_crop_screen_30",
+        "interval_95": [
+          -0.0042,
+          0.013
+        ],
+        "metric": "delta_stoi",
+        "stratum": "all",
+        "unit": "ratio",
+        "value": 0.0043
+      },
+      {
+        "fixture": "dns_crop_screen_30",
+        "interval_95": null,
+        "metric": "median_rtf",
+        "stratum": "all",
+        "unit": "ratio",
+        "value": 5.81
+      },
+      {
+        "fixture": "dns_crop_screen_30",
+        "interval_95": null,
+        "metric": "p95_rtf",
+        "stratum": "all",
+        "unit": "ratio",
+        "value": 8.15
+      },
+      {
+        "fixture": "dns_crop_screen_30",
+        "interval_95": null,
+        "metric": "mean_output_peak",
+        "stratum": "all",
+        "unit": "linear",
+        "value": 13.03
+      },
+      {
+        "fixture": "dns_crop_screen_30",
+        "interval_95": null,
+        "metric": "max_output_peak",
+        "stratum": "all",
+        "unit": "linear",
+        "value": 122.06
+      },
+      {
+        "fixture": "dns_crop_screen_30",
+        "interval_95": null,
+        "metric": "process_peak_rss_bytes",
+        "stratum": "all",
+        "unit": "bytes",
+        "value": 3219685376
+      },
+      {
+        "fixture": "dns_short_crop_single",
+        "interval_95": null,
+        "metric": "snr_db_after",
+        "stratum": "4.0-6.5 s",
+        "unit": "dB",
+        "value": 14.6675
+      },
+      {
+        "fixture": "dns_short_crop_single",
+        "interval_95": null,
+        "metric": "delta_si_sdr_db",
+        "stratum": "4.0-6.5 s",
+        "unit": "dB",
+        "value": 11.088
+      },
+      {
+        "fixture": "dns_full_10s",
+        "interval_95": null,
+        "metric": "timed_out",
+        "stratum": "bounded_attempt",
+        "unit": "bool",
+        "value": 1
+      },
+      {
+        "fixture": "upstream_vctk_demand",
+        "interval_95": null,
+        "metric": "pesq",
+        "stratum": "author_reported",
+        "unit": "mos",
+        "value": 3.18
+      },
+      {
+        "fixture": "upstream_vctk_demand",
+        "interval_95": null,
+        "metric": "stoi",
+        "stratum": "author_reported",
+        "unit": "ratio",
+        "value": 0.95
+      },
+      {
+        "fixture": "upstream_rtx5090",
+        "interval_95": null,
+        "metric": "rtf",
+        "stratum": "author_reported",
+        "unit": "ratio",
+        "value": 0.11
+      }
+    ],
+    "note": "Transcribed from the pinned research only. The 30-crop screen reports substantial SNR/SI-SDR regression, near-neutral STOI, large output peaks and a CPU RTF around 5.8, while upstream reports strong VCTK-DEMAND quality and 0.11 RTF on an RTX 5090. This package neither reproduces nor claims any of these values and does not pool them with the surrogate observations.",
+    "scope": "a deterministic 30-item paired 2.5 s DNS crop screen with a separate STOI rescore, one aligned 2.5 s crop diagnostic, a bounded 10 s CPU attempt that timed out, and upstream VCTK-DEMAND author results; not a full CLN-01 protocol, not a rights-cleared holdout and not a target-device run.",
+    "sources": [
+      "research/voice-enhancement-20261101/candidate_matrix.csv",
+      "research/voice-enhancement-20261101/agent-semamba-eval/REPORT.md",
+      "research/voice-enhancement-20261101/agent-semamba-eval/crop_screen_30.py",
+      "research/voice-enhancement-20261101/agent-semamba-eval/score_crop_stoi.py",
+      "research/voice-enhancement-20261101/agent-semamba-eval/short_crop_diagnostic.py",
+      "research/voice-enhancement-20261101/agent-semamba-result-audit/REPORT.md",
+      "research/noise_suppression_candidate_census.md",
+      "research/noise_suppression_assets_20261027.json",
+      "adapters/rt-semamba/README.md"
+    ],
+    "status": "source_reported_not_reproduced",
+    "used_for_qualification": false
+  },
+  "state": {
+    "bypass_is_bit_exact_identity": true,
+    "different_stimuli_differ": true,
+    "processed_outputs_finite": true,
+    "reset_bit_identical": true,
+    "reset_epoch_propagated": true,
+    "separate_instances_uncoupled": true
+  },
+  "status": "proposal_only_synthetic_incomplete",
+  "stimuli": {
+    "clip_samples": 32000,
+    "guard_gain": 0.942019,
+    "noise": "deterministic PCG64 seeded white noise, fixed seed 20261101",
+    "noise_rms": 0.117119,
+    "peak_guard": 0.95,
+    "real_audio": false,
+    "room_model": false,
+    "snr_db_strata": [
+      20,
+      10,
+      0
+    ],
+    "target": "synthetic voiced f0 125 Hz, three gated segments, exact clean reference",
+    "target_rms": 0.175096
+  },
+  "stratification": [
+    {
+      "condition": "noisy_snr20",
+      "held_out": false,
+      "independent_items": false,
+      "snr_db": 20.518808,
+      "source_pair_count": 1
+    },
+    {
+      "condition": "noisy_snr10",
+      "held_out": false,
+      "independent_items": false,
+      "snr_db": 10.518808,
+      "source_pair_count": 1
+    },
+    {
+      "condition": "noisy_snr0",
+      "held_out": false,
+      "independent_items": false,
+      "snr_db": 0.518808,
+      "source_pair_count": 1
+    }
+  ],
+  "surrogate": {
+    "asset_geometry": "16 kHz mono, STFT window 400, hop 100, 25 ms algorithm latency",
+    "checkpoint": false,
+    "ctf_mamba_blocks": false,
+    "delay_compensated_samples": 400,
+    "delay_modeled_samples": 400,
+    "deterministic": true,
+    "gate_floor": 0.2,
+    "hop_samples": 100,
+    "identity": "rt-semamba-kd1-boundary-surrogate-v0",
+    "is_neural_network": false,
+    "is_rt_semamba": false,
+    "method": "deterministic causal STFT-domain magnitude gate (400-sample periodic-Hann window, 100-sample hop) with a noise floor estimated from the first five frames and a 0.20 gain floor; a 400-sample window delay is modeled then compensated",
+    "noise_attack_beta": 1.5,
+    "noise_estimate_frames": 5,
+    "peak_guard": 0.95,
+    "public_input_geometry": "16 kHz mono f32 160-sample frames",
+    "pure_synthetic": true,
+    "pytorch": false,
+    "quality_claim": false,
+    "ssm_state": false,
+    "weights": false,
+    "window_samples": 400
+  },
+  "task_id": "SDK-RT-SEMAMBA-KD1",
+  "timestamp_calibration": {
+    "availability_serialization": "decimal string",
+    "clock_id": "fixture-sample-coordinate-not-device",
+    "first_frame_end_ns": "1767225600006250000",
+    "formula": "frame_end_ns = origin_ns + frame_index_end * hop_samples * ns_per_sample",
+    "hop_duration_ns": "6250000",
+    "hop_samples": 100,
+    "last_frame_end_ns": "1767225602000000000",
+    "measured": false,
+    "monotonic_nondecreasing": true,
+    "ns_per_sample": 62500,
+    "origin_ns": "1767225600000000000",
+    "signal_timestamp_is_not_availability": true
+  },
+  "timing": {
+    "availability_clock_is_modeled": true,
+    "device_timing": false,
+    "measured": false,
+    "modeled_algorithm_latency_ms": 25,
+    "modeled_algorithm_latency_samples": 400,
+    "paced": false,
+    "reason": "No RT-SEMamba runtime or target device; the surrogate is unpaced and no wall-clock, RTF or deadline result is claimed.",
+    "source_reported_median_crop_rtf": 5.81,
+    "source_reported_p95_crop_rtf": 8.15,
+    "source_reported_upstream_rtx5090_rtf": 0.11
+  },
+  "title": "RT-SEMamba KD1"
+}
