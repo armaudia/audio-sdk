@@ -38,7 +38,9 @@ feasibility task on the board; no board, handoff or new task is written.
 - **Classic families:** SOLA/WSOLA, overlap-add and phase vocoder. Named leads
   S32 (SoundTouch) and S33 (Rubber Band technical description) map to existing
   evaluated components with pinned source reports and pinned task-local
-  synthetic evidence.
+  synthetic evidence. The overlap-add family also records the Bungee Basic
+  granular/streaming handoff and the FFmpeg atempo synthetic OLA control, both
+  strictly as task-local synthetic evidence, not as upstream runtimes or parity.
 - **ML family:** disentangled analysis/resynthesis maps to the blocked or
   considered neural TSM components. No model, weight or runtime is loaded.
 - **Integration lead S51:** variable sample-count integration maps to the
@@ -48,6 +50,30 @@ feasibility task on the board; no board, handoff or new task is written.
   six neural family records and continuous-stream pacing each link to an
   existing board task of `mode=feasibility`. The verifier rejects any gap whose
   link is missing, unknown or not a feasibility task.
+
+## Comparison inputs, controls and outcomes
+
+`report.json` records the acceptance inputs explicitly:
+
+- **Comparison inputs:** `CI-1`/`CI-2` are historical paired AMI screens
+  (source-reported, not rerun); `CI-3`/`CI-4` are task-local deterministic
+  synthetic rate fixtures; `CI-5` is text-only candidate/latency metadata.
+- **Controls:** `CT-1` identity/1x, `CT-2` pitch-changing linear interpolation,
+  `CT-3` the source-reported FFmpeg atempo classical control, `CT-4` exact
+  rational source/output clock mapping, and `CT-5` a fixed-rate no-change
+  baseline. The interpolation control is explicitly not TSM and not Bungee.
+- **Assets:** `AS-1` historical AMI windows (bytes absent, rights uncleared),
+  `AS-2`/`AS-3` generated synthetic fixtures, `AS-4` upstream source leads as
+  text only, `AS-5` ML checkpoints/weights (absent) and `AS-6` the read-only
+  installed-v0 boundary.
+- **Local vs reported outcomes:** `historical_executions` are
+  `source_reported_not_reproduced`; `task_local_executions` are
+  `task_local_synthetic_reference_only`. The outcome ledger never promotes
+  either class, and `cross_comparison.performed=false` because no matched
+  assets, runtime or settings are shared.
+- **Release boundary:** `release_allowed=false`, `release_claim=false`, and
+  pitch preservation, transient audibility, listening, device timing, public
+  benchmark and release claims remain gated.
 
 All six release gates stay blocked: rights-cleared cohort, independent
 listening, target pacing/variable-sample-count evidence, opt-in provider
@@ -72,7 +98,7 @@ Other paths are relative to the SDK worktree root.
 | `source:research/voice-enhancement-20261101/candidate_matrix.csv` | `3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245` | Pinned offline comparator rows. |
 | `source:audio-benchmark-platform/plan/audio-sdk/README.md` | `f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06` | Component-track and delivery boundary. |
 | `CONTRACTS.md`, `REUSE.toml`, `api/include/audio_sdk/provider_v0.h`, `api/include/audio_sdk/session_v0.h` | see `SOURCES.sha256` | Unchanged SDK boundary and licensing coverage. |
-| `docs/task-evidence/{soundtouch,rubber-band-r3-offline,rubber-band-r3-streaming,bungee-basic,psola-praat,sonic,phase-vocoder-baseline,ola-sola,granular-tsm,signalsmith-stretch}/README.md` | see `SOURCES.sha256` | Existing task-local synthetic evidence, never promoted to qualification. |
+| `docs/task-evidence/{soundtouch,rubber-band-r3-offline,rubber-band-r3-streaming,bungee-basic,psola-praat,sonic,phase-vocoder-baseline,ola-sola,granular-tsm,signalsmith-stretch,ffmpeg-atempo}/README.md` | see `SOURCES.sha256` | Existing task-local synthetic evidence, never promoted to qualification. |
 
 `SOURCES.sha256` enumerates every source, evidence, boundary and task-local
 artifact pin. `verify.py` fails closed on a missing, stale, duplicated or
