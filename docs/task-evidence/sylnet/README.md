@@ -22,11 +22,13 @@ callback path are distinct; no production callback is implemented.
 
 ## Exact blocker
 
-The exact upstream identity is pinned: repository `shjang-97/SylNet` at commit
+The exact upstream identity is pinned: repository `shreyas253/SylNet` at commit
 `29eb34d614907073735f9c2d8c31da22c1be2282`, its MIT `LICENSE`, the TF2 runner
 and model source, checkpoint shards and normalization arrays, all by SHA-256
-from the external research checkout. The pinned source, checkpoint, config and
-weights are **not present in this SDK worktree**, no SylNet runtime is
+from the external research checkout. The pinned research report records the
+stale `shjang-97/SylNet` URL, which returns 404; the pinned commit and every
+pinned byte resolve under `shreyas253/SylNet`. The pinned source, checkpoint,
+config and weights are **not present in this SDK worktree**, no SylNet runtime is
 installed, and product/redistribution and training-data rights are not cleared.
 The MIT license covers the upstream repository snapshot as distributed; it is
 not a product or redistribution clearance and no legal review exists. Nothing
@@ -111,7 +113,9 @@ SDK, plan and research inputs:
 Upstream SylNet provenance, hash-pinned read-only from the external research
 checkout (`data/checkouts/sylnet-evaluation`, commit
 `29eb34d614907073735f9c2d8c31da22c1be2282`); no asset is copied into this
-package or the SDK repository:
+package or the SDK repository. The checkout's `origin` URL and `HEAD` are
+checked offline against the pinned repository/commit, and the stale
+source-reported `shjang-97/SylNet` URL is retained only as a correction record:
 
 | Source | SHA-256 | Use |
 | --- | --- | --- |

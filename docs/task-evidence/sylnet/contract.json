@@ -119,6 +119,14 @@
       "means_sha256": "52813c80049b322b3224c9afa1c6e05fe30109520f528e2d9685fb0567ae3e01",
       "stds_sha256": "3ce79025350250bd423c8992b7e0148f9eb4d24c0166f15bd4c2d50cd8c31cca"
     },
+    "identity_correction": {
+      "corrected_repository": "https://github.com/shreyas253/SylNet",
+      "corrected_repository_resolves_pinned_bytes": true,
+      "corrected_repository_resolves_pinned_commit": true,
+      "correction_reason": "The pinned research report records the stale URL; the pinned commit and all pinned bytes resolve under the corrected repository.",
+      "source_reported_repository": "https://github.com/shjang-97/SylNet",
+      "source_reported_repository_status": "404_not_found"
+    },
     "pilot_artifacts": {
       "approved_reference_vector": false,
       "file_mapping": "research/tsm-followup-20261101/agent-neural/run/sylnet-predictions_files.txt",
@@ -128,6 +136,12 @@
     },
     "primary_provenance_report": "research/tsm-followup-20261101/agent-neural/REPORT.md",
     "primary_provenance_report_sha256": "f2f1b55234364eceff8b0626411590fbb97476cac918d9bf34138babc5820b73",
+    "repository_resolution": {
+      "expected_commit": "29eb34d614907073735f9c2d8c31da22c1be2282",
+      "expected_remote": "https://github.com/shreyas253/SylNet",
+      "method": "git config --get remote.origin.url and git rev-parse HEAD in the pinned external checkout",
+      "snapshot": "data/checkouts/sylnet-evaluation"
+    },
     "runtime_source_reported": {
       "frontend": "16000 Hz mono; librosa melspectrogram n_mels=24, n_fft=400, hop_length=160; 20*log10; z-normalized; maximum output 91 syllables",
       "installed_in_sdk_worktree": false,
@@ -147,7 +161,7 @@
     "upstream_license_copyright": "Copyright (c) 2019 Shreyas Seshadri",
     "upstream_license_file": "data/checkouts/sylnet-evaluation/LICENSE",
     "upstream_license_sha256": "d1442b2f494e4b639e8561912717c8082cef4989401f359a8134857fc514915c",
-    "upstream_repository": "https://github.com/shjang-97/SylNet"
+    "upstream_repository": "https://github.com/shreyas253/SylNet"
   },
   "profile": "rate",
   "reopening_conditions": [

@@ -341,9 +341,18 @@ class PackageTests(unittest.TestCase):
         prov = self.report["model_provenance"]
         self.assertEqual(prov, reference.MODEL_PROVENANCE)
         self.assertEqual(prov["upstream_repository"],
-                         "https://github.com/shjang-97/SylNet")
+                         "https://github.com/shreyas253/SylNet")
         self.assertEqual(prov["upstream_commit"],
                          "29eb34d614907073735f9c2d8c31da22c1be2282")
+        correction = prov["identity_correction"]
+        self.assertEqual(correction["source_reported_repository"],
+                         "https://github.com/shjang-97/SylNet")
+        self.assertEqual(correction["source_reported_repository_status"],
+                         "404_not_found")
+        self.assertEqual(correction["corrected_repository"],
+                         "https://github.com/shreyas253/SylNet")
+        self.assertTrue(correction["corrected_repository_resolves_pinned_commit"])
+        self.assertTrue(correction["corrected_repository_resolves_pinned_bytes"])
         self.assertEqual(prov["upstream_license"], "MIT")
         self.assertEqual(prov["upstream_license_sha256"],
                          reference.SOURCE_PINS[reference.UPSTREAM_LICENSE_PATH])
@@ -383,6 +392,22 @@ class PackageTests(unittest.TestCase):
         self.assertEqual(values["rate_pearson_r"], 0.896)
         self.assertNotIn(0.661, [row["value"] for row in
                                  self.report["source_reported"]["findings"]])
+
+    def test_40_upstream_identity_resolves_to_pinned_commit(self) -> None:
+        identity = reference.upstream_git_identity()
+        self.assertEqual(identity["normalized_remote"],
+                         "https://github.com/shreyas253/SylNet")
+        self.assertEqual(identity["normalized_remote"],
+                         self.report["model_provenance"]["upstream_repository"])
+        self.assertEqual(identity["commit"],
+                         self.report["model_provenance"]["upstream_commit"])
+        self.assertTrue(identity["pinned_commit_present"])
+        resolution = self.report["model_provenance"]["repository_resolution"]
+        self.assertEqual(resolution["expected_remote"],
+                         identity["normalized_remote"])
+        self.assertEqual(resolution["expected_commit"], identity["commit"])
+        self.assertEqual(reference.normalize_remote_url(identity["remote"]),
+                         identity["normalized_remote"])
 
 
 if __name__ == "__main__":
