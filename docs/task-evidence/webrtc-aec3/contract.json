@@ -1,0 +1,85 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX\u002dLicense-Identifier": "Apache-2.0",
+  "artifact_pins": {
+    "SOURCES.sha256.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
+    "adapter.json": "760e25b5e5f5b722d40817f721808a52077adb19e6a389844620cf8a583d9ef5",
+    "check_licensing.py": "a52532bcc6daf6a452e6621a9832979cf2f46b40a07b76d36c2612e5a1d98b1a",
+    "crosscheck.py": "555045e7f545d5f9f67d04154c6bf504534eed9f8c120a17da2fc28fdff6c187",
+    "fixture.py": "dcb1c0358a2c0bbd73bd616cef47b28da8b4e1affeb4c132f96b595a639723a5",
+    "provider.json": "d0399854c826cd02ea9199f27daca60a4df99f7feb0fcd1b286d42f1eb71a392",
+    "provider/CMakeLists.txt": "515978c161f7bf78b99df88bc51074eecfc275809a613b981868e629e4d49af1",
+    "provider/config/config.json": "0a4b0484c4c42c3efd5422ffea95c08ed3588ac3717ba573d2464b11edea552c",
+    "provider/config/config.json.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
+    "provider/config/descriptor.h.in": "1d3575e1266e93290a5e937a00c0906c5daf27faf1e4e4fa69c04da635480c20",
+    "provider/crosscheck_vectors.h": "f75bd0ffdb6711505ac99ebdc6e9822c2a29b4e0e9b619d061ec8f9bfbd7a37f",
+    "provider/tests/test_provider.c": "b3f382ea9ec1718a50ee1ae19621c1ea62e2d725b5548c9d8e25883bc4dc1dea",
+    "provider/webrtc_aec3_provider.c": "1b8a0ad26558e8660b2d0197f6d081519e404f0f0af7bd2ab2e52f2ba23cc13a",
+    "provider/webrtc_aec3_provider.h": "92b2812b250a81cc26ea06dfec973928efd83f65e6540570e1457ec8cb6f5eca",
+    "reference.py": "ce156cbbcbdbf46a1458fcff46a650e50afe7f9069260b798b31e0349115c4ee",
+    "report.json": "da1c2d7bc30fd8e2ae533110cd4130b623859a1747415312386044f41c8c2283",
+    "report.json.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
+    "report.json.sha256": "7ec1bd303eb73892e45e7397425bd9897d4cb26a050abedbf28d15d0b7d198c0",
+    "report.json.sha256.license": "0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47",
+    "run.py": "8b143af9b3d602d538c4ab34b029e9353d56c725b2beeb13a22271ee44b292d3",
+    "scorer.py": "744907554b53677764d10ff605b7c0505b95944f3735c66c066f454c07c15786",
+    "test_reference.py": "fc40803b3734d1be74dd3463e133f24cd3fc248e679962f092a1c896e242787a",
+    "verify.py": "3204db7c89d53e1f50d69e6841e92d256ba431ae420a8e54e87776ebb1eb49e6"
+  },
+  "base_commit": "2bc2a13aa4c5b398933fd9097d09746ce151216e",
+  "boundary_pins": {
+    "audio-benchmark-platform/audio-sdk/api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "audio-benchmark-platform/audio-sdk/api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "branch": "swarm/SDK-WEBRTC-AEC3",
+  "component": "webrtc-aec3",
+  "decision": "DEFER",
+  "mutable_provenance": {
+    "gate": false,
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "275f2d6550eb3f7357d41f8749d92489ebb8601e9f9c5f025d67898fa577e106"
+  },
+  "profile": "room",
+  "public_surface": {
+    "c_abi_or_sdk_default_change": false,
+    "descriptor_registry_change": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false,
+    "public_api_change": false,
+    "shared_cmakelists_change": false
+  },
+  "qualification_status": "incomplete",
+  "release_gates": [
+    "licensed real render/capture or measured room evidence with rights and timing metadata",
+    "real-device/loudspeaker loop, delay, clock-drift and deadline measurement",
+    "AEC quality, double-talk preservation and nonlinear echo evaluation on approved corpora",
+    "provider/catalog/license intake before any default, installed or release claim"
+  ],
+  "reproduction": [
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_reference.py",
+    "python3 run.py --report",
+    "python3 run.py --sources",
+    "python3 run.py --crosscheck",
+    "python3 verify.py",
+    "python3 check_licensing.py"
+  ],
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "scope": {
+    "real_runtime": false,
+    "real_webrtc_aec3_source_or_binary": false,
+    "synthetic_only": true,
+    "task_local_only": true,
+    "weights_or_licensed_corpus": false
+  },
+  "source_pins": {
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "adapters/webrtc-aec/README.md": "c074f84c859dcfb2ac7414a775dbcddcf2f2646deca66810c9241fcf7adec050",
+    "audio-benchmark-platform/audio-sdk/api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "audio-benchmark-platform/audio-sdk/api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "audio-benchmark-platform/plan/swarm/check.py": "5488bf52cea2965b0b36a7ec6bbba45c1b3be7b2f514051ac56f994d3101d539",
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245"
+  },
+  "status": "proposal_only_not_qualified",
+  "task": "SDK-WEBRTC-AEC3"
+}
