@@ -28,6 +28,7 @@ CONTRACT_PATH = HERE / "contract.json"
 SOURCES_PATH = HERE / "SOURCES.sha256"
 BOARD_PATH = WORKSPACE / "audio-benchmark-platform/plan/swarm/TASKS.json"
 TASK_PREFIX = "docs/task-evidence/llvc/"
+SPDX_NEEDLE = "SPDX-License-" "Identifier: Apache-2.0"
 TASK_ID = "SDK-LLVC"
 BASE_COMMIT = "f2709c6b0efabdac98e4017e145d602e9f572d41"
 GATE_IDS = ["RG-0" + str(number) for number in range(1, 9)]
@@ -448,7 +449,7 @@ def check_licensing(problems: List[str]) -> None:
         text = path.read_text(encoding="utf-8")
         check("SPDX-FileCopyrightText:" in text,
               "sidecar lacks copyright line: " + name, problems)
-        check("SPDX-License-Identifier: Apache-2.0" in text,
+        check(SPDX_NEEDLE in text,
               "sidecar lacks Apache-2.0 line: " + name, problems)
     for name in ("README.md", "LICENSES.md", "reference.py", "run.py",
                  "test_reference.py", "verify.py"):
@@ -456,7 +457,7 @@ def check_licensing(problems: List[str]) -> None:
         check(path.is_file(), "missing package file: " + name, problems)
         if path.is_file():
             text = path.read_text(encoding="utf-8")
-            check("SPDX-License-Identifier: Apache-2.0" in text,
+            check(SPDX_NEEDLE in text,
                   "missing SPDX header: " + name, problems)
     for path in HERE.iterdir():
         check(path.suffix.lower() not in PROHIBITED_SUFFIXES or
