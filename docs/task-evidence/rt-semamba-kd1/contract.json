@@ -1,0 +1,357 @@
+{
+  "acceptance_profile": {
+    "mapped_cases": [
+      "identity/noisy control at each synthetic SNR stratum",
+      "paired SNR, SI-SDR and STOI against an exact synthetic clean reference",
+      "clean-speech preservation via a clean-only control",
+      "peaks, invalid and nonfinite output accounting",
+      "modeled alignment at the 400-sample / 25 ms analysis window",
+      "state, reset and separate-instance controls",
+      "memory and content/availability timing explicitly unmeasured",
+      "rights-cleared cohort, independent listening, target-runtime timing and release gates explicitly unmeasured"
+    ],
+    "name": "enhancement",
+    "not_applicable": [
+      "no RT-SEMamba runtime, so exact source-reported outputs are not reproduced",
+      "no rights-cleared paired real cohort, so no real enhancement quality, listening or ranking claim is made",
+      "no target device, so no timing, memory or deadline result is claimed",
+      "no streaming runtime, so no chunk scheduling or state-equivalence claim is made"
+    ],
+    "source": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
+  },
+  "asset_pins": {
+    "data/checkouts/RT-SEMamba/LICENSE": "04b1d017b906f5d0c6815e60cadeabb1a3f5b4fb743c1b77343841fd735eb5e8",
+    "data/checkouts/RT-SEMamba/README.md": "c69693beb94f5a84acf076d19e9d24703c0a09ae7d642f670f04645f73c530c8",
+    "data/checkouts/RT-SEMamba/ckpts/g_00259000.pth": "c97bc702d2840f1173ef221e92600a331dbbde64c5a70399f39ef85d4804935b",
+    "data/checkouts/RT-SEMamba/ckpts/g_00766000.pth": "7d76e2c5f322cc0dd58abd0b9b371890b29c3710d7833cdfebb46a823961f5cc",
+    "data/checkouts/RT-SEMamba/inference.py": "290da30c93112fb2d30cb1b88e46eb13262c7946a0cec3e1e01d4335ba988629",
+    "data/checkouts/RT-SEMamba/mamba_install_mps/mamba_ssm/__init__.py": "fd5bb14b209676fc12a2d66c8f9f11d5c1dfef4296ee5633a0e5856ab238cb9d",
+    "data/checkouts/RT-SEMamba/mamba_install_mps/mamba_ssm/modules/mamba_simple.py": "dc035a4dcfbc9f9809e2bb60764f7bfe38259b6397968399fc33cad159300a43",
+    "data/checkouts/RT-SEMamba/mamba_install_mps/mamba_ssm/ops/selective_scan_interface.py": "b0e6f888957f48b94ead8b40c9faa12e67c4cfecd31e2a0cdfecaf28c445bd64",
+    "data/checkouts/RT-SEMamba/models/generator.py": "23380a65d1b12df119985718a339c9dc99469dc3a10b141fee3c3c42b44b9ccd",
+    "data/checkouts/RT-SEMamba/models/stfts.py": "9da92bdf11f162f41f01ee9fc6951c161c07becd07cb6590cebcee89b508296a",
+    "data/checkouts/RT-SEMamba/recipes/KD1/KD1.yaml": "2db65c33e66108d7616d47ca509a3dc46983980cae63a216d1ccb98daf0ee222"
+  },
+  "base_commit": "62923ffa7dd992da3cea0f6683fab320fb37e6c0",
+  "boundary": {
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "registered": false,
+    "shared_cmakelists_change": false
+  },
+  "boundary_pins": {
+    "CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "LICENSES/Apache-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "REUSE.toml": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "scripts/ci.py": "64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f"
+  },
+  "branch": "swarm/SDK-RT-SEMAMBA-KD1",
+  "caller_supplied_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/rt-semamba-kd1/caller-supplied-asset/0.1",
+    "pinned_values": {
+      "algorithm_latency_samples": 400,
+      "channels": 1,
+      "hop_samples": 100,
+      "sample_rate_hz": 16000,
+      "source_revision": "0c9e8c7c42caadd7badb6cc145c8af93f760863c",
+      "window_samples": 400
+    },
+    "present_behavior": "validate_hashes_and_geometry_only; do_not_import_torch_or_execute_in_this_package",
+    "required_fields": [
+      "algorithm_latency_samples",
+      "channels",
+      "checkpoint_path",
+      "checkpoint_sha256",
+      "config_path",
+      "config_sha256",
+      "hop_samples",
+      "sample_rate_hz",
+      "source_revision",
+      "window_samples"
+    ],
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "checkpoint_path, config_path and the source tree are caller-owned absolute paths",
+      "SHA-256 of the checkpoint and KD1 config matches the manifest",
+      "source_revision equals the pinned upstream revision",
+      "sample rate, channels, STFT window, hop and algorithmic latency equal the pinned 16 kHz / 400 / 100 / 400 geometry",
+      "no download, copy, build, load or execution occurs in this package"
+    ]
+  },
+  "component": "rt-semamba-kd1",
+  "decision": "DEFER",
+  "defer_before": "opt_in_adapter_exposure",
+  "enhancement_boundary": {
+    "adapter_device": "cpu",
+    "adapter_rejects_non_cpu": true,
+    "algorithmic_latency_ms": 25,
+    "algorithmic_latency_samples": 400,
+    "candidate_family": "causal time-frequency Mamba student (cTF-Mamba)",
+    "cross_corpus_role": "DNS2020 is a cross-corpus check, not a training-matched benchmark, because VCTK-DEMAND is both the reported training and evaluation source",
+    "cuda_available_on_research_host": false,
+    "mps_available_on_research_host": false,
+    "parameter_count": 1050000,
+    "parameter_count_is_source_reported": true,
+    "realtime_chunk_ms": 100,
+    "realtime_chunk_samples": 1600,
+    "stft_center": false,
+    "stft_hop_samples": 100,
+    "stft_window_samples": 400,
+    "streaming_path_evaluated": false,
+    "upstream_mode": "offline whole-utterance in the pinned adapter",
+    "upstream_streaming_capable": true,
+    "upstream_task": "CLN-01 single-channel speech denoising / enhancement",
+    "vctk_demand_training_and_evaluation": true
+  },
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    "The exact RT-SEMamba KD1 checkpoint, KD1 config and upstream source are pinned by SHA-256 from the external research checkout, but no caller-supplied asset manifest or copy exists in this SDK worktree and no PyTorch/Mamba runtime is installed here; the exact runtime cannot be loaded, reproduced or measured.",
+    "The upstream repository declares MIT and its LICENSE text is pinned, but artifact-specific checkpoint redistribution and product-use rights, VCTK-DEMAND dataset terms and provenance, an immutable artifact distribution record and legal review are not established. No asset was downloaded, copied, built, vendored or redistributed.",
+    "Only a deterministic model-free STFT-domain gate surrogate was executed. It is not RT-SEMamba, has no checkpoint, cTF-Mamba blocks, SSM state or learned mask, and its synthetic paired metrics are boundary-conformance observations, not a quality, streaming, device-timing or benchmark result.",
+    "No rights-cleared held-out paired cohort, independent listening, target-runtime content/availability timing or memory measurement, native streaming-state verification, opt-in provider intake, descriptor/registry review or public default decision exists; every release gate remains blocked."
+  ],
+  "format": {
+    "asset_channels": 1,
+    "asset_chunk_duration_ms": 100,
+    "asset_chunk_samples": 1600,
+    "asset_hop_duration_ms": 6.25,
+    "asset_hop_samples": 100,
+    "asset_is_native_16k": true,
+    "asset_sample_rate_hz": 16000,
+    "asset_window_duration_ms": 25,
+    "asset_window_samples": 400,
+    "clip_duration_ms": 2000,
+    "clip_samples": 32000,
+    "public_channels": 1,
+    "public_frame_duration_ms": 10,
+    "public_frame_samples": 160,
+    "public_sample_format": "f32",
+    "public_sample_rate_hz": 16000,
+    "public_v0_geometry_preserved": true,
+    "resampling_required": false,
+    "sdk_callback_invoked": false
+  },
+  "gates": [
+    {
+      "name": "caller_supplied_asset_present_and_verified",
+      "reopen_condition": "Place the caller-owned KD1 checkpoint, KD1 config and pinned source tree in the worktree (or supply them through the manifest) with SHA-256 values, source revision and STFT geometry matching the pins.",
+      "status": "blocked"
+    },
+    {
+      "name": "artifact_and_runtime_rights",
+      "reopen_condition": "Establish checkpoint-specific redistribution and product-use rights, VCTK-DEMAND dataset terms and provenance, an immutable distribution record and legal review; the repository MIT declaration alone is insufficient.",
+      "status": "blocked"
+    },
+    {
+      "name": "exact_runtime_reproduction",
+      "reopen_condition": "Install the pinned PyTorch and vendored Mamba runtime, load the exact checkpoint and config, and reproduce approved reference outputs on frozen inputs.",
+      "status": "blocked"
+    },
+    {
+      "name": "streaming_boundary_and_state",
+      "reopen_condition": "Verify the native 16 kHz / 400 / 100 streaming boundary, the 25 ms analysis-window latency, chunk scheduling, state reset/flush and realtime-versus-chunked equivalence.",
+      "status": "blocked"
+    },
+    {
+      "name": "rights_cleared_task_matched_cohort",
+      "reopen_condition": "Score a rights-cleared held-out paired cohort with clean references under the Enhancement profile; the VCTK-DEMAND overlap and the DNS cross-corpus limits must be documented.",
+      "status": "blocked"
+    },
+    {
+      "name": "clean_preservation_and_independent_listening",
+      "reopen_condition": "Measure clean-speech preservation and collect independent listening or preference labels; synthetic metrics cannot qualify an enhancer.",
+      "status": "blocked"
+    },
+    {
+      "name": "target_runtime_timing_memory",
+      "reopen_condition": "Measure content/availability timing, memory, deadlines and paced workload on the exact target runtime.",
+      "status": "blocked"
+    },
+    {
+      "name": "opt_in_adapter_intake",
+      "reopen_condition": "Complete rights review and opt-in adapter intake before any descriptor or provider registration.",
+      "status": "blocked"
+    },
+    {
+      "name": "public_default_selection",
+      "reopen_condition": "Record an explicit public default decision; the candidate is currently unregistered and OFF.",
+      "status": "blocked"
+    }
+  ],
+  "invariants": [
+    "Only this task directory is written; no shared SDK file, CMake, contract, header, registry, default, board, handoff or CI file changes.",
+    "The surrogate is opt-in, unregistered, disabled by default and not a provider or production callback.",
+    "No RT-SEMamba source, checkpoint, config, Mamba package, PyTorch runtime or weights is copied, downloaded, built, loaded or executed.",
+    "All stimuli are frozen deterministic synthetic floats; no real audio, speaker label, room, device or network is used.",
+    "Caller-supplied asset manifests fail closed on missing, hash-mismatched or wrong-geometry inputs.",
+    "Source-reported RT-SEMamba metrics are provenance only and are never reproduced, pooled or used as thresholds.",
+    "Missing evidence never qualifies the candidate; decision remains DEFER."
+  ],
+  "licensing_analysis": {
+    "asset_copied_vendored_built_or_downloaded": false,
+    "blocked_gate": "artifact_and_runtime_rights",
+    "checkpoint_redistribution_clearance": false,
+    "checkpoint_terms": "the ledger records the checkpoint as distributed in the MIT-licensed official repository, but the artifact-specific redistribution and product-use grant is not independently reviewed",
+    "conclusion": "The upstream repository declares MIT and its LICENSE text is pinned, but checkpoint-specific redistribution/product-use terms, dataset terms, provenance and legal review are not cleared. This package distributes no upstream asset.",
+    "dataset_terms": "VCTK-DEMAND / VoiceBank-DEMAND dataset terms, consent basis and redistribution scope are not established in this package",
+    "legal_review_completed": false,
+    "product_use_clearance": false,
+    "runtime_redistribution_clearance": false,
+    "task_files_license": "Apache-2.0",
+    "training_data_provenance_established": false,
+    "upstream_license_file": "data/checkouts/RT-SEMamba/LICENSE",
+    "upstream_license_sha256": "04b1d017b906f5d0c6815e60cadeabb1a3f5b4fb743c1b77343841fd735eb5e8",
+    "upstream_license_text_pinned": true,
+    "upstream_repository_license": "MIT"
+  },
+  "missing_evidence": [
+    "caller-supplied KD1 checkpoint, KD1 config and source tree present and SHA-256-verified in this SDK worktree",
+    "checkpoint-specific redistribution/product-use rights, VCTK-DEMAND dataset terms and provenance, and legal review",
+    "immutable artifact distribution record and approved reference-output vector",
+    "exact runtime reproduction with the pinned PyTorch and vendored Mamba fallback",
+    "native streaming boundary, 25 ms latency, chunk scheduling and reset/flush evidence",
+    "rights-cleared held-out paired cohort with clean references",
+    "clean-speech preservation on real speech and independent listening",
+    "target-runtime content/availability timing, memory and deadline evidence",
+    "opt-in adapter intake, descriptor and catalog review",
+    "explicit public default selection"
+  ],
+  "model_provenance": {
+    "candidate": "RT-SEMamba KD1",
+    "checkpoint": {
+      "bytes": 4235024,
+      "copied_or_vendored": false,
+      "downloaded_by_this_package": false,
+      "loaded_or_executed": false,
+      "path": "data/checkouts/RT-SEMamba/ckpts/g_00766000.pth",
+      "present_in_external_checkout": true,
+      "present_in_sdk_worktree": false,
+      "sha256": "7d76e2c5f322cc0dd58abd0b9b371890b29c3710d7833cdfebb46a823961f5cc",
+      "variant": "KD1 8-layer-to-1-layer distilled student"
+    },
+    "config": {
+      "copied_or_vendored": false,
+      "downloaded_by_this_package": false,
+      "loaded_or_executed": false,
+      "path": "data/checkouts/RT-SEMamba/recipes/KD1/KD1.yaml",
+      "present_in_external_checkout": true,
+      "present_in_sdk_worktree": false,
+      "sha256": "2db65c33e66108d7616d47ca509a3dc46983980cae63a216d1ccb98daf0ee222"
+    },
+    "paper": "https://arxiv.org/abs/2608.12099",
+    "public_adapter": {
+      "declared_modes": [
+        "offline"
+      ],
+      "declared_output_kinds": [
+        "waveform"
+      ],
+      "declared_tasks": [
+        "CLN-01"
+      ],
+      "declared_weights": "official pinned KD1 checkpoint",
+      "executed_by_this_package": false,
+      "path": "adapters/rt-semamba",
+      "present_in_research_workspace": true,
+      "present_in_sdk_worktree": false,
+      "source_commit": "0c9e8c7c42caadd7badb6cc145c8af93f760863c"
+    },
+    "runtime": {
+      "accelerator": "the pinned research adapter runs CPU only with the vendored pure-PyTorch Mamba fallback",
+      "framework": "PyTorch >= 2.2",
+      "loaded_or_executed": false,
+      "runtime_installed_in_sdk_worktree": false,
+      "runtime_pinned_by_digest_in_this_package": false
+    },
+    "source_files": {
+      "README.md": "c69693beb94f5a84acf076d19e9d24703c0a09ae7d642f670f04645f73c530c8",
+      "inference.py": "290da30c93112fb2d30cb1b88e46eb13262c7946a0cec3e1e01d4335ba988629",
+      "mamba_install_mps/mamba_ssm/__init__.py": "fd5bb14b209676fc12a2d66c8f9f11d5c1dfef4296ee5633a0e5856ab238cb9d",
+      "mamba_install_mps/mamba_ssm/modules/mamba_simple.py": "dc035a4dcfbc9f9809e2bb60764f7bfe38259b6397968399fc33cad159300a43",
+      "mamba_install_mps/mamba_ssm/ops/selective_scan_interface.py": "b0e6f888957f48b94ead8b40c9faa12e67c4cfecd31e2a0cdfecaf28c445bd64",
+      "models/generator.py": "23380a65d1b12df119985718a339c9dc99469dc3a10b141fee3c3c42b44b9ccd",
+      "models/stfts.py": "9da92bdf11f162f41f01ee9fc6951c161c07becd07cb6590cebcee89b508296a"
+    },
+    "training_data_provenance": "not established in this package; upstream reports VCTK-DEMAND (VoiceBank-DEMAND) as both training and evaluation data, but no dataset manifest, consent basis or rights chain is pinned",
+    "unused_teacher_checkpoint": {
+      "bytes": 11115496,
+      "path": "data/checkouts/RT-SEMamba/ckpts/g_00259000.pth",
+      "reason": "the teacher is pinned only to record exclusion; the KD1 student checkpoint is the evaluated artifact",
+      "sha256": "c97bc702d2840f1173ef221e92600a331dbbde64c5a70399f39ef85d4804935b",
+      "used": false
+    },
+    "upstream_commit": "0c9e8c7c42caadd7badb6cc145c8af93f760863c",
+    "upstream_license": "MIT",
+    "upstream_license_file": "data/checkouts/RT-SEMamba/LICENSE",
+    "upstream_license_sha256": "04b1d017b906f5d0c6815e60cadeabb1a3f5b4fb743c1b77343841fd735eb5e8",
+    "upstream_repository": "https://github.com/RoyChao19477/RT-SEMamba"
+  },
+  "profile": "enhancement",
+  "qualification_status": "not_qualified",
+  "reopening_conditions": [
+    "A caller supplies the KD1 checkpoint, KD1 config and pinned source tree with matching SHA-256 values, source revision and STFT geometry, and the manifest validates.",
+    "Checkpoint-specific redistribution/product-use rights, VCTK-DEMAND dataset terms and provenance, an immutable distribution record and legal review are cleared.",
+    "The pinned PyTorch and vendored Mamba runtime are installed and the exact checkpoint reproduces approved reference outputs on frozen inputs.",
+    "The native 16 kHz / 400 / 100 streaming boundary, 25 ms latency, chunk scheduling, reset/flush and realtime-versus-chunked equivalence are verified.",
+    "A rights-cleared held-out paired cohort with clean references is scored under the Enhancement profile with documented training-data overlap.",
+    "Clean-speech preservation on real speech is measured and independent listening or preference labels are collected.",
+    "Target-runtime content/availability timing, memory, deadlines and paced workload are measured.",
+    "Opt-in adapter intake, descriptor and catalog review are completed.",
+    "An explicit public default decision is recorded; the candidate remains OFF until then."
+  ],
+  "repository": "audio-sdk",
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "scope": {
+    "benchmark_claim": false,
+    "caller_supplied_asset_contract_modeled": true,
+    "caller_supplied_asset_present": false,
+    "device_timing": false,
+    "listening_result": false,
+    "mamba_package_imported": false,
+    "model_weights_downloaded": false,
+    "model_weights_loaded": false,
+    "network_used": false,
+    "pytorch_imported": false,
+    "real_audio": false,
+    "real_labels": false,
+    "registered_provider": false,
+    "release_claim": false,
+    "rt_semamba_checkpoint_loaded": false,
+    "rt_semamba_runtime_executed": false,
+    "rt_semamba_source_executed": false,
+    "synthetic_boundary_surrogate_only": true,
+    "task_local_only": true
+  },
+  "source_pins": {
+    "adapters/rt-semamba/README.md": "497f90ce384570593568c5f597b2f06dc89d9d2bd03b5f4d63e85c5becc65283",
+    "adapters/rt-semamba/adapter.json": "5572eb0ce171ea6d22c334807584230efbf0ba0114d851348841c33535c08a12",
+    "adapters/rt-semamba/requirements.lock": "65906eabf3e9c692cc949257976de1f4b789a6bb1223781cdc8cb46f955410ee",
+    "adapters/rt-semamba/run.py": "c3b006211054b9faa23e8ab518c9acac098e6252c6d8ab4b2315c53c2acae3bb",
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "research/noise_suppression_assets_20261027.json": "35f871e7d7362070c20fa35a5832115ea5388ffae550be3b25368a72bf5cebf4",
+    "research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+    "research/voice-enhancement-20261101/agent-semamba-eval/REPORT.md": "91b5e3642adbfad49878d0238215163fc475a34c135b309521c4d08a982a599c",
+    "research/voice-enhancement-20261101/agent-semamba-eval/crop_screen_30.py": "72b0b198b1124276e4ba4cb0e0be2bd78bae8bfa72399b8e4f49d4577a0473f4",
+    "research/voice-enhancement-20261101/agent-semamba-eval/score_crop_stoi.py": "c4795a0b63723d4c26202ecb2da445234e00233c176abe952c07bc639732795a",
+    "research/voice-enhancement-20261101/agent-semamba-eval/short_crop_diagnostic.py": "18cb6c2618fca837a66db1ab32d952f7c6f5b9b7cc4f01a5f64066e8c60cc51a",
+    "research/voice-enhancement-20261101/agent-semamba-result-audit/REPORT.md": "fbc2703c763eae2dd0146c80b212821d44eacb14e8b029766ddb72839c5e2503",
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245"
+  },
+  "status": "proposal_only_synthetic_incomplete",
+  "task": "SDK-RT-SEMAMBA-KD1",
+  "title": "RT-SEMamba KD1"
+}
