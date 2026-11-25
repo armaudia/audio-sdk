@@ -1,0 +1,290 @@
+{
+  "acceptance_profile": {
+    "mapped_cases": [
+      "source/output mapping and duration specified, not rendered",
+      "rate cases 1x, 4/5x and 5/4x specified, not executed",
+      "unfamiliar speech, music, silence, rebuffer, drift",
+      "final partial window at exact coordinates",
+      "identity and mismatch controls",
+      "unmeasured pitch, transient audibility and listening",
+      "fixture-only playback buffering"
+    ],
+    "name": "rate",
+    "not_applicable": [
+      "no rendered audio, so pitch and transient audibility are not measured",
+      "no target runtime, so device timing, memory and deadlines are not measured",
+      "no real model, so no preferred-speed policy claim is made"
+    ],
+    "source": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
+  },
+  "base_commit": "66b9f8d8724ed95e80ff2598781ff80fb5359988",
+  "boundary": {
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "registered": false,
+    "shared_cmakelists_change": false
+  },
+  "boundary_pins": {
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "branch": "swarm/SDK-SYLNET",
+  "component": "sylnet",
+  "decision": "DEFER",
+  "defer_before": "processor_exposure",
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    "The exact upstream repository, commit, MIT LICENSE, source files and checkpoint bytes are pinned by SHA-256 from the external research checkout, but no SylNet source, checkpoint, config or weights asset is present in this SDK worktree; the model cannot be loaded or reproduced here.",
+    "No SylNet runtime is installed in this worktree; the surrogate is an original thresholded feature proxy, not SylNet, and no exact approved reference output vector is available for parity.",
+    "MIT covers the pinned upstream snapshot, but product/redistribution rights, training-data provenance and any separate model/weights terms are not established; no legal review exists and no asset may be vendored, built, packaged or redistributed.",
+    "No rights-cleared real cohort, device timing, listening, benchmark or target-runtime evidence exists; every release gate remains blocked."
+  ],
+  "format": {
+    "channels": 1,
+    "final_partial_samples": 37,
+    "frame_samples": 160,
+    "public_v0_geometry_preserved": true,
+    "sample_format": "f32",
+    "sample_rate_hz": 16000,
+    "sdk_callback_invoked": false,
+    "window_samples": 64000
+  },
+  "gates": [
+    "exact_checkpoint_config_rights",
+    "real_cohort",
+    "independent_listening_or_preference",
+    "target_runtime_timing_memory",
+    "provider_intake",
+    "public_default_selection",
+    "exact_reference_parity"
+  ],
+  "invariants": [
+    "Only this task directory is written; no shared SDK file, CMake, contract, header, registry, default, board, handoff or CI file changes.",
+    "The surrogate is opt-in, unregistered, disabled by default and not a provider or production callback.",
+    "All feature frames are frozen deterministic synthetic floats; no model, media, weight or runtime asset is read or produced.",
+    "Configuration, window, shape, missing, invalid, nonfinite, epoch, position and lifecycle rejections fail closed without advancing state.",
+    "Source-reported SylNet metrics are provenance only and are never reproduced, pooled or used as thresholds.",
+    "Three cold-start passes are byte-identical; canonical JSON and digest sidecars regenerate deterministically.",
+    "Missing evidence never qualifies the candidate; decision remains DEFER."
+  ],
+  "licensing_analysis": {
+    "asset_copied_vendored_built_or_downloaded": false,
+    "blocked_gate": "exact_checkpoint_config_rights",
+    "conclusion": "MIT source licensing is pinned, but product/redistribution rights, training-data provenance and any separate model/weights terms are not cleared. The rights gate remains blocked; this package distributes no upstream asset.",
+    "legal_review_completed": false,
+    "mit_notice_obligation": "Preserve the copyright and permission notice in copies or substantial portions; this package copies no upstream portion.",
+    "product_use_clearance": false,
+    "redistribution_clearance": false,
+    "separate_weights_terms_established": false,
+    "task_files_license": "Apache-2.0",
+    "training_data_provenance_established": false,
+    "upstream_license_scope": "Pinned MIT LICENSE for the exact repository snapshot, including tracked checkpoint files as distributed at that commit; no separate model-card or weights terms were found in that snapshot.",
+    "upstream_license_sha256": "d1442b2f494e4b639e8561912717c8082cef4989401f359a8134857fc514915c",
+    "upstream_license_text_pinned": true,
+    "upstream_repository_license": "MIT"
+  },
+  "missing_evidence": [
+    "SylNet checkpoint, config and weights present in this worktree (hashes are pinned; assets are absent)",
+    "installed SylNet runtime and canonical feature extraction in this worktree",
+    "product/redistribution and training-data rights clearance; MIT source license is pinned but not sufficient",
+    "rights-cleared held-out real speech cohort with exact labels",
+    "independent listening or user-preference labels for desired playback rate",
+    "target-device content/availability timing, memory and deadline evidence",
+    "exact approved SylNet reference parity vector",
+    "opt-in provider intake, descriptor and catalog review",
+    "explicit public default selection"
+  ],
+  "model_provenance": {
+    "asset_policy": "Hash-pinned provenance only; no upstream source, checkpoint, config or weights asset is copied, vendored, built, downloaded or redistributed by this package.",
+    "candidate": "SylNet",
+    "checkpoint": {
+      "bytes": 33806412,
+      "file": "data/checkouts/sylnet-evaluation/trained_models/model_trained.ckpt.data-00000-of-00001",
+      "index_sha256": "6076f70f9175ea35ed77fdb8f106053b6cad8aee7f2299a75e53ae44e31ae1a2",
+      "loaded_or_executed": false,
+      "meta_sha256": "0577000a8dc3f48ff97c9f61012bfdfe44bc7bd006c58c1fcb74156efed86894",
+      "present_in_sdk_worktree": false,
+      "sha256": "90aabcf981a8a68ce9a8003565c51bb576e8787461d841af9c61d47f7d7ba1e3",
+      "tracked_in_upstream_commit": true
+    },
+    "feature_normalization": {
+      "means_sha256": "52813c80049b322b3224c9afa1c6e05fe30109520f528e2d9685fb0567ae3e01",
+      "stds_sha256": "3ce79025350250bd423c8992b7e0148f9eb4d24c0166f15bd4c2d50cd8c31cca"
+    },
+    "pilot_artifacts": {
+      "approved_reference_vector": false,
+      "file_mapping": "research/tsm-followup-20261101/agent-neural/run/sylnet-predictions_files.txt",
+      "file_mapping_sha256": "b2787d4498b69430707741ed8d096edbb2e2ff563f876ff25a91b0f8e29ef77d",
+      "predictions": "research/tsm-followup-20261101/agent-neural/run/sylnet-predictions.txt",
+      "predictions_sha256": "28b4291e1adb1197735278a2a9c602aa6e4fc371acad34fe3b0d13c9be11b76f"
+    },
+    "primary_provenance_report": "research/tsm-followup-20261101/agent-neural/REPORT.md",
+    "primary_provenance_report_sha256": "f2f1b55234364eceff8b0626411590fbb97476cac918d9bf34138babc5820b73",
+    "runtime_source_reported": {
+      "frontend": "16000 Hz mono; librosa melspectrogram n_mels=24, n_fft=400, hop_length=160; 20*log10; z-normalized; maximum output 91 syllables",
+      "installed_in_sdk_worktree": false,
+      "pilot_wall_seconds_210_clips": 88.03,
+      "python": "3.10.13",
+      "tensorflow": "2.12.0 tensorflow-macos"
+    },
+    "source_files": {
+      "README.md": "7581fb7f5d6986dc2c2ff8e0542673451bb72394edcacab4784220f170849405",
+      "SylNet_model_tf2.py": "663b4c4b0984b86c378601ab1887dd4751859329b016ed0e6933d60b5f943f1e",
+      "run_SylNet_tf2.py": "d588b38a8bd38ce7b143e0e37660e22adaa9d295250b0248e15e086618683eb2"
+    },
+    "source_snapshot": "data/checkouts/sylnet-evaluation",
+    "source_snapshot_in_sdk_worktree": false,
+    "upstream_commit": "29eb34d614907073735f9c2d8c31da22c1be2282",
+    "upstream_license": "MIT",
+    "upstream_license_copyright": "Copyright (c) 2019 Shreyas Seshadri",
+    "upstream_license_file": "data/checkouts/sylnet-evaluation/LICENSE",
+    "upstream_license_sha256": "d1442b2f494e4b639e8561912717c8082cef4989401f359a8134857fc514915c",
+    "upstream_repository": "https://github.com/shjang-97/SylNet"
+  },
+  "profile": "rate",
+  "reopening_conditions": [
+    "SylNet checkpoint, config and weights present in this worktree (hashes are pinned; assets are absent)",
+    "installed SylNet runtime and canonical feature extraction in this worktree",
+    "product/redistribution and training-data rights clearance; MIT source license is pinned but not sufficient",
+    "rights-cleared held-out real speech cohort with exact labels",
+    "independent listening or user-preference labels for desired playback rate",
+    "target-device content/availability timing, memory and deadline evidence",
+    "exact approved SylNet reference parity vector",
+    "opt-in provider intake, descriptor and catalog review",
+    "explicit public default selection"
+  ],
+  "repository": "audio-sdk",
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "scope": {
+    "benchmark_claim": false,
+    "caller_supplied_frozen_features": true,
+    "device_timing": false,
+    "listening_result": false,
+    "model_weights": false,
+    "real_audio": false,
+    "real_labels": false,
+    "registered_provider": false,
+    "release_claim": false,
+    "rendered_playback": false,
+    "sylnet_checkpoint_loaded": false,
+    "sylnet_source": false,
+    "synthetic_feature_trace_only": true,
+    "task_local_only": true,
+    "vendor_runtime_invoked": false
+  },
+  "source_pins": {
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "data/checkouts/sylnet-evaluation/LICENSE": "d1442b2f494e4b639e8561912717c8082cef4989401f359a8134857fc514915c",
+    "data/checkouts/sylnet-evaluation/README.md": "7581fb7f5d6986dc2c2ff8e0542673451bb72394edcacab4784220f170849405",
+    "data/checkouts/sylnet-evaluation/SylNet_model_tf2.py": "663b4c4b0984b86c378601ab1887dd4751859329b016ed0e6933d60b5f943f1e",
+    "data/checkouts/sylnet-evaluation/run_SylNet_tf2.py": "d588b38a8bd38ce7b143e0e37660e22adaa9d295250b0248e15e086618683eb2",
+    "data/checkouts/sylnet-evaluation/trained_models/means.npy": "52813c80049b322b3224c9afa1c6e05fe30109520f528e2d9685fb0567ae3e01",
+    "data/checkouts/sylnet-evaluation/trained_models/model_trained.ckpt.data-00000-of-00001": "90aabcf981a8a68ce9a8003565c51bb576e8787461d841af9c61d47f7d7ba1e3",
+    "data/checkouts/sylnet-evaluation/trained_models/model_trained.ckpt.index": "6076f70f9175ea35ed77fdb8f106053b6cad8aee7f2299a75e53ae44e31ae1a2",
+    "data/checkouts/sylnet-evaluation/trained_models/model_trained.ckpt.meta": "0577000a8dc3f48ff97c9f61012bfdfe44bc7bd006c58c1fcb74156efed86894",
+    "data/checkouts/sylnet-evaluation/trained_models/stds.npy": "3ce79025350250bd423c8992b7e0148f9eb4d24c0166f15bd4c2d50cd8c31cca",
+    "research/tsm-followup-20261101/README.md": "01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f",
+    "research/tsm-followup-20261101/agent-neural/REPORT.md": "f2f1b55234364eceff8b0626411590fbb97476cac918d9bf34138babc5820b73",
+    "research/tsm-followup-20261101/agent-neural/run/sylnet-predictions.txt": "28b4291e1adb1197735278a2a9c602aa6e4fc371acad34fe3b0d13c9be11b76f",
+    "research/tsm-followup-20261101/agent-neural/run/sylnet-predictions_files.txt": "b2787d4498b69430707741ed8d096edbb2e2ff563f876ff25a91b0f8e29ef77d",
+    "research/tsm-followup-20261101/root-baselines/REPORT.md": "63ea22bd4d027467a1abe97639f7c9ff6e00cdc2c6c753a52c2bd5e4028bab85"
+  },
+  "source_reported": {
+    "detailed_pilot": {
+      "findings": [
+        {
+          "metric": "count_mae_syllables_per_window",
+          "value": 2.643
+        },
+        {
+          "metric": "count_rmse_syllables_per_window",
+          "value": 3.226
+        },
+        {
+          "metric": "count_bias_syllables_per_window",
+          "value": 2.091
+        },
+        {
+          "metric": "rate_mae_syllables_per_second",
+          "value": 0.661
+        },
+        {
+          "metric": "rate_pearson_r",
+          "value": 0.896
+        },
+        {
+          "metric": "pilot_wall_seconds_210_clips",
+          "value": 88.03
+        },
+        {
+          "metric": "checkpoint_size_mb",
+          "value": 32
+        },
+        {
+          "metric": "checkout_size_mb",
+          "value": 69
+        }
+      ],
+      "note": "Transcribed from the pinned neural report only. Its rate MAE/r (0.661/0.896) differ from the pinned top-level README (0.69/0.894) for the same pilot; both are retained as source-reported values and neither is reproduced or used as a threshold.",
+      "source": "research/tsm-followup-20261101/agent-neural/REPORT.md",
+      "status": "source_reported_not_reproduced",
+      "used_for_qualification": false
+    },
+    "findings": [
+      {
+        "metric": "count_mae",
+        "value": 2.64
+      },
+      {
+        "metric": "count_rmse",
+        "value": 3.23
+      },
+      {
+        "metric": "rate_mae_syllables_per_second",
+        "value": 0.69
+      },
+      {
+        "metric": "rate_rmse_syllables_per_second",
+        "value": 0.85
+      },
+      {
+        "metric": "rate_pearson_r",
+        "value": 0.894
+      }
+    ],
+    "note": "These numbers are transcribed from the pinned research reports only. This package neither reproduces nor claims them.",
+    "scope": "210 non-overlapping four-second EN2003a windows, CMUdict-derived syllable labels, one meeting, legacy-stack runtime overhead; no target-device or listening result.",
+    "sources": [
+      "research/tsm-followup-20261101/README.md",
+      "research/tsm-followup-20261101/root-baselines/REPORT.md",
+      "research/tsm-followup-20261101/agent-neural/REPORT.md"
+    ],
+    "status": "source_reported_not_reproduced",
+    "used_for_qualification": false
+  },
+  "status": "optional-task-local-developer-fixture",
+  "surrogate": {
+    "audio_rendered": false,
+    "bands": 19,
+    "caller_supplied_frozen_features": true,
+    "checkpoint": false,
+    "device_clock": false,
+    "frame_samples": 160,
+    "identity": "stdlib-thresholded-feature-nuclei-proxy-v0",
+    "is_sylnet_source": false,
+    "weights": false,
+    "window_samples": 64000
+  },
+  "task": "SDK-SYLNET",
+  "title": "SylNet",
+  "verification_profile": "rate"
+}
