@@ -1,0 +1,36 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "audio_path": "not_exposed",
+  "boundary": {
+    "default_selected": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "format": {
+      "channels": 1,
+      "frame_samples": 160,
+      "sample_format": "f32",
+      "sample_rate_hz": 16000
+    },
+    "public_api_abi_change": false,
+    "registered": false
+  },
+  "c_abi_or_sdk_default_change": false,
+  "component": "ffmpeg-afwtdn",
+  "decision": "DEFER",
+  "default_enabled": false,
+  "descriptor_registry_change": false,
+  "ffmpeg_invocation": false,
+  "installed_v0_behavior_change": false,
+  "licensed_asset": false,
+  "note": "Task-local evidence record only. No provider registration, descriptor change, default change, public exposure or FFmpeg runtime is present.",
+  "opt_in_required": true,
+  "processor_exposure": false,
+  "qualification_status": "not_qualified",
+  "real_runtime": false,
+  "registered": false,
+  "schema_id": "audio-sdk/task-evidence/ffmpeg-afwtdn/provider/0.1",
+  "shared_cmakelists_change": false,
+  "status": "proposal_only_synthetic_incomplete",
+  "task": "SDK-FFMPEG-AFWTDN"
+}
