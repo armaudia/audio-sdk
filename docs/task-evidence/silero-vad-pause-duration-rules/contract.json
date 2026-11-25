@@ -1,0 +1,68 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "task": "SDK-SILERO-VAD-PAUSE-DURATION-RULES",
+  "component": "silero-vad-pause-duration-rules",
+  "profile": "rate",
+  "status": "proposal_only_synthetic_incomplete",
+  "qualification_status": "not_qualified",
+  "decision": "DEFER",
+  "base_commit": "ff0d92cc1a994e3f93adcab4b1d37bcd2a8a4a5d",
+  "branch": "swarm/SDK-SILERO-VAD-PAUSE-DURATION-RULES",
+  "no_missing_result_qualifies_candidate": true,
+  "scope": {
+    "synthetic_probability_trace_only": true,
+    "real_audio": false,
+    "real_silero_model": false,
+    "silero_runtime_or_weights": false,
+    "vendor_model_invoked": false,
+    "device_timing": false,
+    "listening": false,
+    "rendered_playback": false,
+    "public_benchmark": false,
+    "release_claim": false,
+    "task_local_only": true
+  },
+  "boundary": {
+    "registered": false,
+    "enabled_by_default": false,
+    "default_selected": false,
+    "descriptor_settings": {},
+    "public_api_abi_change": false,
+    "provider_registration": false,
+    "installed_v0_geometry_preserved": true,
+    "sdk_callback_invoked": false
+  },
+  "public_v0_geometry": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "source_pins": {
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "research/tsm-followup-20261101/README.md": "01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f",
+    "research/tsm-followup-20261101/root-baselines/REPORT.md": "63ea22bd4d027467a1abe97639f7c9ff6e00cdc2c6c753a52c2bd5e4028bab85",
+    "adapters/silero-vad/adapter.json": "45222fd98fe1bd76550d0529cdaa442783807a727880b168d7879eca4f54a60a"
+  },
+  "boundary_pins": {
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "release_gates": [
+    "Rights-cleared unfamiliar-speech and music cohort before any quality claim.",
+    "Independent listening before any transient-audibility or pitch claim.",
+    "Pinned target runtime buffering, rebuffer, drift and deadline budget before any availability claim.",
+    "Opt-in provider intake and licensing clearance before registration.",
+    "Explicit public default selection before any enabled-by-default claim.",
+    "Exact interval parity with an approved external Silero reference before any parity claim."
+  ],
+  "reproduction": {
+    "tests": "PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 -m unittest -v test_reference.py",
+    "report": "PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 run.py all",
+    "verify": "PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 verify.py",
+    "comparison": "canonical JSON bytes and SHA-256 only; no tolerance"
+  }
+}
