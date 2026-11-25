@@ -1,0 +1,137 @@
+{
+  "admission": {
+    "asset_bytes_read": false,
+    "download_attempted": false,
+    "reason_codes": [
+      "model_revision_unpinned",
+      "download_revision_unrecorded",
+      "pointer_artifact_unverified",
+      "asset_bytes_absent",
+      "runtime_unavailable",
+      "rights_not_cleared"
+    ],
+    "status": "blocked",
+    "vendor_runtime_invoked": false
+  },
+  "allowed_now": [
+    "synthetic surrogate boundary tests with explicit opt-in",
+    "read-only documentation of the caller-supplied asset contract"
+  ],
+  "asset_reference": {
+    "asset_id": "MossFormerGAN_SE_16K/last_best_checkpoint.pt",
+    "auxiliary_assets": [
+      {
+        "asset_id": "MossFormerGAN_SE_16K/last_best_checkpoint",
+        "byte_count": 24,
+        "content_verified": false,
+        "required_content": "last_best_checkpoint.pt",
+        "sha256": "315744c841441f8831cb2f896e06102b4d864776bf272febaa30c639c903e1c0"
+      }
+    ],
+    "byte_count": 38845593,
+    "bytes_present": false,
+    "code_license_metadata": "Apache-2.0",
+    "download_permitted": false,
+    "model_download_revision": null,
+    "model_license_metadata": "Apache-2.0",
+    "model_name": "MossFormerGAN_SE_16K",
+    "model_revision": null,
+    "package": "clearvoice==0.1.2",
+    "package_identity": "ClearerVoice-Studio-clearvoice-0.1.2",
+    "rights_cleared": false,
+    "runtime_available": false,
+    "sha256": "04bf00db575389e1ea8b1fcca48d9efcf073e50ad170e6dd5230df3bac98be27",
+    "source_repository": "https://github.com/modelscope/ClearerVoice-Studio",
+    "source_revision": "dcb1b20e1e44d435090072ab9b223c792ea1f624",
+    "storage": "external",
+    "training_data_note": "model card states open and private data; exact corpus exposure not disclosed"
+  },
+  "blocked_gates": [
+    "exact_asset_identity",
+    "runtime_admission",
+    "artifact_rights",
+    "exact_reference_parity",
+    "rights_cleared_cohort",
+    "independent_scoring_and_listening",
+    "target_runtime_timing",
+    "provider_intake",
+    "public_default_selection"
+  ],
+  "candidate": "ClearerVoice-MossFormerGAN_SE_16K",
+  "claims": {
+    "asset_downloaded": false,
+    "attention_or_gan_executed": false,
+    "benchmark_result": false,
+    "content_latency_measured": false,
+    "device_timing_measured": false,
+    "listening_result_produced": false,
+    "mossformergan_model_loaded": false,
+    "quality_claim": false,
+    "real_audio_read": false,
+    "real_clearvoice_runtime": false,
+    "real_media_read": false,
+    "release_claim": false,
+    "weights_accessed": false
+  },
+  "component": "clearvoice-mossformergan",
+  "contract_sha256": "cd98bc7b615b0861923d2a53a24ec91fd939c6dcade0818022912a5a5e34869c",
+  "decision": "DEFER",
+  "defer_before": "processor_exposure",
+  "evidence_status": "incomplete",
+  "exact_blocker": "The pinned asset ledger records MossFormerGAN_SE_16K/last_best_checkpoint.pt as 38,845,593 bytes with SHA-256 04bf00db575389e1ea8b1fcca48d9efcf073e50ad170e6dd5230df3bac98be27 and a 24-byte MossFormerGAN_SE_16K/last_best_checkpoint pointer with SHA-256 315744c841441f8831cb2f896e06102b4d864776bf272febaa30c639c903e1c0 under ClearerVoice source revision dcb1b20e1e44d435090072ab9b223c792ea1f624, but the ledger records no immutable model artifact revision (model_revision is absent) and no retrieval-time download commit; the 24-byte pointer content is not verified, and neither artifact is present in this SDK worktree.",
+  "external_blockers": [
+    "The pinned asset ledger records MossFormerGAN_SE_16K/last_best_checkpoint.pt as 38,845,593 bytes with SHA-256 04bf00db575389e1ea8b1fcca48d9efcf073e50ad170e6dd5230df3bac98be27 and a 24-byte MossFormerGAN_SE_16K/last_best_checkpoint pointer with SHA-256 315744c841441f8831cb2f896e06102b4d864776bf272febaa30c639c903e1c0 under ClearerVoice source revision dcb1b20e1e44d435090072ab9b223c792ea1f624, but the ledger records no immutable model artifact revision (model_revision is absent) and no retrieval-time download commit; the 24-byte pointer content is not verified, and neither artifact is present in this SDK worktree.",
+    "The runtime is the external clearvoice 0.1.2 package (adapter identity ClearerVoice-Studio-clearvoice-0.1.2) whose research requirements lock is pinned by digest but which has no wheel or sdist digest, no installed environment and no execution evidence here; adapters/clearvoice/run.py is not executed and no vendor runtime is invoked.",
+    "Apache-2.0 is recorded for the code and the Apache-2.0 model card at https://huggingface.co/alibabasglab/MossFormerGAN_SE_16K, but the model card states open and private training data with exact corpus exposure undisclosed; artifact-specific weight rights, training-data provenance, redistribution and product-use clearance, and legal review are not established. No checkpoint, pointer, runtime or upstream source may be vendored, packaged, downloaded or redistributed by this package.",
+    "No rights-cleared held-out real cohort, independent clean-reference scorer, permitted listening result, target-runtime timing measurement or approved exact MossFormerGAN reference output vector exists; every release gate remains blocked."
+  ],
+  "not_allowed": [
+    "downloading or bundling the MossFormerGAN_SE_16K checkpoint, pointer or clearvoice package",
+    "executing the vendor runtime or publishing its outputs",
+    "registering a provider, changing defaults or claiming quality/timing"
+  ],
+  "processor_exposure": false,
+  "profile": "enhancement",
+  "qualification_status": "not_qualified",
+  "qualified": false,
+  "quality_pass": false,
+  "readiness_conclusion": "The offline whole-clip boundary is modelled, but the candidate is not ready to run or qualify: the exact MossFormerGAN_SE_16K checkpoint bytes and the clearvoice 0.1.2 runtime are absent, the checkpoint has no immutable model artifact revision in the pinned ledger, the 24-byte pointer content is unverified, and artifact-specific rights are not cleared.",
+  "ready_for_opt_in_adapter": false,
+  "ready_for_provider_registration": false,
+  "ready_for_release": false,
+  "reopen_condition": "Reopen asset identity only when the exact MossFormerGAN_SE_16K checkpoint bytes are addressed by an immutable model artifact revision plus byte count and SHA-256 in a retrieval record, the 24-byte pointer content is verified to name the checkpoint, and both resolve from the caller's own storage without a provider file access or download.",
+  "reopen_conditions": [
+    "Reopen asset identity only when the exact MossFormerGAN_SE_16K checkpoint bytes are addressed by an immutable model artifact revision plus byte count and SHA-256 in a retrieval record, the 24-byte pointer content is verified to name the checkpoint, and both resolve from the caller's own storage without a provider file access or download.",
+    "Reopen runtime admission only when a pinned clearvoice 0.1.2 runtime artifact with a recorded digest installs in the intended environment, adapters/clearvoice/run.py runs under the research requirements lock, and its distribution and product-use terms are documented.",
+    "Reopen rights only after written artifact-specific weight, runtime and training-data terms are recorded and a legal/redistribution decision exists; Apache-2.0 metadata alone is not clearance.",
+    "Reopen exact reference parity only when an approved MossFormerGAN reference output vector for these frozen inputs exists and the exact runtime reproduces it.",
+    "Reopen qualification only with a rights-cleared paired cohort, an independent scorer, permitted listening and target-runtime timing evidence; the synthetic surrogate can never stand in for any of these."
+  ],
+  "report_sha256": "5c806186d35c1f39021617dc5649bf32d87030a1a059d26e35492a69ee1a7afc",
+  "schema_id": "audio-sdk/task-evidence/clearvoice-mossformergan/readiness/0.1",
+  "scope": {
+    "attention_or_gan_executed": false,
+    "benchmark_claim": false,
+    "caller_supplied_asset_contract_modeled": true,
+    "caller_supplied_asset_present": false,
+    "checkpoint_present_in_sdk_worktree": false,
+    "clearvoice_source_executed": false,
+    "device_timing": false,
+    "listening_result": false,
+    "model_revision_pinned": false,
+    "network_used": false,
+    "pointer_present_in_sdk_worktree": false,
+    "real_audio": false,
+    "real_labels": false,
+    "registered_provider": false,
+    "release_claim": false,
+    "runtime_installed": false,
+    "synthetic_boundary_surrogate_only": true,
+    "task_local_only": true,
+    "weights_downloaded": false,
+    "weights_loaded": false
+  },
+  "status": "blocked",
+  "task_id": "SDK-CLEARVOICE-MOSSFORMERGAN",
+  "title": "ClearVoice MossFormerGAN"
+}
