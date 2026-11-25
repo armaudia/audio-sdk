@@ -1,0 +1,10 @@
+SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+SPDX-License-Identifier: Apache-2.0
+
+This task-local evidence package is licensed under Apache-2.0. The canonical
+license text is ../../../LICENSES/Apache-2.0.txt in this worktree.
+
+The vendored SpeexDSP source that this harness compiles in place remains under
+its own BSD-3-Clause-style terms. It is not copied, modified or relicensed here.
+See THIRD_PARTY_NOTICES.md, third_party/speexdsp/COPYING and
+third_party/speexdsp/COPYING.kissfft.
