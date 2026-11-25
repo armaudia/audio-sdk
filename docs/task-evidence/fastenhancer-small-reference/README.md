@@ -146,11 +146,11 @@ From this directory, with the pinned interpreter and no bytecode:
 
 ```sh
 PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 -m unittest -v test_reference.py
-PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 run.py --all
+PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 run.py all
 PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 verify.py
 ```
 
-`run.py --all` regenerates the canonical report, sidecar and source manifest
+`run.py all` regenerates the canonical report, sidecar and source manifest
 three times in one process and requires byte-identical output. `verify.py`
 additionally runs three cold-start regenerations in fresh scratch trees, checks
 strict JSON, exact pins, stable board identity, licensing, task-local git scope
