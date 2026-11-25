@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 
 import fixture
@@ -27,16 +26,22 @@ def load_json(path: Path) -> dict:
 
 
 def check_pins(report: dict) -> None:
-    for section in ("source_pins", "boundary_pins"):
-        for relative, row in report[section].items():
-            if not row.get("verified") or row.get("sha256") != row.get("actual"):
-                fail(f"unverified pin {section}:{relative}")
+    fresh = {
+        "source_pins": fixture.verify_source_pins(),
+        "boundary_pins": fixture.verify_boundary_pins(),
+        "frozen_fixtures": fixture.verify_frozen_fixtures(),
+    }
+    for section, recomputed in fresh.items():
+        recorded = report.get(section)
+        if not isinstance(recorded, dict) or set(recorded) != set(recomputed):
+            fail(f"{section} does not match the recomputed task-local inputs")
+        for name, row in recomputed.items():
+            if recorded[name] != row or not row.get("verified") or \
+                    row.get("sha256") != row.get("actual"):
+                fail(f"unverified {section}:{name}")
     board = report["board_snapshot"]
-    if not board.get("mutable"):
-        fail("board snapshot must be mutable provenance")
-    for name, row in report["frozen_fixtures"].items():
-        if not row.get("verified") or row.get("sha256") != row.get("actual"):
-            fail(f"unverified frozen fixture {name}")
+    if not board.get("mutable") or "actual" in board:
+        fail("board snapshot must be mutable read-time provenance only")
 
 
 def check_report(report: dict) -> str:
@@ -59,6 +64,12 @@ def check_report(report: dict) -> str:
         fail("missing_result_promoted must be false")
     if report.get("task", {}).get("base_commit") != reference.BASE_COMMIT:
         fail("base commit mismatch")
+    tool = report.get("tool_profile", {})
+    if tool.get("environment_independent") is not True:
+        fail("tool profile must be environment independent")
+    for key in ("install_location", "runner_python", "runner_platform"):
+        if key in tool:
+            fail(f"tool profile must not record environment data: {key}")
     scope = report.get("scope", {})
     for key in ("task_local_only", "public_surface_changed", "installed_behavior_changed",
                 "descriptor_or_registry_changed", "shared_cmake_changed",
@@ -73,6 +84,14 @@ def check_report(report: dict) -> str:
 
 def check_header(report: dict) -> None:
     expected = report["c_boundary_expected"]
+    if expected.get("parity_scope") != "process_bytes_and_frame_shape_only":
+        fail("C parity must be limited to process bytes and frame shape")
+    if (expected.get("v0_source_mapping") != "unsupported" or
+            expected.get("v0_tail_drain") != "unsupported"):
+        fail("C evidence must not claim v0 source mapping or tail/drain conformance")
+    for key in ("drain_non_content_samples", "first_output_source_samples"):
+        if key in expected:
+            fail(f"C evidence must not claim {key}")
     header = HEADER_FILE.read_text(encoding="utf-8")
     required = [
         'SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes',
@@ -80,7 +99,6 @@ def check_header(report: dict) -> None:
         f'#define RB3_EXPECTED_CONTENT_DIGEST "{expected["content_digest"]}"',
         f'#define RB3_EXPECTED_CONTENT_SAMPLES {expected["content_samples"]}',
         f'#define RB3_EXPECTED_FRAME_COUNT {expected["frames"]}',
-        f'#define RB3_EXPECTED_DRAIN_NON_CONTENT_SAMPLES {expected["drain_non_content_samples"]}',
         f'#define RB3_EXPECTED_FIRST_OUTPUT_FRAME {expected["first_output_frame"]}',
         f'#define RB3_EXPECTED_PROVIDER_SOURCE_DIGEST "{expected["provider_source_digest"]}"',
         f'#define RB3_EXPECTED_CONFIG_DIGEST "{expected["config_digest"]}"',
@@ -113,14 +131,32 @@ def check_sources(report_digest: str) -> None:
 
 
 def check_invalid(report: dict) -> None:
-    invalid = report.get("invalid_and_adverse") or report.get("invalid_cases")
-    if not isinstance(invalid, dict) or not invalid:
-        fail("missing invalid/adverse cases")
+    invalid = report.get("invalid_and_adverse")
+    executed = reference.invalid_cases()
+    if not isinstance(invalid, dict) or invalid != executed:
+        fail("invalid/adverse outcomes must come from executed rejection paths")
     for label, row in invalid.items():
-        if row.get("status") != "rejected":
-            fail(f"invalid case not rejected: {label}")
+        if row.get("status") != "rejected" or not row.get("code"):
+            fail(f"invalid case not rejected by execution: {label}")
         if row.get("candidate_qualified") is not False:
             fail(f"invalid case qualified: {label}")
+
+
+def check_rebuffer(report: dict) -> None:
+    rebuffer = report.get("rate_profile", {}).get("rebuffer", {})
+    trace = rebuffer.get("trace", {})
+    gaps = trace.get("gap_rows", [])
+    if not gaps or trace.get("gap_frames") <= 0:
+        fail("rebuffer trace has no input interruption")
+    if any(trace["rows"][index]["input_frame_start"] is not None
+           for index in gaps):
+        fail("rebuffer interruption still accepts input frames")
+    if trace.get("gap_delivered_samples", 0) <= 0:
+        fail("rebuffer interruption never drains the FIFO")
+    if trace.get("refill_first_delivered", 0) <= 0:
+        fail("rebuffer trace never refills after the interruption")
+    if trace.get("device_pacing_measured") is not False:
+        fail("rebuffer trace must not claim device pacing")
 
 
 def check_identity_and_replay(report: dict) -> None:
@@ -142,6 +178,7 @@ def main() -> int:
     check_header(report)
     check_sources(digest)
     check_invalid(report)
+    check_rebuffer(report)
     check_identity_and_replay(report)
     for path in (TASK_DIR / "contract.json", TASK_DIR / "adapter.json", TASK_DIR / "provider.json"):
         load_json(path)

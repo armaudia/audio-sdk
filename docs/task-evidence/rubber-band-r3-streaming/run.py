@@ -32,7 +32,6 @@ def header_text(expected: dict) -> str:
         f'#define RB3_EXPECTED_CONTENT_DIGEST "{expected["content_digest"]}"',
         f'#define RB3_EXPECTED_CONTENT_SAMPLES {expected["content_samples"]}',
         f'#define RB3_EXPECTED_FRAME_COUNT {expected["frames"]}',
-        f'#define RB3_EXPECTED_DRAIN_NON_CONTENT_SAMPLES {expected["drain_non_content_samples"]}',
         f'#define RB3_EXPECTED_FIRST_OUTPUT_FRAME {expected["first_output_frame"]}',
         f'#define RB3_EXPECTED_PROVIDER_SOURCE_DIGEST "{expected["provider_source_digest"]}"',
         f'#define RB3_EXPECTED_CONFIG_DIGEST "{expected["config_digest"]}"',
@@ -45,8 +44,8 @@ def header_text(expected: dict) -> str:
     return "\n".join(lines)
 
 
-def write_report(install_location: str | None = None) -> tuple[dict, str]:
-    report = scorer.build_report(install_location)
+def write_report() -> tuple[dict, str]:
+    report = scorer.build_report()
     text, digest = reference.canonical_report(report)
     REPORT_FILE.write_text(text + "\n", encoding="utf-8")
     SIDECAR_FILE.write_text(digest + "\n", encoding="ascii")
@@ -71,8 +70,6 @@ def main() -> int:
                         help="write report.json, report.json.sha256 and the C parity header")
     parser.add_argument("--sources", action="store_true",
                         help="write SOURCES.sha256 from the current task-local tree")
-    parser.add_argument("--install-location", default=None,
-                        help="override the recorded absolute install location")
     options = parser.parse_args()
     do_report = options.report or not (options.report or options.sources)
     do_sources = options.sources or not (options.report or options.sources)
@@ -80,7 +77,7 @@ def main() -> int:
     digest = None
     report = None
     if do_report:
-        report, digest = write_report(options.install_location)
+        report, digest = write_report()
     else:
         digest = SIDECAR_FILE.read_text(encoding="ascii").strip()
 

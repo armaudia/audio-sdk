@@ -30,8 +30,10 @@ corpus, a listening test, a playback actuator or a release qualification.
   declarations for the fixture, adapter and opt-in provider.
 - `run.py`: regenerates `report.json`, `report.json.sha256`,
   `provider/expected_vectors.h` and `SOURCES.sha256`.
-- `verify.py`: validates pins, strict canonical JSON, sidecar, manifest, header,
-  proposal status, invalids and identity/reset invariants.
+- `verify.py`: recomputes every source/boundary/fixture pin from the task-local
+  inputs, then validates strict canonical JSON, sidecar, manifest, header,
+  proposal status, executed invalids, rebuffer interruption/refill and
+  identity/reset invariants.
 - `test_reference.py`: 32 deterministic unittest cases.
 - `provider/`: opt-in consumer, descriptor template and byte-level parity test.
 
@@ -46,20 +48,27 @@ per grain. No future sample is read.
 The adapter emulates the frozen v0 shape: one 160-sample output frame for every
 160-sample input call, with `valid_count` as the only content-length signal.
 There is exactly zero alignment lookahead. With this boundary, startup content
-appears at output frame 3 (`30 ms` of source time), and expansion (`r<1`) can
-only be represented as FIFO depth and drain visibility rather than delivered
-variable-length audio. The optional C provider reports drain completion without
-inventing a playback actuator. These limits are blockers, not waivers.
+appears at output frame 3 (`30 ms` of input frame time), and expansion (`r<1`)
+can only be represented as task-local FIFO depth rather than delivered
+variable-length audio. The optional C provider completes a task-local protocol
+call without inventing a playback actuator. The C cross-check covers process
+bytes and frame shape only: it does **not** claim v0 source mapping or
+tail/drain conformance. These limits are blockers, not waivers.
 
 ## Reproduction
+
+Regeneration was performed with Python 3.12.16 (stdlib only) in a fresh private
+scratch copy. The canonical report contains no absolute checkout path, Python
+version string, platform string or other environment-dependent field, so a
+detached checkout regenerates identical bytes.
 
 Run from this directory:
 
 ```sh
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_reference.py
-PYTHONDONTWRITEBYTECODE=1 python3 run.py --report
-PYTHONDONTWRITEBYTECODE=1 python3 run.py --sources
-PYTHONDONTWRITEBYTECODE=1 python3 verify.py
+PYTHONDONTWRITEBYTECODE=1 python3.12 -m unittest -v test_reference.py
+PYTHONDONTWRITEBYTECODE=1 python3.12 run.py --report
+PYTHONDONTWRITEBYTECODE=1 python3.12 run.py --sources
+PYTHONDONTWRITEBYTECODE=1 python3.12 verify.py
 ```
 
 `run.py --report` and `run.py --sources` are idempotent and byte-identical on
@@ -91,7 +100,7 @@ ctest --test-dir "$TMP/on" --output-on-failure
 Board and whitespace checks from the worktree root:
 
 ```sh
-python3 /Users/htsakanyan/workspace/audio/audioml/audio-benchmark-platform/plan/swarm/check.py --task SDK-RUBBER-BAND-R3-STREAMING
+python3 <workspace>/audio-benchmark-platform/plan/swarm/check.py --task SDK-RUBBER-BAND-R3-STREAMING
 git diff --check
 git diff --cached --check
 ```
@@ -99,45 +108,59 @@ git diff --cached --check
 Task-local REUSE 6.3.0 check:
 
 ```sh
-/Users/htsakanyan/.local/bin/uvx --from 'reuse[charset-normalizer]==6.3.0' \
+uvx --from 'reuse[charset-normalizer]==6.3.0' \
   reuse lint-file $(find docs/task-evidence/rubber-band-r3-streaming -type f)
 ```
 
 ## Results summary
 
-- Python acceptance suite: **32/32** passed.
+- Python acceptance suite: **32/32** passed on Python 3.12.16 from a fresh
+  scratch regeneration and in the worktree.
 - SDK baseline CTest: **11/11** passed.
 - Consumer with `AS_ENABLE_RUBBER_BAND_R3_STREAMING=OFF`: **1/1** passed; the
   provider is unlinked and unregistered and built-ins are unchanged.
 - Consumer with the option `ON`: **1/1** passed; explicit registration,
-  duplicate rejection, descriptor/config gating, frame rejections, 78-frame
-  Python/C parity, rate mapping, final partial frame, drain completion and reset
-  replay all passed.
+  duplicate rejection, descriptor/config gating, executed frame rejections,
+  78-frame task-local Python/C byte-and-shape parity, final partial window,
+  task-local drain completion and reset replay all passed. No v0 source
+  mapping or tail/drain conformance is claimed.
 - Report SHA-256:
-  `bfaa5ee67979c0d9a8fbef101c24714102084a3e71d405a58f9af4d9a4c391b9`.
+  `7c32b3f127ebe907e786246b0c07aa1cbe3a2d1c06544c6076ae6f4a1556d609`.
 - Synthetic C-vector content SHA-256:
   `5717e525060b71b3c72360f2d53111fc1a9a2f6d833a3f005fbcdc0df20fd569`.
 - Parity stream: `78` frames, `10,294` delivered content samples, first output
-  at frame `3`, `970` non-content FIFO/drain samples.
+  at input frame `3` (`30 ms`), and `970` undelivered samples in the Python
+  model FIFO. The header carries no drain/source-sample conformance macro.
 - All four scored stimuli have `12,416` identity samples and `11,264`
   candidate samples versus an expected dynamic-schedule duration of
   `10,864.67` samples. The relative duration error is `+0.0367552310`, which
   fails the proposed 1 ms/s gate; it is recorded, not waived.
-- Stationary tonal Goertzel proxy: candidate and identity `220 → 220 Hz` while
-  the varispeed adverse control shifts to `276 Hz`.
+- Drift uses the `drift_control` row (`12,416` observed versus `12,473.04`
+  expected, `-0.0045730712`), not the scored candidate row.
+- Pitch is sampled after mapping the output analysis window back through each
+  stretch. Candidate and identity remain `220 → 220 Hz`; the varispeed adverse
+  control shifts to `276 Hz` (`+25.45%`).
+- Rebuffer control actually interrupts input for `800` samples (`5` frames at
+  source `6400`), drains `32` buffered samples during the gap, then resumes at
+  source `7200` and refills with `128` delivered samples. No device pacing or
+  recovery is measured.
+- Final partial frame starts at source `12320` with `137` valid samples; its
+  input digest is verified against the analytic stimulus tail. All `18`
+  invalid/adverse outcomes are produced by executed rejection paths.
 - Whole-clip and 160-frame chunked feeds are byte-identical. Reset replay and
-  source-offset behavior are deterministic.
+  input-offset behavior are deterministic.
 - Source timestamp policy: protected source coverage minimum `0.91375`; no
   listening, intelligibility or audibility measurement is claimed.
 
 ## Source pins
 
-All source pins in `report.json` verify against the files read for this task:
-the TSM follow-up README, playback-speed candidate note, realtime candidate
-list, rate acceptance profile and `CONTRACTS.md`. The two public v0 boundary
-headers also verify. The report records the board digest at read time; it does
-not read or hash the live board during regeneration. Validate the live board
-separately with the swarm tool.
+`report.json` pins only task-local inputs: `contract.json`, `adapter.json`,
+`provider.json`, the opt-in provider CMake/config/descriptor/source/test files.
+`verify.py` recomputes every digest from those files and from the frozen
+fixtures; a stale pin fails verification instead of being trusted. No mutable
+sibling checkout document is hashed, and no absolute path, Python version or
+platform string enters the canonical report. The board path/digest is
+read-time provenance only and is validated separately with the swarm tool.
 
 ## Remaining release gates
 

@@ -18,8 +18,6 @@ import reference
 import scorer
 
 TASK_DIR = Path(__file__).resolve().parent
-WORKTREE = TASK_DIR.parents[2]
-AUDIO_ROOT = WORKTREE.parents[2]
 REPORT_FILE = TASK_DIR / "report.json"
 SIDECAR_FILE = TASK_DIR / "report.json.sha256"
 HEADER_FILE = TASK_DIR / "provider" / "expected_vectors.h"
@@ -51,6 +49,10 @@ class ReportTests(unittest.TestCase):
         self.assertFalse(q["candidate_qualified"])
         self.assertFalse(q["missing_result_promoted"])
         self.assertTrue(q["all_required_results_present"])
+        tool = self.report["tool_profile"]
+        self.assertTrue(tool["environment_independent"])
+        for key in ("install_location", "runner_python", "runner_platform"):
+            self.assertNotIn(key, tool)
 
     def test_scope_flags(self):
         scope = self.report["scope"]
@@ -63,14 +65,11 @@ class ReportTests(unittest.TestCase):
             self.assertFalse(scope[key], key)
 
     def test_source_and_boundary_pins_verified(self):
-        for relative, row in self.report["source_pins"].items():
-            self.assertTrue(row["verified"], relative)
-            self.assertEqual(row["sha256"], row["actual"], relative)
-            self.assertTrue((AUDIO_ROOT / relative).is_file(), relative)
-        for relative, row in self.report["boundary_pins"].items():
-            self.assertTrue(row["verified"], relative)
-            self.assertEqual(row["sha256"], row["actual"], relative)
-            self.assertTrue((WORKTREE / relative).is_file(), relative)
+        for section in ("source_pins", "boundary_pins"):
+            for relative, row in self.report[section].items():
+                self.assertTrue(row["verified"], relative)
+                self.assertEqual(row["sha256"], row["actual"], relative)
+                self.assertTrue((TASK_DIR / relative).is_file(), relative)
 
     def test_frozen_fixtures_verified(self):
         for name, row in self.report["frozen_fixtures"].items():
@@ -116,13 +115,17 @@ class ReportTests(unittest.TestCase):
         self.assertFalse(self.report["qualification"]["duration_gate_pass"])
 
     def test_frequency_proxy_rows(self):
-        rows = self.report["frequency_scale"]["rows"]
+        scale = self.report["frequency_scale"]
+        rows = scale["rows"]
+        self.assertEqual(scale["input_sampling"], "mapped_from_output_after_stretch")
         for label in ("identity_1x_control", "candidate_dynamic_wsola_ola",
                       "alignment_disabled_control"):
             self.assertTrue(rows[label]["pitch_preserved"], label)
             self.assertLessEqual(rows[label]["absolute_error"], 0.03, label)
         self.assertFalse(rows["varispeed_adverse"]["pitch_preserved"])
         self.assertGreater(rows["varispeed_adverse"]["frequency_ratio"], 1.15)
+        self.assertGreater(rows["varispeed_adverse"]["mapped_source_interval"][0],
+                           scale["analysis"]["start"])
 
     def test_transient_proxy_is_not_audibility(self):
         rows = self.report["transient_proxy"]["rows"]
@@ -174,23 +177,38 @@ class ReportTests(unittest.TestCase):
 
     def test_final_partial_and_c_boundary(self):
         final = self.report["final_partial"]
-        self.assertEqual(final["final_input_valid_count"], reference.STIMULUS_LENGTH % reference.FRAME_SAMPLES)
+        self.assertEqual(final["final_input_frame_start"],
+                         (reference.STIMULUS_LENGTH // reference.FRAME_SAMPLES) *
+                         reference.FRAME_SAMPLES)
+        self.assertEqual(final["final_input_valid_count"],
+                         reference.STIMULUS_LENGTH % reference.FRAME_SAMPLES)
+        self.assertTrue(final["final_source_offset_ok"])
+        tail = reference.analytic_stimulus("speech_like")[
+            final["final_input_frame_start"]:]
+        self.assertEqual(final["final_input_digest"],
+                         reference.tensor_digest(tail))
         self.assertEqual(final["nonfinite_count"], 0)
         c = self.report["c_boundary_expected"]
         self.assertEqual(c["content_digest"], "5717e525060b71b3c72360f2d53111fc1a9a2f6d833a3f005fbcdc0df20fd569")
         self.assertEqual(c["content_samples"], 10294)
         self.assertEqual(c["frames"], 78)
         self.assertEqual(c["first_output_frame"], 3)
-        self.assertEqual(c["drain_non_content_samples"], 970)
+        self.assertEqual(c["first_output_input_frame_start"], 480)
+        self.assertEqual(c["model_undelivered_fifo_samples"], 970)
+        self.assertEqual(c["parity_scope"], "process_bytes_and_frame_shape_only")
+        self.assertEqual(c["v0_source_mapping"], "unsupported")
+        self.assertEqual(c["v0_tail_drain"], "unsupported")
+        self.assertNotIn("drain_non_content_samples", c)
+        self.assertNotIn("first_output_source_samples", c)
         self.assertEqual(len(c["valid_counts"]), 78)
 
     def test_header_matches_expected(self):
         header = HEADER_FILE.read_text(encoding="utf-8")
         expected = self.report["c_boundary_expected"]
         for token in (expected["content_digest"], str(expected["content_samples"]),
-                      str(expected["frames"]), str(expected["drain_non_content_samples"]),
-                      str(expected["first_output_frame"])):
+                      str(expected["frames"]), str(expected["first_output_frame"])):
             self.assertIn(token, header)
+        self.assertNotIn("RB3_EXPECTED_DRAIN_NON_CONTENT_SAMPLES", header)
         self.assertIn("SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes", header)
         self.assertIn("SPDX" "-License-Identifier: Apache-2.0", header)
 
@@ -215,14 +233,30 @@ class ReportTests(unittest.TestCase):
 
     def test_drift_rebuffer_and_playback_buffering(self):
         profile = self.report["rate_profile"]
-        self.assertIn("schedule", profile["drift"])
-        self.assertIn("schedule", profile["rebuffer"])
-        self.assertIn("expected_output_samples", profile["drift"])
-        self.assertIn("observed_output_samples", profile["drift"])
-        self.assertFalse(profile["rebuffer"]["target_device_recovery_measured"])
+        drift = profile["drift"]
+        self.assertEqual(drift["case"], "drift_control")
+        self.assertEqual(drift["observed_output_samples"],
+                         self.report["variants"]["speech_like"]["drift_control"][
+                             "output_samples"])
+        self.assertNotEqual(drift["observed_output_samples"],
+                            self.report["variants"]["speech_like"][
+                                "candidate_dynamic_wsola_ola"]["output_samples"])
+        rebuffer = profile["rebuffer"]
+        trace = rebuffer["trace"]
+        self.assertEqual(rebuffer["case"], "rebuffer_control_with_input_gap")
+        self.assertGreater(len(trace["gap_rows"]), 0)
+        self.assertTrue(all(trace["rows"][index]["input_frame_start"] is None
+                            for index in trace["gap_rows"]))
+        self.assertGreater(trace["gap_delivered_samples"], 0)
+        self.assertGreater(trace["refill_first_delivered"], 0)
+        self.assertFalse(rebuffer["target_device_recovery_measured"])
         pb = profile["playback_buffering"]
         self.assertTrue(pb["one_output_frame_per_input_frame"])
         self.assertEqual(pb["alignment_lookahead_samples"], 0)
+        self.assertEqual(pb["v0_source_mapping"], "unsupported")
+        self.assertEqual(pb["v0_tail_drain"], "unsupported")
+        self.assertIn("model_undelivered_fifo_samples", pb)
+        self.assertNotIn("drain_non_content_samples", pb)
         self.assertFalse(pb["target_device_buffer_occupancy_measured"])
         self.assertFalse(pb["fill_flush_or_deadline_measured"])
 
@@ -232,12 +266,13 @@ class ReportTests(unittest.TestCase):
             self.assertIsInstance(obj, dict, name)
 
     def test_source_pins_match_reference(self):
-        for relative, expected in reference.SOURCE_PINS.items():
-            actual = reference.sha256_file(AUDIO_ROOT / relative)
-            self.assertEqual(actual, expected, relative)
-        for relative, expected in reference.BOUNDARY_PINS.items():
-            actual = reference.sha256_file(WORKTREE / relative)
-            self.assertEqual(actual, expected, relative)
+        for section, recomputed in (
+                ("source_pins", fixture.verify_source_pins()),
+                ("boundary_pins", fixture.verify_boundary_pins())):
+            self.assertEqual(self.report[section], recomputed, section)
+            for relative, expected in getattr(reference, section.upper()).items():
+                actual = reference.sha256_file(TASK_DIR / relative)
+                self.assertEqual(actual, expected, relative)
 
     def test_invalid_cases_function_returns_rejections(self):
         cases = reference.invalid_cases()
@@ -248,6 +283,9 @@ class ReportTests(unittest.TestCase):
                       "process_after_final", "out_of_range", "missing_final_input"):
             self.assertEqual(cases[label]["status"], "rejected", label)
             self.assertIsNotNone(cases[label]["code"], label)
+        self.assertFalse(any(row["status"] == "unexpected_acceptance"
+                             for row in cases.values()))
+        self.assertEqual(self.report["invalid_and_adverse"], cases)
 
     def test_state_invariant_on_rejection(self):
         stream = reference.StreamTSM(reference.DYNAMIC_SCHEDULE)

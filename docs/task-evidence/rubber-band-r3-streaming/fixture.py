@@ -69,11 +69,11 @@ def pin_rows(pins: dict[str, str], root: Path) -> dict:
 
 
 def verify_source_pins() -> dict:
-    return pin_rows(reference.SOURCE_PINS, reference.AUDIO_ROOT)
+    return pin_rows(reference.SOURCE_PINS, TASK_DIR)
 
 
 def verify_boundary_pins() -> dict:
-    return pin_rows(reference.BOUNDARY_PINS, reference.WORKTREE)
+    return pin_rows(reference.BOUNDARY_PINS, TASK_DIR)
 
 
 def verify_board_snapshot() -> dict:

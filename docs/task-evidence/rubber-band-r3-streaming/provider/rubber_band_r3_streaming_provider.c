@@ -320,10 +320,10 @@ static as_status_v0 AS_CALL rb3_drain(void *opaque,
         return AS_INVALID_ARGUMENT;
     }
     if (!instance->finalized) return AS_INVALID_ARGUMENT;
-    /* The fixed v0 boundary cannot emit r<1 expansion or synthesized tail as
-     * variable-length content. Python records the remaining FIFO depth as
-     * drain_non_content_samples; drain reports completion without inventing a
-     * playback actuator. */
+    /* The fixed boundary cannot emit r<1 expansion or a synthesized tail as
+     * variable-length content. The Python model records the remaining FIFO
+     * depth as task-local evidence only; this call just completes the
+     * task-local protocol and invents no playback actuator or v0 conformance. */
     (void)instance;
     as_result_v0_init(result);
     result->status = AS_END_OF_STREAM;

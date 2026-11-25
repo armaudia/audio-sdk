@@ -8,9 +8,6 @@ adverse results are recorded explicitly and are always `qualifies=false`.
 
 from __future__ import annotations
 
-import math
-import platform
-import sys
 from typing import Sequence
 
 import fixture
@@ -117,39 +114,51 @@ def variant_bundle(stimuli: dict[str, Sequence[float]]) -> dict:
 def frequency_evidence(stimuli: dict[str, Sequence[float]]) -> dict:
     values = stimuli["tonal"]
     analysis = {"start": 512, "count": 2048}
-    reference = ref.dominant_frequency(values, **analysis)
+    identity_out, identity_src = ref.identity_run(values)
     runs = {
-        "identity_1x_control": ref.identity_run(values)[0],
+        "identity_1x_control": (identity_out, identity_src),
         "fixed_rate_ola_baseline": ref.run_tsm(
             values, schedule=ref.FIXED_SCHEDULE,
             parameters=ref.FIXED_BASELINE_SETTINGS,
-            chunk_size=len(values) + ref.FRAME_SAMPLES)[0],
+            chunk_size=len(values) + ref.FRAME_SAMPLES)[:2],
         "candidate_dynamic_wsola_ola": ref.run_tsm(
             values, schedule=ref.DYNAMIC_SCHEDULE,
-            chunk_size=len(values) + ref.FRAME_SAMPLES)[0],
+            chunk_size=len(values) + ref.FRAME_SAMPLES)[:2],
         "alignment_disabled_control": ref.run_tsm(
             values, schedule=ref.DYNAMIC_SCHEDULE, alignment=False,
-            chunk_size=len(values) + ref.FRAME_SAMPLES)[0],
-        "varispeed_adverse": ref.varispeed_run(values, 1.25)[0],
+            chunk_size=len(values) + ref.FRAME_SAMPLES)[:2],
+        "varispeed_adverse": ref.varispeed_run(values, 1.25),
     }
     rows = {}
-    for label, output in runs.items():
+    for label, (output, sources) in runs.items():
         measured = ref.dominant_frequency(output, **analysis)
+        stop = min(len(sources), analysis["start"] + analysis["count"])
+        mapped = sources[analysis["start"]:stop]
+        source_start = min(mapped)
+        source_stop = max(mapped) + 1
+        # Sample the input only after mapping the output window back through
+        # the stretch, so every ratio compares the same source material.
+        reference = ref.dominant_frequency(
+            values, start=source_start, count=source_stop - source_start)
         ratio = measured["dominant_hz"] / reference["dominant_hz"]
         expected = 1.25 if label == "varispeed_adverse" else 1.0
         rows[label] = {
             "input_dominant_hz": reference["dominant_hz"],
+            "input_analysis_interval": reference["analysis_interval"],
+            "mapped_source_interval": [source_start, source_stop],
             "output_dominant_hz": measured["dominant_hz"],
             "frequency_ratio": ratio,
             "expected_ratio": expected,
             "absolute_error": abs(ratio - expected),
-            "analysis_interval": measured["analysis_interval"],
+            "output_analysis_interval": measured["analysis_interval"],
             "pitch_preserved": abs(ratio - 1.0) <= 0.03,
             "matches_expected_model": abs(ratio - expected) <= 0.03,
             "audibility_measured": False,
             "qualifies": False,
         }
-    return {"stimulus": "tonal", "analysis": analysis, "rows": rows}
+    return {"stimulus": "tonal", "analysis": analysis,
+            "input_sampling": "mapped_from_output_after_stretch",
+            "rows": rows}
 
 
 def transient_evidence(stimuli: dict[str, Sequence[float]]) -> dict:
@@ -348,26 +357,37 @@ def streaming_evidence(stimuli: dict[str, Sequence[float]]) -> dict:
 
 def final_partial_evidence(values: Sequence[float]) -> dict:
     stream = ref.StreamTSM(ref.DYNAMIC_SCHEDULE, parameters=ref.DEFAULT_SETTINGS)
-    for start in range(0, len(values) - ref.FRAME_SAMPLES, ref.FRAME_SAMPLES):
+    full_frames = len(values) // ref.FRAME_SAMPLES
+    final_start = full_frames * ref.FRAME_SAMPLES
+    for start in range(0, final_start, ref.FRAME_SAMPLES):
         stream.push(values[start:start + ref.FRAME_SAMPLES], ref.FRAME_SAMPLES)
-    remainder = len(values) % ref.FRAME_SAMPLES
-    stream.push(values[-ref.FRAME_SAMPLES:], remainder, final=True)
+    remainder = len(values) - final_start
+    final_input = list(values[final_start:final_start + ref.FRAME_SAMPLES])
+    final_input_digest = ref.tensor_digest(final_input)
+    final_chunk = final_input + [0.0] * (ref.FRAME_SAMPLES - len(final_input))
+    stream.push(final_chunk, remainder, final=True)
     stream.flush()
     pairs = stream.output()
     content = [value for value, _ in pairs]
     stats = ref.finite_stats(content)
     target = ref.round_half_away(
-        remainder / ref.rate_at(ref.DYNAMIC_SCHEDULE, len(values) - remainder))
+        remainder / ref.rate_at(ref.DYNAMIC_SCHEDULE, final_start))
+    source_map = ref.source_map_stats([source for _, source in pairs])
     return {
         "input_samples": len(values),
-        "full_input_frames": len(values) // ref.FRAME_SAMPLES,
+        "full_input_frames": full_frames,
+        "final_input_frame_start": final_start,
         "final_input_valid_count": remainder,
+        "final_input_digest": final_input_digest,
         "content_output_samples": stats["samples"],
         "target_final_output_samples": target,
         "nonfinite_count": stats["nonfinite_count"],
         "peak_abs": stats["peak_abs"],
         "output_digest": stats["digest"],
-        "source_map": ref.source_map_stats([source for _, source in pairs]),
+        "source_map": source_map,
+        "final_source_offset_ok": (
+            final_start + remainder == len(values) and
+            final_input_digest == ref.tensor_digest(values[final_start:])),
         "qualifies": False,
     }
 
@@ -385,6 +405,13 @@ def rate_profile_evidence(stimuli: dict[str, Sequence[float]],
         ref.run_tsm(stimuli["speech_like"], schedule=ref.POLICY_SCHEDULE,
                     chunk_size=len(stimuli["speech_like"]) + ref.FRAME_SAMPLES)[1],
         ref.POLICY_SCHEDULE)
+    trace = ref.rebuffer_trace(stimuli["speech_like"])
+    rebuffer_schedule_expected = ref.expected_duration(
+        ref.REBUFFER_SCHEDULE, len(stimuli["speech_like"]))
+    rebuffer_gap_budget = (
+        ref.REBUFFER_GAP_SAMPLES /
+        ref.rate_at(ref.REBUFFER_SCHEDULE, ref.REBUFFER_GAP_START))
+    rebuffer_expected = rebuffer_schedule_expected - rebuffer_gap_budget
     return {
         "source_output_mapping": {
             "rows": {name: {"input_digest": row["input_digest"],
@@ -422,14 +449,17 @@ def rate_profile_evidence(stimuli: dict[str, Sequence[float]],
             "one_output_frame_per_input_frame": streaming[
                 "one_output_frame_per_input_frame"],
             "first_output_frame_index": c_expected["first_output_frame"],
-            "first_output_source_samples": c_expected[
-                "first_output_source_samples"],
+            "first_output_input_frame_start": c_expected[
+                "first_output_input_frame_start"],
             "first_output_ms": c_expected["first_output_ms"],
             "alignment_lookahead_samples": 0,
             "causal_search_range_samples": ref.SEARCH_RANGE,
             "grain_samples": ref.GRAIN_SAMPLES,
-            "drain_non_content_samples": c_expected["drain_non_content_samples"],
+            "model_undelivered_fifo_samples": c_expected[
+                "model_undelivered_fifo_samples"],
             "fifo_capacity_samples": 65536,
+            "v0_source_mapping": "unsupported",
+            "v0_tail_drain": "unsupported",
             "target_device_buffer_occupancy_measured": False,
             "fill_flush_or_deadline_measured": False,
             "qualifies": False,
@@ -470,22 +500,27 @@ def rate_profile_evidence(stimuli: dict[str, Sequence[float]],
         },
         "drift": {
             "schedule": [[start, rate] for start, rate in ref.DRIFT_SCHEDULE],
+            "case": "drift_control",
             "expected_output_samples": ref.expected_duration(
                 ref.DRIFT_SCHEDULE, len(stimuli["speech_like"])),
-            "observed_output_samples": candidate["speech_like"]["output_samples"],
-            "relative_duration_error": candidate["speech_like"][
-                "relative_duration_error"],
+            "observed_output_samples": control_rows["speech_like"][
+                "drift_control"]["output_samples"],
+            "relative_duration_error": control_rows["speech_like"][
+                "drift_control"]["relative_duration_error"],
         },
         "rebuffer": {
             "schedule": [[start, rate] for start, rate in ref.REBUFFER_SCHEDULE],
-            "source_event_sample": 6400,
-            "synthetic_gap_samples": 800,
-            "expected_output_samples": ref.expected_duration(
-                ref.REBUFFER_SCHEDULE, len(stimuli["speech_like"])),
-            "observed_output_samples": control_rows["speech_like"][
-                "rebuffer_control"]["output_samples"],
-            "relative_duration_error": control_rows["speech_like"][
-                "rebuffer_control"]["relative_duration_error"],
+            "case": "rebuffer_control_with_input_gap",
+            "source_event_sample": ref.REBUFFER_GAP_START,
+            "synthetic_gap_samples": ref.REBUFFER_GAP_SAMPLES,
+            "schedule_expected_output_samples": rebuffer_schedule_expected,
+            "gap_output_budget_samples": rebuffer_gap_budget,
+            "expected_output_samples": rebuffer_expected,
+            "observed_output_samples": trace["delivered_samples"],
+            "relative_duration_error": (
+                (trace["delivered_samples"] - rebuffer_expected) /
+                rebuffer_expected),
+            "trace": trace,
             "target_device_recovery_measured": False,
         },
         "final_partial_window": final,
@@ -502,7 +537,7 @@ def rate_profile_evidence(stimuli: dict[str, Sequence[float]],
     }
 
 
-def build_report(install_location: str | None = None) -> dict:
+def build_report() -> dict:
     stimuli = {name: ref.analytic_stimulus(name)
                for name in fixture.ALL_STIMULI}
     scored = {name: values for name, values in stimuli.items()
@@ -537,11 +572,9 @@ def build_report(install_location: str | None = None) -> dict:
         },
         "tool_profile": {
             "version": ref.VERSION,
-            "install_location": install_location or str(ref.TASK_DIR),
             "provenance": "https://github.com/armaudia/audio-sdk.git",
             "repository": "audio-sdk",
-            "runner_python": sys.version.split()[0],
-            "runner_platform": platform.platform(),
+            "environment_independent": True,
             "candidate": "Deterministic synthetic frame-causal WSOLA-style OLA TSM",
             "profile": "Rate",
         },
@@ -600,8 +633,7 @@ def build_report(install_location: str | None = None) -> dict:
         "streaming": streaming,
         "final_partial": final,
         "c_boundary_expected": c_expected,
-        "invalid_and_adverse": fixture.strict_load(
-            ref.TASK_DIR / "contract.json")["invalid_and_adverse"],
+        "invalid_and_adverse": ref.invalid_cases(),
         "qualification": {
             "status": "proposal_only_not_qualified",
             "disposition": "incomplete",
@@ -611,7 +643,8 @@ def build_report(install_location: str | None = None) -> dict:
             "all_required_results_present": all((
                 bool(stimuli_rows), bool(variants), bool(grid["rows"]),
                 bool(frequency["rows"]), bool(transients["rows"]),
-                bool(updates["rows"]), bool(profile), bool(streaming),
+                bool(updates["rows"]), bool(profile),
+                bool(profile["rebuffer"]["trace"]), bool(streaming),
                 bool(final), bool(c_expected),
             )),
             "missing_result_promoted": False,

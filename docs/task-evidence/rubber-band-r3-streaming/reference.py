@@ -15,15 +15,11 @@ import functools
 import hashlib
 import json
 import math
-import platform
 import struct
-import sys
 from pathlib import Path
 from typing import Iterable, Sequence
 
 TASK_DIR = Path(__file__).resolve().parent
-WORKTREE = TASK_DIR.parents[2]
-AUDIO_ROOT = WORKTREE.parents[2]
 
 VERSION = "0.1.0"
 CONTRACT_ID = "audio-sdk/rubber-band-r3-streaming-evidence/0.1"
@@ -54,30 +50,37 @@ ALLOWED_GRAIN_SAMPLES = (256, 512)
 ALLOWED_OVERLAP_RATIOS = (0.5, 0.75, 0.875)
 ALLOWED_DENSITIES = (1, 2)
 
+# Every pinned input is task-local, so a fresh scratch copy of this directory
+# regenerates the same report without depending on a checkout path or on
+# mutable sibling files. Digests are recomputed on every generation and every
+# verify.py run; a stale constant is reported as unverified, never trusted.
 SOURCE_PINS = {
-    "research/tsm-followup-20261101/README.md": (
-        "01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f"
+    "contract.json": (
+        "b1c96a36cdce67ffa27efebc2d2a5b166871c3d12de2df94506e5fc317846213"
     ),
-    "cpp-library/pipeline-validation/playback-speed-candidates.md": (
-        "661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3"
+    "adapter.json": (
+        "ec0d5f3f0b2f6be711913e972df6f376ec4f13f7ff8905736ab31236ef41c6b0"
     ),
-    "REALTIME_COMPONENT_CANDIDATES.md": (
-        "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d"
-    ),
-    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": (
-        "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
-    ),
-    "audio-benchmark-platform/audio-sdk/CONTRACTS.md": (
-        "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69"
+    "provider.json": (
+        "c40955c805a6602ad77d6c6dd16083ca884846b1fa4686a2d51c6b448c9f8949"
     ),
 }
 
 BOUNDARY_PINS = {
-    "api/include/audio_sdk/provider_v0.h": (
-        "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766"
+    "provider/CMakeLists.txt": (
+        "5602708701fb4d5d8702d03549c94896979e6c775e4c9c0523cad8818b019a18"
     ),
-    "api/include/audio_sdk/session_v0.h": (
-        "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+    "provider/config/config.json": (
+        "4d516365acee08e9949979266483686f6f54054a1d514fb282e84c7c4fa5e634"
+    ),
+    "provider/config/descriptor.h.in": (
+        "25dc97a583ce0d1f214d0497cc4676cd8d8260e11790316a23b33d1be0e83da3"
+    ),
+    "provider/rubber_band_r3_streaming_provider.c": (
+        "04fa0269b57c0e28ee1f878f1fb103f453d75326fadc72323532f2830d7319fc"
+    ),
+    "provider/tests/test_provider.c": (
+        "e7d7f0280f9b40b052825636569c4f391ade4181ee961a0bf4805865f78639bf"
     ),
 }
 BOARD_SNAPSHOT = "audio-benchmark-platform/plan/swarm/TASKS.json"
@@ -94,6 +97,8 @@ POLICY_SCHEDULE = ((0, 1.0), (3200, 1.25), (4000, 1.0),
                    (5600, 1.5), (6800, 0.9))
 REBUFFER_SCHEDULE = ((0, 1.0), (3200, 1.0), (4000, 1.25),
                      (5600, 1.0), (6400, 1.5), (7200, 1.0))
+REBUFFER_GAP_START = 6400
+REBUFFER_GAP_SAMPLES = 800
 RATE_BOUNDARIES = (3200, 4000, 5600, 6400, 6800, 7200, 9600)
 
 DEFAULT_SETTINGS = {
@@ -501,12 +506,20 @@ class StreamTSM:
     def state_digest(self) -> str:
         return object_digest({
             "input": tensor_digest(self.input),
+            "input_end": self.input_end,
+            "finalized": self.finalized,
+            "flushed": self.flushed,
             "pending": tensor_digest(self.pending),
             "norm": tensor_digest(self.pending_norm),
+            "pending_src": self.pending_src,
+            "pending_start": self.pending_start,
+            "fifo": self.fifo,
             "phase": self.phase,
             "rate": self.current_rate,
+            "target_rate": self.target_rate,
             "segments": self.segments,
             "deltas": self.alignment_deltas,
+            "rate_updates": self.rate_updates,
             "first_input_sample": self.first_input_sample,
         })
 
@@ -771,15 +784,14 @@ class BoundaryEmitter:
             padded = chunk + [0.0] * (FRAME_SAMPLES - len(chunk))
             self.push(padded, len(chunk), start, schedule,
                       final=(start + FRAME_SAMPLES >= len(values)))
-        drain = len(self.engine.fifo)
         return {
             "content_digest": tensor_digest(self.content),
             "content_samples": len(self.content),
             "frames": len(self.valid_counts),
             "valid_counts": self.valid_counts,
-            "drain_non_content_samples": drain,
+            "model_undelivered_fifo_samples": len(self.engine.fifo),
             "first_output_frame": self.first_output_frame,
-            "first_output_source_samples": (
+            "first_output_input_frame_start": (
                 self.first_output_frame * FRAME_SAMPLES
                 if self.first_output_frame is not None else None),
             "first_output_ms": (
@@ -790,6 +802,103 @@ class BoundaryEmitter:
         }
 
 
+def rebuffer_trace(values: Sequence[float],
+                   *, schedule: Sequence[tuple[int, float]] = REBUFFER_SCHEDULE,
+                   gap_start: int = REBUFFER_GAP_START,
+                   gap_samples: int = REBUFFER_GAP_SAMPLES) -> dict:
+    """Task-local input-interruption and FIFO-refill trace.
+
+    The caller stops feeding frames at ``gap_start`` for ``gap_samples`` while
+    consuming already-buffered content, then resumes at a new epoch with
+    ``first_input_sample = gap_start + gap_samples``. This is a fixed-boundary
+    fixture trace: no device pacing, deadline or playback actuator is modelled.
+    """
+    checked = validate_schedule(schedule)
+    if gap_start <= 0 or gap_start % FRAME_SAMPLES or gap_samples <= 0 or \
+            gap_samples % FRAME_SAMPLES:
+        raise ReferenceRejection("invalid_rebuffer_gap",
+                                 "gap must be a positive whole-frame boundary")
+    gap_frames = gap_samples // FRAME_SAMPLES
+    resume_at = gap_start + gap_samples
+    stream = StreamTSM(checked, parameters=DEFAULT_SETTINGS)
+    rows: list[dict] = []
+    content: list[float] = []
+    sources: list[int] = []
+
+    def record(phase: str, first: int | None, valid: int, before: int,
+               pairs: Sequence[tuple[float, int]], *, final: bool = False) -> None:
+        rows.append({
+            "phase": phase,
+            "input_frame_start": first,
+            "input_valid_count": valid,
+            "final_input": final,
+            "fifo_depth_before": before,
+            "fifo_depth_after": len(stream.fifo),
+            "delivered_samples": len(pairs),
+            "content_digest": tensor_digest(value for value, _ in pairs),
+        })
+        for value, source in pairs:
+            content.append(value)
+            sources.append(source)
+
+    def feed(start: int, *, final: bool = False) -> None:
+        nonlocal stream
+        valid = min(FRAME_SAMPLES, max(0, len(values) - start))
+        chunk = list(values[start:start + valid]) + [0.0] * (FRAME_SAMPLES - valid)
+        before = len(stream.fifo)
+        stream.push(chunk, valid, final=final)
+        if final:
+            stream.flush()
+        target = BoundaryEmitter.target_valid(
+            start - stream.input_start, valid, checked)
+        count = min(target, len(stream.fifo))
+        pairs = stream.read(count)
+        record("feed_final" if final else "feed", start, valid, before, pairs,
+               final=final)
+
+    for start in range(0, gap_start, FRAME_SAMPLES):
+        feed(start)
+    for frame in range(gap_frames):
+        before = len(stream.fifo)
+        target = BoundaryEmitter.target_valid(
+            gap_start + frame * FRAME_SAMPLES, FRAME_SAMPLES, checked)
+        pairs = stream.read(min(target, len(stream.fifo)))
+        record("gap_drain", None, 0, before, pairs)
+
+    stream = StreamTSM(checked, parameters=DEFAULT_SETTINGS,
+                       first_input_sample=resume_at)
+    for start in range(resume_at, len(values), FRAME_SAMPLES):
+        feed(start, final=(start + FRAME_SAMPLES >= len(values)))
+
+    gap_indices = [index for index, row in enumerate(rows)
+                   if row["phase"] == "gap_drain"]
+    refill = next((row["delivered_samples"] for row in rows[gap_indices[-1] + 1:]
+                   if row["delivered_samples"] > 0), 0) if gap_indices else 0
+    return {
+        "gap_start": gap_start,
+        "gap_samples": gap_samples,
+        "gap_frames": gap_frames,
+        "resume_input_sample": resume_at,
+        "frames": len(rows),
+        "content_digest": tensor_digest(content),
+        "delivered_samples": len(content),
+        "gap_delivered_samples": sum(rows[index]["delivered_samples"]
+                                     for index in gap_indices),
+        "gap_rows": gap_indices,
+        "fifo_depth_at_interrupt": rows[gap_indices[0] - 1]["fifo_depth_after"]
+        if gap_indices and gap_indices[0] else 0,
+        "fifo_depth_after_gap": rows[gap_indices[-1]]["fifo_depth_after"]
+        if gap_indices else 0,
+        "refill_first_delivered": refill,
+        "reset_discontinuity_at_resume": True,
+        "model_undelivered_fifo_samples": len(stream.fifo),
+        "source_map": source_map_stats(sources),
+        "rows": rows,
+        "device_pacing_measured": False,
+        "qualifies": False,
+    }
+
+
 def c_boundary_evidence(values: Sequence[float]) -> dict:
     expected = BoundaryEmitter().run(values)
     provider = TASK_DIR / "provider" / "rubber_band_r3_streaming_provider.c"
@@ -798,6 +907,9 @@ def c_boundary_evidence(values: Sequence[float]) -> dict:
                                           if provider.exists() else None)
     expected["config_digest"] = (sha256_file(config) if config.exists() else None)
     expected["status"] = "expected_from_python_model"
+    expected["parity_scope"] = "process_bytes_and_frame_shape_only"
+    expected["v0_source_mapping"] = "unsupported"
+    expected["v0_tail_drain"] = "unsupported"
     return expected
 
 
@@ -805,14 +917,18 @@ def invalid_cases() -> dict:
     """Explicit invalid, missing, nonfinite and adverse cases; none qualifies."""
     results: dict[str, dict] = {}
 
-    def record(label: str, fn) -> None:
-        code = None
+    def record(label: str, fn, stream: StreamTSM | None = None) -> None:
+        before = stream.state_digest() if stream is not None else None
         try:
             fn()
         except ReferenceRejection as rejection:
-            code = rejection.code
-        results[label] = {"status": "rejected", "code": code,
-                          "candidate_qualified": False}
+            row = {"status": "rejected", "code": rejection.code}
+        else:
+            row = {"status": "unexpected_acceptance", "code": None}
+        row["candidate_qualified"] = False
+        if stream is not None:
+            row["state_unchanged"] = stream.state_digest() == before
+        results[label] = row
 
     record("missing_parameter_set", lambda: validate_parameters(None))
     record("missing_density", lambda: validate_parameters(
@@ -845,37 +961,15 @@ def invalid_cases() -> dict:
     ]
     for label, chunk, valid, corrupt_position, after_final in frame_cases:
         stream = StreamTSM(DYNAMIC_SCHEDULE, parameters=DEFAULT_SETTINGS)
-        stream.push([0.0] * FRAME_SAMPLES, FRAME_SAMPLES)
+        stream.push([0.0] * FRAME_SAMPLES, FRAME_SAMPLES, final=after_final)
         if corrupt_position:
             stream.input_end += 1
-        if after_final:
-            stream.finalized = True
-        before = stream.state_digest()
-
-        def attempt(chunk=chunk, valid=valid, stream=stream):
-            stream.push(chunk, valid)
-
-        code = None
-        try:
-            attempt()
-        except ReferenceRejection as rejection:
-            code = rejection.code
-        results[label] = {"status": "rejected", "code": code,
-                          "state_unchanged": stream.state_digest() == before,
-                          "candidate_qualified": False}
+        record(label, lambda: stream.push(chunk, valid), stream)
 
     out_of_range = StreamTSM()
-    try:
-        out_of_range.push([1.5] + [0.0] * (FRAME_SAMPLES - 1), FRAME_SAMPLES)
-    except ReferenceRejection as rejection:
-        results["out_of_range"] = {"status": "rejected", "code": rejection.code,
-                                   "candidate_qualified": False}
+    record("out_of_range", lambda: out_of_range.push(
+        [1.5] + [0.0] * (FRAME_SAMPLES - 1), FRAME_SAMPLES))
     unflushed = StreamTSM()
     unflushed.push([0.0] * FRAME_SAMPLES, FRAME_SAMPLES)
-    try:
-        unflushed.flush()
-    except ReferenceRejection as rejection:
-        results["missing_final_input"] = {
-            "status": "rejected", "code": rejection.code,
-            "candidate_qualified": False}
+    record("missing_final_input", unflushed.flush)
     return results
