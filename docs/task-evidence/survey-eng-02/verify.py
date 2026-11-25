@@ -118,6 +118,24 @@ def check_report(report: dict) -> None:
     ensure(report["worktree"] == build.WORKTREE, "wrong worktree")
     ensure(report["schema_id"] == build.SCHEMA_ID, "wrong schema id")
     ensure(report["disposition"].startswith("survey_only:"), "survey-only disposition missing")
+    ensure(report["decision"] == "DEFER", "decision must remain DEFER")
+    ensure(report["status"] == "proposal_only_survey_incomplete", "status must remain incomplete")
+    qualification = report["qualification"]
+    ensure(qualification["status"] == "not_qualified", "qualification must remain not_qualified")
+    ensure(qualification["readiness"] == "incomplete", "readiness must remain incomplete")
+    ensure(qualification["qualifies"] is False and qualification["missing_result_promoted"] is False,
+           "qualification boundary was promoted")
+    ensure(len(report["release_gates"]) == 8, "release gate set incomplete")
+    ensure(all(gate["blocked"] is True for gate in report["release_gates"]),
+           "release gate is not blocked")
+    ensure(report["mutable_provenance"]["gate"] is False, "mutable board file is gated")
+    projection = {field: task[field] for field in build.BOARD_PROJECTION_FIELDS}
+    expected_projection = {
+        "fields": list(build.BOARD_PROJECTION_FIELDS),
+        "sha256": build.sha256_bytes(build.canonical(projection)),
+    }
+    ensure(report["board_projection"] == expected_projection, "board projection drifted")
+    ensure(build.BOARD_PATH not in build.PINS, "mutable board file is still a full-file pin")
 
     category = report["catalogue"]["category"]
     ensure(category["id"] == "ENG-02", "wrong catalog category")

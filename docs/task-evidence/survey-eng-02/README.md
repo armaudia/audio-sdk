@@ -25,12 +25,14 @@ byte-for-byte with this worktree by the builder and verifier. Every quoted
 phrase used below must still appear in its pinned source; the builder fails if
 a quote or inventory field drifts.
 
-The pins include the registry, taxonomy table, legacy backlog, board row,
+The pins include the registry, taxonomy table, legacy backlog,
 verification profiles, inventory, historical AEC and real-corpus reports,
 clock-domain implementation record, composition report, SDK contracts,
-evidence-handoff rules and the two proposal-only clock fixtures. A digest is a
-content pin only: it grants no rights and attests to no media, device or
-provider outcome.
+evidence-handoff rules and the two proposal-only clock fixtures. The mutable
+board row is represented only by a stable row projection, never by a
+whole-file hash, so unrelated board status edits cannot change canonical
+bytes. A digest is a content pin only: it grants no rights and attests to no
+media, device or provider outcome.
 
 ## Original catalogue and source leads
 
@@ -165,7 +167,7 @@ separate owner, exact clock-domain policy and task-local qualification under
   family coverage, gap boundary and prohibited claims.
 - [`test_evidence_map.py`](test_evidence_map.py): deterministic unit tests.
 
-Report SHA-256: `8f15aad4fdf2b12d1aaa0d86633a7f70e736f2c4a142ffa47fc400c9edf8d008`.
+Report SHA-256: `302f07be53868c31cc9ce27942919475a73a726f55d88e66f825dcf67e4f71d8`.
 
 ## Reproduction
 

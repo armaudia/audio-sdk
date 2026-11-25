@@ -214,6 +214,29 @@ class EvidenceMapTests(unittest.TestCase):
         )
         self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
 
+    def test_18_disposition_is_machine_readable(self) -> None:
+        self.assertEqual(self.report["decision"], "DEFER")
+        self.assertEqual(self.report["status"], "proposal_only_survey_incomplete")
+        self.assertEqual(self.report["qualification"]["status"], "not_qualified")
+        self.assertEqual(self.report["qualification"]["readiness"], "incomplete")
+        self.assertFalse(self.report["qualification"]["qualifies"])
+        self.assertEqual(len(self.report["release_gates"]), 8)
+        self.assertTrue(all(gate["blocked"] for gate in self.report["release_gates"]))
+
+    def test_19_mutable_board_is_not_a_full_file_pin(self) -> None:
+        self.assertNotIn(build.BOARD_PATH, build.PINS)
+        self.assertFalse(self.report["mutable_provenance"]["gate"])
+        board = json.loads(build.read_text(WORKSPACE, build.BOARD_PATH))
+        task = next(item for item in board["tasks"] if item["id"] == "SDK-SURVEY-ENG-02")
+        projection = {field: task[field] for field in build.BOARD_PROJECTION_FIELDS}
+        self.assertEqual(
+            self.report["board_projection"],
+            {
+                "fields": list(build.BOARD_PROJECTION_FIELDS),
+                "sha256": build.sha256_bytes(build.canonical(projection)),
+            },
+        )
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

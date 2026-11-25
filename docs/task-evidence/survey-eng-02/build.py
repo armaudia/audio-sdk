@@ -20,6 +20,21 @@ BASE_COMMIT = "c9296ae96a2b58efae559bd22e7760122c886df8"
 BRANCH = "swarm/SDK-SURVEY-ENG-02"
 WORKTREE = "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-SURVEY-ENG-02"
 GAP_ID = "SDK-SURVEY-ENG-02-LIVE-CLOCK-DRIFT-FEASIBILITY"
+BOARD_PATH = "audio-benchmark-platform/plan/swarm/TASKS.json"
+BOARD_PROJECTION_FIELDS = (
+    "id", "title", "mode", "repository", "owner", "depends_on",
+    "write_scope", "deliverable", "acceptance",
+)
+RELEASE_GATES = [
+    {"id": "RG-01", "blocked": True, "requirement": "Rights-qualified real paired cohort with frozen candidate outputs"},
+    {"id": "RG-02", "blocked": True, "requirement": "Independent authorized listening with declared analysis plan"},
+    {"id": "RG-03", "blocked": True, "requirement": "Pinned target-device content/availability timing, memory and deadline evidence"},
+    {"id": "RG-04", "blocked": True, "requirement": "Task-matched external baseline under locked code, settings and runtime"},
+    {"id": "RG-05", "blocked": True, "requirement": "Opt-in provider intake and independent exact-head review"},
+    {"id": "RG-06", "blocked": True, "requirement": "Explicit public default selection approval"},
+    {"id": "RG-07", "blocked": True, "requirement": "Exact approved reference parity at frozen revision and settings"},
+    {"id": "RG-08", "blocked": True, "requirement": "Release approval; DEFER remains in force until every gate is closed"},
+]
 
 # Workspace-relative paths. SDK files are pinned through the canonical checkout
 # path and must be byte-identical to the copy in this worktree.
@@ -27,7 +42,6 @@ PINS: dict[str, str] = {
     "audio_categories.md": "Companion category row: families, boundary and named leads",
     "research/category_registry.json": "Original ENG-02 catalogue fields, S27/S41 leads and statuses",
     "research/task_backlog.json": "Legacy backlog state for ENG-02 / F16",
-    "audio-benchmark-platform/plan/swarm/TASKS.json": "Board row, write scope, dependency and dispatch claim",
     "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "Evidence, Room, Rate and Tool acceptance profiles",
     "audio-benchmark-platform/plan/INVENTORY.json": "Component IDs, tasks, evidence status and verification profile",
     "research/aec_research_20261028.md": "Historical paired render/capture pilots, alignment and explicit drift limit",
@@ -301,7 +315,8 @@ def build_report(workspace: Path) -> tuple[bytes, dict[str, str]]:
 
     registry = json.loads(texts["research/category_registry.json"])
     backlog = json.loads(texts["research/task_backlog.json"])
-    board = json.loads(texts["audio-benchmark-platform/plan/swarm/TASKS.json"])
+    tasks_path = "audio-benchmark-platform/plan/swarm/TASKS.json"
+    board = json.loads(read_text(workspace, tasks_path))
     inventory = json.loads(texts["audio-benchmark-platform/plan/INVENTORY.json"])
 
     category = next(item for item in registry["categories"] if item["id"] == "ENG-02")
@@ -319,6 +334,11 @@ def build_report(workspace: Path) -> tuple[bytes, dict[str, str]]:
 
     digests = {path: sha256_bytes((workspace / path).read_bytes()) for path in sorted(PINS)}
     source_pins = [{"path": path, "sha256": digests[path], "use": use} for path, use in sorted(PINS.items())]
+    projection = {field: task[field] for field in BOARD_PROJECTION_FIELDS}
+    board_projection = {
+        "fields": list(BOARD_PROJECTION_FIELDS),
+        "sha256": sha256_bytes(canonical(projection)),
+    }
 
     report = {
         "schema_id": SCHEMA_ID,
@@ -334,6 +354,22 @@ def build_report(workspace: Path) -> tuple[bytes, dict[str, str]]:
         "dependencies": task["depends_on"],
         "write_scope": task["write_scope"],
         "disposition": "survey_only: read-only taxonomy and comparison map; no execution or qualification claim",
+        "decision": "DEFER",
+        "status": "proposal_only_survey_incomplete",
+        "qualification": {
+            "status": "not_qualified",
+            "readiness": "incomplete",
+            "qualifies": False,
+            "missing_result_promoted": False,
+            "processor_exposure": False,
+        },
+        "release_gates": RELEASE_GATES,
+        "board_projection": board_projection,
+        "mutable_provenance": {
+            "gate": False,
+            "path": BOARD_PATH,
+            "note": "Board status is mutable and never hashed into canonical bytes; only the stable row projection is gated.",
+        },
         "catalogue": {
             "registry_source": "research/category_registry.json",
             "taxonomy_revision": registry["taxonomy_revision"],
