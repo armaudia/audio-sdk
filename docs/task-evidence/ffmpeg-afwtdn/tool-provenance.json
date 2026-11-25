@@ -1,0 +1,71 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "base_commit": "ff0d92cc1a994e3f93adcab4b1d37bcd2a8a4a5d",
+  "binary_handling": {
+    "downloaded": false,
+    "invoked": false,
+    "licensed_runtime_present": false,
+    "note": "No FFmpeg binary, source tree, downloaded artifact, vendored copy, wrapper or GPL-licensed runtime is included in or invoked by this package.",
+    "shipped": false,
+    "source_present": false,
+    "vendored": false,
+    "wrapped": false
+  },
+  "exact_runtime": {
+    "build_configuration": null,
+    "candidate": "FFmpeg 7.1 afwtdn",
+    "configuration_available_locally": false,
+    "dependency_configuration": "GPL dependency configuration not inspected locally; exact configure flags were not recovered.",
+    "license": "GPL-2.0-or-later",
+    "note": "Historical source-reported provenance only. No exact local build string or configure flag is invented here.",
+    "source": "research/noise_suppression_assets_20261027.json (FFmpeg-7.1-afftdn-afwtdn)",
+    "version": "7.1"
+  },
+  "external_tool_invocations": [
+    {
+      "argv": [
+        "ffmpeg",
+        "-version"
+      ],
+      "note": "No FFmpeg process was started; no executable was resolved or downloaded.",
+      "returncode": null,
+      "status": "blocked_not_run"
+    },
+    {
+      "argv": [
+        "ffmpeg",
+        "-af",
+        "afwtdn",
+        "-i",
+        "synthetic.wav",
+        "synthetic-out.wav"
+      ],
+      "note": "No filter invocation, generated WAV or vendor output is present; no paired parity vector exists.",
+      "returncode": null,
+      "status": "blocked_not_run"
+    }
+  ],
+  "historical_source_reported": {
+    "note": "The pinned pilot reports 30 paired DNS2020 outputs with negative quality changes retained. Those source-reported numbers are not reproduced, imported, pooled or claimed here.",
+    "path": "research/noise_suppression_pilot_20261027.md",
+    "record": "research/voice-enhancement-20261101/candidate_matrix.csv record 83"
+  },
+  "license_qualified_runtime": {
+    "available": false,
+    "rights_review": "blocked",
+    "reason": "No scoped GPL rights review or licensed runtime supply exists for this task-local package."
+  },
+  "numeric_parity_with_ffmpeg": false,
+  "schema_id": "audio-sdk/task-evidence/ffmpeg-afwtdn/tool-provenance/0.1",
+  "source_gate": {
+    "status": "blocked",
+    "trigger": "Exact approved FFmpeg 7.1 afwtdn reference, build string, GPL dependency configuration and scoped rights under independent review"
+  },
+  "status": "blocked",
+  "synthetic_afwtdn_invocation": {
+    "reason": "No local FFmpeg 7.1 executable, source or licensed runtime is available; synthetic PCM is processed by a deterministic task-local Python reference instead.",
+    "status": "not_run"
+  },
+  "task": "SDK-FFMPEG-AFWTDN"
+}

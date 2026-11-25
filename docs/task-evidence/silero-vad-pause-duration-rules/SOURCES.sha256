@@ -1,0 +1,21 @@
+# SHA-256 pins for SDK-SILERO-VAD-PAUSE-DURATION-RULES.
+# source: paths are relative to SOURCE_ROOT; other paths are SDK-worktree relative.
+45222fd98fe1bd76550d0529cdaa442783807a727880b168d7879eca4f54a60a  source:adapters/silero-vad/adapter.json
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f  source:research/tsm-followup-20261101/README.md
+63ea22bd4d027467a1abe97639f7c9ff6e00cdc2c6c753a52c2bd5e4028bab85  source:research/tsm-followup-20261101/root-baselines/REPORT.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+b6e422c591364dffa8b6ab0d3c9c78a579a6c85c88f831d86ee8c9d27593ab1f  docs/task-evidence/silero-vad-pause-duration-rules/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/silero-vad-pause-duration-rules/SOURCES.sha256.license
+2a9186209173e3446f719c3b4e97f8b1696dfc56a8122fdfeefd585b524fc736  docs/task-evidence/silero-vad-pause-duration-rules/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/silero-vad-pause-duration-rules/contract.json.license
+60084d66726a27fdf3255df68a71970052af63803d1918d1bf2204e253118b13  docs/task-evidence/silero-vad-pause-duration-rules/reference.py
+9aebd32c6dc61cf4c5d3d5e0b38fd82a2f083792a453bf9db9548e52cfa5b22d  docs/task-evidence/silero-vad-pause-duration-rules/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/silero-vad-pause-duration-rules/report.json.license
+20ee6af05e19921addebfd923846c55ef0a230922843532ace05b7d655ffe75c  docs/task-evidence/silero-vad-pause-duration-rules/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/silero-vad-pause-duration-rules/report.json.sha256.license
+f01cb2ac880f515b25163155df94ac316eb713e4b96aed1fbf1255e9def37cbf  docs/task-evidence/silero-vad-pause-duration-rules/run.py
+c898ff5a36d91595229057f742237547ecc6907ff258d771ba636cb779b9aae6  docs/task-evidence/silero-vad-pause-duration-rules/test_reference.py
+fbc6483c31cd31a617f845e5f35531676fdb955a4ee1cddeff19419d801e1a6b  docs/task-evidence/silero-vad-pause-duration-rules/verify.py
