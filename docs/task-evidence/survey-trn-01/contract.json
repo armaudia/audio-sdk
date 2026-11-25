@@ -69,6 +69,7 @@
   },
   "evidence_pins": {
     "docs/task-evidence/bungee-basic/README.md": "ee6edcc68764888500aed41963169e6e311cec447b511fcbd1f2d4189453d485",
+    "docs/task-evidence/ffmpeg-atempo/README.md": "11773a543c6dab54ff4754989501a0a70a29b247612e51aee5fb54c0050457b8",
     "docs/task-evidence/granular-tsm/README.md": "d97f06911fd90667288fe571c7a3f4210ece629f7e839c1d41200ceec48ec0a0",
     "docs/task-evidence/ola-sola/README.md": "5d7de4612ad4d04cad544e4060aba607916f0fd013471388cc74fb55168bd731",
     "docs/task-evidence/phase-vocoder-baseline/README.md": "915bd51e7de4b223bdd61bb5ff823e7a0558f03e324f154d7d3d4c77d14f9790",
