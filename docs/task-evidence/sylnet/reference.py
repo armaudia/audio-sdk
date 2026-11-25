@@ -65,7 +65,8 @@ RATE_CASES: Dict[str, Fraction] = {
     "rate_1_25x": Fraction(5, 4),
 }
 
-UPSTREAM_REPOSITORY = "https://github.com/shjang-97/SylNet"
+UPSTREAM_REPOSITORY = "https://github.com/shreyas253/SylNet"
+UPSTREAM_REPOSITORY_STALE = "https://github.com/shjang-97/SylNet"
 UPSTREAM_COMMIT = "29eb34d614907073735f9c2d8c31da22c1be2282"
 UPSTREAM_LICENSE = "MIT"
 UPSTREAM_SNAPSHOT = "data/checkouts/sylnet-evaluation"
@@ -226,6 +227,26 @@ MODEL_PROVENANCE = {
     "candidate": "SylNet",
     "upstream_repository": UPSTREAM_REPOSITORY,
     "upstream_commit": UPSTREAM_COMMIT,
+    "identity_correction": {
+        "source_reported_repository": UPSTREAM_REPOSITORY_STALE,
+        "source_reported_repository_status": "404_not_found",
+        "corrected_repository": UPSTREAM_REPOSITORY,
+        "corrected_repository_resolves_pinned_commit": True,
+        "corrected_repository_resolves_pinned_bytes": True,
+        "correction_reason": (
+            "The pinned research report records the stale URL; the pinned "
+            "commit and all pinned bytes resolve under the corrected repository."
+        ),
+    },
+    "repository_resolution": {
+        "snapshot": UPSTREAM_SNAPSHOT,
+        "expected_remote": UPSTREAM_REPOSITORY,
+        "expected_commit": UPSTREAM_COMMIT,
+        "method": (
+            "git config --get remote.origin.url and git rev-parse HEAD in the "
+            "pinned external checkout"
+        ),
+    },
     "upstream_license": UPSTREAM_LICENSE,
     "upstream_license_copyright": "Copyright (c) 2019 Shreyas Seshadri",
     "upstream_license_file": UPSTREAM_LICENSE_PATH,
@@ -392,6 +413,48 @@ class Rejected(Exception):
 
 def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+def normalize_remote_url(url: str) -> str:
+    """Normalize GitHub remote spelling so identity checks are stable."""
+    value = url.strip()
+    if value.startswith("git@github.com:"):
+        value = "https://github.com/" + value.split(":", 1)[1]
+    elif value.startswith("ssh://git@github.com/"):
+        value = "https://github.com/" + value.split("github.com/", 1)[1]
+    if value.endswith(".git"):
+        value = value[:-4]
+    return value.rstrip("/")
+
+
+@lru_cache(maxsize=1)
+def upstream_git_identity() -> Dict[str, Any]:
+    """Resolve the pinned checkout's origin URL and HEAD offline.
+
+    This proves the pinned URL and commit agree in the checkout that supplies
+    every pinned byte. It performs no network access and writes nothing.
+    """
+    snapshot = SOURCE_ROOT / UPSTREAM_SNAPSHOT
+
+    def git(*args: str) -> str:
+        result = subprocess.run(
+            ["git", "-C", str(snapshot), *args], capture_output=True,
+            text=True, check=False)
+        if result.returncode != 0:
+            raise ValueError("git_upstream_failed:" + " ".join(args) + ":"
+                             + result.stderr.strip())
+        return result.stdout.strip()
+
+    remote = git("config", "--get", "remote.origin.url")
+    commit = git("rev-parse", "HEAD")
+    git("cat-file", "-e", UPSTREAM_COMMIT + "^{commit}")
+    return {
+        "snapshot": str(snapshot),
+        "remote": remote,
+        "normalized_remote": normalize_remote_url(remote),
+        "commit": commit,
+        "pinned_commit_present": True,
+    }
 
 
 def _normalize_negzero(value: Any) -> Any:

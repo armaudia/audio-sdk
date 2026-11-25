@@ -178,6 +178,23 @@ def check_content(errors: List[str], payloads: Dict[str, Dict[str, Any]]) -> Non
         errors.append("upstream_license_mismatch")
     if provenance.get("upstream_repository") != reference.UPSTREAM_REPOSITORY:
         errors.append("upstream_repository_mismatch")
+    correction = provenance.get("identity_correction", {})
+    if (correction.get("source_reported_repository")
+            != reference.UPSTREAM_REPOSITORY_STALE
+            or correction.get("source_reported_repository_status")
+            != "404_not_found"
+            or correction.get("corrected_repository")
+            != reference.UPSTREAM_REPOSITORY
+            or correction.get("corrected_repository_resolves_pinned_commit")
+            is not True
+            or correction.get("corrected_repository_resolves_pinned_bytes")
+            is not True):
+        errors.append("upstream_identity_correction_invalid")
+    resolution = provenance.get("repository_resolution", {})
+    if (resolution.get("expected_remote") != reference.UPSTREAM_REPOSITORY
+            or resolution.get("expected_commit") != reference.UPSTREAM_COMMIT
+            or resolution.get("snapshot") != reference.UPSTREAM_SNAPSHOT):
+        errors.append("upstream_resolution_expectation_invalid")
     checkpoint = provenance.get("checkpoint", {})
     if (checkpoint.get("present_in_sdk_worktree") is not False
             or checkpoint.get("loaded_or_executed") is not False
@@ -309,6 +326,26 @@ def check_content(errors: List[str], payloads: Dict[str, Dict[str, Any]]) -> Non
         errors.append("cold_start_repeatability_failed")
 
 
+def check_upstream_identity(errors: List[str]) -> None:
+    """Pinned URL and commit must agree in the checkout supplying pinned bytes."""
+    try:
+        identity = reference.upstream_git_identity()
+    except (OSError, ValueError) as error:
+        errors.append("upstream_identity_failed:" + str(error))
+        return
+    if identity["normalized_remote"] != reference.UPSTREAM_REPOSITORY:
+        errors.append("upstream_remote_mismatch:" + identity["normalized_remote"])
+    if identity["commit"] != reference.UPSTREAM_COMMIT:
+        errors.append("upstream_commit_mismatch:" + identity["commit"])
+    if identity["pinned_commit_present"] is not True:
+        errors.append("upstream_pinned_commit_absent")
+    correction = reference.MODEL_PROVENANCE["identity_correction"]
+    if correction["corrected_repository"] != identity["normalized_remote"]:
+        errors.append("upstream_identity_correction_mismatch")
+    if correction["source_reported_repository"] != reference.UPSTREAM_REPOSITORY_STALE:
+        errors.append("upstream_stale_repository_mismatch")
+
+
 def check_strict_rejections(errors: List[str]) -> None:
     bad_inputs = (
         '{"a":1,"a":2}',
@@ -390,6 +427,7 @@ def main() -> int:
     payloads = check_json(errors)
     if len(payloads) == 2 and payloads["contract"] and payloads["report"]:
         check_content(errors, payloads)
+    check_upstream_identity(errors)
     check_strict_rejections(errors)
     check_licensing(errors)
     changed = check_scope(errors)
@@ -408,7 +446,8 @@ def main() -> int:
         print(f"pins_ok={pins == len(reference.allowed_pin_keys()) and not pin_failures} "
               f"json_ok={not json_failures} report_sha256={digest} failures={len(errors)}")
         return 1
-    print(f"PASS pins={pins} json_ok=2 strict_rejections_ok=9 reproduction_ok=3 "
+    print(f"PASS pins={pins} json_ok=2 upstream_identity_ok=1 "
+          f"strict_rejections_ok=9 reproduction_ok=3 "
           f"licensing_ok=1 scope_ok=1 changed_files={changed} profile=rate "
           f"status={reference.STATUS} qualification={reference.QUALIFICATION} "
           f"decision={reference.DECISION} report_sha256={digest}")
