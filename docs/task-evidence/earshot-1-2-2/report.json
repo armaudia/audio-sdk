@@ -1,0 +1,1631 @@
+{
+  "acceptance_profile": {
+    "availability": true,
+    "cross_hop": true,
+    "detections_scored": true,
+    "dropped_and_stale_events": true,
+    "event_boundaries_scored": true,
+    "exact_source_intervals": true,
+    "fixture_sha256": "9ef1013c926b71a12b12000bb128269757de08a9f26e456296ef7a9b162c7485",
+    "idle_noise": true,
+    "independent_state": true,
+    "known_positives_and_negatives": true,
+    "onset_offset_delay": true,
+    "profile": "analysis",
+    "quiet_and_active_speech": true,
+    "scorer_sha256": "18ed157621032d9c48bc2f7d1dc53835c0fb6f611ae96fabd92db9cf6a64e321",
+    "source": "plan/swarm/VERIFICATION.md",
+    "stratified_fn_fp": true,
+    "timestamped_probabilities_scored": true,
+    "validity_separate_from_nonspeech": true
+  },
+  "adverse": {
+    "all_invalid_cases_rejected": true,
+    "all_rejected": true,
+    "caller_asset_fail_closed": true,
+    "caller_asset_rejections": {
+      "absent_file": {
+        "reason": "asset_wheel_missing",
+        "status": "rejected"
+      },
+      "all_fail_closed": true,
+      "all_present": true,
+      "hash_mismatch": {
+        "reason": "asset_hash_mismatch",
+        "status": "rejected"
+      },
+      "missing_manifest": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "relative_path": {
+        "reason": "asset_path_must_be_absolute",
+        "status": "rejected"
+      },
+      "unexpected_field": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "valid_manifest": {
+        "executed": false,
+        "imported": false,
+        "loaded": false,
+        "status": "validated",
+        "verified": true
+      },
+      "wrong_channels": {
+        "reason": "asset_value_mismatch:channels",
+        "status": "rejected"
+      },
+      "wrong_frame_size": {
+        "reason": "asset_value_mismatch:frame_samples",
+        "status": "rejected"
+      },
+      "wrong_input_format": {
+        "reason": "asset_value_mismatch:input_format",
+        "status": "rejected"
+      },
+      "wrong_sample_rate": {
+        "reason": "asset_value_mismatch:sample_rate_hz",
+        "status": "rejected"
+      },
+      "wrong_source_commit": {
+        "reason": "asset_value_mismatch:source_commit",
+        "status": "rejected"
+      },
+      "wrong_threshold": {
+        "reason": "asset_value_mismatch:threshold",
+        "status": "rejected"
+      }
+    },
+    "config_rejections": {
+      "channels": {
+        "reason": "config_mismatch:channels",
+        "status": "rejected"
+      },
+      "decision_threshold": {
+        "reason": "config_mismatch:decision_threshold",
+        "status": "rejected"
+      },
+      "frame_samples": {
+        "reason": "config_mismatch:frame_samples",
+        "status": "rejected"
+      },
+      "missing_session_id": {
+        "reason": "invalid_session_id",
+        "status": "rejected"
+      },
+      "real_runtime": {
+        "reason": "config_mismatch:real_runtime",
+        "status": "rejected"
+      },
+      "sample_format": {
+        "reason": "config_mismatch:sample_format",
+        "status": "rejected"
+      },
+      "sample_rate_hz": {
+        "reason": "config_mismatch:sample_rate_hz",
+        "status": "rejected"
+      },
+      "wheel_or_licensed_runtime_used": {
+        "reason": "config_mismatch:wheel_or_licensed_runtime_used",
+        "status": "rejected"
+      }
+    },
+    "event_bus_cases": {
+      "duplicate_sequence": {
+        "accepted": false,
+        "expected_reason": "duplicate_or_out_of_order_sequence",
+        "reason": "duplicate_or_out_of_order_sequence",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "infinite_probability": {
+        "accepted": false,
+        "expected_reason": "nonfinite_probability",
+        "reason": "nonfinite_probability",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "invalid_validity": {
+        "accepted": false,
+        "expected_reason": "invalid_event_validity",
+        "reason": "invalid_event_validity",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "missing_probability": {
+        "accepted": false,
+        "expected_reason": "missing_probability",
+        "reason": "missing_probability",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "missing_validity": {
+        "accepted": false,
+        "expected_reason": "missing_event_validity",
+        "reason": "missing_event_validity",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "nonfinite_frame": {
+        "accepted": false,
+        "expected_reason": "nonfinite_frame",
+        "reason": "nonfinite_frame",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "nonfinite_probability": {
+        "accepted": false,
+        "expected_reason": "nonfinite_probability",
+        "reason": "nonfinite_probability",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "out_of_range_probability": {
+        "accepted": false,
+        "expected_reason": "probability_out_of_range",
+        "reason": "probability_out_of_range",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "short_frame": {
+        "accepted": false,
+        "expected_reason": "short_frame",
+        "reason": "short_frame",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "stale_availability": {
+        "accepted": false,
+        "expected_reason": "stale_availability",
+        "reason": "stale_availability",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "stale_epoch": {
+        "accepted": false,
+        "expected_reason": "stale_epoch",
+        "reason": "stale_epoch",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "wrong_clock": {
+        "accepted": false,
+        "expected_reason": "wrong_clock",
+        "reason": "wrong_clock",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "wrong_interval": {
+        "accepted": false,
+        "expected_reason": "wrong_source_interval",
+        "reason": "wrong_source_interval",
+        "state_unchanged": true,
+        "status": "rejected"
+      }
+    },
+    "event_bus_fail_closed": true,
+    "frame_fail_closed": true,
+    "frame_rejections": {
+      "boolean": {
+        "expected": "wrong_frame_format",
+        "reason": "wrong_frame_format",
+        "state_unchanged": true
+      },
+      "empty": {
+        "expected": "wrong_frame_format",
+        "reason": "wrong_frame_format",
+        "state_unchanged": true
+      },
+      "infinite": {
+        "expected": "nonfinite_frame",
+        "reason": "nonfinite_frame",
+        "state_unchanged": true
+      },
+      "long": {
+        "expected": "long_frame",
+        "reason": "long_frame",
+        "state_unchanged": true
+      },
+      "long_final": {
+        "expected": "invalid_final_valid_samples",
+        "reason": "invalid_final_valid_samples",
+        "state_unchanged": true
+      },
+      "nan": {
+        "expected": "nonfinite_frame",
+        "reason": "nonfinite_frame",
+        "state_unchanged": true
+      },
+      "short": {
+        "expected": "short_frame",
+        "reason": "short_frame",
+        "state_unchanged": true
+      },
+      "zero_final": {
+        "expected": "invalid_final_valid_samples",
+        "reason": "invalid_final_valid_samples",
+        "state_unchanged": true
+      }
+    }
+  },
+  "alignment": {
+    "content_delay_compensation": "not_applicable_frame_cadence",
+    "declared_analysis_delay_samples": 0,
+    "deterministic_decision_available_after_frame": true,
+    "frame_duration_ms": 16,
+    "frame_grid_exact": true,
+    "frame_samples": 256,
+    "matched_boundary_count": 2,
+    "measured": false,
+    "onset_offset_delay_unit": "samples; positive onset = late start, negative offset = early stop",
+    "source_interval_mapping": "identity"
+  },
+  "asset_pins": {
+    "asset:source_archive": {
+      "executed": false,
+      "expected_path": null,
+      "filename": "earshot-1.2.2 source archive",
+      "loaded": false,
+      "present": false,
+      "sha256": "a2aad72917334d2b9e7385b73dc837bd30244714ccf27d45fbfcc0e038cfcaeb"
+    },
+    "asset:wheel": {
+      "executed": false,
+      "expected_path": "data/wheels/vad-candidates/earshot-1.2.2-cp38-abi3-macosx_11_0_arm64.whl",
+      "filename": "earshot-1.2.2-cp38-abi3-macosx_11_0_arm64.whl",
+      "loaded": false,
+      "present": false,
+      "sha256": "bf696faad73a996c40bea8115622a5dcbc9c6da01498885bfd9eae8be1a11ecd"
+    }
+  },
+  "asset_resolution": {
+    "environment_present": false,
+    "executed": false,
+    "expected_environment_path": "data/envs/earshot-vad-1.2.2",
+    "expected_wheel_path": "data/wheels/vad-candidates/earshot-1.2.2-cp38-abi3-macosx_11_0_arm64.whl",
+    "expected_wheel_sha256": "bf696faad73a996c40bea8115622a5dcbc9c6da01498885bfd9eae8be1a11ecd",
+    "imported": false,
+    "loaded": false,
+    "manifest_present": false,
+    "reason": "caller_supplied_wheel_absent_and_rights_unreviewed",
+    "requested": false,
+    "runtime_library_present": false,
+    "source_archive_present": false,
+    "surrogate_used": true,
+    "verified": false,
+    "weights_embedded_in_wheel": true,
+    "wheel_present_in_research_workspace": false,
+    "wheel_present_in_sdk_worktree": false
+  },
+  "availability": {
+    "availability_serialization": "decimal string",
+    "clock_id": "earshot-1-2-2-fixture-monotonic-v0",
+    "device_timing": false,
+    "first_available_ns": "1767225600017000000",
+    "formula": "available_ns = origin_ns + end_sample * ns_per_sample + processing_delay_ns",
+    "frame_samples": 256,
+    "last_available_ns": "1767225602001000000",
+    "measured": false,
+    "monotonic_nondecreasing": true,
+    "ns_per_sample": 62500,
+    "origin_ns": "1767225600000000000",
+    "processing_delay_ns": 1000000,
+    "signal_timestamp_is_not_availability": true,
+    "synthetic_decision_allowance": true
+  },
+  "base_commit": "d5b11912cd09e87296cd9d4654f1917c9cb94258",
+  "baselines": {
+    "always_nonspeech": {
+      "FN": 15360,
+      "FP": 0,
+      "TN": 13312,
+      "TP": 0,
+      "false_alarm_rate": 0.0,
+      "speech_miss_rate": 1.0
+    },
+    "always_speech": {
+      "FN": 0,
+      "FP": 13312,
+      "TN": 0,
+      "TP": 15360,
+      "false_alarm_rate": 1.0,
+      "speech_miss_rate": 0.0
+    },
+    "diagnostic_only": true,
+    "used_for_qualification": false
+  },
+  "boundaries": {
+    "detected_runs": [
+      [
+        3584,
+        6144
+      ],
+      [
+        8192,
+        16128
+      ],
+      [
+        17408,
+        18688
+      ]
+    ],
+    "false_detected_runs": [
+      [
+        17408,
+        18688
+      ]
+    ],
+    "matched_count": 2,
+    "matches": [
+      {
+        "detected": [
+          3584,
+          6144
+        ],
+        "matched": true,
+        "offset_delay_ms": 0.0,
+        "offset_delay_samples": 0,
+        "onset_delay_ms": 96.0,
+        "onset_delay_samples": 1536,
+        "overlap_samples": 2560,
+        "truth": [
+          2048,
+          6144
+        ]
+      },
+      {
+        "detected": [
+          8192,
+          16128
+        ],
+        "matched": true,
+        "offset_delay_ms": 0.0,
+        "offset_delay_samples": 0,
+        "onset_delay_ms": 0.0,
+        "onset_delay_samples": 0,
+        "overlap_samples": 7936,
+        "truth": [
+          8192,
+          16128
+        ]
+      },
+      {
+        "detected": null,
+        "matched": false,
+        "offset_delay_ms": null,
+        "offset_delay_samples": null,
+        "onset_delay_ms": null,
+        "onset_delay_samples": null,
+        "overlap_samples": 0,
+        "truth": [
+          18688,
+          22016
+        ]
+      }
+    ],
+    "missed_truth_runs": [
+      [
+        18688,
+        22016
+      ]
+    ],
+    "sign_convention": "positive onset delay = late start; negative offset delay = early stop",
+    "tolerance_samples": 0,
+    "truth_runs": [
+      [
+        2048,
+        6144
+      ],
+      [
+        8192,
+        16128
+      ],
+      [
+        18688,
+        22016
+      ]
+    ]
+  },
+  "boundary": {
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "registered": false,
+    "shared_cmakelists_change": false
+  },
+  "boundary_pins": {
+    "CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "REUSE.toml": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "scripts/ci.py": "64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f"
+  },
+  "branch": "swarm/SDK-EARSHOT-1-2-2",
+  "caller_supplied_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/earshot-1-2-2/caller-supplied-asset/0.1",
+    "pinned_values": {
+      "channels": 1,
+      "frame_samples": 256,
+      "input_format": "float32",
+      "sample_rate_hz": 16000,
+      "source_commit": "c400f15bd232dda30a297eec90235bd09066cab7",
+      "threshold": 0.5
+    },
+    "present_behavior": "validate_hash_and_geometry_only; do_not_import_or_execute_in_this_package",
+    "required_fields": [
+      "channels",
+      "frame_samples",
+      "input_format",
+      "sample_rate_hz",
+      "source_commit",
+      "threshold",
+      "wheel_path",
+      "wheel_sha256"
+    ],
+    "separate_model_asset_required": false,
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "wheel_path is a caller-owned absolute path",
+      "SHA-256 of the wheel file matches the manifest",
+      "source_commit equals the pinned pykeio/earshot provenance revision",
+      "sample rate, channels, frame size, threshold and input format equal 16 kHz mono float32 256-sample geometry at threshold 0.5",
+      "no download, copy, build, import, load or execution occurs in this package"
+    ],
+    "weights_embedded_in_wheel": true
+  },
+  "comparison": {
+    "candidate": "earshot-1-2-2-boundary-surrogate-v1",
+    "established_task_matched_baseline_reproduced": false,
+    "identity_control": "always_speech_and_always_nonspeech_diagnostic_baselines",
+    "quality_pass": false,
+    "quality_pass_reason": "No Earshot wheel, embedded weights or rights-cleared real cohort; the surrogate is a boundary conformance fixture and its synthetic metrics are not a quality claim.",
+    "regression_count": 4,
+    "source_reported_used_for_qualification": false
+  },
+  "component_id": "earshot-1-2-2",
+  "contract_sha256": "debcb9edcc7b53ccf77e113aa90799c104fa31c5c081c66afec98d031214c3ab",
+  "controls": {
+    "caller_asset": {
+      "absent_file": {
+        "reason": "asset_wheel_missing",
+        "status": "rejected"
+      },
+      "all_fail_closed": true,
+      "all_present": true,
+      "hash_mismatch": {
+        "reason": "asset_hash_mismatch",
+        "status": "rejected"
+      },
+      "missing_manifest": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "relative_path": {
+        "reason": "asset_path_must_be_absolute",
+        "status": "rejected"
+      },
+      "unexpected_field": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "valid_manifest": {
+        "executed": false,
+        "imported": false,
+        "loaded": false,
+        "status": "validated",
+        "verified": true
+      },
+      "wrong_channels": {
+        "reason": "asset_value_mismatch:channels",
+        "status": "rejected"
+      },
+      "wrong_frame_size": {
+        "reason": "asset_value_mismatch:frame_samples",
+        "status": "rejected"
+      },
+      "wrong_input_format": {
+        "reason": "asset_value_mismatch:input_format",
+        "status": "rejected"
+      },
+      "wrong_sample_rate": {
+        "reason": "asset_value_mismatch:sample_rate_hz",
+        "status": "rejected"
+      },
+      "wrong_source_commit": {
+        "reason": "asset_value_mismatch:source_commit",
+        "status": "rejected"
+      },
+      "wrong_threshold": {
+        "reason": "asset_value_mismatch:threshold",
+        "status": "rejected"
+      }
+    },
+    "config_adverse": {
+      "channels": {
+        "reason": "config_mismatch:channels",
+        "status": "rejected"
+      },
+      "decision_threshold": {
+        "reason": "config_mismatch:decision_threshold",
+        "status": "rejected"
+      },
+      "frame_samples": {
+        "reason": "config_mismatch:frame_samples",
+        "status": "rejected"
+      },
+      "missing_session_id": {
+        "reason": "invalid_session_id",
+        "status": "rejected"
+      },
+      "real_runtime": {
+        "reason": "config_mismatch:real_runtime",
+        "status": "rejected"
+      },
+      "sample_format": {
+        "reason": "config_mismatch:sample_format",
+        "status": "rejected"
+      },
+      "sample_rate_hz": {
+        "reason": "config_mismatch:sample_rate_hz",
+        "status": "rejected"
+      },
+      "wheel_or_licensed_runtime_used": {
+        "reason": "config_mismatch:wheel_or_licensed_runtime_used",
+        "status": "rejected"
+      }
+    },
+    "cross_hop": {
+      "declared_analysis_delay_samples": 0,
+      "frames": [
+        [
+          0,
+          106
+        ],
+        [
+          1,
+          74
+        ]
+      ],
+      "interval": [
+        150,
+        330
+      ],
+      "overlap_samples": 180,
+      "source_time_mapping": "identity",
+      "truth_hops": 16,
+      "truth_interval": [
+        2048,
+        6144
+      ],
+      "truth_overlap_samples": 4096
+    },
+    "event_bus": {
+      "adverse_cases": {
+        "duplicate_sequence": {
+          "accepted": false,
+          "expected_reason": "duplicate_or_out_of_order_sequence",
+          "reason": "duplicate_or_out_of_order_sequence",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "infinite_probability": {
+          "accepted": false,
+          "expected_reason": "nonfinite_probability",
+          "reason": "nonfinite_probability",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "invalid_validity": {
+          "accepted": false,
+          "expected_reason": "invalid_event_validity",
+          "reason": "invalid_event_validity",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "missing_probability": {
+          "accepted": false,
+          "expected_reason": "missing_probability",
+          "reason": "missing_probability",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "missing_validity": {
+          "accepted": false,
+          "expected_reason": "missing_event_validity",
+          "reason": "missing_event_validity",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "nonfinite_frame": {
+          "accepted": false,
+          "expected_reason": "nonfinite_frame",
+          "reason": "nonfinite_frame",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "nonfinite_probability": {
+          "accepted": false,
+          "expected_reason": "nonfinite_probability",
+          "reason": "nonfinite_probability",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "out_of_range_probability": {
+          "accepted": false,
+          "expected_reason": "probability_out_of_range",
+          "reason": "probability_out_of_range",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "short_frame": {
+          "accepted": false,
+          "expected_reason": "short_frame",
+          "reason": "short_frame",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "stale_availability": {
+          "accepted": false,
+          "expected_reason": "stale_availability",
+          "reason": "stale_availability",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "stale_epoch": {
+          "accepted": false,
+          "expected_reason": "stale_epoch",
+          "reason": "stale_epoch",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "wrong_clock": {
+          "accepted": false,
+          "expected_reason": "wrong_clock",
+          "reason": "wrong_clock",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "wrong_interval": {
+          "accepted": false,
+          "expected_reason": "wrong_source_interval",
+          "reason": "wrong_source_interval",
+          "state_unchanged": true,
+          "status": "rejected"
+        }
+      },
+      "all_rejected_without_state_change": true,
+      "availability_example_ns": 1767225600017000000,
+      "delivered_sequences": [
+        1,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125
+      ],
+      "dropped_sequences": [
+        2,
+        5,
+        17
+      ],
+      "fabricated_events": 0,
+      "gaps": [
+        [
+          2,
+          2
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          17,
+          17
+        ]
+      ],
+      "total_sequences": 125
+    },
+    "frame": {
+      "all_fail_closed": true,
+      "all_present": true,
+      "cases": {
+        "boolean": {
+          "expected": "wrong_frame_format",
+          "reason": "wrong_frame_format",
+          "state_unchanged": true
+        },
+        "empty": {
+          "expected": "wrong_frame_format",
+          "reason": "wrong_frame_format",
+          "state_unchanged": true
+        },
+        "infinite": {
+          "expected": "nonfinite_frame",
+          "reason": "nonfinite_frame",
+          "state_unchanged": true
+        },
+        "long": {
+          "expected": "long_frame",
+          "reason": "long_frame",
+          "state_unchanged": true
+        },
+        "long_final": {
+          "expected": "invalid_final_valid_samples",
+          "reason": "invalid_final_valid_samples",
+          "state_unchanged": true
+        },
+        "nan": {
+          "expected": "nonfinite_frame",
+          "reason": "nonfinite_frame",
+          "state_unchanged": true
+        },
+        "short": {
+          "expected": "short_frame",
+          "reason": "short_frame",
+          "state_unchanged": true
+        },
+        "zero_final": {
+          "expected": "invalid_final_valid_samples",
+          "reason": "invalid_final_valid_samples",
+          "state_unchanged": true
+        }
+      },
+      "final_partial_available_ns": 1767225600025000000,
+      "final_partial_end_sample": 384,
+      "final_partial_padded_samples": 128,
+      "final_partial_status": "ok",
+      "state_unchanged_after_rejections": true
+    },
+    "independent_state": {
+      "after_reset": {
+        "left": {
+          "dropped": 0,
+          "epoch": 4,
+          "probability_event_digest": "aa10acf1e2bbbac7a3da93c596587af3aa90ae7ef24abcac56dcb10ab4944f6c",
+          "probability_events": 2,
+          "rejections": 0,
+          "session_id": "left",
+          "speech_event_digest": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "speech_events": 0,
+          "state_digest": "a7b4fb39f3b8af95ae00689a3dfa8b1499372d11f7c24fbf33e0e4d7cd6b0209",
+          "total_samples": 512
+        },
+        "right": {
+          "dropped": 0,
+          "epoch": 8,
+          "probability_event_digest": "420f5cc23ee1b2db3e8cc1a67ca0c34ad8b2e93cdc37d0be92d3b5bdf3682f6e",
+          "probability_events": 8,
+          "rejections": 0,
+          "session_id": "right",
+          "speech_event_digest": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "speech_events": 0,
+          "state_digest": "38adf423514c90c3e15b0fed9a8c20e559d7e2f6d13e1233878726f9a04c4caa",
+          "total_samples": 2048
+        }
+      },
+      "before": {
+        "left": {
+          "dropped": 0,
+          "epoch": 3,
+          "probability_event_digest": "72817979ca6ffd3daedce8c5721c34c7ffe8a85d8e0e8bcd49ac9eb27c78cbd7",
+          "probability_events": 8,
+          "rejections": 0,
+          "session_id": "left",
+          "speech_event_digest": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "speech_events": 0,
+          "state_digest": "b1eb0e6c07996d241efba03a33945fde98665d2434e319d63a2fbf76456aa9ba",
+          "total_samples": 2048
+        },
+        "right": {
+          "dropped": 0,
+          "epoch": 8,
+          "probability_event_digest": "420f5cc23ee1b2db3e8cc1a67ca0c34ad8b2e93cdc37d0be92d3b5bdf3682f6e",
+          "probability_events": 8,
+          "rejections": 0,
+          "session_id": "right",
+          "speech_event_digest": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "speech_events": 0,
+          "state_digest": "38adf423514c90c3e15b0fed9a8c20e559d7e2f6d13e1233878726f9a04c4caa",
+          "total_samples": 2048
+        }
+      },
+      "old_epoch_event_rejected": "stale_epoch",
+      "reset_matches_fresh_digest": true,
+      "same_epoch_fresh_session_matches": true
+    },
+    "interval_and_availability": {
+      "availability_formula": "origin_ns + end_sample * 62500 + processing_delay_ns",
+      "clock": "earshot-1-2-2-fixture-monotonic-v0",
+      "frame_boundaries_exact": true,
+      "known_availability_strictly_increasing": true,
+      "measured": false,
+      "probability_events_cover_samples": [
+        0,
+        32000
+      ],
+      "speech_events_cover_samples": [
+        3584,
+        18688
+      ],
+      "unknown_events_have_no_availability": true
+    },
+    "invalid_vs_nonspeech": {
+      "false_positives": 0,
+      "invalid_counted_as_nonspeech": false,
+      "known_nonspeech_tn": 256,
+      "known_speech_tp": 256,
+      "rejected_cases": {
+        "invalid_validity": {
+          "reason": "invalid_event_not_scoreable:invalid",
+          "status": "rejected"
+        },
+        "missing_validity": {
+          "reason": "invalid_event_not_scoreable:missing",
+          "status": "rejected"
+        },
+        "nonfinite_probability": {
+          "reason": "nonfinite_or_out_of_range_probability",
+          "status": "rejected"
+        },
+        "out_of_range_probability": {
+          "reason": "nonfinite_or_out_of_range_probability",
+          "status": "rejected"
+        }
+      },
+      "unknown_event_admitted": true,
+      "unknown_excluded_samples": 256
+    },
+    "partial_tail": {
+      "final_available_ns": 1767225600025000000,
+      "final_end_sample": 384,
+      "final_padded_samples": 128,
+      "final_valid_samples": 128,
+      "frame_interval_clipped_to_real_samples": true,
+      "full_frames": 1,
+      "inference_frame_zero_padded": true,
+      "stream_samples": 384
+    },
+    "streaming_parity": {
+      "chunk_buffering": "exact 256-sample frames; no frame is split or dropped",
+      "chunk_sizes": [
+        160,
+        480,
+        800
+      ],
+      "events_identical": true,
+      "fresh_session_identical": true,
+      "offline_digest": "e9ff8b81ae3abc03cad722ff1e86f73211b64d3bb5f6b9edb82f4359b214b907",
+      "offline_events": 125,
+      "offline_speech_events": 3,
+      "streaming_digest": "e9ff8b81ae3abc03cad722ff1e86f73211b64d3bb5f6b9edb82f4359b214b907",
+      "streaming_events": 125,
+      "streaming_speech_events": 3
+    }
+  },
+  "decision": "DEFER",
+  "defer_before": "opt_in_adapter_exposure",
+  "detections": {
+    "denominator_note": "sample-weighted over known speech and known nonspeech only; unknown and invalid samples are never negative labels",
+    "false_alarm_rate": 0.096153846154,
+    "frame_resolution_samples": 256,
+    "invalid_excluded_samples": 0,
+    "nonspeech_samples": 13312,
+    "overall": {
+      "FN": 4864,
+      "FP": 1280,
+      "TN": 12032,
+      "TP": 10496
+    },
+    "speech_miss_rate": 0.316666666667,
+    "speech_samples": 15360,
+    "unknown_excluded_samples": 3328
+  },
+  "evidence_classes": {
+    "independent_listening": "not required by the Analysis profile and not performed",
+    "real_audio_rights_qualified": "none; no result qualifies a candidate",
+    "source_reported": "Pinned research values retained as provenance only; not reproduced, pooled or used as thresholds.",
+    "synthetic_surrogate": "Deterministic model-free boundary surrogate on frozen synthetic stimuli; no Earshot asset, real audio or device.",
+    "target_runtime": "none"
+  },
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    "The exact Earshot 1.2.2 macOS arm64 wheel is pinned by SHA-256 (bf696faad73a996c40bea8115622a5dcbc9c6da01498885bfd9eae8be1a11ecd) but is absent from this workspace at data/wheels/vad-candidates/earshot-1.2.2-cp38-abi3-macosx_11_0_arm64.whl, and no isolated environment exists at data/envs/earshot-vad-1.2.2; the exact runtime cannot be installed, loaded or reproduced here.",
+    "The wheel metadata declares MIT OR Apache-2.0, but the wheel bundles no standalone license file, embedded-weight and training-data provenance are not independently established, and redistribution, product-use and legal review remain unresolved. No asset was downloaded, copied, built, vendored or redistributed.",
+    "Only a deterministic model-free boundary surrogate was executed. It is not Earshot, has no neural network or weights, and its synthetic probabilities, FN/FP and boundary delays are boundary-conformance observations, not an accuracy, real-audio, listening, device-timing or benchmark result.",
+    "No rights-cleared label-complete real cohort, held-out generalization, target-runtime timing/memory, native streaming integration, opt-in provider intake, descriptor/registry review or public default decision exists; every release gate remains blocked."
+  ],
+  "format": {
+    "asset_channels": 1,
+    "asset_frame_duration_ms": 16,
+    "asset_frame_samples": 256,
+    "asset_sample_format": "float32",
+    "asset_sample_rate_hz": 16000,
+    "decision_threshold": 0.5,
+    "frame_cadence_parity_with_real_runtime_claimed": false,
+    "sdk_callback_invoked": false,
+    "sdk_v0_channels": 1,
+    "sdk_v0_frame_samples": 160,
+    "sdk_v0_geometry_preserved": true,
+    "sdk_v0_sample_format": "f32",
+    "sdk_v0_sample_rate_hz": 16000,
+    "window_frames": 125,
+    "window_samples": 32000
+  },
+  "gates": [
+    {
+      "name": "caller_supplied_wheel_present_and_verified",
+      "reopen_condition": "Supply the caller-owned Earshot 1.2.2 macOS arm64 wheel with SHA-256 bf696f... and the pinned provenance commit, then validate the manifest.",
+      "status": "blocked"
+    },
+    {
+      "name": "wheel_and_embedded_weight_rights",
+      "reopen_condition": "Establish wheel, embedded-weight and training-data redistribution and product-use rights with a recorded review; the declared MIT OR Apache-2.0 expression alone is not a legal clearance.",
+      "status": "blocked"
+    },
+    {
+      "name": "exact_runtime_reproduction",
+      "reopen_condition": "Install or load the exact pinned wheel in an isolated environment and reproduce an approved reference posterior vector without downloading weights or using uncleared audio.",
+      "status": "blocked"
+    },
+    {
+      "name": "streaming_boundary_conformance",
+      "reopen_condition": "Verify the native 16 kHz / 256-sample streaming boundary, partial-tail padding and clipping, reset/flush behavior and offline/streaming parity against the exact runtime.",
+      "status": "blocked"
+    },
+    {
+      "name": "rights_cleared_label_complete_cohort",
+      "reopen_condition": "Score a rights-cleared held-out cohort with complete speech and nonspeech labels, explicit unknown regions, session/speaker partitioning and stratified failure accounting.",
+      "status": "blocked"
+    },
+    {
+      "name": "target_runtime_timing_memory",
+      "reopen_condition": "Measure content/availability timing, memory and deadlines on the exact target runtime and device.",
+      "status": "blocked"
+    },
+    {
+      "name": "opt_in_adapter_intake",
+      "reopen_condition": "Complete rights review and opt-in adapter intake before any descriptor or provider registration.",
+      "status": "blocked"
+    },
+    {
+      "name": "descriptor_registry_review",
+      "reopen_condition": "Review the adapter descriptor, registry entry and installed-v0 compatibility; no registration or default is currently proposed.",
+      "status": "blocked"
+    },
+    {
+      "name": "public_default_selection",
+      "reopen_condition": "Record an explicit public default decision; the candidate is currently unregistered and OFF.",
+      "status": "blocked"
+    }
+  ],
+  "licensing_analysis": {
+    "asset_copied_vendored_built_or_downloaded": false,
+    "blocked_gate": "wheel_and_embedded_weight_rights",
+    "conclusion": "The package metadata declares MIT OR Apache-2.0, but no standalone license file is bundled in the wheel, the wheel and its embedded weights are absent, and redistribution/product-use terms plus training-data provenance have no independent review. This package redistributes no upstream asset.",
+    "legal_review_completed": false,
+    "product_use_clearance": false,
+    "source_archive_pinned": true,
+    "source_archive_redistribution_clearance": false,
+    "standalone_license_file_in_wheel": false,
+    "task_files_license": "Apache-2.0",
+    "training_data_provenance_established": false,
+    "upstream_license_expression_source": "PyPI 1.2.2 metadata and the task-local research pin in research/plans/F02/vad_sources.md",
+    "upstream_package_license_expression": "MIT OR Apache-2.0",
+    "wheel_redistribution_clearance": false
+  },
+  "missing_evidence": [
+    "caller-supplied Earshot 1.2.2 wheel present and SHA-256-verified in this workspace",
+    "isolated environment and wheel import proving the exact runtime identity",
+    "embedded-weight, training-data, redistribution and product-use rights clearance",
+    "approved reference posterior vector or exact-runtime parity record",
+    "native 16 kHz / 256-sample streaming boundary, partial-tail and reset evidence",
+    "rights-cleared held-out cohort with complete speech/nonspeech labels and unknown regions",
+    "held-out generalization and per-recording uncertainty",
+    "target-runtime content/availability timing, memory and deadline evidence",
+    "opt-in adapter intake, descriptor and registry review",
+    "explicit public default selection"
+  ],
+  "model_provenance": {
+    "candidate": "Earshot 1.2.2",
+    "public_adapter": {
+      "declared_frame_samples": 256,
+      "declared_modes": [
+        "offline",
+        "streaming"
+      ],
+      "declared_output_kinds": [
+        "annotation"
+      ],
+      "declared_sample_rate": 16000,
+      "declared_tasks": [
+        "DET-01"
+      ],
+      "declared_threshold": 0.5,
+      "declared_weights": "embedded-in-wheel",
+      "descriptor_path": "adapters/earshot-vad/adapter.json",
+      "entrypoint_path": "adapters/earshot-vad/run.py",
+      "executed_by_this_package": false,
+      "path": "adapters/earshot-vad",
+      "present_in_research_workspace": true,
+      "present_in_sdk_worktree": false
+    },
+    "pypi_project": "https://pypi.org/project/earshot/1.2.2/",
+    "pypi_release_date": "2026-08-19",
+    "runtime_environment": {
+      "built_by_this_package": false,
+      "expected_path": "data/envs/earshot-vad-1.2.2",
+      "numpy": "2.4.6",
+      "numpy_wheel_sha256": "4cfe66903cc32a9921a6733d96b19bb6abf310397581bbad89c228f5abaf0ee8",
+      "present": false,
+      "python": "3.11.5 arm64",
+      "used_by_this_package": false
+    },
+    "source_archive": {
+      "copied_or_vendored": false,
+      "downloaded_by_this_package": false,
+      "loaded_or_executed": false,
+      "name": "earshot-1.2.2 source archive",
+      "present_in_workspace": false,
+      "sha256": "a2aad72917334d2b9e7385b73dc837bd30244714ccf27d45fbfcc0e038cfcaeb"
+    },
+    "training_data_provenance": "not established in this package",
+    "upstream_commit": "c400f15bd232dda30a297eec90235bd09066cab7",
+    "upstream_license": "MIT OR Apache-2.0",
+    "upstream_license_expression_source": "PyPI 1.2.2 package metadata transcribed in research/plans/F02/vad_sources.md; no standalone license file is bundled in the wheel",
+    "upstream_repository": "https://github.com/pykeio/earshot",
+    "upstream_source_checkout_present": false,
+    "upstream_version": "1.2.2",
+    "wheel": {
+      "abi": "cp38-abi3",
+      "copied_or_vendored": false,
+      "downloaded_by_this_package": false,
+      "expected_path": "data/wheels/vad-candidates/earshot-1.2.2-cp38-abi3-macosx_11_0_arm64.whl",
+      "filename": "earshot-1.2.2-cp38-abi3-macosx_11_0_arm64.whl",
+      "imported_or_executed": false,
+      "platform": "macosx_11_0_arm64",
+      "present_in_research_workspace": false,
+      "present_in_sdk_worktree": false,
+      "python_requires": ">=3.8",
+      "sha256": "bf696faad73a996c40bea8115622a5dcbc9c6da01498885bfd9eae8be1a11ecd",
+      "verified": false,
+      "weights": "embedded-in-wheel"
+    }
+  },
+  "negative_claims": {
+    "abi_changed": false,
+    "benchmark_result": false,
+    "board_or_handoff_changed": false,
+    "ci_changed": false,
+    "descriptor_changed": false,
+    "device_timing_measured": false,
+    "earshot_model_loaded": false,
+    "earshot_runtime_executed": false,
+    "earshot_wheel_imported": false,
+    "exact_earshot_reproduction_claimed": false,
+    "installed_v0_changed": false,
+    "listening_performed": false,
+    "model_weights_downloaded": false,
+    "model_weights_redistributed": false,
+    "numeric_parity_with_real_runtime_claimed": false,
+    "provider_registered": false,
+    "public_default_changed": false,
+    "quality_pass": false,
+    "real_audio_used": false,
+    "registry_changed": false,
+    "release_claim": false,
+    "shared_build_changed": false
+  },
+  "no_missing_result_qualifies_candidate": true,
+  "probabilities": {
+    "brier_score": 0.148916190266,
+    "calibration_bins": [
+      {
+        "events": 58,
+        "lower": 0.0,
+        "mean_probability": 0.032189505472,
+        "samples": 14848,
+        "speech_fraction": 0.241379310345,
+        "upper": 0.2
+      },
+      {
+        "events": 5,
+        "lower": 0.2,
+        "mean_probability": 0.284549593076,
+        "samples": 1280,
+        "speech_fraction": 0.6,
+        "upper": 0.4
+      },
+      {
+        "events": 9,
+        "lower": 0.4,
+        "mean_probability": 0.503458425651,
+        "samples": 2304,
+        "speech_fraction": 0.555555555556,
+        "upper": 0.6
+      },
+      {
+        "events": 9,
+        "lower": 0.6,
+        "mean_probability": 0.67284527623,
+        "samples": 2304,
+        "speech_fraction": 0.777777777778,
+        "upper": 0.8
+      },
+      {
+        "events": 31,
+        "lower": 0.8,
+        "mean_probability": 0.980584822502,
+        "samples": 7936,
+        "speech_fraction": 1.0,
+        "upper": 1.0
+      }
+    ],
+    "known_events": 112,
+    "log_loss": 0.420839669414,
+    "max_probability": 0.982906647673,
+    "mean_probability": 0.395308947297,
+    "min_probability": 0.000643892868,
+    "scored_samples": 28672,
+    "unknown_events": 13
+  },
+  "profile": "analysis",
+  "qualification_status": "not_qualified",
+  "regressions": [
+    {
+      "condition": "quiet-a",
+      "metric": "missed_speech_samples",
+      "note": "surrogate misses the low-amplitude start of the quiet run",
+      "value": 1536
+    },
+    {
+      "condition": "quiet-b",
+      "metric": "missed_speech_samples",
+      "note": "surrogate misses the entire below-threshold quiet run",
+      "value": 3328
+    },
+    {
+      "condition": "noise-burst",
+      "metric": "false_speech_samples",
+      "note": "surrogate admits the loud part of the nonspeech burst",
+      "value": 1280
+    },
+    {
+      "condition": "quiet-a",
+      "metric": "boundary_delay_samples",
+      "note": "synthetic source-coordinate delay; not device timing",
+      "value": [
+        1536,
+        0
+      ]
+    }
+  ],
+  "reopening_conditions": [
+    "A caller supplies the pinned Earshot 1.2.2 macOS arm64 wheel with matching SHA-256 and provenance commit, and the manifest validates.",
+    "Wheel, embedded-weight, training-data, redistribution and product-use rights are cleared with a recorded review.",
+    "The exact pinned wheel is installed in an isolated environment and an approved reference posterior vector is reproduced.",
+    "The native 16 kHz / 256-sample streaming boundary, partial-tail padding and clipping, reset/flush behavior and offline/streaming parity are verified.",
+    "A rights-cleared held-out cohort with complete labels and explicit unknown regions is scored under the Analysis profile.",
+    "Held-out generalization and per-recording uncertainty are reported.",
+    "Target-runtime content/availability timing, memory and deadlines are measured.",
+    "Opt-in adapter intake, descriptor and registry review are completed.",
+    "An explicit public default decision is recorded; the candidate remains OFF until then."
+  ],
+  "repeatability": {
+    "byte_identical": true,
+    "count": 3,
+    "digests": [
+      "15955093250a16430d705ad57d34321dfb305b3082d9c8326e70b9c60ab5a074",
+      "15955093250a16430d705ad57d34321dfb305b3082d9c8326e70b9c60ab5a074",
+      "15955093250a16430d705ad57d34321dfb305b3082d9c8326e70b9c60ab5a074"
+    ],
+    "scope": "report body excluding the repeatability block"
+  },
+  "schema_id": "audio-sdk/task-evidence/earshot-1-2-2/report/0.1",
+  "scope": {
+    "benchmark_claim": false,
+    "caller_supplied_asset_contract_modeled": true,
+    "caller_supplied_asset_present": false,
+    "device_timing": false,
+    "earshot_runtime_executed": false,
+    "earshot_source_executed": false,
+    "earshot_wheel_imported": false,
+    "listening_result": false,
+    "model_weights_loaded": false,
+    "network_used": false,
+    "real_audio": false,
+    "real_labels": false,
+    "registered_provider": false,
+    "release_claim": false,
+    "synthetic_boundary_surrogate_only": true,
+    "task_local_only": true,
+    "wheel_downloaded": false,
+    "wheel_loaded": false
+  },
+  "source_pins": {
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "adapters/earshot-vad/adapter.json": "f3d391cf015cc897be20b19fab563bdef4f63310f4aceaad4d1c0bab0db3d091",
+    "adapters/earshot-vad/run.py": "541e08619480b63c2a77bd7fd45f454ee8828a90737a65af707a4c017a6fd8a8",
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "reports/vad-research/20261028-synthesis-v6.md": "d8bc5d7481ffc40ee7c16caba6b570255e24aef2a99e7f03b0293721c37d8df3",
+    "reports/vad-research/attempt-earshot-20261028-01/findings.md": "cefe94dea241e7ce98071f0be336e463cbf2b9f5fa90785b0e4c4b5439f14a8f",
+    "reports/vad-research/chaining-evaluation-status.json": "3b66ba722c06673fdcc698e3f10e716e13aae74bc2f2c0ebd046316ed6fd068c",
+    "reports/vad-research/chaining-evaluation.md": "f8bf02a7465c880d1a8968b26a3425f55e0bbd6965eea6b0dc734e0fa1f5a234",
+    "research/plans/F02/vad_sources.md": "374784f6f1cea620f376da59691e4260aafc582e1203be4f98837752cfdf75ec",
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245",
+    "research/voice-enhancement-20261101/evaluation_records.md": "962bd5a8f75e64a7ba22bc51ff26cb5bdb648002544c87cacbef64dad62d723a"
+  },
+  "source_reported": {
+    "findings": [
+      {
+        "metric": "false_negative_rate",
+        "unit": "ratio",
+        "value": 0.2432
+      },
+      {
+        "metric": "false_positive_rate",
+        "unit": "ratio",
+        "value": 0.103
+      },
+      {
+        "metric": "missed_speech",
+        "unit": "s",
+        "value": 752.3
+      },
+      {
+        "metric": "false_speech",
+        "unit": "s",
+        "value": 101.1
+      },
+      {
+        "metric": "average_cost_per_20ms_frame",
+        "unit": "us",
+        "value": 13.41
+      },
+      {
+        "metric": "median_onset_delay",
+        "unit": "ms",
+        "value": 430
+      },
+      {
+        "metric": "median_offset_delay",
+        "unit": "ms",
+        "value": -580
+      },
+      {
+        "metric": "integration_activity_fraction",
+        "unit": "ratio",
+        "value": 0.4824
+      },
+      {
+        "metric": "integration_offline_streaming_parity",
+        "unit": "status",
+        "value": "exact"
+      }
+    ],
+    "note": "Transcribed from the pinned research only. This package neither reproduces nor claims these values and does not pool them with the surrogate observations.",
+    "scope": "Held-out AMI replay over three speaker-disjoint meetings, projected onto 20 ms scheduler frames; exploratory integration and accuracy screening, not a representative holdout, target-device run or product claim.",
+    "sources": [
+      "research/voice-enhancement-20261101/candidate_matrix.csv",
+      "reports/vad-research/chaining-evaluation.md",
+      "reports/vad-research/chaining-evaluation-status.json",
+      "reports/vad-research/attempt-earshot-20261028-01/findings.md",
+      "reports/vad-research/20261028-synthesis-v6.md",
+      "REALTIME_COMPONENT_CANDIDATES.md"
+    ],
+    "status": "source_reported_not_reproduced",
+    "used_for_qualification": false
+  },
+  "state": {
+    "different_stimuli_differ": true,
+    "independent_sessions_uncoupled": true,
+    "offline_streaming_identical": true,
+    "processed_outputs_finite": true,
+    "reset_bit_identical": true,
+    "reset_epoch_propagated": true,
+    "same_epoch_fresh_deterministic": true
+  },
+  "status": "proposal_only_synthetic_incomplete",
+  "strata": {
+    "active-a": {
+      "FN": 0,
+      "FP": 0,
+      "TN": 0,
+      "TP": 7936,
+      "condition": "active_speech",
+      "end_sample": 16128,
+      "false_alarm_rate": null,
+      "frames": 31,
+      "mean_probability": 0.980584822502,
+      "samples": 7936,
+      "scored": true,
+      "speech_miss_rate": 0.0,
+      "start_sample": 8192,
+      "truth": "speech"
+    },
+    "idle-a": {
+      "FN": 0,
+      "FP": 0,
+      "TN": 2048,
+      "TP": 0,
+      "condition": "idle",
+      "end_sample": 2048,
+      "false_alarm_rate": 0.0,
+      "frames": 8,
+      "mean_probability": 0.001160437369,
+      "samples": 2048,
+      "scored": true,
+      "speech_miss_rate": null,
+      "start_sample": 0,
+      "truth": "nonspeech"
+    },
+    "idle-b": {
+      "FN": 0,
+      "FP": 0,
+      "TN": 2048,
+      "TP": 0,
+      "condition": "idle",
+      "end_sample": 8192,
+      "false_alarm_rate": 0.0,
+      "frames": 8,
+      "mean_probability": 0.002073382715,
+      "samples": 2048,
+      "scored": true,
+      "speech_miss_rate": null,
+      "start_sample": 6144,
+      "truth": "nonspeech"
+    },
+    "idle-c": {
+      "FN": 0,
+      "FP": 0,
+      "TN": 2560,
+      "TP": 0,
+      "condition": "idle",
+      "end_sample": 24576,
+      "false_alarm_rate": 0.0,
+      "frames": 10,
+      "mean_probability": 0.001036333912,
+      "samples": 2560,
+      "scored": true,
+      "speech_miss_rate": null,
+      "start_sample": 22016,
+      "truth": "nonspeech"
+    },
+    "idle-d": {
+      "FN": 0,
+      "FP": 0,
+      "TN": 4096,
+      "TP": 0,
+      "condition": "idle",
+      "end_sample": 32000,
+      "false_alarm_rate": 0.0,
+      "frames": 16,
+      "mean_probability": 0.000804279738,
+      "samples": 4096,
+      "scored": true,
+      "speech_miss_rate": null,
+      "start_sample": 27904,
+      "truth": "nonspeech"
+    },
+    "noise-burst": {
+      "FN": 0,
+      "FP": 1280,
+      "TN": 1280,
+      "TP": 0,
+      "condition": "idle_noise",
+      "end_sample": 18688,
+      "false_alarm_rate": 0.5,
+      "frames": 10,
+      "mean_probability": 0.413919153017,
+      "samples": 2560,
+      "scored": true,
+      "speech_miss_rate": null,
+      "start_sample": 16128,
+      "truth": "nonspeech"
+    },
+    "quiet-a": {
+      "FN": 1536,
+      "FP": 0,
+      "TN": 0,
+      "TP": 2560,
+      "condition": "quiet_speech",
+      "end_sample": 6144,
+      "false_alarm_rate": null,
+      "frames": 16,
+      "mean_probability": 0.513585465151,
+      "samples": 4096,
+      "scored": true,
+      "speech_miss_rate": 0.375,
+      "start_sample": 2048,
+      "truth": "speech"
+    },
+    "quiet-b": {
+      "FN": 3328,
+      "FP": 0,
+      "TN": 0,
+      "TP": 0,
+      "condition": "quiet_speech",
+      "end_sample": 22016,
+      "false_alarm_rate": null,
+      "frames": 13,
+      "mean_probability": 0.11313932704,
+      "samples": 3328,
+      "scored": true,
+      "speech_miss_rate": 1.0,
+      "start_sample": 18688,
+      "truth": "speech"
+    },
+    "unknown-tail": {
+      "FN": 0,
+      "FP": 0,
+      "TN": 0,
+      "TP": 0,
+      "condition": "unknown",
+      "end_sample": 27904,
+      "false_alarm_rate": null,
+      "frames": 13,
+      "mean_probability": 0.312820591332,
+      "samples": 3328,
+      "scored": false,
+      "speech_miss_rate": null,
+      "start_sample": 24576,
+      "truth": "unknown"
+    }
+  },
+  "surrogate": {
+    "checkpoint": false,
+    "decision_threshold": 0.5,
+    "deterministic": true,
+    "frame_samples": 256,
+    "identity": "earshot-1-2-2-boundary-surrogate-v1",
+    "is_earshot": false,
+    "is_neural_network": false,
+    "method": "deterministic per-frame RMS and zero-crossing logistic gate on frozen integer-synthesised waveforms; threshold 0.5; no smoothing, hangover or postprocessing",
+    "model_archive": false,
+    "probability_gain": 3.45,
+    "probability_offset": 5.35,
+    "probability_zcr_weight": 3.0,
+    "pure_synthetic": true,
+    "quality_claim": false,
+    "weights": false
+  },
+  "task_id": "SDK-EARSHOT-1-2-2",
+  "timing": {
+    "content_delay_samples_modeled": 0,
+    "device_timing": false,
+    "frame_duration_ms": 16,
+    "measured": false,
+    "reason": "No Earshot wheel, runtime or target device; the surrogate is unpaced and no wall-clock, memory or deadline result is claimed.",
+    "source_reported_cost_us_per_20ms_frame": 13.41,
+    "source_reported_cost_used_for_qualification": false
+  },
+  "title": "Earshot 1.2.2"
+}
