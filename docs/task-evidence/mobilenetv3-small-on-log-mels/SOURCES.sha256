@@ -1,0 +1,40 @@
+# SHA-256 pins for SDK-MOBILENETV3-SMALL-ON-LOG-MELS readiness evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# The mutable shared board is not pinned; only its stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f  source:research/tsm-followup-20261101/README.md
+f2f1b55234364eceff8b0626411590fbb97476cac918d9bf34138babc5820b73  source:research/tsm-followup-20261101/agent-neural/REPORT.md
+6dcbe0bed125b92b1fa955f562922a46ec2b824c3bce09febdc72af33d47dfaf  source:research/tsm-followup-20261101/agent-neural/run/mobilenet_original_run_interrupt.txt
+2a1d7a236c94d0da1e6835eda0543a03efe9d1f99e3c65aac7a7b8ee67c74ffe  source:research/tsm-followup-20261101/agent-neural/run/mobilenet_rate_optimized_progress.jsonl
+97389d23235bd853036f12c048b6e61e2b019f11aa42651a22be54f7dd7b69d8  source:research/tsm-followup-20261101/agent-neural/run/mobilenet_rate_optimized_results.json
+848f727771102bab83265034cf6acdd46bc8b78209e8fb1e0ef827bbf7cac146  source:research/tsm-followup-20261101/agent-neural/run/mobilenet_rate_results.json
+3c7b3731cf6d2312e42e3333cae03bc631f6d1dbf557b773e134468c867897e2  source:research/tsm-followup-20261101/agent-neural/run/syl_eval_manifest.json
+f8149f0158308f1cb2d267610f95fa522bf90d2f425249fd6b0ecdb67707acff  source:research/tsm-followup-20261101/agent-neural/run/train_mobilenet_rate.py
+9e998642fe167437291bd3bbba538202c3e0056edd7c8483a4a8e53d68db768a  source:research/tsm-followup-20261101/agent-neural/run/train_mobilenet_rate_optimized.py
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+adb751885024bcaab88a373602f3d19326cee356559d62b0cc334cbc25afceca  docs/task-evidence/distil-wav2vec2-adult-child-ridge/README.md
+ff7b70f389b8c7908c917aa2488728d7f972a8acd22bf66c56d9a671cd5a65d4  docs/task-evidence/distil-wav2vec2-adult-child-ridge/report.json
+3da6772383eb9b44ccd8eeab4272bf69e4dbd2640f045e42c4fa6ed24f275533  docs/task-evidence/dynamic-int8-wav2vec2-base/README.md
+6f166a5bc05a31064780f0957e5d1fb2046d5939180175b40b72f70a36e856c9  docs/task-evidence/dynamic-int8-wav2vec2-base/report.json
+610696dc97ac87cb33a38b64b0742273ed2291077d9ce17894820994630e89c5  docs/task-evidence/mobilenetv3-small-on-log-mels/LICENSES.md
+6d45f0d27be9e0d461181bfa3c9e23ca6c955a15dda08527b46f15eadfd8f510  docs/task-evidence/mobilenetv3-small-on-log-mels/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/mobilenetv3-small-on-log-mels/SOURCES.sha256.license
+9de299a3f388bac10de8c15bce29d6165f350d9aba5a888974a603e5b35e1703  docs/task-evidence/mobilenetv3-small-on-log-mels/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/mobilenetv3-small-on-log-mels/contract.json.license
+365372c14706024f8153f4716948a1cf28fb27f984a6df019b0aaf968e4af924  docs/task-evidence/mobilenetv3-small-on-log-mels/reference.py
+2f179b4b49afcf9fd866e0a6339f0ede60a85192d04ba5d2629984b3d6828f50  docs/task-evidence/mobilenetv3-small-on-log-mels/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/mobilenetv3-small-on-log-mels/report.json.license
+32f42ce96986cbeac39102d3d0b3edc8518b16a8ba9b8e17dbc774d731c495c6  docs/task-evidence/mobilenetv3-small-on-log-mels/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/mobilenetv3-small-on-log-mels/report.json.sha256.license
+7a752b487d343992d29d99b81d6ad0b7c1fa1933448eb111209b8ee7c29070af  docs/task-evidence/mobilenetv3-small-on-log-mels/run.py
+00b02ca36a04db4c042744849e46ca92d963c65e2961e6acf1b4ae8e2e2493fa  docs/task-evidence/mobilenetv3-small-on-log-mels/test_reference.py
+4defae8e366d4ad7683a964ef3353470ef0f7c9512c32d1c2770b58c1f8ec89e  docs/task-evidence/mobilenetv3-small-on-log-mels/verify.py
