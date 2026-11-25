@@ -1,0 +1,1282 @@
+{
+  "adverse": {
+    "all_invalid_cases_rejected": true,
+    "all_rejected": true,
+    "config_rejections": {
+      "absent_file": {
+        "reason": "asset_file_missing:library",
+        "status": "rejected"
+      },
+      "all_fail_closed": true,
+      "all_present": true,
+      "extra_field": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "library_hash_mismatch": {
+        "reason": "asset_hash_mismatch:library",
+        "status": "rejected"
+      },
+      "missing_manifest": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "model_hash_mismatch": {
+        "reason": "asset_hash_mismatch:model_bundle",
+        "status": "rejected"
+      },
+      "relative_path": {
+        "reason": "asset_path_must_be_absolute:library",
+        "status": "rejected"
+      },
+      "valid_manifest": {
+        "executed": false,
+        "loaded": false,
+        "status": "validated",
+        "verified": true
+      },
+      "wrong_atten_limit": {
+        "reason": "asset_atten_limit_mismatch",
+        "status": "rejected"
+      },
+      "wrong_channels": {
+        "reason": "asset_channels_mismatch",
+        "status": "rejected"
+      },
+      "wrong_frame_size": {
+        "reason": "asset_frame_samples_mismatch",
+        "status": "rejected"
+      },
+      "wrong_sample_rate": {
+        "reason": "asset_sample_rate_mismatch",
+        "status": "rejected"
+      },
+      "wrong_source_commit": {
+        "reason": "asset_source_commit_mismatch",
+        "status": "rejected"
+      }
+    },
+    "frame_rejections": {
+      "all_fail_closed": true,
+      "all_present": true,
+      "atten_above_limit": {
+        "reason": "invalid_atten_limit",
+        "status": "rejected"
+      },
+      "atten_below_limit": {
+        "reason": "invalid_atten_limit",
+        "status": "rejected"
+      },
+      "missing_reference": {
+        "reason": "missing_reference_or_output",
+        "status": "invalid",
+        "value": null
+      },
+      "nonfinite_input": {
+        "reason": "nonfinite_input",
+        "status": "rejected"
+      },
+      "short_input": {
+        "reason": "input_length_mismatch",
+        "status": "rejected"
+      },
+      "silence_output": {
+        "finite": true,
+        "peak_abs": 0.0,
+        "status": "pass"
+      },
+      "state_unchanged_after_rejection": true,
+      "truncated_output": {
+        "reason": "length_mismatch",
+        "status": "rejected"
+      },
+      "two_dimensional_input": {
+        "reason": "input_not_mono",
+        "status": "rejected"
+      }
+    },
+    "valid_manifest_control_present": true
+  },
+  "alignment": {
+    "compensated_impulse_index": 4000,
+    "delay_compensation_applied": true,
+    "expected_impulse_index": 4000,
+    "measured_content_lag_samples": 0,
+    "modeled_frame_delay_ms": 10,
+    "modeled_frame_delay_samples": 160,
+    "raw_interval": [
+      0,
+      32000
+    ],
+    "sdk_callback_invoked": false,
+    "source_interval": [
+      0,
+      32000
+    ],
+    "uncompensated_impulse_index": 4160,
+    "upstream_algorithmic_latency_ms": 20,
+    "upstream_algorithmic_latency_samples": 320,
+    "valid_output_samples": 32000
+  },
+  "asset_pins": {
+    "data/checkouts/Hush/LICENSE": "d2650f8a0a002d02377a5157e60071a39cc710113bf2c19f808db7045edda198",
+    "data/checkouts/Hush/README.md": "6c1ae0349b459dd03bb627438a3d6af3a00afff2817da291228b603b833ebd38",
+    "data/checkouts/Hush/deployment/README.md": "af4b9e2df9b9b13f8207942714f71fdc12af839d0c1d9f0ad819f6ab9fdd302a",
+    "data/checkouts/Hush/deployment/include/weya_nc.h": "887640d07b0147b8172ae8247cb16c460dce06e7cd54cfd9c1cfe13d1fef9f86",
+    "data/checkouts/Hush/deployment/lib/libweya_nc.dylib": "4bcd38634000d456ad68db4b6ff97fe4a462542aa65ac5f910fbf374ca33fbaa",
+    "data/checkouts/Hush/deployment/lib/libweya_nc.so": "c4a5915c92e9500a49e6cd14804e6e88319277de2ef7d4d5cf6c0ac4456f3bbf",
+    "data/checkouts/Hush/deployment/lib/weya_nc.dll": "633958ef839c94af6f8f5f9f8fb33c4daedaeec0373cb39a03934fdd7efa6a32",
+    "data/checkouts/Hush/deployment/models/advanced_dfnet16k_model_best_onnx.tar.gz": "45632ccaa82b71bb743d6caa7c78e983fe2f2790a3af7f6ec48e6ed7ba085df6",
+    "data/checkouts/Hush/deployment/models/model_best.ckpt": "a2221e335c7de2c3453b422bf7f3c609723e453f4ca29c86137fd707d62f841b",
+    "data/checkouts/Hush/native/weya_nc_build/weya_nc/src/lib.rs": "3aa0b16ea0c39fab4bd9fd5f85566aa3e2e18066b55fdd0ce986d16b9a99bf68"
+  },
+  "asset_resolution": {
+    "executed": false,
+    "expected_caller_model_path": "data/envs/hush/advanced_dfnet16k_model_best_onnx.tar.gz",
+    "expected_caller_runtime_path": "data/envs/hush/libweya_nc.dylib",
+    "library_present_in_sdk_worktree": false,
+    "loaded": false,
+    "manifest_present": false,
+    "model_bundle_present_in_external_checkout": true,
+    "model_bundle_present_in_sdk_worktree": false,
+    "reason": "caller_supplied_runtime_absent_and_rights_unresolved",
+    "requested": false,
+    "runtime_library_present_in_external_checkout": true,
+    "runtime_library_present_in_sdk_worktree": false,
+    "surrogate_used": true,
+    "verified": false
+  },
+  "base_commit": "d5b11912cd09e87296cd9d4654f1917c9cb94258",
+  "boundary": {
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "registered": false,
+    "shared_cmakelists_change": false
+  },
+  "boundary_pins": {
+    "CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "REUSE.toml": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "scripts/ci.py": "64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f"
+  },
+  "branch": "swarm/SDK-HUSH",
+  "caller_supplied_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/hush/caller-supplied-asset/0.1",
+    "pinned_values": {
+      "atten_limit_db": 100.0,
+      "channels": 1,
+      "frame_samples": 160,
+      "sample_rate_hz": 16000,
+      "source_commit": "9f6414e91461a8f4bdf9840c0cdcdcb7da986339"
+    },
+    "present_behavior": "validate_hashes_and_geometry_only; do_not_load_or_execute_in_this_package",
+    "required_fields": [
+      "atten_limit_db",
+      "channels",
+      "frame_samples",
+      "library_path",
+      "library_sha256",
+      "model_bundle_path",
+      "model_bundle_sha256",
+      "sample_rate_hz",
+      "source_commit"
+    ],
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "library_path and model_bundle_path are caller-owned absolute paths",
+      "SHA-256 of both files matches the manifest",
+      "source_commit equals the pinned Hush revision",
+      "sample rate, channels, frame size and attenuation limit equal the pinned 16 kHz mono 160-sample geometry",
+      "no download, copy, build, load or execution occurs in this package"
+    ]
+  },
+  "channel_and_room": {
+    "channel_loss_evaluated": false,
+    "channels": 1,
+    "layout": "mono",
+    "movement_evaluated": false,
+    "multichannel_evaluated": false,
+    "reason": "the synthetic fixture is a single-channel anechoic additive model; channel loss, array geometry and room/reference changes are unmeasured and cannot be inferred",
+    "reference_change_evaluated": false,
+    "rir_used": false,
+    "room_model": false
+  },
+  "comparison": {
+    "enrollment_conditioned": false,
+    "established_task_matched_baseline_reproduced": false,
+    "identity_control": "same_mixture_identity",
+    "provider": "frame-gate-boundary-surrogate-v0",
+    "quality_pass": false,
+    "quality_pass_reason": "No Hush runtime or rights-cleared held-out spatial cohort; the surrogate is a boundary conformance fixture and its synthetic target/leakage metrics are not a quality claim.",
+    "regression_count": 4,
+    "source_reported_hush_pilot_used_for_qualification": false
+  },
+  "component_id": "hush",
+  "conditions": {
+    "interferer_only": {
+      "condition": "interferer_only",
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.5,
+        "samples": 32000,
+        "waveform_sha256": "30c8ffdf9af3ffaf2ae8555c06b2ef5fb593568bbc382240ea05b8db0ea560cb"
+      },
+      "interferer_sir_db": null,
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.123558,
+        "samples": 32000,
+        "waveform_sha256": "06886da6be37cc074ddf80efc9a7099ad1d3f42ea1dccbf861d6d9b5f50a2aef"
+      },
+      "preservation": {
+        "interferer_leakage_retention": null,
+        "rms_gain_ratio": 0.150797,
+        "target_retention": null
+      },
+      "projection": {
+        "identity_target_projection_snr_db": null,
+        "interferer_leakage_retention": null,
+        "reason": "not_a_mixture_stratum",
+        "status": "not_applicable",
+        "target_projection_snr_db": null,
+        "target_projection_snr_delta_db": null,
+        "target_retention": null,
+        "target_to_interferer_ratio_gain_db": null
+      },
+      "reference": "zero_reference",
+      "si_sdr_db": {
+        "identity_invalid_reason": "zero_reference_energy",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "zero_reference_energy",
+        "provider_surrogate": null
+      },
+      "stoi": {
+        "identity_invalid_reason": "zero_reference",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "zero_reference",
+        "provider_surrogate": null
+      },
+      "surrogate_gate": {
+        "attenuation_floor": 0.15,
+        "delay_compensated": true,
+        "frame_count": 200,
+        "max_gain": 0.2775,
+        "mean_gain": 0.15075,
+        "min_gain": 0.15,
+        "noise_estimate": 0.233913,
+        "threshold": 0.467825
+      }
+    },
+    "mixture_sir12": {
+      "condition": "mixture_sir12",
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.61979,
+        "samples": 32000,
+        "waveform_sha256": "51011adc1c863de230e55e87a4aa681cce5af79cfb820ebd10d672714f9b07d3"
+      },
+      "interferer_sir_db": 12,
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.619781,
+        "samples": 32000,
+        "waveform_sha256": "75220cfd68453d0b93a1594e2e62d3d7133dc57cb3e0355526a35b64834a5874"
+      },
+      "preservation": {
+        "interferer_leakage_retention": 0.856568,
+        "rms_gain_ratio": 0.985008,
+        "target_retention": 0.99119
+      },
+      "projection": {
+        "identity_target_projection_snr_db": 12.016853,
+        "interferer_leakage_retention": 0.856568,
+        "reason": null,
+        "status": "measured",
+        "target_projection_snr_db": 12.703896,
+        "target_projection_snr_delta_db": 0.687043,
+        "target_retention": 0.99119,
+        "target_to_interferer_ratio_gain_db": 1.267908
+      },
+      "reference": "clean_target",
+      "si_sdr_db": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 12.016853,
+        "paired_delta": 0.687043,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 12.703896
+      },
+      "stoi": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 0.744795,
+        "paired_delta": 0.004855,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 0.74965
+      },
+      "surrogate_gate": {
+        "attenuation_floor": 0.15,
+        "delay_compensated": true,
+        "frame_count": 200,
+        "max_gain": 1.0,
+        "mean_gain": 0.73525,
+        "min_gain": 0.15,
+        "noise_estimate": 0.060622,
+        "threshold": 0.121244
+      }
+    },
+    "mixture_sir18": {
+      "condition": "mixture_sir18",
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.559661,
+        "samples": 32000,
+        "waveform_sha256": "220f87e5dbaf69d6a6208143d072a21845b46d803f7f0d9a17bc5e4bee1fd419"
+      },
+      "interferer_sir_db": 18,
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.559653,
+        "samples": 32000,
+        "waveform_sha256": "3a5cfcf09987db1b7c051d82282c9e332ce266bb571f2b52f60361d45058498e"
+      },
+      "preservation": {
+        "interferer_leakage_retention": 0.891592,
+        "rms_gain_ratio": 0.991815,
+        "target_retention": 0.993701
+      },
+      "projection": {
+        "identity_target_projection_snr_db": 18.008576,
+        "interferer_leakage_retention": 0.891592,
+        "reason": null,
+        "status": "measured",
+        "target_projection_snr_db": 18.568065,
+        "target_projection_snr_delta_db": 0.559489,
+        "target_retention": 0.993701,
+        "target_to_interferer_ratio_gain_db": 0.941789
+      },
+      "reference": "clean_target",
+      "si_sdr_db": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 18.008576,
+        "paired_delta": 0.559489,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 18.568065
+      },
+      "stoi": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 0.856772,
+        "paired_delta": -0.001481,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 0.855291
+      },
+      "surrogate_gate": {
+        "attenuation_floor": 0.15,
+        "delay_compensated": true,
+        "frame_count": 200,
+        "max_gain": 1.0,
+        "mean_gain": 0.7395,
+        "min_gain": 0.15,
+        "noise_estimate": 0.030383,
+        "threshold": 0.060766
+      }
+    },
+    "mixture_sir24": {
+      "condition": "mixture_sir24",
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.529525,
+        "samples": 32000,
+        "waveform_sha256": "a7003d27b40a37418ac1e641ed1175b801f2e31e64895254b519b438d65379e0"
+      },
+      "interferer_sir_db": 24,
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.529517,
+        "samples": 32000,
+        "waveform_sha256": "2e0cad7bb06eb5dfc35d693d6d634d57dd117ac3b0e8b8abc0ddc9383c21559d"
+      },
+      "preservation": {
+        "interferer_leakage_retention": 0.950971,
+        "rms_gain_ratio": 0.992923,
+        "target_retention": 0.99323
+      },
+      "projection": {
+        "identity_target_projection_snr_db": 24.004425,
+        "interferer_leakage_retention": 0.950971,
+        "reason": null,
+        "status": "measured",
+        "target_projection_snr_db": 23.643381,
+        "target_projection_snr_delta_db": -0.361044,
+        "target_retention": 0.99323,
+        "target_to_interferer_ratio_gain_db": 0.37765
+      },
+      "reference": "clean_target",
+      "si_sdr_db": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 24.004425,
+        "paired_delta": -0.361044,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 23.643381
+      },
+      "stoi": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 0.92298,
+        "paired_delta": -0.006441,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 0.916539
+      },
+      "surrogate_gate": {
+        "attenuation_floor": 0.15,
+        "delay_compensated": true,
+        "frame_count": 200,
+        "max_gain": 1.0,
+        "mean_gain": 0.7395,
+        "min_gain": 0.15,
+        "noise_estimate": 0.015228,
+        "threshold": 0.030455
+      }
+    },
+    "silence": {
+      "condition": "silence",
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.0,
+        "samples": 32000,
+        "waveform_sha256": "eec19bc6af0b3b6dfb97a08782c65f4bb3c3203e789a015d2008b0d689ad08be"
+      },
+      "interferer_sir_db": null,
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.0,
+        "samples": 32000,
+        "waveform_sha256": "eec19bc6af0b3b6dfb97a08782c65f4bb3c3203e789a015d2008b0d689ad08be"
+      },
+      "preservation": {
+        "interferer_leakage_retention": null,
+        "rms_gain_ratio": null,
+        "target_retention": null
+      },
+      "projection": {
+        "identity_target_projection_snr_db": null,
+        "interferer_leakage_retention": null,
+        "reason": "not_a_mixture_stratum",
+        "status": "not_applicable",
+        "target_projection_snr_db": null,
+        "target_projection_snr_delta_db": null,
+        "target_retention": null,
+        "target_to_interferer_ratio_gain_db": null
+      },
+      "reference": "zero_reference",
+      "si_sdr_db": {
+        "identity_invalid_reason": "zero_reference_energy",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "zero_reference_energy",
+        "provider_surrogate": null
+      },
+      "stoi": {
+        "identity_invalid_reason": "zero_reference",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "zero_reference",
+        "provider_surrogate": null
+      },
+      "surrogate_gate": {
+        "attenuation_floor": 0.15,
+        "delay_compensated": true,
+        "frame_count": 200,
+        "max_gain": 1.0,
+        "mean_gain": 1.0,
+        "min_gain": 1.0,
+        "noise_estimate": 0.0,
+        "threshold": 0.0
+      }
+    },
+    "target_only": {
+      "condition": "target_only",
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.5,
+        "samples": 32000,
+        "waveform_sha256": "e06d36f6aab3780d930abf33d90e98a5080170848099bf3b1510b48b8eaca880"
+      },
+      "interferer_sir_db": null,
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.5,
+        "samples": 32000,
+        "waveform_sha256": "4215c86af68b0e19f8a9cb19805a845106ee64989c9d357cd4d876648b70f073"
+      },
+      "preservation": {
+        "interferer_leakage_retention": null,
+        "rms_gain_ratio": 1.0,
+        "target_retention": null
+      },
+      "projection": {
+        "identity_target_projection_snr_db": null,
+        "interferer_leakage_retention": null,
+        "reason": "not_a_mixture_stratum",
+        "status": "not_applicable",
+        "target_projection_snr_db": null,
+        "target_projection_snr_delta_db": null,
+        "target_retention": null,
+        "target_to_interferer_ratio_gain_db": null
+      },
+      "reference": "clean_target",
+      "si_sdr_db": {
+        "identity_invalid_reason": "zero_error_identity_exact",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "zero_error_identity_exact",
+        "provider_surrogate": null
+      },
+      "stoi": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 1.0,
+        "paired_delta": 0.0,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 1.0
+      },
+      "surrogate_gate": {
+        "attenuation_floor": 0.15,
+        "delay_compensated": true,
+        "frame_count": 200,
+        "max_gain": 1.0,
+        "mean_gain": 1.0,
+        "min_gain": 1.0,
+        "noise_estimate": 0.0,
+        "threshold": 0.0
+      }
+    }
+  },
+  "contract_sha256": "dff969f74ebb1e7627bebe90aa73e8e40eb18efca99b44d5a956be4208a04d03",
+  "controls": {
+    "caller_asset": {
+      "absent_file": {
+        "reason": "asset_file_missing:library",
+        "status": "rejected"
+      },
+      "all_fail_closed": true,
+      "all_present": true,
+      "extra_field": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "library_hash_mismatch": {
+        "reason": "asset_hash_mismatch:library",
+        "status": "rejected"
+      },
+      "missing_manifest": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "model_hash_mismatch": {
+        "reason": "asset_hash_mismatch:model_bundle",
+        "status": "rejected"
+      },
+      "relative_path": {
+        "reason": "asset_path_must_be_absolute:library",
+        "status": "rejected"
+      },
+      "valid_manifest": {
+        "executed": false,
+        "loaded": false,
+        "status": "validated",
+        "verified": true
+      },
+      "wrong_atten_limit": {
+        "reason": "asset_atten_limit_mismatch",
+        "status": "rejected"
+      },
+      "wrong_channels": {
+        "reason": "asset_channels_mismatch",
+        "status": "rejected"
+      },
+      "wrong_frame_size": {
+        "reason": "asset_frame_samples_mismatch",
+        "status": "rejected"
+      },
+      "wrong_sample_rate": {
+        "reason": "asset_sample_rate_mismatch",
+        "status": "rejected"
+      },
+      "wrong_source_commit": {
+        "reason": "asset_source_commit_mismatch",
+        "status": "rejected"
+      }
+    },
+    "frame": {
+      "all_fail_closed": true,
+      "all_present": true,
+      "atten_above_limit": {
+        "reason": "invalid_atten_limit",
+        "status": "rejected"
+      },
+      "atten_below_limit": {
+        "reason": "invalid_atten_limit",
+        "status": "rejected"
+      },
+      "missing_reference": {
+        "reason": "missing_reference_or_output",
+        "status": "invalid",
+        "value": null
+      },
+      "nonfinite_input": {
+        "reason": "nonfinite_input",
+        "status": "rejected"
+      },
+      "short_input": {
+        "reason": "input_length_mismatch",
+        "status": "rejected"
+      },
+      "silence_output": {
+        "finite": true,
+        "peak_abs": 0.0,
+        "status": "pass"
+      },
+      "state_unchanged_after_rejection": true,
+      "truncated_output": {
+        "reason": "length_mismatch",
+        "status": "rejected"
+      },
+      "two_dimensional_input": {
+        "reason": "input_not_mono",
+        "status": "rejected"
+      }
+    },
+    "identity": {
+      "baseline": "same_mixture_identity",
+      "description": "unprocessed mixture is the identity control at each SIR",
+      "status": "present"
+    },
+    "interferer_only": {
+      "description": "interferer without target; zero reference, never scored as speech",
+      "status": "present"
+    },
+    "silence": {
+      "description": "digital silence; zero reference, never scored as speech",
+      "status": "present"
+    },
+    "target_only": {
+      "description": "clean target without interferer; checks target preservation",
+      "status": "present"
+    }
+  },
+  "decision": "DEFER",
+  "defer_before": "opt_in_adapter_exposure",
+  "evidence_classes": {
+    "independent_listening": "none",
+    "real_audio_rights_qualified": "none; no result qualifies a candidate",
+    "source_reported": "Pinned research values retained as provenance only; not reproduced, pooled or used as thresholds.",
+    "spatial_acceptance": "not cleared; no held-out spatial labels, room or channel evidence",
+    "synthetic_surrogate": "Deterministic model-free boundary surrogate on synthetic two-source stimuli; no Hush asset, real audio, room or device.",
+    "target_runtime": "none"
+  },
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    "The exact Hush source revision, ONNX bundle and platform runtime libraries are pinned by SHA-256 from the external research checkout, but no caller-supplied asset manifest or copy exists in this SDK worktree; the exact runtime cannot be loaded or reproduced here.",
+    "Hush source and model card declare Apache-2.0, but artifact-specific model-bundle and runtime redistribution/product-use rights, the upstream distribution channel (a placeholder release URL) and training-data provenance are not established, and no legal review exists. No asset was downloaded, copied, built, vendored or redistributed.",
+    "Only a deterministic model-free boundary surrogate was executed. It is not Hush, has no ONNX graph, DeepFilterNet blocks or weights, and its synthetic two-source target/leakage numbers are boundary-conformance observations, not a quality, room, listening, device-timing or benchmark result.",
+    "No rights-cleared held-out spatial cohort with speaker/room labels, no enrollment-conditioned extraction, no independent listening, no target-runtime timing/memory, no opt-in provider intake, no descriptor/registry review and no public default decision exist; every release gate remains blocked."
+  ],
+  "format": {
+    "asset_channels": 1,
+    "asset_frame_duration_ms": 10,
+    "asset_frame_samples": 160,
+    "asset_is_native_16k": true,
+    "asset_sample_rate_hz": 16000,
+    "atten_limit_db": 100.0,
+    "public_channels": 1,
+    "public_frame_duration_ms": 10,
+    "public_frame_samples": 160,
+    "public_sample_format": "f32",
+    "public_sample_rate_hz": 16000,
+    "public_v0_geometry_preserved": true,
+    "resampling_required": false,
+    "sdk_callback_invoked": false,
+    "window_frames": 200,
+    "window_samples": 32000
+  },
+  "gates": [
+    {
+      "name": "caller_supplied_asset_present_and_verified",
+      "reopen_condition": "Place the caller-owned 16 kHz Hush library and ONNX model bundle in the worktree (or supply them through the manifest) with SHA-256, source commit and attenuation limit matching the pins.",
+      "status": "blocked"
+    },
+    {
+      "name": "model_bundle_and_runtime_rights",
+      "reopen_condition": "Establish artifact-specific model-bundle and runtime redistribution and product-use rights plus training-data provenance; the Apache-2.0 declaration alone is insufficient.",
+      "status": "blocked"
+    },
+    {
+      "name": "exact_runtime_reproduction",
+      "reopen_condition": "Load the exact pinned runtime and bundle and reproduce source-reported or approved reference outputs without downloading weights or using uncleared real audio.",
+      "status": "blocked"
+    },
+    {
+      "name": "native_streaming_boundary",
+      "reopen_condition": "Verify the native 16 kHz / 160-sample boundary, attenuation-limit behavior, algorithmic latency, frame delay and reset/flush semantics through the real C ABI.",
+      "status": "blocked"
+    },
+    {
+      "name": "task_matched_held_out_spatial_labels",
+      "reopen_condition": "Score a rights-cleared held-out cohort with task-matched speaker and room labels; the synthetic fixture has no speaker identity or room.",
+      "status": "blocked"
+    },
+    {
+      "name": "enrollment_conditioned_extraction_scope",
+      "reopen_condition": "Resolve the spatial target condition: either evaluate a reference/enrollment-conditioned variant or record an explicit decision that primary/background suppression without a prompt is the accepted task.",
+      "status": "blocked"
+    },
+    {
+      "name": "real_cohort_leakage_and_target_damage",
+      "reopen_condition": "Measure interferer leakage/attenuation and target damage on real overlap speech with documented SIR, channels and permissions.",
+      "status": "blocked"
+    },
+    {
+      "name": "independent_listening",
+      "reopen_condition": "Collect independent listening or preference labels; synthetic metrics cannot qualify a suppressor.",
+      "status": "blocked"
+    },
+    {
+      "name": "target_runtime_timing_memory",
+      "reopen_condition": "Measure content/availability timing, memory and deadlines on the exact target runtime.",
+      "status": "blocked"
+    },
+    {
+      "name": "opt_in_adapter_intake",
+      "reopen_condition": "Complete rights review and opt-in adapter intake before any descriptor or provider registration.",
+      "status": "blocked"
+    },
+    {
+      "name": "public_default_selection",
+      "reopen_condition": "Record an explicit public default decision; the candidate is currently unregistered and OFF.",
+      "status": "blocked"
+    }
+  ],
+  "held_out_labels": {
+    "independent_items": false,
+    "present": false,
+    "reason": "the fixture has one synthetic target and one synthetic interferer; no speaker identity, room label or held-out item exists, so no localization/activity/extraction claim is made",
+    "room_labels": false,
+    "speaker_identity_labels": false
+  },
+  "leakage": [
+    {
+      "condition": "mixture_sir12",
+      "interferer_leakage_retention": 0.856568,
+      "interferer_sir_db": 12,
+      "target_projection_snr_delta_db": 0.687043,
+      "target_to_interferer_ratio_gain_db": 1.267908
+    },
+    {
+      "condition": "mixture_sir18",
+      "interferer_leakage_retention": 0.891592,
+      "interferer_sir_db": 18,
+      "target_projection_snr_delta_db": 0.559489,
+      "target_to_interferer_ratio_gain_db": 0.941789
+    },
+    {
+      "condition": "mixture_sir24",
+      "interferer_leakage_retention": 0.950971,
+      "interferer_sir_db": 24,
+      "target_projection_snr_delta_db": -0.361044,
+      "target_to_interferer_ratio_gain_db": 0.37765
+    }
+  ],
+  "licensing_analysis": {
+    "asset_copied_vendored_built_or_downloaded": false,
+    "blocked_gate": "model_bundle_and_runtime_rights",
+    "conclusion": "Apache-2.0 source licensing is pinned, but artifact-specific model bundle and runtime redistribution/product-use rights, the distribution channel and training-data provenance are not cleared. This package distributes no upstream asset.",
+    "legal_review_completed": false,
+    "model_bundle_redistribution_clearance": false,
+    "model_bundle_terms": "not established separately; the repository and model-card Apache-2.0 declaration is not an artifact-specific grant, and the declared checkpoint revision exposes no weights to verify.",
+    "model_card_declared_license": "Apache-2.0",
+    "product_use_clearance": false,
+    "runtime_binary_redistribution_clearance": false,
+    "task_files_license": "Apache-2.0",
+    "training_data_provenance_established": false,
+    "upstream_license_file": "data/checkouts/Hush/LICENSE",
+    "upstream_license_scope": "Hush repository snapshot at the pinned commit; the Apache-2.0 notice obligations apply to redistribution of the source or a derived binary.",
+    "upstream_license_sha256": "d2650f8a0a002d02377a5157e60071a39cc710113bf2c19f808db7045edda198",
+    "upstream_license_text_pinned": true,
+    "upstream_repository_license": "Apache-2.0"
+  },
+  "missing_evidence": [
+    "caller-supplied Hush library and ONNX bundle present and SHA-256-verified in this SDK worktree",
+    "artifact-specific model-bundle and runtime redistribution/product-use rights clearance",
+    "pinned, non-placeholder artifact distribution channel and training-data provenance",
+    "exact Hush runtime reproduction and an approved reference-output vector",
+    "native 16 kHz / 160-sample streaming boundary, attenuation cap, delay and flush evidence",
+    "rights-cleared held-out spatial cohort with speaker and room labels",
+    "enrollment/reference-conditioned target-speaker evaluation or an explicit scope decision",
+    "real-overlap interferer leakage and target-damage measurement",
+    "independent listening or preference labels",
+    "target-runtime content/availability timing, memory and deadline evidence",
+    "opt-in adapter intake, descriptor and catalog review",
+    "explicit public default selection"
+  ],
+  "model_provenance": {
+    "candidate": "Hush",
+    "distribution_channel": {
+      "artifact_digest_published_upstream": false,
+      "deployment_readme_download_url": "https://github.com/YOUR_USERNAME/deepfilternet-se/releases",
+      "note": "the deployment README links a placeholder release path and the declared model-card revision exposes no weights; the artifact was obtained from the pinned source tree and hashed locally",
+      "url_is_placeholder": true
+    },
+    "model_bundle": {
+      "bytes": 8558968,
+      "copied_or_vendored": false,
+      "downloaded_by_this_package": false,
+      "loaded_or_executed": false,
+      "path": "data/checkouts/Hush/deployment/models/advanced_dfnet16k_model_best_onnx.tar.gz",
+      "present_in_external_checkout": true,
+      "present_in_sdk_worktree": false,
+      "sha256": "45632ccaa82b71bb743d6caa7c78e983fe2f2790a3af7f6ec48e6ed7ba085df6"
+    },
+    "model_card": {
+      "artifact_accessed_by_this_package": false,
+      "declared_license": "Apache-2.0",
+      "declared_revision": "1aee65c0b22e99bc9c8fea933dc25948168d2416",
+      "repository": "https://huggingface.co/weya-ai/hush",
+      "revision_pin_type": "declared_in_research_adapter_readme_not_hashed",
+      "weights_listed_by_files_api": false
+    },
+    "public_adapter": {
+      "declared_modes": [
+        "offline"
+      ],
+      "declared_output_kinds": [
+        "waveform"
+      ],
+      "declared_tasks": [
+        "SPK-01"
+      ],
+      "declared_weights": "required_local",
+      "executed_by_this_package": false,
+      "path": "adapters/hush",
+      "present_in_research_workspace": true,
+      "present_in_sdk_worktree": false,
+      "source_commit": "9f6414e91461a8f4bdf9840c0cdcdcb7da986339"
+    },
+    "runtime_libraries": {
+      "linux_x86_64": {
+        "loaded_or_executed": false,
+        "path": "data/checkouts/Hush/deployment/lib/libweya_nc.so",
+        "present_in_external_checkout": true,
+        "sha256": "c4a5915c92e9500a49e6cd14804e6e88319277de2ef7d4d5cf6c0ac4456f3bbf"
+      },
+      "macos_arm64": {
+        "loaded_or_executed": false,
+        "path": "data/checkouts/Hush/deployment/lib/libweya_nc.dylib",
+        "present_in_external_checkout": true,
+        "sha256": "4bcd38634000d456ad68db4b6ff97fe4a462542aa65ac5f910fbf374ca33fbaa"
+      },
+      "windows_x86_64": {
+        "loaded_or_executed": false,
+        "path": "data/checkouts/Hush/deployment/lib/weya_nc.dll",
+        "present_in_external_checkout": true,
+        "sha256": "633958ef839c94af6f8f5f9f8fb33c4daedaeec0373cb39a03934fdd7efa6a32"
+      }
+    },
+    "source_files": {
+      "README.md": "6c1ae0349b459dd03bb627438a3d6af3a00afff2817da291228b603b833ebd38",
+      "deployment/README.md": "af4b9e2df9b9b13f8207942714f71fdc12af839d0c1d9f0ad819f6ab9fdd302a",
+      "deployment/include/weya_nc.h": "887640d07b0147b8172ae8247cb16c460dce06e7cd54cfd9c1cfe13d1fef9f86",
+      "native/weya_nc_build/weya_nc/src/lib.rs": "3aa0b16ea0c39fab4bd9fd5f85566aa3e2e18066b55fdd0ce986d16b9a99bf68"
+    },
+    "training_data_provenance": "not established in this package; upstream states 10,000+ hours of mixed audio, but no dataset manifest, consent basis or rights chain is pinned",
+    "unused_checkpoint": {
+      "path": "data/checkouts/Hush/deployment/models/model_best.ckpt",
+      "reason": "the research adapter README states the .ckpt is not used; only the deployment ONNX bundle is in scope",
+      "sha256": "a2221e335c7de2c3453b422bf7f3c609723e453f4ca29c86137fd707d62f841b",
+      "used": false
+    },
+    "upstream_commit": "9f6414e91461a8f4bdf9840c0cdcdcb7da986339",
+    "upstream_license": "Apache-2.0",
+    "upstream_license_file": "data/checkouts/Hush/LICENSE",
+    "upstream_license_sha256": "d2650f8a0a002d02377a5157e60071a39cc710113bf2c19f808db7045edda198",
+    "upstream_repository": "https://github.com/pulp-vision/Hush"
+  },
+  "negative_claims": {
+    "abi_changed": false,
+    "benchmark_result": false,
+    "board_or_handoff_changed": false,
+    "ci_changed": false,
+    "descriptor_changed": false,
+    "device_timing_measured": false,
+    "enrollment_prompt_used": false,
+    "exact_hush_reproduction_claimed": false,
+    "hush_model_loaded": false,
+    "hush_runtime_executed": false,
+    "hush_source_executed": false,
+    "installed_v0_changed": false,
+    "listening_performed": false,
+    "model_weights_downloaded": false,
+    "model_weights_redistributed": false,
+    "provider_registered": false,
+    "public_default_changed": false,
+    "quality_pass": false,
+    "real_audio_used": false,
+    "real_speaker_labels_used": false,
+    "reference_conditioned_extraction_validated": false,
+    "registry_changed": false,
+    "release_claim": false,
+    "room_or_array_measured": false,
+    "shared_build_changed": false,
+    "spatial_acceptance_cleared": false
+  },
+  "no_missing_result_qualifies_candidate": true,
+  "profile": "spatial",
+  "qualification_status": "not_qualified",
+  "regressions": [
+    {
+      "condition": "mixture_sir18",
+      "metric": "stoi",
+      "note": "surrogate is worse than identity on this synthetic condition",
+      "paired_delta": -0.001481
+    },
+    {
+      "condition": "mixture_sir24",
+      "metric": "si_sdr_db",
+      "note": "surrogate is worse than identity on this synthetic condition",
+      "paired_delta": -0.361044
+    },
+    {
+      "condition": "mixture_sir24",
+      "metric": "stoi",
+      "note": "surrogate is worse than identity on this synthetic condition",
+      "paired_delta": -0.006441
+    },
+    {
+      "condition": "mixture_sir24",
+      "metric": "target_projection_snr_db",
+      "note": "surrogate damages the designated target on this synthetic condition",
+      "paired_delta": -0.361044
+    }
+  ],
+  "reopening_conditions": [
+    "A caller supplies the pinned Hush 16 kHz library and ONNX bundle with matching SHA-256 values, source commit and attenuation limit, and the manifest validates.",
+    "Artifact-specific model-bundle and runtime redistribution and product-use rights, a verifiable distribution channel and training-data provenance are cleared with a recorded review.",
+    "The exact pinned runtime is reproduced and an approved reference-output vector is available for parity.",
+    "The native 16 kHz / 160-sample streaming boundary, attenuation cap, delay, reset/flush and caller-facing conformance are verified.",
+    "A rights-cleared held-out spatial cohort with speaker and room labels is scored under the Spatial profile.",
+    "The spatial target condition is resolved: enrollment-conditioned extraction is evaluated, or a documented decision accepts prompt-free primary/background suppression as the task.",
+    "Real-overlap interferer leakage and target damage are measured with documented SIR, channels and permissions.",
+    "Independent listening or preference labels are collected.",
+    "Target-runtime content/availability timing, memory and deadlines are measured.",
+    "Opt-in adapter intake, descriptor and catalog review are completed.",
+    "An explicit public default decision is recorded; the candidate remains OFF until then."
+  ],
+  "repeatability": {
+    "byte_identical": true,
+    "count": 3,
+    "digests": [
+      "233b4b5115b431c26a88f8e91780db4875e3cdc06d1a5df1de0158673c06645a",
+      "233b4b5115b431c26a88f8e91780db4875e3cdc06d1a5df1de0158673c06645a",
+      "233b4b5115b431c26a88f8e91780db4875e3cdc06d1a5df1de0158673c06645a"
+    ],
+    "scope": "report body excluding the repeatability block"
+  },
+  "schema_id": "audio-sdk/task-evidence/hush/report/0.1",
+  "scope": {
+    "benchmark_claim": false,
+    "caller_supplied_asset_contract_modeled": true,
+    "caller_supplied_asset_present": false,
+    "device_timing": false,
+    "enrollment_prompt": false,
+    "hush_model_loaded": false,
+    "hush_runtime_executed": false,
+    "hush_source_executed": false,
+    "listening_result": false,
+    "model_weights_downloaded": false,
+    "model_weights_loaded": false,
+    "network_used": false,
+    "real_audio": false,
+    "real_labels": false,
+    "registered_provider": false,
+    "release_claim": false,
+    "room_measurement": false,
+    "synthetic_boundary_surrogate_only": true,
+    "task_local_only": true
+  },
+  "source_pins": {
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "adapters/hush/README.md": "c9ac19950af4138b50dc7a5d0560b4d79ed6b01dc81ec0af6a5a4bea84a8a94d",
+    "adapters/hush/adapter.json": "4746e674385c2e3e377e7455d9f56e0d06a6a47532ed37c784bb0616e3105b40",
+    "adapters/hush/run.py": "79ad67b3ff814930b1833b21254f19a63aec74d790617c826c83156a34f90d24",
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+    "research/voice-enhancement-20261101/agent-hush-ami/REPORT.md": "f25be2b5e5e09fe3aacc9bece33e5e9ec56a548f1349871e916d46f4ba2a5acf",
+    "research/voice-enhancement-20261101/agent-hush-ears-expanded/REPORT.md": "d9285694209a54b26db0aa89a27a11b004fa0159d7ee08fc5fff0728c0869545",
+    "research/voice-enhancement-20261101/agent-hush-eval/REPORT.md": "bf6be1fb4f302cc41f5eebbe9a66baf1d510d622158406e25564ba3d0e353068",
+    "research/voice-enhancement-20261101/agent-hush-synthetic-eval/REPORT.md": "fa0962ec9194f4267a283c8d24d80b4b63ac2e52447e0c8fa8e163e7713ab096",
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245"
+  },
+  "source_reported": {
+    "findings": [
+      {
+        "fixture": "ears_synthetic_30_pairs",
+        "interval_95": [
+          -11.77,
+          -7.01
+        ],
+        "metric": "delta_target_si_sdr_db",
+        "stratum": "+12 dB",
+        "unit": "dB",
+        "value": -9.33
+      },
+      {
+        "fixture": "ears_synthetic_30_pairs",
+        "interval_95": [
+          -0.182,
+          -0.102
+        ],
+        "metric": "delta_target_stoi",
+        "stratum": "+12 dB",
+        "unit": "ratio",
+        "value": -0.141
+      },
+      {
+        "fixture": "ears_synthetic_30_pairs",
+        "interval_95": [
+          5.67,
+          10.38
+        ],
+        "metric": "target_to_interferer_ratio_gain_db",
+        "stratum": "+12 dB",
+        "unit": "dB",
+        "value": 8.14
+      },
+      {
+        "fixture": "ami_speaker_dominant_7_pairs",
+        "interval_95": [
+          -28.6,
+          -19.64
+        ],
+        "metric": "delta_target_si_sdr_db",
+        "stratum": "+24 dB",
+        "unit": "dB",
+        "value": -24.18
+      },
+      {
+        "fixture": "ami_speaker_dominant_7_pairs",
+        "interval_95": [
+          -2.46,
+          10.65
+        ],
+        "metric": "target_to_interferer_ratio_gain_db",
+        "stratum": "+24 dB",
+        "unit": "dB",
+        "value": 3.37
+      },
+      {
+        "fixture": "ears_synthetic_30_pairs",
+        "interval_95": null,
+        "metric": "mean_transform_rtf",
+        "stratum": "all",
+        "unit": "ratio",
+        "value": 0.0278
+      },
+      {
+        "fixture": "ami_speaker_dominant_7_pairs",
+        "interval_95": null,
+        "metric": "model_load_seconds",
+        "stratum": "all",
+        "unit": "s",
+        "value": 0.073
+      },
+      {
+        "fixture": "ami_speaker_dominant_7_pairs",
+        "interval_95": null,
+        "metric": "process_max_rss_mb",
+        "stratum": "all",
+        "unit": "MB",
+        "value": 92.2
+      }
+    ],
+    "note": "Transcribed from the pinned research only. The studies report improved relative target-to-interferer ratio with substantial target SI-SDR and STOI damage and no enrollment prompt. This package neither reproduces nor claims these values and does not pool them with the surrogate observations.",
+    "scope": "EARS-derived synthetic 30-pair x 3-SIR primary/background screen on one local host, a supplemental AMI speaker-dominant diagnostic from one meeting, and an earlier five-pair pilot; not a representative spatial holdout or target-device run.",
+    "sources": [
+      "research/voice-enhancement-20261101/candidate_matrix.csv",
+      "research/voice-enhancement-20261101/agent-hush-ears-expanded/REPORT.md",
+      "research/voice-enhancement-20261101/agent-hush-ami/REPORT.md",
+      "research/voice-enhancement-20261101/agent-hush-eval/REPORT.md",
+      "research/voice-enhancement-20261101/agent-hush-synthetic-eval/REPORT.md",
+      "adapters/hush/README.md",
+      "REALTIME_COMPONENT_CANDIDATES.md"
+    ],
+    "status": "source_reported_not_reproduced",
+    "used_for_qualification": false
+  },
+  "spatial_geometry": {
+    "array_geometry": "not applicable; single channel",
+    "channel_loss_evaluated": false,
+    "channel_loss_reason": "mono fixture; multi-channel and spatial capture are unmeasured",
+    "channels": 1,
+    "interferer_condition": "deterministic voiced interferer (f0 205 Hz, disjoint segment timing) at +12/+18/+24 dB target-to-interferer ratio",
+    "layout": "mono",
+    "permissions": "synthetic only; no real recording, corpus, speaker label, room measurement or listening subject is used",
+    "reference_condition": "the exact pre-mixture target waveform is the clean reference at every target-to-interferer stratum",
+    "room_condition": "none; anechoic additive model, no RIR, distance or movement",
+    "source_condition": "synthetic two-source additive mixture: deterministic voiced target plus deterministic voiced interferer",
+    "target_condition": "deterministic voiced target (f0 125 Hz, three gated segments); no enrollment waveform, prompt or speaker embedding is supplied",
+    "timestamp_calibration": "modeled fixture clock, not a device capture clock",
+    "upstream_algorithmic_latency_ms": 20,
+    "upstream_report_scope": "upstream README states ~20 ms algorithmic latency, 16 kHz, ~8 MB model and <1 ms processing per 10 ms frame; these values are source-reported and are not measured here",
+    "upstream_stft_window_hop_samples": [
+      320,
+      160
+    ]
+  },
+  "state": {
+    "different_stimuli_differ": true,
+    "processed_outputs_finite": true,
+    "reset_bit_identical": true,
+    "reset_epoch_propagated": true,
+    "separate_instances_uncoupled": true,
+    "zero_attenuation_is_identity": true
+  },
+  "status": "proposal_only_synthetic_incomplete",
+  "stimuli": {
+    "guard_gain": 1.0,
+    "interferer": "synthetic voiced f0 205 Hz, 3 disjoint gated segments",
+    "interferer_rms": 0.20017,
+    "peak_guard": 0.95,
+    "real_audio": false,
+    "room_model": false,
+    "sir_db_strata": [
+      12,
+      18,
+      24
+    ],
+    "target": "synthetic voiced f0 125 Hz, 3 gated segments",
+    "target_rms": 0.206526
+  },
+  "stratification": [
+    {
+      "condition": "mixture_sir12",
+      "held_out": false,
+      "independent_items": false,
+      "interferer_sir_db": 12,
+      "source_pair_count": 1
+    },
+    {
+      "condition": "mixture_sir18",
+      "held_out": false,
+      "independent_items": false,
+      "interferer_sir_db": 18,
+      "source_pair_count": 1
+    },
+    {
+      "condition": "mixture_sir24",
+      "held_out": false,
+      "independent_items": false,
+      "interferer_sir_db": 24,
+      "source_pair_count": 1
+    }
+  ],
+  "surrogate": {
+    "asset_geometry": "16 kHz mono f32 160-sample frames",
+    "attack": 0.6,
+    "atten_limit_db": 100.0,
+    "checkpoint": false,
+    "deepfilternet_blocks": false,
+    "delay_compensated_samples": 160,
+    "delay_modeled_samples": 160,
+    "deterministic": true,
+    "enrollment_input": false,
+    "gate_floor_at_default": 0.15,
+    "identity": "hush-boundary-surrogate-v0",
+    "is_hush": false,
+    "is_neural_network": false,
+    "method": "deterministic frame-RMS gate over contiguous 160-sample frames with an attenuation floor derived from atten_limit_db; one 160-sample delay modeled then compensated",
+    "model_bundle": false,
+    "noise_estimate_frames": 5,
+    "onnx_graph": false,
+    "peak_guard": 0.95,
+    "public_input_geometry": "16 kHz mono f32 160-sample frames",
+    "pure_synthetic": true,
+    "quality_claim": false,
+    "release": 0.85,
+    "threshold_multiplier": 2.0,
+    "weights": false
+  },
+  "target_damage": [
+    {
+      "condition": "mixture_sir12",
+      "delta_si_sdr_db": 0.687043,
+      "delta_stoi": 0.004855,
+      "interferer_sir_db": 12,
+      "rms_gain_ratio": 0.985008,
+      "target_retention": 0.99119
+    },
+    {
+      "condition": "mixture_sir18",
+      "delta_si_sdr_db": 0.559489,
+      "delta_stoi": -0.001481,
+      "interferer_sir_db": 18,
+      "rms_gain_ratio": 0.991815,
+      "target_retention": 0.993701
+    },
+    {
+      "condition": "mixture_sir24",
+      "delta_si_sdr_db": -0.361044,
+      "delta_stoi": -0.006441,
+      "interferer_sir_db": 24,
+      "rms_gain_ratio": 0.992923,
+      "target_retention": 0.99323
+    }
+  ],
+  "task_id": "SDK-HUSH",
+  "timestamp_calibration": {
+    "availability_serialization": "decimal string",
+    "clock_id": "fixture-monotonic-not-device",
+    "first_frame_end_ns": "1767225600010000000",
+    "formula": "frame_end_ns = origin_ns + frame_index_end * frame_samples * ns_per_sample",
+    "frame_duration_ns": "10000000",
+    "frame_samples": 160,
+    "last_frame_end_ns": "1767225602000000000",
+    "measured": false,
+    "monotonic_nondecreasing": true,
+    "ns_per_sample": 62500,
+    "origin_ns": "1767225600000000000",
+    "signal_timestamp_is_not_availability": true
+  },
+  "timing": {
+    "availability_clock_is_modeled": true,
+    "device_timing": false,
+    "measured": false,
+    "modeled_content_delay_samples": 160,
+    "paced": false,
+    "reason": "No exact Hush runtime or target device; the surrogate is unpaced and no wall-clock, RTF or memory result is claimed.",
+    "upstream_algorithmic_latency_ms": 20
+  },
+  "title": "Hush"
+}
