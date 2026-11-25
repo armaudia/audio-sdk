@@ -115,8 +115,9 @@ says so and names the existing research-control or foundation owner instead.
 
 Board **status** is deliberately excluded from the gated projection because it
 is mutable; exact `id`, `title` and `mode` of the linked rows are pinned by
-`report.json:board_link_projection_sha256`. The full board file hash at read
-time is recorded as non-gated mutable provenance.
+`report.json:board_link_projection_sha256`. The mutable full-file board hash is
+deliberately excluded from every deterministic artifact so regeneration remains
+byte-identical after board status edits.
 
 ## Release boundary
 
