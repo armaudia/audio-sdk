@@ -16,8 +16,12 @@ probe measures position and spread, not audibility. Rebuffer counts come from
 a fixed synthetic arrival schedule, not device timing.
 
 Historical Bungee Basic results and MPL-2.0 context are pinned in
-`SOURCES.sha256`. No Bungee code, binary, model or real audio is shipped or
-invoked; the control is not a substitute or a parity oracle.
+`SOURCES.sha256`. This fixture ships no Bungee code, binary, model or real audio,
+and the control is not a substitute or a parity oracle.
+
+The opt-in native continuation is in [`NATIVE.md`](NATIVE.md). It builds and runs
+the separately staged Bungee Basic checkout on synthetic PCM; it does not change
+this fixture or the installed SDK boundary.
 
 ## Reproduce
 
