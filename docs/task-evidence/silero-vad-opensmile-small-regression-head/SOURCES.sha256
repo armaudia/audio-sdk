@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
+# pkg: paths are relative to this evidence directory
+# source: paths are relative to the common workspace root
+# worktree: paths are relative to the SDK worktree root
+65ed5b651e2ce01cd5cf18a9d24201e04d1c2002d0f7f842f3b6fc155268f2c1  pkg:README.md
+2964b0b110b233b0b8739355b284c50e5cbe433e0e6fbe32a8296c12d0c41c3c  pkg:check_licensing.py
+b0c4dbde8d0c8d12b12732c94c77a5fd3983a258e8991a21795896ba1071eb5a  pkg:contract.json
+78af9def8a923fb4729d1e40b5711e218a8f5b87b677be2582ca768f964eaf02  pkg:reference.py
+208d81e915839a40a96033d657443691f62e4973930ef1543bea40f8793f946d  pkg:report.json
+e5c980ecf3912e62839f35f231f3acad612dfaebfa4d6076c8b202e5e6ebfb66  pkg:report.json.sha256
+9a71ef038c522dc8f892e45ba48ac6ca4d24647950b2b48e16a6aa2267729ed0  pkg:run.py
+3225228a5b68c63b6a794f470e73d6d64ffeda5aaa6ec55f80575aded0b03923  pkg:test_reference.py
+1317541b738d2250de0365da7e1bcbb2fc778e8b0eeda9eaaa428210cc103dbe  pkg:verify.py
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f  source:research/tsm-followup-20261101/README.md
+63ea22bd4d027467a1abe97639f7c9ff6e00cdc2c6c753a52c2bd5e4028bab85  source:research/tsm-followup-20261101/root-baselines/REPORT.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  worktree:CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  worktree:README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  worktree:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  worktree:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  worktree:api/include/audio_sdk/session_v0.h
+cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30  worktree:LICENSES/Apache-2.0.txt
