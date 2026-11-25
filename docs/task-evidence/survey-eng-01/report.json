@@ -1,0 +1,579 @@
+{
+  "assets": {
+    "downloads": [],
+    "images_or_binaries": [],
+    "models_or_weights": [],
+    "pinned_installed_tooling": [
+      "numpy 2.5.4",
+      "scipy 1.18.1",
+      "soundfile 0.14.0",
+      "libsndfile 1.2.2"
+    ],
+    "real_audio": [],
+    "vendored_source": [
+      "third_party/speexdsp/libspeexdsp/resample.c (source only; BSD-3-Clause-style notice)"
+    ]
+  },
+  "base_commit": "c9296ae96a2b58efae559bd22e7760122c886df8",
+  "branch": "swarm/SDK-SURVEY-ENG-01",
+  "category_id": "ENG-01",
+  "claim_gate": {
+    "default_abi_build_or_ci_change": false,
+    "device": false,
+    "listening": false,
+    "no_missing_result_qualifies_candidate": true,
+    "provider_enablement": false,
+    "public_benchmark": false,
+    "quality": false,
+    "real_audio_or_assets": false,
+    "release": false
+  },
+  "comparison_inputs": {
+    "formats_and_rates": {
+      "explicit_conversion": "48 kHz/2ch/s16 -> 16 kHz/1ch/f32",
+      "sdk_v0": "16 kHz/1ch/f32/160",
+      "tooling_channels": [
+        1,
+        2,
+        3
+      ],
+      "tooling_rates_hz": [
+        8000,
+        16000,
+        22050,
+        32000,
+        44100,
+        48000
+      ]
+    },
+    "real_speech_or_public_cohort": null,
+    "source_intervals": "[0,147), [147,307), [307,467), [467,495)",
+    "synthetic_signals": [
+      "impulse",
+      "1 kHz sine",
+      "multitone",
+      "silence",
+      "noise",
+      "ramp",
+      "stereo and 3-channel layouts",
+      "8/1/0-frame sequences",
+      "48 kHz stereo s16 interleaved frames plus a 45-sample partial frame",
+      "357 exact k/128 f32 identity values in 160/160/37 frames"
+    ]
+  },
+  "component_map": [
+    {
+      "component_id": "typed-frame-resample-and-drift-diagnostics",
+      "disposition": "sdk-tool",
+      "evidence_status": "source-local",
+      "family": "framing-channel-mapping",
+      "role": "Explicit conversion, clock map, delay and finite-tail proposal only.",
+      "task_id": "SDK-TYPED-FRAME-RESAMPLE-AND-DRIFT-DIAGNOSTICS"
+    },
+    {
+      "component_id": "identity-pcm-and-noop-fixtures",
+      "disposition": "sdk-reference",
+      "evidence_status": "integrated",
+      "family": "framing-channel-mapping",
+      "role": "Bit-exact D=0 PCM control at the installed fixed v0 boundary.",
+      "task_id": "SDK-IDENTITY-PCM-AND-NOOP-FIXTURES"
+    },
+    {
+      "component_id": "numpy-scipy-soundfile-wav-and-resampling",
+      "disposition": "sdk-tool",
+      "evidence_status": "evaluated",
+      "family": "bandlimited-resampling",
+      "role": "Offline FLOAT WAV and scipy.signal.resample_poly fixture; never SDK runtime timing.",
+      "task_id": "SDK-NUMPY-SCIPY-SOUNDFILE-WAV-AND-RESAMPLING"
+    },
+    {
+      "component_id": "speex-resampler",
+      "disposition": "sdk-reference",
+      "evidence_status": "considered",
+      "family": "bandlimited-resampling",
+      "role": "Named upstream lead only; no local resampler execution owner.",
+      "task_id": "SDK-SPEEX-RESAMPLER"
+    },
+    {
+      "component_id": "libsamplerate",
+      "disposition": "sdk-reference",
+      "evidence_status": "considered",
+      "family": "bandlimited-resampling",
+      "role": "Reported comparator-matrix lead; no local execution.",
+      "task_id": "SDK-LIBSAMPLERATE"
+    },
+    {
+      "component_id": "libsoxr",
+      "disposition": "sdk-reference",
+      "evidence_status": "considered",
+      "family": "bandlimited-resampling",
+      "role": "Reported comparator-matrix lead; no local execution.",
+      "task_id": "SDK-LIBSOXR"
+    }
+  ],
+  "controls": {
+    "identity": "16->16 kHz bit-exact and D=0 bit-exact PCM baseline",
+    "invalid": "rate/channel/shape/nonfinite/interval/epoch/timestamp/drift/tail rejections retained",
+    "missing": "missing optional library or selection returns explicit status, never a fallback",
+    "padding_and_concealment": "startup/tail padding and concealment are non-content",
+    "quantization": "PCM_16 -> f32 mismatch pinned as 2.8767e-05 max abs error",
+    "skipped": [
+      "registry.busy",
+      "buffered.flow"
+    ]
+  },
+  "disposition": "taxonomy_and_comparison_only",
+  "gap_followup": {
+    "components_to_consult": [
+      "speex-resampler",
+      "speexdsp-ns-reference",
+      "numpy-scipy-soundfile-wav-and-resampling",
+      "typed-frame-resample-and-drift-diagnostics"
+    ],
+    "deliverable": "task-local replay and metadata report only; no implementation, provider, default, ABI, build or CI change",
+    "dependencies_to_consult": [
+      "SDK-FND-AUDIT",
+      "SDK-FND-EVIDENCE"
+    ],
+    "gap": "No component owns an executable, pinned S42/SpeexDSP bandlimited-resampler comparison at a named SDK boundary.",
+    "id": "SDK-ENG-01-SPEEXDSP-RESAMPLER-FEASIBILITY",
+    "parent_task": "SDK-SURVEY-ENG-01",
+    "smallest_check_not_run": [
+      "Pin the existing vendored resample.c digest and declare its upstream revision",
+      "Use authored finite synthetic f32 literals only; no speech corpus or download",
+      "Compare explicit integer rate pairs 48->16 kHz and 16->48 kHz with identity at 16->16 kHz",
+      "Record exact output frame counts, nonfinite failures, source-coordinate delay and adverse malformed-rate inputs",
+      "Keep an offline SciPy polyphase result as a separate control, not a SpeexDSP score"
+    ],
+    "status": "proposed_unassigned_not_a_board_entry",
+    "stop_condition": "feasibility only; stop before any quality, device, listening, benchmark or release claim"
+  },
+  "historical_executions": [
+    {
+      "assets": [
+        "none: no audio corpus, model, weight or downloaded binary",
+        "installed NumPy 2.5.4, SciPy 1.18.1, SoundFile 0.14.0 and libsndfile 1.2.2 bytes pinned in the linked report"
+      ],
+      "component_id": "numpy-scipy-soundfile-wav-and-resampling",
+      "controls": [
+        "16->16 kHz identity bit-exact with up=down=1",
+        "expected ceil(len*up/down) output frames and finite output on every case",
+        "PCM_16 read through the f32 adapter is not bit-exact (max abs error 2.8767e-05)",
+        "Git LFS pointer, empty/truncated/non-WAV files and missing path rejected",
+        "rate, channel, shape, non-finite, interval and non-positive-rate guards",
+        "blocked numpy/scipy/soundfile reported as missing_optional_selection with no fallback"
+      ],
+      "evidence_layer": "local_synthetic_tool_offline",
+      "evidence_pin_key": "sdk:docs/task-evidence/numpy-scipy-soundfile-wav-resampling/report.json",
+      "id": "numpy-scipy-offline-wav-resampling",
+      "inputs": [
+        "11 frozen synthetic signals: impulse, 1 kHz sine, multitone, silence, noise, ramp, stereo, 3-channel, 8-frame, 1-frame and 0-frame",
+        "FLOAT WAV write/read roundtrips on caller-owned paths",
+        "36 resampling cases from 6 signals to 6 target rates (8, 16, 22.05, 32, 44.1 and 48 kHz)",
+        "2-D f32 arrays with explicit source and target rates"
+      ],
+      "limits": [
+        "Offline developer tooling is never included in SDK runtime timing",
+        "No real speech, perceptual score or public benchmark is used"
+      ],
+      "local_outcomes": [
+        "11/11 FLOAT WAV roundtrips bit-exact; 36/36 resampling cases finite with expected counts",
+        "16->8 kHz 800 frames; 16->48 kHz 4800 frames; 16->44.1 kHz 4410 frames",
+        "30 unittest checks and a byte-identical regeneration were recorded by that task",
+        "Paced SDK session, deadline, device, speech-quality and listening results are absent"
+      ],
+      "reported_outcomes": [
+        "No upstream quality or latency result is attached to this fixture; installed-wheel provenance only"
+      ],
+      "task_id": "SDK-NUMPY-SCIPY-SOUNDFILE-WAV-AND-RESAMPLING"
+    },
+    {
+      "assets": [
+        "none: stdlib Python model, no model, weights, audio or download"
+      ],
+      "component_id": "typed-frame-resample-and-drift-diagnostics",
+      "controls": [
+        "integer content delay D=173 samples measured in source coordinates",
+        "13/13 adverse controls: rate, channels, shape, nonfinite, clock map, missing selection, config, epoch, duplicate timestamp, drift, tail overrun and finite-tail accounting",
+        "gapless non-overlapping source intervals [0,147), [147,307), [307,467), [467,495)",
+        "concealment frames never satisfy conservation; post-input decay and padding are non-content"
+      ],
+      "evidence_layer": "local_synthetic_model_free_proposal",
+      "evidence_pin_key": "sdk:docs/task-evidence/typed-frame-resample-and-drift-diagnostics/report.json",
+      "id": "typed-frame-resample-drift-model",
+      "inputs": [
+        "three full 48 kHz stereo s16 frames (480 interleaved source samples each) plus one partial 45-sample frame",
+        "explicit 48 kHz/2ch/s16 -> 16 kHz/1ch/f32 selection",
+        "one declared monotonic clock domain; 16 kHz sample = 62500 ns; drift bound 10000 ppm"
+      ],
+      "limits": [
+        "Delay is an integer source-coordinate impulse probe, not acoustic or phase/group delay",
+        "Explicit conversions sit outside the fixed v0 ABI and are not defaults"
+      ],
+      "local_outcomes": [
+        "495 accepted = 495 delivered valid samples; 800 produced = 495 valid + 173 startup + 132 tail",
+        "one drain call; 24 unittest checks recorded by that task",
+        "no native compile, installed consumer, paced workload or target-device result"
+      ],
+      "reported_outcomes": [
+        "Contract proposal audio-sdk/typed-frame-resample-drift/0.1 only; no external benchmark claim"
+      ],
+      "task_id": "SDK-TYPED-FRAME-RESAMPLE-AND-DRIFT-DIAGNOSTICS"
+    },
+    {
+      "assets": [
+        "none: synthetic f32 values and task-local C fixture provider; no audio or model"
+      ],
+      "component_id": "identity-pcm-and-noop-fixtures",
+      "controls": [
+        "8 malformed/lifecycle probes returned zero-valid AS_INVALID_ARGUMENT",
+        "unregistered provider/mode/asset selections rejected",
+        "35 pass, 0 fail, 2 skip of 37 installed checks; registry.busy and buffered.flow remain skipped",
+        "identity source and harness descriptor bytes pinned by that task"
+      ],
+      "evidence_layer": "local_installed_consumer_synthetic_control",
+      "evidence_pin_key": "sdk:docs/task-evidence/identity-pcm-and-noop-fixtures/README.md",
+      "id": "identity-pcm-installed-baseline",
+      "inputs": [
+        "357 caller-owned exact k/128 f32 values in 160/160/37 frames",
+        "first input sample 9007199254740993 (2**53+1)",
+        "installed fixed v0 boundary 16 kHz/mono/f32/160 with D=0"
+      ],
+      "limits": [
+        "Bit-exact identity is a control, not a resampler or a quality result",
+        "A skipped check is not promoted to a pass"
+      ],
+      "local_outcomes": [
+        "11/11 native CTest and 1/1 installed consumer test passed in that task",
+        "Python fixture tests 7/7 passed; canonical report digests recorded by that task",
+        "no pacing, CPU/memory, deadline, device, real-audio or release evidence"
+      ],
+      "reported_outcomes": [
+        "Fixed v0 contract behavior only; no built-in identity provider is added by this survey"
+      ],
+      "task_id": "SDK-IDENTITY-PCM-AND-NOOP-FIXTURES"
+    },
+    {
+      "assets": [
+        "none locally staged for these three resampler leads"
+      ],
+      "component_id": "speex-resampler",
+      "controls": [
+        "no frozen corpus, revision, command, digest or local run accompanies the row"
+      ],
+      "evidence_layer": "reported_comparator_matrix_only",
+      "evidence_pin_key": "workspace:cpp-library/pipeline-validation/playback-speed-candidates.md",
+      "id": "playback-speed-comparator-matrix",
+      "inputs": [
+        "single matrix row for libsamplerate / libsoxr / Speex resampler"
+      ],
+      "limits": [
+        "Not a pitch-preserving time-stretch result and not an SDK boundary result"
+      ],
+      "local_outcomes": [
+        "no local execution, score, conversion-cost measurement or delay measurement"
+      ],
+      "reported_outcomes": [
+        "Varispeed only; reported 'Very low' latency/effort and 'Cheap fallback if pitch shift is acceptable'",
+        "Reported licences BSD-2 / LGPL-2.1 / BSD-3 are matrix labels, not local rights clearance"
+      ],
+      "task_id": "SDK-SPEEX-RESAMPLER"
+    }
+  ],
+  "legacy_family_id": "F16",
+  "local_vs_reported": [
+    {
+      "local": "36 synthetic cases with finite outputs and expected counts",
+      "reported": "no upstream quality or rate-conversion claim",
+      "separation": "local offline tool result only",
+      "topic": "SciPy polyphase resampling"
+    },
+    {
+      "local": "vendored source compiled into a private object; no executable comparison",
+      "reported": "comparator matrix calls it a cheap varispeed fallback",
+      "separation": "reported label is not a local result",
+      "topic": "SpeexDSP resampler / S42"
+    },
+    {
+      "local": "stdlib Python explicit-conversion model; installed D=0 identity control",
+      "reported": "no public-benchmark or device result",
+      "separation": "model and installed control answer different questions",
+      "topic": "framing/channel mapping"
+    }
+  ],
+  "missing_evidence": [
+    {
+      "family": "framing-channel-mapping",
+      "reason": "source-local proposal and installed identity control only; no native conversion path, paced workload or device evidence"
+    },
+    {
+      "family": "bandlimited-resampling",
+      "reason": "offline SciPy fixture and considered upstream leads only; no pinned S42 executable, anti-alias/transient control or boundary cost/delay measurement"
+    },
+    {
+      "family": "no-ml-requirement",
+      "reason": "not applicable; no ML family or model evidence is catalogued"
+    }
+  ],
+  "non_claims": [
+    "No public benchmark, corpus score, ranking or quality result",
+    "No real audio, image, model, weight or other asset",
+    "No device, microphone, playback, listening or human-panel result",
+    "No provider enablement, registration, descriptor default or routing change",
+    "No public header, ABI, build flag, CMake, package or CI change",
+    "No release, publication or rights-clearance decision"
+  ],
+  "original_method_families": {
+    "classic": [
+      {
+        "evidence_status": "source-local_model_and_installed_identity_control",
+        "id": "framing-channel-mapping",
+        "mapped_components": [
+          "typed-frame-resample-and-drift-diagnostics",
+          "identity-pcm-and-noop-fixtures",
+          "speexdsp-ns-reference"
+        ],
+        "missing_evidence": "No native installed provider or measured device framing/channel path was run; the explicit-conversion model is Python-only and outside v0.",
+        "registry_text": "Framing/channel mapping"
+      },
+      {
+        "evidence_status": "offline_tool_evaluated_upstream_leads_considered",
+        "id": "bandlimited-resampling",
+        "mapped_components": [
+          "numpy-scipy-soundfile-wav-and-resampling",
+          "speex-resampler",
+          "libsamplerate",
+          "libsoxr"
+        ],
+        "missing_evidence": "No pinned executable S42/SpeexDSP resampler comparison, no anti-alias or transient control, and no measured conversion cost/delay at an SDK boundary. NumPy/SciPy polyphase output is not evidence for SpeexDSP.",
+        "registry_text": "Bandlimited resampling"
+      }
+    ],
+    "ml": {
+      "id": "no-ml-requirement",
+      "mapped_components": [],
+      "missing_evidence": "No ML family is catalogued for ENG-01. No model, checkpoint, weight search or learned-quality result is expected; no ML evidence is missing.",
+      "registry_text": "No ML requirement",
+      "status": "not_applicable"
+    }
+  },
+  "qualification_status": "not_started_no_new_execution",
+  "release_boundary": {
+    "fixed_v0_unchanged": true,
+    "no_default_abi_build_or_ci_change": true,
+    "no_provider_enablement_or_registry_default": true,
+    "no_public_benchmark_quality_device_listening_or_release_claim": true,
+    "quality_and_publication_decision_owner": "audio-bench",
+    "reopen_conditions": [
+      "exact candidate source revision and digest",
+      "frozen rate/channel/format comparison inputs and controls",
+      "independent local executable evidence at the named boundary",
+      "measured conversion cost, content delay and adverse cases",
+      "separate rights, workload and release decisions"
+    ],
+    "rights_and_asset_decisions": "separate from this survey; no rights are inferred from a pin"
+  },
+  "reproduction": {
+    "board_check": "python3 audio-benchmark-platform/plan/swarm/check.py --task SDK-SURVEY-ENG-01",
+    "generator": "PYTHONDONTWRITEBYTECODE=1 <pinned-python> build_report.py",
+    "installed_package_ci": "regression only, not ENG-01 evidence: scripts/ci.py is unchanged and a pinned-Python run with --output in a private temp directory passed 52 repository unit tests, 1 API CTest, 11 native CTest, 14 external-provider CTest, one fixture-registration CTest in each build mode, 5 installed-wheel Python tests and the packaging/gate probes; it exercises no bandlimited resampler and does not qualify a device, listening or release result",
+    "licensing": "python3 -m reuse lint (from the SDK worktree root)",
+    "python": "3.12.16",
+    "python_environment": "PYTHONDONTWRITEBYTECODE=1",
+    "tests": "PYTHONDONTWRITEBYTECODE=1 <pinned-python> -m unittest -v test_survey_map.py",
+    "verifier": "PYTHONDONTWRITEBYTECODE=1 <pinned-python> verify.py",
+    "whitespace": "git diff --check"
+  },
+  "reviewer": "reviewer-SURVEY-ENG-01",
+  "schema_id": "audio-sdk.survey-eng-01.evidence-map/v1",
+  "scope": {
+    "board_dependencies": [
+      "SDK-FND-AUDIT",
+      "SDK-FND-EVIDENCE"
+    ],
+    "board_write_scope": [
+      "Category evidence map and bounded gap handoff"
+    ],
+    "fixed_v0_boundary": {
+      "channels": 1,
+      "conversion_location": "host/or developer tooling outside the provider ABI",
+      "effective_config_resampling": "none",
+      "frame_samples": 160,
+      "sample_format": "f32",
+      "sample_rate_hz": 16000
+    },
+    "input_output": "PCM formats/rates -> normalized interface",
+    "live_or_comparison_boundary": "Resampling is not bandwidth restoration; include conversion cost and delay in chain accounting.",
+    "output_kind": "engineering",
+    "purpose": "Provide correct formats and rates to candidates.",
+    "scope_label": "support"
+  },
+  "source_leads": [
+    {
+      "component_mapping": [
+        {
+          "component_id": "speex-resampler",
+          "disposition": "sdk-reference",
+          "evidence_status": "considered",
+          "task_id": "SDK-SPEEX-RESAMPLER"
+        },
+        {
+          "component_id": "speexdsp-ns-reference",
+          "disposition": "sdk-reference",
+          "evidence_status": "integrated",
+          "relation": "Owns the private SpeexDSP object build, including resample.c, but exposes a fixed-format NS provider and no resampling API.",
+          "task_id": "SDK-SPEEXDSP-NS-REFERENCE"
+        }
+      ],
+      "id": "S42",
+      "local_counterpart": {
+        "license": "BSD-3-Clause-style notice in third_party/speexdsp/COPYING",
+        "pin_key": "sdk:third_party/speexdsp/libspeexdsp/resample.c",
+        "relation": "Same upstream project and path; not a byte-equal pin of the unpinned master URL recorded by the registry.",
+        "sha256": "c4ec3bc71fc4414d7ebd62fc745290c7b5b06b149a05dd70cf72553bc57c8c76",
+        "upstream_revision": "7a158783df74efe7c2d1c6ee8363c1e695c71226 (v1.2.1)"
+      },
+      "local_outcome": "Source is present and compiled into a private object; no local bandlimited resampler execution, rate-pair matrix or conversion cost result was found.",
+      "registry_access_scope": "direct",
+      "registry_revision_pin": "unpinned master URL",
+      "registry_url": "https://github.com/xiph/speexdsp/blob/master/libspeexdsp/resample.c",
+      "reported_outcome": "Playback-speed matrix labels libsamplerate / libsoxr / Speex resampler as varispeed-only with very low latency/effort and a cheap fallback if pitch shift is acceptable; no local measurement supports that label.",
+      "title": "SpeexDSP resampler implementation"
+    }
+  ],
+  "source_pin_verification": {
+    "all_recomputed": true,
+    "board": {
+      "fields": [
+        "id",
+        "title",
+        "repository",
+        "mode",
+        "owner",
+        "depends_on",
+        "write_scope",
+        "deliverable",
+        "acceptance",
+        "evidence",
+        "claim"
+      ],
+      "note": "Mutable review/handoff fields are excluded; the claim pin is included.",
+      "projection_sha256": "4d8c42802174a75a84537e8c4409b68d31f21e4b70cc908c023a752ae30df39f"
+    },
+    "count": 18
+  },
+  "source_pins": [
+    {
+      "key": "workspace:audio_categories.md",
+      "path": "workspace:audio_categories.md",
+      "sha256": "97a3c7e61e0d66f2c3ab18f1dde8661afa2d74a40eb4f46315d95da50c4ff905",
+      "use": "Readable category catalog; ENG-01 family and comparison boundary."
+    },
+    {
+      "key": "workspace:research/category_registry.json",
+      "path": "workspace:research/category_registry.json",
+      "sha256": "cdf1782853fde1291bb8fd3c64144b9e857939856f8caca1666d2d617845728c",
+      "use": "Machine-readable ENG-01 record, S42 lead and catalog statuses."
+    },
+    {
+      "key": "workspace:research/task_backlog.json",
+      "path": "workspace:research/task_backlog.json",
+      "sha256": "0ac45fef49d433ad751ac2ff2674ea21e3717929d6ccc7dcda1fc3083db84ebc",
+      "use": "Legacy F16 backlog state and next action."
+    },
+    {
+      "key": "workspace:research/category_survey/sources.md",
+      "path": "workspace:research/category_survey/sources.md",
+      "sha256": "9dc17cd557480b954af4d5d9cd24911423685ba23675f399500eb080315fac5d",
+      "use": "S42 access scope and named URL."
+    },
+    {
+      "key": "workspace:cpp-library/pipeline-validation/playback-speed-candidates.md",
+      "path": "workspace:cpp-library/pipeline-validation/playback-speed-candidates.md",
+      "sha256": "661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3",
+      "use": "Reported comparator matrix for libsamplerate / libsoxr / Speex resampler."
+    },
+    {
+      "key": "workspace:src/audioml_eval/audio.py",
+      "path": "workspace:src/audioml_eval/audio.py",
+      "sha256": "0809b1cc1daa207e46125b0fcfa321088b4b6cccfadf04fabc2cd8b74c947e20",
+      "use": "Offline WAV/resampling boundary mirrored by the evaluated tool fixture."
+    },
+    {
+      "key": "platform:plan/INVENTORY.json",
+      "path": "platform:plan/INVENTORY.json",
+      "sha256": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+      "use": "Component IDs, owners, dispositions and evidence status."
+    },
+    {
+      "key": "platform:plan/swarm/VERIFICATION.md",
+      "path": "platform:plan/swarm/VERIFICATION.md",
+      "sha256": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+      "use": "Evidence and Tool acceptance profiles used by the reviewed fixtures."
+    },
+    {
+      "key": "sdk:CONTRACTS.md",
+      "path": "sdk:CONTRACTS.md",
+      "sha256": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+      "use": "Fixed v0 format, explicit resampling=none and interval/epoch contract."
+    },
+    {
+      "key": "sdk:README.md",
+      "path": "sdk:README.md",
+      "sha256": "4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35",
+      "use": "Host-owned sample-rate conversion and task-local PCM/resampling controls."
+    },
+    {
+      "key": "sdk:core/providers/speex/provider.cmake",
+      "path": "sdk:core/providers/speex/provider.cmake",
+      "sha256": "41637a4a5ec070ba4a67fd2792c60d700857b6656f25cf420aaa8748926a80cd",
+      "use": "Vendored resample.c compiled into a private object; no resampler API is exported."
+    },
+    {
+      "key": "sdk:core/providers/speex/speex_provider.c",
+      "path": "sdk:core/providers/speex/speex_provider.c",
+      "sha256": "d1a98e3aff897375db4f0fc7668329be5254faa361ccaba1635a5089ea8a71e6",
+      "use": "Speex NS provider uses fixed 16 kHz/mono/f32 frames and no resampling path."
+    },
+    {
+      "key": "sdk:third_party/speexdsp/UPSTREAM.md",
+      "path": "sdk:third_party/speexdsp/UPSTREAM.md",
+      "sha256": "3fc7e105de52b75abc65bae310de9066faabbdb7e13a17c3c9dd42f9f1f7bf1d",
+      "use": "Vendored SpeexDSP revision, provenance and source license notice."
+    },
+    {
+      "key": "sdk:third_party/speexdsp/libspeexdsp/resample.c",
+      "path": "sdk:third_party/speexdsp/libspeexdsp/resample.c",
+      "sha256": "c4ec3bc71fc4414d7ebd62fc745290c7b5b06b149a05dd70cf72553bc57c8c76",
+      "use": "Local source counterpart to the S42 upstream path; not an executable run."
+    },
+    {
+      "key": "sdk:docs/task-evidence/numpy-scipy-soundfile-wav-resampling/report.json",
+      "path": "sdk:docs/task-evidence/numpy-scipy-soundfile-wav-resampling/report.json",
+      "sha256": "091b57f366c1c5d4d395f955da7d237848bdc7564c970e1a087d423fb702f225",
+      "use": "Evaluated offline WAV/resampling Tool-profile fixture report."
+    },
+    {
+      "key": "sdk:docs/task-evidence/typed-frame-resample-and-drift-diagnostics/report.json",
+      "path": "sdk:docs/task-evidence/typed-frame-resample-and-drift-diagnostics/report.json",
+      "sha256": "81cfcb73343437b42991ec31565144b038eed2a44a95e1280ae8b03ba2128d64",
+      "use": "Source-local explicit conversion, delay and finite-tail model report."
+    },
+    {
+      "key": "sdk:docs/task-evidence/identity-pcm-and-noop-fixtures/README.md",
+      "path": "sdk:docs/task-evidence/identity-pcm-and-noop-fixtures/README.md",
+      "sha256": "16a2776cd8354651d8248039bd469b2ff76321f1c44d2ebe2813702ac3d94850",
+      "use": "Installed identity PCM/noop baseline and its adverse controls."
+    },
+    {
+      "key": "sdk:docs/task-evidence/quality-impairment-taxonomy/README.md",
+      "path": "sdk:docs/task-evidence/quality-impairment-taxonomy/README.md",
+      "sha256": "77ad10fae3e41a06adad6cee377616c73dd8d7d458a76c9297aa55d837afcbe5",
+      "use": "Survey precedent for taxonomy-only mapping and bounded feasibility handoff."
+    }
+  ],
+  "survey_owner": "agent-SURVEY-ENG-01",
+  "task_id": "SDK-SURVEY-ENG-01",
+  "title": "Framing, format conversion and resampling",
+  "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-SURVEY-ENG-01"
+}
