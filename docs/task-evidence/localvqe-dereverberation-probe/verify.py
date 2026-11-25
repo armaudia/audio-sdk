@@ -214,7 +214,7 @@ def check_content(errors: List[str],
     _eq(errors, "contract_reviewer_mismatch", contract.get("reviewer"),
         reference.REVIEWER)
     _eq(errors, "claim_worktree_mismatch",
-        report.get("claim", {}).get("worktree"), str(SDK_ROOT))
+        report.get("claim", {}).get("worktree"), reference.CLAIM_WORKTREE)
     _eq(errors, "claim_base_mismatch",
         report.get("claim", {}).get("base_commit"), reference.BASE_COMMIT)
 

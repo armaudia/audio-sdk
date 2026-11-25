@@ -261,14 +261,14 @@ pin itself.
 | `SOURCES.sha256.license` | `0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47` | 85 |
 | `contract.json` | `87218fabb13b5298ca81fb16cf06cba9ee9c0c1ca905371378e61236895f3021` | 12685 |
 | `contract.json.license` | `0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47` | 85 |
-| `reference.py` | `a136c8e9cbeb7789201b6d8847378cc528ff0da0c242cd3b09503ec1d6d0e5c0` | 72164 |
+| `reference.py` | `5618de9edf5e8a880eb4c849bf0141bf24bf3ab1c359c4019fcfe49a338ac6cb` | 72296 |
 | `report.json` | `8ce127dd2e3ac1982d0d6b7426facb2d5f4cbf26b937ae4ec5940301708ee9d8` | 23016 |
 | `report.json.license` | `0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47` | 85 |
 | `report.json.sha256` | `7e305ce5cbd4b2af17cb933b8f42c4f899115e1602dd47cdacb2b2babb01faeb` | 78 |
 | `report.json.sha256.license` | `0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47` | 85 |
 | `run.py` | `4cd63f9d33b68750362576ca01960d1faf7dca562f779921d77da346d15c9cd6` | 1992 |
 | `test_reference.py` | `b43988a934cf98c0903399537a75a2b9f373fc631605f6500a4c0e65f1bc63f1` | 25956 |
-| `verify.py` | `84dabc8165d7ff7b066ddd12a7cbe56e62ad61c01ff1fb38251d9633b01a1617` | 21573 |
+| `verify.py` | `7342854adbdeeba567ca44caf2f5aa8ce7395485d25e93dd4db0363cb59c1f86` | 21584 |
 <!-- DIGEST_TABLE_ARTIFACTS_END -->
 
 ## Reproduce

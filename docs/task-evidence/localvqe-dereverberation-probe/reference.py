@@ -38,6 +38,10 @@ TASK_PREFIX = f"docs/task-evidence/{SLUG}/"
 BASE_COMMIT = "ccb963f3b05519547328f647dfb0656170c3354b"
 BRANCH = f"swarm/{TASK}"
 REVIEWER = f"reviewer-{TASK.replace('SDK-', '')}"
+CLAIM_WORKTREE = (
+    "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/"
+    "SDK-LOCALVQE-DEREVERBERATION-PROBE"
+)
 SCHEMA_ID = f"audio-sdk/task-evidence/{SLUG}/report/0.1"
 CONTRACT_SCHEMA_ID = "audio-sdk/task-evidence-contract/0.1"
 PROFILE = "room"
@@ -1409,7 +1413,7 @@ def _report_body() -> Dict[str, Any]:
             "base_commit": BASE_COMMIT,
             "branch": BRANCH,
             "reviewer": REVIEWER,
-            "worktree": str(SDK_ROOT),
+            "worktree": CLAIM_WORKTREE,
         },
         "component_id": COMPONENT,
         "contract_sha256": sha256(canonical_bytes(contract_payload_value)),
