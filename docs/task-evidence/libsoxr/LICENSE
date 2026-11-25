@@ -1,0 +1,10 @@
+SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+SPDX-License-Identifier: Apache-2.0
+
+This task-local evidence package is licensed under Apache-2.0. The canonical
+license text is ../../../LICENSES/Apache-2.0.txt in this worktree.
+
+No libsoxr source, header, binary or upstream licence text is included. libsoxr
+is expected to be LGPL-2.1-or-later, but that upstream artifact and its licence
+text are absent from the workspace. See THIRD_PARTY_NOTICES.md for the exact
+blocker and the obligations that must be reviewed before any use.
