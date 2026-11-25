@@ -1,0 +1,33 @@
+{
+  "activation": "deferred_until_gates_clear",
+  "asset_present": false,
+  "caller_supplied_asset_required": true,
+  "default_selected": false,
+  "descriptor_registry_change": false,
+  "descriptor_settings": {},
+  "enabled_by_default": false,
+  "entrypoint": null,
+  "implemented": false,
+  "input_kind": "waveform_pair",
+  "installed_v0_behavior_change": false,
+  "modes": [
+    "streaming"
+  ],
+  "note": "Proposal-only task-local descriptor for the compact full joint AEC/noise/dereverberation boundary. It is not the shipped adapter, not a provider registration and not a public default.",
+  "output_kinds": [
+    "waveform"
+  ],
+  "provider_registration": false,
+  "public_api_abi_change": false,
+  "registered": false,
+  "requires_far_end_reference": true,
+  "schema_id": "audio-sdk/task-evidence/localvqe-compact-full/adapter/0.1",
+  "task_id": "SDK-LOCALVQE-COMPACT-FULL",
+  "task_local": true,
+  "tasks": [
+    "AEC",
+    "NS",
+    "DEREVERB"
+  ],
+  "weights": "caller_supplied_asset_required_not_present"
+}
