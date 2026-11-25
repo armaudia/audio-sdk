@@ -84,7 +84,6 @@ def build_contract() -> bytes:
             data = _read(name)
         artifact_pins[name] = digest_bytes(data)
 
-    workspace = reference.find_workspace()
     contract = {
         "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
         "SPDX-License-Identifier": "Apache-2.0",
@@ -114,8 +113,7 @@ def build_contract() -> bytes:
         "mutable_provenance": {
             "gate": False,
             "path": reference.BOARD_PATH,
-            "sha256_at_read": reference.sha256_file(workspace / reference.BOARD_PATH),
-            "note": "Board status is mutable; linked id/title/mode are gated in report.json.",
+            "note": "Board status is mutable and never hashed into canonical bytes; linked id/title/mode are gated in report.json.",
         },
         "license_sidecars": {
             "contract.json": "contract.json.license",

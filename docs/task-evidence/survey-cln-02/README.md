@@ -65,7 +65,9 @@ are scoping leads only: no processor is enabled, no capability is implemented,
 and no missing result is promoted. Other gaps link existing research-control or
 foundation rows for frozen masks, rights, listening, timing and provider
 intake. Board status is excluded from all gates; only linked `id`/`title`/
-`mode` are projected to a stable digest.
+`mode` are projected to a stable digest. The board file is referenced by path
+and never hashed into canonical bytes, so status edits elsewhere in the swarm
+cannot change this map or break its digest.
 
 ## Release boundary
 

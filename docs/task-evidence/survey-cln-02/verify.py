@@ -132,6 +132,7 @@ def _check_contract() -> None:
     _check("contract.json" not in contract["artifact_pins"], "contract pins itself")
     _check("SOURCES.sha256" not in contract["artifact_pins"], "contract pins SOURCES")
     _check(contract["mutable_provenance"]["gate"] is False, "mutable provenance is gated")
+    _check("sha256_at_read" not in contract["mutable_provenance"], "mutable board hash is gated")
 
 
 def _check_report() -> str:
@@ -162,6 +163,7 @@ def _check_report() -> str:
     )
     _check(report["source_pins"] == reference.SOURCE_PINS, "report source pins")
     _check(report["boundary_pins"] == reference.WORKTREE_PINS, "report boundary pins")
+    _check("sha256_at_read" not in report["mutable_provenance"], "mutable board hash is gated")
     _check(report["evidence_classes"]["new_execution_in_this_survey"] is False, "new execution claim")
     _check(report["evidence_classes"]["parity_or_qualification_claim"] is False, "parity/qualification claim")
     _check(

@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import copy
 import os
 import subprocess
 import sys
@@ -125,6 +126,25 @@ class MappingTests(unittest.TestCase):
         text += " " + " ".join(row["class"] for row in self.report["comparison_inputs"])
         self.assertNotIn("predictive", text)
         self.assertNotIn("preservation", text)
+
+    def test_board_status_edits_do_not_change_canonical_bytes(self):
+        original = reference.strict_json_load
+
+        def mutated(path):
+            data = original(path)
+            if Path(path).name == "TASKS.json":
+                data = copy.deepcopy(data)
+                for task in data["tasks"]:
+                    task["status"] = "blocked"
+                    task["owner"] = "another-agent"
+            return data
+
+        with mock.patch.object(reference, "strict_json_load", mutated):
+            rebuilt = reference.build_report()
+        self.assertEqual(
+            reference.canonical_bytes(rebuilt), reference.canonical_bytes(self.report)
+        )
+        self.assertNotIn("sha256_at_read", rebuilt["mutable_provenance"])
 
     def test_historical_executions_link_censused_components(self):
         census = {row["component_id"] for row in self.report["component_census"]}

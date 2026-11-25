@@ -1047,8 +1047,7 @@ def _build_report(workspace: Optional[str] = None, sdk_root: Optional[str] = Non
         "mutable_provenance": {
             "gate": False,
             "path": BOARD_PATH,
-            "sha256_at_read": sha256_file(ws / BOARD_PATH),
-            "note": "Board status is mutable; only id/title/mode of linked rows are gated by board_link_projection_sha256.",
+            "note": "Board status is mutable and the file is never hashed into canonical bytes; only id/title/mode of linked rows are gated by board_link_projection_sha256.",
         },
         "source_pins": dict(SOURCE_PINS),
         "boundary_pins": dict(WORKTREE_PINS),
