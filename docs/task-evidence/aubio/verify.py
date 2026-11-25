@@ -32,7 +32,9 @@ SIDECAR = HERE / "report.json.sha256"
 PINS = HERE / "SOURCES.sha256"
 VERIFICATION = (reference.AUDIO_ROOT
                 / "audio-benchmark-platform/plan/swarm/VERIFICATION.md")
+# REUSE-IgnoreStart
 SPDX_LICENSE = "SPDX-License-Identifier: Apache-2.0"
+# REUSE-IgnoreEnd
 SPDX_COPYRIGHT = "SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes"
 SIDECARS = (
     "SOURCES.sha256.license",
@@ -333,7 +335,10 @@ def check_licensing(errors: list[str]) -> None:
         if SPDX_LICENSE not in text or SPDX_COPYRIGHT not in text:
             errors.append("missing_license_sidecar:" + name)
     reuse = (SDK_ROOT / "REUSE.toml").read_text(encoding="utf-8")
-    if '"docs/**"' not in reuse or 'SPDX-License-Identifier = "Apache-2.0"' not in reuse:
+    # REUSE-IgnoreStart
+    reuse_token = 'SPDX-License-Identifier = "Apache-2.0"'
+    # REUSE-IgnoreEnd
+    if '"docs/**"' not in reuse or reuse_token not in reuse:
         errors.append("reuse_docs_coverage_missing")
     for path in sorted(HERE.iterdir()):
         if path.suffix.lower() in FORBIDDEN_SUFFIXES:

@@ -384,6 +384,7 @@ class DeterminismAndPackageTests(unittest.TestCase):
         self.assertEqual(len(lines), len(expected))
 
     def test_licensing_sidecars_and_python_headers(self):
+        # REUSE-IgnoreStart
         for path in sorted(HERE.glob("*.py")):
             head = "\n".join(path.read_text(encoding="utf-8").splitlines()[:4])
             self.assertIn("SPDX-License-Identifier: Apache-2.0", head, path.name)
@@ -395,6 +396,7 @@ class DeterminismAndPackageTests(unittest.TestCase):
             text = (HERE / name).read_text(encoding="utf-8")
             self.assertIn("SPDX-License-Identifier: Apache-2.0", text, name)
             self.assertIn("SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes", text, name)
+        # REUSE-IgnoreEnd
 
     def test_scope_is_task_local(self):
         result = subprocess.run(
