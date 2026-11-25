@@ -1,0 +1,97 @@
+{
+  "schema_id": "audio-sdk/webrtc-apm-ns/0.1",
+  "contract_version": "0.1",
+  "task": "SDK-WEBRTC-APM-NS",
+  "component": "webrtc-apm-ns",
+  "status": "proposal_only_not_qualified",
+  "completeness": "incomplete",
+  "verification_profile": "enhancement",
+  "public_surface_change": false,
+  "installed_behavior_change": false,
+  "descriptor_default_change": false,
+  "format": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160
+  },
+  "public_boundary": {
+    "header": "api/include/audio_sdk/provider_v0.h",
+    "session_header": "api/include/audio_sdk/session_v0.h",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "registration": "none; task-local protocol-v1-shaped Python adapter only"
+  },
+  "provider": {
+    "provider_id": "enh.webrtc-apm-ns.synthetic.v0",
+    "implementation_id": "webrtc-apm-ns.synthetic.reference",
+    "implementation_version": "0.1.0-proposal",
+    "execution_modes": [],
+    "required_assets": [],
+    "buffering_delay_samples": 0,
+    "native_hop_samples": 160,
+    "max_drain_calls": 1,
+    "descriptor_settings": {}
+  },
+  "reference": {
+    "candidate": "webrtc_ns_l2",
+    "baseline": "spectral_subtraction",
+    "control": "noisy_identity",
+    "noise_calibration_frames": 10,
+    "fft_size": 256,
+    "causal": true,
+    "model_weights": false,
+    "downloads": false,
+    "real_speech": false,
+    "webrtc_runtime": false,
+    "target_device_timing": false
+  },
+  "source_pins": {
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245",
+    "research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+    "adapters/webrtc-ns/adapter.json": "42aac7a2a0f5709e24785eb87d5922fdd30cabadd54336604ff739dc70fa874a",
+    "research/noise_suppression_assets_20261027.json": "35f871e7d7362070c20fa35a5832115ea5388ffae550be3b25368a72bf5cebf4",
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
+  },
+  "boundary_pins": {
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "board_snapshot": {
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "b3e8aa913076c0b0496756cdbd1b717cc9f7e65206824198b33278e70c935294",
+    "mutable": true,
+    "qualifies_evidence": false
+  },
+  "invariants": [
+    "Installed v0 remains 16 kHz mono float32, 160 samples; no ABI, registry, descriptor, default or public API change.",
+    "No C boundary is included; the Python adapter is unregistered, opt-in and cannot be promoted.",
+    "Synthetic paired SI-SDR/STOI-style scores, noisy/clean controls and a task-matched spectral-subtraction baseline are present.",
+    "Invalid, missing, nonfinite and stale cases are explicit; no missing result qualifies a variant.",
+    "Timing, memory and alignment values are analytic or frame-index based and explicitly not target-device measurements.",
+    "All evidence is synthetic scoped; no authoritative WebRTC APM NS result, listening test or release claim is made."
+  ],
+  "source_evidence_statements": [
+    "candidate_matrix.csv: NS levels 1-3 were evaluated in AEC challenge pilots; WebRTC NS levels 0-3 were measured as four separate settings on 30 DNS pairs.",
+    "noise_suppression_candidate_census.md: WebRTC Audio Processing NS is a stateful frame API with no model files; the pinned adapter is integration-scope evidence only.",
+    "noise_suppression_assets_20261027.json record 3: code Apache-2.0, no model assets; no code, wheel or runtime was acquired here.",
+    "REALTIME_COMPONENT_CANDIDATES.md: higher NS levels improved suppression while increasing distortion on the historical pilot; that finding is not reproduced here.",
+    "VERIFICATION.md enhancement profile is applied with synthetic paired scoring and separate predictive-screen labeling."
+  ],
+  "release_gates": [
+    "Held-out real-speech paired SI-SDR/STOI with rights-cleared corpora",
+    "Authorized listening or MOS assessment on the exact runtime",
+    "Real WebRTC APM build, version, settings and license verification",
+    "Target-device content/availability timing, memory and deadline measurement",
+    "Provider intake, descriptor, catalog and public-surface review"
+  ],
+  "decision": {
+    "disposition": "DEFER",
+    "expose_as_processor": false,
+    "registered": false,
+    "default_enabled": false,
+    "promote": false,
+    "release_claim": false
+  }
+}
