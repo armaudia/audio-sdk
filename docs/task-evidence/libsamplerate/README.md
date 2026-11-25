@@ -245,8 +245,8 @@ All eight are **blocked**; none is satisfied by this package:
 
 ## Final digests
 
-- `report.json` SHA-256: `18f723135d248631d8cc62c204c05a80fc7f4c7eb4f112d26caed7d98847d1ff`
-- Canonical report digest: `6f17aa0c0e6841719b024519c81cf4c9c812a3e1a9c4b3014f58ad2f700c172c`
+- `report.json` SHA-256: `c7453cf5e5d1a292118fe9a31340d10e0f9324631925e0246a21069d412a30cc`
+- Canonical report digest: `a7fb2c8e23fc826a2be8ab1499311030fbaeb3fa9b830c7650c90454245ac21f`
 - Frozen synthetic fixture digest: `d159c2bf0c0d88a7165df1dba1c8901772e0a275276d7571917bbf72b0def907`
 - Board link identity projection: `53cfb69425d0a88526dfbba70e3742ba0ae2c6ed14818ee3f04cc2028025ce11`
 - Base commit: `8defcae2b153b52668c93791463497ea261b7fb1`
