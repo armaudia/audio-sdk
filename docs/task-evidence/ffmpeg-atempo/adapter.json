@@ -1,0 +1,29 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX\u002dLicense-Identifier": "Apache-2.0",
+  "protocol_version": 1,
+  "identity": "ffmpeg-atempo-task-local-evidence-v1",
+  "boundary_identity": "audio-sdk-provider-v0-header-only",
+  "local_reference_identity": "ffmpeg-atempo-synthetic-ola-reference-v1",
+  "input_kind": "synthetic_integer_pcm_ticks_16khz_mono",
+  "output_kinds": ["synthetic_rate_changed_pcm_frames", "task_local_report"],
+  "tasks": ["time_scale_modification_rate_change_evidence"],
+  "modes": ["task_local_synthetic_reference_only"],
+  "configuration": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "analysis_hop_samples": 160,
+    "window_samples": 640,
+    "output_frame_samples": 160,
+    "rate_range_num_den": "0.5..2.0 rational"
+  },
+  "entrypoint": "python3 run.py --report",
+  "supported_formats": ["16 kHz mono integer PCM ticks, 160-sample SDK framing"],
+  "asset_readiness": [],
+  "registration": "unregistered_proposal_only",
+  "processor_exposure": false,
+  "real_ffmpeg_runtime_used": false,
+  "numeric_parity_with_ffmpeg": false,
+  "status": "proposal_only_not_qualified",
+  "decision": "DEFER"
+}
