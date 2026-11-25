@@ -1,0 +1,823 @@
+{
+  "adverse": {
+    "all_invalid_cases_rejected": true,
+    "all_rejected": true,
+    "config_rejections": {
+      "absent_file": {
+        "reason": "asset_file_missing:library",
+        "status": "rejected"
+      },
+      "all_fail_closed": true,
+      "all_present": true,
+      "hash_mismatch": {
+        "reason": "asset_hash_mismatch:library",
+        "status": "rejected"
+      },
+      "missing_manifest": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "valid_manifest": {
+        "executed": false,
+        "loaded": false,
+        "status": "validated",
+        "verified": true
+      },
+      "wrong_channels": {
+        "reason": "asset_channels_mismatch",
+        "status": "rejected"
+      },
+      "wrong_frame_size": {
+        "reason": "asset_frame_samples_mismatch",
+        "status": "rejected"
+      },
+      "wrong_sample_rate": {
+        "reason": "asset_sample_rate_mismatch",
+        "status": "rejected"
+      },
+      "wrong_source_commit": {
+        "reason": "asset_source_commit_mismatch",
+        "status": "rejected"
+      }
+    },
+    "frame_rejections": {
+      "all_fail_closed": true,
+      "all_present": true,
+      "missing_reference": {
+        "reason": "missing_reference_or_output",
+        "status": "invalid",
+        "value": null
+      },
+      "nonfinite_input": {
+        "reason": "nonfinite_input",
+        "status": "rejected"
+      },
+      "short_input": {
+        "reason": "input_length_mismatch",
+        "status": "rejected"
+      },
+      "silence_output": {
+        "finite": true,
+        "peak_abs": 0.0,
+        "status": "pass"
+      },
+      "state_unchanged_after_rejection": true,
+      "truncated_output": {
+        "reason": "length_mismatch",
+        "status": "rejected"
+      },
+      "two_dimensional_input": {
+        "reason": "input_not_mono",
+        "status": "rejected"
+      }
+    },
+    "valid_manifest_control_present": true
+  },
+  "alignment": {
+    "asset_delay_at_public_rate_samples": 160,
+    "asset_frame_delay_samples": 480,
+    "compensated_impulse_index": 4000,
+    "delay_compensation_applied": true,
+    "expected_impulse_index": 4000,
+    "measured_content_lag_samples": 0,
+    "raw_interval": [
+      0,
+      32000
+    ],
+    "sdk_callback_invoked": false,
+    "source_interval": [
+      0,
+      32000
+    ],
+    "uncompensated_impulse_index": 4160,
+    "valid_output_samples": 32000
+  },
+  "asset_pins": {
+    "data/checkouts/RNNoise/COPYING": "45d37ca1cdb278c088e1aa85e0e65ca3a534ed86a28dcc96ca16810248a61d35",
+    "data/checkouts/RNNoise/README": "87fc8de7620259a3200be2012e7c77fc9383997d3224318451eaded27691754f",
+    "data/checkouts/RNNoise/include/rnnoise.h": "15ca0f5c0db9dfa48907e91a32995d37e57552b0e14fef5ebb8d3dc073528f83",
+    "data/checkouts/RNNoise/model_version": "07bebd6ed8f6f97095cc9382122c7113c6e9ad0e22773cca33679c3df1ef901a",
+    "data/checkouts/RNNoise/rnnoise_data-0a8755f8e2d834eff6a54714ecc7d75f9932e845df35f8b59bc52a7cfe6e8b37.tar.gz": "0a8755f8e2d834eff6a54714ecc7d75f9932e845df35f8b59bc52a7cfe6e8b37",
+    "data/checkouts/RNNoise/src/celt_lpc.c": "58eca412376dfd954f4940709df521cf1d2cbee1b7ca2b166bd0bffbda2c5b8d",
+    "data/checkouts/RNNoise/src/denoise.c": "f12ac3cc97d798cdfd7c7bd4366a08a72c5516c382056c891b61a61cb17eb031",
+    "data/checkouts/RNNoise/src/kiss_fft.c": "2a9f9ee0d961ec6516864477640d78aedbf1c3ecbe1680727b4b93d486c09679",
+    "data/checkouts/RNNoise/src/nnet.c": "3a2c1dc09ad7e9dfe3cf32cfb94694935dc462488da8f513d1f308db39f7c087",
+    "data/checkouts/RNNoise/src/pitch.c": "cfe6f5ffb4b5f5967ce2e64f22cc978c1f8196eecdb2fa532d4dd1ff56f6ca58",
+    "data/checkouts/RNNoise/src/rnn.c": "c40bbe40082448005873fe970d8963870ab2c9993b7c38d6939ca48f4f31a7bd",
+    "data/checkouts/RNNoise/src/rnnoise_data.c": "d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5",
+    "data/checkouts/RNNoise/src/rnnoise_data.h": "09ff880bddd0fc74a2ae0e5ec6c8d65714031b08d0c3f672493acd9e189c5855",
+    "data/checkouts/RNNoise/src/rnnoise_data_little.c": "eea1aa6fd8726d161876508a6f7d79022bf6ec82508660b4c1ac27c4f9b76c04",
+    "data/checkouts/RNNoise/src/rnnoise_tables.c": "f81353479c6f8912755a4cf5838590c36ba2c523a4a438e4f949743fb4945623",
+    "scripts/build_rnnoise.sh": "d39acd38a371f73cbe59d2b08584f87c885f6dd99025289ef81ddec1ec31eacd"
+  },
+  "asset_resolution": {
+    "executed": false,
+    "library_present_in_sdk_worktree": false,
+    "loaded": false,
+    "manifest_present": false,
+    "model_archive_present_in_external_checkout": true,
+    "model_archive_present_in_sdk_worktree": false,
+    "reason": "caller_supplied_runtime_absent_and_rights_unresolved",
+    "requested": false,
+    "runtime_library_expected_path": "data/envs/rnnoise/librnnoise.dylib",
+    "runtime_library_expected_sha256": "3d552b136eb4d80fa697093c7258cc51314f904a56b53a9f46e54b523fef63b4",
+    "runtime_library_present": false,
+    "surrogate_used": true,
+    "verified": false
+  },
+  "availability": {
+    "availability_serialization": "decimal string",
+    "clock_id": "fixture-monotonic-not-device",
+    "first_available_ns": "1767225600020000000",
+    "formula": "available_ns = origin_ns + (public_frame_end + lookahead_public_samples) * ns_per_public_sample",
+    "last_available_ns": "1767225602010000000",
+    "lookahead_public_samples": 160,
+    "measured": false,
+    "monotonic_nondecreasing": true,
+    "ns_per_public_sample": 62500,
+    "origin_ns": "1767225600000000000",
+    "signal_timestamp_is_not_availability": true
+  },
+  "base_commit": "6f58f3d721908806f8c4a0a1e0dc6de846cef54c",
+  "boundary": {
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "registered": false,
+    "shared_cmakelists_change": false
+  },
+  "boundary_pins": {
+    "CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "REUSE.toml": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "scripts/ci.py": "64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f"
+  },
+  "branch": "swarm/SDK-RNNOISE-V0-2",
+  "caller_supplied_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/rnnoise-v0-2/caller-supplied-asset/0.1",
+    "pinned_values": {
+      "channels": 1,
+      "frame_samples": 480,
+      "sample_rate_hz": 48000,
+      "source_commit": "70f1d256acd4b34a572f999a05c87bf00b67730d"
+    },
+    "present_behavior": "validate_hashes_and_geometry_only; do_not_load_or_execute_in_this_package",
+    "required_fields": [
+      "channels",
+      "frame_samples",
+      "library_path",
+      "library_sha256",
+      "model_archive_path",
+      "model_archive_sha256",
+      "sample_rate_hz",
+      "source_commit"
+    ],
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "library_path and model_archive_path are caller-owned absolute paths",
+      "SHA-256 of both files matches the manifest",
+      "source_commit equals the pinned Xiph revision",
+      "sample rate, channels and frame size equal 48 kHz mono 480-sample geometry",
+      "no download, copy, build, load or execution occurs in this package"
+    ]
+  },
+  "comparison": {
+    "established_task_matched_baseline_reproduced": false,
+    "identity_control": "noisy_input_identity",
+    "provider": "frame-rms-gate-boundary-surrogate-v0",
+    "quality_pass": false,
+    "quality_pass_reason": "No RNNoise runtime or rights-cleared real cohort; the surrogate is a boundary conformance fixture and its synthetic metrics are not a quality claim.",
+    "regression_count": 1,
+    "source_reported_rnnoise_pilot_used_for_qualification": false
+  },
+  "component_id": "rnnoise-v0-2",
+  "conditions": {
+    "clean_only": {
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.5,
+        "samples": 32000,
+        "waveform_sha256": "e06d36f6aab3780d930abf33d90e98a5080170848099bf3b1510b48b8eaca880"
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.50063,
+        "samples": 32000,
+        "waveform_sha256": "bf024419e584871ef89ce851d7d78b9165561c4c64bb5f0ecd5df38a146aeb1c"
+      },
+      "preservation": {
+        "rms_gain_ratio": 1.000541
+      },
+      "si_sdr_db": {
+        "identity_invalid_reason": "zero_error_identity_exact",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 63.819335
+      },
+      "stoi": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 1.0,
+        "paired_delta": 0.0,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 1.0
+      },
+      "surrogate_gate": {
+        "delay_compensated": true,
+        "frame_count": 200,
+        "max_gain": 1.0,
+        "mean_gain": 1.0,
+        "min_gain": 1.0,
+        "noise_estimate": 0.0,
+        "threshold": 0.0
+      }
+    },
+    "noise_only": {
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.207095,
+        "samples": 32000,
+        "waveform_sha256": "09c0b366638f7a3d2ccc875de03510034c64b5d063da640be5239cee8f5cbe0c"
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.038912,
+        "samples": 32000,
+        "waveform_sha256": "c18c6cba108a1ec2cac953fb51996900bd405540f36165381da879266b1ee672"
+      },
+      "preservation": {
+        "rms_gain_ratio": 0.1507
+      },
+      "si_sdr_db": {
+        "identity_invalid_reason": "zero_reference_energy",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "zero_reference_energy",
+        "provider_surrogate": null
+      },
+      "stoi": {
+        "identity_invalid_reason": "zero_reference",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "zero_reference",
+        "provider_surrogate": null
+      },
+      "surrogate_gate": {
+        "delay_compensated": true,
+        "frame_count": 200,
+        "max_gain": 0.2775,
+        "mean_gain": 0.15075,
+        "min_gain": 0.15,
+        "noise_estimate": 1677.221376,
+        "threshold": 3354.442752
+      }
+    },
+    "noisy_snr0": {
+      "input": {
+        "clipped_or_nonfinite": 12,
+        "finite": true,
+        "peak_abs": 1.124402,
+        "samples": 32000,
+        "waveform_sha256": "b823e8c39143e5dfdf2a9bcbec2cae523155601a874c3c7e8d34b75b92055961"
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.168914,
+        "samples": 32000,
+        "waveform_sha256": "bfbdecc076710445a482e42fc1633e8f24d340622c7e48cd81883c35d8c61241"
+      },
+      "preservation": {
+        "rms_gain_ratio": 0.150393
+      },
+      "si_sdr_db": {
+        "identity_invalid_reason": null,
+        "identity_noisy": -0.005345,
+        "paired_delta": -0.035878,
+        "provider_invalid_reason": null,
+        "provider_surrogate": -0.041223
+      },
+      "stoi": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 0.492285,
+        "paired_delta": -2e-06,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 0.492283
+      },
+      "surrogate_gate": {
+        "delay_compensated": true,
+        "frame_count": 200,
+        "max_gain": 0.2775,
+        "mean_gain": 0.15075,
+        "min_gain": 0.15,
+        "noise_estimate": 6502.001226,
+        "threshold": 13004.002451
+      }
+    },
+    "noisy_snr10": {
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.67137,
+        "samples": 32000,
+        "waveform_sha256": "d5f1fe4fdfa5895268958ef8b457943de5cdc9a1c111ce67745146fa4bbd0b38"
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.64965,
+        "samples": 32000,
+        "waveform_sha256": "352d2a6e8bf0a69150859cc75a3458aa40d6c6204a9cc32442af4f7f4b03cf60"
+      },
+      "preservation": {
+        "rms_gain_ratio": 0.975238
+      },
+      "si_sdr_db": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 10.008793,
+        "paired_delta": 1.197664,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 11.206457
+      },
+      "stoi": {
+        "identity_invalid_reason": null,
+        "identity_noisy": 0.707915,
+        "paired_delta": 0.02457,
+        "provider_invalid_reason": null,
+        "provider_surrogate": 0.732485
+      },
+      "surrogate_gate": {
+        "delay_compensated": true,
+        "frame_count": 200,
+        "max_gain": 1.0,
+        "mean_gain": 0.731,
+        "min_gain": 0.15,
+        "noise_estimate": 2114.352444,
+        "threshold": 4228.704887
+      }
+    },
+    "silence": {
+      "input": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.0,
+        "samples": 32000,
+        "waveform_sha256": "eec19bc6af0b3b6dfb97a08782c65f4bb3c3203e789a015d2008b0d689ad08be"
+      },
+      "output": {
+        "clipped_or_nonfinite": 0,
+        "finite": true,
+        "peak_abs": 0.0,
+        "samples": 32000,
+        "waveform_sha256": "eec19bc6af0b3b6dfb97a08782c65f4bb3c3203e789a015d2008b0d689ad08be"
+      },
+      "preservation": {
+        "rms_gain_ratio": null
+      },
+      "si_sdr_db": {
+        "identity_invalid_reason": "zero_reference_energy",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "zero_reference_energy",
+        "provider_surrogate": null
+      },
+      "stoi": {
+        "identity_invalid_reason": "zero_reference",
+        "identity_noisy": null,
+        "paired_delta": null,
+        "provider_invalid_reason": "zero_reference",
+        "provider_surrogate": null
+      },
+      "surrogate_gate": {
+        "delay_compensated": true,
+        "frame_count": 200,
+        "max_gain": 1.0,
+        "mean_gain": 1.0,
+        "min_gain": 1.0,
+        "noise_estimate": 0.0,
+        "threshold": 0.0
+      }
+    }
+  },
+  "contract_sha256": "05d536b68d50d9b913b3c1391bcad656bb7c1b05b5e8586a1cfd97e327b67297",
+  "controls": {
+    "caller_asset": {
+      "absent_file": {
+        "reason": "asset_file_missing:library",
+        "status": "rejected"
+      },
+      "all_fail_closed": true,
+      "all_present": true,
+      "hash_mismatch": {
+        "reason": "asset_hash_mismatch:library",
+        "status": "rejected"
+      },
+      "missing_manifest": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "valid_manifest": {
+        "executed": false,
+        "loaded": false,
+        "status": "validated",
+        "verified": true
+      },
+      "wrong_channels": {
+        "reason": "asset_channels_mismatch",
+        "status": "rejected"
+      },
+      "wrong_frame_size": {
+        "reason": "asset_frame_samples_mismatch",
+        "status": "rejected"
+      },
+      "wrong_sample_rate": {
+        "reason": "asset_sample_rate_mismatch",
+        "status": "rejected"
+      },
+      "wrong_source_commit": {
+        "reason": "asset_source_commit_mismatch",
+        "status": "rejected"
+      }
+    },
+    "frame": {
+      "all_fail_closed": true,
+      "all_present": true,
+      "missing_reference": {
+        "reason": "missing_reference_or_output",
+        "status": "invalid",
+        "value": null
+      },
+      "nonfinite_input": {
+        "reason": "nonfinite_input",
+        "status": "rejected"
+      },
+      "short_input": {
+        "reason": "input_length_mismatch",
+        "status": "rejected"
+      },
+      "silence_output": {
+        "finite": true,
+        "peak_abs": 0.0,
+        "status": "pass"
+      },
+      "state_unchanged_after_rejection": true,
+      "truncated_output": {
+        "reason": "length_mismatch",
+        "status": "rejected"
+      },
+      "two_dimensional_input": {
+        "reason": "input_not_mono",
+        "status": "rejected"
+      }
+    },
+    "identity": {
+      "baseline": "noisy_input_identity",
+      "description": "unprocessed input is the identity/noisy control",
+      "status": "present"
+    }
+  },
+  "decision": "DEFER",
+  "defer_before": "opt_in_adapter_exposure",
+  "evidence_classes": {
+    "independent_listening": "none",
+    "real_audio_rights_qualified": "none; no result qualifies a candidate",
+    "source_reported": "Pinned research values retained as provenance only; not reproduced, pooled or used as thresholds.",
+    "synthetic_surrogate": "Deterministic model-free boundary surrogate on synthetic stimuli; no RNNoise asset, real audio or device.",
+    "target_runtime": "none"
+  },
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    "The exact RNNoise v0.2 source, model archive and model_version are pinned by SHA-256 from the external Xiph checkout, but the compiled runtime library expected at data/envs/rnnoise/librnnoise.dylib is absent and no caller-supplied asset manifest is present in this SDK worktree; the exact runtime cannot be loaded or reproduced here.",
+    "The upstream RNNoise source is BSD-3-Clause, but separate pretrained model/archive terms, product-use and redistribution rights, and training-data provenance are not established; no legal review exists. No asset was downloaded, copied, built, vendored or redistributed.",
+    "Only a deterministic model-free boundary surrogate was executed. It is not RNNoise, has no neural network or weights, and its paired synthetic SI-SDR/STOI values are boundary-conformance observations, not a quality, real-audio, listening, device-timing or benchmark result.",
+    "No rights-cleared real cohort, independent listening, target-runtime timing/memory, native streaming integration, opt-in provider intake, descriptor/registry review or public default decision exists; every release gate remains blocked."
+  ],
+  "format": {
+    "asset_channels": 1,
+    "asset_frame_duration_ms": 10,
+    "asset_frame_samples": 480,
+    "asset_sample_rate_hz": 48000,
+    "public_channels": 1,
+    "public_frame_samples": 160,
+    "public_sample_format": "f32",
+    "public_sample_rate_hz": 16000,
+    "public_v0_geometry_preserved": true,
+    "sdk_callback_invoked": false,
+    "window_frames": 200,
+    "window_samples": 32000
+  },
+  "gates": [
+    {
+      "name": "caller_supplied_asset_present_and_verified",
+      "reopen_condition": "Place the caller-owned 48 kHz RNNoise library and model archive in the worktree (or supply them through the manifest) with hashes and source commit matching the pins.",
+      "status": "blocked"
+    },
+    {
+      "name": "model_archive_and_runtime_rights",
+      "reopen_condition": "Establish separate model/archive redistribution and product-use rights; BSD-3-Clause source licensing alone is insufficient.",
+      "status": "blocked"
+    },
+    {
+      "name": "exact_runtime_reproduction",
+      "reopen_condition": "Build or load the exact pinned RNNoise runtime and reproduce the source-reported pilot outputs without downloading weights or using uncleared real audio.",
+      "status": "blocked"
+    },
+    {
+      "name": "native_streaming_boundary",
+      "reopen_condition": "Verify the native 48 kHz / 480-sample streaming boundary, delay, flush behavior and caller-facing conformance; the public adapter is currently offline only.",
+      "status": "blocked"
+    },
+    {
+      "name": "real_cohort",
+      "reopen_condition": "Score a rights-cleared held-out real speech cohort with exact clean references and stratified failure accounting.",
+      "status": "blocked"
+    },
+    {
+      "name": "independent_listening",
+      "reopen_condition": "Collect independent listening or preference labels; synthetic metrics cannot qualify.",
+      "status": "blocked"
+    },
+    {
+      "name": "target_runtime_timing_memory",
+      "reopen_condition": "Measure content/availability timing, memory and deadlines on the exact target runtime.",
+      "status": "blocked"
+    },
+    {
+      "name": "opt_in_adapter_intake",
+      "reopen_condition": "Complete rights review and opt-in adapter intake before any descriptor or provider registration.",
+      "status": "blocked"
+    },
+    {
+      "name": "public_default_selection",
+      "reopen_condition": "Record an explicit public default decision; the candidate is currently unregistered and OFF.",
+      "status": "blocked"
+    }
+  ],
+  "licensing_analysis": {
+    "asset_copied_vendored_built_or_downloaded": false,
+    "blocked_gate": "model_archive_and_runtime_rights",
+    "conclusion": "BSD-3-Clause source licensing is pinned. Separate model/archive terms, product-use and redistribution rights, and training-data provenance are not cleared. This package distributes no upstream asset.",
+    "legal_review_completed": false,
+    "model_archive_redistribution_clearance": false,
+    "model_archive_terms": "not established; the repository source license does not by itself establish separate pretrained-model, archive or training-data rights.",
+    "product_use_clearance": false,
+    "task_files_license": "Apache-2.0",
+    "training_data_provenance_established": false,
+    "upstream_license_file": "data/checkouts/RNNoise/COPYING",
+    "upstream_license_scope": "Xiph RNNoise source snapshot at the pinned commit; BSD-3-Clause notice obligations apply to redistribution of the source or binary.",
+    "upstream_license_sha256": "45d37ca1cdb278c088e1aa85e0e65ca3a534ed86a28dcc96ca16810248a61d35",
+    "upstream_license_text_pinned": true,
+    "upstream_repository_license": "BSD-3-Clause"
+  },
+  "missing_evidence": [
+    "caller-supplied RNNoise library present and SHA-256-verified in this SDK worktree",
+    "RNNoise model archive present in this SDK worktree (externally present, not copied)",
+    "separate model/archive and runtime redistribution/product-use rights clearance",
+    "exact RNNoise runtime reproduction and an approved reference-output vector",
+    "native 48 kHz / 480-sample streaming boundary, delay and flush evidence",
+    "rights-cleared held-out real speech cohort with exact clean references",
+    "independent listening or preference labels",
+    "target-runtime content/availability timing, memory and deadline evidence",
+    "opt-in adapter intake, descriptor and catalog review",
+    "explicit public default selection"
+  ],
+  "model_provenance": {
+    "build_script": {
+      "executed_by_this_package": false,
+      "path": "scripts/build_rnnoise.sh",
+      "sha256": "d39acd38a371f73cbe59d2b08584f87c885f6dd99025289ef81ddec1ec31eacd"
+    },
+    "candidate": "RNNoise v0.2",
+    "model_archive": {
+      "bytes": 58603099,
+      "copied_or_vendored": false,
+      "downloaded_by_this_package": false,
+      "loaded_or_executed": false,
+      "path": "data/checkouts/RNNoise/rnnoise_data-0a8755f8e2d834eff6a54714ecc7d75f9932e845df35f8b59bc52a7cfe6e8b37.tar.gz",
+      "present_in_external_checkout": true,
+      "present_in_sdk_worktree": false,
+      "sha256": "0a8755f8e2d834eff6a54714ecc7d75f9932e845df35f8b59bc52a7cfe6e8b37"
+    },
+    "model_version": "0a8755f8e2d834eff6a54714ecc7d75f9932e845df35f8b59bc52a7cfe6e8b37",
+    "model_version_file": "data/checkouts/RNNoise/model_version",
+    "model_version_sha256": "07bebd6ed8f6f97095cc9382122c7113c6e9ad0e22773cca33679c3df1ef901a",
+    "public_adapter": {
+      "declared_modes": [
+        "offline"
+      ],
+      "declared_output_kinds": [
+        "waveform"
+      ],
+      "declared_tasks": [
+        "CLN-01"
+      ],
+      "declared_weights": "embedded_verified_local_model",
+      "executed_by_this_package": false,
+      "path": "adapters/rnnoise",
+      "present_in_research_workspace": true,
+      "present_in_sdk_worktree": false,
+      "source_commit": "70f1d256acd4b34a572f999a05c87bf00b67730d"
+    },
+    "runtime_library": {
+      "built_by_this_package": false,
+      "expected_path": "data/envs/rnnoise/librnnoise.dylib",
+      "expected_sha256": "3d552b136eb4d80fa697093c7258cc51314f904a56b53a9f46e54b523fef63b4",
+      "loaded_or_executed": false,
+      "present": false
+    },
+    "source_files": {
+      "include/rnnoise.h": "15ca0f5c0db9dfa48907e91a32995d37e57552b0e14fef5ebb8d3dc073528f83",
+      "src/celt_lpc.c": "58eca412376dfd954f4940709df521cf1d2cbee1b7ca2b166bd0bffbda2c5b8d",
+      "src/denoise.c": "f12ac3cc97d798cdfd7c7bd4366a08a72c5516c382056c891b61a61cb17eb031",
+      "src/kiss_fft.c": "2a9f9ee0d961ec6516864477640d78aedbf1c3ecbe1680727b4b93d486c09679",
+      "src/nnet.c": "3a2c1dc09ad7e9dfe3cf32cfb94694935dc462488da8f513d1f308db39f7c087",
+      "src/pitch.c": "cfe6f5ffb4b5f5967ce2e64f22cc978c1f8196eecdb2fa532d4dd1ff56f6ca58",
+      "src/rnn.c": "c40bbe40082448005873fe970d8963870ab2c9993b7c38d6939ca48f4f31a7bd",
+      "src/rnnoise_data.c": "d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5",
+      "src/rnnoise_data_little.c": "eea1aa6fd8726d161876508a6f7d79022bf6ec82508660b4c1ac27c4f9b76c04",
+      "src/rnnoise_tables.c": "f81353479c6f8912755a4cf5838590c36ba2c523a4a438e4f949743fb4945623"
+    },
+    "training_data_provenance": "not established in this package",
+    "upstream_commit": "70f1d256acd4b34a572f999a05c87bf00b67730d",
+    "upstream_license": "BSD-3-Clause",
+    "upstream_license_file": "data/checkouts/RNNoise/COPYING",
+    "upstream_license_sha256": "45d37ca1cdb278c088e1aa85e0e65ca3a534ed86a28dcc96ca16810248a61d35",
+    "upstream_repository": "https://github.com/xiph/rnnoise"
+  },
+  "negative_claims": {
+    "abi_changed": false,
+    "benchmark_result": false,
+    "board_or_handoff_changed": false,
+    "ci_changed": false,
+    "descriptor_changed": false,
+    "device_timing_measured": false,
+    "exact_rnnoise_reproduction_claimed": false,
+    "installed_v0_changed": false,
+    "listening_performed": false,
+    "model_weights_downloaded": false,
+    "model_weights_redistributed": false,
+    "provider_registered": false,
+    "public_default_changed": false,
+    "quality_pass": false,
+    "real_audio_used": false,
+    "registry_changed": false,
+    "release_claim": false,
+    "rnnoise_model_loaded": false,
+    "rnnoise_runtime_executed": false,
+    "shared_build_changed": false
+  },
+  "no_missing_result_qualifies_candidate": true,
+  "profile": "enhancement",
+  "qualification_status": "not_qualified",
+  "regressions": [
+    {
+      "condition": "noisy_snr0",
+      "metric": "si_sdr_db",
+      "note": "surrogate is worse than noisy identity on this synthetic condition",
+      "paired_delta": -0.035878
+    }
+  ],
+  "reopening_conditions": [
+    "A caller supplies the pinned RNNoise 48 kHz library and model archive with matching SHA-256 values and source commit, and the manifest validates.",
+    "Separate model/archive and runtime redistribution and product-use rights are cleared with a recorded review; BSD-3-Clause source licensing alone is not enough.",
+    "The exact pinned runtime is reproduced and an approved reference-output vector is available for parity.",
+    "The native 48 kHz / 480-sample streaming boundary, delay, flush and caller-facing conformance are verified.",
+    "A rights-cleared held-out real speech cohort with exact clean references is scored under the Enhancement profile.",
+    "Independent listening or preference labels are collected.",
+    "Target-runtime content/availability timing, memory and deadlines are measured.",
+    "Opt-in adapter intake, descriptor and catalog review are completed.",
+    "An explicit public default decision is recorded; the candidate remains OFF until then."
+  ],
+  "repeatability": {
+    "byte_identical": true,
+    "count": 3,
+    "digests": [
+      "fb021f962b68c44dde32565eade70e6df54196852d3c991de8acfd14aff6a7cf",
+      "fb021f962b68c44dde32565eade70e6df54196852d3c991de8acfd14aff6a7cf",
+      "fb021f962b68c44dde32565eade70e6df54196852d3c991de8acfd14aff6a7cf"
+    ],
+    "scope": "report body excluding the repeatability block"
+  },
+  "schema_id": "audio-sdk/task-evidence/rnnoise-v0-2/report/0.1",
+  "scope": {
+    "benchmark_claim": false,
+    "caller_supplied_asset_contract_modeled": true,
+    "caller_supplied_asset_present": false,
+    "device_timing": false,
+    "listening_result": false,
+    "model_weights_downloaded": false,
+    "model_weights_loaded": false,
+    "network_used": false,
+    "real_audio": false,
+    "real_labels": false,
+    "registered_provider": false,
+    "release_claim": false,
+    "rnnoise_runtime_executed": false,
+    "rnnoise_source_executed": false,
+    "synthetic_boundary_surrogate_only": true,
+    "task_local_only": true
+  },
+  "source_pins": {
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "adapters/rnnoise/README.md": "6c5cfb5c3493f40c1fd43a0fc54b87f590abf3712d3d3cef7c2f7bc16de15b85",
+    "adapters/rnnoise/adapter.json": "6c7ca68df9fe24bf67f249197777674e4bc8f6527bccbb2fcced4637e00abb44",
+    "adapters/rnnoise/run.py": "4be2dc2f1c76e46b187a9e52c9faab7ff32e805461cf554a3b97fa3410d2993b",
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "research/noise_suppression_assets_20261027.json": "35f871e7d7362070c20fa35a5832115ea5388ffae550be3b25368a72bf5cebf4",
+    "research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+    "research/noise_suppression_pilot_20261027.md": "90adcfb7b612d5a661baf16e69f78df95eebc6f65bbfece973022af902bd9aae",
+    "research/selected_audio_enhancement_candidates.md": "0364d8d6963192789c839fd37ae6bfdfb405303986066a1ac8e30555d9a1f946",
+    "research/voice-enhancement-20261101/agent-denoise/REPORT.md": "eb1fef2ab460c11fe382d1a978ef762f91a1c1e93725e7ac443b9b5c05098b07",
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245"
+  },
+  "source_reported": {
+    "findings": [
+      {
+        "metric": "mean_delta_snr_db",
+        "unit": "dB",
+        "value": 3.35
+      },
+      {
+        "metric": "mean_delta_stoi",
+        "unit": "ratio",
+        "value": 0.0215
+      },
+      {
+        "metric": "mean_delta_si_sdr_db",
+        "unit": "dB",
+        "value": 3.14
+      },
+      {
+        "metric": "runtime_fraction_rtf",
+        "unit": "ratio",
+        "value": 0.0662
+      }
+    ],
+    "note": "Transcribed from the pinned research only. This package neither reproduces nor claims these values and does not pool them with the surrogate observations.",
+    "scope": "30 paired DNS2020 no-reverb outputs and a 48 kHz offline adapter; exploratory pilot, not a representative holdout or target-device run.",
+    "sources": [
+      "research/voice-enhancement-20261101/candidate_matrix.csv",
+      "research/noise_suppression_pilot_20261027.md",
+      "research/voice-enhancement-20261101/agent-denoise/REPORT.md",
+      "research/selected_audio_enhancement_candidates.md",
+      "REALTIME_COMPONENT_CANDIDATES.md"
+    ],
+    "status": "source_reported_not_reproduced",
+    "used_for_qualification": false
+  },
+  "state": {
+    "different_stimuli_differ": true,
+    "processed_outputs_finite": true,
+    "reset_bit_identical": true,
+    "reset_epoch_propagated": true,
+    "separate_instances_uncoupled": true
+  },
+  "status": "proposal_only_synthetic_incomplete",
+  "surrogate": {
+    "asset_geometry": "48 kHz mono f32 480-sample frames",
+    "attack": 0.6,
+    "checkpoint": false,
+    "delay_compensated_samples_48k": 480,
+    "delay_modeled_samples_48k": 480,
+    "deterministic": true,
+    "gate_floor": 0.15,
+    "identity": "rnnoise-v0-2-boundary-surrogate-v0",
+    "is_neural_network": false,
+    "is_rnnoise": false,
+    "method": "deterministic frame-RMS gate after 3x polyphase resampling; 480-sample delay modeled then compensated",
+    "model_archive": false,
+    "noise_estimate_frames": 5,
+    "public_input_geometry": "16 kHz mono f32 160-sample frames",
+    "pure_synthetic": true,
+    "quality_claim": false,
+    "release": 0.85,
+    "threshold_multiplier": 2.0,
+    "weights": false
+  },
+  "task_id": "SDK-RNNOISE-V0-2",
+  "timing": {
+    "availability_clock_is_modeled": true,
+    "content_delay_samples_modeled_48k": 480,
+    "content_delay_samples_public_rate": 160,
+    "device_timing": false,
+    "measured": false,
+    "reason": "No exact RNNoise runtime or target device; the surrogate is unpaced and no wall-clock or memory result is claimed."
+  },
+  "title": "RNNoise v0.2"
+}
