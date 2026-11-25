@@ -185,15 +185,77 @@ def check_report_content(errors: List[str], report: Dict[str, Any],
         errors.append("reset replay differs")
     if conditions.get("lcg_three_frames", {}).get("reset_state_zero") is not True:
         errors.append("reset state is not zero")
+    if conditions != reference.measure_conditions():
+        errors.append("reported conditions differ from a fresh execution")
+    probe = report.get("boundary_checks", {}).get("typical_api_use", {})
+    expected_probe = reference.typical_probe()
+    if probe != expected_probe:
+        errors.append("typical probe differs from a fresh execution")
+    if probe.get("sequence") != list(reference.TYPICAL_PROBE_SEQUENCE):
+        errors.append("typical probe sequence is incomplete")
+    if probe.get("capability", {}).get("called") is not True:
+        errors.append("capability() was not called in the typical probe")
+    if probe.get("reset", {}).get("called") is not True:
+        errors.append("reset() was not called in the typical probe")
+    if probe.get("run_after_reset", {}).get("replay_matches_first_frame") is not True:
+        errors.append("run after reset does not replay the first frame")
+    if probe.get("close", {}).get("run_after_close_rejected") is not True:
+        errors.append("run after close was not rejected in the typical probe")
+    if probe.get("create_capability_run_reset_close") is not True:
+        errors.append("create-capability-run-reset-close was not exercised")
+    if probe.get("all_steps_passed") is not True:
+        errors.append("typical probe did not pass every step")
     adverse = report.get("adverse", {})
-    if adverse.get("counts", {}).get("failed_open") != 0:
+    expected_groups = {
+        "model_rejections": 18,
+        "config_rejections": 8,
+        "feed_rejections": 9,
+        "binding_rejections": 6,
+        "rights_rejections": 3,
+        "runtime_rejections": 2,
+    }
+    counts = adverse.get("counts", {})
+    if counts.get("rejection_groups") != expected_groups:
+        errors.append("rejection group counts do not match the enumerated cases")
+    for group, expected in expected_groups.items():
+        if len(adverse.get(group, {})) != expected:
+            errors.append(f"enumerated {group} length is not {expected}")
+    if counts.get("rejection_cases") != sum(expected_groups.values()):
+        errors.append("rejection_cases total is not 46")
+    if counts.get("lifecycle_checks") != 5:
+        errors.append("lifecycle_checks is not 5")
+    if counts.get("lifecycle_rejected") != 3 or counts.get("lifecycle_accepted") != 2:
+        errors.append("lifecycle accepted/rejected counts are not 3/2")
+    if counts.get("total_checks") != 51:
+        errors.append("total_checks is not 51")
+    if counts.get("failed_open") != 0:
         errors.append("a documented rejection failed open")
-    if adverse.get("counts", {}).get("all_rejected") is not True:
+    if counts.get("all_rejections_closed") is not True:
         errors.append("adverse cases are not all rejected")
+    if adverse != reference.adverse():
+        errors.append("reported adverse matrix differs from a fresh execution")
+    malformed = report.get("boundary_checks", {}).get("malformed_inputs", {})
+    if malformed.get("cases") != 46 or malformed.get("rejection_cases") != 46:
+        errors.append("malformed_inputs case total is not 46")
+    if malformed.get("lifecycle_checks") != 5 or malformed.get("total_checks") != 51:
+        errors.append("malformed_inputs lifecycle/total counts are not 5/51")
     if adverse.get("state", {}).get("unchanged_by_feed_rejections") is not True:
         errors.append("feed rejection advanced state")
     if adverse.get("state", {}).get("unchanged_by_binding_rejections") is not True:
         errors.append("binding rejection advanced state")
+    readme = (HERE / "README.md").read_text(encoding="utf-8")
+    for line in (
+            "model_rejections=18",
+            "config_rejections=8",
+            "feed_rejections=9",
+            "binding_rejections=6",
+            "rights_rejections=3",
+            "runtime_rejections=2",
+            "rejection_cases=46",
+            "lifecycle_checks=5 (3 rejected, 2 accepted)",
+            "total_checks=51"):
+        if line not in readme:
+            errors.append("README case count disagrees: " + line)
     profile = report.get("tool_profile", {})
     mapped = profile.get("mapped_cases", {})
     expected_status = {
@@ -282,7 +344,8 @@ def check_invalid_cases(errors: List[str]) -> None:
     except ValueError:
         pass
     adverse = reference.adverse()
-    if adverse["counts"]["failed_open"] != 0 or not adverse["counts"]["all_rejected"]:
+    if (adverse["counts"]["failed_open"] != 0
+            or not adverse["counts"]["all_rejections_closed"]):
         errors.append("adverse boundary cases are not fail-closed")
     for name, value in adverse["feed_rejections"].items():
         if not value["state_unchanged"]:

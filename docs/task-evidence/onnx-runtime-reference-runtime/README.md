@@ -113,22 +113,38 @@ float32 and 160 samples per call; no installed behavior changes.
 
 ## Fail-closed boundary exercise
 
-`report.json:adverse` records actual rejections, not assertions:
+`report.json:adverse` records actual rejections, not assertions. The totals are
+derived from the enumerated case dictionaries, not typed by hand:
+
+```text
+model_rejections=18
+config_rejections=8
+feed_rejections=9
+binding_rejections=6
+rights_rejections=3
+runtime_rejections=2
+rejection_cases=46
+lifecycle_checks=5 (3 rejected, 2 accepted)
+total_checks=51
+```
 
 - 18 model-asset cases: digest, byte count, asset id, extra asset, oversize,
   malformed/duplicate JSON, schema, real-graph claim, evaluation, tensor
   order/shape/dtype/extra, coefficient, nonfinite coefficient and state init.
 - 8 configuration cases: missing/extra key, model, provider, optimization,
   threading, determinism and non-object config.
-- 10 feed cases: missing/extra feed, shape, dtype, bool, nonfinite, range and
+- 9 feed cases: missing/extra feed, shape, dtype, bool, nonfinite, range and
   state shape/nonfinite; every rejection leaves held state unchanged.
 - 6 binding cases: missing/extra output, wrong capacity, non-writable tuple and
   aliasing an input list.
 - 3 rights cases and 2 runtime-id cases, including the unpinned local candidate.
-- Lifecycle: run-after-close, idempotent double close, invalid reset shape and
-  nonfinite state; a valid reset returns exact zeros.
+- 5 lifecycle checks: run-after-close, idempotent double close, invalid reset
+  shape, nonfinite reset and a valid reset that returns exact zeros. Three are
+  rejections and two are accepted lifecycle checks.
 
 `failed_open=0`. Every rejection uses a stable code and never advances state.
+The verifier recomputes all six group lengths and the 46/5/51 totals and checks
+that this README block and `report.json` agree exactly.
 
 ## Tool acceptance profile
 
@@ -139,7 +155,7 @@ Pinned from `audio-benchmark-platform/plan/swarm/VERIFICATION.md` and mapped in
 | --- | --- | --- |
 | Version, install, provenance | runtime unavailable probe, exact import error | blocked |
 | Clean checkout/extracted package | not applicable to evidence-only dir | not run |
-| One typical CLI/API use | create → capability → run → close | synthetic pass |
+| One typical CLI/API use | create → capability → run ×2 → reset → run replay → close ×2 → rejected run | synthetic pass |
 | Caller-owned inputs | model bytes, feeds, output buffers | synthetic pass |
 | Malformed inputs | model/config/feed/binding/lifecycle matrix | synthetic pass |
 | Missing optional selection | unknown runtime/provider/model, absent state | synthetic pass |
@@ -152,6 +168,11 @@ workload or installed adapter exists.
 
 ## Evidence content
 
+- `boundary_checks.typical_api_use` is produced by an executed canonical probe:
+  it calls `capability()`, performs two runs, calls `reset()`, replays the first
+  frame, closes twice and confirms the post-close run is rejected. Its
+  `capability`, `reset`, `run_after_reset` and `close` sections are compared
+  with a fresh execution by the verifier.
 - `conditions.impulse` and `conditions.constant_*` carry hand-checkable exact
   goldens (`0.75`, `-0.75`, `0.125`, zeros) and raw float32 digests.
 - `conditions.lcg_three_frames` carries three stateful frames, final state,
@@ -183,7 +204,7 @@ header, descriptor, registry, default, board or handoff file changes.
 
 | File | SHA-256 |
 | --- | --- |
-| `report.json` | `af1e5c6c7086989cb17b459655b23fbac211785f7cd901c9b249a8220034b58d` |
+| `report.json` | `76f8bd1499e7aa5f9aeb633dc2f2192e2717c76a2a5442bbb024239dd211a92c` |
 | `report.json.sha256` | see sidecar |
 | `contract.json` | see `SOURCES.sha256` |
 | `adapter.json` | see `SOURCES.sha256` |
@@ -196,7 +217,7 @@ header, descriptor, registry, default, board or handoff file changes.
 - `reference.py` — synthetic model, exact float32 probe, adapter stand-in,
   rejections and canonical report builder.
 - `run.py` — regenerates all JSON artifacts, sidecars, report digest and pins.
-- `test_reference.py` — 27 deterministic unittest cases.
+- `test_reference.py` — 30 deterministic unittest cases.
 - `verify.py` — read-only strict pins/JSON/reproduction/rejection/licensing/scope
   verifier.
 - `contract.json`, `adapter.json`, `provider.json` — task-local boundary

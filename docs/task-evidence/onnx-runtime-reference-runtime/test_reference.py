@@ -302,6 +302,68 @@ class PackageTests(unittest.TestCase):
         self.assertEqual(json.loads(ADAPTER.read_bytes())["runtime_invoked"], False)
         self.assertEqual(json.loads(PROVIDER.read_bytes())["vendor_runtime_invoked"], False)
 
+    def test_28_counts_match_enumerated_cases(self) -> None:
+        adverse = reference.adverse()
+        counts = adverse["counts"]
+        expected_groups = {
+            "model_rejections": 18,
+            "config_rejections": 8,
+            "feed_rejections": 9,
+            "binding_rejections": 6,
+            "rights_rejections": 3,
+            "runtime_rejections": 2,
+        }
+        self.assertEqual(counts["rejection_groups"], expected_groups)
+        for group, expected in expected_groups.items():
+            self.assertEqual(len(adverse[group]), expected, group)
+        self.assertEqual(counts["rejection_cases"], 46)
+        self.assertEqual(counts["lifecycle_checks"], 5)
+        self.assertEqual(len(adverse["lifecycle"]), 5)
+        self.assertEqual(counts["lifecycle_rejected"], 3)
+        self.assertEqual(counts["lifecycle_accepted"], 2)
+        self.assertEqual(counts["total_checks"], 51)
+        self.assertEqual(counts["failed_open"], 0)
+        self.assertIs(counts["all_rejections_closed"], True)
+        malformed = self.report["boundary_checks"]["malformed_inputs"]
+        self.assertEqual(malformed["cases"], 46)
+        self.assertEqual(malformed["rejection_cases"], 46)
+        self.assertEqual(malformed["lifecycle_checks"], 5)
+        self.assertEqual(malformed["total_checks"], 51)
+
+    def test_29_typical_probe_calls_capability_and_reset(self) -> None:
+        probe = reference.typical_probe()
+        self.assertEqual(probe["sequence"], list(reference.TYPICAL_PROBE_SEQUENCE))
+        self.assertEqual(probe["steps_completed"], 9)
+        self.assertIs(probe["capability"]["called"], True)
+        self.assertEqual(probe["capability"]["runtime_id"], reference.RUNTIME_ID)
+        self.assertIs(probe["capability"]["runtime_invoked"], False)
+        self.assertIs(probe["capability"]["tensors_match"], True)
+        self.assertIs(probe["reset"]["called"], True)
+        self.assertIs(probe["reset"]["zero_state"], True)
+        self.assertIs(probe["run_after_reset"]["replay_matches_first_frame"], True)
+        self.assertIs(probe["close"]["run_after_close_rejected"], True)
+        self.assertIs(probe["create_capability_run_reset_close"], True)
+        self.assertIs(probe["all_steps_passed"], True)
+        self.assertEqual(self.report["boundary_checks"]["typical_api_use"], probe)
+
+    def test_30_readme_counts_match_report(self) -> None:
+        counts = self.report["adverse"]["counts"]
+        readme = (HERE / "README.md").read_text(encoding="utf-8")
+        lines = [
+            f"model_rejections={counts['rejection_groups']['model_rejections']}",
+            f"config_rejections={counts['rejection_groups']['config_rejections']}",
+            f"feed_rejections={counts['rejection_groups']['feed_rejections']}",
+            f"binding_rejections={counts['rejection_groups']['binding_rejections']}",
+            f"rights_rejections={counts['rejection_groups']['rights_rejections']}",
+            f"runtime_rejections={counts['rejection_groups']['runtime_rejections']}",
+            f"rejection_cases={counts['rejection_cases']}",
+            f"lifecycle_checks={counts['lifecycle_checks']} "
+            f"({counts['lifecycle_rejected']} rejected, {counts['lifecycle_accepted']} accepted)",
+            f"total_checks={counts['total_checks']}",
+        ]
+        for line in lines:
+            self.assertIn(line, readme)
+
 
 if __name__ == "__main__":
     unittest.main()

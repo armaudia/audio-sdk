@@ -916,14 +916,12 @@ def adverse() -> Dict[str, Any]:
         },
     }
     failures: List[str] = []
-    total = 0
     for name, cases in groups.items():
         if not isinstance(cases, dict):
             continue
         for case_name, value in cases.items():
             if not isinstance(value, dict):
                 continue
-            total += 1
             code = value.get("code")
             if name == "lifecycle":
                 if case_name == "valid_reset":
@@ -946,7 +944,31 @@ def adverse() -> Dict[str, Any]:
                 failures.append(f"{name}.{case_name}.state_changed")
     if failures:
         raise RuntimeError("fail-open boundary cases: " + ", ".join(failures))
-    groups["counts"] = {"cases": total, "failed_open": 0, "all_rejected": True}
+    rejection_groups = {
+        "model_rejections": len(model_rejections),
+        "config_rejections": len(config_rejections),
+        "feed_rejections": len(feed_rejections),
+        "binding_rejections": len(binding_rejections),
+        "rights_rejections": len(rights_rejections),
+        "runtime_rejections": len(runtime_rejections),
+    }
+    rejection_cases = sum(rejection_groups.values())
+    lifecycle_checks = len(groups["lifecycle"])
+    lifecycle_rejected = sum(
+        1 for value in groups["lifecycle"].values() if value.get("code") != "accepted")
+    lifecycle_accepted = lifecycle_checks - lifecycle_rejected
+    if lifecycle_rejected + lifecycle_accepted != lifecycle_checks:
+        raise RuntimeError("lifecycle counts do not add up")
+    groups["counts"] = {
+        "rejection_groups": rejection_groups,
+        "rejection_cases": rejection_cases,
+        "lifecycle_checks": lifecycle_checks,
+        "lifecycle_rejected": lifecycle_rejected,
+        "lifecycle_accepted": lifecycle_accepted,
+        "total_checks": rejection_cases + lifecycle_checks,
+        "failed_open": 0,
+        "all_rejections_closed": True,
+    }
     return groups
 
 
@@ -1019,7 +1041,8 @@ def tool_profile() -> Dict[str, Any]:
             },
             "typical_cli_or_api_use": {
                 "status": "passed_synthetic",
-                "detail": "create, capability, run and close on the frozen adapter boundary",
+                "detail": ("create, capability, two runs, reset, replay, double close "
+                           "and rejected post-close run on the frozen adapter boundary"),
             },
             "caller_owned_inputs": {
                 "status": "passed_synthetic",
@@ -1277,13 +1300,89 @@ def artifact_provider() -> Dict[str, Any]:
     }
 
 
+TYPICAL_PROBE_SEQUENCE = ("create", "capability", "run_frame_0", "run_frame_1",
+                          "reset", "run_after_reset", "close", "close_again",
+                          "run_after_close")
+
+
+def typical_probe() -> Dict[str, Any]:
+    """Execute the claimed create -> capability -> run -> reset -> close path."""
+    adapter = ReferenceBoundary()
+    capability = adapter.capability()
+    frame_zero = _condition_frame(20261203)
+    first = summarize_run(adapter.run({"waveform_in": frame_zero}))
+    second = summarize_run(adapter.run({"waveform_in": _condition_frame(20261204)}))
+    state_before_reset = f32_digest(adapter.state)
+    reset_returned = adapter.reset()
+    reset_digest = f32_digest(reset_returned)
+    replay = summarize_run(adapter.run({"waveform_in": frame_zero}))
+    adapter.close()
+    adapter.close()
+    run_after_close = "accepted"
+    try:
+        adapter.run({"waveform_in": frame_zero})
+    except Rejected as error:
+        run_after_close = error.code
+    capability_ok = (
+        capability["runtime_id"] == RUNTIME_ID
+        and capability["tensors"] == TENSORS
+        and capability["session_options"] == SESSION_OPTIONS
+        and capability["runtime_available"] is False
+        and capability["runtime_invoked"] is False)
+    reset_ok = (all(value == 0.0 for value in reset_returned)
+                and reset_digest == f32_digest([0.0] * 16))
+    replay_ok = (replay["waveform_out_sha256"] == first["waveform_out_sha256"]
+                 and replay["state_out_sha256"] == first["state_out_sha256"])
+    close_ok = run_after_close == "closed"
+    all_passed = capability_ok and reset_ok and replay_ok and close_ok
+    return {
+        "status": "passed_synthetic" if all_passed else "failed",
+        "sequence": list(TYPICAL_PROBE_SEQUENCE),
+        "steps_completed": len(TYPICAL_PROBE_SEQUENCE),
+        "capability": {
+            "called": True,
+            "capability_sha256": sha256(canonical_bytes(capability)),
+            "runtime_id": capability["runtime_id"],
+            "capability_source": capability["capability_source"],
+            "runtime_available": capability["runtime_available"],
+            "runtime_invoked": capability["runtime_invoked"],
+            "tensors_match": capability["tensors"] == TENSORS,
+            "session_options_match": capability["session_options"] == SESSION_OPTIONS,
+        },
+        "run_before_reset": {
+            "frames": 2,
+            "frame_digests": [first["waveform_out_sha256"], second["waveform_out_sha256"]],
+            "held_state_sha256": state_before_reset,
+            "state_advanced": first["state_out_sha256"] != second["state_out_sha256"],
+        },
+        "reset": {
+            "called": True,
+            "returned_state_sha256": reset_digest,
+            "zero_state": reset_ok,
+        },
+        "run_after_reset": {
+            "frame_digest": replay["waveform_out_sha256"],
+            "state_sha256": replay["state_out_sha256"],
+            "replay_matches_first_frame": replay_ok,
+            "all_finite": replay["all_finite"],
+        },
+        "close": {
+            "called": True,
+            "close_again_accepted": True,
+            "run_after_close_code": run_after_close,
+            "run_after_close_rejected": close_ok,
+        },
+        "create_capability_run_reset_close": all_passed,
+        "all_steps_passed": all_passed,
+    }
+
+
 def build_report() -> Dict[str, Any]:
     conditions = measure_conditions()
     adverse_cases = adverse()
-    first = ReferenceBoundary()
-    typical = [summarize_run(first.run({"waveform_in": _condition_frame(20261203 + index)}))
-               for index in range(FRAME_COUNT)]
-    first.close()
+    probe = typical_probe()
+    if not probe["all_steps_passed"]:
+        raise RuntimeError("canonical typical probe did not complete every step")
     repeats = []
     for _ in range(3):
         adapter = ReferenceBoundary()
@@ -1355,12 +1454,7 @@ def build_report() -> Dict[str, Any]:
         "conditions": conditions,
         "tool_profile": tool_profile(),
         "boundary_checks": {
-            "typical_api_use": {
-                "status": "passed_synthetic",
-                "frames": FRAME_COUNT,
-                "frame_digests": [frame["waveform_out_sha256"] for frame in typical],
-                "create_capability_run_close": True,
-            },
+            "typical_api_use": probe,
             "caller_owned_inputs": {
                 "status": "passed_synthetic",
                 "model_supplied_by_caller": True,
@@ -1371,7 +1465,10 @@ def build_report() -> Dict[str, Any]:
             },
             "malformed_inputs": {
                 "status": "passed_synthetic",
-                "cases": adverse_cases["counts"]["cases"],
+                "cases": adverse_cases["counts"]["rejection_cases"],
+                "rejection_cases": adverse_cases["counts"]["rejection_cases"],
+                "lifecycle_checks": adverse_cases["counts"]["lifecycle_checks"],
+                "total_checks": adverse_cases["counts"]["total_checks"],
                 "failed_open": adverse_cases["counts"]["failed_open"],
             },
             "missing_optional_selection": {
