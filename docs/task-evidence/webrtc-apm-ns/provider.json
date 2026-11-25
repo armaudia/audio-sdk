@@ -1,0 +1,33 @@
+{
+  "provider_id": "enh.webrtc-apm-ns.synthetic.v0",
+  "identity": "webrtc-apm-ns-synthetic-reference/0.1-proposal",
+  "status": "proposal_only_not_qualified",
+  "completeness": "incomplete",
+  "registered": false,
+  "enabled_by_default": false,
+  "opt_in_required": true,
+  "descriptor_settings": {},
+  "public_abi_change": false,
+  "descriptor_registration": false,
+  "sdk_default_change": false,
+  "implementation": "task-local Python synthetic reference in reference.py; no C provider compiled, installed or linked",
+  "supported_formats": ["f32/16000/mono/160"],
+  "content_delay_samples": 0,
+  "external_assets": [],
+  "execution_mode": "reference.sequential.v0",
+  "qualification": "not_qualified",
+  "reopen": "DEFER: independent runtime, rights, paired real-speech, listening and target-device gates before any exposure",
+  "licensing": {
+    "spdx_identifier": "Apache-2.0",
+    "spdx_file_copyright_text": "2026 Tsakanyan Hovhannes",
+    "third_party_artifacts": []
+  },
+  "decision": {
+    "disposition": "DEFER",
+    "expose_as_processor": false,
+    "registered": false,
+    "default_enabled": false,
+    "promote": false,
+    "release_claim": false
+  }
+}
