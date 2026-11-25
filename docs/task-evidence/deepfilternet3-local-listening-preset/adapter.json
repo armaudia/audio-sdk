@@ -1,0 +1,70 @@
+{
+  "SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier: Apache-2.0": "Apache-2.0",
+  "protocol_version": 1,
+  "identity": "deepfilternet3-local-listening-preset-synthetic-chain-v1",
+  "boundary_identity": "task-local-chain-proposal-v0",
+  "input_kind": "waveform",
+  "output_kinds": [
+    "waveform"
+  ],
+  "tasks": [
+    "SDK-DEEPFILTERNET3-LOCAL-LISTENING-PRESET",
+    "SDK-DEEPFILTERNET3-V0-5-6"
+  ],
+  "modes": [
+    "proposal_only",
+    "stage_removed_ablation"
+  ],
+  "configuration": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "synthetic_samples_per_condition": 320,
+    "stage_order": [
+      "noisy_input",
+      "wpe_surrogate",
+      "enhancer_surrogate",
+      "vad_gate_surrogate"
+    ]
+  },
+  "entrypoint": [
+    "python3",
+    "run.py",
+    "--report"
+  ],
+  "supported_formats": [
+    "mono 16 kHz float32, 160-sample documented v0 frames (evaluation only)"
+  ],
+  "stage_order": [
+    "noisy_input",
+    "wpe_surrogate",
+    "enhancer_surrogate",
+    "vad_gate_surrogate"
+  ],
+  "controls": [
+    "identity",
+    "noisy_control",
+    "passthrough",
+    "speex_ns_surrogate"
+  ],
+  "ablations": [
+    "full_chain_without_wpe",
+    "full_chain_without_enhancer",
+    "full_chain_without_vad_gate"
+  ],
+  "asset_readiness": [
+    "DeepFilterNet3 checkpoint/config rights unresolved; no weights accessed",
+    "SDK-DEEPFILTERNET3-V0-5-6 remains blocked",
+    "No licensed runtime or matched cohort is available"
+  ],
+  "registration": "unregistered task-local proposal; no SDK provider, descriptor or bench entry",
+  "processor_exposure": false,
+  "real_runtime_used": false,
+  "listening_result_used": false,
+  "registered": false,
+  "enabled_by_default": false,
+  "status": "proposal_only_synthetic_incomplete",
+  "decision": "DEFER"
+}
