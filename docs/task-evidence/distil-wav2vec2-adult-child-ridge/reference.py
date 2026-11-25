@@ -303,17 +303,43 @@ class IdentityExtractor:
         if not self.frozen:
             raise ValueError("extractor_not_frozen")
         supplied = validate_features(features)
-        returned = tuple(float(v) for v in supplied)
+        returned = self._return_vector(supplied)
+        # Digest the vector that is actually returned, after any subclass
+        # transformation, so the identity flag cannot pass on input digests.
         self.calls.append((tensor_digest(supplied), tensor_digest(returned)))
         return returned
+
+    def _return_vector(self, supplied: tuple[float, ...]) -> tuple[float, ...]:
+        return tuple(float(v) for v in supplied)
 
 
 class ReversedExtractor(IdentityExtractor):
     """Adverse control: same claimed identity, permuted returned vector."""
 
-    def __call__(self, features: Sequence[float]) -> tuple[float, ...]:
-        result = super().__call__(features)
-        return tuple(reversed(result))
+    def _return_vector(self, supplied: tuple[float, ...]) -> tuple[float, ...]:
+        return tuple(reversed(super()._return_vector(supplied)))
+
+
+def identity_control_record(extractor: IdentityExtractor,
+                            windows: Sequence[Window]) -> dict[str, Any]:
+    """Record identity from digests of vectors the extractor actually returned."""
+    pairs = extractor.calls
+    return {
+        "extractor_model_id": extractor.model_id,
+        "revision": extractor.revision,
+        "frozen": extractor.frozen,
+        "calls": len(pairs),
+        "distinct_caller_vectors": len({supplied for supplied, _ in pairs}),
+        "identity_pairs_checked": len(pairs),
+        "all_caller_vectors_returned_unchanged": all(
+            supplied == returned for supplied, returned in pairs
+        ),
+        "all_caller_vectors_match_pinned_digests": (
+            {supplied for supplied, _ in pairs}
+            == {tensor_digest(w.features) for w in windows}
+        ),
+        "internal_model": False,
+    }
 
 
 def validate_features(value: Any, expected_dim: int = EMBED_DIM) -> tuple[float, ...]:
@@ -827,22 +853,7 @@ def build_report() -> dict[str, Any]:
                 "reproduced_here": False,
                 "note": "External prior result quoted as context only. No exact weights, revision, permission or local execution; these numbers are not claimed by this fixture.",
             },
-            "identity_control": {
-                "extractor_model_id": extractor.model_id,
-                "revision": extractor.revision,
-                "frozen": extractor.frozen,
-                "calls": len(extractor.calls),
-                "distinct_caller_vectors": len({supplied for supplied, _ in extractor.calls}),
-                "identity_pairs_checked": len(extractor.calls),
-                "all_caller_vectors_returned_unchanged": all(
-                    supplied == returned for supplied, returned in extractor.calls
-                ),
-                "all_caller_vectors_match_pinned_digests": (
-                    {supplied for supplied, _ in extractor.calls}
-                    == {tensor_digest(w.features) for w in windows}
-                ),
-                "internal_model": False,
-            },
+            "identity_control": identity_control_record(extractor, windows),
         },
         "boundary": {
             "provider_id": PROVIDER_ID,

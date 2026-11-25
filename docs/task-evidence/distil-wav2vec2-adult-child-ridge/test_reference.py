@@ -207,6 +207,20 @@ class TestReport(unittest.TestCase):
         self.assertTrue(adverse["metrics_are_unaccepted"])
         self.assertTrue(adverse["worse_than_identity"])
 
+    def test_identity_flag_tracks_actual_returned_vectors(self):
+        windows = ref.build_windows()
+        identity = ref.IdentityExtractor()
+        reversed_extractor = ref.ReversedExtractor()
+        for window in windows:
+            identity(window.features)
+            reversed_extractor(window.features)
+        good = ref.identity_control_record(identity, windows)
+        bad = ref.identity_control_record(reversed_extractor, windows)
+        self.assertTrue(good["all_caller_vectors_returned_unchanged"])
+        self.assertFalse(bad["all_caller_vectors_returned_unchanged"])
+        self.assertEqual(bad["identity_pairs_checked"], len(windows))
+        self.assertEqual(bad["calls"], len(windows))
+
     def test_metrics_are_wiring_evidence_only(self):
         classes = self.report["evidence_classes"]
         self.assertEqual(classes["synthetic_wiring_mae_rmse_r"], "wiring_only_not_accuracy")

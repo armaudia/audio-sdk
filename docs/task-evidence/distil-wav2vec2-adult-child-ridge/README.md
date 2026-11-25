@@ -134,8 +134,10 @@ Committed digest:
   **0.336658**, bias **−0.006137**, r **0.969427**. Constant calibration-mean
   control: MAE **1.197024**, RMSE **1.368579**, r undefined (constant vector).
 - Identity control: 882 extractor calls over 210 distinct pinned caller
-  vectors, all returned bitwise unchanged, no internal model. Wrong
-  model id/revision, permuted returns and digest mismatches are rejected by the
+  vectors, all returned bitwise unchanged, no internal model. The flag compares
+  digests of the vectors actually returned after any extractor transformation;
+  a `ReversedExtractor` regression probe flips it false. Wrong model
+  id/revision, permuted returns and digest mismatches are rejected by the
   strict path. The unaccepted reversed-vector regression scores MAE **1.625632**,
   r **−0.890098** (expected failure, worse than identity).
 - Rejection results: **24/24** invalid or missing inputs rejected, including
