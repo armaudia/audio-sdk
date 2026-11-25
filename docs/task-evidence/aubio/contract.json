@@ -1,0 +1,63 @@
+{
+  "spdx": {
+    "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+    "SPDX-License-Identifier": "Apache-2.0"
+  },
+  "protocol": "audio-sdk/aubio-evidence/0.1",
+  "task": "SDK-AUBIO",
+  "component": "aubio",
+  "verification_profile": "Rate",
+  "base_commit": "caa0bba3643834885135a3a62c97034af4124802",
+  "branch": "swarm/SDK-AUBIO",
+  "status": "proposal_only_not_qualified",
+  "decision": {
+    "status": "incomplete",
+    "promotion": "defer",
+    "production_exposure": "DEFER",
+    "incomplete": true,
+    "proposal_only_not_qualified": true,
+    "expose_as_processor": false,
+    "registered": false,
+    "default_enabled": false
+  },
+  "exact_scope": {
+    "write_scope": "docs/task-evidence/aubio/ only",
+    "shared_files_changed": false,
+    "public_api_or_abi_changed": false,
+    "headers_changed": false,
+    "descriptor_registry_changed": false,
+    "descriptor_default_changed": false,
+    "provider_registration_changed": false,
+    "installed_v0_changed": false,
+    "board_handoff_ruleset_or_main_changed": false,
+    "other_task_changed": false
+  },
+  "installed_v0": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "frame_samples": 160,
+    "sample_format": "float32",
+    "abi_major": 0,
+    "abi_minor": 1,
+    "changed": false
+  },
+  "licensing": {
+    "reported_upstream_license": "GPL-3.0",
+    "upstream_source_present": false,
+    "upstream_runtime_present": false,
+    "relicensed": false,
+    "review": "blocked",
+    "proprietary_release_permitted": false,
+    "vendored_license_file": false
+  },
+  "remaining_gates": [
+    "exact-head independent review and successful hosted checks",
+    "aubio upstream provenance, version pin, source or licensed runtime digest and rights review",
+    "written GPL-3.0 relicensing or alternative license for proprietary distribution",
+    "permitted held-out speech/music cohort with matched controls, onset/offset labels and authorized scoring",
+    "paced target-device workload with fill/flush, queue depth, deadlines, availability, CPU and memory telemetry",
+    "versioned public-surface and descriptor intake decision before any analysis event type or playback actuator",
+    "pitch preservation and transient audibility qualification with authorized listening",
+    "release approval; no missing, invalid, nonfinite or adverse result qualifies a candidate"
+  ]
+}
