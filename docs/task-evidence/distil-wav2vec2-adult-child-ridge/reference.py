@@ -19,6 +19,7 @@ import hashlib
 import json
 import math
 import struct
+import sys
 from dataclasses import dataclass
 from typing import Any, Callable, Sequence
 
@@ -43,8 +44,14 @@ SEED = 20261124
 TOTAL_WINDOWS = 210
 FOLDS = 5
 FOLD_SIZE = TOTAL_WINDOWS // FOLDS
+CALIBRATION_FOLDS = (0, 1, 2, 3)  # alpha is fixed a priori; fold 4 is never tuned on
+EVALUATION_FOLD = 4
 EMBED_DIM = 16
 RIDGE_ALPHA = 10.0
+CANONICAL_FLOAT_DIGITS = 9  # portable canonical bytes across Python 3.10-3.12
+MIN_CANONICAL_PYTHON = (3, 10)
+EXACT_REGENERATION_PYTHON = (3, 12, 16)
+EXTRACTOR_REVISION_CLAIM = "caller-pinned-not-verified"
 
 STRATA = ("clean", "short_active", "overlap", "quiet_boundary")
 ACTIVE_SECONDS = {
@@ -138,6 +145,18 @@ GATES: tuple[dict[str, str], ...] = (
         "reopen": "Measure the exact installed build on the target with pacing, load and deadline budgets.",
     },
     {
+        "id": "rate_profile_condition_coverage",
+        "status": "blocked",
+        "reason": "No measured 1x/rate-change/unfamiliar-speech/music/silence/rebuffer/drift/final-partial-window coverage; synthetic 4 s windows only.",
+        "reopen": "Score the exact rate policy on the full Rate-profile condition matrix with separate source-reference conditions.",
+    },
+    {
+        "id": "source_output_mapping_and_preservation",
+        "status": "blocked",
+        "reason": "No pitch/transient audibility, playback buffering, speech-preservation or timestamp-tied pause/filler decision evidence; this fixture predicts a rate, it does not apply a rate change.",
+        "reopen": "Measure source/output mapping, duration, quality and buffer behavior for a reviewed rate policy on permitted audio.",
+    },
+    {
         "id": "provider_intake",
         "status": "blocked",
         "reason": "Conceptual boundary is unregistered, OFF by default, with empty descriptor settings; no public API/ABI/default/registry/build change.",
@@ -170,8 +189,31 @@ class LCG:
         return 0.5 * (self.uniform() + 1.0)
 
 
+def require_supported_runtime() -> tuple[int, int, int]:
+    """Guard canonical regeneration against runtimes older than the pinned family."""
+    version = tuple(sys.version_info[:3])
+    if version < MIN_CANONICAL_PYTHON:
+        raise RuntimeError(f"unsupported_runtime: {version} < {MIN_CANONICAL_PYTHON}")
+    return version  # type: ignore[return-value]
+
+
+def canonical_value(value: Any) -> Any:
+    """Quantize floats so canonical bytes do not drift between supported CPython builds."""
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise ValueError("nonfinite_canonical_float")
+        rounded = round(value, CANONICAL_FLOAT_DIGITS)
+        return 0.0 if rounded == 0.0 else rounded
+    if isinstance(value, dict):
+        return {str(key): canonical_value(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [canonical_value(item) for item in value]
+    return value
+
+
 def canonical_bytes(value: Any) -> bytes:
-    return json.dumps(value, sort_keys=True, indent=2, separators=(",", ": "), allow_nan=False).encode("utf-8") + b"\n"
+    return (json.dumps(canonical_value(value), sort_keys=True, indent=2,
+                       separators=(",", ": "), allow_nan=False).encode("utf-8") + b"\n")
 
 
 def object_digest(value: Any) -> str:
@@ -250,21 +292,24 @@ def build_windows() -> list[Window]:
 class IdentityExtractor:
     """Caller-owned frozen extractor stand-in; returns supplied vectors as-is."""
 
-    def __init__(self, model_id: str = MODEL_ID, revision: str = "caller-pinned-not-verified") -> None:
+    def __init__(self, model_id: str = MODEL_ID, revision: str = EXTRACTOR_REVISION_CLAIM) -> None:
         self.model_id = model_id
         self.revision = revision
         self.frozen = True
-        self.calls: list[str] = []
+        # (caller vector digest, returned vector digest) for every invocation.
+        self.calls: list[tuple[str, str]] = []
 
     def __call__(self, features: Sequence[float]) -> tuple[float, ...]:
         if not self.frozen:
             raise ValueError("extractor_not_frozen")
-        self.calls.append(tensor_digest(features))
-        return tuple(float(v) for v in features)
+        supplied = validate_features(features)
+        returned = tuple(float(v) for v in supplied)
+        self.calls.append((tensor_digest(supplied), tensor_digest(returned)))
+        return returned
 
 
 class ReversedExtractor(IdentityExtractor):
-    """Adverse control: same claimed identity, permuted caller vectors."""
+    """Adverse control: same claimed identity, permuted returned vector."""
 
     def __call__(self, features: Sequence[float]) -> tuple[float, ...]:
         result = super().__call__(features)
@@ -302,24 +347,30 @@ def validate_label(value: Any) -> float:
     return number
 
 
-def extract_features(extractor: Any, features: Sequence[float]) -> tuple[float, ...]:
+def extract_features(extractor: Any, features: Sequence[float],
+                     expected_digest: str | None = None) -> tuple[float, ...]:
+    """Accept vectors only from the claimed frozen caller with unchanged identity."""
     if extractor is None:
         raise ValueError("missing_feature_extractor")
-    if features is None:
-        raise ValueError("missing_features")
-    if isinstance(features, (str, bytes)) or not isinstance(features, Sequence):
-        raise ValueError("bad_feature_type")
+    supplied = validate_features(features)
     if not getattr(extractor, "frozen", False):
         raise ValueError("extractor_not_frozen")
     if getattr(extractor, "model_id", None) != MODEL_ID:
         raise ValueError("extractor_identity_mismatch")
+    if getattr(extractor, "revision", None) != EXTRACTOR_REVISION_CLAIM:
+        raise ValueError("extractor_revision_mismatch")
     try:
-        returned = extractor(features)
+        returned = validate_features(extractor(supplied))
     except ValueError:
         raise
     except Exception as exc:
         raise ValueError("feature_extractor_failed") from exc
-    return validate_features(returned)
+    supplied_digest, returned_digest = tensor_digest(supplied), tensor_digest(returned)
+    if supplied_digest != returned_digest:
+        raise ValueError("caller_vector_identity_mismatch")
+    if expected_digest is not None and returned_digest != expected_digest:
+        raise ValueError("caller_vector_digest_mismatch")
+    return returned
 
 
 def dot(a: Sequence[float], b: Sequence[float]) -> float:
@@ -410,10 +461,16 @@ class RidgeHead:
 def pearson(a: Sequence[float], b: Sequence[float]) -> float | None:
     if len(a) != len(b) or len(a) < 2:
         return None
-    ma, mb = sum(a) / len(a), sum(b) / len(b)
-    cov = sum((x - ma) * (y - mb) for x, y in zip(a, b))
-    va = sum((x - ma) ** 2 for x in a)
-    vb = sum((y - mb) ** 2 for y in b)
+    # Quantize first: a constant predictor must have zero variance on every
+    # supported runtime, not a runtime-dependent 0 or a tiny nonzero variance.
+    left = [round(float(x), CANONICAL_FLOAT_DIGITS) for x in a]
+    right = [round(float(y), CANONICAL_FLOAT_DIGITS) for y in b]
+    if len(set(left)) == 1 or len(set(right)) == 1:
+        return None
+    ma, mb = sum(left) / len(left), sum(right) / len(right)
+    cov = sum((x - ma) * (y - mb) for x, y in zip(left, right))
+    va = sum((x - ma) ** 2 for x in left)
+    vb = sum((y - mb) ** 2 for y in right)
     if va <= 0.0 or vb <= 0.0:
         return None
     return cov / math.sqrt(va * vb)
@@ -479,19 +536,24 @@ def validate_event(event: dict[str, Any]) -> None:
     if event["validity"] not in {"known", "unknown", "invalid"}:
         raise ValueError("invalid_validity")
     for key in ("epoch", "source_first_sample", "source_last_sample_exclusive", "available_ns"):
-        if not isinstance(event[key], str) or not event[key].lstrip("-").isdigit():
+        raw = event[key]
+        if (not isinstance(raw, str) or not raw.isdigit()
+                or (len(raw) > 1 and raw.startswith("0")) or str(int(raw)) != raw):
             raise ValueError(f"non_decimal_{key}")
     epoch = int(event["epoch"])
     first = int(event["source_first_sample"])
     last = int(event["source_last_sample_exclusive"])
+    available_ns = int(event["available_ns"])
     if epoch < 1:
         raise ValueError("stale_epoch")
     if last <= first:
         raise ValueError("empty_interval")
-    if (last - first) % FRAME_SAMPLES:
+    if first % FRAME_SAMPLES or last % FRAME_SAMPLES:
         raise ValueError("misaligned_interval")
-    if int(event["available_ns"]) < 0:
-        raise ValueError("bad_available_ns")
+    if last - first != WINDOW_SAMPLES:
+        raise ValueError("wrong_window_samples")
+    if available_ns != ORIGIN_NS + last * SAMPLE_NS:
+        raise ValueError("available_ns_mismatch")
     if event["validity"] == "known":
         rate = event.get("rate_syllables_per_second")
         if isinstance(rate, bool) or not isinstance(rate, (int, float)) or not math.isfinite(float(rate)) or rate < 0.0:
@@ -502,17 +564,22 @@ def validate_event(event: dict[str, Any]) -> None:
 
 
 def cross_validate(windows: Sequence[Window], extractor: IdentityExtractor) -> dict[str, Any]:
+    """Four blocked calibration folds; the fifth fold is reserved for evaluation."""
     folds: list[dict[str, Any]] = []
     oof: list[float] = []
     labels: list[float] = []
     per_fold = []
-    for fold in range(FOLDS):
+    for fold in CALIBRATION_FOLDS:
         test = [w for w in windows if w.fold == fold]
-        train = [w for w in windows if w.fold != fold]
-        train_features = [extract_features(extractor, w.features) for w in train]
+        train = [w for w in windows if w.fold in CALIBRATION_FOLDS and w.fold != fold]
+        train_features = [
+            extract_features(extractor, w.features, tensor_digest(w.features)) for w in train
+        ]
         train_labels = [validate_label(w.label_rate) for w in train]
         head = RidgeHead().fit(train_features, train_labels)
-        test_features = [extract_features(extractor, w.features) for w in test]
+        test_features = [
+            extract_features(extractor, w.features, tensor_digest(w.features)) for w in test
+        ]
         predictions = [head.predict(f) for f in test_features]
         truth = [validate_label(w.label_rate) for w in test]
         constant = [sum(train_labels) / len(train_labels)] * len(test)
@@ -529,16 +596,20 @@ def cross_validate(windows: Sequence[Window], extractor: IdentityExtractor) -> d
         oof.extend(predictions)
         labels.extend(truth)
         per_fold.append(fold_record["nonnegative"]["mae_syllables_per_second"])
+    calibration = [w for w in windows if w.fold in CALIBRATION_FOLDS]
+    constant_all = [sum(validate_label(w.label_rate) for w in calibration) / len(calibration)] * len(labels)
     return {
-        "protocol": "five_contiguous_chronological_folds",
-        "note": "Matched synthetic features/labels make this a wiring and regression fixture; these scores are not an accuracy result or a reproduction of the pinned research.",
+        "protocol": "four_contiguous_chronological_calibration_folds_evaluation_fold_reserved",
+        "note": ("Synthetic matched features/labels are wiring/regression evidence only; "
+                 "alpha is fixed before any split and no accuracy or research reproduction is claimed."),
+        "calibration_folds": list(CALIBRATION_FOLDS),
+        "evaluation_fold": EVALUATION_FOLD,
+        "evaluation_fold_used_for_alpha_selection": False,
         "alpha": RIDGE_ALPHA,
         "folds": folds,
         "oof_raw": regression_metrics(oof, labels),
         "oof_nonnegative": clipped_metrics(oof, labels),
-        "oof_constant_train_mean": regression_metrics(
-            [sum(w.label_rate for w in windows if w.fold != i) / (TOTAL_WINDOWS - FOLD_SIZE)
-             for i in range(FOLDS) for _ in range(FOLD_SIZE)], labels),
+        "oof_constant_train_mean": regression_metrics(constant_all, labels),
         "fold_nonnegative_mae": per_fold,
     }
 
@@ -572,6 +643,23 @@ def rejection_cases(windows: Sequence[Window]) -> dict[str, Any]:
     reject("extractor_inf", lambda: extract_features(IdentityExtractor(), inf_vector), "nonfinite feature")
     reject("extractor_short_vector", lambda: extract_features(IdentityExtractor(), good[:8]), "wrong feature dimension")
     reject("extractor_non_numeric", lambda: extract_features(IdentityExtractor(), ["x"] * EMBED_DIM), "non-numeric feature")
+
+    class WrongModel(IdentityExtractor):
+        def __init__(self) -> None:
+            super().__init__(model_id="other-model")
+
+    class WrongRevision(IdentityExtractor):
+        def __init__(self) -> None:
+            super().__init__(revision="unpinned")
+
+    reject("extractor_identity_mismatch", lambda: extract_features(WrongModel(), good), "claimed model id must match")
+    reject("extractor_revision_mismatch", lambda: extract_features(WrongRevision(), good), "claimed revision must match")
+    reject("caller_vector_identity_mismatch",
+           lambda: extract_features(ReversedExtractor(), good, tensor_digest(good)),
+           "returned vector must equal the caller vector bitwise")
+    reject("caller_vector_digest_mismatch",
+           lambda: extract_features(IdentityExtractor(), tuple(reversed(good)), tensor_digest(good)),
+           "caller vector must match the pinned cohort digest")
     reject("missing_label", lambda: validate_label(None), "label required")
     reject("label_nan", lambda: validate_label(float("nan")), "nonfinite label")
     reject("label_nonpositive", lambda: validate_label(0.0), "positive label required")
@@ -580,10 +668,17 @@ def rejection_cases(windows: Sequence[Window]) -> dict[str, Any]:
     bad = dict(base)
     bad["source_first_sample"] = 1.5
     reject("non_decimal_sample", lambda: validate_event(bad), "decimal-string sample field required")
+    bad = dict(base, source_first_sample="+" + str(int(base["source_first_sample"])))
+    reject("plus_sign_interval", lambda: validate_event(bad), "unsigned decimal-string required")
     bad = dict(base, source_first_sample=dec(160), source_last_sample_exclusive=dec(160))
     reject("empty_interval", lambda: validate_event(bad), "nonempty interval required")
     bad = dict(base, source_last_sample_exclusive=dec(int(base["source_last_sample_exclusive"]) + 1))
     reject("misaligned_interval", lambda: validate_event(bad), "frame-aligned interval required")
+    bad = dict(base, source_last_sample_exclusive=dec(
+        int(base["source_first_sample"]) + WINDOW_SAMPLES - FRAME_SAMPLES))
+    reject("short_window", lambda: validate_event(bad), "exactly 64,000 samples required")
+    bad = dict(base, available_ns=dec(int(base["available_ns"]) + 1))
+    reject("available_ns_mismatch", lambda: validate_event(bad), "availability must match exclusive source end")
     bad = dict(base, epoch=dec(0))
     reject("stale_epoch", lambda: validate_event(bad), "epoch must be positive")
     bad = dict(base, validity="adult_child_label")
@@ -602,9 +697,34 @@ def rejection_cases(windows: Sequence[Window]) -> dict[str, Any]:
     }
 
 
+def hop_chain(events: Sequence[dict[str, Any]]) -> dict[str, Any]:
+    """Measure a chain of consecutive hops; gaps and overlaps are failures."""
+    ordered = sorted(events, key=lambda e: int(e["source_first_sample"]))
+    for event in ordered:
+        validate_event(event)
+    spans = [int(e["source_last_sample_exclusive"]) - int(e["source_first_sample"]) for e in ordered]
+    transitions = [int(cur["source_first_sample"]) - int(prev["source_last_sample_exclusive"])
+                   for prev, cur in zip(ordered, ordered[1:])]
+    gaps = sum(delta > 0 for delta in transitions)
+    overlaps = sum(delta < 0 for delta in transitions)
+    exact = all(span == WINDOW_SAMPLES for span in spans)
+    return {
+        "windows": len(ordered),
+        "frames_covered": [span // FRAME_SAMPLES for span in spans],
+        "exact_window_samples": exact,
+        "contiguous_transitions": sum(delta == 0 for delta in transitions),
+        "gap_count": gaps,
+        "overlap_count": overlaps,
+        "total_source_samples": sum(spans),
+        "first_sample": dec(int(ordered[0]["source_first_sample"])),
+        "last_sample_exclusive": dec(int(ordered[-1]["source_last_sample_exclusive"])),
+        "exact_half_open_interval": exact and gaps == 0 and overlaps == 0,
+    }
+
+
 def state_and_cross_hop(windows: Sequence[Window]) -> dict[str, Any]:
-    a = [build_event(windows[i], 3.0) for i in range(2)]
-    b = [build_event(windows[i + 2], 3.5) for i in range(2)]
+    a = [build_event(windows[i], 3.0) for i in range(3)]
+    b = [build_event(windows[i + 3], 3.5) for i in range(3)]
     for event in a:
         event["producer_id"] = "session-A"
     for event in b:
@@ -623,14 +743,7 @@ def state_and_cross_hop(windows: Sequence[Window]) -> dict[str, Any]:
         "session_keys_disjoint": keys_a.isdisjoint(keys_b),
         "session_a_keys": len(keys_a),
         "session_b_keys": len(keys_b),
-        "cross_hop": [
-            {
-                "window_id": e["window_id"],
-                "frames_covered": (int(e["source_last_sample_exclusive"]) - int(e["source_first_sample"])) // FRAME_SAMPLES,
-                "exact_half_open_interval": True,
-            }
-            for e in a
-        ],
+        "cross_hop": {"session_a": hop_chain(a), "session_b": hop_chain(b)},
         "stale_epoch_rejected": stale_rejected,
         "reset_epoch_accepted": True,
     }
@@ -640,20 +753,35 @@ def build_report() -> dict[str, Any]:
     windows = build_windows()
     extractor = IdentityExtractor()
     cv = cross_validate(windows, extractor)
-    held = [w for w in windows if w.fold == FOLDS - 1]
-    train = [w for w in windows if w.fold != FOLDS - 1]
-    train_features = [extract_features(extractor, w.features) for w in train]
-    head = RidgeHead().fit(train_features, [validate_label(w.label_rate) for w in train])
-    held_features = [extract_features(extractor, w.features) for w in held]
+    held = [w for w in windows if w.fold == EVALUATION_FOLD]
+    train = [w for w in windows if w.fold in CALIBRATION_FOLDS]
+    train_features = [
+        extract_features(extractor, w.features, tensor_digest(w.features)) for w in train
+    ]
+    train_labels = [validate_label(w.label_rate) for w in train]
+    head = RidgeHead().fit(train_features, train_labels)
+    held_features = [
+        extract_features(extractor, w.features, tensor_digest(w.features)) for w in held
+    ]
     predictions = [head.predict(f) for f in held_features]
     truth = [validate_label(w.label_rate) for w in held]
     events = [build_event(w, p) for w, p in zip(held, predictions)]
     for event in events:
         validate_event(event)
 
-    constant = [sum(truth) / len(train)] * len(held)
+    # Baseline uses calibration labels only; evaluation labels never enter a fit,
+    # alpha choice or control.
+    train_mean = sum(train_labels) / len(train_labels)
+    constant = [train_mean] * len(held)
     adverse = ReversedExtractor()
-    adverse_features = [extract_features(adverse, w.features) for w in held]
+    # A strict caller pass rejects this control; unaccepted vectors are scored
+    # directly only to show the expected regression failure.
+    try:
+        extract_features(adverse, held[0].features, tensor_digest(held[0].features))
+        adverse_rejected = False
+    except ValueError:
+        adverse_rejected = True
+    adverse_features = [validate_features(tuple(reversed(w.features))) for w in held]
     adverse_predictions = [head.predict(f) for f in adverse_features]
     by_stratum = {
         stratum: clipped_metrics(
@@ -692,6 +820,8 @@ def build_report() -> dict[str, Any]:
                 "rmse_syllables_per_second": 0.929,
                 "pearson_r": 0.768,
                 "mean_encoder_ms_per_4s_clip": 157.0,
+                "p95_encoder_ms_per_4s_clip": 222.0,
+                "rtf": 0.0393,
                 "parameters": 37_900_000,
                 "weight_bytes_approx": 151_500_000,
                 "reproduced_here": False,
@@ -702,9 +832,14 @@ def build_report() -> dict[str, Any]:
                 "revision": extractor.revision,
                 "frozen": extractor.frozen,
                 "calls": len(extractor.calls),
-                "distinct_caller_vectors": len(set(extractor.calls)),
-                "all_caller_vectors_returned_unchanged": (
-                    set(extractor.calls) == {tensor_digest(w.features) for w in windows}
+                "distinct_caller_vectors": len({supplied for supplied, _ in extractor.calls}),
+                "identity_pairs_checked": len(extractor.calls),
+                "all_caller_vectors_returned_unchanged": all(
+                    supplied == returned for supplied, returned in extractor.calls
+                ),
+                "all_caller_vectors_match_pinned_digests": (
+                    {supplied for supplied, _ in extractor.calls}
+                    == {tensor_digest(w.features) for w in windows}
                 ),
                 "internal_model": False,
             },
@@ -752,8 +887,13 @@ def build_report() -> dict[str, Any]:
         },
         "training": cv,
         "held_out": {
-            "fold": FOLDS - 1,
+            "fold": EVALUATION_FOLD,
             "windows": len(held),
+            "calibration_folds": list(CALIBRATION_FOLDS),
+            "calibration_windows": len(train),
+            "evaluation_labels_used_in_fit": False,
+            "evaluation_labels_used_for_alpha_selection": False,
+            "train_mean_label_syllables_per_second": train_mean,
             "raw": regression_metrics(predictions, truth),
             "nonnegative": clipped_metrics(predictions, truth),
             "constant_train_mean": regression_metrics(constant, truth),
@@ -771,6 +911,8 @@ def build_report() -> dict[str, Any]:
             "permutation_adverse": {
                 "status": "expected_failure",
                 "description": "Same claimed model identity, deterministically reversed caller vectors.",
+                "strict_gate_rejected": adverse_rejected,
+                "metrics_are_unaccepted": True,
                 "raw": regression_metrics(adverse_predictions, truth),
                 "nonnegative": clipped_metrics(adverse_predictions, truth),
                 "worse_than_identity": (
@@ -795,11 +937,14 @@ def build_report() -> dict[str, Any]:
         "gates": list(GATES),
         "evidence_classes": {
             "synthetic_deterministic": "used",
+            "synthetic_wiring_mae_rmse_r": "wiring_only_not_accuracy",
             "real_audio": "none",
             "real_model_weights": "none",
             "caller_supplied_real_features": "none",
             "human_rate_labels": "none",
             "target_runtime_timing": "none",
+            "rate_policy_conditions": "none",
+            "speech_preservation": "none",
         },
     }
     return report

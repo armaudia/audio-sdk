@@ -12,10 +12,12 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest import mock
 
 HERE = Path(__file__).resolve().parent
 SDK_ROOT = HERE.parents[2]
-SOURCE_ROOT = Path(os.environ.get("SOURCE_ROOT", "/Users/htsakanyan/workspace/audio/audioml"))
+SOURCE_ROOT = Path(os.environ.get("SOURCE_ROOT", str(HERE.parents[5])))
 sys.path.insert(0, str(HERE))
 
 import reference as ref  # noqa: E402
@@ -145,8 +147,81 @@ class TestReport(unittest.TestCase):
         self.assertEqual(cohort["windows_per_fold"], 42)
         self.assertTrue(cohort["labels_matched_to_caller_features_by_latent"])
         self.assertFalse(cohort["real_audio"])
-        self.assertEqual(self.report["training"]["oof_nonnegative"]["count"], 210)
-        self.assertEqual(len(self.report["training"]["folds"]), 5)
+        self.assertEqual(self.report["training"]["oof_nonnegative"]["count"], 168)
+        self.assertEqual(len(self.report["training"]["folds"]), 4)
+
+    def test_profile_and_fold_separation(self):
+        self.assertEqual(self.report["profile"], "rate")
+        training = self.report["training"]
+        self.assertEqual(training["calibration_folds"], [0, 1, 2, 3])
+        self.assertEqual(training["evaluation_fold"], self.report["held_out"]["fold"])
+        self.assertEqual(training["evaluation_fold"], 4)
+        self.assertFalse(training["evaluation_fold_used_for_alpha_selection"])
+        self.assertNotIn(4, [fold["fold"] for fold in training["folds"]])
+        self.assertFalse(self.report["held_out"]["evaluation_labels_used_in_fit"])
+        self.assertFalse(self.report["held_out"]["evaluation_labels_used_for_alpha_selection"])
+        train = [w for w in ref.build_windows() if w.fold in (0, 1, 2, 3)]
+        expected_mean = sum(w.label_rate for w in train) / len(train)
+        self.assertAlmostEqual(self.report["held_out"]["train_mean_label_syllables_per_second"],
+                               expected_mean, places=8)
+        # A baseline fitted on evaluation truth would reproduce its mean exactly.
+        held_mean = sum(w.label_rate for w in ref.build_windows() if w.fold == 4) / 42
+        self.assertNotAlmostEqual(expected_mean, held_mean, places=3)
+
+    def test_exact_decimal_intervals(self):
+        for event in self.report["held_out"]["events"]:
+            for field in ("epoch", "source_first_sample", "source_last_sample_exclusive", "available_ns"):
+                raw = event[field]
+                self.assertIsInstance(raw, str)
+                self.assertTrue(raw.isdigit())
+                self.assertEqual(str(int(raw)), raw)
+            ref.validate_event(event)
+            first = int(event["source_first_sample"])
+            last = int(event["source_last_sample_exclusive"])
+            self.assertEqual(last - first, 64000)
+            self.assertEqual(int(event["available_ns"]), ref.ORIGIN_NS + last * ref.SAMPLE_NS)
+
+    def test_cross_hop_coverage_is_contiguous(self):
+        chains = self.report["state_and_cross_hop"]["cross_hop"]
+        self.assertEqual(set(chains), {"session_a", "session_b"})
+        for chain in chains.values():
+            self.assertTrue(chain["exact_half_open_interval"])
+            self.assertTrue(chain["exact_window_samples"])
+            self.assertEqual(chain["frames_covered"], [400, 400, 400])
+            self.assertEqual(chain["contiguous_transitions"], 2)
+            self.assertEqual(chain["gap_count"], 0)
+            self.assertEqual(chain["overlap_count"], 0)
+            self.assertEqual(chain["total_source_samples"], 3 * 64000)
+        self.assertEqual(chains["session_b"]["first_sample"],
+                         chains["session_a"]["last_sample_exclusive"])
+
+    def test_caller_identity_and_mismatch_controls(self):
+        identity = self.report["model"]["identity_control"]
+        self.assertEqual(identity["calls"], 882)
+        self.assertEqual(identity["identity_pairs_checked"], 882)
+        self.assertEqual(identity["distinct_caller_vectors"], 210)
+        self.assertTrue(identity["all_caller_vectors_returned_unchanged"])
+        self.assertTrue(identity["all_caller_vectors_match_pinned_digests"])
+        adverse = self.report["controls"]["permutation_adverse"]
+        self.assertTrue(adverse["strict_gate_rejected"])
+        self.assertTrue(adverse["metrics_are_unaccepted"])
+        self.assertTrue(adverse["worse_than_identity"])
+
+    def test_metrics_are_wiring_evidence_only(self):
+        classes = self.report["evidence_classes"]
+        self.assertEqual(classes["synthetic_wiring_mae_rmse_r"], "wiring_only_not_accuracy")
+        self.assertEqual(classes["rate_policy_conditions"], "none")
+        self.assertEqual(classes["speech_preservation"], "none")
+        self.assertIn("wiring", self.report["training"]["note"].lower())
+
+    def test_all_required_gates_blocked(self):
+        gate_ids = {gate["id"] for gate in self.report["gates"]}
+        for gate_id in ("model_revision_and_rights", "real_frozen_extractor_and_head",
+                        "rights_qualified_labeled_audio", "external_accuracy_generalization",
+                        "preferred_speed_claim", "target_runtime_timing",
+                        "rate_profile_condition_coverage", "source_output_mapping_and_preservation",
+                        "provider_intake"):
+            self.assertIn(gate_id, gate_ids)
 
     def test_regression_metrics(self):
         for section in (self.report["training"]["oof_raw"], self.report["held_out"]["nonnegative"]):
@@ -227,6 +302,85 @@ class TestValidationUnits(unittest.TestCase):
         ref.validate_event(unknown)
         self.assertEqual(unknown["validity"], "unknown")
         self.assertIsNone(unknown["rate_syllables_per_second"])
+
+    def test_reject_wrong_window_and_availability(self):
+        window = ref.build_windows()[0]
+        event = ref.build_event(window, 3.0)
+        short = dict(event, source_last_sample_exclusive=ref.dec(
+            int(event["source_first_sample"]) + ref.WINDOW_SAMPLES - ref.FRAME_SAMPLES))
+        with self.assertRaisesRegex(ValueError, "wrong_window_samples"):
+            ref.validate_event(short)
+        late = dict(event, available_ns=ref.dec(int(event["available_ns"]) + 1))
+        with self.assertRaisesRegex(ValueError, "available_ns_mismatch"):
+            ref.validate_event(late)
+        signed = dict(event, source_first_sample="+" + str(int(event["source_first_sample"])))
+        with self.assertRaisesRegex(ValueError, "non_decimal_source_first_sample"):
+            ref.validate_event(signed)
+
+    def test_reject_caller_vector_mismatches(self):
+        window = ref.build_windows()[0]
+        good = window.features
+        digest = ref.tensor_digest(good)
+
+        class WrongModel(ref.IdentityExtractor):
+            def __init__(self) -> None:
+                super().__init__(model_id="other-model")
+
+        class WrongRevision(ref.IdentityExtractor):
+            def __init__(self) -> None:
+                super().__init__(revision="unpinned")
+
+        with self.assertRaisesRegex(ValueError, "extractor_identity_mismatch"):
+            ref.extract_features(WrongModel(), good, digest)
+        with self.assertRaisesRegex(ValueError, "extractor_revision_mismatch"):
+            ref.extract_features(WrongRevision(), good, digest)
+        with self.assertRaisesRegex(ValueError, "caller_vector_identity_mismatch"):
+            ref.extract_features(ref.ReversedExtractor(), good, digest)
+        with self.assertRaisesRegex(ValueError, "caller_vector_digest_mismatch"):
+            ref.extract_features(ref.IdentityExtractor(), tuple(reversed(good)), digest)
+
+    def test_hop_chain_detects_gaps_and_overlaps(self):
+        windows = ref.build_windows()
+        first, third = ref.build_event(windows[0], 3.0), ref.build_event(windows[2], 3.0)
+        gapped = ref.hop_chain([first, third])
+        self.assertFalse(gapped["exact_half_open_interval"])
+        self.assertEqual(gapped["gap_count"], 1)
+        overlap_first = int(first["source_last_sample_exclusive"]) - ref.FRAME_SAMPLES
+        overlap_last = overlap_first + ref.WINDOW_SAMPLES
+        overlap = dict(third, source_first_sample=ref.dec(overlap_first),
+                       source_last_sample_exclusive=ref.dec(overlap_last),
+                       available_ns=ref.dec(ref.ORIGIN_NS + overlap_last * ref.SAMPLE_NS))
+        overlapped = ref.hop_chain([first, overlap])
+        self.assertEqual(overlapped["overlap_count"], 1)
+
+
+class TestPortability(unittest.TestCase):
+    def test_canonical_bytes_quantize_floats(self):
+        self.assertEqual(ref.canonical_bytes({"v": 1.0000000004}), b'{\n  "v": 1.0\n}\n')
+        self.assertEqual(ref.canonical_bytes({"v": -0.0}), b'{\n  "v": 0.0\n}\n')
+
+    def test_runtime_guard(self):
+        with mock.patch.object(ref, "sys", SimpleNamespace(version_info=(3, 9, 0))):
+            with self.assertRaisesRegex(RuntimeError, "unsupported_runtime"):
+                ref.require_supported_runtime()
+        with mock.patch.object(ref, "sys", SimpleNamespace(version_info=(3, 10, 0))):
+            self.assertEqual(ref.require_supported_runtime(), (3, 10, 0))
+
+    def test_cross_version_canonical_bytes(self):
+        candidates = [Path(f"/Users/htsakanyan/.pyenv/versions/{tag}/bin/python3")
+                      for tag in ("3.10.13", "3.11.5", "3.12.16")]
+        found = [path for path in candidates if path.is_file()]
+        if len(found) < 2:
+            self.assertIn("3.10.13/3.11.5/3.12.16",
+                          (HERE / "README.md").read_text(encoding="utf-8"))
+            return
+        command = ("import sys, reference as r; "
+                   "sys.stdout.buffer.write(r.canonical_report_bytes(r.build_report()))")
+        for path in found:
+            output = subprocess.check_output(
+                [str(path), "-B", "-c", command], cwd=HERE,
+                env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"})
+            self.assertEqual(output, REPORT.read_bytes(), path)
 
 
 if __name__ == "__main__":

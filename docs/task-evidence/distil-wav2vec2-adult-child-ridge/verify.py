@@ -13,7 +13,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 SDK_ROOT = HERE.parents[2]
-SOURCE_ROOT = Path(os.environ.get("SOURCE_ROOT", "/Users/htsakanyan/workspace/audio/audioml"))
+SOURCE_ROOT = Path(os.environ.get("SOURCE_ROOT", str(HERE.parents[5])))
 PINS = HERE / "SOURCES.sha256"
 REPORT = HERE / "report.json"
 REPORT_SHA = HERE / "report.json.sha256"
@@ -23,6 +23,13 @@ SPDX_C = "SPDX" "-FileCopyrightText: 2026 Tsakanyan Hovhannes"
 FORBIDDEN_FIELDS = (
     "prob_child", "prob_adult", "predicted_label", "ground_truth_label",
     "fn_rate", "fp_rate", "balanced_error", "threshold_grid",
+)
+REQUIRED_GATES = (
+    "model_revision_and_rights", "real_frozen_extractor_and_head",
+    "rights_qualified_labeled_audio", "external_accuracy_generalization",
+    "preferred_speed_claim", "target_runtime_timing",
+    "rate_profile_condition_coverage", "source_output_mapping_and_preservation",
+    "provider_intake",
 )
 
 
@@ -75,25 +82,51 @@ def check_json(errors: list[str]) -> bool:
         errors.append("status mismatch")
     if report.get("qualification_status") != "not_qualified":
         errors.append("qualification_status mismatch")
+    if report.get("profile") != "rate":
+        errors.append("report profile is not rate")
     if report.get("task", {}).get("kind") != "measured_syllable_rate_regression":
         errors.append("task kind is not rate regression")
     if report.get("model", {}).get("classifier_head_used") is not False:
         errors.append("classifier head marked as used")
     if report.get("model", {}).get("documented_context_not_reproduced", {}).get("reproduced_here") is not False:
         errors.append("research context claimed as reproduced")
+    if report.get("boundary", {}).get("window_samples") != 64000:
+        errors.append("window is not exactly 64,000 samples")
+    cv = report.get("training", {})
+    held = report.get("held_out", {})
+    if cv.get("evaluation_fold") != held.get("fold") or held.get("evaluation_labels_used_in_fit") is not False:
+        errors.append("evaluation fold separation broken")
+    if held.get("evaluation_labels_used_for_alpha_selection") is not False:
+        errors.append("evaluation fold used for alpha selection")
+    if report.get("evidence_classes", {}).get("synthetic_wiring_mae_rmse_r") != "wiring_only_not_accuracy":
+        errors.append("synthetic metrics not labeled as wiring evidence")
+    if any(case.get("status") != "rejected" for case in report.get("validation", {}).get("cases", [])):
+        errors.append("invalid input accepted")
+    if report.get("validation", {}).get("all_rejected") is not True:
+        errors.append("rejection gate not all-rejected")
+    chains = report.get("state_and_cross_hop", {}).get("cross_hop", {})
+    if any(not chain.get("exact_half_open_interval") or chain.get("gap_count")
+           or chain.get("overlap_count") for chain in chains.values()):
+        errors.append("cross-hop coverage not exact")
     text = REPORT.read_text(encoding="utf-8")
     for field in FORBIDDEN_FIELDS:
         if field in text:
             errors.append(f"classification field present: {field}")
-    for gate in report.get("gates", []):
+    gates = report.get("gates", [])
+    for gate in gates:
         if gate.get("status") != "blocked":
             errors.append(f"gate not blocked: {gate.get('id')}")
+    gate_ids = {gate.get("id") for gate in gates}
+    for gate_id in REQUIRED_GATES:
+        if gate_id not in gate_ids:
+            errors.append(f"missing gate: {gate_id}")
     return True
 
 
 def check_reproduction(errors: list[str]) -> tuple[bool, str]:
     sys.path.insert(0, str(HERE))
     import reference  # noqa: E402
+    reference.require_supported_runtime()
     expected = reference.canonical_report_bytes(reference.build_report())
     actual = REPORT.read_bytes()
     ok = expected == actual

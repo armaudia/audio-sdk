@@ -20,11 +20,12 @@ def main(argv: list[str]) -> int:
         return 2
     given = Path(argv[1])
     output = given if given.is_absolute() else HERE / given
+    runtime = reference.require_supported_runtime()
     payload = reference.canonical_report_bytes(reference.build_report())
     output.write_bytes(payload)
     digest = hashlib.sha256(payload).hexdigest()
     output.with_suffix(".json.sha256").write_text(f"{digest}  report.json\n", encoding="utf-8")
-    print(f"report_sha256={digest} bytes={len(payload)}")
+    print(f"report_sha256={digest} bytes={len(payload)} runtime={'.'.join(map(str, runtime))}")
     return 0
 
 

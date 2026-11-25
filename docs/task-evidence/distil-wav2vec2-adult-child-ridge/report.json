@@ -26,7 +26,7 @@
       {
         "active_seconds": 3.6,
         "feature_digest": "166a3f068131403b6d113b3c2b83021f8e5a570a8117ea2046ac3d96e7272eb0",
-        "label_syllables_per_second": 4.166666666666667,
+        "label_syllables_per_second": 4.166666667,
         "stratum": "quiet_boundary",
         "syllable_count": 15,
         "window_id": "win-000"
@@ -34,7 +34,7 @@
       {
         "active_seconds": 3.8,
         "feature_digest": "799fb960fa5558781055e2bedc6104b407fe42eead534c0a731d8c132808406a",
-        "label_syllables_per_second": 4.473684210526316,
+        "label_syllables_per_second": 4.473684211,
         "stratum": "clean",
         "syllable_count": 17,
         "window_id": "win-001"
@@ -42,7 +42,7 @@
       {
         "active_seconds": 3.8,
         "feature_digest": "07f2e04fbe56b910749a19c15dec92cdf88ec0592be02c75322ac7f410234852",
-        "label_syllables_per_second": 4.736842105263158,
+        "label_syllables_per_second": 4.736842105,
         "stratum": "clean",
         "syllable_count": 18,
         "window_id": "win-002"
@@ -50,7 +50,7 @@
       {
         "active_seconds": 3.8,
         "feature_digest": "c3c99c1cb3255d4c5769769972e30f4ee8039a06f916701ae67e7d569e51d7f9",
-        "label_syllables_per_second": 4.736842105263158,
+        "label_syllables_per_second": 4.736842105,
         "stratum": "clean",
         "syllable_count": 18,
         "window_id": "win-003"
@@ -64,11 +64,11 @@
         "window_id": "win-004"
       }
     ],
-    "feature_digest": "cc07fb78a4848ddc8a1af0aace72bc50e796b565eb9406a6b7ba54e3d6e95c78",
+    "feature_digest": "4050c7fe20489345cf97229d3a33e1370ccd115fda082209d84a1849451a6e70",
     "folds": 5,
     "human_syllable_labels": false,
     "label_definition": "round(latent_rate * active_seconds) / active_seconds",
-    "label_digest": "a2bc5656267ef8680602e17cc98e2869fe79e8f864c86d9891ef4555bfe478f6",
+    "label_digest": "c635c58b35edf87201fc1617f22b3a44e3dd3012cd5c8ae2113be26dff44610a",
     "labels_matched_to_caller_features_by_latent": true,
     "real_audio": false,
     "seed": 20261124,
@@ -86,17 +86,17 @@
   "controls": {
     "constant_train_mean": {
       "metrics": {
-        "bias_syllables_per_second": -3.14101,
+        "bias_syllables_per_second": 0.126936,
         "count": 42,
-        "mae_syllables_per_second": 3.14101,
+        "mae_syllables_per_second": 1.197024,
         "negative_predictions": 0,
         "pearson_r": null,
-        "rmse_syllables_per_second": 3.423863
+        "rmse_syllables_per_second": 1.368579
       },
       "status": "reference_failure"
     },
     "identity_caller_features": {
-      "embedding_digest": "a9a8aa187353cd7644e1786d87b5fbb97baebc5a8b77737215f5958a4a4f2623",
+      "embedding_digest": "a10cc2ebf2c0bf6abb39bd4e8fe66be4c9f0ec3477bad7aad2315694b68e76af",
       "note": "Caller vectors returned bitwise unchanged; only the ridge head is fitted locally.",
       "status": "pass"
     },
@@ -107,6 +107,7 @@
     },
     "permutation_adverse": {
       "description": "Same claimed model identity, deterministically reversed caller vectors.",
+      "metrics_are_unaccepted": true,
       "nonnegative": {
         "bias_syllables_per_second": -0.241227,
         "count": 42,
@@ -124,15 +125,19 @@
         "rmse_syllables_per_second": 1.872855
       },
       "status": "expected_failure",
+      "strict_gate_rejected": true,
       "worse_than_identity": true
     }
   },
   "evidence_classes": {
     "caller_supplied_real_features": "none",
     "human_rate_labels": "none",
+    "rate_policy_conditions": "none",
     "real_audio": "none",
     "real_model_weights": "none",
+    "speech_preservation": "none",
     "synthetic_deterministic": "used",
+    "synthetic_wiring_mae_rmse_r": "wiring_only_not_accuracy",
     "target_runtime_timing": "none"
   },
   "gates": [
@@ -170,6 +175,18 @@
       "id": "target_runtime_timing",
       "reason": "No paced target-device timing, CPU, memory or deadline measurement. The 157 ms/4 s figure is quoted research context, not a local measurement.",
       "reopen": "Measure the exact installed build on the target with pacing, load and deadline budgets.",
+      "status": "blocked"
+    },
+    {
+      "id": "rate_profile_condition_coverage",
+      "reason": "No measured 1x/rate-change/unfamiliar-speech/music/silence/rebuffer/drift/final-partial-window coverage; synthetic 4 s windows only.",
+      "reopen": "Score the exact rate policy on the full Rate-profile condition matrix with separate source-reference conditions.",
+      "status": "blocked"
+    },
+    {
+      "id": "source_output_mapping_and_preservation",
+      "reason": "No pitch/transient audibility, playback buffering, speech-preservation or timestamp-tied pause/filler decision evidence; this fixture predicts a rate, it does not apply a rate change.",
+      "reopen": "Measure source/output mapping, duration, quality and buffer behavior for a reviewed rate policy on permitted audio.",
       "status": "blocked"
     },
     {
@@ -214,14 +231,23 @@
         "rmse_syllables_per_second": 0.363567
       }
     },
+    "calibration_folds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "calibration_windows": 168,
     "constant_train_mean": {
-      "bias_syllables_per_second": -3.14101,
+      "bias_syllables_per_second": 0.126936,
       "count": 42,
-      "mae_syllables_per_second": 3.14101,
+      "mae_syllables_per_second": 1.197024,
       "negative_predictions": 0,
       "pearson_r": null,
-      "rmse_syllables_per_second": 3.423863
+      "rmse_syllables_per_second": 1.368579
     },
+    "evaluation_labels_used_for_alpha_selection": false,
+    "evaluation_labels_used_in_fit": false,
     "events": [
       {
         "active_seconds": 3.2,
@@ -232,7 +258,7 @@
         "feature_digest": "a20f98994118f9ced83e8bb021781abdb90ef6336d65d0c978f490f480990d92",
         "label_syllables_per_second": 2.1875,
         "producer_id": "analysis.distil-wav2vec2-frozen-rate-ridge.v0",
-        "rate_syllables_per_second": 1.8798726270197794,
+        "rate_syllables_per_second": 1.879872627,
         "source_first_sample": "10752000",
         "source_last_sample_exclusive": "10816000",
         "stratum": "overlap",
@@ -248,9 +274,9 @@
         "epoch": "1",
         "event_id": "evt-1-win-169",
         "feature_digest": "79da44f100edace8322bb0676f745295544ef83ea5f137325646ee28273f7b9e",
-        "label_syllables_per_second": 2.368421052631579,
+        "label_syllables_per_second": 2.368421053,
         "producer_id": "analysis.distil-wav2vec2-frozen-rate-ridge.v0",
-        "rate_syllables_per_second": 2.5945262479821536,
+        "rate_syllables_per_second": 2.594526248,
         "source_first_sample": "10816000",
         "source_last_sample_exclusive": "10880000",
         "stratum": "clean",
@@ -268,7 +294,7 @@
         "feature_digest": "90918414f3a2288dc6d603f619395550c5fd2eb05ac8f92e2fb5d4b9bfd72b03",
         "label_syllables_per_second": 2.5,
         "producer_id": "analysis.distil-wav2vec2-frozen-rate-ridge.v0",
-        "rate_syllables_per_second": 2.17607102704577,
+        "rate_syllables_per_second": 2.176071027,
         "source_first_sample": "10880000",
         "source_last_sample_exclusive": "10944000",
         "stratum": "short_active",
@@ -278,66 +304,66 @@
         "window_id": "win-170"
       }
     ],
-    "events_digest": "edf1ca54ef3d310236a4c89e2b174f6c713c7df081ea72f4638a2374f6674198",
+    "events_digest": "1d8fbbcac6d1d85e7a85c5bb882f61d7aa272888a6d92c69f1ea6146088079ce",
     "fold": 4,
     "head": {
       "alpha": 10.0,
-      "bias": 4.31494970064049,
+      "bias": 4.314949701,
       "feature_dim": 16,
       "mean": [
-        0.12293608232534356,
-        0.10992127850690545,
-        -0.08748059708392246,
-        0.06148863240838095,
-        -0.05921384963423147,
-        0.0461836500337813,
-        0.06420910655094,
-        -0.02633495542974699,
-        0.13037091195139855,
-        0.11137125435723212,
-        -0.08428547493348429,
-        0.04718609050742262,
-        -0.05134297087605644,
-        0.0468390775201953,
-        0.02774116791136164,
-        -0.024279951988941145
+        0.122936082,
+        0.109921279,
+        -0.087480597,
+        0.061488632,
+        -0.05921385,
+        0.04618365,
+        0.064209107,
+        -0.026334955,
+        0.130370912,
+        0.111371254,
+        -0.084285475,
+        0.047186091,
+        -0.051342971,
+        0.046839078,
+        0.027741168,
+        -0.024279952
       ],
       "scale": [
-        0.5802263428179508,
-        0.5104699992155923,
-        0.4273263853057344,
-        0.406301343617648,
-        0.3626329307391086,
-        0.34802482940096063,
-        0.2929163578197166,
-        0.3125503062345907,
-        0.6222201928026198,
-        0.5267856742395863,
-        0.4590567573535043,
-        0.39441304425047247,
-        0.3636250296946236,
-        0.345024628258325,
-        0.30816683038912884,
-        0.2992165318233835
+        0.580226343,
+        0.510469999,
+        0.427326385,
+        0.406301344,
+        0.362632931,
+        0.348024829,
+        0.292916358,
+        0.312550306,
+        0.622220193,
+        0.526785674,
+        0.459056757,
+        0.394413044,
+        0.36362503,
+        0.345024628,
+        0.30816683,
+        0.299216532
       ],
       "type": "standardized_ridge",
       "weights": [
-        0.25013423317927713,
-        0.173016006043854,
-        -0.09454091567645047,
-        0.08829263695935527,
-        -0.07097125148732529,
-        0.04379374544081923,
-        0.02098819156538292,
-        -0.05579138349641251,
-        0.25178556476909775,
-        0.18982144133785323,
-        -0.15756048113321147,
-        0.06692861913048491,
-        -0.03599603168915846,
-        0.053589573431309406,
-        0.040388484001728786,
-        -0.028747275165501202
+        0.250134233,
+        0.173016006,
+        -0.094540916,
+        0.088292637,
+        -0.070971251,
+        0.043793745,
+        0.020988192,
+        -0.055791383,
+        0.251785565,
+        0.189821441,
+        -0.157560481,
+        0.066928619,
+        -0.035996032,
+        0.053589573,
+        0.040388484,
+        -0.028747275
       ]
     },
     "nonnegative": {
@@ -356,6 +382,7 @@
       "pearson_r": 0.969427,
       "rmse_syllables_per_second": 0.336658
     },
+    "train_mean_label_syllables_per_second": 4.314949701,
     "windows": 42
   },
   "missing_evidence": [
@@ -376,19 +403,23 @@
       "mae_syllables_per_second": 0.741,
       "mean_encoder_ms_per_4s_clip": 157.0,
       "note": "External prior result quoted as context only. No exact weights, revision, permission or local execution; these numbers are not claimed by this fixture.",
+      "p95_encoder_ms_per_4s_clip": 222.0,
       "parameters": 37900000,
       "pearson_r": 0.768,
       "reproduced_here": false,
       "rmse_syllables_per_second": 0.929,
+      "rtf": 0.0393,
       "source_pin": "research/tsm-followup-20261101/README.md line 31",
       "weight_bytes_approx": 151500000
     },
     "identity_control": {
+      "all_caller_vectors_match_pinned_digests": true,
       "all_caller_vectors_returned_unchanged": true,
-      "calls": 1260,
+      "calls": 882,
       "distinct_caller_vectors": 210,
       "extractor_model_id": "bookbot/distil-wav2vec2-adult-child-cls-37m",
       "frozen": true,
+      "identity_pairs_checked": 882,
       "internal_model": false,
       "revision": "caller-pinned-not-verified"
     },
@@ -435,21 +466,43 @@
     }
   ],
   "state_and_cross_hop": {
-    "cross_hop": [
-      {
+    "cross_hop": {
+      "session_a": {
+        "contiguous_transitions": 2,
         "exact_half_open_interval": true,
-        "frames_covered": 400,
-        "window_id": "win-000"
+        "exact_window_samples": true,
+        "first_sample": "0",
+        "frames_covered": [
+          400,
+          400,
+          400
+        ],
+        "gap_count": 0,
+        "last_sample_exclusive": "192000",
+        "overlap_count": 0,
+        "total_source_samples": 192000,
+        "windows": 3
       },
-      {
+      "session_b": {
+        "contiguous_transitions": 2,
         "exact_half_open_interval": true,
-        "frames_covered": 400,
-        "window_id": "win-001"
+        "exact_window_samples": true,
+        "first_sample": "192000",
+        "frames_covered": [
+          400,
+          400,
+          400
+        ],
+        "gap_count": 0,
+        "last_sample_exclusive": "384000",
+        "overlap_count": 0,
+        "total_source_samples": 192000,
+        "windows": 3
       }
-    ],
+    },
     "reset_epoch_accepted": true,
-    "session_a_keys": 2,
-    "session_b_keys": 2,
+    "session_a_keys": 3,
+    "session_b_keys": 3,
     "session_keys_disjoint": true,
     "stale_epoch_rejected": true
   },
@@ -471,486 +524,404 @@
   "title": "Distil-Wav2Vec2 frozen caller features + ridge syllable-rate head",
   "training": {
     "alpha": 10.0,
+    "calibration_folds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "evaluation_fold": 4,
+    "evaluation_fold_used_for_alpha_selection": false,
     "fold_nonnegative_mae": [
-      0.254718,
-      0.285752,
-      0.267795,
-      0.283691,
-      0.290807
+      0.251719,
+      0.294784,
+      0.264617,
+      0.275705
     ],
     "folds": [
       {
         "constant_train_mean": {
-          "bias_syllables_per_second": 0.046298,
+          "bias_syllables_per_second": 0.083235,
           "count": 42,
           "mae_syllables_per_second": 1.074631,
           "negative_predictions": 0,
           "pearson_r": null,
-          "rmse_syllables_per_second": 1.266387
+          "rmse_syllables_per_second": 1.268274
         },
         "fold": 0,
         "head": {
           "alpha": 10.0,
-          "bias": 4.298822142160958,
+          "bias": 4.335758377,
           "feature_dim": 16,
           "mean": [
-            0.10726384659342113,
-            0.10590622904505358,
-            -0.08431697932460033,
-            0.06738871390582063,
-            -0.043161323622833675,
-            0.03761414961872755,
-            0.009548282754951202,
-            -0.02044660375941368,
-            0.12038473439447227,
-            0.09810184512215311,
-            -0.0812281499952743,
-            0.078409062712287,
-            -0.05182614494176093,
-            0.04138445268856317,
-            0.029217981838432723,
-            -0.028865385974446937
+            0.129584091,
+            0.116554627,
+            -0.098617042,
+            0.07032161,
+            -0.056812587,
+            0.054210408,
+            0.032067187,
+            -0.024898716,
+            0.137877823,
+            0.113377423,
+            -0.086546495,
+            0.075624958,
+            -0.057209558,
+            0.047494702,
+            0.015731559,
+            -0.022128225
           ],
           "scale": [
-            0.6076450735014088,
-            0.5148602411858367,
-            0.42836354312055397,
-            0.4009561026630302,
-            0.3872562229594057,
-            0.3441089170883143,
-            0.2920948323216165,
-            0.310896253165103,
-            0.6464182015652487,
-            0.5332230532707601,
-            0.4645355677087595,
-            0.4227688676554039,
-            0.37693533004942353,
-            0.3483459936870934,
-            0.30124061426329984,
-            0.313751258116069
+            0.595945978,
+            0.504499789,
+            0.431251543,
+            0.39760512,
+            0.372135252,
+            0.339979503,
+            0.294855941,
+            0.313678167,
+            0.633037864,
+            0.536254356,
+            0.462160545,
+            0.405811597,
+            0.375311265,
+            0.334628757,
+            0.312543904,
+            0.317525415
           ],
           "type": "standardized_ridge",
           "weights": [
-            0.2318056491292833,
-            0.16252197148403788,
-            -0.09502740789183838,
-            0.05528386651778575,
-            -0.09110490347052577,
-            0.0542109089853956,
-            0.029163211549707097,
-            -0.038924364547970124,
-            0.27315239335185276,
-            0.17593566956160733,
-            -0.15027583169888054,
-            0.08069502053002517,
-            -0.09359959470635613,
-            0.027079681286918823,
-            0.032350176063024594,
-            -0.04924406146953572
+            0.235521729,
+            0.165622339,
+            -0.082563731,
+            0.040879577,
+            -0.074567296,
+            0.033505342,
+            0.0195217,
+            -0.062229795,
+            0.252725035,
+            0.20738094,
+            -0.161150837,
+            0.080280179,
+            -0.062315274,
+            0.03766617,
+            0.052660832,
+            -0.062453356
           ]
         },
         "nonnegative": {
-          "bias_syllables_per_second": 0.021298,
+          "bias_syllables_per_second": 0.025113,
           "count": 42,
-          "mae_syllables_per_second": 0.254718,
+          "mae_syllables_per_second": 0.251719,
           "negative_predictions": 0,
-          "pearson_r": 0.970756,
-          "rmse_syllables_per_second": 0.324201
+          "pearson_r": 0.970305,
+          "rmse_syllables_per_second": 0.328152
         },
         "raw": {
-          "bias_syllables_per_second": 0.021298,
+          "bias_syllables_per_second": 0.025113,
           "count": 42,
-          "mae_syllables_per_second": 0.254718,
+          "mae_syllables_per_second": 0.251719,
           "negative_predictions": 0,
-          "pearson_r": 0.970756,
-          "rmse_syllables_per_second": 0.324201
+          "pearson_r": 0.970305,
+          "rmse_syllables_per_second": 0.328152
         },
         "test_windows": 42,
-        "train_windows": 168
+        "train_windows": 126
       },
       {
         "constant_train_mean": {
-          "bias_syllables_per_second": -0.046131,
+          "bias_syllables_per_second": -0.015357,
           "count": 42,
-          "mae_syllables_per_second": 1.093576,
+          "mae_syllables_per_second": 1.092111,
           "negative_predictions": 0,
           "pearson_r": null,
-          "rmse_syllables_per_second": 1.261135
+          "rmse_syllables_per_second": 1.260384
         },
         "fold": 1,
         "head": {
           "alpha": 10.0,
-          "bias": 4.2803362573099415,
+          "bias": 4.311110531,
           "feature_dim": 16,
           "mean": [
-            0.10017000076449697,
-            0.10007963426765942,
-            -0.07353050281204992,
-            0.06000595543622261,
-            -0.040582193220921214,
-            0.02503926281772908,
-            0.06584741727537698,
-            -0.024775834534139864,
-            0.11782175497418003,
-            0.10054122124044669,
-            -0.08380795742030299,
-            0.03344558156583281,
-            -0.04808927999676338,
-            0.04142370413456644,
-            0.04469699264237923,
-            -0.030576170335213346
+            0.12012563,
+            0.108785834,
+            -0.084235073,
+            0.060477932,
+            -0.053373746,
+            0.037443892,
+            0.107132699,
+            -0.030671024,
+            0.134460517,
+            0.116629924,
+            -0.089986238,
+            0.015673649,
+            -0.052227071,
+            0.047547037,
+            0.03637024,
+            -0.02440927
           ],
           "scale": [
-            0.5804966854607858,
-            0.5307257692074311,
-            0.4245919738422407,
-            0.412357503912586,
-            0.3815309077934465,
-            0.3461434553323498,
-            0.3035111212218829,
-            0.30865715987943243,
-            0.6421685422275754,
-            0.5265195896626261,
-            0.4609215603384829,
-            0.4074269450537547,
-            0.36017721372419637,
-            0.36318754994002683,
-            0.3081916723638334,
-            0.2855042310510174
+            0.559055718,
+            0.526107179,
+            0.426671069,
+            0.412900998,
+            0.36428951,
+            0.343430876,
+            0.30202099,
+            0.310619726,
+            0.627337365,
+            0.527252116,
+            0.457267258,
+            0.38271176,
+            0.352754629,
+            0.355043825,
+            0.322152375,
+            0.27978964
           ],
           "type": "standardized_ridge",
           "weights": [
-            0.23758029313275097,
-            0.1432011787900797,
-            -0.11928170323826157,
-            0.09520838864489685,
-            -0.08660002369460743,
-            0.056801153744779904,
-            0.019358169163385515,
-            -0.03497518416484765,
-            0.25569952447716676,
-            0.17869817686447143,
-            -0.1680865692299914,
-            0.06741828968719996,
-            -0.06348325906635864,
-            0.07142446350801264,
-            0.021243361691448397,
-            -0.013335967962532077
+            0.244682261,
+            0.154820115,
+            -0.1106501,
+            0.088965908,
+            -0.071080267,
+            0.04580722,
+            0.019279044,
+            -0.051880819,
+            0.23447128,
+            0.210978853,
+            -0.177936325,
+            0.060858919,
+            -0.020476689,
+            0.087290876,
+            0.035232456,
+            -0.003217712
           ]
         },
         "nonnegative": {
-          "bias_syllables_per_second": -0.007953,
+          "bias_syllables_per_second": -0.01754,
           "count": 42,
-          "mae_syllables_per_second": 0.285752,
+          "mae_syllables_per_second": 0.294784,
           "negative_predictions": 0,
-          "pearson_r": 0.964117,
-          "rmse_syllables_per_second": 0.336556
+          "pearson_r": 0.961799,
+          "rmse_syllables_per_second": 0.347485
         },
         "raw": {
-          "bias_syllables_per_second": -0.007953,
+          "bias_syllables_per_second": -0.01754,
           "count": 42,
-          "mae_syllables_per_second": 0.285752,
+          "mae_syllables_per_second": 0.294784,
           "negative_predictions": 0,
-          "pearson_r": 0.964117,
-          "rmse_syllables_per_second": 0.336556
+          "pearson_r": 0.961799,
+          "rmse_syllables_per_second": 0.347485
         },
         "test_windows": 42,
-        "train_windows": 168
+        "train_windows": 126
       },
       {
         "constant_train_mean": {
-          "bias_syllables_per_second": 0.047789,
+          "bias_syllables_per_second": 0.084824,
           "count": 42,
           "mae_syllables_per_second": 1.117211,
           "negative_predictions": 0,
           "pearson_r": null,
-          "rmse_syllables_per_second": 1.292384
+          "rmse_syllables_per_second": 1.294283
         },
         "fold": 2,
         "head": {
           "alpha": 10.0,
-          "bias": 4.299120196324144,
+          "bias": 4.336155783,
           "feature_dim": 16,
           "mean": [
-            0.10974282160223948,
-            0.10931256329978904,
-            -0.07619640725188045,
-            0.05851605410948174,
-            -0.04877687234281828,
-            0.04002389982625442,
-            0.053396551795802744,
-            -0.02529554149934224,
-            0.12002068031579255,
-            0.10018297831112119,
-            -0.08198300294056977,
-            0.05389876708604529,
-            -0.04322146267081345,
-            0.05116533653295066,
-            0.027140289160611467,
-            -0.0344298118388369
+            0.132889391,
+            0.121096406,
+            -0.087789613,
+            0.058491397,
+            -0.064299985,
+            0.057423408,
+            0.090531545,
+            -0.031363966,
+            0.137392418,
+            0.116152267,
+            -0.087552966,
+            0.042944563,
+            -0.045736648,
+            0.06053588,
+            0.012961302,
+            -0.029547459
           ],
           "scale": [
-            0.598311621481735,
-            0.5167080562373144,
-            0.4176025782152066,
-            0.4046778724137914,
-            0.3745306741900691,
-            0.3565963935426032,
-            0.27949730207661727,
-            0.3113623319375411,
-            0.6381928202495544,
-            0.5172881461845793,
-            0.46280733597255624,
-            0.42262841917403066,
-            0.3652307062212948,
-            0.353885185579087,
-            0.2746262870141095,
-            0.30458521763923396
+            0.583089766,
+            0.50691191,
+            0.417277328,
+            0.402643865,
+            0.354034835,
+            0.35657195,
+            0.271756387,
+            0.314185725,
+            0.621824177,
+            0.514939126,
+            0.459830975,
+            0.405062669,
+            0.359675965,
+            0.34199548,
+            0.277798436,
+            0.305535051
           ],
           "type": "standardized_ridge",
           "weights": [
-            0.26176654659978216,
-            0.16982382389762848,
-            -0.11261931686954034,
-            0.13038662976935386,
-            -0.07486681706784436,
-            0.05323111469473016,
-            0.017860874711441186,
-            -0.025953769258299356,
-            0.24938467243619805,
-            0.14881995555444305,
-            -0.15573298975132113,
-            0.06439865739768993,
-            -0.07505478763355793,
-            0.025541998934603186,
-            0.01845231397957558,
-            -0.038088802941422986
+            0.262765889,
+            0.197736708,
+            -0.090075147,
+            0.134479258,
+            -0.056183301,
+            0.036697119,
+            0.012930533,
+            -0.041124481,
+            0.236101743,
+            0.170588157,
+            -0.172741361,
+            0.067306691,
+            -0.030028553,
+            0.028494771,
+            0.035340922,
+            -0.031443525
           ]
         },
         "nonnegative": {
-          "bias_syllables_per_second": 0.020642,
+          "bias_syllables_per_second": 0.021255,
           "count": 42,
-          "mae_syllables_per_second": 0.267795,
+          "mae_syllables_per_second": 0.264617,
           "negative_predictions": 0,
-          "pearson_r": 0.967272,
-          "rmse_syllables_per_second": 0.329015
+          "pearson_r": 0.967418,
+          "rmse_syllables_per_second": 0.331378
         },
         "raw": {
-          "bias_syllables_per_second": 0.020642,
+          "bias_syllables_per_second": 0.021255,
           "count": 42,
-          "mae_syllables_per_second": 0.267795,
+          "mae_syllables_per_second": 0.264617,
           "negative_predictions": 0,
-          "pearson_r": 0.967272,
-          "rmse_syllables_per_second": 0.329015
+          "pearson_r": 0.967418,
+          "rmse_syllables_per_second": 0.331378
         },
         "test_windows": 42,
-        "train_windows": 168
+        "train_windows": 126
       },
       {
         "constant_train_mean": {
-          "bias_syllables_per_second": -0.174893,
+          "bias_syllables_per_second": -0.152702,
           "count": 42,
-          "mae_syllables_per_second": 1.173027,
+          "mae_syllables_per_second": 1.171971,
           "negative_predictions": 0,
           "pearson_r": null,
-          "rmse_syllables_per_second": 1.348384
+          "rmse_syllables_per_second": 1.345685
         },
         "fold": 3,
         "head": {
           "alpha": 10.0,
-          "bias": 4.254583942495127,
+          "bias": 4.276774111,
           "feature_dim": 16,
           "mean": [
-            0.09193469005902963,
-            0.08842644471287106,
-            -0.06981469264409194,
-            0.057145200401788485,
-            -0.04732869432185821,
-            0.023699013025255962,
-            0.005826638697180896,
-            -0.015577153226449378,
-            0.10079103422883366,
-            0.08756283061989095,
-            -0.0711104294132175,
-            0.06256623832054348,
-            -0.04656793105914923,
-            0.029597445121811082,
-            0.05184549044074846,
-            -0.02804535810436521
+            0.109145216,
+            0.093248248,
+            -0.07928066,
+            0.056663592,
+            -0.062369081,
+            0.035656892,
+            0.027104995,
+            -0.018406115,
+            0.11175289,
+            0.099325403,
+            -0.073056201,
+            0.054501192,
+            -0.050198606,
+            0.031778692,
+            0.04590157,
+            -0.021034854
           ],
           "scale": [
-            0.5968485855917258,
-            0.5139280083715999,
-            0.4298016973058653,
-            0.4114703100900745,
-            0.37851750655922717,
-            0.3519924064154614,
-            0.29092323740325754,
-            0.3092141476704403,
-            0.6262208779471689,
-            0.5269541290936393,
-            0.46043063706746845,
-            0.4052810701504589,
-            0.37015076397684493,
-            0.35753921952740947,
-            0.3039577285186434,
-            0.2950449365746505
+            0.58191108,
+            0.50358895,
+            0.433685378,
+            0.411719165,
+            0.359725889,
+            0.351330024,
+            0.293677729,
+            0.311529256,
+            0.605977268,
+            0.528286963,
+            0.456757924,
+            0.380980557,
+            0.36628341,
+            0.34750424,
+            0.316958088,
+            0.292613923
           ],
           "type": "standardized_ridge",
           "weights": [
-            0.23854087024208184,
-            0.17191320543643906,
-            -0.09979075796988512,
-            0.10857510700990897,
-            -0.10191514663244318,
-            0.0657040326646791,
-            0.034900691841534874,
-            -0.0513748185251621,
-            0.2615587256239073,
-            0.13436273741529303,
-            -0.10828492535352913,
-            0.06601272838272587,
-            -0.08817378701670886,
-            0.053485390458878096,
-            0.03827108056253904,
-            -0.027996972726646818
+            0.241583757,
+            0.18324982,
+            -0.087956276,
+            0.103720091,
+            -0.089176467,
+            0.056643797,
+            0.032167003,
+            -0.073050286,
+            0.24904685,
+            0.158585214,
+            -0.104884834,
+            0.065419644,
+            -0.052468577,
+            0.063388506,
+            0.050475788,
+            -0.026323274
           ]
         },
         "nonnegative": {
-          "bias_syllables_per_second": -0.01255,
+          "bias_syllables_per_second": -0.01506,
           "count": 42,
-          "mae_syllables_per_second": 0.283691,
+          "mae_syllables_per_second": 0.275705,
           "negative_predictions": 0,
-          "pearson_r": 0.967366,
-          "rmse_syllables_per_second": 0.342077
+          "pearson_r": 0.968324,
+          "rmse_syllables_per_second": 0.336309
         },
         "raw": {
-          "bias_syllables_per_second": -0.01255,
+          "bias_syllables_per_second": -0.01506,
           "count": 42,
-          "mae_syllables_per_second": 0.283691,
+          "mae_syllables_per_second": 0.275705,
           "negative_predictions": 0,
-          "pearson_r": 0.967366,
-          "rmse_syllables_per_second": 0.342077
+          "pearson_r": 0.968324,
+          "rmse_syllables_per_second": 0.336309
         },
         "test_windows": 42,
-        "train_windows": 168
-      },
-      {
-        "constant_train_mean": {
-          "bias_syllables_per_second": 0.126936,
-          "count": 42,
-          "mae_syllables_per_second": 1.197024,
-          "negative_predictions": 0,
-          "pearson_r": null,
-          "rmse_syllables_per_second": 1.368579
-        },
-        "fold": 4,
-        "head": {
-          "alpha": 10.0,
-          "bias": 4.31494970064049,
-          "feature_dim": 16,
-          "mean": [
-            0.12293608232534356,
-            0.10992127850690545,
-            -0.08748059708392246,
-            0.06148863240838095,
-            -0.05921384963423147,
-            0.0461836500337813,
-            0.06420910655094,
-            -0.02633495542974699,
-            0.13037091195139855,
-            0.11137125435723212,
-            -0.08428547493348429,
-            0.04718609050742262,
-            -0.05134297087605644,
-            0.0468390775201953,
-            0.02774116791136164,
-            -0.024279951988941145
-          ],
-          "scale": [
-            0.5802263428179508,
-            0.5104699992155923,
-            0.4273263853057344,
-            0.406301343617648,
-            0.3626329307391086,
-            0.34802482940096063,
-            0.2929163578197166,
-            0.3125503062345907,
-            0.6222201928026198,
-            0.5267856742395863,
-            0.4590567573535043,
-            0.39441304425047247,
-            0.3636250296946236,
-            0.345024628258325,
-            0.30816683038912884,
-            0.2992165318233835
-          ],
-          "type": "standardized_ridge",
-          "weights": [
-            0.25013423317927713,
-            0.173016006043854,
-            -0.09454091567645047,
-            0.08829263695935527,
-            -0.07097125148732529,
-            0.04379374544081923,
-            0.02098819156538292,
-            -0.05579138349641251,
-            0.25178556476909775,
-            0.18982144133785323,
-            -0.15756048113321147,
-            0.06692861913048491,
-            -0.03599603168915846,
-            0.053589573431309406,
-            0.040388484001728786,
-            -0.028747275165501202
-          ]
-        },
-        "nonnegative": {
-          "bias_syllables_per_second": -0.006137,
-          "count": 42,
-          "mae_syllables_per_second": 0.290807,
-          "negative_predictions": 0,
-          "pearson_r": 0.969427,
-          "rmse_syllables_per_second": 0.336658
-        },
-        "raw": {
-          "bias_syllables_per_second": -0.006137,
-          "count": 42,
-          "mae_syllables_per_second": 0.290807,
-          "negative_predictions": 0,
-          "pearson_r": 0.969427,
-          "rmse_syllables_per_second": 0.336658
-        },
-        "test_windows": 42,
-        "train_windows": 168
+        "train_windows": 126
       }
     ],
-    "note": "Matched synthetic features/labels make this a wiring and regression fixture; these scores are not an accuracy result or a reproduction of the pinned research.",
+    "note": "Synthetic matched features/labels are wiring/regression evidence only; alpha is fixed before any split and no accuracy or research reproduction is claimed.",
     "oof_constant_train_mean": {
-      "bias_syllables_per_second": -0.0,
-      "count": 210,
-      "mae_syllables_per_second": 1.131094,
+      "bias_syllables_per_second": 0.0,
+      "count": 168,
+      "mae_syllables_per_second": 1.113481,
       "negative_predictions": 0,
-      "pearson_r": -0.063188,
-      "rmse_syllables_per_second": 1.308098
+      "pearson_r": null,
+      "rmse_syllables_per_second": 1.290992
     },
     "oof_nonnegative": {
-      "bias_syllables_per_second": 0.00306,
-      "count": 210,
-      "mae_syllables_per_second": 0.276553,
+      "bias_syllables_per_second": 0.003442,
+      "count": 168,
+      "mae_syllables_per_second": 0.271706,
       "negative_predictions": 0,
-      "pearson_r": 0.966856,
-      "rmse_syllables_per_second": 0.333761
+      "pearson_r": 0.965619,
+      "rmse_syllables_per_second": 0.335911
     },
     "oof_raw": {
-      "bias_syllables_per_second": 0.00306,
-      "count": 210,
-      "mae_syllables_per_second": 0.276553,
+      "bias_syllables_per_second": 0.003442,
+      "count": 168,
+      "mae_syllables_per_second": 0.271706,
       "negative_predictions": 0,
-      "pearson_r": 0.966856,
-      "rmse_syllables_per_second": 0.333761
+      "pearson_r": 0.965619,
+      "rmse_syllables_per_second": 0.335911
     },
-    "protocol": "five_contiguous_chronological_folds"
+    "protocol": "four_contiguous_chronological_calibration_folds_evaluation_fold_reserved"
   },
   "validation": {
     "all_rejected": true,
@@ -992,9 +963,33 @@
         "status": "rejected"
       },
       {
-        "error": "could not convert string to float: 'x'",
+        "error": "non_numeric_feature",
         "name": "extractor_non_numeric",
         "reason": "non-numeric feature",
+        "status": "rejected"
+      },
+      {
+        "error": "extractor_identity_mismatch",
+        "name": "extractor_identity_mismatch",
+        "reason": "claimed model id must match",
+        "status": "rejected"
+      },
+      {
+        "error": "extractor_revision_mismatch",
+        "name": "extractor_revision_mismatch",
+        "reason": "claimed revision must match",
+        "status": "rejected"
+      },
+      {
+        "error": "caller_vector_identity_mismatch",
+        "name": "caller_vector_identity_mismatch",
+        "reason": "returned vector must equal the caller vector bitwise",
+        "status": "rejected"
+      },
+      {
+        "error": "caller_vector_digest_mismatch",
+        "name": "caller_vector_digest_mismatch",
+        "reason": "caller vector must match the pinned cohort digest",
         "status": "rejected"
       },
       {
@@ -1034,6 +1029,12 @@
         "status": "rejected"
       },
       {
+        "error": "non_decimal_source_first_sample",
+        "name": "plus_sign_interval",
+        "reason": "unsigned decimal-string required",
+        "status": "rejected"
+      },
+      {
         "error": "empty_interval",
         "name": "empty_interval",
         "reason": "nonempty interval required",
@@ -1043,6 +1044,18 @@
         "error": "misaligned_interval",
         "name": "misaligned_interval",
         "reason": "frame-aligned interval required",
+        "status": "rejected"
+      },
+      {
+        "error": "wrong_window_samples",
+        "name": "short_window",
+        "reason": "exactly 64,000 samples required",
+        "status": "rejected"
+      },
+      {
+        "error": "available_ns_mismatch",
+        "name": "available_ns_mismatch",
+        "reason": "availability must match exclusive source end",
         "status": "rejected"
       },
       {
@@ -1065,7 +1078,7 @@
       "epoch": "1",
       "event_id": "evt-1-win-000",
       "feature_digest": "166a3f068131403b6d113b3c2b83021f8e5a570a8117ea2046ac3d96e7272eb0",
-      "label_syllables_per_second": 4.166666666666667,
+      "label_syllables_per_second": 4.166666667,
       "producer_id": "analysis.distil-wav2vec2-frozen-rate-ridge.v0",
       "rate_syllables_per_second": 3.0,
       "source_first_sample": "0",
@@ -1083,7 +1096,7 @@
       "epoch": "1",
       "event_id": "evt-1-win-000",
       "feature_digest": "166a3f068131403b6d113b3c2b83021f8e5a570a8117ea2046ac3d96e7272eb0",
-      "label_syllables_per_second": 4.166666666666667,
+      "label_syllables_per_second": 4.166666667,
       "producer_id": "analysis.distil-wav2vec2-frozen-rate-ridge.v0",
       "rate_syllables_per_second": null,
       "source_first_sample": "0",
