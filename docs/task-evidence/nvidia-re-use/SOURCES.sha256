@@ -1,0 +1,28 @@
+# SHA-256 pins for SDK-NVIDIA-RE-USE task-local evidence; source: paths are workspace-relative, other paths are SDK-worktree-relative.
+# The mutable full plan/swarm/TASKS.json is deliberately not pinned; only the stable linked-row identity is projected.
+# contract.json is excluded because it pins this manifest; no weights, runtime, license text or audio file is present to pin.
+a583f20d64a32f128640064583a531f7e5097aeb681f9ba8fb48221667012e2b  source:adapters/reuse-mlx/README.md
+2e77df89f2b78eabd0bbb399ffe55d6561651585e7397473e632aa96ea1e89fd  source:adapters/reuse-mlx/adapter.json
+2716fb848b830270d39d8d36052dffec09f03fe6451f7deeca7184cfcc011233  source:adapters/reuse-mlx/run.py
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a  source:research/noise_suppression_candidate_census.md
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  scripts/ci.py
+d6dc1b9e6a54f08442b09c601ca8cff53941a9303fdff8e0fbc14c0d9a5172ea  docs/task-evidence/nvidia-re-use/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/nvidia-re-use/SOURCES.sha256.license
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/nvidia-re-use/contract.json.license
+c777e83cea3b3e78e22455cc9dbe7317d52104e5459adabe35647432ebefa33c  docs/task-evidence/nvidia-re-use/reference.py
+5addca9549b86f71a53f1db14f5a8d449ad50231dac70187688c46f214f05130  docs/task-evidence/nvidia-re-use/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/nvidia-re-use/report.json.license
+71550188212c9c0dbccc4277f2bfcf454f378e621e2bb95364e8552865e27dfa  docs/task-evidence/nvidia-re-use/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/nvidia-re-use/report.json.sha256.license
+f48b9615ffee48309e7857e62b405672b6c24173d446281532e2424e9520c455  docs/task-evidence/nvidia-re-use/run.py
+abec0087bf9ed2a9a5e932f8992cda1da0f6309991a6dee40f0db2064a5679e2  docs/task-evidence/nvidia-re-use/test_reference.py
+d1ffc0387aae6f8e0cc24bf4cb94256171628abbd3dd4341187c1c0398378ade  docs/task-evidence/nvidia-re-use/verify.py
