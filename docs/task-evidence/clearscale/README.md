@@ -3,7 +3,8 @@
 
 # SDK-CLEARSCALE — ClearScale rate/TSM blocker
 
-**Disposition: `DEFER` / `incomplete` / `not_qualified`.** This package is a
+**Disposition: `DEFER` / `proposal_only_incomplete` / `not_qualified`
+(evidence `incomplete`).** This package is a
 bounded, deterministic **feasibility and blocker package** for inventory
 component `clearscale` (Rate and content, verification profile `rate`,
 disposition `research-control`). The exact licensed ClearScale source, resolved
@@ -99,8 +100,8 @@ requirement: absent source, unusable licence/status, absent implementation
 artifact, unestablished geometry, absent runtime, uncleared rights/output-use,
 absent cohort/parity, and absent quality/timing/release evidence. All ten
 `rate` profile requirements are unsatisfied for qualification; two are
-structural-only and two are synthetic-only, and none has a qualification
-effect.
+structural-only, one is synthetic-only, two are not-measured and five are
+absent, and none has a qualification effect.
 
 ## Caller-supplied asset contract
 
