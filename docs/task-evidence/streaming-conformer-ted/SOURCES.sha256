@@ -1,0 +1,30 @@
+# SHA-256 pins for SDK-STREAMING-CONFORMER-TED.
+# source: paths are workspace-relative; other external paths are SDK-worktree-relative.
+# Local paths are SDK-worktree-relative. Absent assets are ledger entries, not file pins.
+# The mutable full plan/swarm/TASKS.json is never pinned; only stable row identity is gated.
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+ce894b6d95bbac3999e71b3a847d4e61ed872e2823262abb7ac15ad1cb6456d2  source:research/voice-enhancement-20261101/agent-segmentation/REPORT.md
+5801684f5e36263a6449abccfea86d2d33141d98c5eb71aafd377ace184e3a8f  source:research/voice-enhancement-20261101/agent-vad-asr-trials/REPORT.md
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+b965bab19a48a82d9c5a67da88b781fa3215f3be4e298607d643445446127a61  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  scripts/ci.py
+27593fd1573de47dc35b6dae6884fafa382ae97ae7ece4ebc52f7c9d40c7fb23  docs/task-evidence/streaming-conformer-ted/LICENSES.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/streaming-conformer-ted/contract.json.license
+63e0298416a32d569b94b251763613ab5a7189c67e59eebbca1ec0e35167abf2  docs/task-evidence/streaming-conformer-ted/reference.py
+76c37395c06e6ef268c475d82f85da6075a168e957ddeea5f15c8c8d553e9806  docs/task-evidence/streaming-conformer-ted/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/streaming-conformer-ted/report.json.license
+17481b3cecd8de5168f5882b246a9749a032ae760fa63640a59165a21bbbc289  docs/task-evidence/streaming-conformer-ted/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/streaming-conformer-ted/report.json.sha256.license
+70c9e75ec81a1e383c68b927210c8511556c48ef2e5444438ce9fc307f8dba2d  docs/task-evidence/streaming-conformer-ted/run.py
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/streaming-conformer-ted/SOURCES.sha256.license
+50bc37e89acbe9900ca5784e1670a8fdc4e5db0bc5cfd6a4c1d5b71490300524  docs/task-evidence/streaming-conformer-ted/test_reference.py
+ebb70d816b2739f0f2fddfa789495fd8acf4c5367bcb1bb08c03aff9c0d5f0ad  docs/task-evidence/streaming-conformer-ted/verify.py
