@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
 # SPDX-License-Identifier: Apache-2.0
-"""Read-only, fail-closed verification of the task-local evidence package."""
+"""Read-only, fail-closed verification of the task-local evidence package.
+
+Scope is checked against the dirty worktree and against the commits this
+branch adds relative to the newest merge-base with ``origin/main`` (falling
+back to ``main``). An unresolved base emits ``scope_base_unavailable`` and any
+committed path outside the task directory emits ``base_out_of_scope_change``.
+"""
 
 from __future__ import annotations
 
@@ -559,19 +565,36 @@ def check_scope(errors: List[str]) -> bool:
         if path and not path.startswith(TASK_PREFIX):
             errors.append("out of scope change: " + path)
             ok = False
+    for arguments in (["diff", "--check"], ["diff", "--cached", "--check"]):
+        diff = subprocess.run(["git", "-C", str(SDK), *arguments],
+                              capture_output=True, text=True, check=False)
+        if diff.returncode != 0 or diff.stdout.strip():
+            errors.append("git_" + "_".join(arguments).replace("--", "")
+                          + "_failed: " + diff.stdout.strip())
+            ok = False
     branch = subprocess.run(
         ["git", "-C", str(SDK), "rev-parse", "--abbrev-ref", "HEAD"],
         capture_output=True, text=True, check=False)
-    if branch.returncode == 0 and branch.stdout.strip() != reference.BRANCH:
-        errors.append("unexpected branch: " + branch.stdout.strip())
+    if branch.returncode == 0:
+        current = branch.stdout.strip()
+        if current not in ("HEAD", reference.BRANCH,
+                           reference.BRANCH + "-correction"):
+            errors.append("unexpected branch: " + current)
+            ok = False
+    base = reference.scope_base(SDK)
+    if base is None:
+        errors.append("scope_base_unavailable")
         ok = False
-    ancestor = subprocess.run(
-        ["git", "-C", str(SDK), "merge-base", "--is-ancestor",
-         reference.BASE_COMMIT, "HEAD"],
-        capture_output=True, text=True, check=False)
-    if ancestor.returncode != 0:
-        errors.append("base commit is not an ancestor of HEAD")
-        ok = False
+    else:
+        try:
+            base_paths = reference.scope_changed_paths(SDK, base)
+        except ValueError as error:
+            errors.append(str(error))
+            ok = False
+        else:
+            for path in reference.scope_violations(base_paths):
+                errors.append("base_out_of_scope_change: " + path)
+                ok = False
     return ok
 
 

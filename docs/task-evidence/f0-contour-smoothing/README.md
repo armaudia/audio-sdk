@@ -78,6 +78,11 @@ pins, geometry, invariants, blockers and all eight blocked release gates.
 - Work is confined to `docs/task-evidence/f0-contour-smoothing/`. Shared CMake,
   `CONTRACTS.md`, public headers, descriptor registry/defaults, installed v0
   behaviour, board/handoff files, CI and other worktrees are untouched.
+- `verify.py` checks both the dirty worktree and the commits this branch adds
+  relative to the newest merge-base with `origin/main` (falling back to
+  `main`). Sibling packages merged to main therefore pass, while an unresolved
+  base emits `scope_base_unavailable` and any committed path outside this
+  directory emits `base_out_of_scope_change`.
 - Board linkage is projected from **stable row identity only** (`id`, `title`,
   `mode`, `repository`, `component`). Mutable status, owner, review, handoff,
   priority, claim and history never enter canonical bytes and are never a gate.
