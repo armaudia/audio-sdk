@@ -1,0 +1,26 @@
+# SHA-256 pins for SDK-2S-DEREVERB task-local evidence.
+# source: paths are relative to the pinned research workspace root.
+# sdk: paths are relative to this SDK worktree.
+# Full mutable plan/swarm/TASKS.json is never hashed; only board_row.stable_sha256=70266a37baa44d729445c38b787c1cf8b98847445ab0e9d2ecdf7f558ecf77fe is gated.
+93ce51efa83c722292957ffed50a1e526c54a43d10d96e18068aa57bca3203ea  docs/task-evidence/2s-dereverb/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/2s-dereverb/SOURCES.sha256.license
+a53ca9a6c15ff9c5f3cd2b432c7a5a6677940b6e38eb0fcd2f33ac069f31929a  docs/task-evidence/2s-dereverb/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/2s-dereverb/contract.json.license
+7ca720f5ba4aa2b34849f97dd05760e0960efc0217d1e29dfb417272b1e0daf9  docs/task-evidence/2s-dereverb/reference.py
+af8c401072654f8220d7aa807daecc0145308bf10c4c9b334486e57cfea6382e  docs/task-evidence/2s-dereverb/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/2s-dereverb/report.json.license
+fe511bd1a860c73646e9cf25fd350bc898735cf9eedf2a1ac9708a6bee655ffc  docs/task-evidence/2s-dereverb/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/2s-dereverb/report.json.sha256.license
+0c385c3c726156772f74ff3e4496b3800f4d384734087b3d273d6eb94b45ed35  docs/task-evidence/2s-dereverb/run.py
+0768f5300d6c69ce8b87d4f20e114b9fab9285a69b5f6600a9b6153d39a8ac4e  docs/task-evidence/2s-dereverb/test_reference.py
+a828f039da357ce4d70560bd08f491154c8082e6dfaf9e24c74c02b97228233b  docs/task-evidence/2s-dereverb/verify.py
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  sdk:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  sdk:scripts/ci.py
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+9dc17cd557480b954af4d5d9cd24911423685ba23675f399500eb080315fac5d  source:research/category_survey/sources.md
+6f0f1a07aeb7b865dce766576bcc99cb97a78120253b1f9e1e9618f964098468  source:research/dereverberation_candidates_20261028.md
