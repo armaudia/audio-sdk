@@ -1,0 +1,21 @@
+# SHA-256 pins for SDK-ESPRESSIF-HOWL-1-4-2 task-local evidence; source: paths are workspace-relative, others SDK-worktree-relative.
+# The mutable full plan/swarm/TASKS.json is deliberately not pinned; only the stable linked-row identity is projected.
+# contract.json is excluded because it pins this manifest; no source, license text, firmware, weight or audio artifact is present to pin.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+47b17e68a943e5fe3ee1568c81a84ea07eba040011e1d97df1ce61d8800c6b1c  source:research/feedback_control_20261028.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+552d9a5b441f10e09ef4dc1c13e95a7730c963f4e1d9cd3b98500794bd39e6fe  docs/task-evidence/espressif-howl-1-4-2/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/espressif-howl-1-4-2/SOURCES.sha256.license
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/espressif-howl-1-4-2/contract.json.license
+12d984167ad14751e62a1f56a6102a56ee56d0dbf903743524482f547c5ea652  docs/task-evidence/espressif-howl-1-4-2/reference.py
+36c38e37265a004bc5e9d0973831b48c1c49eaa1b474d7d0930d4f35c688c22f  docs/task-evidence/espressif-howl-1-4-2/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/espressif-howl-1-4-2/report.json.license
+a67414e55228d3b6c05f88750ec91851438d1acb0c24b13b5dad3cb08bd1efce  docs/task-evidence/espressif-howl-1-4-2/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/espressif-howl-1-4-2/report.json.sha256.license
+987bdc0aca7b85756304ac320901ec48027b2b5d07d35be6935b5f1ccff7101d  docs/task-evidence/espressif-howl-1-4-2/run.py
+baa3aa479b59e688b8584d49b606fa5d615b1507bd28d56f07aeb0de38820e1d  docs/task-evidence/espressif-howl-1-4-2/test_reference.py
+f0f9e754e868c9b3af29aa4e9617c161f1e39276723dc567cb8bf3f390da405b  docs/task-evidence/espressif-howl-1-4-2/verify.py
