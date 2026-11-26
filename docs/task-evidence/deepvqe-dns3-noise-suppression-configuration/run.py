@@ -5,6 +5,7 @@
 Usage::
 
     PYTHONDONTWRITEBYTECODE=1 python3 run.py            # regenerate, 3x checked
+    PYTHONDONTWRITEBYTECODE=1 python3 run.py all        # explicit all mode
     PYTHONDONTWRITEBYTECODE=1 python3 run.py --check    # read-only comparison
 
 The generator writes report.json, report.json.sha256, contract.json and
@@ -83,6 +84,8 @@ def check() -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("mode", nargs="?", choices=("all",), default="all",
+                        help="explicit all-artifact mode (the default)")
     parser.add_argument("--check", action="store_true",
                         help="compare current files with a fresh deterministic build")
     options = parser.parse_args()

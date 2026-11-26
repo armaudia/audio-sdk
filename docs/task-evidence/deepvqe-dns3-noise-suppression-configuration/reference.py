@@ -1835,8 +1835,9 @@ def build_report() -> Dict[str, Any]:
         "negative_claims": list(NEGATIVE_CLAIMS),
         "surrogate": {
             "algorithm": ("bounded integer per-frame energy gate "
-                          "(gain 250 or 1000 per mille; 160-sample block "
-                          "lookahead declared; no smoothing, no weights)"),
+                          f"(gain {GAIN_FLOOR_MILLI} or 1000 per mille; "
+                          "160-sample block lookahead declared; no smoothing, "
+                          "no weights)"),
             "is_deepvqe": False,
             "is_complex_mask": False,
             "is_learned": False,

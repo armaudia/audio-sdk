@@ -170,6 +170,14 @@ class MetricTests(unittest.TestCase):
             self.assertLess(region["peak_milli"], 1000)
         self.assertEqual(clean["nonfinite_output_count"], 0)
 
+    def test_report_declared_surrogate_gain_matches_constant(self):
+        algorithm = self.report["surrogate"]["algorithm"]
+        self.assertEqual(reference.GAIN_FLOOR_MILLI, 280)
+        self.assertEqual(reference.GATE_THRESHOLD_Q15, 850)
+        self.assertIn(f"gain {reference.GAIN_FLOOR_MILLI} or 1000 per mille",
+                      algorithm)
+        self.assertNotIn("gain 250", algorithm)
+
     def test_peaks_and_pause(self):
         peaks = self.report["peaks_and_invalid"]
         self.assertLess(peaks["max_peak_milli"], peaks["peak_bound_milli"])
