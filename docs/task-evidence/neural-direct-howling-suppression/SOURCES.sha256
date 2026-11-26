@@ -1,0 +1,21 @@
+# SHA-256 pins for SDK-NEURAL-DIRECT-HOWLING-SUPPRESSION task-local evidence; source: paths are workspace-relative, others SDK-worktree-relative.
+# The mutable full plan/swarm/TASKS.json is deliberately not pinned; only the stable linked-row identity is projected.
+# contract.json is excluded because it pins this manifest; no model source, weight, license text, runtime or audio artifact is present to pin.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+47b17e68a943e5fe3ee1568c81a84ea07eba040011e1d97df1ce61d8800c6b1c  source:research/feedback_control_20261028.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+1f0d8ae70bad8ed96d3b6429a7c365438a14c67830b62de86cc12c007bcad641  docs/task-evidence/neural-direct-howling-suppression/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/neural-direct-howling-suppression/SOURCES.sha256.license
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/neural-direct-howling-suppression/contract.json.license
+607cb7a1aca4fbea12ffee3a4ca66c0c5a1d6f2e1f62b0fa2b6271e2983ced46  docs/task-evidence/neural-direct-howling-suppression/reference.py
+e17c83a0f8a3e2c20d678d387939925b9598f0884803b79aa04a8a2cb972a344  docs/task-evidence/neural-direct-howling-suppression/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/neural-direct-howling-suppression/report.json.license
+5d7e3a1f4201f497d84173b15925714226e1768a52768d80544ef0ee4472b8c9  docs/task-evidence/neural-direct-howling-suppression/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/neural-direct-howling-suppression/report.json.sha256.license
+4b50db552277a350e0154f46f74a609701d9efa071c7378fb6e5666990e95b97  docs/task-evidence/neural-direct-howling-suppression/run.py
+4706d39fed9d604e3ae407f6f87d2ed5a534b6c394d2bc918c8a9fa83928c698  docs/task-evidence/neural-direct-howling-suppression/test_reference.py
+f16a214e6885a3aed8d84fed49a9a3326e15b4b8d29cc3abf0b0f89bb60503f3  docs/task-evidence/neural-direct-howling-suppression/verify.py
