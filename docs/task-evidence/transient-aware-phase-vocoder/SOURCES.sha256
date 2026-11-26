@@ -1,0 +1,32 @@
+# SHA-256 pins for SDK-TRANSIENT-AWARE-PHASE-VOCODER evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# Mutable shared board is not pinned; only stable linked-row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+5154a8205516f145a719efc6f1598811f29c9df674b696ba25b78afa7af66130  source:audio-benchmark-platform/plan/INVENTORY.md
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3  source:cpp-library/pipeline-validation/playback-speed-candidates.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+e32610ecf0f3f611269ddebd009ff81ca09cc3b92206fe93c9a149b9960463b5  docs/provider-intake.md
+555eda3e2ee17b433afdafbab06f953ee3235168ed0db88a5bf29870ca9568a7  docs/task-evidence/phase-vocoder-baseline/report.json
+131640f3c436426827a3cc18c0183195dbb3839cf96b85353e0d79864f222dc5  docs/task-evidence/phase-vocoder-with-neural-transient-preservation/report.json
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  scripts/ci.py
+2e780cde71c12ee3ad7922a30156f828518e79090603bee59b33218a7f8bcdf0  docs/task-evidence/transient-aware-phase-vocoder/LICENSES.md
+8476876fdc48d6d6396a18c4262671286a7e90c9f9e63f7bae18507b35e7e460  docs/task-evidence/transient-aware-phase-vocoder/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/transient-aware-phase-vocoder/SOURCES.sha256.license
+e1b5757836093c39aa49fb23b09e6cc0ce854a28fc717b25e10a2d08d997d52b  docs/task-evidence/transient-aware-phase-vocoder/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/transient-aware-phase-vocoder/contract.json.license
+02123a1306841639f58fef32a5e8443c9a98e5312d19ff9c9923b509d9b54705  docs/task-evidence/transient-aware-phase-vocoder/reference.py
+609067ec3cf3f44dba7844e1be27c6e4ea2139ec62848702fdc3c8d1ba3e7f0a  docs/task-evidence/transient-aware-phase-vocoder/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/transient-aware-phase-vocoder/report.json.license
+eb395856677bcd34aabeb19d550c75c21aa49886aa551831f621b11ce8dc41a2  docs/task-evidence/transient-aware-phase-vocoder/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/transient-aware-phase-vocoder/report.json.sha256.license
+d80390f7be5f021596e6c782ca9e7da63525006afbc21c1ee231ca17274020f1  docs/task-evidence/transient-aware-phase-vocoder/run.py
+8298eb96b31f7252a19ab188d266d5b7fb625d49e4683bdb0272debbed308eaa  docs/task-evidence/transient-aware-phase-vocoder/test_reference.py
+2bfb070e3db33b026afe8ca726699026cb45ea0d80ffb1c483ab0f0402d57321  docs/task-evidence/transient-aware-phase-vocoder/verify.py
