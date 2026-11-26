@@ -1,0 +1,26 @@
+# SHA-256 pins for SDK-NOISE-AWARE-SHAPING-PLUS-DRC task-local evidence.
+# source: paths are relative to the pinned research workspace root.
+# sdk: paths are relative to this SDK worktree.
+# Full mutable plan/swarm/TASKS.json is never hashed; only board_row.stable_sha256=d984ba1090f229f0001c9adc7e9bd983500657c7df127aa013f700b7ba6560d6 is gated.
+d651558b66870481133403d117106581d17199bd348232c847bbd416a0fa6787  docs/task-evidence/noise-aware-shaping-plus-drc/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/noise-aware-shaping-plus-drc/SOURCES.sha256.license
+c4ff79c42eefb9715ba596722c6d48dd8b77eee027403889d55d3dcb524e313c  docs/task-evidence/noise-aware-shaping-plus-drc/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/noise-aware-shaping-plus-drc/contract.json.license
+7f44a419f751d30cd93cb82dd58fe7e52a41ee5275234d85863167dfa0ebf24d  docs/task-evidence/noise-aware-shaping-plus-drc/reference.py
+aa65d7aa9d6896287c04778dfb9deb2232677b13f40e8cb2a83a5f87f87ca647  docs/task-evidence/noise-aware-shaping-plus-drc/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/noise-aware-shaping-plus-drc/report.json.license
+34d03e432f80bb4030537de0c25b8d003c0b7f838db376a506125f726623bb77  docs/task-evidence/noise-aware-shaping-plus-drc/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/noise-aware-shaping-plus-drc/report.json.sha256.license
+43c489306b9b8a3812ce08ae4105d4954c5a6f727c2f187134f7d465068d3e5c  docs/task-evidence/noise-aware-shaping-plus-drc/run.py
+f6f5d91ea96cf1f4d064f62134bc2e57566a84f7eb900e5150720ca7ad180129  docs/task-evidence/noise-aware-shaping-plus-drc/test_reference.py
+450f724c62b7bcb3531404c74793a9307d5da8f9764afb0bc01fcc279e0dce9c  docs/task-evidence/noise-aware-shaping-plus-drc/verify.py
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  sdk:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  sdk:scripts/ci.py
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+f29de5cdb58676b6f61ac8489ff5af44a88b2125c2022920436a6f064405992a  source:research/listening_intelligibility_20261028.md
