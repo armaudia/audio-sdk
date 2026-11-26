@@ -4,9 +4,9 @@
 # Licensing and provenance notes
 
 This package is original task-local evidence under
-`docs/task-evidence/rvc-mlx-realtime/` and is licensed `Apache-2.0`
-(`SPDX-License-Identifier: Apache-2.0`). It contains no copied upstream source,
-no vendored license file, no weights, no model asset, no audio and no binary.
+`docs/task-evidence/rvc-mlx-realtime/` and is licensed `Apache-2.0`. It
+contains no copied upstream source, no vendored license file, no weights, no
+model asset, no audio and no binary.
 
 ## Upstream source status
 
