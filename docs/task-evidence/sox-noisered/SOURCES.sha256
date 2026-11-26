@@ -1,0 +1,28 @@
+# SHA-256 pins for SDK-SOX-NOISERED.
+# source: paths are workspace-relative; other external paths are SDK-worktree-relative.
+# Local paths are SDK-worktree-relative. Absent assets are ledger entries, not file pins.
+# The mutable full plan/swarm/TASKS.json is never pinned; only stable row identity is gated.
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a  source:research/noise_suppression_candidate_census.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+b965bab19a48a82d9c5a67da88b781fa3215f3be4e298607d643445446127a61  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  scripts/ci.py
+cd9a8cf6688613ad997e62ac6756ec203b9fb957e5eb0e2f0b8b2846f01106d6  docs/task-evidence/sox-noisered/LICENSES.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/sox-noisered/contract.json.license
+dcad4c0652f0b3c1ae542e719872ad9aaf5b42a001b2d21a708ecd35a1f9c6fe  docs/task-evidence/sox-noisered/reference.py
+826b77aa5ac66edd98061c5a7e7e906177ce9e55cce99eb9cef76ad2638d5d1b  docs/task-evidence/sox-noisered/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/sox-noisered/report.json.license
+b7d07fea4fd317be1553c7f57cce6e14046817233761a69b366009a6c551a6ee  docs/task-evidence/sox-noisered/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/sox-noisered/report.json.sha256.license
+45be890a55c768575b21657e8ab1c41822fb72067cfb1abc3d426d8ef3f8b50e  docs/task-evidence/sox-noisered/run.py
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/sox-noisered/SOURCES.sha256.license
+d57fed6860cc9418912ae0b9ab55caff9c1e6032cb33ddfbfd08a4f0d501afe8  docs/task-evidence/sox-noisered/test_reference.py
+a2d3f317d6afa8be58b902659acc9fee0cd8bf541113e99ec932e087811ad343  docs/task-evidence/sox-noisered/verify.py
