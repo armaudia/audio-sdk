@@ -4,14 +4,14 @@
 # The mutable full plan/swarm/TASKS.json is never hashed; only the stable row identity gates.
 # SOURCES.sha256 is excluded because a file cannot pin its own bytes.
 7307ed87238e1faf71816f68285a5ffbf7a7d5e37012839007fcfbfffc21d5c9  docs/task-evidence/livekit-python-host-adapter/LICENSES.md
-dff7bf93eebff649b27d4d14fc0d4486dc7b059a48a1e7a97bd85237b0f6247e  docs/task-evidence/livekit-python-host-adapter/README.md
+c3abc7ac69317f62916f4bf89d5362f1be6de8c26c1e0271649204d03398c0ec  docs/task-evidence/livekit-python-host-adapter/README.md
 0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/livekit-python-host-adapter/SOURCES.sha256.license
-0214bb4ff2d6a197a2581989f6afe9238e575c70b2091e92a5c411ae7228697f  docs/task-evidence/livekit-python-host-adapter/contract.json
+8615cb721054907646a6465bf106df806cb69bb3fbf6ed484dcac90ec6c31d01  docs/task-evidence/livekit-python-host-adapter/contract.json
 0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/livekit-python-host-adapter/contract.json.license
-988f448352025e3aaafa043610c76f78157f4d082fb41f342635843546230702  docs/task-evidence/livekit-python-host-adapter/reference.py
-b1c10aff368d64ac502167d746b52f5fc3715b83f9565748a7ec6f6f9b2ce2f8  docs/task-evidence/livekit-python-host-adapter/report.json
+d42775414e1b799a90ebcc3075db2ced2094083fe69a9b769c6b559d2c2d4a4f  docs/task-evidence/livekit-python-host-adapter/reference.py
+c6c8c868b6f918bf5a418813fc62866cb3e8929313d2f3b278f61d5e1595cfd7  docs/task-evidence/livekit-python-host-adapter/report.json
 0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/livekit-python-host-adapter/report.json.license
-b00139621a61dbeec621cac1f38d7c21081dff0e3c201f31da6a75086e49b2bc  docs/task-evidence/livekit-python-host-adapter/report.json.sha256
+9adaceeaab7a0954775a34036b3dfbc16812e2daf5a1c18abdd054c7db583183  docs/task-evidence/livekit-python-host-adapter/report.json.sha256
 0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/livekit-python-host-adapter/report.json.sha256.license
 4a5d34e74e3622fe49c4141e340f851ab349cec3d76f5ae53d9733f5b841f82c  docs/task-evidence/livekit-python-host-adapter/run.py
 fb50cbee9e19d31c37987ce50d2ad7672f75f25025a8a751fdfa8f88301270e3  docs/task-evidence/livekit-python-host-adapter/test_reference.py

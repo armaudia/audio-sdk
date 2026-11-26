@@ -143,7 +143,7 @@ PROFILE_PHRASES = (
 # ---------------------------------------------------------------------------
 
 HOST_NAME = "LiveKit Python host"
-HOST_FAMILY = "livekit_python_agents_host"
+HOST_FAMILY = "livekit_python_host_family"
 HOST_GEOMETRY_STATUS = "unestablished"
 HOST_API_STATUS = "unverified_no_pinned_package_or_api_record"
 HOST_LICENSE_STATUS = "unverified_no_license_record_present"
@@ -164,8 +164,9 @@ SOURCE_REPORTED_CONTEXT = {
         "pinned/tested LiveKit host package pair, and S-T11 LiveKit is "
         "Excluded because S09 is blocked."),
     "recorded_scope": (
-        "One first optional host is named; no host package version, wheel, "
-        "runtime, room, participant, conversion or timing result is recorded."),
+        "The pinned matrix records only the blocked/excluded host row; no "
+        "host package version, wheel, runtime, room, participant, conversion "
+        "or timing result is recorded."),
     "notes": (
         "This package reads only the pinned acceptance matrix, acceptance "
         "profile, inventory record, SDK test plan and SDK Python binding "

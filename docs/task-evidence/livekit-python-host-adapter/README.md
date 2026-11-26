@@ -326,12 +326,12 @@ are excluded to avoid circular self-pinning.
 | --- | --- | ---: |
 | `LICENSES.md` | `7307ed87238e1faf71816f68285a5ffbf7a7d5e37012839007fcfbfffc21d5c9` | 1478 |
 | `SOURCES.sha256.license` | `0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47` | 85 |
-| `contract.json` | `0214bb4ff2d6a197a2581989f6afe9238e575c70b2091e92a5c411ae7228697f` | 25197 |
+| `contract.json` | `8615cb721054907646a6465bf106df806cb69bb3fbf6ed484dcac90ec6c31d01` | 25225 |
 | `contract.json.license` | `0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47` | 85 |
-| `reference.py` | `988f448352025e3aaafa043610c76f78157f4d082fb41f342635843546230702` | 91252 |
-| `report.json` | `b1c10aff368d64ac502167d746b52f5fc3715b83f9565748a7ec6f6f9b2ce2f8` | 57275 |
+| `reference.py` | `d42775414e1b799a90ebcc3075db2ced2094083fe69a9b769c6b559d2c2d4a4f` | 91291 |
+| `report.json` | `c6c8c868b6f918bf5a418813fc62866cb3e8929313d2f3b278f61d5e1595cfd7` | 57303 |
 | `report.json.license` | `0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47` | 85 |
-| `report.json.sha256` | `b00139621a61dbeec621cac1f38d7c21081dff0e3c201f31da6a75086e49b2bc` | 78 |
+| `report.json.sha256` | `9adaceeaab7a0954775a34036b3dfbc16812e2daf5a1c18abdd054c7db583183` | 78 |
 | `report.json.sha256.license` | `0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47` | 85 |
 | `run.py` | `4a5d34e74e3622fe49c4141e340f851ab349cec3d76f5ae53d9733f5b841f82c` | 6116 |
 | `test_reference.py` | `fb50cbee9e19d31c37987ce50d2ad7672f75f25025a8a751fdfa8f88301270e3` | 28483 |
