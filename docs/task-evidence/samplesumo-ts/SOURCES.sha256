@@ -1,0 +1,31 @@
+# SHA-256 pins for SDK-SAMPLESUMO-TS task-local evidence.
+# source: paths are relative to the pinned audioml workspace root.
+# sdk: paths are relative to this SDK worktree.
+# The mutable shared board file is never hashed; only its stable linked-row projection is gated.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+5154a8205516f145a719efc6f1598811f29c9df674b696ba25b78afa7af66130  source:audio-benchmark-platform/plan/INVENTORY.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3  source:cpp-library/pipeline-validation/playback-speed-candidates.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  sdk:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+b965bab19a48a82d9c5a67da88b781fa3215f3be4e298607d643445446127a61  sdk:README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  sdk:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+3b7d11f0518af444c4ed7b96401cef4016e6af8a707685628d263a31f46c3864  sdk:bindings/python/audio_sdk/__init__.py
+e32610ecf0f3f611269ddebd009ff81ca09cc3b92206fe93c9a149b9960463b5  sdk:docs/provider-intake.md
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  sdk:scripts/ci.py
+5df22f408fdd60bb46616ef3fd4e56d3068adc046959051fb65dec943888d358  docs/task-evidence/samplesumo-ts/LICENSES.md
+1f601014d7071950a74743ef4b58c2b29039b12a2c336958995fc7f80922faa8  docs/task-evidence/samplesumo-ts/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/samplesumo-ts/SOURCES.sha256.license
+276ad753926a7d62ea9b60b92538571afe7bb9b6669579399ddf4426a3c8aafb  docs/task-evidence/samplesumo-ts/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/samplesumo-ts/contract.json.license
+d2083a0b7b26270e8065dbf24f8219a74ea0b56585ab83d87d793edd709c3d25  docs/task-evidence/samplesumo-ts/reference.py
+5e7c17de493b17bbd8157466d39b8c5172ac1c06ce1d267d192430d6e2b9aa6f  docs/task-evidence/samplesumo-ts/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/samplesumo-ts/report.json.license
+c7d62714d3f1be8e95ae253cd863152e0e138a856d0c13bba9ab42ec41b134e7  docs/task-evidence/samplesumo-ts/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/samplesumo-ts/report.json.sha256.license
+bb5720b64a360dac0b69d1def10ec4d3102fffecafc3f44b5f60b8f04da024e1  docs/task-evidence/samplesumo-ts/run.py
+f1c03d82a3b1d1c5b1d649fbe7803f24036c49e9eb78e04ede8fbb1971c88b85  docs/task-evidence/samplesumo-ts/test_reference.py
+8738b56c70bab38357368155bd800daadd553bb8598f679cd4e10418db9ca8c4  docs/task-evidence/samplesumo-ts/verify.py
