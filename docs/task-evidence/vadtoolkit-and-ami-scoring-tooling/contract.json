@@ -1,0 +1,182 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "task": "SDK-VADTOOLKIT-AND-AMI-SCORING-TOOLING",
+  "title": "VADToolkit and AMI scoring tooling",
+  "component": "vadtoolkit-and-ami-scoring-tooling",
+  "repository": "audio-sdk",
+  "mode": "research-control",
+  "profile": "evidence",
+  "status": "proposal_only_incomplete",
+  "evidence_status": "incomplete",
+  "decision": "DEFER",
+  "defer_before": "opt_in_adapter_exposure",
+  "qualification": {
+    "status": "not_qualified",
+    "candidate_qualified": false,
+    "no_missing_result_qualifies_candidate": true,
+    "decision": "DEFER",
+    "blocked_gate_count": 8,
+    "blocked_gate_ids": [
+      "exact_source_and_asset_identity",
+      "rights_and_publication",
+      "matched_reference_parity",
+      "analysis_cohort_and_scoring",
+      "weak_label_separation",
+      "runtime_and_reproducibility",
+      "adapter_boundary_and_isolation",
+      "public_default_and_release"
+    ]
+  },
+  "base_commit": "26bc48c58f9d69571571fa651862dcbe0fe1172d",
+  "branch": "swarm/SDK-VADTOOLKIT-AND-AMI-SCORING-TOOLING",
+  "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-VADTOOLKIT-AND-AMI-SCORING-TOOLING",
+  "reviewer": "reviewer-VADTOOLKIT-AND-AMI-SCORING-TOOLING",
+  "write_scope": "docs/task-evidence/vadtoolkit-and-ami-scoring-tooling/",
+  "task_row_identity": {
+    "source": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "stable_sha256": "2b18653e9410c4422f5e477e5fe74c54c9d88a94452927da5edac192e35b152f",
+    "whole_file_hashed": false,
+    "excluded_mutable_fields": [
+      "blocked_reason",
+      "dispatch_priority",
+      "handoff",
+      "owner",
+      "review",
+      "status"
+    ]
+  },
+  "scope": {
+    "real_audio": false,
+    "real_corpus": false,
+    "real_dataset": false,
+    "dataset_downloaded": false,
+    "model_executed": false,
+    "network_used": false,
+    "device_timing": false,
+    "listening": false,
+    "public_benchmark": false,
+    "release_claim": false,
+    "task_local_only": true
+  },
+  "boundary": {
+    "registered": false,
+    "enabled_by_default": false,
+    "default_selected": false,
+    "descriptor_settings": {},
+    "public_api_abi_change": false,
+    "provider_registration": false,
+    "production_callback_registered": false,
+    "descriptor_registry_change": false,
+    "shared_build_or_ci_change": false,
+    "installed_v0_behavior_change": false,
+    "sdk_callback_invoked": false,
+    "asset_bundled": false,
+    "weights_vendored": false,
+    "adapter_json_added": false,
+    "ci_change": false,
+    "processor_exposure": false,
+    "network_used": false
+  },
+  "source_pins": {
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "audio-benchmark-platform/plan/audio-sdk/README.md": "f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06",
+    "research/plans/F02/vad_accuracy_contract.md": "f6650aa3206cb694dffc4b429e0fe1f34c5ecd097cbfda7e522083cad7be1cec"
+  },
+  "boundary_pins": {
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "exact_blockers": [
+    {
+      "id": "exact_source_and_revision_absent",
+      "requirement": "Pin exact VADToolkit/AMI tooling source revisions, immutable build/command recipes, and artifact manifests for every scored component."
+    },
+    {
+      "id": "exact_assets_and_labels_absent",
+      "requirement": "Provide exact licensed audio, annotation, scored-region, and reference artifacts with SHA-256/byte counts and complete provenance."
+    },
+    {
+      "id": "rights_and_publication_uncleared",
+      "requirement": "Clear acquisition, local evaluation, publication, redistribution, and derivative-output rights with complete notices before any claim."
+    },
+    {
+      "id": "reference_parity_absent",
+      "requirement": "Reproduce a pinned reference scoring run on frozen inputs with byte-level or explicitly-toleranced verified outputs and hashed artifacts."
+    },
+    {
+      "id": "cohort_scored_region_absent",
+      "requirement": "Freeze a rights-cleared held-out cohort with explicit scored regions, unknown gaps, and separated weak/advisory labels."
+    },
+    {
+      "id": "runtime_execution_absent",
+      "requirement": "Provide an isolated pinned runtime and deterministic execution recipe for the tooling under test."
+    },
+    {
+      "id": "adapter_boundary_incomplete",
+      "requirement": "Define an optional SDK developer/evidence adapter boundary that preserves installed v0 behavior and does not expose the tooling as a processor."
+    },
+    {
+      "id": "public_default_release_blocked",
+      "requirement": "Record explicit default-selection, resource/deadline, release, and public-benchmark approval; missing evidence cannot qualify."
+    }
+  ],
+  "gates": [
+    {
+      "id": "exact_source_and_asset_identity",
+      "requirement": "Exact VADToolkit/AMI source revisions, commands, audio/annotation assets, hashes, byte counts, and manifests are pinned and present.",
+      "status": "blocked"
+    },
+    {
+      "id": "rights_and_publication",
+      "requirement": "Acquisition, local evaluation, publication, redistribution, and derivative-output rights are cleared with complete notices.",
+      "status": "blocked"
+    },
+    {
+      "id": "matched_reference_parity",
+      "requirement": "A pinned reference scoring run is reproduced on frozen inputs with hashed outputs and verified parity/tolerance policy.",
+      "status": "blocked"
+    },
+    {
+      "id": "analysis_cohort_and_scoring",
+      "requirement": "A rights-cleared held-out cohort with explicit scored regions scores miss/FAR/onset/offset using deterministic rules; unknown remains unknown.",
+      "status": "blocked"
+    },
+    {
+      "id": "weak_label_separation",
+      "requirement": "Weak, advisory, transcript-derived, or incomplete labels are separated from held-out accuracy references and cannot qualify alone.",
+      "status": "blocked"
+    },
+    {
+      "id": "runtime_and_reproducibility",
+      "requirement": "An isolated pinned runtime and deterministic command recipe reproduce the tooling outputs without network or hidden mutation.",
+      "status": "blocked"
+    },
+    {
+      "id": "adapter_boundary_and_isolation",
+      "requirement": "Any future SDK adapter is optional, task-local/dev-evidence only, preserves installed v0 behavior, and is not exposed as a processor.",
+      "status": "blocked"
+    },
+    {
+      "id": "public_default_and_release",
+      "requirement": "Explicit default-selection, resource/deadline evidence, and release/public-benchmark approval are recorded; default remains off.",
+      "status": "blocked"
+    }
+  ],
+  "reproduction": {
+    "tests": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_reference.py",
+    "report": "PYTHONDONTWRITEBYTECODE=1 python3 run.py report.json",
+    "sources": "PYTHONDONTWRITEBYTECODE=1 python3 run.py sources",
+    "verify": "PYTHONDONTWRITEBYTECODE=1 python3 verify.py",
+    "cold_start_regenerations": 3,
+    "comparison": "canonical JSON bytes and SHA-256 only; no tolerance"
+  },
+  "licensing": {
+    "spdx_file_copyright": "2026 Tsakanyan Hovhannes",
+    "spdx_license_identifier": "Apache-2.0",
+    "generated_json_sidecars": true
+  }
+}
