@@ -1,0 +1,40 @@
+# SHA-256 pins for SDK-WAV2VEC-2-0-BASE-FACEBOOK-WAV2VEC2-BASE-960H-RIDGE readiness evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# The mutable shared board is not pinned; only its stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f  source:research/tsm-followup-20261101/README.md
+f2f1b55234364eceff8b0626411590fbb97476cac918d9bf34138babc5820b73  source:research/tsm-followup-20261101/agent-neural/REPORT.md
+09b7e3cc4ff5fa01768cd925f38d972b555f9864feaf38036fafac7c6350f660  source:research/tsm-followup-20261101/agent-neural/run/run_ssl_encoder_cv.py
+201f88580dfc3f0fe46d063d48a1fa306e1345c60c90581eac7a012c97512790  source:research/tsm-followup-20261101/agent-neural/run/score_nonnegative_heads.py
+3c7b3731cf6d2312e42e3333cae03bc631f6d1dbf557b773e134468c867897e2  source:research/tsm-followup-20261101/agent-neural/run/syl_eval_manifest.json
+8e5a4aadd0b7d88b363658e82e72c087950dd40a378e6ebcdc451c1db9ad8c92  source:research/tsm-followup-20261101/agent-neural/run/wav2vec2-base-960h_fp32_embeddings.npz
+11c0aef3121857f71e037acbca64a2546d1f206a9271fd95922530b85267d9d1  source:research/tsm-followup-20261101/agent-neural/run/wav2vec2-base-960h_results.json
+6d56532312237861170b63bcecaa8d9071b30f80e6be1195ff9dfc1436b436d6  source:research/tsm-followup-20261101/agent-neural/run/wav2vec2-base-960h_source.json
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+adb751885024bcaab88a373602f3d19326cee356559d62b0cc334cbc25afceca  docs/task-evidence/distil-wav2vec2-adult-child-ridge/README.md
+ff7b70f389b8c7908c917aa2488728d7f972a8acd22bf66c56d9a671cd5a65d4  docs/task-evidence/distil-wav2vec2-adult-child-ridge/report.json
+3da6772383eb9b44ccd8eeab4272bf69e4dbd2640f045e42c4fa6ed24f275533  docs/task-evidence/dynamic-int8-wav2vec2-base/README.md
+ccc997cb695fde535c5408a91cd9f0e5ecdbd6cc1687f5abf82530944c5ef509  docs/task-evidence/dynamic-int8-wav2vec2-base/contract.json
+6f166a5bc05a31064780f0957e5d1fb2046d5939180175b40b72f70a36e856c9  docs/task-evidence/dynamic-int8-wav2vec2-base/report.json
+b4036c36deaf66b8fc77d6e7dcdd667799ed1f9519194f1f06632936a6556ddd  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/LICENSES.md
+870a665c5da0f75dea01de767388cd40fdd45a0cd5d55f07fa1010861e9dd371  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/SOURCES.sha256.license
+f4429f3afde1096d29068f51ddace56c591a290d793097a671a125f4ff7a9a68  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/contract.json.license
+e839d2fc4eefb0de59372461e383f0a25b779c2cb9bc34efe56a8d6d2dc002ae  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/reference.py
+1ce7faa0b87faa8a8782083bd23ba6dd5803f9bd45ae5ef2db9a8692b0858f48  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/report.json.license
+0467b1385c90e442e1b7ff5de96b68782144f006ff0026f255e4ab8388649ddb  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/report.json.sha256.license
+4182f34be9149f04a2cbbd291f734c2978579e3b9d533d18bd07a8fe76b10850  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/run.py
+fa68b7ee5487761b54056e7cac1bdb7bd03a39b23a5f2d715fc1ad6814844a3a  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/test_reference.py
+96d49bcc7e13ed2afe5bf100cb6c693da3dbbdfa76617aad6f24ff0998f6749f  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/verify.py
