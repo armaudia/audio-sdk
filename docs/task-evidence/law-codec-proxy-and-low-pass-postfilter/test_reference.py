@@ -87,9 +87,38 @@ class ResamplerTests(unittest.TestCase):
             self.assertAlmostEqual(value, 0.5, places=3)
 
     def test_unadmitted_ratio_rejected(self) -> None:
-        for up, down in ((1, 1), (1, 3), (3, 1), (0, 1), (1, 0)):
+        for up, down in ((1, 1), (1, 3), (3, 1), (0, 1), (1, 0), (2, 2)):
             with self.assertRaises(reference.Rejected):
                 reference.resample_poly([0.1] * 32, up, down)
+
+    def test_declared_tap_geometry_matches_implementation(self) -> None:
+        self.assertEqual(reference.RESAMPLE_ADMITTED_RATIOS,
+                         ((1, 2), (2, 1)))
+        self.assertEqual(reference.RESAMPLE_TAPS,
+                         2 * 10 * max(2, 2) + 1)
+        self.assertEqual(reference.RESAMPLE_TAPS, 41)
+        self.assertEqual(reference.RESAMPLE_COMPOSITE_TAPS, 81)
+        self.assertEqual(reference.RESAMPLE_COMPOSITE_TAPS,
+                         2 * reference.RESAMPLE_TAPS - 1)
+        geometry = reference.geometry()["resampler"]
+        self.assertEqual(geometry["admitted_ratios"], [[1, 2], [2, 1]])
+        self.assertEqual(geometry["taps_per_direction"],
+                         reference.RESAMPLE_TAPS)
+        self.assertEqual(geometry["taps_formula"],
+                         "2 * 10 * max(up, down) + 1")
+        self.assertEqual(geometry["composite_cascade_taps"],
+                         reference.RESAMPLE_COMPOSITE_TAPS)
+        self.assertNotIn("up", geometry)
+        self.assertNotIn("down", geometry)
+        self.assertNotIn("taps", geometry)
+        for up, down in reference.RESAMPLE_ADMITTED_RATIOS:
+            taps = reference.resampler_tap_count(up, down)
+            self.assertEqual(taps, geometry["taps_per_direction"])
+            coefficients = reference._firwin_lowpass(
+                taps, 1.0 / max(up, down), reference.RESAMPLE_KAISER_BETA)
+            self.assertEqual(len(coefficients), taps)
+        with self.assertRaises(reference.Rejected):
+            reference.resampler_tap_count(2, 2)
 
 
 class PostfilterTests(unittest.TestCase):

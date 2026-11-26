@@ -369,6 +369,33 @@ def check_report(report: Dict[str, Any], problems: List[str]) -> None:
     check(geometry.get("postfilter", {}).get("cutoff_hz") == 3900.0 and
           geometry.get("postfilter", {}).get("frame_causal") is False,
           "postfilter geometry mismatch", problems)
+    resampler = geometry.get("resampler", {})
+    check(resampler.get("admitted_ratios") == [[1, 2], [2, 1]],
+          "resampler admitted ratios mismatch", problems)
+    check(resampler.get("taps_formula") == "2 * 10 * max(up, down) + 1",
+          "resampler tap formula mismatch", problems)
+    check(resampler.get("taps_per_direction") == reference.RESAMPLE_TAPS == 41,
+          "resampler declared taps disagree with the implemented formula",
+          problems)
+    check(resampler.get("composite_cascade_taps") ==
+          reference.RESAMPLE_COMPOSITE_TAPS ==
+          2 * reference.RESAMPLE_TAPS - 1,
+          "resampler composite cascade taps mismatch", problems)
+    check("taps" not in resampler and "up" not in resampler and
+          "down" not in resampler,
+          "resampler still reports ambiguous up/down/taps fields", problems)
+    check((2, 2) not in reference.RESAMPLE_ADMITTED_RATIOS,
+          "resampler admits the non-admitted (2, 2) ratio", problems)
+    for up, down in reference.RESAMPLE_ADMITTED_RATIOS:
+        taps = reference.resampler_tap_count(up, down)
+        check(taps == resampler.get("taps_per_direction"),
+              "declared taps do not match the implemented formula for " +
+              "ratio " + str((up, down)), problems)
+        coefficients = reference._firwin_lowpass(
+            taps, 1.0 / max(up, down), reference.RESAMPLE_KAISER_BETA)
+        check(len(coefficients) == resampler.get("taps_per_direction"),
+              "implemented coefficient count does not match the declared " +
+              "taps for ratio " + str((up, down)), problems)
     check(geometry.get("streaming_ready") is False,
           "geometry claims streaming readiness", problems)
     check(geometry.get("measured_here") is False,
