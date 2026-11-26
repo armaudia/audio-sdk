@@ -221,7 +221,7 @@ are whole-file boundary pins only.
 | `report.json.sha256` | Digest of the committed `report.json`. |
 | `SOURCES.sha256` | Deterministic manifest of all pinned inputs and task-local artifacts. |
 | `test_reference.py` | Deterministic unittest checks (no skips, no network, no runtime, no audio). |
-| `verify.py` | Read-only verifier: pins, canonical bytes, family identity, arithmetic, gates, licensing, scope, cold-start regeneration. |
+| `verify.py` | Read-only verifier: pins, canonical bytes, family identity, arithmetic, gates, licensing, merge-base scope, cold-start regeneration. |
 | `*.license` | REUSE sidecars for generated JSON/digest artifacts. |
 
 ## Reproduce
@@ -231,7 +231,7 @@ works) and stdlib only:
 
 ```sh
 export PYTHONDONTWRITEBYTECODE=1
-python3 run.py all
+python3 run.py
 python3 -m unittest -v test_reference.py
 python3 verify.py
 ```
@@ -248,6 +248,14 @@ checks pass with 0 failed and 0 skipped; `verify.py` prints
 `PASS ... cold_starts=3/3 byte_identical=true profile=room status=incomplete
 decision=DEFER qualification=not_qualified`; `git diff --check` is clean.
 `verify.py` writes only a temporary subprocess check and never this package.
+
+Scope verification compares the branch against the newest merge-base between
+`HEAD` and `origin/main` (falling back to `main`), not a fixed historical
+commit. Commits merged into `main` after this task therefore never count as
+this branch's out-of-scope edits. Any committed or uncommitted path outside
+`docs/task-evidence/dual-path-echo-net/` still fails as
+`base_out_of_scope_change`, and an unresolvable base ref fails closed as
+`scope_base_unavailable`.
 
 Current counts: 15 absence probes (11 workspace + 4 external, 0 present),
 7 required artifacts (1 provenance artifact present, 6 blocked), 6 open

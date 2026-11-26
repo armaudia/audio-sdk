@@ -9,8 +9,8 @@ Usage::
 Fails closed on non-canonical or duplicate-key/nonfinite JSON, stale digests,
 stale pins, a non-room profile, a promoted metric, a resolved or substituted
 family identity, a fabricated geometry, a qualified claim, an open release
-gate, license gaps, out-of-scope worktree changes, whitespace damage or a dirty
-``git diff --check``. Never writes.
+gate, license gaps, out-of-scope branch or worktree changes, whitespace damage
+or a dirty ``git diff --check``. Never writes.
 """
 
 from __future__ import annotations
@@ -624,20 +624,36 @@ def check_scope(errors: List[str]) -> List[str]:
     result = subprocess.run(
         ["git", "-C", str(SDK_ROOT), "status", "--porcelain=v1",
          "--untracked-files=all"],
-        capture_output=True, text=True, check=True)
+        capture_output=True, text=True)
+    if result.returncode != 0:
+        errors.append("git_status_failed: " + result.stderr.strip())
+        return []
     changed: List[str] = []
     for line in result.stdout.splitlines():
         path = line[3:] if line[:2].strip() else line
         if " -> " in path:
             path = path.split(" -> ", 1)[1]
+        if not path:
+            continue
         changed.append(path)
         if not path.startswith(reference.TASK_PREFIX):
             errors.append("change outside task scope: " + path)
     diff_check = subprocess.run(
         ["git", "-C", str(SDK_ROOT), "diff", "--check"],
         capture_output=True, text=True)
-    if diff_check.returncode != 0:
+    if diff_check.returncode != 0 or diff_check.stdout.strip():
         errors.append("git diff --check failed: " + diff_check.stdout.strip())
+    base = reference.scope_base(SDK_ROOT)
+    if base is None:
+        errors.append("scope_base_unavailable")
+    else:
+        try:
+            base_paths = reference.scope_changed_paths(SDK_ROOT, base)
+        except ValueError as error:
+            errors.append(str(error))
+        else:
+            for path in reference.scope_violations(base_paths):
+                errors.append("base_out_of_scope_change: " + path)
     return changed
 
 
