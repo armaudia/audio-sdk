@@ -23,9 +23,10 @@ import os
 import platform
 import re
 import struct
+import subprocess
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterable
 
 TASK = "SDK-COF-DENOISING-CHECKPOINTS"
 COMPONENT_ID = "cof-denoising-checkpoints"
@@ -835,6 +836,72 @@ def board_row_projection(path: Path) -> dict:
 
 def board_row_digest(projection: dict) -> str:
     return object_digest(projection)
+
+
+# --------------------------------------------------------------------------
+# Task-local git scope
+# --------------------------------------------------------------------------
+# The merged squash lands on `main`; later merges add unrelated sibling task
+# packages. A fixed historical commit therefore cannot be the scope base: it
+# would report those siblings as out-of-scope edits of this task. The base is
+# the newest merge-base between HEAD and the PR base refs, so the comparison
+# contains exactly the commits this branch added and fail-closed scope checks
+# still catch any edit outside TASK_PREFIX.
+SCOPE_BASE_REFS = ("origin/main", "main")
+
+
+def _git(worktree: Path, *arguments: str) -> subprocess.CompletedProcess:
+    return subprocess.run(["git", "-C", str(worktree), *arguments],
+                          capture_output=True, text=True)
+
+
+def git_commit(worktree: Path, ref: str) -> str | None:
+    """Return the commit SHA a ref resolves to, or None when it is absent."""
+    result = _git(worktree, "rev-parse", "--verify", "--quiet",
+                  ref + "^{commit}")
+    sha = result.stdout.strip()
+    return sha if result.returncode == 0 and sha else None
+
+
+def scope_base(worktree: Path,
+               refs: tuple[str, ...] = SCOPE_BASE_REFS) -> str | None:
+    """Newest merge-base between HEAD and an available PR base ref.
+
+    Returns None only when no base ref exists, which the verifier treats as a
+    fail-closed condition rather than a silent pass.
+    """
+    best: str | None = None
+    for ref in refs:
+        if git_commit(worktree, ref) is None:
+            continue
+        result = _git(worktree, "merge-base", "HEAD", ref)
+        base = result.stdout.strip()
+        if result.returncode != 0 or not base:
+            continue
+        if best is None:
+            best = base
+            continue
+        if best == base:
+            continue
+        if _git(worktree, "merge-base", "--is-ancestor",
+                best, base).returncode == 0:
+            best = base
+    return best
+
+
+def scope_changed_paths(worktree: Path, base: str) -> list[str]:
+    """Paths changed by this branch relative to its merge-base."""
+    result = _git(worktree, "diff", "--name-only", "--no-renames",
+                  base, "--", ".")
+    if result.returncode != 0:
+        raise ValueError("git_scope_diff_failed:" + result.stderr.strip())
+    return [line for line in result.stdout.splitlines() if line]
+
+
+def scope_violations(paths: Iterable[str],
+                     prefix: str = TASK_PREFIX) -> list[str]:
+    """Return changed paths outside the task-local write scope."""
+    return [path for path in paths if path and not path.startswith(prefix)]
 
 
 def linked_rows(path: Path | None = None) -> list[dict]:
