@@ -167,8 +167,8 @@ Mutable fields (`blocked_reason`, `dispatch_priority`, `handoff`, `owner`,
 
 `SOURCES.sha256` additionally pins every task-local artifact; it excludes its
 own bytes because a file cannot pin itself. `verify.py` fails closed on a
-missing, stale, malformed, duplicated or extra pin, on any worktree change
-outside this directory, and on any cold-start byte difference.
+missing, stale, malformed, duplicated or extra pin, on any committed or
+worktree change outside this directory, and on any cold-start byte difference.
 
 ## Files
 
@@ -183,8 +183,8 @@ outside this directory, and on any cold-start byte difference.
 - `report.json` / `report.json.sha256` — canonical evidence and its digest.
 - `SOURCES.sha256` — deterministic manifest of all pinned inputs.
 - `test_reference.py` — unittest acceptance suite.
-- `verify.py` — read-only strict JSON, pin, profile, licensing, scope and
-  three cold-start regeneration verifier.
+- `verify.py` — read-only strict JSON, pin, profile, licensing, merge-base
+  scope and three cold-start regeneration verifier.
 - `*.json.license`, `*.sha256.license` — REUSE sidecars.
 
 ## Reproduction
@@ -201,6 +201,13 @@ git diff --check
 `verify.py` never writes to this directory: it builds three isolated scratch
 copies with symlinks to the pinned read-only inputs and checks cold-start
 regeneration there.
+
+Scope verification compares the branch against the newest merge-base between
+`HEAD` and `origin/main` (falling back to `main`), not a fixed historical
+commit. Commits merged into `main` after this task therefore never count as
+this branch's out-of-scope edits. Any committed or uncommitted path outside
+`docs/task-evidence/madmom/` still fails as `base_out_of_scope_change`, and an
+unresolvable base ref fails closed as `scope_base_unavailable`.
 
 ## Remaining gates
 
