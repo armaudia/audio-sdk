@@ -1,0 +1,1222 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "acceptance_profile": {
+    "all_qualify": false,
+    "items": [
+      {
+        "evidence": "exact rational source-to-output sample mapping",
+        "item": "source_output_mapping",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "exact sum(d_i / r_i) == sum(d_i) on the fixture",
+        "item": "duration_identity",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "exact 1x identity envelope",
+        "item": "unity_1x_control",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "declared-only 3/2 silence and 6/5 filler on the fixture",
+        "item": "silence_and_filler_policy",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "every control decision is tied to a source sample interval",
+        "item": "source_timestamp_tied_decisions",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "control coverage ends exactly at the fixture boundary",
+        "item": "final_partial_window",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "no actuator, audio path or pitch measurement",
+        "item": "pitch_preservation",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "no actuator or listening asset",
+        "item": "transient_audibility",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "no playout FIFO, lookahead run or rebuffer injection",
+        "item": "playback_buffering_and_rebuffer",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "no runtime or rate-change trace",
+        "item": "rate_changes_step_and_ramp",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "no real speech, music or held-out corpus",
+        "item": "unfamiliar_speech_and_music",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "no actuator or long-run measurement",
+        "item": "drift_over_long_run",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "no candidate output or preservation metric",
+        "item": "speech_preservation",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "both classes are blocked and reported separately",
+        "item": "asr_proxy_separate_from_listening",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "no protocol, panel or authorization",
+        "item": "listening_or_comprehension",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "explicit rejection of invalid, nonfinite and blocked cases",
+        "item": "adverse_missing_nonfinite_controls",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "no code, weight or output-use approval",
+        "item": "release_and_distribution_terms",
+        "qualifies": false,
+        "status": "blocked"
+      }
+    ],
+    "missing_result_promoted": false,
+    "profile": "rate",
+    "qualifies": false
+  },
+  "adverse_results": [
+    {
+      "error": "rate_numerator_is_not_an_integer",
+      "expected": "rate_numerator_is_not_an_integer",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "nan_rate_numerator",
+      "status": "rejected"
+    },
+    {
+      "error": "rate_denominator_is_not_an_integer",
+      "expected": "rate_denominator_is_not_an_integer",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "infinity_rate_denominator",
+      "status": "rejected"
+    },
+    {
+      "error": "rate_numerator_is_not_an_integer",
+      "expected": "rate_numerator_is_not_an_integer",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "boolean_rate_numerator",
+      "status": "rejected"
+    },
+    {
+      "error": "rate_numerator_is_not_an_integer",
+      "expected": "rate_numerator_is_not_an_integer",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "string_rate_numerator",
+      "status": "rejected"
+    },
+    {
+      "error": "rate_denominator_is_not_positive",
+      "expected": "rate_denominator_is_not_positive",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "zero_denominator",
+      "status": "rejected"
+    },
+    {
+      "error": "rate_numerator_is_not_positive",
+      "expected": "rate_numerator_is_not_positive",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "negative_numerator",
+      "status": "rejected"
+    },
+    {
+      "error": "rate_below_declared_floor",
+      "expected": "rate_below_declared_floor",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "rate_below_floor",
+      "status": "rejected"
+    },
+    {
+      "error": "rate_above_declared_ceiling",
+      "expected": "rate_above_declared_ceiling",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "rate_above_ceiling",
+      "status": "rejected"
+    },
+    {
+      "error": "meaningful_speech_must_not_be_sped_up",
+      "expected": "meaningful_speech_must_not_be_sped_up",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "speech_speedup",
+      "status": "rejected"
+    },
+    {
+      "error": "silence_or_filler_must_not_be_slowed",
+      "expected": "silence_or_filler_must_not_be_slowed",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "silence_slowing",
+      "status": "rejected"
+    },
+    {
+      "error": "segment_intervals_have_a_gap",
+      "expected": "segment_intervals_have_a_gap",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "interval_gap",
+      "status": "rejected"
+    },
+    {
+      "error": "segment_intervals_overlap",
+      "expected": "segment_intervals_overlap",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "interval_overlap",
+      "status": "rejected"
+    },
+    {
+      "error": "segment_interval_is_empty_or_reversed",
+      "expected": "segment_interval_is_empty_or_reversed",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "reversed_interval",
+      "status": "rejected"
+    },
+    {
+      "error": "envelope_does_not_cover_total_samples",
+      "expected": "envelope_does_not_cover_total_samples",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "uncovered_tail",
+      "status": "rejected"
+    },
+    {
+      "error": "segment_id_is_duplicated",
+      "expected": "segment_id_is_duplicated",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "duplicate_segment_id",
+      "status": "rejected"
+    },
+    {
+      "error": "asr_proxy_score_is_nonfinite",
+      "expected": "asr_proxy_score_is_nonfinite",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "nonfinite_asr_score",
+      "status": "rejected"
+    },
+    {
+      "error": "asr_proxy_score_is_not_a_real_number",
+      "expected": "asr_proxy_score_is_not_a_real_number",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "boolean_asr_score",
+      "status": "rejected"
+    },
+    {
+      "error": "asr_proxy_score_out_of_range",
+      "expected": "asr_proxy_score_out_of_range",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "asr_score_out_of_range",
+      "status": "rejected"
+    },
+    {
+      "error": "candidate_claim_without_artifact",
+      "expected": "candidate_claim_without_artifact",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "candidate_claim",
+      "status": "rejected"
+    },
+    {
+      "error": "segment_is_not_an_object",
+      "expected": "segment_is_not_an_object",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "non_object_segment",
+      "status": "rejected"
+    },
+    {
+      "error": "envelope_is_empty",
+      "expected": "envelope_is_empty",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "empty_envelope",
+      "status": "rejected"
+    },
+    {
+      "error": "envelope_is_not_a_segment_list",
+      "expected": "envelope_is_not_a_segment_list",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "mapping_container",
+      "status": "rejected"
+    },
+    {
+      "error": "segment_extra_fields:extra",
+      "expected": "segment_extra_fields:extra",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "extra_segment_field",
+      "status": "rejected"
+    },
+    {
+      "error": "unsupported_content_class",
+      "expected": "unsupported_content_class",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "unsupported_content_class",
+      "status": "rejected"
+    }
+  ],
+  "artifact_assessment": {
+    "adapter_present": false,
+    "aix_speed_source_present": false,
+    "all_required_absent": true,
+    "checked_paths": {
+      "adapters/aix-speed-asr-guided-planner": false,
+      "data/checkouts/aix-speed": false,
+      "data/checkouts/aix-speed-asr-guided-planner": false,
+      "data/envs/aix-speed": false,
+      "data/envs/aix-speed-asr-guided-planner": false,
+      "data/licenses/aix-speed": false,
+      "data/licenses/aix-speed-asr-guided-planner": false,
+      "data/models/aix-speed": false,
+      "data/models/aix-speed-asr-guided-planner": false,
+      "data/reference/aix-speed": false,
+      "data/reference/aix-speed-asr-guided-planner": false,
+      "data/sources/aix-speed": false,
+      "data/sources/aix-speed-asr-guided-planner": false
+    },
+    "conclusion": "BLOCKED: no AIx Speed source revision, jointly trained weights, ASR runtime, licence/rights approval, rights-cleared held-out transcript cohort, ASR proxy result or listening result exists locally; nothing was downloaded, copied or executed.",
+    "heldout_transcripts_present": false,
+    "license_approved": false,
+    "package_assets_present": false,
+    "qualifies": false,
+    "runtime_present": false,
+    "weights_present": false
+  },
+  "base_commit": "f245d81f86b556dca4bcdb1b7afb2ea898065ed7",
+  "boundary_pins": {
+    "CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "REUSE.toml": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "scripts/ci.py": "64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f"
+  },
+  "branch": "swarm/SDK-AIX-SPEED-ASR-GUIDED-PLANNER",
+  "candidate_record": {
+    "artifact_present": false,
+    "authors": "Kawamura & Rekimoto (per the pinned note)",
+    "backbone": "Wav2Vec2-based joint speed/ASR training",
+    "candidate": "AIx Speed",
+    "component": "aix-speed-asr-guided-planner",
+    "family": "AIx Speed",
+    "license_reviewed": false,
+    "locator": "https://arxiv.org/abs/2403.02938",
+    "method": "per-phoneme playback speed chosen from an ASR recognition score used as a proxy for human intelligibility",
+    "public_implementation_found": false,
+    "qualifies": false,
+    "reproduced_here": false,
+    "runtime_present": false,
+    "source_reported_claim": "source-reported ~1.3x average speed with lower CER/WER than constant-speed playback",
+    "source_reported_only": true,
+    "source_reported_scores_present": false,
+    "weights_present": false
+  },
+  "completeness": "incomplete",
+  "component": "aix-speed-asr-guided-planner",
+  "control_envelope": {
+    "asr_proxy": {
+      "cer_delta_pp": null,
+      "qualifies": false,
+      "reason": "no AIx Speed weights, ASR runtime or rights-cleared held-out transcript cohort exists",
+      "reference_transcript": null,
+      "scorer_id": null,
+      "status": "blocked",
+      "wer_delta_pp": null
+    },
+    "design": {
+      "declared_max_rate": "3/2",
+      "declared_min_rate": "3/4",
+      "guided": "declared content-aware envelope: silence 3/2, filler 6/5, protected speech 4/5 and 1/1, exact duration identity",
+      "identity": "exact 1x passthrough envelope",
+      "is_candidate_result": false,
+      "is_synthetic_control": true,
+      "policy_is_aix_speed": false,
+      "protected_speech_ceiling": "1"
+    },
+    "guided": {
+      "average_rate": "1",
+      "control_id": "guided_content_aware_control",
+      "duration_delta_ms": 0.0,
+      "duration_delta_samples": "0",
+      "is_aix_speed": false,
+      "is_candidate_result": false,
+      "is_synthetic_control": true,
+      "mapping_sha256": "ff411186984e0cfc3f9b0933604303dae6efe8ca80184d645a8f0c904d7fb017",
+      "max_rate": "3/2",
+      "min_rate": "4/5",
+      "output_samples_is_integer": true,
+      "qualifies": false,
+      "segments": [
+        {
+          "asr_proxy_score": null,
+          "content_class": "silence",
+          "end_sample_exclusive": 2400,
+          "is_candidate_result": false,
+          "output_end_ms": 100.0,
+          "output_end_sample": "1600",
+          "output_start_ms": 0.0,
+          "output_start_sample": "0",
+          "position": 0,
+          "rate": "3/2",
+          "segment_id": "seg-00-silence",
+          "start_sample": 0
+        },
+        {
+          "asr_proxy_score": null,
+          "content_class": "filler",
+          "end_sample_exclusive": 3600,
+          "is_candidate_result": false,
+          "output_end_ms": 162.5,
+          "output_end_sample": "2600",
+          "output_start_ms": 100.0,
+          "output_start_sample": "1600",
+          "position": 1,
+          "rate": "6/5",
+          "segment_id": "seg-01-filler",
+          "start_sample": 2400
+        },
+        {
+          "asr_proxy_score": null,
+          "content_class": "speech",
+          "end_sample_exclusive": 7600,
+          "is_candidate_result": false,
+          "output_end_ms": 475.0,
+          "output_end_sample": "7600",
+          "output_start_ms": 162.5,
+          "output_start_sample": "2600",
+          "position": 2,
+          "rate": "4/5",
+          "segment_id": "seg-02-speech",
+          "start_sample": 3600
+        },
+        {
+          "asr_proxy_score": null,
+          "content_class": "speech",
+          "end_sample_exclusive": 16000,
+          "is_candidate_result": false,
+          "output_end_ms": 1000.0,
+          "output_end_sample": "16000",
+          "output_start_ms": 475.0,
+          "output_start_sample": "7600",
+          "position": 3,
+          "rate": "1",
+          "segment_id": "seg-03-speech",
+          "start_sample": 7600
+        }
+      ],
+      "source_output_mapping_exact": true,
+      "total_input_samples": 16000,
+      "total_output_samples": "16000"
+    },
+    "identity": {
+      "average_rate": "1",
+      "control_id": "identity_1x_control",
+      "duration_delta_ms": 0.0,
+      "duration_delta_samples": "0",
+      "is_aix_speed": false,
+      "is_candidate_result": false,
+      "is_synthetic_control": true,
+      "mapping_sha256": "7eddc67854387da740c9597c00944786b90c18792eaa7b9cd66f8de0fe092bf5",
+      "max_rate": "1",
+      "min_rate": "1",
+      "output_samples_is_integer": true,
+      "qualifies": false,
+      "segments": [
+        {
+          "asr_proxy_score": null,
+          "content_class": "speech",
+          "end_sample_exclusive": 16000,
+          "is_candidate_result": false,
+          "output_end_ms": 1000.0,
+          "output_end_sample": "16000",
+          "output_start_ms": 0.0,
+          "output_start_sample": "0",
+          "position": 0,
+          "rate": "1",
+          "segment_id": "identity-seg-00-speech",
+          "start_sample": 0
+        }
+      ],
+      "source_output_mapping_exact": true,
+      "total_input_samples": 16000,
+      "total_output_samples": "16000"
+    },
+    "listening": {
+      "comprehension": null,
+      "mos": null,
+      "panel_authorized": false,
+      "preference": null,
+      "protocol_id": null,
+      "qualifies": false,
+      "reason": "no blind listening protocol, matched anchors or authorized panel exists",
+      "status": "blocked"
+    },
+    "qualifies": false,
+    "separation": {
+      "asr_proxy_is_listening": false,
+      "asr_proxy_result_present": false,
+      "listening_result_present": false,
+      "pooled_metric": null,
+      "qualifies": false,
+      "separate_reporting_required": true
+    }
+  },
+  "decision": "DEFER",
+  "declared_contract": {
+    "adapter_status": "proposal_only_no_aix_speed_source_weights_or_runtime",
+    "aix_speed_runtime_verified": false,
+    "availability_contract": "not_established",
+    "buffering_contract": "not_established",
+    "content_delay_contract": "not_established",
+    "contract_id": "aix-speed-asr-guided-planner/rate-envelope-proposal/0.1",
+    "declared_duration_target": "sum(d_i / r_i) == sum(d_i)",
+    "declared_lookahead_ms_range": [
+      200,
+      1000
+    ],
+    "declared_protected_speech_ceiling": "1",
+    "declared_rate_range": [
+      "3/4",
+      "3/2"
+    ],
+    "declared_source_timestamp_unit": "source_sample_at_16khz",
+    "drain_contract": "not_established",
+    "final_partial_window_contract": "not_established",
+    "host_grid": {
+      "channels": 1,
+      "frame_samples": 160,
+      "sample_format": "f32",
+      "sample_rate_hz": 16000
+    },
+    "installed_v0_unchanged": true,
+    "lookahead_is_a_measurement": false,
+    "official_geometry_verified": false,
+    "per_phoneme_alignment_contract": "not_established",
+    "qualifies": false,
+    "rate_application_contract": "not_established",
+    "rate_range_is_a_measurement": false,
+    "reset_contract": "not_established"
+  },
+  "failure_controls": {
+    "all_explicit": true,
+    "blocked_release_gates": 8,
+    "checks": {
+      "bad_source_revision_rejected": true,
+      "boolean_rate_rejected": true,
+      "boolean_score_rejected": true,
+      "candidate_claim_rejected": true,
+      "duplicate_id_rejected": true,
+      "extra_manifest_field_rejected": true,
+      "infinity_rate_rejected": true,
+      "interval_gap_rejected": true,
+      "interval_overlap_rejected": true,
+      "listening_not_separate_rejected": true,
+      "missing_manifest_field_rejected": true,
+      "missing_manifest_files_rejected": true,
+      "nan_rate_rejected": true,
+      "nonfinite_score_rejected": true,
+      "rate_ceiling_rejected": true,
+      "rate_floor_rejected": true,
+      "relative_manifest_path_rejected": true,
+      "silence_slowing_rejected": true,
+      "speech_speedup_rejected": true,
+      "string_rate_rejected": true,
+      "terms_not_accepted_rejected": true,
+      "uncovered_tail_rejected": true,
+      "uppercase_hash_rejected": true
+    },
+    "qualifies": false,
+    "rejected_envelope_documents": 24,
+    "rejected_manifest_documents": 17
+  },
+  "manifest_contract": {
+    "asr_proxy_and_listening_must_be_separate": true,
+    "caller_owned": true,
+    "checksum_policy": "full_sha256_required_for_source_weights_runtime_license_approval_and_transcript_manifest",
+    "contract_id": "aix-speed-asr-guided-planner/caller-supplied-qualified-bundle/0.1",
+    "executed": false,
+    "files_behavior": "hash caller-owned bytes and geometry only; never parse, import, link or execute the source, weights, runtime or transcript",
+    "loaded": false,
+    "official_identity_requires_author_rights_review": true,
+    "qualifies": false,
+    "required_fields": [
+      "artifact_id",
+      "asr_proxy_scorer_id",
+      "caller_attestation",
+      "candidate_id",
+      "license_path",
+      "license_sha256",
+      "listening_protocol_id",
+      "model_family",
+      "rights_approval_path",
+      "rights_approval_sha256",
+      "runtime_path",
+      "runtime_sha256",
+      "source_path",
+      "source_revision",
+      "source_sha256",
+      "terms_accepted",
+      "transcript_cohort_id",
+      "transcript_manifest_path",
+      "transcript_manifest_sha256",
+      "weights_path",
+      "weights_sha256"
+    ],
+    "vendored": false
+  },
+  "manifest_controls": [
+    {
+      "accepted": true,
+      "asr_proxy_is_listening": false,
+      "control_id": "valid_shape",
+      "files_verified": false,
+      "official_identity": false,
+      "qualifies": false,
+      "reason": "shape_valid_files_not_verified",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "missing_artifact_id",
+      "qualifies": false,
+      "reason": "manifest_missing_fields:artifact_id",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "extra_field",
+      "qualifies": false,
+      "reason": "manifest_extra_fields:extra",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "wrong_candidate",
+      "qualifies": false,
+      "reason": "manifest_candidate_id_mismatch",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "wrong_family",
+      "qualifies": false,
+      "reason": "manifest_model_family_mismatch",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "relative_weights_path",
+      "qualifies": false,
+      "reason": "path_is_not_absolute:weights_path",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "parent_traversal",
+      "qualifies": false,
+      "reason": "path_has_traversal_component:weights_path",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "bad_source_revision",
+      "qualifies": false,
+      "reason": "manifest_invalid_source_revision",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "uppercase_source_hash",
+      "qualifies": false,
+      "reason": "manifest_invalid_sha256:source_sha256",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "bad_weights_hash_length",
+      "qualifies": false,
+      "reason": "manifest_invalid_sha256:weights_sha256",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "duplicate_paths",
+      "qualifies": false,
+      "reason": "manifest_paths_are_not_distinct",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "terms_not_accepted",
+      "qualifies": false,
+      "reason": "manifest_terms_not_accepted",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "wrong_attestation",
+      "qualifies": false,
+      "reason": "manifest_caller_attestation_mismatch",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "empty_transcript_cohort",
+      "qualifies": false,
+      "reason": "manifest_invalid_identifier:transcript_cohort_id",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "missing_asr_proxy_scorer",
+      "qualifies": false,
+      "reason": "manifest_invalid_identifier:asr_proxy_scorer_id",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "listening_not_separate",
+      "qualifies": false,
+      "reason": "manifest_asr_proxy_and_listening_are_not_separate",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "listening_not_established",
+      "qualifies": false,
+      "reason": "manifest_listening_protocol_is_not_established",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "empty_artifact_id",
+      "qualifies": false,
+      "reason": "manifest_invalid_identifier:artifact_id",
+      "shape_only": true
+    }
+  ],
+  "missing_results": [
+    {
+      "qualifies": false,
+      "requirement": "Exact AIx Speed source revision or authorized implementation",
+      "result_id": "aix_speed_source_revision",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Exact jointly trained speed/ASR weights and full digest",
+      "result_id": "joint_speed_asr_weights",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Pinned Wav2Vec2/framework/tokenizer runtime and lock",
+      "result_id": "asr_runtime_environment",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Reviewed paper/code/weight terms and written approval",
+      "result_id": "license_and_output_rights",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Held-out transcripts with human-verified phoneme timestamps",
+      "result_id": "rights_cleared_heldout_transcripts",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "AIx Speed rate envelope on any held-out item",
+      "result_id": "candidate_rate_envelope",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Independent ASR-proxy WER delta",
+      "result_id": "asr_proxy_wer_delta_pp",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Independent ASR-proxy CER delta",
+      "result_id": "asr_proxy_cer_delta_pp",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Measured duration, drift, pitch and transient audibility",
+      "result_id": "duration_pitch_and_transient",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Measured buffering, rebuffer and final partial window",
+      "result_id": "playback_buffering_and_final_window",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Target-device timing, memory and callback behavior",
+      "result_id": "device_timing_and_resources",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Authorized blind listening or comprehension result",
+      "result_id": "listening_or_comprehension",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Independent exact-head release approval",
+      "result_id": "release_decision",
+      "status": "blocked",
+      "value": null
+    }
+  ],
+  "mutable_provenance": {
+    "gate": false,
+    "hashed": false,
+    "mutable": true,
+    "note": "Only the stable linked-row projection above is compared. The mutable full board file is never hashed by or pinned to this package.",
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json"
+  },
+  "non_claims": [
+    "No AIx Speed source, implementation, jointly trained weights, Wav2Vec2 derivative, ASR runtime or emulator is present, linked, imported, executed or reproduced.",
+    "No paper, code, weights, corpus, transcript or recording is downloaded, copied, vendored or substituted.",
+    "No AIx Speed rate envelope, per-phoneme speed, recognition score, WER/CER delta, comprehension result, MOS, ranking or threshold is claimed; every candidate result is null.",
+    "The synthetic envelope control is arithmetic only and is not an AIx Speed output, an ASR proxy result or a listening result.",
+    "ASR proxy and listening are reported as separate blocked evidence classes; neither is relabelled, pooled or promoted.",
+    "No real speech, held-out transcript, listening panel, device timing, benchmark or release claim is made.",
+    "No installed v0, ABI, registry, descriptor, default, shared build or CI behavior is changed.",
+    "No provider or processor is registered, exposed or default-enabled.",
+    "No missing, blocked or adverse result is promoted; no result qualifies."
+  ],
+  "observed_provenance": {
+    "asr_proxy_is_listening": false,
+    "documented_context": [
+      {
+        "claim_id": "candidate_description",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md:920",
+        "statement": "AIx Speed chooses playback speed per phoneme using an ASR model's recognition score as a proxy for human intelligibility."
+      },
+      {
+        "claim_id": "source_reported_outcome",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md:920",
+        "statement": "The paper reports ~1.3x average speed with lower CER/WER than constant-speed playback on a Wav2Vec2-based joint speed/ASR design."
+      },
+      {
+        "claim_id": "public_implementation_absent",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md:920,1030",
+        "statement": "No public AIx Speed implementation was found; the pinned note recommends it only as an upper bound, not a first build."
+      },
+      {
+        "claim_id": "rate_clamp",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md:486,657,717",
+        "statement": "The first product is clamped to 0.75-1.5x; local ASR proxies degraded sharply at 0.5x and 2.5x."
+      },
+      {
+        "claim_id": "lookahead_design",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md:602,645-649",
+        "statement": "Slowing the start of an utterance requires 200-500 ms of lookahead for streaming partials, or 0.5-1 s for reliable word timestamps; this is design guidance, not a measurement."
+      },
+      {
+        "claim_id": "local_prescreen_is_a_different_planner",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed/README.md:1-140",
+        "statement": "The local pre-screen measures D1/D2 with a Vosk gate, Whisper tiny.en proxy and Bungee/Signalsmith/Sonic actuators; it is not AIx Speed and has no listening result."
+      },
+      {
+        "claim_id": "patent_posture",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md:24,930-1001",
+        "statement": "The debt-controller research formulation reads on pending US20260075269A1; D1/D2 are the shipping design-arounds and AIx Speed is listed as prior art for counsel. No legal conclusion is made here."
+      },
+      {
+        "claim_id": "inventory_disposition",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "audio-benchmark-platform/plan/INVENTORY.json",
+        "statement": "The structured inventory marks the candidate evidence_status=considered, disposition=research-control and verification_profile=rate."
+      }
+    ],
+    "qualifies": false,
+    "reproduced_here": false
+  },
+  "profile": "rate",
+  "proposal_only": true,
+  "public_surface": {
+    "abi_change": false,
+    "benchmark_claim": false,
+    "ci_change": false,
+    "descriptor_default_change": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_change": false,
+    "registry_change": false,
+    "release_claim": false,
+    "shared_cmakelists_change": false
+  },
+  "qualification": {
+    "aix_speed_source_present": false,
+    "all_release_gates_blocked": true,
+    "asr_proxy_is_listening": false,
+    "asr_proxy_result_present": false,
+    "device_timing_present": false,
+    "heldout_transcripts_present": false,
+    "incomplete": true,
+    "license_approved": false,
+    "listening_present": false,
+    "local_control_is_candidate": false,
+    "measured_rate_present": false,
+    "measured_timing_present": false,
+    "missing_result_promoted": false,
+    "proposal_only": true,
+    "qualifies": false,
+    "release_claim": false,
+    "runtime_present": false,
+    "status": "not_qualified",
+    "weights_present": false
+  },
+  "qualification_slots": {
+    "asr_proxy_cer_delta_pp": {
+      "qualifies": false,
+      "status": "unavailable_asr_proxy_scorer_and_heldout_cohort_absent",
+      "value": null
+    },
+    "asr_proxy_wer_delta_pp": {
+      "qualifies": false,
+      "status": "unavailable_asr_proxy_scorer_and_heldout_cohort_absent",
+      "value": null
+    },
+    "candidate_rate_envelope": {
+      "qualifies": false,
+      "status": "unavailable_aix_speed_source_weights_and_runtime_absent",
+      "value": null
+    },
+    "device_timing": {
+      "qualifies": false,
+      "status": "unavailable_target_device_and_runtime_absent",
+      "value": null
+    },
+    "duration_error_ms_per_audio_second": {
+      "qualifies": false,
+      "status": "unavailable_candidate_runtime_absent",
+      "value": null
+    },
+    "listening_or_comprehension": {
+      "qualifies": false,
+      "status": "unavailable_panel_authorization_and_assets_absent",
+      "value": null
+    },
+    "pitch_error_cents": {
+      "qualifies": false,
+      "status": "unavailable_actuator_and_measurement_harness_absent",
+      "value": null
+    },
+    "release": {
+      "qualifies": false,
+      "status": "blocked",
+      "value": null
+    },
+    "transient_audibility": {
+      "qualifies": false,
+      "status": "unavailable_actuator_and_listening_assets_absent",
+      "value": null
+    }
+  },
+  "ranking": {
+    "order": "not_ranked",
+    "qualifies": false,
+    "reason": "No AIx Speed source, weights, runtime, held-out transcript cohort, ASR proxy result or listening result exists; a synthetic arithmetic control cannot rank the candidate.",
+    "recommendation": null
+  },
+  "regeneration": {
+    "byte_identical": true,
+    "canonical_digests": [
+      "3cbd36a9085d532475dc8719e9a1df9154c9b76a281120e67050298fe6c7b6fd",
+      "3cbd36a9085d532475dc8719e9a1df9154c9b76a281120e67050298fe6c7b6fd",
+      "3cbd36a9085d532475dc8719e9a1df9154c9b76a281120e67050298fe6c7b6fd"
+    ],
+    "mode": "three_in_process_canonical_builds_plus_cold_start_verify",
+    "runs": 3
+  },
+  "release_gates": [
+    {
+      "evidence": null,
+      "id": "exact_aix_speed_source_and_weights_identity",
+      "qualifies": false,
+      "requirement": "An exact AIx Speed source revision or authorized implementation and jointly trained weights, each with an immutable version and full SHA-256.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "license_and_output_rights",
+      "qualifies": false,
+      "requirement": "Reviewed paper/code/weight terms and written approval for local execution, benchmarking, redistribution and generated-output use.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "pinned_asr_runtime_and_environment",
+      "qualifies": false,
+      "requirement": "A locked framework, tokenizer, frontend and accelerator environment with exact dependency versions and install digests.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "declared_planner_geometry_lookahead_and_content_delay",
+      "qualifies": false,
+      "requirement": "The official per-phoneme alignment, rate application, lookahead, buffering, reset, drain, content-delay and final-window contract reproduced for the exact runtime.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "rights_cleared_heldout_transcript_cohort",
+      "qualifies": false,
+      "requirement": "A rights-cleared held-out transcript cohort with human-verified word/phoneme timestamps, consent and a frozen manifest.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "separate_asr_proxy_and_listening_quality",
+      "qualifies": false,
+      "requirement": "Independent ASR-proxy WER/CER deltas and a separate authorized blind listening/comprehension result, reported separately with uncertainty and retained failures.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "measured_rate_duration_pitch_transient_and_device_timing",
+      "qualifies": false,
+      "requirement": "Measured source/output mapping, duration drift, pitch, transient audibility, buffering, final partial window and target-device timing/resources for the exact runtime.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "opt_in_adapter_intake_and_release_review",
+      "qualifies": false,
+      "requirement": "An OFF-by-default opt-in adapter intake, independent exact-head review of this evidence, and explicit release approval.",
+      "status": "blocked"
+    }
+  ],
+  "reproduction": [
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_reference.py",
+    "python3 run.py --report",
+    "python3 run.py --contract",
+    "python3 run.py --sources",
+    "python3 run.py --inspect",
+    "python3 verify.py"
+  ],
+  "required_artifacts": [
+    {
+      "artifact": "The exact author source revision for the AIx Speed per-phoneme speed planner, or an authorized implementation, pinned by a 40-hex revision and a full SHA-256.",
+      "id": "exact_aix_speed_source",
+      "present": false,
+      "rights_requirement": "The repository/paper code licence, a written grant to reproduce and redistribute the implementation, and an output-use decision.",
+      "why_blocked": "The pinned note records no public implementation for AIx Speed; no checkout, revision or source archive exists locally."
+    },
+    {
+      "artifact": "The exact jointly trained speed/ASR model weights, including the Wav2Vec2 backbone, with an immutable version and full SHA-256.",
+      "id": "joint_speed_asr_weights",
+      "present": false,
+      "rights_requirement": "Weight-specific terms covering local execution, commercial use, redistribution and generated-output use.",
+      "why_blocked": "No AIx Speed checkpoint, Wav2Vec2 derivative or model card exists locally; nothing is downloaded or substituted."
+    },
+    {
+      "artifact": "A locked inference environment with exact framework, tokenizer, audio-frontend and accelerator versions plus install digests.",
+      "id": "pinned_asr_runtime_environment",
+      "present": false,
+      "rights_requirement": "Runtime and dependency licences plus approval for the exact versions on the target host.",
+      "why_blocked": "No environment, package lock or installed runtime for AIx Speed exists; no import or execution is attempted."
+    },
+    {
+      "artifact": "The exact paper/code/weight terms and a signed rights decision for execution, benchmarking, redistribution and output use.",
+      "id": "license_and_output_rights",
+      "present": false,
+      "rights_requirement": "Author and weight rightsholder terms, derivative-output permissions and commercial-use approval for the named revision.",
+      "why_blocked": "The method is described in a copyrighted paper; no code or weight licence text and no signed approval are present."
+    },
+    {
+      "artifact": "A frozen held-out transcript cohort with consent, language and speaker metadata, human-verified word and phoneme timestamps and a manifest digest.",
+      "id": "rights_cleared_heldout_transcript_cohort",
+      "present": false,
+      "rights_requirement": "Corpus, participant, annotation, redistribution and model-evaluation rights for every recording and transcript.",
+      "why_blocked": "No held-out transcript cohort, human-verified phoneme alignment or rights record is assigned to this task."
+    },
+    {
+      "artifact": "A pinned ASR proxy implementation with reference transcripts, alignment rules, aggregation and retained failures.",
+      "id": "independent_asr_proxy_scorer",
+      "present": false,
+      "rights_requirement": "Scorer, model and reference-transcript terms plus approval for the exact implementation revisions.",
+      "why_blocked": "No independent ASR proxy scorer, reference transcript or calibration result exists for this task."
+    },
+    {
+      "artifact": "A blind listening protocol, matched anchors, authorized panel and a comprehension/preference analysis separate from the ASR proxy.",
+      "id": "listening_protocol_and_panel",
+      "present": false,
+      "rights_requirement": "Panel consent, participant-data terms and approval to collect and publish listening outcomes.",
+      "why_blocked": "No listening protocol, panel, anchor set or authorization exists; the ASR proxy is never relabelled as listening."
+    },
+    {
+      "artifact": "An OFF-by-default opt-in adapter intake, independent exact-head review, measured rate/device evidence and explicit release approval.",
+      "id": "opt_in_adapter_intake_and_release_review",
+      "present": false,
+      "rights_requirement": "Reviewer, timing-harness and release-authority approval for the declared scope.",
+      "why_blocked": "No adapter, registration, default, measured rate evidence, review or release decision exists; none is added here."
+    }
+  ],
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "scope": {
+    "aix_speed_source": false,
+    "asr_proxy_result": false,
+    "asr_runtime_executed": false,
+    "audio_processed": false,
+    "benchmark_claim": false,
+    "device_timing": false,
+    "downloads": false,
+    "heldout_transcripts": false,
+    "installed_v0_format": "16 kHz mono float32, 160 samples",
+    "licensed_source_or_binary": false,
+    "listening": false,
+    "model_runtime_executed": false,
+    "network_used": false,
+    "provider_registered": false,
+    "real_speech_or_corpus": false,
+    "release_claim": false,
+    "synthetic_only": true,
+    "task_local_only": true,
+    "trained_weights": false
+  },
+  "sibling_pins": {
+    "docs/task-evidence/additional-vm-asr-audio-super-resolution/contract.json": "c59d99d0bb9280bb73bdf8608d8021cc338556609748db597b385c5d12d91301",
+    "docs/task-evidence/additional-vm-asr-audio-super-resolution/report.json": "3fa34b0e49d992f7e6261970b648aaa095a88bc07877372ba4df4422c5023b12",
+    "docs/task-evidence/d1-whole-clip-duration-planner/fixtures/report.json": "522f585511ae5c6306914ab250f261fc0d5af56bc7d494a09f62a12b2f179a98",
+    "docs/task-evidence/d1-whole-clip-duration-planner/reference.py": "ffb59e3d09d7cef0580d73cf9772d6e69d0ddfb991457e7878ac4bf86cf7c253",
+    "docs/task-evidence/ffmpeg-atempo/contract.json": "0f3ca86b4658d6656b0528bbcc1e1aa822928dbd72a48a66f16ad4f981b10fac",
+    "docs/task-evidence/ffmpeg-atempo/report.json": "a3986e6cb9d7315995aa13c74806c260c620d01b6f545e0837b127565c2ba249",
+    "docs/task-evidence/signalsmith-stretch/contract.json": "cec65c71a339e76bb668cb9d895285b7b152229d6a9af20c2401b69c7785ff9e",
+    "docs/task-evidence/signalsmith-stretch/report.json": "e352ef75bd0be91cbd5244dd69c8a5739fd1ec6bf3b86e73ae023948d6007231",
+    "docs/task-evidence/vosk-small-en-us-0-15-playback-gate/contract.json": "ee23e6cc21f9f3293a48dab7008a4c41f129074cafa3eb6b273f2f3ef413d694",
+    "docs/task-evidence/vosk-small-en-us-0-15-playback-gate/report.json": "57f355f51582c131812172e779ac8a6e3638491542c8e4e44efc46fd69cc2cc2"
+  },
+  "source_pins": {
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/audio-sdk/README.md": "f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "cpp-library/pipeline-validation/playback-speed-candidates.md": "661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3",
+    "cpp-library/pipeline-validation/playback-speed/README.md": "a7bde2c76ba2deaf0920b14d75b5d1bf72861ed3b1d6d735bfe0bbe83256635f",
+    "cpp-library/pipeline-validation/playback-speed/results/report.md": "9c9383297b1160dbe4f7261f789b493d70354b11930f4d8527b20b0ca8c87c34"
+  },
+  "status": "proposal_only_incomplete_not_qualified",
+  "task": "SDK-AIX-SPEED-ASR-GUIDED-PLANNER",
+  "task_row": {
+    "base_commit": "f245d81f86b556dca4bcdb1b7afb2ea898065ed7",
+    "branch": "swarm/SDK-AIX-SPEED-ASR-GUIDED-PLANNER",
+    "component": "aix-speed-asr-guided-planner",
+    "depends_on": [
+      "SDK-FND-AUDIT",
+      "SDK-FND-EVIDENCE"
+    ],
+    "evidence": [
+      "cpp-library/pipeline-validation/playback-speed-candidates.md"
+    ],
+    "id": "SDK-AIX-SPEED-ASR-GUIDED-PLANNER",
+    "mode": "research-control",
+    "repository": "audio-sdk",
+    "title": "AIx Speed ASR-guided planner"
+  },
+  "title": "AIx Speed ASR-guided planner"
+}
