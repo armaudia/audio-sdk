@@ -1,0 +1,1443 @@
+{
+  "acceptance_profile": {
+    "blocked_cases": [
+      "no licensed streaming source, exact parameter set or runtime, so no exact output is reproduced",
+      "no deployed receiver-side geometry, causal masker estimate, energy/loudness contract or content-delay measurement",
+      "no rights-cleared independent masker cohort or listener protocol",
+      "no listener outcome, hearing profile, word recognition or listening-effort result",
+      "no independent output-energy audit or target-device timing",
+      "no opt-in provider intake, descriptor review or release approval"
+    ],
+    "mapped_cases": [
+      "identity, fixed-tilt, shaping-only, DRC-only and shaping-plus-DRC controls on the exact 16 kHz/160-sample grid",
+      "deterministic synthetic sweeps, steps, impulses, silence, clicks and speech-like mixtures",
+      "gain, tone response, level-transfer slope, attack/release, headroom and zero content delay",
+      "bounded causal energy equalization and masker-band adaptation",
+      "finite, peak, clipping, silence-exactness and nonfinite rejection",
+      "state reset, stale epoch, chunk-boundary and streaming parity"
+    ],
+    "name": "DSP",
+    "not_applicable": [
+      "no qualified candidate artifact exists to evaluate",
+      "the local approximation is not the research candidate",
+      "no real corpus, listener or target device is available"
+    ],
+    "source": "audio-benchmark-platform/plan/swarm/VERIFICATION.md"
+  },
+  "asset_pins": {
+    "asset:configuration": {
+      "executed": false,
+      "expected_path": "data/config/noise-aware-shaping-plus-drc",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    },
+    "asset:license": {
+      "executed": false,
+      "expected_path": "data/licenses/noise-aware-shaping-plus-drc",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    },
+    "asset:listener_outcomes": {
+      "executed": false,
+      "expected_path": "data/listening/noise-aware-shaping-plus-drc",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    },
+    "asset:masker_cohort": {
+      "executed": false,
+      "expected_path": "data/cohorts/noise-aware-shaping-plus-drc",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    },
+    "asset:reference_output": {
+      "executed": false,
+      "expected_path": "data/reference/noise-aware-shaping-plus-drc",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    },
+    "asset:runtime": {
+      "admitted": false,
+      "executed": false,
+      "expected_path": "data/envs/noise-aware-shaping-plus-drc",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    },
+    "asset:source": {
+      "executed": false,
+      "expected_path": "data/sources/noise-aware-shaping-plus-drc",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    }
+  },
+  "base_commit": "feb342c735740f32d64a668cf2234e488cdcdbfe",
+  "board_row": {
+    "full_tasks_json_hashed": false,
+    "stable_fields": {
+      "component": "noise-aware-shaping-plus-drc",
+      "depends_on": [
+        "SDK-FND-AUDIT",
+        "SDK-FND-EVIDENCE"
+      ],
+      "id": "SDK-NOISE-AWARE-SHAPING-PLUS-DRC",
+      "mode": "research-control",
+      "repository": "audio-sdk",
+      "title": "Noise-aware shaping plus DRC"
+    },
+    "stable_sha256": "d984ba1090f229f0001c9adc7e9bd983500657c7df127aa013f700b7ba6560d6"
+  },
+  "boundary": {
+    "adapter_json_added": false,
+    "asset_bundled": false,
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "listener_outcome_claimed": false,
+    "native_engine_built": false,
+    "numpy_or_scipy_imported": false,
+    "onnxruntime_invoked": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "readiness_json_added": false,
+    "registered": false,
+    "registry_or_default_change": false,
+    "research_module_imported": false,
+    "runtime_invoked": false,
+    "sdk_data_dir_added": false,
+    "shared_build_or_ci_change": false,
+    "weights_vendored": false
+  },
+  "branch": "swarm/SDK-NOISE-AWARE-SHAPING-PLUS-DRC",
+  "caller_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/noise-aware-shaping-plus-drc/caller-supplied-qualified-artifact/0.1",
+    "official_artifact_admitted_here": false,
+    "present_behavior": "validate_hash_geometry_and_artifact_shape_only; never load, import or execute; official identity and listener rights still require independent review",
+    "required_fields": [
+      "algorithm_id",
+      "algorithm_version",
+      "algorithmic_latency_samples",
+      "channels",
+      "configuration_path",
+      "configuration_sha256",
+      "frame_samples",
+      "license_path",
+      "license_sha256",
+      "listener_outcomes_path",
+      "listener_outcomes_sha256",
+      "masker_cohort_path",
+      "masker_cohort_sha256",
+      "output_energy_constraint_db",
+      "qualification_authority",
+      "reference_output_path",
+      "reference_output_sha256",
+      "runtime_path",
+      "runtime_sha256",
+      "sample_rate_hz",
+      "source_archive_path",
+      "source_archive_sha256",
+      "source_commit"
+    ],
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "source archive, licence, runtime, configuration, reference output, masker cohort and listener outcomes are caller-owned absolute paths that exist",
+      "SHA-256 of every hashed artifact matches the manifest",
+      "source_commit is a 40-hex revision but is not admitted as official because no streaming reference revision was established",
+      "geometry is 16000 Hz, mono, float32 and 160 samples with nonnegative latency",
+      "algorithm_id is noise-aware-shaping-plus-drc and algorithm_version is nonempty",
+      "output_energy_constraint_db is finite and nonpositive",
+      "a hash-matched caller placeholder is never accepted as an official or listener-qualified artifact",
+      "no download, copy, build, import, load or execution occurs here"
+    ]
+  },
+  "claim": {
+    "base_commit": "feb342c735740f32d64a668cf2234e488cdcdbfe",
+    "branch": "swarm/SDK-NOISE-AWARE-SHAPING-PLUS-DRC",
+    "reviewer": "reviewer-NOISE-AWARE-SHAPING-PLUS-DRC",
+    "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-NOISE-AWARE-SHAPING-PLUS-DRC"
+  },
+  "component_id": "noise-aware-shaping-plus-drc",
+  "contract_sha256": "c4ff79c42eefb9715ba596722c6d48dd8b77eee027403889d55d3dcb524e313c",
+  "controls": {
+    "asset": {
+      "case_count": 17,
+      "pinned_identity_admitted": false,
+      "rejected_all": true,
+      "valid_manifest_accepted": true,
+      "valid_manifest_executed": false,
+      "valid_manifest_loaded": false
+    },
+    "config": {
+      "accepted_baseline": true,
+      "case_count": 26,
+      "rejected_all": true
+    },
+    "frame": {
+      "case_count": 21,
+      "masker_length_rejected": true,
+      "masker_rejected_all": true,
+      "rejected_all": true
+    },
+    "impulse": {
+      "declared_delay_samples": 0,
+      "expected_output_index": 2000,
+      "observed_peak_index": 2000,
+      "peak_finite": true
+    },
+    "masker_adaptation": {
+      "adapts_to_masker_band": true,
+      "bands_hz": [
+        100,
+        250,
+        500,
+        1000,
+        2000,
+        4000
+      ],
+      "low_minus_high_band_1_db": 7.639999697,
+      "low_minus_high_band_6_db": -1.42793926,
+      "masker_level_dbfs": -20.0,
+      "response": {
+        "high_masker": {
+          "band_gain_db": [
+            -5.989085998,
+            -5.867397922,
+            -5.025860127,
+            -0.187961893,
+            6.0,
+            6.0,
+            -4.483126833
+          ],
+          "equalizer_db": -3.145112228
+        },
+        "low_masker": {
+          "band_gain_db": [
+            -2.345664328,
+            1.772601775,
+            4.283641397,
+            4.591099964,
+            1.816649461,
+            -4.207262176,
+            -5.911066093
+          ],
+          "equalizer_db": -2.412995986
+        }
+      }
+    },
+    "nonfinite": {
+      "accepted_counter_unchanged": true,
+      "counted_as_silence": false,
+      "nonfinite_rejected": 5,
+      "state_digest_unchanged": true,
+      "valid_frame_produced": true
+    },
+    "reset": {
+      "epoch_zero_rejected": true,
+      "fresh_matches_reset": true,
+      "higher_epoch_accepted": true,
+      "negative_epoch_rejected": true
+    },
+    "silence": {
+      "exact_zero": true,
+      "finite": true
+    },
+    "streaming_parity": {
+      "all_identical": true,
+      "chunk_sizes": [
+        160,
+        137,
+        641,
+        320,
+        1000,
+        73,
+        211,
+        160
+      ],
+      "sample_count": 4000
+    }
+  },
+  "decision": "DEFER",
+  "defer_before": "receiver_side_adapter_and_listener_admission",
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    {
+      "id": "streaming_reference_and_license_absent",
+      "requirement": "Supply an exact licensed real-time receiver-side shaping-plus-DRC implementation at an immutable revision, with a reviewed licence, notice bundle and written product, redistribution and derivative-output terms, verified locally without a network download.",
+      "state": "No licensed streaming implementation exists at data/sources/noise-aware-shaping-plus-drc or data/licenses/noise-aware-shaping-plus-drc. The pinned research note cites a whole-file numpy/scipy prototype (src/audioml_eval/nele.py) that is explicitly a small research baseline, is non-causal and is not an SDK reference."
+    },
+    {
+      "id": "published_algorithm_and_parameters_absent",
+      "requirement": "Supply the published algorithm identity, gammatone filterbank or exact band set, standard importance vector, water-filling level, shaping limits, DRC thresholds, ratios, attack/release, energy constraint and configuration digest.",
+      "state": "The research note records broad FFT bands and an approximate SII-style importance vector, and says the method is deliberately not a faithful OptFractASII reproduction. No exact parameter set, version or configuration file is recorded or pinned."
+    },
+    {
+      "id": "runtime_and_reference_output_absent",
+      "requirement": "Admit a locked, hash-pinned runtime with exact dependency versions and approved exact-runtime output vectors for byte-level parity.",
+      "state": "No environment exists at data/envs/noise-aware-shaping-plus-drc and no reference output exists at data/reference/noise-aware-shaping-plus-drc. The research module was not imported and no parity run was attempted."
+    },
+    {
+      "id": "receiver_geometry_energy_and_delay_unverified",
+      "requirement": "Pin the deployed sample rate, channels, frame/hop, buffering and content delay, causal noise estimate, energy/loudness contract and gain slew, then reproduce them on one declared streaming path.",
+      "state": "The research screen restores whole-file target speech RMS, which is non-causal, and estimates noise from the complete masker file. No deployed geometry, causal masker estimator, energy constraint or content-delay measurement exists. This package's 16 kHz mono float32 160-sample zero-delay oracle-masker harness is a probe-only local approximation, not the research or deployed geometry."
+    },
+    {
+      "id": "rights_cleared_masker_and_listener_cohort_absent",
+      "requirement": "Supply rights-cleared target speech and an independent participant-level listener-side masker cohort with consent, hearing-profile/listening protocol and explicit output-use permissions.",
+      "state": "The research screen used 12 locally staged EARS anechoic utterances and three GPLv3 VADToolkit masker scenes, reused across clips and not independent. No release permission, consent, hearing profile, listening protocol or participant-level cohort exists for this task."
+    },
+    {
+      "id": "independent_qualification_absent",
+      "requirement": "Score independent intelligibility/quality and listening outcomes, measure output energy and target-device timing, and complete an OFF-by-default opt-in provider intake with independent review.",
+      "state": "No listener study, hearing profile, word recognition or listening-effort result exists. STOI/ESTOI are objective predictors only. No independent energy audit, device timing, provider intake or release approval exists; surrogate observations do not qualify the candidate."
+    }
+  ],
+  "fixed_dsp_controls": {
+    "compressor_only": {
+      "candidate_result": false,
+      "measurements": {
+        "band_response": {
+          "band_gain_db": {
+            "0": -2.079763758,
+            "1": -2.079560015,
+            "2": -2.078926598,
+            "3": -2.07839966,
+            "4": -2.079311436,
+            "5": -2.080566206,
+            "6": -2.080830823
+          },
+          "probe": "six equal tones at 250/500/1000/2000/4000/6000 Hz, -30 dBFS each"
+        },
+        "clean_preservation_correlation": 0.994520449,
+        "clipped_output_samples": 0,
+        "energy_neutral": false,
+        "gain_db": -1.740780446,
+        "level_transfer": {
+          "gain_db": [
+            0.0,
+            0.0,
+            -3.4919141,
+            -7.492296084,
+            -11.491942032
+          ],
+          "input_dbfs": [
+            -30.0,
+            -24.0,
+            -18.0,
+            -12.0,
+            -6.0
+          ],
+          "output_dbfs": [
+            -30.0,
+            -24.0,
+            -21.4919141,
+            -19.492296084,
+            -17.491942032
+          ],
+          "slope_db_per_db": 0.492063664
+        },
+        "max_abs_output": 0.610351562,
+        "nonfinite_output_samples": 0,
+        "rms_in_dbfs": -29.178654314,
+        "rms_out_dbfs": -30.91943476,
+        "silence_exact_zero": true,
+        "step_attack": {
+          "gain_after_db": -11.491942033,
+          "gain_before_db": 0.0,
+          "transition_ms": 12.5
+        },
+        "step_release": {
+          "gain_after_db": 0.0,
+          "gain_before_db": -11.491942033,
+          "transition_ms": 200.0
+        },
+        "tone_gain_db": {
+          "1000": 0.0,
+          "2000": 0.0,
+          "250": 0.0,
+          "4000": 0.0,
+          "500": 0.0,
+          "6000": 0.0
+        }
+      },
+      "role": "local_dsp_control"
+    },
+    "fixed_tilt": {
+      "candidate_result": false,
+      "measurements": {
+        "band_response": {
+          "band_gain_db": {
+            "0": -2.413806625,
+            "1": -2.207968367,
+            "2": -1.621368012,
+            "3": -0.592478145,
+            "4": 0.478473484,
+            "5": 1.207523756,
+            "6": 1.539195629
+          },
+          "probe": "six equal tones at 250/500/1000/2000/4000/6000 Hz, -30 dBFS each"
+        },
+        "clean_preservation_correlation": 0.975992066,
+        "clipped_output_samples": 0,
+        "energy_neutral": true,
+        "gain_db": 0.186947811,
+        "level_transfer": {
+          "gain_db": [
+            -0.001906506,
+            -0.001906506,
+            -0.001906506,
+            -0.001906506,
+            -0.001906506
+          ],
+          "input_dbfs": [
+            -30.0,
+            -24.0,
+            -18.0,
+            -12.0,
+            -6.0
+          ],
+          "output_dbfs": [
+            -30.001906506,
+            -24.001906506,
+            -18.001906506,
+            -12.001906506,
+            -6.001906506
+          ],
+          "slope_db_per_db": 1.0
+        },
+        "max_abs_output": 0.598681755,
+        "nonfinite_output_samples": 0,
+        "rms_in_dbfs": -29.178654314,
+        "rms_out_dbfs": -28.991706503,
+        "silence_exact_zero": true,
+        "step_attack": {
+          "gain_after_db": -2.926e-06,
+          "gain_before_db": -0.000104974,
+          "transition_ms": 0.0
+        },
+        "step_release": {
+          "gain_after_db": 4.48e-07,
+          "gain_before_db": -0.000104974,
+          "transition_ms": 0.0
+        },
+        "tone_gain_db": {
+          "1000": -0.001906506,
+          "2000": 0.000854963,
+          "250": -0.006841813,
+          "4000": 0.002924284,
+          "500": -0.004636403,
+          "6000": 0.003596518
+        }
+      },
+      "role": "fixed_dsp_control"
+    },
+    "identity": {
+      "candidate_result": false,
+      "measurements": {
+        "band_response": {
+          "band_gain_db": {
+            "0": 0.0,
+            "1": 0.0,
+            "2": 0.0,
+            "3": 0.0,
+            "4": 0.0,
+            "5": 0.0,
+            "6": 0.0
+          },
+          "probe": "six equal tones at 250/500/1000/2000/4000/6000 Hz, -30 dBFS each"
+        },
+        "clean_preservation_correlation": 1.0,
+        "clipped_output_samples": 0,
+        "energy_neutral": true,
+        "gain_db": 0.0,
+        "level_transfer": {
+          "gain_db": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "input_dbfs": [
+            -30.0,
+            -24.0,
+            -18.0,
+            -12.0,
+            -6.0
+          ],
+          "output_dbfs": [
+            -30.0,
+            -24.0,
+            -18.0,
+            -12.0,
+            -6.0
+          ],
+          "slope_db_per_db": 1.0
+        },
+        "max_abs_output": 0.610351562,
+        "nonfinite_output_samples": 0,
+        "rms_in_dbfs": -29.178654314,
+        "rms_out_dbfs": -29.178654314,
+        "silence_exact_zero": true,
+        "step_attack": {
+          "gain_after_db": 0.0,
+          "gain_before_db": 0.0,
+          "transition_ms": 0.0
+        },
+        "step_release": {
+          "gain_after_db": 0.0,
+          "gain_before_db": 0.0,
+          "transition_ms": 0.0
+        },
+        "tone_gain_db": {
+          "1000": 0.0,
+          "2000": 0.0,
+          "250": 0.0,
+          "4000": 0.0,
+          "500": 0.0,
+          "6000": 0.0
+        }
+      },
+      "role": "mandatory_control"
+    },
+    "noise_aware_shaping": {
+      "candidate_result": false,
+      "measurements": {
+        "band_response": {
+          "band_gain_db": {
+            "0": -5.191249841,
+            "1": -4.605149148,
+            "2": -3.04963778,
+            "3": -0.740304223,
+            "4": 1.02579641,
+            "5": 1.762216148,
+            "6": 1.901367679
+          },
+          "probe": "six equal tones at 250/500/1000/2000/4000/6000 Hz, -30 dBFS each"
+        },
+        "clean_preservation_correlation": 0.99158955,
+        "clipped_output_samples": 0,
+        "energy_neutral": true,
+        "gain_db": -0.095140346,
+        "level_transfer": {
+          "gain_db": [
+            0.002358241,
+            0.002358241,
+            0.002358241,
+            0.002358241,
+            0.002358241
+          ],
+          "input_dbfs": [
+            -30.0,
+            -24.0,
+            -18.0,
+            -12.0,
+            -6.0
+          ],
+          "output_dbfs": [
+            -29.997641759,
+            -23.997641759,
+            -17.997641759,
+            -11.997641759,
+            -5.997641759
+          ],
+          "slope_db_per_db": 1.0
+        },
+        "max_abs_output": 0.604395762,
+        "nonfinite_output_samples": 0,
+        "rms_in_dbfs": -29.178654314,
+        "rms_out_dbfs": -29.27379466,
+        "silence_exact_zero": true,
+        "step_attack": {
+          "gain_after_db": -3.5e-07,
+          "gain_before_db": 0.000122251,
+          "transition_ms": 0.0
+        },
+        "step_release": {
+          "gain_after_db": -1.54e-07,
+          "gain_before_db": 0.000122251,
+          "transition_ms": 0.0
+        },
+        "tone_gain_db": {
+          "1000": 0.002358241,
+          "2000": 0.007268553,
+          "250": -0.012052422,
+          "4000": 0.007889496,
+          "500": -0.007374307,
+          "6000": 0.007372081
+        }
+      },
+      "role": "local_shaping_control"
+    },
+    "static_gain": {
+      "candidate_result": false,
+      "measurements": {
+        "band_response": {
+          "band_gain_db": {
+            "0": 6.0,
+            "1": 6.0,
+            "2": 6.0,
+            "3": 6.0,
+            "4": 6.0,
+            "5": 6.0,
+            "6": 6.0
+          },
+          "probe": "six equal tones at 250/500/1000/2000/4000/6000 Hz, -30 dBFS each"
+        },
+        "clean_preservation_correlation": 0.999426027,
+        "clipped_output_samples": 5,
+        "energy_neutral": false,
+        "gain_db": 5.958852238,
+        "level_transfer": {
+          "gain_db": [
+            6.0,
+            6.0,
+            6.0,
+            6.0,
+            5.892940476
+          ],
+          "input_dbfs": [
+            -30.0,
+            -24.0,
+            -18.0,
+            -12.0,
+            -6.0
+          ],
+          "output_dbfs": [
+            -24.0,
+            -18.0,
+            -12.0,
+            -6.0,
+            -0.107059524
+          ],
+          "slope_db_per_db": 0.996431349
+        },
+        "max_abs_output": 0.95,
+        "nonfinite_output_samples": 0,
+        "rms_in_dbfs": -29.178654314,
+        "rms_out_dbfs": -23.219802076,
+        "silence_exact_zero": true,
+        "step_attack": {
+          "gain_after_db": 5.892940476,
+          "gain_before_db": 6.0,
+          "transition_ms": 5.0
+        },
+        "step_release": {
+          "gain_after_db": 6.0,
+          "gain_before_db": 5.892940476,
+          "transition_ms": 5.0
+        },
+        "tone_gain_db": {
+          "1000": 6.0,
+          "2000": 6.0,
+          "250": 6.0,
+          "4000": 6.0,
+          "500": 6.0,
+          "6000": 6.0
+        }
+      },
+      "role": "fixed_dsp_control"
+    }
+  },
+  "fixture": {
+    "channels": 1,
+    "component_digests": {
+      "clean": "83da440d08ceddb143def33414bd11a38474bc0a602a470faab821676b780e1c",
+      "masker": "fb47fa6d4f01d770512cd50f3fed860404e7a5ea93161e4f5404f95ab10a8b7b",
+      "mix": "57b94c06b5ffcf6708c7c037cc1f4732c2b32a4f1ab4ce844a0fc6c27b6bc263"
+    },
+    "frames": 400,
+    "sample_rate_hz": 16000,
+    "spec_digest": "c9e6e40b7671cb985f1876bff704945b05ea00a5871ea8c7b071bc25a2e601f2",
+    "total_samples": 64000
+  },
+  "format": {
+    "sdk_v0_channels": 1,
+    "sdk_v0_frame_samples": 160,
+    "sdk_v0_geometry_preserved": true,
+    "sdk_v0_sample_format": "f32",
+    "sdk_v0_sample_rate_hz": 16000,
+    "surrogate_channels": 1,
+    "surrogate_content_delay_samples": 0,
+    "surrogate_frame_samples": 160,
+    "surrogate_sample_format": "float32",
+    "surrogate_sample_rate_hz": 16000,
+    "upstream_channels": null,
+    "upstream_content_delay_samples": null,
+    "upstream_frame_samples": null,
+    "upstream_geometry_verified": false,
+    "upstream_hop_samples": null,
+    "upstream_loudness_normalization": null,
+    "upstream_output_energy_constraint_db": null,
+    "upstream_sample_rate_hz": null
+  },
+  "gates": [
+    {
+      "id": "exact_streaming_source_revision_and_license",
+      "qualifies": false,
+      "requirement": "Immutable licensed real-time shaping-plus-DRC source revision, notice bundle and clean caller-owned checkout verified locally without a download.",
+      "status": "blocked"
+    },
+    {
+      "id": "published_algorithm_and_parameter_identity",
+      "qualifies": false,
+      "requirement": "Exact published filterbank, importance vector, water-filling level, shaping limits, DRC parameters and configuration are pinned and reproduced.",
+      "status": "blocked"
+    },
+    {
+      "id": "pinned_runtime_and_reference_output",
+      "qualifies": false,
+      "requirement": "Locked runtime with exact dependency versions, install/import digest and approved exact-runtime output vectors.",
+      "status": "blocked"
+    },
+    {
+      "id": "receiver_geometry_energy_and_content_delay",
+      "qualifies": false,
+      "requirement": "Deployed rate, channels, frame/hop, causal noise estimate, energy constraint, gain slew and content delay are pinned and reproduced.",
+      "status": "blocked"
+    },
+    {
+      "id": "fixed_dsp_and_research_control_separation",
+      "qualifies": false,
+      "requirement": "Identity, fixed-tilt, shaping-only, DRC-only and shaping-plus-DRC controls are measured separately with no pooled claim.",
+      "status": "blocked"
+    },
+    {
+      "id": "rights_cleared_masker_and_listener_cohort",
+      "qualifies": false,
+      "requirement": "Rights-cleared target speech, independent listener-side maskers, consent, hearing profiles and output-use permissions are frozen.",
+      "status": "blocked"
+    },
+    {
+      "id": "independent_intelligibility_energy_and_timing",
+      "qualifies": false,
+      "requirement": "Independent intelligibility and listening outcomes, an output-energy audit, target-device timing and adverse/missing/nonfinite controls.",
+      "status": "blocked"
+    },
+    {
+      "id": "opt_in_provider_intake_and_default_review",
+      "qualifies": false,
+      "requirement": "OFF-by-default opt-in provider intake, descriptor review, exact-head review and explicit public default/release approval.",
+      "status": "blocked"
+    }
+  ],
+  "historical_research_screen": {
+    "candidates": {
+      "drc_alone": {
+        "mean_estoi": 0.5752,
+        "mean_stoi": 0.6873
+      },
+      "fixed_tilt": {
+        "mean_estoi": 0.576,
+        "mean_stoi": 0.7006
+      },
+      "identity": {
+        "mean_estoi": 0.5719,
+        "mean_stoi": 0.6897
+      },
+      "noise_aware_shaping": {
+        "mean_estoi": 0.5627,
+        "mean_stoi": 0.6876
+      },
+      "noise_aware_shaping_plus_drc": {
+        "mean_estoi": 0.5683,
+        "mean_stoi": 0.6898
+      }
+    },
+    "conditions": {
+      "masker_license": "GPLv3 VADToolkit scene recordings",
+      "masker_scenes": [
+        "park",
+        "bus_stop",
+        "construction_site"
+      ],
+      "pairs_per_method": 108,
+      "snr_db": [
+        -5,
+        0,
+        5
+      ],
+      "target_source": "locally staged EARS anechoic subset",
+      "target_utterances": 12
+    },
+    "is_candidate_result": false,
+    "metrics": [
+      "STOI",
+      "ESTOI"
+    ],
+    "note": "Quoted from the pinned research note for provenance only. The screen uses objective predictors at equal target speech power, not listener outcomes; it is not rerun, not reproduced and not an SDK result.",
+    "reproduced": false,
+    "result_claim": false,
+    "source_pin": "research/listening_intelligibility_20261028.md",
+    "verified_independently": false
+  },
+  "local_approximation": {
+    "algorithm": {
+      "band_importance": [
+        0.02,
+        0.04,
+        0.08,
+        0.16,
+        0.28,
+        0.27,
+        0.15
+      ],
+      "bands_hz": [
+        100,
+        250,
+        500,
+        1000,
+        2000,
+        4000
+      ],
+      "content_delay_samples": 0,
+      "energy_equalization": "bounded causal 50 ms tracker, +/-12 dB",
+      "gain_computer": "threshold -24 dBFS, ratio 3:1, 5 ms attack, 120 ms release",
+      "masker_source": "oracle synthetic listener-side masker",
+      "peak_ceiling": 0.95,
+      "shaping_limit_db": 6.0,
+      "shaping_strength_db": 6.0,
+      "splitter": "causal first-order subtractive bands, not a gammatone filterbank"
+    },
+    "candidate_result": false,
+    "id": "local_causal_noise_aware_shaping_plus_drc_surrogate",
+    "is_optfractasii": false,
+    "is_research_candidate": false,
+    "measurements": {
+      "band_response": {
+        "band_gain_db": {
+          "0": -7.65058134,
+          "1": -7.064807394,
+          "2": -5.509511623,
+          "3": -3.199804923,
+          "4": -1.43281583,
+          "5": -0.695714064,
+          "6": -0.556203872
+        },
+        "probe": "six equal tones at 250/500/1000/2000/4000/6000 Hz, -30 dBFS each"
+      },
+      "clean_preservation_correlation": 0.985955212,
+      "clipped_output_samples": 0,
+      "energy_neutral": false,
+      "gain_db": -1.780558476,
+      "level_transfer": {
+        "gain_db": [
+          0.002358241,
+          0.002358241,
+          -3.582186712,
+          -7.582568696,
+          -11.582214644
+        ],
+        "input_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "output_dbfs": [
+          -29.997641759,
+          -23.997641759,
+          -21.582186712,
+          -19.582568696,
+          -17.582214644
+        ],
+        "slope_db_per_db": 0.487432122
+      },
+      "max_abs_output": 0.604395762,
+      "nonfinite_output_samples": 0,
+      "rms_in_dbfs": -29.178654314,
+      "rms_out_dbfs": -30.95921279,
+      "silence_exact_zero": true,
+      "step_attack": {
+        "gain_after_db": -11.582137513,
+        "gain_before_db": 0.000122251,
+        "transition_ms": 12.5
+      },
+      "step_release": {
+        "gain_after_db": -1.54e-07,
+        "gain_before_db": -11.582141591,
+        "transition_ms": 202.5
+      },
+      "tone_gain_db": {
+        "1000": 0.002358241,
+        "2000": 0.007268553,
+        "250": -0.012052422,
+        "4000": 0.007889496,
+        "500": -0.007374307,
+        "6000": 0.007372081
+      }
+    },
+    "model_free": true,
+    "surrogate_only": true,
+    "uses_real_corpus": false
+  },
+  "measurements": {
+    "compressor_only": {
+      "band_response": {
+        "band_gain_db": {
+          "0": -2.079763758,
+          "1": -2.079560015,
+          "2": -2.078926598,
+          "3": -2.07839966,
+          "4": -2.079311436,
+          "5": -2.080566206,
+          "6": -2.080830823
+        },
+        "probe": "six equal tones at 250/500/1000/2000/4000/6000 Hz, -30 dBFS each"
+      },
+      "clean_preservation_correlation": 0.994520449,
+      "clipped_output_samples": 0,
+      "energy_neutral": false,
+      "gain_db": -1.740780446,
+      "level_transfer": {
+        "gain_db": [
+          0.0,
+          0.0,
+          -3.4919141,
+          -7.492296084,
+          -11.491942032
+        ],
+        "input_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "output_dbfs": [
+          -30.0,
+          -24.0,
+          -21.4919141,
+          -19.492296084,
+          -17.491942032
+        ],
+        "slope_db_per_db": 0.492063664
+      },
+      "max_abs_output": 0.610351562,
+      "nonfinite_output_samples": 0,
+      "rms_in_dbfs": -29.178654314,
+      "rms_out_dbfs": -30.91943476,
+      "silence_exact_zero": true,
+      "step_attack": {
+        "gain_after_db": -11.491942033,
+        "gain_before_db": 0.0,
+        "transition_ms": 12.5
+      },
+      "step_release": {
+        "gain_after_db": 0.0,
+        "gain_before_db": -11.491942033,
+        "transition_ms": 200.0
+      },
+      "tone_gain_db": {
+        "1000": 0.0,
+        "2000": 0.0,
+        "250": 0.0,
+        "4000": 0.0,
+        "500": 0.0,
+        "6000": 0.0
+      }
+    },
+    "fixed_tilt": {
+      "band_response": {
+        "band_gain_db": {
+          "0": -2.413806625,
+          "1": -2.207968367,
+          "2": -1.621368012,
+          "3": -0.592478145,
+          "4": 0.478473484,
+          "5": 1.207523756,
+          "6": 1.539195629
+        },
+        "probe": "six equal tones at 250/500/1000/2000/4000/6000 Hz, -30 dBFS each"
+      },
+      "clean_preservation_correlation": 0.975992066,
+      "clipped_output_samples": 0,
+      "energy_neutral": true,
+      "gain_db": 0.186947811,
+      "level_transfer": {
+        "gain_db": [
+          -0.001906506,
+          -0.001906506,
+          -0.001906506,
+          -0.001906506,
+          -0.001906506
+        ],
+        "input_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "output_dbfs": [
+          -30.001906506,
+          -24.001906506,
+          -18.001906506,
+          -12.001906506,
+          -6.001906506
+        ],
+        "slope_db_per_db": 1.0
+      },
+      "max_abs_output": 0.598681755,
+      "nonfinite_output_samples": 0,
+      "rms_in_dbfs": -29.178654314,
+      "rms_out_dbfs": -28.991706503,
+      "silence_exact_zero": true,
+      "step_attack": {
+        "gain_after_db": -2.926e-06,
+        "gain_before_db": -0.000104974,
+        "transition_ms": 0.0
+      },
+      "step_release": {
+        "gain_after_db": 4.48e-07,
+        "gain_before_db": -0.000104974,
+        "transition_ms": 0.0
+      },
+      "tone_gain_db": {
+        "1000": -0.001906506,
+        "2000": 0.000854963,
+        "250": -0.006841813,
+        "4000": 0.002924284,
+        "500": -0.004636403,
+        "6000": 0.003596518
+      }
+    },
+    "identity": {
+      "band_response": {
+        "band_gain_db": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0
+        },
+        "probe": "six equal tones at 250/500/1000/2000/4000/6000 Hz, -30 dBFS each"
+      },
+      "clean_preservation_correlation": 1.0,
+      "clipped_output_samples": 0,
+      "energy_neutral": true,
+      "gain_db": 0.0,
+      "level_transfer": {
+        "gain_db": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "input_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "output_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "slope_db_per_db": 1.0
+      },
+      "max_abs_output": 0.610351562,
+      "nonfinite_output_samples": 0,
+      "rms_in_dbfs": -29.178654314,
+      "rms_out_dbfs": -29.178654314,
+      "silence_exact_zero": true,
+      "step_attack": {
+        "gain_after_db": 0.0,
+        "gain_before_db": 0.0,
+        "transition_ms": 0.0
+      },
+      "step_release": {
+        "gain_after_db": 0.0,
+        "gain_before_db": 0.0,
+        "transition_ms": 0.0
+      },
+      "tone_gain_db": {
+        "1000": 0.0,
+        "2000": 0.0,
+        "250": 0.0,
+        "4000": 0.0,
+        "500": 0.0,
+        "6000": 0.0
+      }
+    },
+    "local_approximation": {
+      "band_response": {
+        "band_gain_db": {
+          "0": -7.65058134,
+          "1": -7.064807394,
+          "2": -5.509511623,
+          "3": -3.199804923,
+          "4": -1.43281583,
+          "5": -0.695714064,
+          "6": -0.556203872
+        },
+        "probe": "six equal tones at 250/500/1000/2000/4000/6000 Hz, -30 dBFS each"
+      },
+      "clean_preservation_correlation": 0.985955212,
+      "clipped_output_samples": 0,
+      "energy_neutral": false,
+      "gain_db": -1.780558476,
+      "level_transfer": {
+        "gain_db": [
+          0.002358241,
+          0.002358241,
+          -3.582186712,
+          -7.582568696,
+          -11.582214644
+        ],
+        "input_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "output_dbfs": [
+          -29.997641759,
+          -23.997641759,
+          -21.582186712,
+          -19.582568696,
+          -17.582214644
+        ],
+        "slope_db_per_db": 0.487432122
+      },
+      "max_abs_output": 0.604395762,
+      "nonfinite_output_samples": 0,
+      "rms_in_dbfs": -29.178654314,
+      "rms_out_dbfs": -30.95921279,
+      "silence_exact_zero": true,
+      "step_attack": {
+        "gain_after_db": -11.582137513,
+        "gain_before_db": 0.000122251,
+        "transition_ms": 12.5
+      },
+      "step_release": {
+        "gain_after_db": -1.54e-07,
+        "gain_before_db": -11.582141591,
+        "transition_ms": 202.5
+      },
+      "tone_gain_db": {
+        "1000": 0.002358241,
+        "2000": 0.007268553,
+        "250": -0.012052422,
+        "4000": 0.007889496,
+        "500": -0.007374307,
+        "6000": 0.007372081
+      }
+    },
+    "noise_aware_shaping": {
+      "band_response": {
+        "band_gain_db": {
+          "0": -5.191249841,
+          "1": -4.605149148,
+          "2": -3.04963778,
+          "3": -0.740304223,
+          "4": 1.02579641,
+          "5": 1.762216148,
+          "6": 1.901367679
+        },
+        "probe": "six equal tones at 250/500/1000/2000/4000/6000 Hz, -30 dBFS each"
+      },
+      "clean_preservation_correlation": 0.99158955,
+      "clipped_output_samples": 0,
+      "energy_neutral": true,
+      "gain_db": -0.095140346,
+      "level_transfer": {
+        "gain_db": [
+          0.002358241,
+          0.002358241,
+          0.002358241,
+          0.002358241,
+          0.002358241
+        ],
+        "input_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "output_dbfs": [
+          -29.997641759,
+          -23.997641759,
+          -17.997641759,
+          -11.997641759,
+          -5.997641759
+        ],
+        "slope_db_per_db": 1.0
+      },
+      "max_abs_output": 0.604395762,
+      "nonfinite_output_samples": 0,
+      "rms_in_dbfs": -29.178654314,
+      "rms_out_dbfs": -29.27379466,
+      "silence_exact_zero": true,
+      "step_attack": {
+        "gain_after_db": -3.5e-07,
+        "gain_before_db": 0.000122251,
+        "transition_ms": 0.0
+      },
+      "step_release": {
+        "gain_after_db": -1.54e-07,
+        "gain_before_db": 0.000122251,
+        "transition_ms": 0.0
+      },
+      "tone_gain_db": {
+        "1000": 0.002358241,
+        "2000": 0.007268553,
+        "250": -0.012052422,
+        "4000": 0.007889496,
+        "500": -0.007374307,
+        "6000": 0.007372081
+      }
+    },
+    "static_gain": {
+      "band_response": {
+        "band_gain_db": {
+          "0": 6.0,
+          "1": 6.0,
+          "2": 6.0,
+          "3": 6.0,
+          "4": 6.0,
+          "5": 6.0,
+          "6": 6.0
+        },
+        "probe": "six equal tones at 250/500/1000/2000/4000/6000 Hz, -30 dBFS each"
+      },
+      "clean_preservation_correlation": 0.999426027,
+      "clipped_output_samples": 5,
+      "energy_neutral": false,
+      "gain_db": 5.958852238,
+      "level_transfer": {
+        "gain_db": [
+          6.0,
+          6.0,
+          6.0,
+          6.0,
+          5.892940476
+        ],
+        "input_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "output_dbfs": [
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0,
+          -0.107059524
+        ],
+        "slope_db_per_db": 0.996431349
+      },
+      "max_abs_output": 0.95,
+      "nonfinite_output_samples": 0,
+      "rms_in_dbfs": -29.178654314,
+      "rms_out_dbfs": -23.219802076,
+      "silence_exact_zero": true,
+      "step_attack": {
+        "gain_after_db": 5.892940476,
+        "gain_before_db": 6.0,
+        "transition_ms": 5.0
+      },
+      "step_release": {
+        "gain_after_db": 6.0,
+        "gain_before_db": 5.892940476,
+        "transition_ms": 5.0
+      },
+      "tone_gain_db": {
+        "1000": 6.0,
+        "2000": 6.0,
+        "250": 6.0,
+        "4000": 6.0,
+        "500": 6.0,
+        "6000": 6.0
+      }
+    }
+  },
+  "missing_results": [
+    "licensed streaming shaping-plus-DRC source revision and licence",
+    "published filterbank, importance vector, water-filling level and exact parameter set",
+    "pinned runtime and approved reference output vectors",
+    "deployed geometry, causal masker estimate, energy contract and content delay",
+    "rights-cleared independent listener-side masker cohort",
+    "listener outcomes, hearing profiles and listening protocol",
+    "independent output-energy audit and target-device timing",
+    "opt-in provider intake, descriptor review and default decision"
+  ],
+  "negative_claims": [
+    "No licensed streaming shaping-plus-DRC implementation, published OptFractASII parameter set, runtime call or reference output was reproduced or produced.",
+    "No intelligibility, quality, listening, timing, benchmark or release result is claimed.",
+    "The historical research screen is quoted as provenance only; it is not rerun, not independent and not an SDK result.",
+    "The local causal six-band oracle-masker approximation is not the research candidate and not OptFractASII, and it cannot qualify the candidate.",
+    "The 16 kHz mono float32 160-sample zero-delay harness is not the unverified research or deployed geometry.",
+    "The oracle synthetic masker is not a deployed noise estimate and no listener-side masker rights are established.",
+    "No real corpus, consenting listener, hearing profile, device clock or energy-audit qualification was used.",
+    "No provider, descriptor, registry, installed v0 path, default, public ABI, research module, numpy/scipy dependency, shared build or CI was changed.",
+    "A caller-owned hash-matched placeholder is never admitted as an official or listener-qualified artifact."
+  ],
+  "no_missing_result_qualifies_candidate": true,
+  "profile": "dsp",
+  "proposal_only": true,
+  "published_controls_assessment": {
+    "optfractasii": {
+      "designation": "OptFractASII: noise-dependent spectral redistribution with DRC",
+      "exact_algorithm_present": false,
+      "exact_parameters_present": false,
+      "license_present": false,
+      "literature_locator": "https://www.isca-archive.org/interspeech_2025/villani25_interspeech.html",
+      "reference_output_present": false,
+      "reproduced": false,
+      "result_claim": false,
+      "runtime_present": false,
+      "source_present": false,
+      "status": "literature_locator_only"
+    },
+    "research_prototype": {
+      "causal": false,
+      "exact_parameters_present": false,
+      "license_present": false,
+      "locator": "research/listening_intelligibility_20261028.md",
+      "module_locator": "src/audioml_eval/nele.py",
+      "reference_output_present": false,
+      "reproduced": false,
+      "result_claim": false,
+      "runtime_present": false,
+      "sdk_reference": false,
+      "source_present": false,
+      "status": "offline_non_causal_prototype_not_adapter",
+      "whole_file_energy_normalization": true
+    },
+    "separation": {
+      "fixed_dsp_measured_locally": true,
+      "historical_research_screen_reproduced": false,
+      "local_approximation_is_published_control": false,
+      "pooling_performed": false,
+      "published_controls_reproduced": false
+    }
+  },
+  "qualification": {
+    "algorithm_identity_verified": false,
+    "all_release_gates_blocked": true,
+    "candidate_result_present": false,
+    "energy_equalization_contract_verified": false,
+    "fixed_dsp_separated": true,
+    "geometry_verified": false,
+    "historical_research_reproduced": false,
+    "listener_outcomes_present": false,
+    "listening_present": false,
+    "local_approximation_is_candidate": false,
+    "masker_cohort_rights_cleared": false,
+    "missing_result_promoted": false,
+    "not_qualified": true,
+    "provider_intake_present": false,
+    "published_control_reproduced": false,
+    "quality_result_present": false,
+    "readiness": "incomplete",
+    "reference_output_present": false,
+    "release_claim": false,
+    "rights_cleared_cohort_present": false,
+    "runtime_present": false,
+    "source_licensed": false,
+    "source_present": false,
+    "status": "not_qualified",
+    "timing_result_present": false
+  },
+  "qualification_status": "not_qualified",
+  "reopen_condition": "Supply a licensed streaming source revision, the exact published algorithm and parameters, a locked runtime with approved reference outputs, the deployed receiver geometry with a causal masker estimate and energy contract, and a rights-cleared independent masker and listener cohort. Then score listener outcomes independently, audit output energy, measure target timing and complete OFF-by-default opt-in provider intake. Until then the candidate stays DEFER, incomplete and not qualified.",
+  "schema_id": "audio-sdk/task-evidence/noise-aware-shaping-plus-drc/report/0.1",
+  "scope": {
+    "benchmark_run": false,
+    "device_timing_measured": false,
+    "downloaded": false,
+    "implementation_added": false,
+    "listening_performed": false,
+    "network_used": false,
+    "numpy_or_scipy_used": false,
+    "provider_registered": false,
+    "public_abi_changed": false,
+    "real_assets_used": false,
+    "registry_or_default_changed": false,
+    "release_claim": false,
+    "research_module_imported": false,
+    "runtime_executed": false,
+    "shared_build_or_ci_changed": false,
+    "source_imported": false,
+    "task_local_only": true,
+    "weights_loaded": false,
+    "write_scope": "docs/task-evidence/noise-aware-shaping-plus-drc/ only"
+  },
+  "separation_from_siblings": {
+    "no_pooling": true,
+    "note": "The full-band receive DRC, feed-forward compressor, envelope AGC, EBU R128/loudnorm, static target gain with peak ceiling, peak limiter, AdaptDRC/SSDRC and STOI/ESTOI packages are separate evidence. They use different candidates, fixtures and dispositions; this package does not pool, import, reuse or reinterpret their outputs, metrics or adapters.",
+    "sibling_packages": [
+      "docs/task-evidence/full-band-receive-drc",
+      "docs/task-evidence/feed-forward-compressor",
+      "docs/task-evidence/envelope-agc",
+      "docs/task-evidence/ebu-r128-ffmpeg-loudnorm",
+      "docs/task-evidence/static-target-gain-with-peak-ceiling",
+      "docs/task-evidence/peak-limiter-reference",
+      "docs/task-evidence/adaptdrc-ssdrc",
+      "docs/task-evidence/stoi-estoi"
+    ]
+  },
+  "status": "proposal_only_blocked_incomplete",
+  "task_id": "SDK-NOISE-AWARE-SHAPING-PLUS-DRC",
+  "title": "Noise-aware shaping plus DRC",
+  "upstream": {
+    "algorithm_parameters": null,
+    "algorithm_parameters_status": "not_recorded",
+    "commit": null,
+    "commit_status": "not_recorded",
+    "geometry_status": "unverified",
+    "license": null,
+    "license_status": "not_established",
+    "note": "The research note records an offline numpy/scipy prototype with broad FFT bands, an approximate importance vector and a small compressor, plus objective STOI/ESTOI only. No licensed streaming revision, version, parameter set, runtime or output vector was obtained or fabricated.",
+    "published_method_designation": "OptFractASII: noise-dependent spectral redistribution with DRC",
+    "published_method_locator": "https://www.isca-archive.org/interspeech_2025/villani25_interspeech.html",
+    "reference_output": null,
+    "reference_output_status": "not_recorded",
+    "research_module_present": true,
+    "research_module_status": "offline_non_causal_prototype_not_sdk_reference",
+    "runtime": null,
+    "runtime_status": "not_recorded",
+    "source_licensed": false,
+    "source_present": false,
+    "version": null,
+    "version_status": "not_recorded"
+  }
+}
