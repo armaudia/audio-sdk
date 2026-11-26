@@ -1,0 +1,929 @@
+{
+  "acceptance_profile": {
+    "blocked_cases": [
+      "no exact upstream source, checkpoint or runtime, so no exact output is reproduced",
+      "no echo-only, near-end-only, overlap or no-reference measured case",
+      "no early-target SI-SDR, STOI, SRMR or identity comparison against a real candidate output",
+      "no measured room, RIR, delayed/missing render or movement schedule",
+      "no independent listening, ASR or target-device timing"
+    ],
+    "mapped_cases": [
+      "frozen synthetic 3-channel room response with early/late/noise decomposition",
+      "declared probe channel count, rate, hop, excitation and one-hop delay",
+      "multichannel input validation and mono rejection",
+      "silence, speech, transient and decaying-tail strata",
+      "impulse delay mapping and partial-tail preservation",
+      "offline/streaming parity across arbitrary chunk sizes",
+      "reset schedule and stale-epoch rejection",
+      "finite, peak, clipping and silence-exactness bounds",
+      "fail-closed caller-asset, config and frame controls"
+    ],
+    "name": "room",
+    "not_applicable": [
+      "no real candidate artifact exists to evaluate",
+      "the surrogate is not 2S-Dereverb and has no DNN, weights or runtime",
+      "no target device, listener or rights-cleared corpus is available"
+    ],
+    "source": "audio-benchmark-platform/plan/swarm/VERIFICATION.md"
+  },
+  "asset_pins": {
+    "asset:runtime": {
+      "admitted": false,
+      "executed": false,
+      "expected_path": "data/envs/2s-dereverb",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    },
+    "asset:source_checkout": {
+      "executed": false,
+      "expected_path": "data/checkouts/2sderev",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    },
+    "asset:stage1_checkpoint": {
+      "executed": false,
+      "expected_path": "data/models/2sderev/stage1-multichannel-wpe",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    },
+    "asset:stage2_checkpoint": {
+      "executed": false,
+      "expected_path": "data/models/2sderev/stage2-nonlinear-postfilter",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    }
+  },
+  "base_commit": "0eec1f8f9fa420cbae18501583897f4b5faaaf2d",
+  "board_row": {
+    "full_tasks_json_hashed": false,
+    "stable_fields": {
+      "component": "2s-dereverb",
+      "depends_on": [
+        "SDK-FND-AUDIT",
+        "SDK-FND-EVIDENCE",
+        "SDK-FND-PROVIDER"
+      ],
+      "id": "SDK-2S-DEREVERB",
+      "mode": "feasibility",
+      "repository": "audio-sdk",
+      "title": "2S-Dereverb"
+    },
+    "stable_sha256": "70266a37baa44d729445c38b787c1cf8b98847445ab0e9d2ecdf7f558ecf77fe"
+  },
+  "boundary": {
+    "adapter_json_added": false,
+    "asset_bundled": false,
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "multichannel_abi_change": false,
+    "native_engine_built": false,
+    "onnxruntime_invoked": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "readiness_json_added": false,
+    "registered": false,
+    "sdk_data_dir_added": false,
+    "shared_build_or_ci_change": false,
+    "weights_vendored": false
+  },
+  "branch": "swarm/SDK-2S-DEREVERB",
+  "caller_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/2s-dereverb/caller-supplied-asset/0.1",
+    "multichannel_required": true,
+    "present_behavior": "validate_hash_geometry_and_stage_identity_only; do_not_load_or_execute_in_this_package",
+    "required_fields": [
+      "algorithmic_latency_samples",
+      "channels",
+      "frame_samples",
+      "input_format",
+      "reference_channel",
+      "runtime_path",
+      "runtime_sha256",
+      "sample_rate_hz",
+      "source_commit",
+      "source_path",
+      "stage1_checkpoint_path",
+      "stage1_checkpoint_sha256",
+      "stage1_id",
+      "stage2_channels",
+      "stage2_checkpoint_path",
+      "stage2_checkpoint_sha256",
+      "stage2_id"
+    ],
+    "separate_source_and_checkpoint_archive_required": true,
+    "stage1": "stage1_multichannel_wpe",
+    "stage2": "stage2_nonlinear_postfilter",
+    "stage2_channels": 1,
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "source_path, both checkpoint paths and runtime_path are caller-owned absolute paths that exist",
+      "SHA-256 of both checkpoints and the runtime artifact match the manifest",
+      "source_commit is a 40-hex revision but cannot be admitted because the upstream revision was never established",
+      "channels is at least two; a mono manifest is rejected because this candidate is conditional on multichannel input",
+      "reference_channel is in range and stage2_channels is exactly one",
+      "input_format is float32 and all integer geometry fields are positive",
+      "stage1_id and stage2_id equal the declared multichannel-WPE and single-channel-postfilter stage identities",
+      "a hash-matched caller placeholder is never accepted as a pinned 2S-Dereverb checkpoint",
+      "no download, copy, build, import, load or execution occurs here"
+    ],
+    "weights_embedded_in_wheel": false
+  },
+  "claim": {
+    "base_commit": "0eec1f8f9fa420cbae18501583897f4b5faaaf2d",
+    "branch": "swarm/SDK-2S-DEREVERB",
+    "reviewer": "reviewer-2S-DEREVERB",
+    "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-2S-DEREVERB"
+  },
+  "component_id": "2s-dereverb",
+  "contract_sha256": "a53ca9a6c15ff9c5f3cd2b432c7a5a6677940b6e38eb0fcd2f33ac069f31929a",
+  "controls": {
+    "asset": {
+      "generic_admission": {
+        "accepted": true,
+        "executed": false,
+        "imported": false,
+        "loaded": false,
+        "multichannel": true,
+        "pinned_asset": false,
+        "stage2_single_channel": true,
+        "validated": true
+      },
+      "pinned_identity_rejected": "upstream_commit_not_established",
+      "rejected_all": true,
+      "rejections": {
+        "absent_source": "asset_file_missing:source_path",
+        "bool_channels": "asset_type:channels",
+        "bool_rate": "asset_type:sample_rate_hz",
+        "extra_field": "asset_field_set_mismatch",
+        "format": "asset_format_mismatch",
+        "missing_field": "asset_field_set_mismatch",
+        "mono": "asset_channels_not_multichannel",
+        "negative_latency": "asset_latency_negative",
+        "pinned_placeholder": "upstream_commit_not_established",
+        "reference_out_of_range": "asset_reference_channel_out_of_range",
+        "relative_path": "asset_path_not_absolute:source_path",
+        "runtime_hash": "asset_runtime_hash_mismatch",
+        "short_commit": "asset_source_commit_not_hex",
+        "stage1_hash": "asset_stage1_hash_mismatch",
+        "stage1_id": "asset_stage1_id_mismatch",
+        "stage2_channels": "asset_stage2_not_single_channel",
+        "stage2_hash": "asset_stage2_hash_mismatch",
+        "stage2_id": "asset_stage2_id_mismatch",
+        "workspace_source_absent": "asset_file_missing:source_path",
+        "zero_frame": "asset_frame_not_positive",
+        "zero_rate": "asset_sample_rate_not_positive"
+      },
+      "workspace_runtime_present": false,
+      "workspace_source_present": false,
+      "workspace_stage1_present": false,
+      "workspace_stage2_present": false
+    },
+    "config": {
+      "baseline_digest": "9b85d2404faea27a2ac9c4e89b1794ff2856e53b4469eb39f63d5026c89b08d0",
+      "rejected_all": true,
+      "rejections": {
+        "bool_epoch": "invalid_epoch",
+        "extra": "config_key_set_mismatch",
+        "format": "config_mismatch:input_format",
+        "frame": "config_mismatch:frame_samples",
+        "latency": "config_mismatch:algorithmic_latency_samples",
+        "model_used": "config_mismatch:model_used",
+        "mono_channels": "config_mismatch:channels",
+        "multichannel_false": "config_mismatch:multichannel",
+        "negative_epoch": "invalid_epoch",
+        "negative_latency": "config_mismatch:algorithmic_latency_samples",
+        "real_runtime": "config_mismatch:real_runtime",
+        "reference_channel": "config_mismatch:reference_channel",
+        "sample_rate": "config_mismatch:sample_rate_hz",
+        "session_id": "invalid_session_id",
+        "stage1": "config_mismatch:stage1",
+        "stage2": "config_mismatch:stage2",
+        "surrogate_false": "config_mismatch:surrogate",
+        "two_channels": "config_mismatch:channels"
+      }
+    },
+    "delay": {
+      "declared_latency_ms": 16,
+      "declared_latency_samples": 256,
+      "expected_output_index": 2256,
+      "matches": true,
+      "observed_output_index": 2256
+    },
+    "frame": {
+      "accepted_after_rejections": true,
+      "accepted_output_length": 256,
+      "baseline_digest": "9b85d2404faea27a2ac9c4e89b1794ff2856e53b4469eb39f63d5026c89b08d0",
+      "counter_after_accept": 256,
+      "rejected_all": true,
+      "rejections": {
+        "boolean_ch1": "mic_type",
+        "empty_final": "mic_length",
+        "four_channels": "mic_channels_mismatch",
+        "infinity_ch1": "mic_nonfinite",
+        "long_nonfinal": "mic_length",
+        "mono": "mic_channels_mismatch",
+        "nan_ch0": "mic_nonfinite",
+        "negative_infinity_ch2": "mic_nonfinite",
+        "negative_range_ch2": "mic_range",
+        "nested_ch0": "mic_type",
+        "none_ch2": "mic_type",
+        "partial_nonfinal": "mic_length",
+        "ragged": "mic_length",
+        "range_ch0": "mic_range",
+        "short_nonfinal": "mic_length",
+        "string_channel": "mic_channel_not_sequence",
+        "string_outer": "mic_not_sequence",
+        "two_channels": "mic_channels_mismatch"
+      }
+    },
+    "impulse": {
+      "expected_output_index": 2256,
+      "finite": true,
+      "length": 4096,
+      "nonlinear_peak_reduced": true,
+      "observed_peak_index": 2256,
+      "peak_value": 0.4,
+      "source_index": 2000
+    },
+    "multichannel": {
+      "finite": true,
+      "mono_rejected": true,
+      "other_channels_change_output": true,
+      "per_channel_geometry": 3
+    },
+    "nonfinite_counter": {
+      "accepted_counter_unchanged": true,
+      "counted_as_silence": false,
+      "reason": "mic_nonfinite",
+      "state_digest_unchanged": true
+    },
+    "partial_tail": {
+      "expected_tail_valid": 232,
+      "length_preserved": true,
+      "prefix_matches_full": true,
+      "tail_valid": 232
+    },
+    "reset": {
+      "epoch_rejections": {
+        "lower": "epoch_not_greater",
+        "same": "epoch_not_greater"
+      },
+      "fresh_matches_reset": true,
+      "higher_epoch_accepted": true,
+      "reset_digest": "ff3ded466f6cb562b52c6f3d0366ae9f15060213a8e6fa4ee9afd67bba513c85",
+      "stale_digest_unchanged": true
+    },
+    "silence": {
+      "exact_zero": true,
+      "finite": true,
+      "length": 512,
+      "tail_valid": 256
+    },
+    "streaming_parity": {
+      "all_identical": true,
+      "chunks": {
+        "137": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "160": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "256": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "320": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "480": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "641": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "800": {
+          "byte_identical": true,
+          "tail_valid": 256
+        }
+      },
+      "reference_tail_valid": 256
+    }
+  },
+  "decision": "DEFER",
+  "defer_before": "source_revision_and_checkpoint_admission",
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    {
+      "id": "source_absent_unpinned",
+      "requirement": "Supply the exact 2S-Dereverb source tree at an immutable 40-hex commit as a caller-owned checkout, with a reviewed licence and notice bundle, verified locally without a network download.",
+      "state": "No checkout exists at data/checkouts/2sderev or adapters/2sderev. The research record names only https://github.com/sp-uhh/2sderev and does not record a commit, branch, tag, archive digest or licence; none is fabricated or downloaded here."
+    },
+    {
+      "id": "checkpoint_identity_absent",
+      "requirement": "Supply the exact multichannel-WPE first-stage checkpoint and the exact single-channel nonlinear-postfilter second-stage checkpoint with filename, byte count, SHA-256, acquisition record and artifact-specific terms.",
+      "state": "The research record states only that checkpoints are separately downloaded. No checkpoint filename, byte count, SHA-256 or local file exists at data/models/2sderev; nothing was downloaded, reconstructed or substituted."
+    },
+    {
+      "id": "runtime_absent",
+      "requirement": "Admit a locked, hash-pinned offline runtime with the exact framework, dependency and native-library versions required by the pinned source, plus an install/import digest.",
+      "state": "No environment exists at data/envs/2s-dereverb. The upstream runtime requirements were not established, and no model import or inference was attempted."
+    },
+    {
+      "id": "rights_unresolved",
+      "requirement": "Supply written source, checkpoint, training-data, corpus, redistribution, product-use and derivative-output terms plus the complete notice bundle for the exact source, checkpoints and runtime.",
+      "state": "No licence or terms record is established for the 2S-Dereverb code, checkpoints, training data or evaluation corpora. Nothing may be bundled, rehosted, rebranded or deployed."
+    },
+    {
+      "id": "geometry_and_latency_unverified",
+      "requirement": "Pin the exact channel count, reference-channel definition, sample rate, hop, STFT/WOLA geometry, predictor delay, postfilter state and total algorithmic latency, then reproduce them on one declared streaming path.",
+      "state": "The research note describes multichannel input and unverified latency. It records no channel count, sample rate, hop, STFT window, lookahead, predictor delay or end-to-end latency. This package's 3-channel 16 kHz/256-sample geometry is a probe-only harness, not the upstream geometry."
+    },
+    {
+      "id": "evidence_absent",
+      "requirement": "Reproduce approved exact-runtime outputs on a rights-cleared paired reverberant/early-target cohort, score with independent intrusive metrics or permitted listening, measure target-device timing and complete opt-in provider intake.",
+      "state": "No exact output vector, rights-cleared cohort, independent score, listening result, target-device timing, adapter or provider intake exists. Surrogate observations do not qualify the candidate."
+    }
+  ],
+  "fixture": {
+    "channel_early_taps": [
+      [
+        [
+          16,
+          850
+        ],
+        [
+          64,
+          330
+        ],
+        [
+          160,
+          210
+        ],
+        [
+          384,
+          120
+        ],
+        [
+          640,
+          70
+        ],
+        [
+          752,
+          40
+        ]
+      ],
+      [
+        [
+          24,
+          790
+        ],
+        [
+          72,
+          305
+        ],
+        [
+          176,
+          195
+        ],
+        [
+          400,
+          112
+        ],
+        [
+          656,
+          66
+        ],
+        [
+          768,
+          38
+        ]
+      ],
+      [
+        [
+          8,
+          830
+        ],
+        [
+          56,
+          345
+        ],
+        [
+          148,
+          220
+        ],
+        [
+          368,
+          128
+        ],
+        [
+          624,
+          72
+        ],
+        [
+          736,
+          44
+        ]
+      ]
+    ],
+    "channel_late_taps": [
+      [
+        [
+          800,
+          230
+        ],
+        [
+          960,
+          184
+        ],
+        [
+          1120,
+          147
+        ],
+        [
+          1280,
+          117
+        ],
+        [
+          1440,
+          94
+        ],
+        [
+          1600,
+          75
+        ],
+        [
+          1760,
+          60
+        ],
+        [
+          1920,
+          48
+        ],
+        [
+          2080,
+          38
+        ],
+        [
+          2240,
+          30
+        ]
+      ],
+      [
+        [
+          824,
+          214
+        ],
+        [
+          984,
+          172
+        ],
+        [
+          1144,
+          138
+        ],
+        [
+          1304,
+          110
+        ],
+        [
+          1464,
+          88
+        ],
+        [
+          1624,
+          70
+        ],
+        [
+          1784,
+          56
+        ],
+        [
+          1944,
+          45
+        ],
+        [
+          2104,
+          36
+        ],
+        [
+          2264,
+          29
+        ]
+      ],
+      [
+        [
+          800,
+          222
+        ],
+        [
+          960,
+          178
+        ],
+        [
+          1120,
+          142
+        ],
+        [
+          1280,
+          113
+        ],
+        [
+          1440,
+          90
+        ],
+        [
+          1600,
+          72
+        ],
+        [
+          1760,
+          58
+        ],
+        [
+          1920,
+          46
+        ],
+        [
+          2080,
+          37
+        ],
+        [
+          2240,
+          30
+        ]
+      ]
+    ],
+    "channels": 3,
+    "component_digests": {
+      "clean": "c271ea0c55ede04b084d44a42953cefb51d13566c13a77cdf9a9be19ec9e098b",
+      "early": "1b9c2966f846b954f70b39be1afad030f636eb7acb4056799583692b61ce5f4b",
+      "late": "da7f033acd4529eb8636e53d3d6c55b1dff5b04048ff70575403788b70170c0a",
+      "noise": "f0528854ca4170995a7c3a4f5f53ced8d15b0261432e71780e9cd0aeee8fc8fe",
+      "reverb": "f799a3248f024257c96c91a9b9d01122a212569311e0eb309b6fbc4bec8d9964"
+    },
+    "early_window_ms": 50,
+    "early_window_samples": 800,
+    "fixture_id": "2s-dereverb-multichannel-room-fixture-v1",
+    "segments": [
+      {
+        "end_frame": 50,
+        "id": "silence-a",
+        "kind": "silence",
+        "start_frame": 0
+      },
+      {
+        "amplitudes": [
+          460,
+          256,
+          154
+        ],
+        "end_frame": 100,
+        "id": "speech-a",
+        "kind": "speech",
+        "start_frame": 50,
+        "steps": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "amplitudes": [
+          420,
+          280,
+          170
+        ],
+        "click_amplitude": 9000,
+        "click_period": 1024,
+        "end_frame": 150,
+        "id": "speech-b",
+        "kind": "speech",
+        "start_frame": 100,
+        "steps": [
+          2,
+          3,
+          5
+        ]
+      },
+      {
+        "amplitudes": [
+          440,
+          250,
+          160
+        ],
+        "end_frame": 200,
+        "id": "noisy-speech",
+        "kind": "speech",
+        "noise_gain": 2,
+        "start_frame": 150,
+        "steps": [
+          3,
+          4,
+          6
+        ]
+      },
+      {
+        "end_frame": 250,
+        "id": "tail-after-speech",
+        "kind": "silence",
+        "start_frame": 200
+      }
+    ],
+    "spec_digest": "326ce0ccee9b9356dd3140c8276bdf485397fdb6f547ab77ec38826a1a88df3c",
+    "total_frames": 250,
+    "total_samples": 64000
+  },
+  "format": {
+    "early_window_ms": 50,
+    "early_window_samples": 800,
+    "multichannel_required": true,
+    "probe_channels": 3,
+    "probe_frame_duration_ms": 16,
+    "probe_frame_samples": 256,
+    "probe_geometry_scope": "probe_only",
+    "probe_latency_ms": 16,
+    "probe_latency_samples": 256,
+    "probe_sample_format": "float32",
+    "probe_sample_rate_hz": 16000,
+    "sdk_v0_channels": 1,
+    "sdk_v0_frame_samples": 160,
+    "sdk_v0_geometry_preserved": true,
+    "sdk_v0_sample_format": "f32",
+    "sdk_v0_sample_rate_hz": 16000,
+    "single_channel_postfilter": true,
+    "upstream_channel_count": null,
+    "upstream_geometry_verified": false,
+    "upstream_hop_samples": null,
+    "upstream_latency_samples": null,
+    "window_frames": 250,
+    "window_samples": 64000
+  },
+  "gates": [
+    {
+      "id": "exact_source_revision_and_license",
+      "qualifies": false,
+      "requirement": "Immutable 40-hex source revision, reviewed licence, notice bundle and clean checkout verified locally without a download.",
+      "status": "blocked"
+    },
+    {
+      "id": "checkpoint_identity_and_terms",
+      "qualifies": false,
+      "requirement": "Both stage checkpoints match exact filenames, byte counts and SHA-256 values with reviewed artifact-specific terms.",
+      "status": "blocked"
+    },
+    {
+      "id": "pinned_runtime_and_offline_load",
+      "qualifies": false,
+      "requirement": "Locked offline runtime with exact dependency versions, install/import digest and a deterministic load of both checkpoints.",
+      "status": "blocked"
+    },
+    {
+      "id": "multichannel_geometry_and_latency",
+      "qualifies": false,
+      "requirement": "Exact channel count, reference channel, rate, hop, STFT/WOLA geometry, predictor delay and total algorithmic latency are pinned and reproduced.",
+      "status": "blocked"
+    },
+    {
+      "id": "exact_reference_parity",
+      "qualifies": false,
+      "requirement": "Approved exact-runtime output vectors for both stages and byte-level parity on the declared multichannel streaming path.",
+      "status": "blocked"
+    },
+    {
+      "id": "rights_cleared_paired_cohort",
+      "qualifies": false,
+      "requirement": "Frozen rights-cleared reverberant corpus, measured or frozen RIRs, early-target definition, strata and reset/delay schedule.",
+      "status": "blocked"
+    },
+    {
+      "id": "independent_scoring_and_listening",
+      "qualifies": false,
+      "requirement": "Independent SI-SDR/STOI/SRMR and identity/task-matched baselines or permitted listening, including missing, adverse and nonfinite controls.",
+      "status": "blocked"
+    },
+    {
+      "id": "target_runtime_timing_and_opt_in_provider",
+      "qualifies": false,
+      "requirement": "Target-device p50/p95/p99, RTF, memory and deadline behavior, plus OFF-by-default opt-in provider intake and descriptor review.",
+      "status": "blocked"
+    }
+  ],
+  "metrics": {
+    "candidate_result": false,
+    "channels": 3,
+    "declared_latency_samples": 256,
+    "max_abs_output": 0.643650536,
+    "multichannel_geometry_exercised": true,
+    "nonfinite_output_samples": 0,
+    "output_peak_clipped_samples": 0,
+    "scored_samples": 63744,
+    "silence_exact_zero": true,
+    "surrogate_only": true
+  },
+  "missing_results": [
+    "exact 2S-Dereverb source revision and licence",
+    "exact stage-1 multichannel-WPE checkpoint",
+    "exact stage-2 single-channel nonlinear-postfilter checkpoint",
+    "pinned offline runtime and deterministic load",
+    "exact multichannel geometry and total algorithmic latency",
+    "exact-runtime output vectors and parity",
+    "rights-cleared paired reverberant/early-target cohort",
+    "independent intrusive score or permitted listening",
+    "target-device timing, memory and deadline",
+    "opt-in provider intake and default decision"
+  ],
+  "negative_claims": [
+    "No 2S-Dereverb source, checkpoint, derived weight or runtime call was produced.",
+    "No dereverberation, quality, latency, timing, benchmark or release result is claimed.",
+    "The two-stage boundary surrogate is not 2S-Dereverb and cannot qualify the candidate.",
+    "The 3-channel 16 kHz/256-sample probe geometry is not the unverified upstream geometry.",
+    "No real corpus, room impulse response, audio, device clock or listener was used.",
+    "No provider, descriptor, registry, installed v0 path, default, public ABI, shared build, dependency lock or CI was changed.",
+    "A caller-owned hash-matched placeholder is never admitted as a pinned checkpoint."
+  ],
+  "no_missing_result_qualifies_candidate": true,
+  "profile": "room",
+  "proposal_only": true,
+  "qualification": {
+    "all_release_gates_blocked": true,
+    "checkpoints_present": false,
+    "exact_result_present": false,
+    "geometry_verified": false,
+    "missing_result_promoted": false,
+    "not_qualified": true,
+    "provider_intake_present": false,
+    "quality_result_present": false,
+    "readiness": "incomplete",
+    "release_claim": false,
+    "runtime_present": false,
+    "source_licensed": false,
+    "source_present": false,
+    "status": "not_qualified",
+    "timing_result_present": false
+  },
+  "qualification_status": "not_qualified",
+  "reopen_condition": "Supply the exact source revision and licence, both stage checkpoints with byte counts and SHA-256, a locked offline runtime, the exact multichannel geometry and latency, and clear artifact and corpus rights. Then reproduce exact-runtime outputs, score a rights-cleared paired cohort independently or with permitted listening, measure target timing and complete OFF-by-default opt-in provider intake. Until then the candidate stays DEFER, incomplete and not qualified.",
+  "scenario": {
+    "channels_required": ">=2",
+    "far_end_reference": false,
+    "id": "2s-dereverb-multichannel-room-blocker-v1",
+    "is_aec": false,
+    "is_mono_baseline": false,
+    "note": "The candidate is a multichannel dereverberation chain with a single-channel postfilter. No far-end playback reference is part of this scenario, so it is not AEC and not a mono baseline.",
+    "reference_channel": 0,
+    "task_geometry": "multichannel WPE plus single-channel nonlinear postfilter",
+    "upstream_geometry_verified": false
+  },
+  "schema_id": "audio-sdk/task-evidence/2s-dereverb/report/0.1",
+  "scope": {
+    "benchmark_run": false,
+    "device_timing_measured": false,
+    "downloaded": false,
+    "implementation_added": false,
+    "listening_performed": false,
+    "network_used": false,
+    "provider_registered": false,
+    "public_abi_changed": false,
+    "real_assets_used": false,
+    "registry_or_default_changed": false,
+    "release_claim": false,
+    "runtime_executed": false,
+    "shared_build_or_ci_changed": false,
+    "source_imported": false,
+    "task_local_only": true,
+    "weights_loaded": false,
+    "write_scope": "docs/task-evidence/2s-dereverb/ only"
+  },
+  "status": "proposal_only_blocked_incomplete",
+  "surrogate": {
+    "candidate_result": false,
+    "delay_samples": 256,
+    "dnn_free": true,
+    "is_2s_dereverb": false,
+    "model_free": true,
+    "note": "The surrogate exists only to exercise the multichannel geometry, declared delay, state reset and fail-closed controls. It is not 2S-Dereverb and cannot qualify the candidate.",
+    "predictor_taps_by_channel": [
+      [
+        [
+          800,
+          138
+        ],
+        [
+          960,
+          110
+        ],
+        [
+          1120,
+          88
+        ],
+        [
+          1280,
+          70
+        ],
+        [
+          1440,
+          56
+        ],
+        [
+          1600,
+          45
+        ]
+      ],
+      [
+        [
+          824,
+          128
+        ],
+        [
+          984,
+          103
+        ],
+        [
+          1144,
+          82
+        ],
+        [
+          1304,
+          66
+        ],
+        [
+          1464,
+          52
+        ],
+        [
+          1624,
+          42
+        ]
+      ],
+      [
+        [
+          800,
+          133
+        ],
+        [
+          960,
+          106
+        ],
+        [
+          1120,
+          85
+        ],
+        [
+          1280,
+          67
+        ],
+        [
+          1440,
+          54
+        ],
+        [
+          1600,
+          43
+        ]
+      ]
+    ],
+    "stage1": "multichannel_causal_late_subtraction",
+    "stage2": "single_channel_static_nonlinear_compression",
+    "type": "fixed two-stage boundary surrogate"
+  },
+  "task_id": "SDK-2S-DEREVERB",
+  "title": "2S-Dereverb",
+  "upstream": {
+    "checkpoint_identity": null,
+    "checkpoint_identity_status": "not_recorded",
+    "commit": null,
+    "commit_status": "not_recorded",
+    "geometry_status": "unverified",
+    "license": null,
+    "license_status": "not_established",
+    "note": "The local research record names the repository and the architecture family only. It records no commit, licence, checkpoint filename, byte count or SHA-256; none is fabricated here.",
+    "publication": "https://www.inf.uni-hamburg.de/en/inst/ab/sp/publications/tasl2022-dereverberation.html",
+    "repository": "https://github.com/sp-uhh/2sderev",
+    "source_present": false
+  }
+}
