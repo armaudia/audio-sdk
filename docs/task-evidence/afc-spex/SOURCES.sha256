@@ -1,0 +1,21 @@
+# SHA-256 pins for SDK-AFC-SPEX task-local evidence; source: paths are workspace-relative, others SDK-worktree-relative.
+# The mutable full plan/swarm/TASKS.json is deliberately not pinned; only the stable linked-row identity is projected.
+# contract.json is excluded because it pins this manifest; no source checkpoint, weight or audio artifact is present to pin.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+47b17e68a943e5fe3ee1568c81a84ea07eba040011e1d97df1ce61d8800c6b1c  source:research/feedback_control_20261028.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+1cc4fab95b80e192de38e54539593e2b171ac60a96a5935b8876c547a6a9389e  docs/task-evidence/afc-spex/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/afc-spex/SOURCES.sha256.license
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/afc-spex/contract.json.license
+da1656e1dd66247dd67ac9c801606ea7ab91da724beb2e77298caea1e27c1b6a  docs/task-evidence/afc-spex/reference.py
+b94ac1cc9fb6209a302ce1e6054befe715479d6cec9c2473cd53ba7827b2868d  docs/task-evidence/afc-spex/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/afc-spex/report.json.license
+a12e7e9fb82d3913ff4713ca678d372a4c56dc19aaf1619f7d7adf01bb3e56e6  docs/task-evidence/afc-spex/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/afc-spex/report.json.sha256.license
+b38d9480a44019bbb86199f50ab8f4e250c6073ef464d893a98aa036d46eaecb  docs/task-evidence/afc-spex/run.py
+f1a53837d26a7b5112c49ec1e8c562acfa2f2282de21ffd49c6feedc6340b143  docs/task-evidence/afc-spex/test_reference.py
+dcc0d48be9999ac6d77e81bd49d4bd72c89abdbfd7d4790dd6436108a5e937b9  docs/task-evidence/afc-spex/verify.py
