@@ -1,0 +1,40 @@
+# SHA-256 pins for SDK-WHISPER-TINY-EN-MFA readiness evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# The mutable shared board is not pinned; only its stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f  source:research/tsm-followup-20261101/README.md
+86657ba0d2c82d64110dc058f40082e2d701ce0ff2427fe2e0d3a3f1719bfd93  source:research/tsm-followup-20261101/agent-text/REPORT.md
+245f05c557cb7b93ba14887b71fa93ef8098d94478fee4cd9baa1910dac7fa66  source:research/tsm-followup-20261101/agent-text/run_mfa_alignment_smoke.py
+7fb7a94b6117b7694ec04d3bb1f6491527c802651135fcf5f05eae8b0782bbd4  source:research/tsm-followup-20261101/agent-text/run_whisper_asr.py
+0294e7681af9b6491bed6501bd1d7154b6809a9231101209187412c6f5b9c6bf  source:research/tsm-followup-20261101/agent-text/score_asr_alignment.py
+f6b99e3fb0864eea4dab999b875e88a7214fda1142f40e7cc8118c303225bd0a  source:research/tsm-followup-20261101/agent-text/score_mfa_alignment_smoke.py
+624558e2835dfb25f2321c6ba3b505107536539164159e461a7c250bee6a27a8  source:research/tsm-followup-20261101/agent-text/score_whisper_asr.py
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+1ccece1085e1d6e821891feffb0c19fc494227bfd5e8a656657ffd7081cf959c  docs/task-evidence/vosk-small-en-us-0-15-playback-gate/README.md
+ee23e6cc21f9f3293a48dab7008a4c41f129074cafa3eb6b273f2f3ef413d694  docs/task-evidence/vosk-small-en-us-0-15-playback-gate/contract.json
+57f355f51582c131812172e779ac8a6e3638491542c8e4e44efc46fd69cc2cc2  docs/task-evidence/vosk-small-en-us-0-15-playback-gate/report.json
+870a665c5da0f75dea01de767388cd40fdd45a0cd5d55f07fa1010861e9dd371  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/README.md
+f4429f3afde1096d29068f51ddace56c591a290d793097a671a125f4ff7a9a68  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/contract.json
+1ce7faa0b87faa8a8782083bd23ba6dd5803f9bd45ae5ef2db9a8692b0858f48  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/report.json
+cc60bb4081c6c0760085575b8808734c10829756bb999c2a53fb15c10de0b29c  docs/task-evidence/whisper-tiny-en-mfa/LICENSES.md
+7c24422f782bf934d22e2a752e2be2ead2d184cfd8728452c7f7a5dd68f25c7f  docs/task-evidence/whisper-tiny-en-mfa/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/whisper-tiny-en-mfa/SOURCES.sha256.license
+fddc819bdcbb34a4d47f605efa8c0632573eaa2b77d0681d2a82f5c58e98687e  docs/task-evidence/whisper-tiny-en-mfa/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/whisper-tiny-en-mfa/contract.json.license
+6d7bac44adf6467d0eb8abc7f9ce6ca3b71f0885b343a122cc1abae1541d39e6  docs/task-evidence/whisper-tiny-en-mfa/reference.py
+6b9cc69ea2be5cd5cad9509021b7b5e7fb972a4c32c62721f07be995b582710c  docs/task-evidence/whisper-tiny-en-mfa/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/whisper-tiny-en-mfa/report.json.license
+d3f241dde5239a52547e951ed565efd2d89ecef99c3af7b174a1331d3dd27bc3  docs/task-evidence/whisper-tiny-en-mfa/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/whisper-tiny-en-mfa/report.json.sha256.license
+7d7504fde89a6605d31ceaa3b4ab3ed23ca13455ffb98e43837d3037e2e82ad6  docs/task-evidence/whisper-tiny-en-mfa/run.py
+38d6ef117596c1fa797cef7b4df48f4327f2021ce4a29fd89641b775d5ad26ce  docs/task-evidence/whisper-tiny-en-mfa/test_reference.py
+8f86a5af2858a91dc1d9e8d35ccd9b5f5e6424f91a099552a0be6e2dc077f9ca  docs/task-evidence/whisper-tiny-en-mfa/verify.py
