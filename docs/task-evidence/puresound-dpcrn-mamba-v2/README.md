@@ -344,7 +344,7 @@ digests and byte counts, and re-reads only the stable task-row projection from
 - Partial-final-hop probe: 32,123 input/output samples, a 32,603-sample
   streamed hold, 37 internal padding samples, 0 emitted padding.
 - Eight release gates, all `blocked`; no missing result qualifies the candidate.
-- `report.json` SHA-256: `65fff1e0a79e33f6d25cba4a245692c2d4abfbfd5c8de33066f1af708d841f34`.
+- `report.json` SHA-256: `43a2a56f0ccbccf2c9ef51aa5c05d088c9c404ac6c4168c241a3f0761bfb87d3`.
 - Tests: **47 passed, 0 failed, 0 skipped** (Python 3.12.16).
 
 <!-- digest-table:start -->
@@ -354,8 +354,8 @@ digests and byte counts, and re-reads only the stable task-row projection from
 | `adapter.json` | `a8d1f93959a762b1c0340cc140cbd965ef84caea094c5cf541f00cb09ae60129` | 2206 |
 | `asset.json` | `549bd1db97e3cd6857c4966821b19dc6a79d4c8bad00333225e9628ecacbcbd6` | 3412 |
 | `readiness.json` | `ab74c9cbe494958cb8969878284bb54ec1953dbed31f2f3e5e93eca7c682cd86` | 7017 |
-| `reference.py` | `c66428bd43dcf6fe57cd65eef6774f87e81ff4ef5ac60ad0c1c4673369e0a2ff` | 89032 |
-| `report.json` | `65fff1e0a79e33f6d25cba4a245692c2d4abfbfd5c8de33066f1af708d841f34` | 43780 |
+| `reference.py` | `a6212eef10a48b4ed14a472dd5a74d329be66670e56ac2f77ca81f7ab97d575e` | 88952 |
+| `report.json` | `43a2a56f0ccbccf2c9ef51aa5c05d088c9c404ac6c4168c241a3f0761bfb87d3` | 43708 |
 | `requirements.lock` | `bd3dc83f358efb63e07db64a92b51f6ac5ccb86dc10c06f10fe36ec24c8b067c` | 198 |
 | `run.py` | `bf8848720edb115866890d26ab11ee70f59fb73040b2e987bd1f00c47b05fd8e` | 7085 |
 | `test_reference.py` | `cfa7969aeecb8f95a7b5f5baba56306b1d14b7dee7f9356a8954a60b30615d91` | 26835 |

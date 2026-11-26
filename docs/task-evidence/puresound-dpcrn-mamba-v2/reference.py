@@ -546,8 +546,6 @@ def task_link() -> Dict[str, Any]:
         "claim_projection_fields": list(TASK_CLAIM_FIELDS),
         "projection": projection,
         "projection_sha256": sha256(canonical_bytes(projection)),
-        "row_status": row.get("status"),
-        "row_owner": row.get("owner"),
     }
 
 
