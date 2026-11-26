@@ -1,0 +1,37 @@
+# SHA-256 pins for SDK-CLEARSCALE.
+# source: paths are relative to SOURCE_ROOT; worktree and sibling:
+# paths are relative to the SDK checkout; pkg: paths are relative to
+# this task-evidence directory. The mutable full
+# plan/swarm/TASKS.json is never hashed; only the linked-row stable
+# identity is gated.
+
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3  source:cpp-library/pipeline-validation/playback-speed-candidates.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  worktree:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  worktree:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  worktree:CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  worktree:README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  worktree:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  worktree:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  worktree:api/include/audio_sdk/session_v0.h
+495a3f4fa230f60069c51b8215b1e1ff198db2f2d557b1bde5485bffa5d9fbb2  sibling:docs/task-evidence/audiosr/report.json
+bb434059ae6c3d07e247d7568d1dad3aab9441194f3b57c54851df4298447f8b  sibling:docs/task-evidence/bungee-basic/report.json
+b83afd7e1279270cf8d4a2852de231ae159da0e4324a6e1c148b016306d0ffe4  sibling:docs/task-evidence/bungee-pro/report.json
+522f585511ae5c6306914ab250f261fc0d5af56bc7d494a09f62a12b2f179a98  sibling:docs/task-evidence/d1-whole-clip-duration-planner/fixtures/report.json
+b4768c1ee3b6f9934c576496a9f224a7293edc2c09993b11892c03535b8557bd  sibling:docs/task-evidence/gtcrn-dns3-offline/report.json
+e352ef75bd0be91cbd5244dd69c8a5739fd1ec6bf3b86e73ae023948d6007231  sibling:docs/task-evidence/signalsmith-stretch/report.json
+83ef7edaa82f919f1db0d9027b0b4724f2a95a46cfaea848e2652dcc43bbe947  sibling:docs/task-evidence/soundtouch/report.json
+ecfb9eb0745a8ff73810dd5ffc4d162bce48a2e4b400906ead61ec064ad8f7ce  pkg:README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:SOURCES.sha256.license
+2615945c908709357342468071304d79debfba13736d838e5cf8968b82ad56bf  pkg:contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:contract.json.license
+c48b8b1896aac6392fb94716ecf8af1c03ddeec53677d558206b163550d84426  pkg:reference.py
+cbbb236999c027eb319cb6239c1fded4e28277c09c7192119d0aaa75ede87f49  pkg:report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.license
+f146a8e10cd2275f38117c5fb311af1c443db40a2e68b853f61284a832d118ab  pkg:report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.sha256.license
+47e11e1130eacdd9051333689491f7a187bed17f775a37c10879a806abf63edf  pkg:run.py
+e719d635bb23160220c4eaebd863f24ccc653461fa9abe124afb971875afd552  pkg:test_reference.py
+71c75533a2acd4d4d473ddbacd8323e97e66f088b4acaa09b9ac88e89875aeab  pkg:verify.py
