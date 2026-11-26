@@ -1,0 +1,329 @@
+{
+  "absence_probes": [
+    {
+      "detail": "absent",
+      "present": false,
+      "probe": "data/checkouts/resemble-enhance"
+    },
+    {
+      "detail": "absent",
+      "present": false,
+      "probe": "data/checkouts/resemble_enhance"
+    },
+    {
+      "detail": "absent",
+      "present": false,
+      "probe": "data/envs/resemble-enhance"
+    },
+    {
+      "detail": "absent",
+      "present": false,
+      "probe": "third_party/resemble-enhance"
+    },
+    {
+      "detail": "absent",
+      "present": false,
+      "probe": "third_party/resemble_enhance"
+    },
+    {
+      "detail": "absent",
+      "present": false,
+      "probe": "docs/task-evidence/resemble-enhance-denoise-only/weights"
+    },
+    {
+      "detail": "absent",
+      "present": false,
+      "probe": "docs/task-evidence/resemble-enhance-denoise-only/assets"
+    },
+    {
+      "detail": "absent",
+      "present": false,
+      "probe": "docs/task-evidence/resemble-enhance-denoise-only/runtime"
+    }
+  ],
+  "adverse_cases": {
+    "all_rejected": true,
+    "any_qualifying": false,
+    "cases": {
+      "invalid_sha256": {
+        "reason": "invalid_sha256:weights_sha256",
+        "status": "rejected"
+      },
+      "invalid_source_revision": {
+        "reason": "invalid_source_revision",
+        "status": "rejected"
+      },
+      "missing_manifest": {
+        "reason": "manifest_not_object",
+        "status": "rejected"
+      },
+      "non_string_field": {
+        "reason": "invalid_type:archive_sha256",
+        "status": "rejected"
+      },
+      "schema_valid_but_assets_absent": {
+        "reason": "required_assets_absent",
+        "status": "rejected"
+      },
+      "unknown_field": {
+        "reason": "manifest_fields_mismatch",
+        "status": "rejected"
+      }
+    }
+  },
+  "base_commit": "a9cf338c0b363d69408c931071071583a49ebdc1",
+  "boundary": {
+    "benchmark_claim": false,
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "registered": false,
+    "release_claim": false,
+    "shared_cmakelists_change": false,
+    "task_local_only": true
+  },
+  "boundary_pins": {
+    "CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "REUSE.toml": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "scripts/ci.py": "64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f"
+  },
+  "branch": "swarm/SDK-RESEMBLE-ENHANCE-DENOISE-ONLY",
+  "component": "resemble-enhance-denoise-only",
+  "decision": "DEFER",
+  "defer_before": "opt_in_provider_or_reference_exposure",
+  "enhancement_profile_application": {
+    "alignment_state_memory_content_availability_timing": "blocked",
+    "clean_speech_preservation_peaks_invalid": "blocked",
+    "established_task_matched_baseline": "blocked",
+    "identity_noisy_control": "blocked - no exact runtime/assets",
+    "paired_si_sdr_stoi": "blocked - no rights-cleared real cohort or exact runtime",
+    "profile": "enhancement",
+    "result_qualifies": false,
+    "unpaired_predictive_or_listening": "blocked"
+  },
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    "Exact Resemble Enhance denoise-only source revision/archive and immutable license/provenance are not staged in this worktree; the census identifies an official repository with --denoise_only and MIT code, but no pinned commit, archive digest, or complete source snapshot is present here.",
+    "Exact pretrained weights/assets, model-card or runtime terms, and redistribution/product-use clearance for the denoise-only path are absent; no weight, checkpoint, package, or runtime was downloaded, copied, built, or executed.",
+    "No exact runnable runtime, reference-output parity vector, or task-matched enhancement evidence exists for this candidate in this worktree; no real audio, listening, device timing, benchmark, or release claim is produced.",
+    "No rights-cleared real cohort, independent listening, target-runtime timing/memory/resource evidence, opt-in adapter/provider intake, or public/default decision exists; every release gate remains blocked."
+  ],
+  "format": {
+    "public_channels": 1,
+    "public_frame_samples": 160,
+    "public_sample_format": "f32",
+    "public_sample_rate_hz": 16000,
+    "public_v0_geometry_preserved": true,
+    "sdk_callback_invoked": false
+  },
+  "gates": [
+    {
+      "id": "RG-01",
+      "name": "source_revision_archive_and_license_provenance",
+      "qualifies": false,
+      "reopen_condition": "Supply immutable source revision/archive/tree digests and complete license/notice provenance for the exact denoise-only path.",
+      "status": "blocked"
+    },
+    {
+      "id": "RG-02",
+      "name": "weights_assets_and_terms",
+      "qualifies": false,
+      "reopen_condition": "Supply exact weights/assets with per-file byte counts and SHA-256 and reviewed model/runtime/redistribution/product-use terms.",
+      "status": "blocked"
+    },
+    {
+      "id": "RG-03",
+      "name": "exact_runtime_reproduction",
+      "qualifies": false,
+      "reopen_condition": "Reproduce the exact pinned runtime offline with deterministic settings and an approved reference-output parity vector.",
+      "status": "blocked"
+    },
+    {
+      "id": "RG-04",
+      "name": "native_or_caller_boundary",
+      "qualifies": false,
+      "reopen_condition": "Verify the exact caller/native boundary, sample-rate/channel/frame contract, delay/flush behavior, and fail-closed invalid-input handling.",
+      "status": "blocked"
+    },
+    {
+      "id": "RG-05",
+      "name": "real_cohort_enhancement_evidence",
+      "qualifies": false,
+      "reopen_condition": "Score a rights-cleared held-out real cohort under the Enhancement profile with paired metrics or separately labeled evidence.",
+      "status": "blocked"
+    },
+    {
+      "id": "RG-06",
+      "name": "independent_listening_and_preservation",
+      "qualifies": false,
+      "reopen_condition": "Collect independent listening/preservation review; synthetic or missing evidence cannot qualify.",
+      "status": "blocked"
+    },
+    {
+      "id": "RG-07",
+      "name": "target_runtime_timing_memory_resources",
+      "qualifies": false,
+      "reopen_condition": "Measure content/availability timing, memory, CPU, and deadline behavior on the exact target runtime.",
+      "status": "blocked"
+    },
+    {
+      "id": "RG-08",
+      "name": "opt_in_intake_and_public_surface",
+      "qualifies": false,
+      "reopen_condition": "Complete opt-in intake, descriptor/registry/release review, and explicit public/default decision; keep candidate unregistered and OFF until then.",
+      "status": "blocked"
+    }
+  ],
+  "linked_row_identity": {
+    "linked_rows": [
+      {
+        "acceptance": "Apply the enhancement acceptance profile; record exact scope, evidence, failure/control results, and remaining release gates. A readiness conclusion with an exact external blocker is an accepted investigation handoff; it does not close the conditional implementation.",
+        "component": "resemble-enhance-denoise-only",
+        "deliverable": "Verify runnable source, exact assets, permitted scope, task geometry and matched evidence. Then reproduce the exact model/runtime as a caller-supplied-asset reference and add an opt-in SDK adapter once its prerequisites pass. Record a concrete blocker if feasibility fails.",
+        "depends_on": [
+          "SDK-FND-AUDIT",
+          "SDK-FND-EVIDENCE",
+          "SDK-FND-PROVIDER"
+        ],
+        "evidence": [
+          "research/noise_suppression_candidate_census.md"
+        ],
+        "id": "SDK-RESEMBLE-ENHANCE-DENOISE-ONLY",
+        "mode": "feasibility",
+        "repository": "audio-sdk",
+        "title": "Resemble Enhance denoise-only"
+      },
+      {
+        "component": null,
+        "id": "SDK-FND-AUDIT",
+        "mode": "foundation",
+        "repository": "audio-sdk",
+        "title": "Public provider intake and asset boundary"
+      },
+      {
+        "component": null,
+        "id": "SDK-FND-EVIDENCE",
+        "mode": "foundation",
+        "repository": "audio-sdk",
+        "title": "Task-matched conformance and reproducible benchmark evidence"
+      },
+      {
+        "component": null,
+        "id": "SDK-FND-PROVIDER",
+        "mode": "foundation",
+        "repository": "audio-sdk",
+        "title": "Provider integration boundaries and build fragments"
+      }
+    ],
+    "linked_rows_sha256": "9baef82fb8b668e2e8d3f011292672e5792096331d8eddf11c6e8c0c1a7199d6",
+    "policy": "stable_linked_row_identity_only; never hash mutable full plan/swarm/TASKS.json",
+    "projection": {
+      "acceptance": "Apply the enhancement acceptance profile; record exact scope, evidence, failure/control results, and remaining release gates. A readiness conclusion with an exact external blocker is an accepted investigation handoff; it does not close the conditional implementation.",
+      "component": "resemble-enhance-denoise-only",
+      "deliverable": "Verify runnable source, exact assets, permitted scope, task geometry and matched evidence. Then reproduce the exact model/runtime as a caller-supplied-asset reference and add an opt-in SDK adapter once its prerequisites pass. Record a concrete blocker if feasibility fails.",
+      "depends_on": [
+        "SDK-FND-AUDIT",
+        "SDK-FND-EVIDENCE",
+        "SDK-FND-PROVIDER"
+      ],
+      "evidence": [
+        "research/noise_suppression_candidate_census.md"
+      ],
+      "id": "SDK-RESEMBLE-ENHANCE-DENOISE-ONLY",
+      "mode": "feasibility",
+      "repository": "audio-sdk",
+      "title": "Resemble Enhance denoise-only"
+    },
+    "projection_sha256": "9a0b807272b9ab90fbdd8b7541294178d34a120f78969b7822d786420e591a01"
+  },
+  "missing_evidence": [
+    "immutable Resemble Enhance denoise-only source revision/archive with complete license/notice provenance",
+    "exact pretrained weights/assets with byte counts, SHA-256, and reviewed terms",
+    "pinned offline runtime/environment with deterministic settings and reference parity vector",
+    "verified caller/native boundary, delay/flush, and invalid-input behavior for exact geometry",
+    "rights-cleared real enhancement cohort with task-matched baseline and preservation controls",
+    "independent listening or human/preference review",
+    "target-runtime timing, memory, CPU, and deadline measurements",
+    "opt-in adapter/provider intake, descriptor/registry review, and explicit public/default decision"
+  ],
+  "negative_claims": {
+    "abi_changed": false,
+    "benchmark_result_claimed": false,
+    "ci_changed": false,
+    "device_timing_measured": false,
+    "exact_runtime_reproduced": false,
+    "installed_v0_changed": false,
+    "listening_performed": false,
+    "model_loaded_or_executed": false,
+    "provider_registered": false,
+    "public_default_changed": false,
+    "real_audio_used": false,
+    "release_claimed": false,
+    "shared_build_changed": false,
+    "source_weights_runtime_present": false,
+    "weights_downloaded_or_redistributed": false
+  },
+  "no_missing_result_qualifies_candidate": true,
+  "profile": "enhancement",
+  "qualification": {
+    "qualified": false,
+    "reason": "exact licensed source/weights/runtime absent; blocker package only",
+    "status": "not_qualified"
+  },
+  "reopening_conditions": [
+    "Provide the exact immutable source revision/archive and complete license/notice provenance for the denoise-only path.",
+    "Provide exact weights/assets and reviewed redistribution/product-use/runtime terms; do not treat code license as weight clearance.",
+    "Reproduce the exact runtime offline with deterministic settings and an approved reference-output parity vector.",
+    "Verify the exact caller/native boundary, delay/flush, invalid-input, and state behavior under the Enhancement profile.",
+    "Run rights-cleared real-cohort enhancement evaluation with preservation controls and independent listening.",
+    "Measure target-runtime timing, memory, CPU, and deadlines on the intended deployment profile.",
+    "Complete opt-in intake and explicit public/default decision before any registration, default, or release claim.",
+    "Keep all release gates blocked until every required artifact and result is present and reviewed."
+  ],
+  "repeatability": {
+    "byte_identical": true,
+    "count": 3,
+    "digests": [
+      "09cb567167f362269107ca8ca4708e0253ed7e5f976fa46f3c25b95e9b03146d",
+      "09cb567167f362269107ca8ca4708e0253ed7e5f976fa46f3c25b95e9b03146d",
+      "09cb567167f362269107ca8ca4708e0253ed7e5f976fa46f3c25b95e9b03146d"
+    ],
+    "scope": "report body excluding repeatability"
+  },
+  "schema_id": "audio-sdk/task-evidence/resemble-enhance-denoise-only/report/0.1",
+  "scope": {
+    "benchmark_claim": false,
+    "device_timing": false,
+    "download_attempted": false,
+    "exact_runtime_reproduced": false,
+    "listening_result": false,
+    "model_executed": false,
+    "network_used": false,
+    "provider_registered": false,
+    "public_default_changed": false,
+    "real_audio": false,
+    "real_labels": false,
+    "release_claim": false,
+    "runtime_present": false,
+    "source_present": false,
+    "task_local_only": true,
+    "weights_loaded": false,
+    "weights_present": false
+  },
+  "source_pins": {
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/audio-sdk/README.md": "f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a"
+  },
+  "status": "proposal_only_incomplete",
+  "task": "SDK-RESEMBLE-ENHANCE-DENOISE-ONLY",
+  "title": "Resemble Enhance denoise-only"
+}
