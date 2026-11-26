@@ -76,9 +76,9 @@ REQUIRED_ADVERSE = {
     "reset_epoch_zero", "chunk_plan_zero",
 }
 ALLOWED_IMPORTS = {
-    "__future__", "argparse", "ast", "hashlib", "json", "math", "pathlib",
-    "re", "subprocess", "sys", "typing", "unittest", "reference", "run",
-    "fixture", "scorer",
+    "__future__", "argparse", "ast", "hashlib", "json", "math", "os",
+    "pathlib", "re", "subprocess", "sys", "typing", "unittest", "reference",
+    "run", "fixture", "scorer",
 }
 
 
@@ -387,10 +387,22 @@ def check_report(errors: List[str], report: Dict[str, Any]) -> None:
     _true(errors, "adverse flag", report.get("adverse_all_rejected"))
     present = set()
     for item in adverse:
-        if (item.get("status") != "rejected"
-                or item.get("state_unchanged") is not True):
-            errors.append("adverse case not rejected immutably: "
-                          + str(item.get("case_id")))
+        case_id = str(item.get("case_id"))
+        before = item.get("state_digest_before")
+        after = item.get("state_digest_after")
+        if item.get("status") != "rejected":
+            errors.append("adverse case not rejected: " + case_id)
+        if (not isinstance(before, str) or len(before) != 64
+                or not isinstance(after, str) or len(after) != 64):
+            errors.append("adverse case lacks measured state digests: "
+                          + case_id)
+            continue
+        measured = before == after
+        if item.get("state_unchanged") is not measured:
+            errors.append("adverse state_unchanged is not the measured result: "
+                          + case_id)
+        if not measured:
+            errors.append("adverse rejection mutated state: " + case_id)
         present.add(item.get("case_id"))
     if not REQUIRED_ADVERSE <= present:
         errors.append("required adverse cases missing: "

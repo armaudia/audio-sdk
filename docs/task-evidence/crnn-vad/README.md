@@ -152,7 +152,10 @@ setting.
 
 ## Adverse, missing and invalid handling
 
-`report.json` records 73 rejected inputs, each with unchanged accepted state.
+`report.json` records 73 rejected inputs. Each record carries a live
+`state_digest_before` and `state_digest_after` measured around the rejection;
+`state_unchanged` is the measured equality result, and a test deliberately
+mutates local state behind the same probe to prove the check is live.
 Rejections include duplicate JSON key, `NaN`/`Infinity`/`-Infinity` constants,
 malformed JSON, non-object root, trailing data, BOM, missing/extra config
 fields, 8 kHz, 44.1 kHz, stereo, 256-sample frame, `int16`, boolean rate, float

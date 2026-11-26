@@ -87,6 +87,8 @@ def check() -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("mode", nargs="?", choices=("all",),
+                        help="optional 'all' alias for full regeneration")
     parser.add_argument("--check", action="store_true",
                         help="compare current files with a fresh deterministic build")
     options = parser.parse_args()

@@ -23,12 +23,15 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 TASK_DIR = Path(__file__).resolve().parent
 SDK_ROOT = TASK_DIR.parents[2]
-SOURCE_ROOT = SDK_ROOT.parents[2]
+SOURCE_ROOT = Path(
+    os.environ.get("SOURCE_ROOT", str(SDK_ROOT.parents[2]))
+).resolve()
 TASK_BOARD_REL = "audio-benchmark-platform/plan/swarm/TASKS.json"
 
 VERSION = "0.1.0"
@@ -1451,19 +1454,24 @@ def invalid_vs_nonspeech_check(fixture: Dict[str, Any]) -> Dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 def _run_rejection(records: List[Dict[str, Any]], case_id: str,
-                   digest_before: str, action) -> None:
+                   state_probe, action) -> None:
+    """Measure live state before/after a rejection; never force the result."""
+    digest_before = state_probe()
     try:
         action()
     except ReferenceRejection as error:
-        digest_after = digest_before
-        if error.code:
-            records.append({
-                "case_id": case_id,
-                "code": error.code,
-                "status": "rejected",
-                "state_unchanged": digest_after == digest_before,
-            })
-            return
+        digest_after = state_probe()
+        if not error.code:
+            raise AssertionError("rejection_without_code:" + case_id)
+        records.append({
+            "case_id": case_id,
+            "code": error.code,
+            "status": "rejected",
+            "state_digest_before": digest_before,
+            "state_digest_after": digest_after,
+            "state_unchanged": digest_after == digest_before,
+        })
+        return
     raise AssertionError("adverse_case_accepted:" + case_id)
 
 
@@ -1487,6 +1495,7 @@ def _event_sample(session: AnalysisSession) -> Dict[str, Any]:
 def adverse_rejections(fixture: Dict[str, Any]) -> List[Dict[str, Any]]:
     records: List[Dict[str, Any]] = []
     config = default_config()
+    control_session = AnalysisSession(config, "adverse-control", 0)
 
     json_cases = (
         ("duplicate_json_key", '{"a":1,"a":2}'),
@@ -1499,11 +1508,11 @@ def adverse_rejections(fixture: Dict[str, Any]) -> List[Dict[str, Any]]:
         ("json_bom", '\ufeff{"a":1}'),
     )
     for case_id, text in json_cases:
-        before = object_digest({"valid_config": config})
+        probe = control_session.state_digest
         action = (lambda text=text: load_strict_json_object_text(text)
                   if case_id == "json_root_array"
                   else load_strict_json_text(text))
-        _run_rejection(records, case_id, before, action)
+        _run_rejection(records, case_id, probe, action)
 
     bad_configs = []
     for name, updates in (
@@ -1533,14 +1542,12 @@ def adverse_rejections(fixture: Dict[str, Any]) -> List[Dict[str, Any]]:
             candidate.update(updates)
         bad_configs.append((name, candidate))
     for case_id, candidate in bad_configs:
-        before = object_digest({"valid_config": config})
-        _run_rejection(records, case_id, before,
+        _run_rejection(records, case_id, control_session.state_digest,
                        lambda candidate=candidate: validate_config(candidate))
 
     session = AnalysisSession(default_config(), "adverse", 0)
     valid_frame = list(fixture["samples"][:FRAME_SAMPLES])
     session.process_frame(valid_frame)
-    frame_before = session.state_digest()
 
     frame_cases = (
         ("frame_missing_samples", valid_frame[:159], {}),
@@ -1571,20 +1578,18 @@ def adverse_rejections(fixture: Dict[str, Any]) -> List[Dict[str, Any]]:
         ("frame_sequence_backwards", valid_frame, {"sequence": 0}),
     )
     for case_id, samples, options in frame_cases:
-        _run_rejection(records, case_id, frame_before,
+        _run_rejection(records, case_id, session.state_digest,
                        lambda samples=samples, options=options:
                        session.process_frame(samples, **options))
 
     final_session = AnalysisSession(default_config(), "final", 0)
     final_session.process_frame(valid_frame[:137], is_final=True,
                                 valid_samples=137)
-    final_before = final_session.state_digest()
-    _run_rejection(records, "frame_after_final", final_before,
+    _run_rejection(records, "frame_after_final", final_session.state_digest,
                    lambda: final_session.process_frame(valid_frame,
                                                       is_final=True))
 
     manifest = _valid_manifest()
-    valid_before = object_digest(manifest)
     manifest_cases = (
         ("manifest_missing_hash", {"weights_sha256": "remove"}),
         ("manifest_bad_hash", {"weights_sha256": "zz"}),
@@ -1606,12 +1611,11 @@ def adverse_rejections(fixture: Dict[str, Any]) -> List[Dict[str, Any]]:
                 candidate.pop(key, None)
             else:
                 candidate[key] = value
-        _run_rejection(records, case_id, valid_before,
+        _run_rejection(records, case_id, session.state_digest,
                        lambda candidate=candidate:
                        validate_caller_manifest(candidate))
 
     event = _event_sample(session)
-    event_before = object_digest(event)
     event_cases = (
         ("event_bad_epoch", {"epoch": "0"}),
         ("event_bad_interval", {"source_end": 0}),
@@ -1626,29 +1630,29 @@ def adverse_rejections(fixture: Dict[str, Any]) -> List[Dict[str, Any]]:
     for case_id, updates in event_cases:
         candidate = dict(event)
         candidate.update(updates)
-        _run_rejection(records, case_id, event_before,
+        _run_rejection(records, case_id, session.state_digest,
                        lambda candidate=candidate: validate_event(candidate))
 
     reset_session = AnalysisSession(default_config(), "reset-adverse", 0)
-    reset_before = reset_session.state_digest()
     for case_id, epoch in (("reset_epoch_zero", 0),
                            ("reset_epoch_non_increasing", -1),
                            ("reset_epoch_bool", True)):
-        _run_rejection(records, case_id, reset_before,
+        _run_rejection(records, case_id, reset_session.state_digest,
                        lambda epoch=epoch: reset_session.reset(epoch))
 
     bus = EventBus(capacity=2)
-    bus_before = object_digest(bus.summary())
-    _run_rejection(records, "bus_epoch_zero", bus_before,
+    bus_probe = lambda: object_digest(bus.summary())
+    _run_rejection(records, "bus_epoch_zero", bus_probe,
                    lambda: bus.advance_epoch(0))
-    _run_rejection(records, "bus_epoch_bool", bus_before,
+    _run_rejection(records, "bus_epoch_bool", bus_probe,
                    lambda: bus.advance_epoch(True))
 
-    chunk_before = object_digest({"length": len(fixture["samples"])})
-    _run_rejection(records, "chunk_plan_length_mismatch", chunk_before,
+    _run_rejection(records, "chunk_plan_length_mismatch",
+                   control_session.state_digest,
                    lambda: run_stream(fixture["samples"],
                                       chunk_sizes=[160, 160]))
-    _run_rejection(records, "chunk_plan_zero", chunk_before,
+    _run_rejection(records, "chunk_plan_zero",
+                   control_session.state_digest,
                    lambda: run_stream(fixture["samples"],
                                       chunk_sizes=[0] * 260))
     return records

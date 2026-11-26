@@ -276,7 +276,43 @@ class RejectionTests(unittest.TestCase):
         for record in records:
             self.assertEqual(record["status"], "rejected")
             self.assertTrue(record["state_unchanged"], record["case_id"])
+            self.assertEqual(record["state_digest_before"],
+                             record["state_digest_after"], record["case_id"])
             self.assertTrue(record["code"])
+
+    def test_state_unchanged_is_measured_not_forced(self) -> None:
+        fixture = reference.build_fixture()
+        records = reference.adverse_rejections(fixture)
+        digests = {(record["state_digest_before"],
+                    record["state_digest_after"]) for record in records}
+        self.assertGreater(len(digests), 1)
+        for record in records:
+            measured = (record["state_digest_after"]
+                        == record["state_digest_before"])
+            self.assertEqual(record["state_unchanged"], measured,
+                             record["case_id"])
+
+    def test_mutation_probe_is_caught(self) -> None:
+        fixture = reference.build_fixture()
+        session = reference.AnalysisSession(
+            reference.default_config(), "mutation-probe", 0)
+        frame = list(fixture["samples"][:reference.FRAME_SAMPLES])
+        session.process_frame(frame)
+
+        def mutating_action() -> None:
+            session.process_frame(frame)
+            raise reference.ReferenceRejection("deliberate_probe")
+
+        records = []
+        reference._run_rejection(records, "mutation_probe",
+                                 session.state_digest, mutating_action)
+        self.assertEqual(len(records), 1)
+        record = records[0]
+        self.assertFalse(record["state_unchanged"])
+        self.assertNotEqual(record["state_digest_before"],
+                            record["state_digest_after"])
+        self.assertFalse(record["state_digest_before"]
+                         == record["state_digest_after"])
 
     def test_required_adverse_cases_present(self) -> None:
         records = reference.adverse_rejections(reference.build_fixture())
