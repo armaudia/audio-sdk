@@ -1,0 +1,43 @@
+# SHA-256 pins for SDK-ROSE-CD-EARS-REVERB-CONFIGURATION.
+# source: paths are workspace-relative; other external paths are SDK-worktree-relative.
+# Local paths are SDK-worktree-relative. Missing assets are ledger entries, not file pins.
+# The mutable full plan/swarm/TASKS.json is never pinned; only stable row identity is gated.
+988d1d87847910e13f65ce8e5380c3f76ed9f4be924789be6b9e80ab14719b72  source:adapters/rose-cd/README.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+1065d138be7bfe31684e9f1c0bf8446ce7178299a7681746c50d2315f96b0ebd  source:data/checkouts/ROSE-CD/LICENSE
+8ebab9ccee56cac770a3e36a4c8ade1b812a3f6b9736e093b5bf2a9596509fa3  source:data/checkouts/ROSE-CD/README.md
+815d6cec4ea0c9492db0b477af30397b92ce577f1823faf43b82d1e7acb2c22a  source:data/checkouts/ROSE-CD/config.json
+3e422ef8f5e8610def9ab59b530f1534cdad534b92b05d1fac946d08f81c069c  source:data/checkouts/ROSE-CD/scripts/eval_CT.sh
+fbe913c9fad0b68bebe29058a6943b8115d74dfa2532e7856d890cd87987eb0b  source:data/checkouts/ROSE-CD/sgmse/data_module.py
+092efb6e7da82d11c0afa555e5b124dd950e1216237e1c165a3aea8d4551ffd0  source:data/checkouts/ROSE-CD/sgmse/util/other.py
+6f0f1a07aeb7b865dce766576bcc99cb97a78120253b1f9e1e9618f964098468  source:research/dereverberation_candidates_20261028.md
+35f871e7d7362070c20fa35a5832115ea5388ffae550be3b25368a72bf5cebf4  source:research/noise_suppression_assets_20261027.json
+962bd5a8f75e64a7ba22bc51ff26cb5bdb648002544c87cacbef64dad62d723a  source:research/voice-enhancement-20261101/evaluation_records.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+b965bab19a48a82d9c5a67da88b781fa3215f3be4e298607d643445446127a61  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+ad9706a7eddb0d73945c9944cf4cca90c6e245d13ad5d23c567f64e9a648048f  docs/task-evidence/localvqe-dereverberation-probe/README.md
+8ce127dd2e3ac1982d0d6b7426facb2d5f4cbf26b937ae4ec5940301708ee9d8  docs/task-evidence/localvqe-dereverberation-probe/report.json
+a8d8c9face90e0ff6827331a12ba3ea7f7ebe2186b67df10d9813457fe286629  docs/task-evidence/rose-cd-one-step/README.md
+b27062d674d20673fb9b4b917fb323491b11965ada474246def23585ccd94e25  docs/task-evidence/rose-cd-one-step/report.json
+12922d21b8d90a3d6761c04c8ca8013ec42435d5a6b7331bc31a2c2d5c1e7dd4  docs/task-evidence/rose-cd-rms-matched/README.md
+bc40973710ccd9d5e462ce20ebc75027a93d4effe72ce8de4ce54885bf854b90  docs/task-evidence/rose-cd-rms-matched/report.json
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  scripts/ci.py
+5cc6b81c0f30a96dbf63bc9c95b1010ea7201ad098e5183a07b3f853257c9921  docs/task-evidence/rose-cd-ears-reverb-configuration/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/rose-cd-ears-reverb-configuration/contract.json.license
+154edb51cbf86fca4c5d4ad1af74edd09a79afb931a0900bbd6fb6036d5a58a9  docs/task-evidence/rose-cd-ears-reverb-configuration/reference.py
+da4f366871704cfb77e867e75266e2283eed08633525a4fe699077022f6e2201  docs/task-evidence/rose-cd-ears-reverb-configuration/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/rose-cd-ears-reverb-configuration/report.json.license
+50e22224e0573bda1e959a7d78301a10c8078d4110bb5f3c624c29c919d769e2  docs/task-evidence/rose-cd-ears-reverb-configuration/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/rose-cd-ears-reverb-configuration/report.json.sha256.license
+9418c5a6e52694c1c0cd53536bd32f46259db2726c23957247567078396f9e73  docs/task-evidence/rose-cd-ears-reverb-configuration/run.py
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/rose-cd-ears-reverb-configuration/SOURCES.sha256.license
+6356c94b7e412c7678513b74870c5cbf300f46de100983f47a850fa600656faa  docs/task-evidence/rose-cd-ears-reverb-configuration/test_reference.py
+bfec0bb77761a278227d3f2128dd7e8e2d8626f72418dbabb4dc6fa825a83abc  docs/task-evidence/rose-cd-ears-reverb-configuration/verify.py
