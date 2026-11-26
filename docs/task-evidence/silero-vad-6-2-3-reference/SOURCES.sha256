@@ -1,0 +1,31 @@
+# SHA-256 pins for SDK-SILERO-VAD-6-2-3-REFERENCE.
+# source: paths are relative to SOURCE_ROOT; worktree: paths are
+# relative to the SDK checkout; pkg: paths are relative to this
+# task-evidence directory. The mutable full plan/swarm/TASKS.json is
+# never hashed; only the linked-row stable identity is gated.
+
+294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d  source:REALTIME_COMPONENT_CANDIDATES.md
+45222fd98fe1bd76550d0529cdaa442783807a727880b168d7879eca4f54a60a  source:adapters/silero-vad/adapter.json
+9f51a7b06440d8f7d0518928a291657803af96a79c0277101e259f870fec05d3  source:adapters/silero-vad/run.py
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+6b14470521a1ba599f572e236eb96c877dfe5777341eb402b9224c3eb5feedbe  source:cpp-library/cmake/audio_enhance_models.json
+565d4330d625dd8eec9e607811df300749382feffc87ef54d5e4924e09448ad6  source:reports/vad-research/attempt-open-models-20261028-01/assessment.md
+83d639d188c37618b3db2ca19454714a3137f35faf1eac89fd7ac489636b0b28  source:reports/vad-research/attempt-silero-20261028-01/findings.md
+374784f6f1cea620f376da59691e4260aafc582e1203be4f98837752cfdf75ec  source:research/plans/F02/vad_sources.md
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  worktree:CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  worktree:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  worktree:api/include/audio_sdk/session_v0.h
+90b5cb35ce83428782b6901eaff8a479d2acdb49709a40b7fc0450e7ea9237b8  pkg:README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:SOURCES.sha256.license
+ee1afe06080241c5d96e35e5db633b64d0116997b1ea909bafa1b6d6c8dc92aa  pkg:contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:contract.json.license
+8c3488533e4d34b26f94c36480add8cffd13336382f33aa54e14eecee6600ef7  pkg:reference.py
+dac376c116b9734a63a9ee9931ccd11223bbda998503e8ff7bd2a00d7491a319  pkg:report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.license
+765bda356217fa56b9bca7f58c0cc6eb0864ddff45e9fb8e3678f92c449373a8  pkg:report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.sha256.license
+4b90166ab45c15c424daccf8dc9f053681209387f7ee71161ca713be73d9fbe8  pkg:run.py
+1a6855ebc59ff9fcb0903c3ef5bf59aa7a40b6c5ab82e1948e9cdc3d4cdfaa28  pkg:test_reference.py
+20df47464afa8133194bcf5e5e99265d99c17d8df2e477d0d4546e30dc4c74ae  pkg:verify.py
