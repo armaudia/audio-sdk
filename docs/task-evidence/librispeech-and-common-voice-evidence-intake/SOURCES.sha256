@@ -1,0 +1,29 @@
+# SHA-256 pins for SDK-LIBRISPEECH-AND-COMMON-VOICE-EVIDENCE-INTAKE task-local evidence; source: paths are workspace-relative, others SDK-worktree-relative.
+# The mutable full plan/swarm/TASKS.json is deliberately not pinned; only the stable linked-row identity is projected.
+# contract.json is excluded because it pins this manifest; no archive, audio, transcript, metadata, manifest, license text or rights artifact is present to pin.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+56f03609e57d3e95c8d1a9ae75a44d345b77e3c476da26a60770b7718f90c2f6  source:realtime-audio-library/docs/evaluation_plan.md
+de540032406b5ca50803d52ba7cf1630a1eb8dcdf8d050e4f351cabbadc29818  source:realtime-audio-library/docs/rights_clearance_inventory.md
+12b7c17d6ae969cb3e9697f3309667518048f27792b283178d326746e1bbfb81  source:realtime-audio-library/implementation_record.md
+a3802ae6ebee5d1ddb1e41154ca2de01c338445fcf6561d7a223663dd3741450  source:realtime-audio-library/research/holdout_speech_source_assessment_20261028.md
+7ffed4be0021bc3fd2b2816bc3db2ebac9333d9c6ff809e3e3695d6cc6af4185  .gitattributes
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  scripts/ci.py
+6bbc4ed095f641bdef6c99747ba4b5baa4968b1ec3c0a4515a5e062f570e9af1  docs/task-evidence/librispeech-and-common-voice-evidence-intake/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/librispeech-and-common-voice-evidence-intake/SOURCES.sha256.license
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/librispeech-and-common-voice-evidence-intake/contract.json.license
+b375658f2e0806a513ce17fc9fff12667797897b3bfaf496ab394b3ae147b457  docs/task-evidence/librispeech-and-common-voice-evidence-intake/reference.py
+0f91d4962ec3edfa0eb091a9143467b4c8f57414d5720c3ac45041d1d59743ab  docs/task-evidence/librispeech-and-common-voice-evidence-intake/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/librispeech-and-common-voice-evidence-intake/report.json.license
+9e95bdbafea63e8febd5ec13065cae614149124073868dee79c32d45fdb0e32f  docs/task-evidence/librispeech-and-common-voice-evidence-intake/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/librispeech-and-common-voice-evidence-intake/report.json.sha256.license
+5e4bc2ee532f7151bf1127706d235587f54eea24422665132ffa31d3280e2572  docs/task-evidence/librispeech-and-common-voice-evidence-intake/run.py
+e673725a13af1346bd5c07e3f0386a1275d0716606525c2bdb97d6417fa6be6c  docs/task-evidence/librispeech-and-common-voice-evidence-intake/test_reference.py
+c93f8bbf1a48c86baa62367c5609c5f4ee1b882d534ebc2ffc1d92ce977a733d  docs/task-evidence/librispeech-and-common-voice-evidence-intake/verify.py
