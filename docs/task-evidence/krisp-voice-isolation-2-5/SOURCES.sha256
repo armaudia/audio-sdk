@@ -1,0 +1,31 @@
+# SHA-256 pins for SDK-KRISP-VOICE-ISOLATION-2-5.
+# source: paths are relative to SOURCE_ROOT; worktree: paths are
+# relative to the SDK checkout; pkg: paths are relative to this
+# task-evidence directory. The mutable full plan/swarm/TASKS.json is
+# never hashed; only the linked-row stable identity is gated.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+7f3c80a2a9f266bbf112fb6ea89bda0bf9ccb1a9045e39cf42fdc5d49496a8e2  source:research/cpp-library-krisp-benchmark-20261109.md
+7ffed4be0021bc3fd2b2816bc3db2ebac9333d9c6ff809e3e3695d6cc6af4185  worktree:.gitattributes
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  worktree:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  worktree:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  worktree:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  worktree:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  worktree:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  worktree:api/include/audio_sdk/session_v0.h
+849c94de29e48599d98e0d47a5c718dfcfb7fac5acecc4e8e8b8ec7a510d2c25  pkg:LICENSES.md
+3ef1e5181c3bb094e1d05d50770d627ac19d076934ffd466058433aa5442f42d  pkg:README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:SOURCES.sha256.license
+6d9c5174281ffa4574392c05ae24312e85df0a517dfa908b68df85f882594f51  pkg:contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:contract.json.license
+107f6e75418694c2d938feffffedea1275da385620f2d135033c1709409b351b  pkg:reference.py
+149624c40dc41ed008040c4c70e3528b2d654befc0df202efebdac1d97323e46  pkg:report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.license
+cff0a9cbe284642a35b76c706e35e0f00a4fee42c5063f0bb8f7c2ed969d2f8d  pkg:report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.sha256.license
+e738c905ebe7282ee7ec5db689d88efac4ec48793cf1d99101727fbc2cd1d7d5  pkg:run.py
+28e27a2ea82acc914bbf6d7959d70b05f302d190dbe022402e7037001ae380fb  pkg:test_reference.py
+d6c6133e5e32883541860a8304d8639d4bbf51aa5e18807b8523445fb4807e03  pkg:verify.py
