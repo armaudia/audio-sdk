@@ -1,0 +1,27 @@
+# SHA-256 pins for SDK-NEURAL-KALMAN-FILTERING-NKF task-local evidence.
+# source: paths are relative to the pinned research workspace root.
+# sdk: paths are relative to this SDK worktree.
+# The mutable full plan/swarm/TASKS.json is never hashed; only the stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+e918f0fdb9e6ba5bd0e4dbdd89e14c693725ebf1917dd98b503b0027901e674a  docs/task-evidence/neural-kalman-filtering-nkf/LICENSES.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/neural-kalman-filtering-nkf/SOURCES.sha256.license
+79f4b0617797b853ee21a31b614d38cc9645fa7fc04df9daba62b6d6fe97694c  docs/task-evidence/neural-kalman-filtering-nkf/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/neural-kalman-filtering-nkf/contract.json.license
+3e6780123804fb80625de69c03a48338d688d4b47a8bc8b5e22d62bc0d7f8213  docs/task-evidence/neural-kalman-filtering-nkf/reference.py
+794b70f802ab51da7144c9a5b675aeb8d598015b0f73e7203cf735cccf34ce32  docs/task-evidence/neural-kalman-filtering-nkf/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/neural-kalman-filtering-nkf/report.json.license
+51f9cefaa7994a1b654eeb454a97e4d487340ce55af651673f84df9c103bba76  docs/task-evidence/neural-kalman-filtering-nkf/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/neural-kalman-filtering-nkf/report.json.sha256.license
+a22ac6077927817b8e6ce4fe87be7ff13579603979eb32e3a8a3946f66726e08  docs/task-evidence/neural-kalman-filtering-nkf/run.py
+2313d39b48d865b7c2941d3538cbf418fa1136bcca30171b4ab329c6824f494a  docs/task-evidence/neural-kalman-filtering-nkf/test_reference.py
+d74bc853813e66b3f561ad3d6471b2724312016331d3da4e0891751037fbb820  docs/task-evidence/neural-kalman-filtering-nkf/verify.py
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  sdk:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+dc733f29c999ed83d9b3a8c14b21df4abd6cfeecd6ba0c3b78e1c6f4d2218180  source:research/aec_research_20261028.md
+47b17e68a943e5fe3ee1568c81a84ea07eba040011e1d97df1ce61d8800c6b1c  source:research/feedback_control_20261028.md
