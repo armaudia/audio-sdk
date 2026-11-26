@@ -1,0 +1,35 @@
+# SHA-256 pins for SDK-TD-PSOLA evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# The mutable shared board is not pinned; only stable linked-row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d  source:REALTIME_COMPONENT_CANDIDATES.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+5154a8205516f145a719efc6f1598811f29c9df674b696ba25b78afa7af66130  source:audio-benchmark-platform/plan/INVENTORY.md
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3  source:cpp-library/pipeline-validation/playback-speed-candidates.md
+01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f  source:research/tsm-followup-20261101/README.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+3b7d11f0518af444c4ed7b96401cef4016e6af8a707685628d263a31f46c3864  bindings/python/audio_sdk/__init__.py
+e32610ecf0f3f611269ddebd009ff81ca09cc3b92206fe93c9a149b9960463b5  docs/provider-intake.md
+7e64ec614937533168ef31c34d4c8ec4aa7d6d52670e663f0f88ce5f4ec7a6ef  docs/task-evidence/psola-praat/README.md
+c8126e10ec682b6960bc379a2d5a5db9222abedcd37b6fe62d176c47e07de614  docs/task-evidence/psola-praat/report.json
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  scripts/ci.py
+400a0bedec3bd1345d6a9b7d3dc8980611cad8ece5fef655ac2b820cb557d160  docs/task-evidence/td-psola/LICENSES.md
+850f0999ba85b99894f00caa1bf013981178e29aa52e868cb290ce599f6f20d7  docs/task-evidence/td-psola/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/td-psola/SOURCES.sha256.license
+989c561f70a61279a919d17fe52e87dd664acb9540313203101531318426e115  docs/task-evidence/td-psola/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/td-psola/contract.json.license
+3e2e2a5732c93f204a06fbb4fd8bf926eff35482bc4e1207b876f48b779bbb87  docs/task-evidence/td-psola/reference.py
+8c840ef3a793fa651b2f66dc1bee1629e0e62ad03cfd2ded25fa22e7afc2b306  docs/task-evidence/td-psola/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/td-psola/report.json.license
+e9db63a748ed9e6be56ce419b926f4b9042e14d3c4d2c2824342d3606928738c  docs/task-evidence/td-psola/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/td-psola/report.json.sha256.license
+23cf6d3e3ca4b460470bd83ea286611fb45072d5557bda57ed45b1f66743bb48  docs/task-evidence/td-psola/run.py
+da01d24483738d26d7d3c1a4cafa4798ae5192d9c7fc98a8140c5011d02a794a  docs/task-evidence/td-psola/test_reference.py
+19f4aa21a6885981ead437d4920636808ecf21cfc3ca7d2b56e4f0070d21eeb6  docs/task-evidence/td-psola/verify.py
