@@ -224,7 +224,7 @@ The full mutable `TASKS.json` bytes are never hashed.
 | `report.json.sha256` | Digest of the committed `report.json`. |
 | `SOURCES.sha256` | Deterministic manifest of all pinned inputs and task-local artifacts. |
 | `test_reference.py` | Deterministic unittest checks (no skips, no network, no runtime). |
-| `verify.py` | Read-only verifier: profile phrases, pins, report bytes/digest, absence, gates, licensing, write scope, three cold-start regenerations. |
+| `verify.py` | Read-only verifier: profile phrases, pins, report bytes/digest, absence, gates, licensing, merge-base scope, three cold-start regenerations. |
 | `*.license` | REUSE sidecars for generated JSON/digest artifacts. |
 
 ## Reproduce
@@ -253,6 +253,13 @@ absent_source_weights_ok=1`; all unittest checks pass with 0 failed and 0
 skipped; REUSE reports no missing or bad license; `git diff --check` is clean.
 `verify.py` writes only to the current interpreter's subprocess pipes and never
 to this package.
+
+Scope verification compares the branch against the newest merge-base between
+`HEAD` and `origin/main` (falling back to `main`), not a fixed historical
+commit. Commits merged into `main` after this task therefore never count as
+this branch's out-of-scope edits. Any committed or uncommitted path outside
+`docs/task-evidence/dualvc-3/` still fails as `base_out_of_scope_change`, and
+an unresolvable base ref fails closed as `scope_base_unavailable`.
 
 Current counts: 10 source-path + 7 weight-path + 4 runtime-path probes (0
 present), 9,556 bounded name-search entries (0 DualVC matches), 3 Hugging Face
