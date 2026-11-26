@@ -1,0 +1,39 @@
+# SHA-256 pins for SDK-SOURCE-LOCALIZATION-DIRECTION-OF-ARRIVAL.
+# source: paths are workspace-relative; other external paths are SDK-worktree-relative.
+# Local paths are SDK-worktree-relative. Missing assets are ledger entries, not file pins.
+# The mutable full plan/swarm/TASKS.json is never pinned; only stable row identity is gated.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+e009dd94a26cbc3dca5bef8183fa4b0a55415449a2b4aab218189fab80ab2836  source:audio-benchmark-platform/plan/swarm/handoffs/SDK-SURVEY-CLN-08.md
+cdf1782853fde1291bb8fd3c64144b9e857939856f8caca1666d2d617845728c  source:research/category_registry.json
+61f95809f956537bea9b878cd544f8e997d6c13a24d2e9ea947795f653847b09  source:research/category_survey/search_log.jsonl
+9dc17cd557480b954af4d5d9cd24911423685ba23675f399500eb080315fac5d  source:research/category_survey/sources.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+b965bab19a48a82d9c5a67da88b781fa3215f3be4e298607d643445446127a61  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+514636b719e6579651bf941a6ac3cb93740cc9a40e3f2b4bcd39c2ddea610264  docs/task-evidence/3d-microphone-spatial-time-alignment/README.md
+5d3623c835a1b19d79867a64ba1b6dff18e8593918a8173cff91550c1c532f03  docs/task-evidence/3d-microphone-spatial-time-alignment/report.json
+0426a592204381138e7fa7ba04f37f4aff92eee6ac75b6bda31f0861c485e76f  docs/task-evidence/hush/README.md
+deaa6ff7bf89bb2727619e69cd41ce40b481ae7db93d25a007cb04b3a218cac4  docs/task-evidence/hush/report.json
+8aa8b92ec4a436aaced397913c45963ae4b95d10a798763062b9cafa53f250c9  docs/task-evidence/offline-multichannel-wpe/README.md
+4362c19cfd0633450af24bf9bc5124dbe2a90c9ad48164edf08b377c24ec8fba  docs/task-evidence/offline-multichannel-wpe/report.json
+33730b2bc2a34b05bb7392d8877c498a1b9112a2d41b9e83d31fa6853f8850e7  docs/task-evidence/survey-cln-08/README.md
+94c38bc39aacaa7f64b81fe02172e2ba167ac90b019974f6d581e39a1462c7a0  docs/task-evidence/survey-cln-08/SOURCES.sha256
+5d88cea01296895fd275d867cc80a67590187a9255125bbf947a38197cf89fbe  docs/task-evidence/survey-cln-08/report.json
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  scripts/ci.py
+e7f609dd4018635dc2cbdd4c5af4538a0cc1d6b42e9fdf1e2b79be0f00638c5f  docs/task-evidence/source-localization-direction-of-arrival/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/source-localization-direction-of-arrival/contract.json.license
+d984c5a72c30a112d9b279adf65bfa198dc1e6ef8f1d29e5d0d27c687f0528a9  docs/task-evidence/source-localization-direction-of-arrival/reference.py
+aac2aad0b803c0d37dcd4dde6b55c7f07ecbf0118b4d99f393a68c7b7a57395b  docs/task-evidence/source-localization-direction-of-arrival/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/source-localization-direction-of-arrival/report.json.license
+88f87d2de55f27bb91e4baa9f9dc1acc2b413a0308e8fbad770933e1e44b13f9  docs/task-evidence/source-localization-direction-of-arrival/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/source-localization-direction-of-arrival/report.json.sha256.license
+9418c5a6e52694c1c0cd53536bd32f46259db2726c23957247567078396f9e73  docs/task-evidence/source-localization-direction-of-arrival/run.py
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/source-localization-direction-of-arrival/SOURCES.sha256.license
+08b805e9db3e3edb7ff1f00c7aa5563e39f14abff520bdf1044f688c58a937c0  docs/task-evidence/source-localization-direction-of-arrival/test_reference.py
+97ab2828db6fe58964ba6fcdd5cf6b857c1a005bb90a7134b4c44992b586783d  docs/task-evidence/source-localization-direction-of-arrival/verify.py
