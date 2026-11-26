@@ -194,8 +194,12 @@ git diff --check
 
 `run.py report.json`, `run.py sources` and `run.py --check` are idempotent.
 `verify.py` runs three fresh interpreter regenerations in a private scratch
-directory and requires byte-identical report and sidecar output. When the
-package is copied out of the worktree, set `SDK_ROOT` to the SDK checkout and
+directory and requires byte-identical report and sidecar output. The scope gate
+diffs this branch against the newest merge-base with `origin/main` (falling back
+to `main`), so committed out-of-scope edits fail as
+`base_out_of_scope_change` while unrelated sibling packages added to `main`
+later do not; a missing base emits `scope_base_unavailable` instead of passing.
+When the package is copied out of the worktree, set `SDK_ROOT` to the SDK checkout and
 `SOURCE_ROOT` to the common workspace root. Any appearance of the vendor SDK,
 model bundle, entitlement, licence, consent, direction map, cohort, target
 reference or runtime makes `verify.py` fail closed so the blocker must be
