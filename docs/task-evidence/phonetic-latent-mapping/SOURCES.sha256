@@ -1,0 +1,32 @@
+# SHA-256 pins for SDK-PHONETIC-LATENT-MAPPING evidence.
+# source: paths are relative to AUDIO_ROOT; boundary: and sibling: paths are SDK-worktree relative.
+# The mutable full plan/swarm/TASKS.json is not pinned; only its stable linked-row projection is read and gated.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+479188be1a9c3cbc6d9a057f6e985e7ed03e454033cb3e8cab2f273da22abcd4  source:research/voice-enhancement-20261101/agent-transform-space/REPORT.md
+fa8033889de77bf0fa2dfd57f5df97fc96e149a6027febe3303b50ab1d70de5b  source:research/voice-enhancement-20261101/agent-transform-spatial-trials/REPORT.md
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  boundary:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  boundary:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  boundary:CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  boundary:README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  boundary:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  boundary:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  boundary:api/include/audio_sdk/session_v0.h
+fd208807348762a582a20f2a236fc6f56b5583953bff3845cd63f3f7ab4a17c1  sibling:docs/task-evidence/hubert-conversion-encoder/report.json
+0a661101a938600bf26a07b18b6ae0d1fa2c94e6db6394d169dc052b8b3d19ef  sibling:docs/task-evidence/seed-vc-xls-r-300m-content-encoder/report.json
+6cd151f2178d95d6e5c98b389a9b71f80097a01efaaa92a4450a7c26db1bcd13  sibling:docs/task-evidence/tokan/report.json
+454e252f530a614352e398722df0fde0a10ba5cff2b522bd85f9407b2955cef5  docs/task-evidence/phonetic-latent-mapping/README.md
+80190f95005841083894adcc3b836f18040c33490681bf38e6ca47709dfd8e98  docs/task-evidence/phonetic-latent-mapping/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/phonetic-latent-mapping/contract.json.license
+ab8d7033593897f200bdb494303e837c7093263dcc86dbce516bb8509e287bdb  docs/task-evidence/phonetic-latent-mapping/reference.py
+7703ff1faa352d3efde034b62ef85835fbd9032cb925eec904a95ea76aa6e6b1  docs/task-evidence/phonetic-latent-mapping/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/phonetic-latent-mapping/report.json.license
+3d34411ac4764b2d6285354d787833e4ab84b32d8e729918a47ccda4d8d952ab  docs/task-evidence/phonetic-latent-mapping/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/phonetic-latent-mapping/report.json.sha256.license
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/phonetic-latent-mapping/SOURCES.sha256.license
+62b0cddbf943a64f5510bf5a369a8ca81c1ff928793e9e5c8593492f1d91c69d  docs/task-evidence/phonetic-latent-mapping/test_reference.py
+36f1a166f73770fad4ad536cb2028f71f385aeaaa2fb16a0f050804af776b56b  docs/task-evidence/phonetic-latent-mapping/verify.py
+398587542c772f71d406f3ac5e32231be097142935e724bfa05dd7a5fde8c8b9  docs/task-evidence/phonetic-latent-mapping/run.py
