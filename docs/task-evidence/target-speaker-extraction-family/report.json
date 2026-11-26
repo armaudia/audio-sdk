@@ -1,0 +1,667 @@
+{
+  "acceptance_profile": {
+    "blocked_cases": [
+      "no exact source/checkpoint/runtime/cue protocol or rights-cleared enrolled corpus present",
+      "no target-selected waveform output from a real candidate",
+      "no target preservation, off-target suppression, target-absent false rejection, or listening score",
+      "no measured array geometry, reference timing, room movement, or channel-loss condition",
+      "no independent device timing, memory, or deadline measurement"
+    ],
+    "mapped_cases": [
+      "frozen synthetic 3-channel mixture with target, overlap, masker-only and tail strata",
+      "declared probe channel count, rate, hop and fixed probe delay",
+      "multichannel input validation and mono rejection",
+      "target-absent surrogate suppression behavior recorded as surrogate-only",
+      "delay mapping and partial-tail preservation",
+      "offline/streaming parity across arbitrary chunk sizes",
+      "reset schedule and stale-epoch rejection",
+      "finite, clipping and silence-exactness bounds",
+      "fail-closed caller-asset, config and frame controls"
+    ],
+    "name": "spatial",
+    "not_applicable": [
+      "no real candidate artifact exists to evaluate",
+      "surrogate is not a target-speaker extractor and has no enrollment/model/runtime",
+      "no real room, array, listener, or rights-cleared corpus is available"
+    ],
+    "source": "audio-benchmark-platform/plan/swarm/VERIFICATION.md"
+  },
+  "asset_pins": {
+    "asset:enrollment_cue": {
+      "admitted": false,
+      "executed": false,
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "no_asset_present",
+      "present": false
+    },
+    "asset:runtime": {
+      "admitted": false,
+      "executed": false,
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "no_asset_present",
+      "present": false
+    },
+    "asset:source_checkout": {
+      "executed": false,
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "no_asset_present",
+      "present": false
+    },
+    "asset:weights": {
+      "executed": false,
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "no_asset_present",
+      "present": false
+    }
+  },
+  "base_commit": "26bc48c58f9d69571571fa651862dcbe0fe1172d",
+  "board_row": {
+    "full_tasks_json_hashed": false,
+    "stable_fields": {
+      "component": "target-speaker-extraction-family",
+      "depends_on": [
+        "SDK-FND-AUDIT",
+        "SDK-FND-EVIDENCE",
+        "SDK-FND-PROVIDER"
+      ],
+      "id": "SDK-TARGET-SPEAKER-EXTRACTION-FAMILY",
+      "mode": "feasibility",
+      "repository": "audio-sdk",
+      "title": "Target-speaker extraction family"
+    },
+    "stable_sha256": "18978b7767cf14f122eaf16997169b0e17dba103a822eaac17c31feeafff0e7b"
+  },
+  "boundary": {
+    "adapter_json_added": false,
+    "asset_bundled": false,
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "onnxruntime_invoked": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "readiness_json_added": false,
+    "registered": false,
+    "sdk_data_dir_added": false,
+    "shared_build_or_ci_change": false,
+    "weights_vendored": false
+  },
+  "branch": "swarm/SDK-TARGET-SPEAKER-EXTRACTION-FAMILY",
+  "caller_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/target-speaker-extraction-family/caller-supplied-asset/0.1",
+    "multichannel_required": true,
+    "present_behavior": "validate_hash_geometry_and_identity_only; do_not_load_or_execute_in_this_package",
+    "required_fields": [
+      "algorithmic_latency_samples",
+      "channels",
+      "cue_kind",
+      "enrollment_path",
+      "enrollment_sha256",
+      "frame_samples",
+      "input_format",
+      "model_id",
+      "runtime_path",
+      "runtime_sha256",
+      "sample_rate_hz",
+      "source_commit",
+      "source_path",
+      "weights_path",
+      "weights_sha256"
+    ],
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "source/enrollment/weights/runtime paths are caller-owned absolute files",
+      "enrollment, weights and runtime SHA-256 match the manifest",
+      "source_commit is 40-hex but cannot be admitted because no upstream revision is pinned",
+      "channels >= 2, sample_rate/frame/latency positive, format float32",
+      "cue_kind is one of enrollment_audio, spatial_direction, visual_reference",
+      "no download, copy, import, load or execution occurs here"
+    ]
+  },
+  "claim": {
+    "base_commit": "26bc48c58f9d69571571fa651862dcbe0fe1172d",
+    "branch": "swarm/SDK-TARGET-SPEAKER-EXTRACTION-FAMILY",
+    "reviewer": "reviewer-TARGET-SPEAKER-EXTRACTION-FAMILY",
+    "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-TARGET-SPEAKER-EXTRACTION-FAMILY"
+  },
+  "component_id": "target-speaker-extraction-family",
+  "contract_sha256": "3e54da2487c649383ec3dde85d1910b0bae210f8c5f8810e1d78c3e90a5283e8",
+  "controls": {
+    "asset": {
+      "generic_admission": {
+        "accepted": true,
+        "executed": false,
+        "imported": false,
+        "loaded": false,
+        "multichannel": true,
+        "pinned_asset": false,
+        "validated": true
+      },
+      "pinned_identity_rejected": "upstream_source_checkpoint_not_established",
+      "rejected_all": true,
+      "rejections": {
+        "absent_source": "asset_file_missing:source_path",
+        "bad_cue": "asset_cue_kind_invalid",
+        "bad_hash": "asset_weights_hash_mismatch",
+        "bool_channels": "asset_type:channels",
+        "extra_field": "asset_field_set_mismatch",
+        "format": "asset_format_mismatch",
+        "missing_field": "asset_field_set_mismatch",
+        "mono": "asset_channels_not_multichannel",
+        "negative_latency": "asset_latency_negative",
+        "pinned_placeholder": "upstream_source_checkpoint_not_established",
+        "relative_path": "asset_path_not_absolute:source_path",
+        "short_commit": "asset_source_commit_not_hex",
+        "zero_rate": "asset_sample_rate_not_positive"
+      }
+    },
+    "config": {
+      "baseline_digest": "55bf044632abd24ce833c081b7d7e2b04f037e6f380bd62e345d0162da0dd0d3",
+      "rejected_all": true,
+      "rejections": {
+        "bool_epoch": "invalid_epoch",
+        "channels_mono": "config_mismatch:channels",
+        "cue_kind": "config_mismatch:cue_kind",
+        "enrollment_conditioned": "config_mismatch:enrollment_conditioned",
+        "extra": "config_key_set_mismatch",
+        "format": "config_mismatch:input_format",
+        "frame": "config_mismatch:frame_samples",
+        "latency": "config_mismatch:algorithmic_latency_samples",
+        "missing": "config_key_set_mismatch",
+        "model_used": "config_mismatch:model_used",
+        "negative_epoch": "invalid_epoch",
+        "real_runtime": "config_mismatch:real_runtime",
+        "sample_rate": "config_mismatch:sample_rate_hz",
+        "surrogate_false": "config_mismatch:surrogate"
+      }
+    },
+    "delay": {
+      "declared_latency_samples": 256,
+      "expected_output_index": 2256,
+      "matches": true,
+      "observed_output_index": 2256,
+      "peak_value": 0.384615385
+    },
+    "frame": {
+      "accepted_after_rejections": true,
+      "accepted_output_length": 256,
+      "counter_after_accept": 256,
+      "rejected_all": true,
+      "rejections": {
+        "bool": "mic_type",
+        "empty_final": "mic_length",
+        "inf": "mic_nonfinite",
+        "long_nonfinal": "mic_length",
+        "mono": "mic_channels_mismatch",
+        "nan": "mic_nonfinite",
+        "none": "mic_type",
+        "partial_nonfinal": "mic_length",
+        "ragged": "mic_length",
+        "range": "mic_range",
+        "short_final": "mic_length",
+        "string": "mic_not_sequence"
+      },
+      "tail_valid": 256
+    },
+    "multichannel": {
+      "finite": true,
+      "mono_rejected": true,
+      "other_channels_change_output": true,
+      "per_channel_geometry": 3
+    },
+    "nonfinite_counter": {
+      "accepted_counter_unchanged": true,
+      "counted_as_silence": false,
+      "reason": "mic_nonfinite",
+      "state_digest_unchanged": true
+    },
+    "partial_tail": {
+      "length_preserved": true,
+      "prefix_matches_full": true,
+      "tail_valid": 232
+    },
+    "reset": {
+      "epoch_rejections": {
+        "lower": "epoch_not_greater",
+        "same": "epoch_not_greater"
+      },
+      "fresh_matches_reset": true,
+      "higher_epoch_accepted": true,
+      "reset_digest": "3e77c86c6569b89236bdd34a44b761d8f8d3f1cc732b301d747379952c59c3e1",
+      "stale_digest_unchanged": true
+    },
+    "silence": {
+      "exact_zero": true,
+      "finite": true,
+      "length": 512
+    },
+    "streaming_parity": {
+      "all_identical": true,
+      "chunks": {
+        "137": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "160": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "256": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "320": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "480": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "641": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "800": {
+          "byte_identical": true,
+          "tail_valid": 256
+        }
+      },
+      "reference_tail_valid": 256
+    }
+  },
+  "decision": "DEFER",
+  "defer_before": "source_checkpoint_runtime_rights_and_evidence_admission",
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    {
+      "id": "source_checkpoint_absent",
+      "requirement": "Pin an exact licensed target-speaker extraction source, checkpoint/weights, enrollment/reference-cue contract and immutable revision.",
+      "state": "Candidate matrix and inventory record no selected extraction model, no deployable checkpoint, no runtime, and no reference encoder/weights identity. No source or checkpoint is present or fabricated."
+    },
+    {
+      "id": "rights_unresolved",
+      "requirement": "Resolve source/checkpoint/runtime/corpus/derivative-output rights and redistribution/product-use terms.",
+      "state": "No rights bundle or terms review is present for this family-level blocker package; nothing is bundled or redistributed."
+    },
+    {
+      "id": "enrollment_protocol_missing",
+      "requirement": "Freeze enrollment/spatial/visual cue protocol with exact cue identity, reference timing, unknown/target-absent handling and consent.",
+      "state": "No enrolled speaker, reference utterance, spatial cue, visual cue, or target-absent protocol is staged."
+    },
+    {
+      "id": "corpus_missing",
+      "requirement": "Provide rights-cleared overlap mixtures with clean target references, target-absent negatives, and speaker/session/group-disjoint splits.",
+      "state": "No enrolled-speaker extraction corpus, clean target references, or target-absent negatives exist in this package."
+    },
+    {
+      "id": "runtime_geometry_unverified",
+      "requirement": "Pin exact channel/layout/reference timing, sample rate, hop, latency/lookahead, and deterministic streaming runtime.",
+      "state": "Upstream geometry/runtime are not verified. Harness uses probe-only 3ch/16k/256 sample geometry; it is not an upstream claim."
+    },
+    {
+      "id": "evidence_absent",
+      "requirement": "Run independent target preservation/off-target suppression/target-absent false-rejection scoring, listening where authorized, and target-device timing.",
+      "state": "No candidate output, scorer result, listening, device timing, or opt-in provider intake exists. Surrogate observations cannot qualify."
+    }
+  ],
+  "fixture": {
+    "channels": 3,
+    "component_digests": {
+      "masker": "641c175d5fbb59f8afe86ed5828fd0101cd8bf9b4b81038d862f062b3242f990",
+      "mixture": "ad9222e06f1a1d22bf0427bd53e2e740361a32eabe7ece833cd65ff9cae72775",
+      "target": "a4cb4c78a25f45e59b97933f35422b0c8c868b90f91b676d3511df4445415cfc"
+    },
+    "delay_samples": 256,
+    "fixture_id": "target-speaker-extraction-family-multichannel-probe-v1",
+    "masker_taps": [
+      [
+        [
+          24,
+          820
+        ],
+        [
+          72,
+          220
+        ],
+        [
+          128,
+          120
+        ]
+      ],
+      [
+        [
+          12,
+          860
+        ],
+        [
+          60,
+          210
+        ],
+        [
+          116,
+          110
+        ]
+      ],
+      [
+        [
+          20,
+          840
+        ],
+        [
+          68,
+          215
+        ],
+        [
+          124,
+          115
+        ]
+      ]
+    ],
+    "sample_rate_hz": 16000,
+    "segments": [
+      {
+        "end_frame": 20,
+        "id": "silence-a",
+        "kind": "silence",
+        "start_frame": 0
+      },
+      {
+        "amplitudes": [
+          420,
+          220,
+          130
+        ],
+        "end_frame": 50,
+        "id": "target-speech",
+        "kind": "target",
+        "start_frame": 20,
+        "steps": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "amplitudes": [
+          400,
+          210,
+          120
+        ],
+        "end_frame": 80,
+        "id": "overlap",
+        "kind": "overlap",
+        "masker_amplitudes": [
+          360,
+          240,
+          150
+        ],
+        "masker_steps": [
+          3,
+          5,
+          8
+        ],
+        "start_frame": 50,
+        "steps": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "end_frame": 100,
+        "id": "target-absent-masker",
+        "kind": "masker",
+        "masker_amplitudes": [
+          390,
+          260,
+          160
+        ],
+        "masker_steps": [
+          2,
+          4,
+          7
+        ],
+        "start_frame": 80
+      },
+      {
+        "end_frame": 120,
+        "id": "tail",
+        "kind": "silence",
+        "start_frame": 100
+      }
+    ],
+    "spec_digest": "32d9bf55fbf59113abfdadc652fc7f07d6eadf96ee2fb6c2805910813c6882fd",
+    "target_taps": [
+      [
+        [
+          0,
+          900
+        ],
+        [
+          16,
+          180
+        ],
+        [
+          48,
+          90
+        ]
+      ],
+      [
+        [
+          8,
+          860
+        ],
+        [
+          24,
+          170
+        ],
+        [
+          56,
+          84
+        ]
+      ],
+      [
+        [
+          4,
+          880
+        ],
+        [
+          20,
+          175
+        ],
+        [
+          52,
+          87
+        ]
+      ]
+    ],
+    "total_frames": 120,
+    "total_samples": 30720
+  },
+  "format": {
+    "probe_channels": 3,
+    "probe_frame_samples": 256,
+    "probe_geometry_scope": "probe_only",
+    "probe_latency_samples": 256,
+    "probe_sample_format": "float32",
+    "probe_sample_rate_hz": 16000,
+    "sdk_v0_channels": 1,
+    "sdk_v0_frame_samples": 160,
+    "sdk_v0_geometry_preserved": true,
+    "sdk_v0_sample_format": "f32",
+    "sdk_v0_sample_rate_hz": 16000,
+    "upstream_geometry_verified": false,
+    "window_frames": 120,
+    "window_samples": 30720
+  },
+  "gates": [
+    {
+      "id": "exact_source_checkpoint_and_license",
+      "qualifies": false,
+      "requirement": "Exact source revision, checkpoint/weights identity, license and notice bundle are pinned and reviewed.",
+      "status": "blocked"
+    },
+    {
+      "id": "rights_cleared_enrolled_corpus",
+      "qualifies": false,
+      "requirement": "Rights-cleared enrolled-speaker mixtures with clean target references and target-absent negatives are frozen.",
+      "status": "blocked"
+    },
+    {
+      "id": "cue_protocol_and_geometry",
+      "qualifies": false,
+      "requirement": "Enrollment/spatial/visual cue protocol and any required array geometry/reference timing are exact and verified.",
+      "status": "blocked"
+    },
+    {
+      "id": "exact_runtime_and_determinism",
+      "qualifies": false,
+      "requirement": "Pinned offline/runtime executes deterministically with exact frame/latency/reset/state behavior.",
+      "status": "blocked"
+    },
+    {
+      "id": "target_preservation_and_leakage_scoring",
+      "qualifies": false,
+      "requirement": "Independent target preservation, off-target suppression, target-absent false rejection and uncertainty are measured.",
+      "status": "blocked"
+    },
+    {
+      "id": "adverse_missing_invalid_nonfinite_controls",
+      "qualifies": false,
+      "requirement": "Missing cue, invalid geometry, nonfinite, target-absent, and overlap controls fail closed.",
+      "status": "blocked"
+    },
+    {
+      "id": "target_runtime_timing_and_memory",
+      "qualifies": false,
+      "requirement": "Target-device p50/p95/p99, RTF, memory and deadline behavior are measured for the exact runtime.",
+      "status": "blocked"
+    },
+    {
+      "id": "opt_in_provider_intake_and_release",
+      "qualifies": false,
+      "requirement": "OFF-by-default opt-in provider intake, independent review and explicit release approval are complete.",
+      "status": "blocked"
+    }
+  ],
+  "metrics": {
+    "candidate_result": false,
+    "channels": 3,
+    "declared_latency_samples": 256,
+    "max_abs_output": 0.51662569,
+    "multichannel_geometry_exercised": true,
+    "nonfinite_output_samples": 0,
+    "output_peak_clipped_samples": 0,
+    "scored_samples": 30464,
+    "silence_exact_zero": true,
+    "surrogate_only": true
+  },
+  "missing_results": [
+    "exact source revision and license",
+    "exact checkpoint/weights and enrollment/reference cue identity",
+    "pinned offline runtime and deterministic load",
+    "rights-cleared enrolled-speaker overlap corpus with clean target references and target-absent negatives",
+    "exact cue protocol, geometry and algorithmic latency",
+    "target preservation, off-target suppression and target-absent false-rejection scores",
+    "listening/ASR evidence where authorized",
+    "target-device timing, memory and deadline evidence",
+    "opt-in provider intake and default decision"
+  ],
+  "negative_claims": [
+    "No target-speaker extraction model, checkpoint, weight, runtime, or enrollment cue was used.",
+    "No target-preservation, leakage, listening, ASR, timing, benchmark, or release result is claimed.",
+    "The synthetic boundary surrogate is not a target-speaker extractor and cannot qualify the candidate.",
+    "Probe-only 3ch/16k/256-sample geometry is not upstream geometry.",
+    "No real corpus, speaker identity, consented enrollment, array recording, or device clock was used.",
+    "No provider/descriptor/registry/default/public ABI/shared build/dependency lock/CI change was made.",
+    "A caller-owned hash-matched placeholder is never admitted as a pinned candidate asset."
+  ],
+  "no_missing_result_qualifies_candidate": true,
+  "profile": "spatial",
+  "proposal_only": true,
+  "qualification": {
+    "all_release_gates_blocked": true,
+    "checkpoints_present": false,
+    "exact_result_present": false,
+    "missing_result_promoted": false,
+    "not_qualified": true,
+    "provider_intake_present": false,
+    "quality_result_present": false,
+    "readiness": "incomplete",
+    "release_claim": false,
+    "runtime_present": false,
+    "source_licensed": false,
+    "source_present": false,
+    "status": "not_qualified",
+    "timing_result_present": false
+  },
+  "qualification_status": "not_qualified",
+  "reopen_condition": "Supply exact licensed source/checkpoint/runtime, cue protocol and rights-cleared enrolled corpus with target-absent negatives; reproduce exact outputs; score target preservation/leakage/false rejection; measure target-device timing; complete OFF-by-default opt-in provider intake. Until then DEFER/incomplete/not_qualified.",
+  "scenario": {
+    "channels_required": ">=2",
+    "id": "target-speaker-extraction-family-multichannel-blocker-v1",
+    "is_aec": false,
+    "is_mono_baseline": false,
+    "note": "Family-level target-speaker extraction is conditional on a target cue and may require multichannel/spatial context; no far-end AEC reference is part of this scenario.",
+    "task_geometry": "cue-conditioned target-speaker extraction with target-absent suppression",
+    "upstream_geometry_verified": false
+  },
+  "schema_id": "audio-sdk/task-evidence/target-speaker-extraction-family/report/0.1",
+  "scope": {
+    "benchmark_run": false,
+    "device_timing_measured": false,
+    "downloaded": false,
+    "implementation_added": false,
+    "listening_performed": false,
+    "network_used": false,
+    "provider_registered": false,
+    "public_abi_changed": false,
+    "real_assets_used": false,
+    "registry_or_default_changed": false,
+    "release_claim": false,
+    "runtime_executed": false,
+    "shared_build_or_ci_changed": false,
+    "source_imported": false,
+    "task_local_only": true,
+    "weights_loaded": false,
+    "write_scope": "docs/task-evidence/target-speaker-extraction-family only"
+  },
+  "status": "proposal_only_blocked_incomplete",
+  "surrogate": {
+    "candidate_result": false,
+    "delay_samples": 256,
+    "is_target_speaker_extractor": false,
+    "model_free": true,
+    "note": "Deterministic synthetic boundary surrogate only; not enrollment-conditioned extraction and cannot qualify the candidate.",
+    "type": "fixed multichannel cue-gated suppression surrogate"
+  },
+  "task_id": "SDK-TARGET-SPEAKER-EXTRACTION-FAMILY",
+  "title": "Target-speaker extraction family",
+  "upstream": {
+    "checkpoint_identity": null,
+    "checkpoint_identity_status": "not_recorded",
+    "commit": null,
+    "commit_status": "not_recorded",
+    "geometry_status": "unverified",
+    "license": null,
+    "license_status": "not_established",
+    "note": "Candidate matrix/inventory identify a family-level blocked row with no selected model, no checkpoint/runtime identity, and no rights-cleared enrolled corpus.",
+    "repository": null,
+    "source_present": false
+  }
+}
