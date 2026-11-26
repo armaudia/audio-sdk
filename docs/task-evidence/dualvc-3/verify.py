@@ -3,7 +3,7 @@
 """Strict read-only verifier for the SDK-DUALVC-3 evidence package.
 
 It checks strict JSON, canonical bytes, exact pins, blocker semantics, stable
-linked-row identity, licensing, prohibited artifacts, task-local git scope and
+linked-row identity, licensing, prohibited artifacts, merge-base git scope and
 three cold-start byte-identical regenerations. It never writes package evidence.
 """
 
@@ -18,6 +18,8 @@ import re
 import subprocess
 import sys
 from typing import Any, Dict, List, Tuple
+
+import reference
 
 HERE = Path(__file__).resolve().parent
 SDK_ROOT = HERE.parents[2]
@@ -605,8 +607,8 @@ def check_cold_starts(problems: List[str]) -> int:
 
 def check_git_scope(problems: List[str]) -> None:
     process = subprocess.run(
-        ["git", "status", "--porcelain"], cwd=str(SDK_ROOT),
-        capture_output=True, text=True, check=False)
+        ["git", "status", "--porcelain=v1", "--untracked-files=all"],
+        cwd=str(SDK_ROOT), capture_output=True, text=True, check=False)
     if process.returncode != 0:
         problems.append("git status failed in the SDK worktree")
         return
@@ -616,8 +618,21 @@ def check_git_scope(problems: List[str]) -> None:
         path = line[3:].strip()
         if " -> " in path:
             path = path.split(" -> ", 1)[1]
+        if not path:
+            continue
         check(path.startswith(TASK_PREFIX),
               "change outside task-local scope: " + path, problems)
+    base = reference.scope_base(SDK_ROOT)
+    if base is None:
+        problems.append("scope_base_unavailable")
+        return
+    try:
+        paths = reference.scope_changed_paths(SDK_ROOT, base)
+    except ValueError as error:
+        problems.append(str(error))
+        return
+    for path in reference.scope_violations(paths):
+        problems.append("base_out_of_scope_change: " + path)
 
 
 def main() -> int:
