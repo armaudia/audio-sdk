@@ -27,7 +27,8 @@ REPORT = HERE / "report.json"
 SIDECAR = HERE / "report.json.sha256"
 PINS = HERE / "SOURCES.sha256"
 
-SPDX_LICENSE = "SPDX-License-Identifier: Apache-2.0"
+SPDX_LICENSE = "SPDX-" "License-Identifier: Apache-2.0"
+SPDX_TAG = "SPDX-" "License-Identifier:"
 SPDX_COPYRIGHT = "SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes"
 SIDECAR_TEXT = SPDX_COPYRIGHT + "\n" + SPDX_LICENSE + "\n"
 
@@ -463,6 +464,11 @@ def check_licensing(errors: list[str]) -> None:
         head = "\n".join(text.splitlines()[:5])
         if SPDX_COPYRIGHT not in head or SPDX_LICENSE not in head:
             errors.append("missing inline SPDX header: " + name)
+        for number, line in enumerate(text.splitlines(), start=1):
+            if number > 2 and SPDX_TAG in line:
+                errors.append(
+                    "inline SPDX expression must not appear in a literal: "
+                    "%s:%d" % (name, number))
         _check_imports(errors, HERE / name)
     for path in HERE.iterdir():
         if path.is_file() and path.suffix in {
@@ -488,6 +494,17 @@ def check_licensing(errors: list[str]) -> None:
                 errors.append("carriage return: %s:%d" % (name, number))
 
 
+def _branch_base() -> str:
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(SDK_ROOT), "merge-base", "HEAD", "origin/main"],
+            check=True, capture_output=True, text=True)
+    except (OSError, subprocess.CalledProcessError):
+        return reference.BASE_COMMIT
+    base = result.stdout.strip()
+    return base or reference.BASE_COMMIT
+
+
 def check_scope(errors: list[str]) -> None:
     try:
         status = subprocess.run(
@@ -505,14 +522,15 @@ def check_scope(errors: list[str]) -> None:
             path = path.split(" -> ", 1)[1]
         if not path.startswith(reference.TASK_PREFIX):
             errors.append("change outside task scope: " + path)
+    base = _branch_base()
     try:
         diff = subprocess.run(
             ["git", "-C", str(SDK_ROOT), "diff", "--name-only",
-             reference.BASE_COMMIT, "--"],
+             base, "--"],
             check=True, capture_output=True, text=True).stdout
         staged = subprocess.run(
             ["git", "-C", str(SDK_ROOT), "diff", "--cached", "--name-only",
-             reference.BASE_COMMIT, "--"],
+             base, "--"],
             check=True, capture_output=True, text=True).stdout
     except (OSError, subprocess.CalledProcessError) as error:
         errors.append("git diff failed: " + str(error))

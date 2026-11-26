@@ -18,6 +18,8 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import reference  # noqa: E402
 
+SPDX_LICENSE = "SPDX-" "License-Identifier: Apache-2.0"
+
 
 class StrictJsonTests(unittest.TestCase):
     def test_rejects_duplicate_keys(self) -> None:
@@ -364,7 +366,7 @@ class CommittedArtifactTests(unittest.TestCase):
     def test_spdx_sidecars_and_headers(self) -> None:
         expected = (
             "SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes\n"
-            "SPDX-License-Identifier: Apache-2.0\n")
+            + SPDX_LICENSE + "\n")
         for name in ("contract.json.license", "report.json.license",
                      "report.json.sha256.license",
                      "SOURCES.sha256.license"):
@@ -374,7 +376,7 @@ class CommittedArtifactTests(unittest.TestCase):
                      "test_reference.py"):
             head = "\n".join((HERE / name).read_text(
                 encoding="utf-8").splitlines()[:5])
-            self.assertIn("SPDX-License-Identifier: Apache-2.0", head)
+            self.assertIn(SPDX_LICENSE, head)
             self.assertIn("SPDX-FileCopyrightText: 2026", head)
 
     def test_json_artifacts_are_strict(self) -> None:
