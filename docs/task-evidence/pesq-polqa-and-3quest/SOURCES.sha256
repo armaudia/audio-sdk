@@ -1,0 +1,31 @@
+# SHA-256 pins for SDK-PESQ-POLQA-AND-3QUEST.
+# source: paths relative to SOURCE_ROOT; worktree: relative to SDK checkout;
+# pkg: paths relative to this task-evidence directory.
+# The mutable full plan/swarm/TASKS.json is never hashed; only stable linked-row identity is gated.
+
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+fa98caa89be8c19234d719a5ba04147960fe03723ae4397dbd09ead52765be6e  source:realtime-audio-library/evaluation/dns2020_noreverb_speexns_stoi_pesq_summary_20261029.json
+d1a4edbf72257ebb989d9639e542cf2c50152e323dc9081f2af868708064a3e7  source:research/cpp-lib-market-benchmark-20261109.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  worktree:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  worktree:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  worktree:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  worktree:api/include/audio_sdk/session_v0.h
+eb7d069cc402aa37210dd2ebd43e45e840bc600693a947684e5341eb28fbd579  worktree:docs/task-evidence/dnsmos-p-835-and-dnsmos-c/README.md
+77ad10fae3e41a06adad6cee377616c73dd8d7d458a76c9297aa55d837afcbe5  worktree:docs/task-evidence/quality-impairment-taxonomy/README.md
+16bc05e63afdb209ba2a9657b7977c29f7d15f9eb3d6e8d24e316b3d2ef671a3  worktree:docs/task-evidence/si-sdr-sdr-and-snr/README.md
+aa42da4c71b6eee281fca1ccc52f394c32d85cb2c65e31d1bc0a814a7726f7f5  worktree:docs/task-evidence/stoi-estoi/contract.json
+b3db7bfe14b981b4b78e33e09dd9d7392c6ba5fe109b02763d298128baccf716  pkg:README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:SOURCES.sha256.license
+783b354a4a85f8224e31a255a3f948f78dc204bec2dd0e8a69ebaf558415feab  pkg:contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:contract.json.license
+a5a2fd4cc418983819dcdc86ae04de0081751c7a50e33195c868854d22e9e13a  pkg:reference.py
+fcb4b471beb3b20166a99b157ad1a8e0ee55fe001e086ddacd31cd8e8b308f15  pkg:report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.license
+9c7ed46e6a3ad3bb3c6aa7a8761c25a7cf04c8ee321d57f68a0dfc10af67a4e7  pkg:report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.sha256.license
+240678175c901549d14f3c4e5764a548dd766981248fcd0136856af1ae228f4a  pkg:run.py
+02dd93fdf8baa4b7600d169d0aefc63241da11943db021c331362d115a333566  pkg:test_reference.py
+853ca17d525834a92ec1bdfbc856c4c1d33dfb883f473be30042334f63e49a2a  pkg:verify.py
