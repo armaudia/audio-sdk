@@ -1,0 +1,351 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "asset_requirements": [
+    {
+      "bytes": null,
+      "id": "official_source_archive",
+      "path": "data/checkouts/SAIL-speechrate.zip",
+      "required": true,
+      "sha256": "9b08e76ee826dfcb351f4bd3339870b05a1e9f8e35fc3c829b3a4a496cce4a7b",
+      "url": "https://sail.usc.edu/shri_files/SAIL-speechrate.zip"
+    },
+    {
+      "file_count": 21,
+      "id": "extracted_source_tree",
+      "observed_unqualified_copy": true,
+      "path": "data/checkouts/mrate-usc-sail/rate",
+      "required": true,
+      "tree_sha256": "246fae3af23bdca2f2eb61e90bcf91c15598efcf014b193a4a96b96e01efb59f"
+    },
+    {
+      "id": "explicit_license_or_terms",
+      "note": "The delivered README lists no license, terms or redistribution grant.",
+      "required": true,
+      "status": "absent"
+    },
+    {
+      "id": "exact_matlab_runtime",
+      "matlab_version": "7.01",
+      "path": "data/runtimes/matlab-7.01",
+      "required": true,
+      "target_os": "Windows XP SP2"
+    },
+    {
+      "id": "sfs_voc19",
+      "path": "data/runtimes/sfs-voc19",
+      "required": true
+    },
+    {
+      "id": "esps_get_f0",
+      "path": "data/runtimes/esps-get_f0",
+      "required": true
+    },
+    {
+      "id": "mcr_installer",
+      "path": "data/checkouts/mrate-usc-sail/rate/utils/MCRInstaller.exe",
+      "required": true,
+      "status": "absent"
+    },
+    {
+      "id": "approved_exact_parity_vector",
+      "path": "data/runs/mrate-usc-sail-exact-parity/parity.json",
+      "required": true,
+      "status": "absent"
+    },
+    {
+      "id": "rights_cleared_rate_cohort",
+      "observed_unqualified_manifest": "research/tsm-followup-20261101/agent-neural/run/syl_eval_manifest.json",
+      "required": true,
+      "status": "absent"
+    }
+  ],
+  "base_commit": "2f4251b9abc92584b025f9b6ea665d9f3ec6e991",
+  "boundary": {
+    "adapter_json_added": false,
+    "asset_bundled": false,
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "network_used": false,
+    "processor_exposure": false,
+    "production_callback_registered": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "registered": false,
+    "sdk_callback_invoked": false,
+    "shared_build_or_ci_change": false,
+    "source_bundled": false,
+    "weights_vendored": false
+  },
+  "boundary_pins": {
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "branch": "swarm/SDK-USC-MRATE",
+  "caller_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/usc-mrate/caller-supplied-source-runtime/0.1",
+    "present_behavior": "validate_archive_hash_source_tree_license_runtime_and_parity_hashes_only; do_not_extract_or_execute_in_this_package",
+    "required_fields": [
+      "approved_parity_path",
+      "approved_parity_sha256",
+      "archive_sha256",
+      "archive_zip_path",
+      "esps_get_f0_path",
+      "frontend_record_path",
+      "frontend_record_sha256",
+      "license_record_path",
+      "license_record_sha256",
+      "matlab_runtime_path",
+      "matlab_version",
+      "sfs_voc19_path",
+      "source_identity",
+      "source_root_path",
+      "source_tree_sha256"
+    ],
+    "separate_source_archive_required": true,
+    "source_is_script_not_weights": true,
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "archive, source, license, frontend and parity paths are absolute and present",
+      "archive SHA-256 equals the published archive pin",
+      "source-tree digest equals the pinned 21-file tree digest",
+      "MATLAB version is exactly 7.01 and SFS/ESPS paths are present",
+      "license record is an explicit grant, not an inference from silence",
+      "approved parity SHA-256 matches the caller-supplied vector",
+      "no extraction, import, execution, download or audio read occurs here"
+    ]
+  },
+  "component": "usc-mrate",
+  "decision": "DEFER",
+  "defer_before": "opt_in_adapter_exposure",
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    {
+      "gate_ids": [
+        "exact_asset_identity",
+        "artifact_rights"
+      ],
+      "id": "official_archive_copy_absent",
+      "requirement": "Supply the official SAIL-speechrate.zip at data/checkouts/SAIL-speechrate.zip with SHA-256 9b08e76ee826dfcb351f4bd3339870b05a1e9f8e35fc3c829b3a4a496cce4a7b.",
+      "state": "Only an extracted tree is present. The temporary download recorded by the research run was not retained, so the archive bytes cannot be re-verified."
+    },
+    {
+      "gate_ids": [
+        "exact_asset_identity"
+      ],
+      "id": "source_identity_unverified",
+      "requirement": "Tie the extracted 21-file tree to the published archive and an immutable upstream snapshot, not only to local file hashes.",
+      "state": "The local tree digest 246fae3af23bdca2f2eb61e90bcf91c15598efcf014b193a4a96b96e01efb59f is pinned, but with the archive absent it cannot be shown byte-identical to the official release."
+    },
+    {
+      "gate_ids": [
+        "artifact_rights"
+      ],
+      "id": "explicit_license_absent",
+      "requirement": "Obtain an explicit written license or permission covering the MATLAB source, bundled example audio and derivative use.",
+      "state": "The delivered README, source files and example contain no LICENSE, COPYING, NOTICE or terms text. Silence is not a grant."
+    },
+    {
+      "gate_ids": [
+        "runtime_admission",
+        "exact_reference_parity"
+      ],
+      "id": "exact_runtime_absent",
+      "requirement": "Provide MATLAB 7.01 on Windows XP SP2, or an approved equivalent, plus the referenced MCR installer and a recorded platform.",
+      "state": "No MATLAB, Octave, MCR installer or Windows XP runtime is present. The README targets MATLAB 7.01 / Windows XP SP2."
+    },
+    {
+      "gate_ids": [
+        "frontend_core_separation",
+        "exact_reference_parity"
+      ],
+      "id": "exact_frontend_absent",
+      "requirement": "Reproduce SFS voc19 19-subband absolute energy and ESPS get_f0 pitch exactly, with versioned binaries and parameters.",
+      "state": "Neither SFS voc19 nor ESPS get_f0 is present. The research front end is an approximate Bark-spaced Butterworth substitute."
+    },
+    {
+      "gate_ids": [
+        "exact_reference_parity"
+      ],
+      "id": "approved_reference_parity_absent",
+      "requirement": "Produce an approved exact-runtime frame and nucleus vector on frozen feature input, including fresh-process reset.",
+      "state": "Only unapproved source-output parity exists: 321/331 frames, 12/12 events, five 1-2 frame differences and invalid-sqrt warnings reported by the research port."
+    },
+    {
+      "gate_ids": [
+        "rate_cohort_and_scoring"
+      ],
+      "id": "rights_cleared_rate_cohort_absent",
+      "requirement": "Freeze a rights-cleared, multi-meeting rate cohort with manual or approved syllable truth, active-speech denominators and strata.",
+      "state": "A 210-window EN2003a manifest and audio are present, but rights for reuse are not recorded and labels are CMUdict-derived from one meeting's forced alignments."
+    },
+    {
+      "gate_ids": [
+        "opt_in_provider_intake",
+        "public_default_and_release"
+      ],
+      "id": "opt_in_and_release_absent",
+      "requirement": "Complete opt-in provider intake, descriptor review, default-off selection and release approval on the intended target.",
+      "state": "No provider, adapter, descriptor, registry entry or release decision exists; this package is task-local evidence only."
+    }
+  ],
+  "gates": [
+    {
+      "id": "exact_asset_identity",
+      "requirement": "The official archive and extracted 21-file source tree match exact SHA-256 pins and a recorded upstream identity.",
+      "status": "blocked"
+    },
+    {
+      "id": "runtime_admission",
+      "requirement": "MATLAB 7.01 or an approved equivalent, SFS voc19, ESPS get_f0 and the MCR installer are present with a recorded platform.",
+      "status": "blocked"
+    },
+    {
+      "id": "artifact_rights",
+      "requirement": "Explicit source, example-audio, derivative-output and redistribution rights are granted with complete notices.",
+      "status": "blocked"
+    },
+    {
+      "id": "exact_reference_parity",
+      "requirement": "An approved exact-runtime frame and nucleus vector matches on frozen feature input, including fresh-process reset.",
+      "status": "blocked"
+    },
+    {
+      "id": "rate_cohort_and_scoring",
+      "requirement": "A rights-cleared multi-meeting cohort with approved syllable truth, active-speech denominators and rate strata is scored.",
+      "status": "blocked"
+    },
+    {
+      "id": "frontend_core_separation",
+      "requirement": "SFS voc19 and ESPS get_f0 preprocessing is reproduced separately from the mrate core and never substituted silently.",
+      "status": "blocked"
+    },
+    {
+      "id": "opt_in_provider_intake",
+      "requirement": "Explicit opt-in intake, license review, descriptor review and an independent public-surface decision are complete.",
+      "status": "blocked"
+    },
+    {
+      "id": "public_default_and_release",
+      "requirement": "Default-off selection, resource/deadline evidence and release or public-benchmark approval are recorded.",
+      "status": "blocked"
+    }
+  ],
+  "licensing": {
+    "generated_json_sidecars": true,
+    "source_asset_license": "no explicit license or terms in the delivered archive",
+    "spdx_file_copyright": "2026 Tsakanyan Hovhannes",
+    "spdx_license_identifier": "Apache-2.0"
+  },
+  "missing_historical_artifacts": [
+    "data/checkouts/SAIL-speechrate.zip",
+    "data/checkouts/mrate-usc-sail/rate/LICENSE",
+    "data/runs/mrate-usc-sail-exact-parity/parity.json"
+  ],
+  "mode": "implementation",
+  "profile": "rate",
+  "qualification": {
+    "blocked_gate_count": 8,
+    "blocked_gate_ids": [
+      "exact_asset_identity",
+      "runtime_admission",
+      "artifact_rights",
+      "exact_reference_parity",
+      "rate_cohort_and_scoring",
+      "frontend_core_separation",
+      "opt_in_provider_intake",
+      "public_default_and_release"
+    ],
+    "candidate_qualified": false,
+    "decision": "DEFER",
+    "no_missing_result_qualifies_candidate": true,
+    "status": "not_qualified"
+  },
+  "repository": "audio-sdk",
+  "reproduction": {
+    "cold_start_regenerations": 3,
+    "comparison": "canonical JSON bytes and SHA-256 only; no tolerance",
+    "report": "PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 run.py report.json",
+    "sources": "PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 run.py sources",
+    "tests": "PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 -m unittest -v test_reference.py",
+    "verify": "PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.12 verify.py"
+  },
+  "reviewer": "reviewer-USC-MRATE",
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "scope": {
+    "device_timing": false,
+    "listening": false,
+    "network_used": false,
+    "public_benchmark": false,
+    "real_audio": false,
+    "real_corpus": false,
+    "real_rate_estimate": false,
+    "release_claim": false,
+    "source_executed": false,
+    "task_local_only": true,
+    "vendor_runtime_invoked": false,
+    "weights_downloaded": false
+  },
+  "source_pins": {
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "data/checkouts/mrate-usc-sail/rate/doc/README": "bdf24448015379150ab84a8c765d4ed55a1f9b8998388c308b3af6cea20af79a",
+    "data/checkouts/mrate-usc-sail/rate/example/sw2523A-ws97-i-0026.e19": "abf26fd3d08c8897ba516ee9c5531617252689367db282603c14e97d5ff1a1ea",
+    "data/checkouts/mrate-usc-sail/rate/example/sw2523A-ws97-i-0026.pch": "f9cee1a904dfc48378c2000c237378749b82124820973286158ba992b71ea601",
+    "data/checkouts/mrate-usc-sail/rate/example/sw2523A-ws97-i-0026.rat": "deb1483fb450ae4ca38d0ba308bfa3cf24d90ac931312f14a7cf2aa9f466e920",
+    "data/checkouts/mrate-usc-sail/rate/example/sw2523A-ws97-i-0026.wav": "127328a48b3bf50d1ba9edef5b602b076d5c2c4b456499d316820fa304cd4ddc",
+    "data/checkouts/mrate-usc-sail/rate/src/cell2str.m": "a90e6236b8e693951f9c082156dbcb18d805ef0b41317ed870d103b325e9cf04",
+    "data/checkouts/mrate-usc-sail/rate/src/comp_result.m": "2b400e742c097a087b5cb94b690378ca956b5b7dd8e6049bf18c9bccb4c6dddb",
+    "data/checkouts/mrate-usc-sail/rate/src/find_hist.m": "59030aee8673d5ec22eca0c24e218dd68bbc9400462b4d9879db66034dc1045c",
+    "data/checkouts/mrate-usc-sail/rate/src/find_maxima_pitch.m": "c5d96614891c940dbe9f7dacbd3070471f011cda9d65ac7a729b20af6ccc44b7",
+    "data/checkouts/mrate-usc-sail/rate/src/find_minimal.m": "76e784d8b4f360f054ad2e02c8d7decc4e11e38f20ad57c3dbb1e0be02263fd3",
+    "data/checkouts/mrate-usc-sail/rate/src/gen_rand.m": "96cceb2e476601cd0578a06efe99e8ad69e9774511b3628d987e7716ba211f4c",
+    "data/checkouts/mrate-usc-sail/rate/src/plot_result.m": "4a928057016f68e102b90495341071f41efe545e04cd05766273b364725fb819",
+    "data/checkouts/mrate-usc-sail/rate/src/proc_eng_track.m": "eadfe4493b112023cffac782917767e891996478ffb0ae2e29f45be5377edd4c",
+    "data/checkouts/mrate-usc-sail/rate/src/save_data.m": "9747ffdf2594d3fab947788e476e67aa815965f156f67491d0b396e4ace321d1",
+    "data/checkouts/mrate-usc-sail/rate/src/set_para.m": "71194d0e83dc2f0f1fd7e0e0f97e9a16a0a8f5615db0f996fbca5538beb409d8",
+    "data/checkouts/mrate-usc-sail/rate/src/smooth.m": "3a3eb55b6877e9a08138614541359019b72dbf9cce2e4aa00f7827ede5d3a197",
+    "data/checkouts/mrate-usc-sail/rate/src/spectral_corr.m": "230e5b3354fc6c5469ea0928cdb0509f0da9a6d0fb627bc4c8c1c8361340d439",
+    "data/checkouts/mrate-usc-sail/rate/src/spectral_selection.m": "62ec1ffa1210d3b0a03d4be0c3d7abbd5f0a226b63aa54a7511061418ab67b26",
+    "data/checkouts/mrate-usc-sail/rate/src/temp_vec_corr.m": "e382ad4235705a8cf7e0b6c08cc505332331d64d4eb215727b6ef4aabb8d7f3e",
+    "data/checkouts/mrate-usc-sail/rate/src/temporal_corr.m": "17a691b5a6beac76ba81e34f5172aab06957a07517d8b5627f11da9a27182cc4",
+    "data/checkouts/mrate-usc-sail/rate/src/v2e.m": "f58a579061e48d9319f9e5252ab8ed60aafbd6937f2513cc9327d309518e83af",
+    "research/tsm-followup-20261101/README.md": "01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f",
+    "research/tsm-followup-20261101/agent-neural/run/syl_eval_manifest.json": "3c7b3731cf6d2312e42e3333cae03bc631f6d1dbf557b773e134468c867897e2",
+    "research/tsm-followup-20261101/root-baselines/REPORT.md": "63ea22bd4d027467a1abe97639f7c9ff6e00cdc2c6c753a52c2bd5e4028bab85",
+    "research/tsm-followup-20261101/root-baselines/mrate_ami_pilot.json": "cd803148c46f78cd8782dcf78c81fa2a8a9b1c33b1e57e83d2910e7ba09a9bf1",
+    "research/tsm-followup-20261101/root-baselines/mrate_ami_pilot.py": "33e1289612633b698d04f653088169d165d4394cc37d09da0e00875dea13327e",
+    "research/tsm-followup-20261101/root-baselines/mrate_frontend_dev_tune.json": "b851fc5c007637cac3026bf3b74379ac0e142b2a6fcef80ab1f64de1eb9420b6",
+    "research/tsm-followup-20261101/root-baselines/mrate_frontend_dev_tune.py": "14e3c19bc1716c2e99efbde594826624b660df859f22d694b93559d5df28e9a2",
+    "research/tsm-followup-20261101/root-baselines/mrate_reference_parity.json": "7d187a9b76f623fed26664f06530d8bbd181d47eca157c86e793b8c46d3269f1",
+    "research/tsm-followup-20261101/root-baselines/mrate_reference_parity.py": "a765ec304a9b0a410c93cd49239c0a459873d8b9a8f9f08c71663746396937b7",
+    "research/tsm-followup-20261101/root-baselines/mrate_syl_common_eval.json": "8f66416b027e04bcbb901bb4b07cffc7926fee20e658119dd869a4e2118a34d3",
+    "research/tsm-followup-20261101/root-baselines/mrate_syl_common_eval.py": "e437500844f2d701060acf067053b1451846941acb33232642bf5041bd7c97a5"
+  },
+  "status": "proposal_only_incomplete",
+  "task": "SDK-USC-MRATE",
+  "task_row_identity": {
+    "excluded_mutable_fields": [
+      "blocked_reason",
+      "dispatch_priority",
+      "handoff",
+      "owner",
+      "review",
+      "status"
+    ],
+    "source": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "stable_sha256": "a932af4050e04245817ebd1577798d6688317d5ee1469c4f3341ccd93c22ac5d",
+    "whole_file_hashed": false
+  },
+  "title": "USC mrate",
+  "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-USC-MRATE",
+  "write_scope": "docs/task-evidence/usc-mrate/"
+}

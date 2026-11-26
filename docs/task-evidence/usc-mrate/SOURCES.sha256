@@ -1,0 +1,55 @@
+# SHA-256 pins for SDK-USC-MRATE.
+# source: paths are relative to SOURCE_ROOT; worktree: paths are
+# relative to the SDK checkout; pkg: paths are relative to this
+# task-evidence directory. The mutable full plan/swarm/TASKS.json is
+# never hashed; only the linked-row stable identity is gated.
+
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+bdf24448015379150ab84a8c765d4ed55a1f9b8998388c308b3af6cea20af79a  source:data/checkouts/mrate-usc-sail/rate/doc/README
+abf26fd3d08c8897ba516ee9c5531617252689367db282603c14e97d5ff1a1ea  source:data/checkouts/mrate-usc-sail/rate/example/sw2523A-ws97-i-0026.e19
+f9cee1a904dfc48378c2000c237378749b82124820973286158ba992b71ea601  source:data/checkouts/mrate-usc-sail/rate/example/sw2523A-ws97-i-0026.pch
+deb1483fb450ae4ca38d0ba308bfa3cf24d90ac931312f14a7cf2aa9f466e920  source:data/checkouts/mrate-usc-sail/rate/example/sw2523A-ws97-i-0026.rat
+127328a48b3bf50d1ba9edef5b602b076d5c2c4b456499d316820fa304cd4ddc  source:data/checkouts/mrate-usc-sail/rate/example/sw2523A-ws97-i-0026.wav
+a90e6236b8e693951f9c082156dbcb18d805ef0b41317ed870d103b325e9cf04  source:data/checkouts/mrate-usc-sail/rate/src/cell2str.m
+2b400e742c097a087b5cb94b690378ca956b5b7dd8e6049bf18c9bccb4c6dddb  source:data/checkouts/mrate-usc-sail/rate/src/comp_result.m
+59030aee8673d5ec22eca0c24e218dd68bbc9400462b4d9879db66034dc1045c  source:data/checkouts/mrate-usc-sail/rate/src/find_hist.m
+c5d96614891c940dbe9f7dacbd3070471f011cda9d65ac7a729b20af6ccc44b7  source:data/checkouts/mrate-usc-sail/rate/src/find_maxima_pitch.m
+76e784d8b4f360f054ad2e02c8d7decc4e11e38f20ad57c3dbb1e0be02263fd3  source:data/checkouts/mrate-usc-sail/rate/src/find_minimal.m
+96cceb2e476601cd0578a06efe99e8ad69e9774511b3628d987e7716ba211f4c  source:data/checkouts/mrate-usc-sail/rate/src/gen_rand.m
+4a928057016f68e102b90495341071f41efe545e04cd05766273b364725fb819  source:data/checkouts/mrate-usc-sail/rate/src/plot_result.m
+eadfe4493b112023cffac782917767e891996478ffb0ae2e29f45be5377edd4c  source:data/checkouts/mrate-usc-sail/rate/src/proc_eng_track.m
+9747ffdf2594d3fab947788e476e67aa815965f156f67491d0b396e4ace321d1  source:data/checkouts/mrate-usc-sail/rate/src/save_data.m
+71194d0e83dc2f0f1fd7e0e0f97e9a16a0a8f5615db0f996fbca5538beb409d8  source:data/checkouts/mrate-usc-sail/rate/src/set_para.m
+3a3eb55b6877e9a08138614541359019b72dbf9cce2e4aa00f7827ede5d3a197  source:data/checkouts/mrate-usc-sail/rate/src/smooth.m
+230e5b3354fc6c5469ea0928cdb0509f0da9a6d0fb627bc4c8c1c8361340d439  source:data/checkouts/mrate-usc-sail/rate/src/spectral_corr.m
+62ec1ffa1210d3b0a03d4be0c3d7abbd5f0a226b63aa54a7511061418ab67b26  source:data/checkouts/mrate-usc-sail/rate/src/spectral_selection.m
+e382ad4235705a8cf7e0b6c08cc505332331d64d4eb215727b6ef4aabb8d7f3e  source:data/checkouts/mrate-usc-sail/rate/src/temp_vec_corr.m
+17a691b5a6beac76ba81e34f5172aab06957a07517d8b5627f11da9a27182cc4  source:data/checkouts/mrate-usc-sail/rate/src/temporal_corr.m
+f58a579061e48d9319f9e5252ab8ed60aafbd6937f2513cc9327d309518e83af  source:data/checkouts/mrate-usc-sail/rate/src/v2e.m
+01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f  source:research/tsm-followup-20261101/README.md
+3c7b3731cf6d2312e42e3333cae03bc631f6d1dbf557b773e134468c867897e2  source:research/tsm-followup-20261101/agent-neural/run/syl_eval_manifest.json
+63ea22bd4d027467a1abe97639f7c9ff6e00cdc2c6c753a52c2bd5e4028bab85  source:research/tsm-followup-20261101/root-baselines/REPORT.md
+cd803148c46f78cd8782dcf78c81fa2a8a9b1c33b1e57e83d2910e7ba09a9bf1  source:research/tsm-followup-20261101/root-baselines/mrate_ami_pilot.json
+33e1289612633b698d04f653088169d165d4394cc37d09da0e00875dea13327e  source:research/tsm-followup-20261101/root-baselines/mrate_ami_pilot.py
+b851fc5c007637cac3026bf3b74379ac0e142b2a6fcef80ab1f64de1eb9420b6  source:research/tsm-followup-20261101/root-baselines/mrate_frontend_dev_tune.json
+14e3c19bc1716c2e99efbde594826624b660df859f22d694b93559d5df28e9a2  source:research/tsm-followup-20261101/root-baselines/mrate_frontend_dev_tune.py
+7d187a9b76f623fed26664f06530d8bbd181d47eca157c86e793b8c46d3269f1  source:research/tsm-followup-20261101/root-baselines/mrate_reference_parity.json
+a765ec304a9b0a410c93cd49239c0a459873d8b9a8f9f08c71663746396937b7  source:research/tsm-followup-20261101/root-baselines/mrate_reference_parity.py
+8f66416b027e04bcbb901bb4b07cffc7926fee20e658119dd869a4e2118a34d3  source:research/tsm-followup-20261101/root-baselines/mrate_syl_common_eval.json
+e437500844f2d701060acf067053b1451846941acb33232642bf5041bd7c97a5  source:research/tsm-followup-20261101/root-baselines/mrate_syl_common_eval.py
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  worktree:CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  worktree:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  worktree:api/include/audio_sdk/session_v0.h
+28f837e31edeb8010e978d989fed1310946b61ebe50368234a3b23a2e4c16be1  pkg:README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:SOURCES.sha256.license
+075a290f866bf9b500abb60a925ce8eb79def0576ea83933a71a97a1a8bf387d  pkg:contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:contract.json.license
+3edc96429537cb7d123557ae57bda90a50a8d23a506e6ed3ae70fcf9764918ab  pkg:reference.py
+d74c03b0e93c9e6c729fb5f10d17dc253e828dfade2579b9e3b586b11c02f246  pkg:report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.license
+a9bc8aac95cc4c9cf1e4d57e80b24c1350230e543e31b9ec1025d7aa99e9c95e  pkg:report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.sha256.license
+8d8de0018ed0c13d043d0fca6de94511e9043e5cfeba1cbd1800f0b4c71d4e51  pkg:run.py
+d25ac1e40e560b372d5a37259edbe9e43c19a8dbf5fd81e9f4ffa3fb201d33fe  pkg:test_reference.py
+6f1e5b368228056e46c2f10bcf55d21f19937a7847b85bf8647dc928eb0d9f20  pkg:verify.py
