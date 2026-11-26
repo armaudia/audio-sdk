@@ -9,8 +9,9 @@ Usage::
 Fails closed on non-canonical or duplicate-key/nonfinite JSON, stale digests,
 stale pins, a non-room profile, a promoted echo/near/overlap result, a
 qualified claim, an open release gate, a loaded or executed caller asset, a
-fabricated model delay/state shape, license gaps, out-of-scope worktree
-changes, whitespace damage or a dirty ``git diff --check``. Never writes.
+fabricated model delay/state shape, license gaps, out-of-scope branch or
+worktree changes, whitespace damage or a dirty ``git diff --check``. Never
+writes.
 """
 
 from __future__ import annotations
@@ -610,6 +611,17 @@ def check_scope(errors: List[str]) -> List[str]:
         capture_output=True, text=True)
     if diff_check.returncode != 0:
         errors.append("git diff --check failed: " + diff_check.stdout.strip())
+    base = reference.scope_base(SDK_ROOT)
+    if base is None:
+        errors.append("scope_base_unavailable")
+    else:
+        try:
+            base_paths = reference.scope_changed_paths(SDK_ROOT, base)
+        except ValueError as error:
+            errors.append(str(error))
+        else:
+            for path in reference.scope_violations(base_paths):
+                errors.append("base_out_of_scope_change: " + path)
     return changed
 
 
