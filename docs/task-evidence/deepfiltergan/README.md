@@ -192,7 +192,7 @@ contains no GAN stage; it is not a DeepFilterGAN artifact.
 | `report.json.sha256` | Digest of the committed `report.json`. |
 | `contract.json` | Task contract: profile, pins, blockers, gates, invariants. |
 | `test_reference.py` | Deterministic unittest checks, no skips, no network. |
-| `verify.py` | Read-only strict-JSON, pin, digest, reproduction, licensing and scope verifier. |
+| `verify.py` | Read-only strict-JSON, pin, digest, reproduction, licensing and merge-base scope verifier. |
 | `SOURCES.sha256` | SHA-256 manifest for source, boundary and task-local pins. |
 | `*.license` | REUSE sidecars for generated artifacts and the manifest. |
 
@@ -265,6 +265,14 @@ git -C /Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-DEEPFIL
 refuses to write unless all payloads are byte-identical. External reproduction
 runs `run.py` three times in cold-start processes and compares the resulting
 bytes.
+
+Scope verification compares the branch against the newest merge-base between
+`HEAD` and `origin/main` (falling back to `main`), not a fixed historical
+commit. Commits merged into `main` after this task therefore never count as
+this branch's out-of-scope edits. Any committed or uncommitted path outside
+`docs/task-evidence/deepfiltergan/` still fails as
+`base_out_of_scope_change`, and an unresolvable base ref fails closed as
+`scope_base_unavailable`.
 
 ## Remaining gates (eight blocked)
 
