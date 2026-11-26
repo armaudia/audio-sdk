@@ -169,8 +169,8 @@ No synthetic admission or envelope control opens a gate.
 | `report.json` | Canonical sorted-key compact JSON report; decision `DEFER`, `not_qualified`. |
 | `report.json.sha256` | Digest of the committed `report.json`. |
 | `SOURCES.sha256` | Deterministic manifest of all pinned inputs and task-local artifacts. |
-| `test_reference.py` | 41 deterministic unittest checks; no skips, network, runtime, checkpoint or audio. |
-| `verify.py` | Read-only verifier: profile phrases, pins, report bytes/digest, gates, licensing, scope and three cold-start regenerations. |
+| `test_reference.py` | 44 deterministic unittest checks; no skips, network, runtime, checkpoint or audio. |
+| `verify.py` | Read-only verifier: profile phrases, pins, report bytes/digest, gates, licensing, merge-base scope and three cold-start regenerations. |
 | `*.license` | REUSE sidecars for generated JSON/digest artifacts. |
 
 ## Reproduce
@@ -192,11 +192,19 @@ python3 -m reuse lint
 git diff --check
 ```
 
-Expected: `run.py` reports `repeat=3 byte_identical=true`; all 41 unittest
+Expected: `run.py` reports `repeat=3 byte_identical=true`; all 44 unittest
 checks pass with 0 failed and 0 skipped; `verify.py` prints `PASS ... gates=8
 blockers=6 ... cold_starts=3/3 byte_identical=true profile=Enhancement
 status=incomplete decision=DEFER`; REUSE reports no missing or bad license;
 `git diff --check` is clean. `verify.py` writes only to a temporary directory.
+
+Scope verification compares the branch against the newest merge-base between
+`HEAD` and `origin/main` (falling back to `main`), not a fixed historical
+commit. Commits merged into `main` after this task therefore never count as
+this branch's out-of-scope edits. Any changed path outside
+`docs/task-evidence/cof-denoising-checkpoints/` still fails as
+`base_out_of_scope_change`, and an unresolvable base ref fails closed as
+`scope_base_unavailable`.
 
 Current counts: 27 absence probes (16 workspace, 6 SDK worktree, 5 home; 0
 present), 18 boundary/source pins, 7 required artifacts (1 evidence register
