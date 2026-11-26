@@ -1,0 +1,36 @@
+# SHA-256 pins for SDK-SEED-TTS.
+# source: paths are workspace-relative; other paths are SDK-worktree-relative.
+# Local task paths are SDK-worktree-relative. Missing assets are ledger entries, not file pins.
+# The mutable full plan/swarm/TASKS.json is never pinned; only stable row identity is gated.
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+b2c5e168713eebe0e6ddd186d3bf5b9833839b8db93fe7ff2231bb784cbfa074  source:research/voice-conversion-eval-20261101/README.md
+5eead5c60d90526c2ce88f249fe813b3ec6e6a9f96f9712269460ae9f81add14  source:research/voice-enhancement-20261101/agent-blocked-reaudit/REPORT.md
+865b0031d357b7009c2876f997ca188440451fb65d5cef3561e9848f34eaf1d0  source:research/voice-enhancement-20261101/agent-matrix-audit/REPORT.md
+479188be1a9c3cbc6d9a057f6e985e7ed03e454033cb3e8cab2f273da22abcd4  source:research/voice-enhancement-20261101/agent-transform-space/REPORT.md
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
+78ab7fdf560f2b652a83c0a07ae5735120ae8786f0935a3cf4df8f9dd92bf07c  source:research/voice-enhancement-20261101/findings.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+b965bab19a48a82d9c5a67da88b781fa3215f3be4e298607d643445446127a61  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+41ab92e27ed62d9379627be8714579ab168e16125c5496d99dc25b77fb20de67  docs/task-evidence/cosyvoice-family/README.md
+31ffbd70d9a6976509c492398bf17a0d43b0c4b2a5d98f0c4df320ac1489a0b8  docs/task-evidence/f5-tts/README.md
+81b51f5696142a7fb77dd285e1db866f550de0faf5e5160ed66d15499b64c26b  docs/task-evidence/survey-trn-05/README.md
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  scripts/ci.py
+5c9e4d3ec5e7940a8aa164cf6957aaebd2fa7be79d7a7b94afd92cb05bd52d83  docs/task-evidence/seed-tts/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/seed-tts/contract.json.license
+a42fdff035b57c517625e90f62a1184aabc06c8573ce130d7c704ee86cc71848  docs/task-evidence/seed-tts/reference.py
+5b22d5a0ef66b4efc3f35d7464112e0ec9ba03f07cdcb9941da114f480650fdd  docs/task-evidence/seed-tts/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/seed-tts/report.json.license
+428b7f45aea134cc5d615e9de4d58699bac215aa5f63d16882539722ddc40f3b  docs/task-evidence/seed-tts/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/seed-tts/report.json.sha256.license
+9418c5a6e52694c1c0cd53536bd32f46259db2726c23957247567078396f9e73  docs/task-evidence/seed-tts/run.py
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/seed-tts/SOURCES.sha256.license
+e64e9c757a54ffc49097afc8d51748cc06fc893d6adb87eb44e0cc86ba12e8e6  docs/task-evidence/seed-tts/test_reference.py
+9113b666cc7dc492e498be5d8b039f3e5eddd94d664babad957a032e4b5812c2  docs/task-evidence/seed-tts/verify.py
