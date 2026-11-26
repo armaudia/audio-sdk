@@ -1,0 +1,31 @@
+# SHA-256 pins for SDK-CONTENTVEC; source: paths are workspace-relative, others SDK-worktree-relative.
+# The mutable full plan/swarm/TASKS.json is deliberately not pinned; only the stable linked-row identity is projected.
+# No ContentVec weights, runtime or real corpus audio is pinned as an included artifact because none is present in this package.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+c266b6486939b6af0a244358f8273325a23d9ec0733b9ed16686f8e6d25a3a9c  source:research/accent-conversion-20261101/README.md
+b2c5e168713eebe0e6ddd186d3bf5b9833839b8db93fe7ff2231bb784cbfa074  source:research/voice-conversion-eval-20261101/README.md
+bfe32a066e4a1e6748b042956df5a6bf05b2255c45a4c05e1fe0d67b72deef0d  source:research/voice-conversion-eval-20261101/repos/rvc-mlx-realtime/rvc_mlx_rt/convert/hubert.py
+9a0824f79e61291c0fca908d12c83d6e48c203ec265adeb7f54272e8cc4f8ddc  source:research/voice-conversion-eval-20261101/repos/rvc-mlx-realtime/rvc_mlx_rt/model_manager.py
+bec61ed1eb9a3748644ddbc50303aa6978e14eeaba46822e59a006c722b52585  source:research/voice-conversion-eval-20261101/repos/rvc/LICENSE
+6ae347c0cc60836f1e7fd2b73ee73327746e66c32a5dd4270d02a096810bca8b  source:research/voice-conversion-eval-20261101/repos/rvc/README.md
+0346950779dfb7f9316fa74ed846e2b8a22a08eedfdc5387b73f327cb1a4a7cf  source:research/voice-conversion-eval-20261101/repos/rvc/assets/hubert_base/config.json
+7c1976a680fb7acc757cd36fb08eef878fa36c70b4c9d2d595df9c608bbbbf0e  source:research/voice-conversion-eval-20261101/repos/rvc/assets/hubert_base/preprocessor_config.json
+bbfba54d1d83eae3fb634b2909f8f6bf41e6ffe436200ec246867c5c93ebba26  source:research/voice-conversion-eval-20261101/repos/rvc/infer/hubert.py
+902338f1c8ef6c38186a34c19dec95e8df56030863b7a584b703a443127ea541  source:research/voice-conversion-eval-20261101/repos/rvc/requirments_cpu_py312.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+b634f2e0e80d6b5bff1d60f5aa4e4620ec644c3dd641e371a4098f037c0bcf14  docs/task-evidence/contentvec/LICENSES.md
+4d4b79a02edca04da72badd889ee3d2e122269df30f49b4f0969d5e1ee7c1aca  docs/task-evidence/contentvec/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/contentvec/SOURCES.sha256.license
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/contentvec/contract.json.license
+65fe156d07f6aac1182f53ec4970cf786144d9dda2c61028cdc470fb019b8fac  docs/task-evidence/contentvec/reference.py
+09974f0d8c01b63d5fdc2394030f7daa46e226820e6c580881de442752362106  docs/task-evidence/contentvec/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/contentvec/report.json.license
+6f2324f9773dd10ab11bc91a56228018f20701879913c131e853015e6899f4e8  docs/task-evidence/contentvec/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/contentvec/report.json.sha256.license
+130eab0635392d3507bb85702ebb759b224ed6737afd725ffadf60e7bd3a7b80  docs/task-evidence/contentvec/run.py
+d855e83c96793f6279d11cac51db3d0ac5444fc2f10d9225e1f70a14e81f5d5a  docs/task-evidence/contentvec/test_reference.py
+3c8774e3a057aa79c4ce443cb9c91cf79055dd7d5ce99b1e3dad674dbbf5a5e6  docs/task-evidence/contentvec/verify.py
