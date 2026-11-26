@@ -70,5 +70,16 @@ PYTHONDONTWRITEBYTECODE=1 python3 verify.py
 
 `run.py` regenerates `report.json`, `report.json.sha256`, `contract.json`, and
 `SOURCES.sha256`. `verify.py` is read-only/fail-closed, checks strict JSON,
-pins, blockers/gates, boundary/scope, adverse controls, and requires 3
-byte-identical cold-start regenerations.
+pins, blockers/gates, boundary/scope, git write scope, adverse controls, and
+requires 3 byte-identical cold-start regenerations. `ScopeTests` covers sibling
+additions on `main`, a committed out-of-scope edit, and an unresolvable base.
+
+## Git write scope
+
+Scope verification resolves the newest merge-base between `HEAD` and
+`origin/main` (falling back to `main`), so commits merged into `main` after
+this package never count as this branch's out-of-scope edits. Any committed or
+uncommitted path outside `docs/task-evidence/pulsevad/` fails with
+`base_out_of_scope_change:<path>` (or `out_of_scope_change:<path>` for a dirty
+path), an unresolvable base fails closed as `scope_base_unavailable`, and the
+committed `base..HEAD` diff must pass `git diff --check`.
