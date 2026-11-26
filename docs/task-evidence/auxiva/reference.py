@@ -1253,7 +1253,7 @@ def board_row() -> Dict[str, Any]:
         "stable_fields": stable_fields,
         "stable_sha256": digest,
         "full_tasks_json_hashed": False,
-        "note": "Only the stable linked-row identity is gated. The mutable full plan/swarm/TASKS.json is never read into, hashed by or pinned to this package.",
+        "note": "Only the stable linked-row fields are read and gated. The mutable full plan/swarm/TASKS.json is never hashed, pinned or used as a digest source.",
     }
 
 

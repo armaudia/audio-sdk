@@ -277,7 +277,7 @@ stays **DEFER**, **incomplete** and **not qualified**.
 `adapter_json_added=false`, `readiness_json_added=false`, `asset_bundled=false`,
 `weights_vendored=false`, `native_engine_built=false`, `sdk_data_dir_added=false`.
 Installed v0 remains 16 kHz, mono, float32, 160 samples per frame. The board is
-referenced by stable linked-row identity only (`tasks[id=SDK-AUXIVA]`,
-stable-field digest); the mutable full `plan/swarm/TASKS.json` is never read
-into, hashed by or pinned to this package. No provider, descriptor, registry,
+referenced by stable linked-row fields only (`tasks[id=SDK-AUXIVA]`,
+stable-field digest); the mutable full `plan/swarm/TASKS.json` is never hashed,
+pinned or used as a digest source. No provider, descriptor, registry,
 installed default, shared build or CI is changed.
