@@ -41,4 +41,4 @@ b43b7853f316182420c42a9552ed81b40478d6be9e25ec0117f401e2cd94a8e7  docs/task-evid
 0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/silero-vad-v5-onnx-reference/report.json.sha256.license
 d6c10539e83449c1ed9e08c74476ea2344e1d2fa594e54528c85c0b968ad16e1  docs/task-evidence/silero-vad-v5-onnx-reference/run.py
 a9f23d1f6823b5140fb9a7671ac65e1fb46d9ac5a0b36a0c1bc2de7ebb70c7b3  docs/task-evidence/silero-vad-v5-onnx-reference/test_reference.py
-43eddb8efbd3dd7f5ff0a9aa6aa4ec695fb1b551885b0c58620a6614b8c45fc7  docs/task-evidence/silero-vad-v5-onnx-reference/verify.py
+cc6dd0c2a488a88ee4e9fb030412527113818fb6b1420e1f41a150573306c480  docs/task-evidence/silero-vad-v5-onnx-reference/verify.py

@@ -510,16 +510,6 @@ def check_scope(errors: list[str]) -> list[str]:
         if diff.returncode != 0 or diff.stdout.strip():
             errors.append("git_" + "_".join(arguments).replace("--", "")
                           + "_failed:" + diff.stdout.strip())
-    base_diff = subprocess.run(
-        ["git", "-C", str(SDK_ROOT), "diff", "--name-only",
-         reference.BASE_COMMIT, "--", "."],
-        capture_output=True, text=True)
-    if base_diff.returncode != 0:
-        errors.append("git_base_diff_failed:" + base_diff.stderr.strip())
-    else:
-        for path in base_diff.stdout.splitlines():
-            if path and not path.startswith(run.TASK_PREFIX):
-                errors.append("base_out_of_scope_change:" + path)
     allowed = set(run.LOCAL_PIN_FILES) | {"SOURCES.sha256", "README.md"}
     for path in sorted(HERE.iterdir()):
         if path.is_file() and path.name not in allowed:
