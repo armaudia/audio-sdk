@@ -1,0 +1,34 @@
+# SHA-256 pins for SDK-LIVEKIT-PYTHON-HOST-ADAPTER task-local evidence.
+# source: paths are relative to the pinned research workspace root.
+# sdk: paths are relative to this SDK worktree.
+# The mutable full plan/swarm/TASKS.json is never hashed; only the stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+7307ed87238e1faf71816f68285a5ffbf7a7d5e37012839007fcfbfffc21d5c9  docs/task-evidence/livekit-python-host-adapter/LICENSES.md
+c3abc7ac69317f62916f4bf89d5362f1be6de8c26c1e0271649204d03398c0ec  docs/task-evidence/livekit-python-host-adapter/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/livekit-python-host-adapter/SOURCES.sha256.license
+8615cb721054907646a6465bf106df806cb69bb3fbf6ed484dcac90ec6c31d01  docs/task-evidence/livekit-python-host-adapter/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/livekit-python-host-adapter/contract.json.license
+d42775414e1b799a90ebcc3075db2ced2094083fe69a9b769c6b559d2c2d4a4f  docs/task-evidence/livekit-python-host-adapter/reference.py
+c6c8c868b6f918bf5a418813fc62866cb3e8929313d2f3b278f61d5e1595cfd7  docs/task-evidence/livekit-python-host-adapter/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/livekit-python-host-adapter/report.json.license
+9adaceeaab7a0954775a34036b3dfbc16812e2daf5a1c18abdd054c7db583183  docs/task-evidence/livekit-python-host-adapter/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/livekit-python-host-adapter/report.json.sha256.license
+4a5d34e74e3622fe49c4141e340f851ab349cec3d76f5ae53d9733f5b841f82c  docs/task-evidence/livekit-python-host-adapter/run.py
+fb50cbee9e19d31c37987ce50d2ad7672f75f25025a8a751fdfa8f88301270e3  docs/task-evidence/livekit-python-host-adapter/test_reference.py
+e347a0c53e5b885375c69ccc655402c6ff8a08d2a3f4e2601e47d0b9eef8a6da  docs/task-evidence/livekit-python-host-adapter/verify.py
+7ffed4be0021bc3fd2b2816bc3db2ebac9333d9c6ff809e3e3695d6cc6af4185  sdk:.gitattributes
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  sdk:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30  sdk:LICENSES/Apache-2.0.txt
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  sdk:REUSE.toml
+f0508583243ab5decd6d61a6d69c50ecd878c60b32e77bbb0b080c03a11fa4e5  sdk:TEST_PLAN.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+3b7d11f0518af444c4ed7b96401cef4016e6af8a707685628d263a31f46c3864  sdk:bindings/python/audio_sdk/__init__.py
+0f3b1e736dd807a984cbb9daa10cd0ba32668f7833994c3c4f0a5021799c95a4  sdk:bindings/python/pyproject.toml
+32c4cecab24b00fc3be312f64e9def05a5391b0f475cd9d461321e8fc4d4c101  sdk:bindings/python/tests/test_sdk.py
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  sdk:scripts/ci.py
+2e5fbeee8b9a25578f0a03ca3c5291c295756de7f5d8cf9a313b53eecf7e5e1e  source:audio-benchmark-platform/audio-sdk/docs/acceptance-matrix.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
