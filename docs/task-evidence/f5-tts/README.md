@@ -126,6 +126,15 @@ cold writes to be byte-identical. `verify.py` re-runs three independent
 cold-start regenerations in scratch trees and fails on any pin drift, out-of-
 scope change, missing sidecar, missing SPDX header or absent blocker.
 
+Scope verification compares the branch against the newest merge-base between
+`HEAD` and `origin/main` (falling back to `main`), not a fixed historical
+commit. Commits merged into `main` after this task therefore never count as
+this branch's out-of-scope edits. Any changed path outside
+`docs/task-evidence/f5-tts/` still fails as `base_out_of_scope_change`, and an
+unresolvable base ref fails closed as `scope_base_unavailable`. Uncommitted and
+untracked files are still rejected by the status gate, and `git diff --check`
+still covers both the working tree and the index.
+
 ## Licensing
 
 This package is Apache-2.0; see `LICENSES.md` and the `.license` sidecars. It

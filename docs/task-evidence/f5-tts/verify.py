@@ -517,6 +517,17 @@ def check_scope(errors: list[str]) -> list[str]:
         if diff.returncode != 0 or diff.stdout.strip():
             errors.append("git_" + "_".join(arguments).replace("--", "")
                           + "_failed:" + diff.stdout.strip())
+    base = reference.scope_base(SDK_ROOT)
+    if base is None:
+        errors.append("scope_base_unavailable")
+    else:
+        try:
+            base_paths = reference.scope_changed_paths(SDK_ROOT, base)
+        except ValueError as error:
+            errors.append(str(error))
+        else:
+            for path in reference.scope_violations(base_paths):
+                errors.append("base_out_of_scope_change:" + path)
     allowed = set(run.LOCAL_PIN_FILES) | {"SOURCES.sha256"}
     for path in sorted(HERE.iterdir()):
         if path.is_file() and path.name not in allowed:

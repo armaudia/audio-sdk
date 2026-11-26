@@ -12,6 +12,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -446,6 +447,81 @@ class PackageBoundaryTests(unittest.TestCase):
                 self.assertIs(value, True)
             else:
                 self.assertIs(value, False, key)
+
+
+class ScopeTests(unittest.TestCase):
+    """Regression coverage for the merge-base scope comparison."""
+
+    def _git(self, repo: Path, *arguments: str) -> str:
+        result = subprocess.run(["git", "-C", str(repo), *arguments],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        return result.stdout.strip()
+
+    def _repository(self, root: Path) -> Path:
+        repo = root / "audio-sdk"
+        repo.mkdir()
+        self._git(repo, "init", "-q", "-b", "main")
+        self._git(repo, "config", "user.name", "scope-fixture")
+        self._git(repo, "config", "user.email", "scope@example.invalid")
+        self._git(repo, "config", "commit.gpgsign", "false")
+        task = repo / reference.TASK_PREFIX
+        task.mkdir(parents=True)
+        (task / "README.md").write_text("task package\n", encoding="utf-8")
+        self._git(repo, "add", "-A")
+        self._git(repo, "commit", "-qm", "task package")
+        return repo
+
+    def _add_siblings(self, repo: Path) -> None:
+        # Later main merges land unrelated task packages beside this one.
+        for name in ("sibling-alpha", "sibling-beta"):
+            sibling = repo / "docs/task-evidence" / name
+            sibling.mkdir(parents=True)
+            (sibling / "report.json").write_text("{}\n", encoding="utf-8")
+            (sibling / "verify.py").write_text("# sibling\n", encoding="utf-8")
+        self._git(repo, "add", "-A")
+        self._git(repo, "commit", "-qm", "unrelated sibling packages")
+
+    def test_sibling_additions_after_base_pass_scope(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = self._repository(Path(temporary))
+            historical = self._git(repo, "rev-parse", "HEAD")
+            self._add_siblings(repo)
+            head = self._git(repo, "rev-parse", "HEAD")
+
+            base = reference.scope_base(repo)
+            self.assertEqual(base, head)
+            self.assertEqual(reference.scope_changed_paths(repo, base), [])
+            self.assertEqual(reference.scope_violations([]), [])
+
+            # The old fixed base would have reported the siblings; the
+            # merge-base comparison must not.
+            historic = reference.scope_changed_paths(repo, historical)
+            self.assertIn("docs/task-evidence/sibling-alpha/report.json",
+                          historic)
+            self.assertTrue(reference.scope_violations(historic))
+
+    def test_branch_out_of_scope_edit_fails_scope(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = self._repository(Path(temporary))
+            self._add_siblings(repo)
+            self._git(repo, "checkout", "-q", "-b",
+                      "swarm/SDK-F5-TTS-correction")
+            (repo / "CMakeLists.txt").write_text("changed\n", encoding="utf-8")
+            self._git(repo, "add", "CMakeLists.txt")
+            self._git(repo, "commit", "-qm", "out of scope edit")
+
+            base = reference.scope_base(repo)
+            paths = reference.scope_changed_paths(repo, base)
+            self.assertEqual(paths, ["CMakeLists.txt"])
+            self.assertEqual(reference.scope_violations(paths),
+                             ["CMakeLists.txt"])
+
+    def test_missing_base_ref_is_not_silently_accepted(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = self._repository(Path(temporary))
+            self._git(repo, "branch", "-m", "detached-work")
+            self.assertIsNone(reference.scope_base(repo))
 
 
 if __name__ == "__main__":
