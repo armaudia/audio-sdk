@@ -1,0 +1,182 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "base_commit": "26bc48c58f9d69571571fa651862dcbe0fe1172d",
+  "boundary": {
+    "adapter_json_added": false,
+    "asset_bundled": false,
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "network_used": false,
+    "processor_exposure": false,
+    "production_callback_registered": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "registered": false,
+    "sdk_callback_invoked": false,
+    "shared_build_or_ci_change": false,
+    "weights_vendored": false
+  },
+  "boundary_pins": {
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "branch": "swarm/SDK-VOICEBANK-DEMAND-VOICES-AND-DNS5-EVIDENCE",
+  "component": "voicebank-demand-voices-and-dns5-evidence",
+  "decision": "DEFER",
+  "defer_before": "opt_in_adapter_exposure",
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    {
+      "id": "exact_assets_and_manifests_absent",
+      "requirement": "Provide exact licensed VoiceBank+DEMAND, VOiCES, and DNS5 archives/manifests/selected files with SHA-256, byte counts, and frozen cohort definitions."
+    },
+    {
+      "id": "rights_and_scope_unresolved",
+      "requirement": "Record explicit per-track rights, publication/cache scope, and audio-publication boundaries; do not broaden DNS5/VOiCES/VoiceBank scope beyond approved records."
+    },
+    {
+      "id": "track_protocol_unfrozen_for_sdk_evidence",
+      "requirement": "Freeze separate paired, real-room, and acquisition-only protocols with scorer identity, alignment/resampling, and non-pooling rules."
+    },
+    {
+      "id": "no_pinned_scorer_runtime",
+      "requirement": "Provide pinned scorer/runtime implementations, lockfiles, deterministic commands, and verified outputs for each claimed track."
+    },
+    {
+      "id": "no_heldout_control_execution",
+      "requirement": "Execute frozen held-out cohorts with controls, invalid/missing/nonfinite handling, and per-item failure accounting; keep tracks separate."
+    },
+    {
+      "id": "sdk_adapter_boundary_not_defined",
+      "requirement": "Define an optional SDK developer/evidence adapter boundary that preserves installed v0 behavior and is not exposed as a processor/default."
+    },
+    {
+      "id": "no_target_runtime_timing",
+      "requirement": "Collect paced target runtime/resource/deadline/availability evidence for the exact workload."
+    },
+    {
+      "id": "no_release_or_qualification_approval",
+      "requirement": "Record explicit release/public benchmark/listening/default-selection approval; missing evidence cannot qualify."
+    }
+  ],
+  "gates": [
+    {
+      "id": "exact_source_and_asset_identity",
+      "requirement": "Exact VoiceBank+DEMAND, VOiCES, and DNS5 source/archive/manifest identities, hashes, byte counts, selected-file provenance, and frozen cohort definitions are pinned and locally present.",
+      "status": "blocked"
+    },
+    {
+      "id": "rights_and_publication_scope",
+      "requirement": "Acquisition, local evaluation, public aggregate reporting, cache, redistribution, derivative-output, and audio-publication rights are explicitly scoped and approved per track; public cache/publication scope is never broadened silently.",
+      "status": "blocked"
+    },
+    {
+      "id": "track_separation_and_protocol",
+      "requirement": "Paired scoring, real-room robustness, and acquisition-only/non-intrusive tracks remain separated with frozen protocols, scoring boundaries, and no pooled ranking.",
+      "status": "blocked"
+    },
+    {
+      "id": "scorer_runtime_and_reproducibility",
+      "requirement": "Pinned scorer implementations/weights/runtimes, deterministic commands, and byte-level or explicitly toleranced verified outputs reproduce without network or hidden mutation.",
+      "status": "blocked"
+    },
+    {
+      "id": "cohort_controls_and_failure_accounting",
+      "requirement": "Frozen held-out cohorts, controls, invalid/missing/nonfinite handling, alignment/resampling policy, and per-item failure accounting are present and independently verified.",
+      "status": "blocked"
+    },
+    {
+      "id": "sdk_adapter_boundary_isolation",
+      "requirement": "Any future SDK developer/evidence adapter is optional, task-local or separately reviewed, preserves installed v0 behavior, and is not exposed as a processor or default.",
+      "status": "blocked"
+    },
+    {
+      "id": "target_runtime_and_resource_timing",
+      "requirement": "Target-device/runtime execution, pacing, CPU/memory, deadline, and availability evidence are collected for the exact intended workload; no device timing is claimed without it.",
+      "status": "blocked"
+    },
+    {
+      "id": "public_default_and_release",
+      "requirement": "Explicit default-selection, release, public benchmark, listening, and publication approvals are recorded; missing evidence cannot qualify.",
+      "status": "blocked"
+    }
+  ],
+  "licensing": {
+    "generated_json_sidecars": true,
+    "spdx_file_copyright": "2026 Tsakanyan Hovhannes",
+    "spdx_license_identifier": "Apache-2.0"
+  },
+  "mode": "research-control",
+  "profile": "evidence",
+  "qualification": {
+    "blocked_gate_count": 8,
+    "blocked_gate_ids": [
+      "exact_source_and_asset_identity",
+      "rights_and_publication_scope",
+      "track_separation_and_protocol",
+      "scorer_runtime_and_reproducibility",
+      "cohort_controls_and_failure_accounting",
+      "sdk_adapter_boundary_isolation",
+      "target_runtime_and_resource_timing",
+      "public_default_and_release"
+    ],
+    "candidate_qualified": false,
+    "decision": "DEFER",
+    "no_missing_result_qualifies_candidate": true,
+    "status": "not_qualified"
+  },
+  "repository": "audio-sdk",
+  "reproduction": {
+    "cold_start_regenerations": 3,
+    "comparison": "canonical JSON bytes and SHA-256 only; no tolerance",
+    "report": "PYTHONDONTWRITEBYTECODE=1 python3 run.py report.json",
+    "sources": "PYTHONDONTWRITEBYTECODE=1 python3 run.py sources",
+    "tests": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_reference.py",
+    "verify": "PYTHONDONTWRITEBYTECODE=1 python3 verify.py"
+  },
+  "reviewer": "reviewer-VOICEBANK-DEMAND-VOICES-AND-DNS5-EVIDENCE",
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "scope": {
+    "dataset_downloaded": false,
+    "device_timing": false,
+    "listening": false,
+    "model_executed": false,
+    "network_used": false,
+    "public_benchmark": false,
+    "real_audio": false,
+    "real_corpus": false,
+    "real_dataset": false,
+    "release_claim": false,
+    "task_local_only": true
+  },
+  "source_pins": {
+    "audio-benchmark-platform/audio-bench/docs/CORPUS.md": "9967fe4e85c4695d45b2d618c394c50960d1251e5fd2bdc9f54beee23cd85b12",
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/audio-sdk/README.md": "f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910"
+  },
+  "status": "proposal_only_incomplete",
+  "task": "SDK-VOICEBANK-DEMAND-VOICES-AND-DNS5-EVIDENCE",
+  "task_row_identity": {
+    "excluded_mutable_fields": [
+      "blocked_reason",
+      "dispatch_priority",
+      "handoff",
+      "owner",
+      "review",
+      "status"
+    ],
+    "source": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "stable_sha256": "62d77ca56879fbdffc9ef10f459828771d9bd6843a9bf6cdd357f03683bd5271",
+    "whole_file_hashed": false
+  },
+  "title": "VoiceBank+DEMAND, VOiCES and DNS5 evidence",
+  "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-VOICEBANK-DEMAND-VOICES-AND-DNS5-EVIDENCE",
+  "write_scope": "docs/task-evidence/voicebank-demand-voices-and-dns5-evidence/"
+}
