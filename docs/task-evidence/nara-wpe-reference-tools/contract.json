@@ -1,0 +1,609 @@
+{
+  "asset_audit": {
+    "all_absence_probes_absent": true,
+    "probe_count": 13,
+    "probes": [
+      {
+        "path": "adapters/nara-wpe",
+        "present": false
+      },
+      {
+        "path": "adapters/nara_wpe",
+        "present": false
+      },
+      {
+        "path": "data/checkouts/nara-wpe",
+        "present": false
+      },
+      {
+        "path": "data/checkouts/nara_wpe",
+        "present": false
+      },
+      {
+        "path": "data/checkouts/nara_wpe_reference",
+        "present": false
+      },
+      {
+        "path": "data/envs/nara-wpe",
+        "present": false
+      },
+      {
+        "path": "data/envs/nara-wpe/requirements.lock",
+        "present": false
+      },
+      {
+        "path": "data/rights/nara-wpe-license.json",
+        "present": false
+      },
+      {
+        "path": "data/rights/nara-wpe-rights.json",
+        "present": false
+      },
+      {
+        "path": "data/runs/nara-wpe-cohort/manifest.json",
+        "present": false
+      },
+      {
+        "path": "data/runs/nara-wpe-parity/manifest.json",
+        "present": false
+      },
+      {
+        "path": "data/runs/nara-wpe-parity/vector.json",
+        "present": false
+      },
+      {
+        "path": "research/voice-enhancement-20261101/repos/nara_wpe",
+        "present": false
+      }
+    ],
+    "runtime_env_path": "data/envs/nara-wpe",
+    "source_adapter_path": "adapters/nara-wpe",
+    "source_checkout_path": "data/checkouts/nara_wpe"
+  },
+  "base_commit": "d2eae1246561fe11c5a3d17733ddd46db53e7803",
+  "branch": "swarm/SDK-NARA-WPE-REFERENCE-TOOLS",
+  "caller_asset_contract": {
+    "accepted": 1,
+    "accepted_is_synthetic_not_evidence": true,
+    "all_rejections_fail_closed": true,
+    "executed": false,
+    "imported": false,
+    "loaded": false,
+    "pinned_admission_blocked": true,
+    "pinned_admission_reason": "upstream_source_absent",
+    "pinned_admission_status": "blocked",
+    "qualifies": false,
+    "rejected": 32,
+    "rejected_total": 32,
+    "schema_id": "audio-sdk/nara-wpe-reference-tools/caller-manifest/0.1"
+  },
+  "component": "nara-wpe-reference-tools",
+  "decision": "DEFER",
+  "defer_before": "exact_source_and_asset_identity",
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    {
+      "gate": "exact_source_and_asset_identity",
+      "id": "source_checkout_absent",
+      "qualifies": false,
+      "requirement": "A NARA-WPE checkout at data/checkouts/nara_wpe or an equivalent pinned caller path, with every source file hashed.",
+      "state": "absent"
+    },
+    {
+      "gate": "exact_source_and_asset_identity",
+      "id": "upstream_revision_unpinned",
+      "qualifies": false,
+      "requirement": "The immutable 40-hex upstream revision named by the source register or an exact caller pin; no revision is recorded.",
+      "state": "absent"
+    },
+    {
+      "gate": "artifact_rights_and_licence",
+      "id": "package_metadata_and_license_absent",
+      "qualifies": false,
+      "requirement": "Package name/version/wheel hash and reviewed licence text; the register records only the repository URL.",
+      "state": "absent"
+    },
+    {
+      "gate": "runtime_admission",
+      "id": "runtime_and_lock_absent",
+      "qualifies": false,
+      "requirement": "A hash-pinned offline Python runtime and dependency lock capable of importing the exact NARA-WPE package.",
+      "state": "absent"
+    },
+    {
+      "gate": "exact_reference_parity",
+      "id": "matched_parity_vector_absent",
+      "qualifies": false,
+      "requirement": "Frozen caller input, matched configuration and exact upstream output vector for parity against project WPE.",
+      "state": "absent"
+    },
+    {
+      "gate": "task_scope_and_geometry",
+      "id": "task_geometry_unestablished",
+      "qualifies": false,
+      "requirement": "Upstream FFT/hop/window/taps/delay/iterations and offline-versus-online behaviour; only project defaults are pinned here.",
+      "state": "unestablished"
+    },
+    {
+      "gate": "matched_room_policy",
+      "id": "matched_room_cohort_and_rights_absent",
+      "qualifies": false,
+      "requirement": "Rights-cleared paired room fixtures, measured or synthetic RIR provenance and a frozen 50 ms early target.",
+      "state": "absent"
+    },
+    {
+      "gate": "public_default_and_release",
+      "id": "opt_in_provider_and_release_absent",
+      "qualifies": false,
+      "requirement": "Opt-in intake, target-device timing, listening protocol and explicit release approval; no default or registration.",
+      "state": "absent"
+    }
+  ],
+  "exact_scope": {
+    "benchmark_or_release_claim": false,
+    "board_or_handoff_changed": false,
+    "contracts_changed": false,
+    "default_selected": false,
+    "downloads_performed": false,
+    "installed_v0_behavior_changed": false,
+    "listening_or_device_timing": false,
+    "provider_registered": false,
+    "public_api_abi_changed": false,
+    "real_audio_used": false,
+    "registry_or_descriptor_changed": false,
+    "shared_build_or_ci_changed": false,
+    "task_local_only": true,
+    "write_scope": "docs/task-evidence/nara-wpe-reference-tools/ only"
+  },
+  "gates": [
+    {
+      "id": "exact_source_and_asset_identity",
+      "requirement": "NARA-WPE source checkout at an immutable 40-hex revision with package metadata, a per-file SHA-256 manifest and the reviewed licence text pinned.",
+      "status": "blocked"
+    },
+    {
+      "id": "runtime_admission",
+      "requirement": "Isolated hash-pinned Python 3.12.16 runtime with exact NumPy/SciPy versions, platform lock and offline load path.",
+      "status": "blocked"
+    },
+    {
+      "id": "artifact_rights_and_licence",
+      "requirement": "Source, package, redistribution, derivative-output and product-use rights cleared by a reviewed rights record.",
+      "status": "blocked"
+    },
+    {
+      "id": "exact_reference_parity",
+      "requirement": "Upstream WPE output at the matched 512/128/5/8 geometry, 16 kHz mono and 3 iterations frozen as exact caller-supplied parity vectors against project wpe_offline.",
+      "status": "blocked"
+    },
+    {
+      "id": "matched_room_policy",
+      "requirement": "Rights-cleared paired room fixtures with a frozen 50 ms early-reflection target, identity control and matched STFT/taps/room policy scoring.",
+      "status": "blocked"
+    },
+    {
+      "id": "task_scope_and_geometry",
+      "requirement": "Upstream sample rate, channels, FFT, hop, window, taps, predictor delay, iterations, offline/online mode, reset and partial-tail behaviour established.",
+      "status": "blocked"
+    },
+    {
+      "id": "opt_in_provider_intake",
+      "requirement": "Explicit opt-in tool-reference intake with licence review, descriptor review and no default registration.",
+      "status": "blocked"
+    },
+    {
+      "id": "public_default_and_release",
+      "requirement": "Target timing, resource limits, listening, exact-head review and explicit release or benchmark approval.",
+      "status": "blocked"
+    }
+  ],
+  "geometry_control": {
+    "config_accepted": true,
+    "config_rejections": 20,
+    "contiguous_half_open_intervals": true,
+    "covered_source_samples": 64037,
+    "declared_algorithmic_latency_ms": 80,
+    "declared_algorithmic_latency_samples": 1280,
+    "dereverberation_performed": false,
+    "early_target_window_samples": 800,
+    "final_frame_source_valid": 37,
+    "frame_count": 501,
+    "frame_hop_samples": 128,
+    "identity_bit_exact": true,
+    "identity_digest": "bc25b71449326461142c16f385f1b8fc70971ac0ed4338e22a3bc21a44110294",
+    "kind": "synthetic_geometry_control_not_nara_wpe",
+    "nonfinite_rejections": 3,
+    "not_nara_wpe": true,
+    "partial_tail_matches_prefix": true,
+    "partial_tail_valid_samples": 1000,
+    "predictor_delay_samples": 1024,
+    "qualifies": false,
+    "real_audio_used": false,
+    "source_samples": 64037,
+    "stft_lookahead_samples": 256
+  },
+  "installed_v0": {
+    "channels": 1,
+    "frame_ns": 10000000,
+    "frame_samples": 160,
+    "sample_format": "float32",
+    "sample_rate_hz": 16000,
+    "unchanged": true
+  },
+  "installed_v0_unchanged": true,
+  "licensing": {
+    "commercial_use_permitted": null,
+    "commercial_use_status": "not_established",
+    "license_text_present": false,
+    "license_verified": false,
+    "note": "No upstream licence text or package metadata is present. No term is assumed from the repository URL; commercial and output use remain unresolved.",
+    "output_use_status": "not_established",
+    "redistribution_permitted": null,
+    "source_license": null,
+    "source_license_status": "not_established"
+  },
+  "matched_evidence": {
+    "matched_comparison_status": "blocked",
+    "note": "No NARA-WPE output exists, so no SI-SDR, STOI, SRMR or RTF comparison is claimed. Sibling WPE results are separate evidence and are never pooled or substituted.",
+    "pooling_allowed": false,
+    "project_wpe_evidence": [
+      {
+        "path": "docs/task-evidence/offline-mono-wpe/report.json",
+        "role": "Separate mono project WPE evidence; context only, not NARA-WPE output.",
+        "sha256": "2b9be2488c4b0f82f417abd3e131c840729856937ed8239f2645beeaa30d7e61"
+      },
+      {
+        "path": "docs/task-evidence/offline-multichannel-wpe/report.json",
+        "role": "Separate multichannel project WPE evidence; context only, not NARA-WPE output.",
+        "sha256": "4362c19cfd0633450af24bf9bc5124dbe2a90c9ad48164edf08b377c24ec8fba"
+      }
+    ],
+    "project_wpe_functions_present": true,
+    "upstream_nara_wpe_outputs_present": false
+  },
+  "mode": "feasibility",
+  "non_claims": [
+    "No NARA-WPE source, wheel, revision, licence or output exists.",
+    "No NARA-WPE import, execution or dereverberation was performed.",
+    "No real audio, RIR, corpus, listening or device timing was used.",
+    "No SI-SDR, STOI, SRMR, PESQ, RTF or latency is claimed.",
+    "No provider, default, public ABI, CONTRACTS, registry, descriptor, shared build, CI, board or handoff change is made.",
+    "No benchmark, qualification or release claim is made."
+  ],
+  "owner": "agent-NARA-WPE-REFERENCE-TOOLS",
+  "profile_scoring": {
+    "checks": [
+      {
+        "id": "source_absence_audited",
+        "passed": true
+      },
+      {
+        "id": "upstream_revision_not_fabricated",
+        "passed": true
+      },
+      {
+        "id": "upstream_license_not_fabricated",
+        "passed": true
+      },
+      {
+        "id": "upstream_geometry_not_asserted",
+        "passed": true
+      },
+      {
+        "id": "project_geometry_pinned",
+        "passed": true
+      },
+      {
+        "id": "matched_config_required",
+        "passed": true
+      },
+      {
+        "id": "caller_schema_accepts_structural_control",
+        "passed": true
+      },
+      {
+        "id": "caller_manifest_rejections_fail_closed",
+        "passed": true
+      },
+      {
+        "id": "pinned_admission_blocked",
+        "passed": true
+      },
+      {
+        "id": "identity_control_bit_exact",
+        "passed": true
+      },
+      {
+        "id": "frame_grid_half_open",
+        "passed": true
+      },
+      {
+        "id": "early_window_50ms_exact",
+        "passed": true
+      },
+      {
+        "id": "declared_latency_80ms_exact",
+        "passed": true
+      },
+      {
+        "id": "final_partial_37",
+        "passed": true
+      },
+      {
+        "id": "nonfinite_rejected",
+        "passed": true
+      },
+      {
+        "id": "config_mismatch_rejected",
+        "passed": true
+      },
+      {
+        "id": "no_real_audio",
+        "passed": true
+      },
+      {
+        "id": "no_listening_or_device_timing",
+        "passed": true
+      },
+      {
+        "id": "no_benchmark_or_release_claim",
+        "passed": true
+      },
+      {
+        "id": "no_downloads",
+        "passed": true
+      },
+      {
+        "id": "no_provider_or_default_change",
+        "passed": true
+      },
+      {
+        "id": "sibling_evidence_not_pooled",
+        "passed": true
+      },
+      {
+        "id": "room_profile_applied",
+        "passed": true
+      },
+      {
+        "id": "all_eight_gates_blocked",
+        "passed": true
+      },
+      {
+        "id": "candidate_not_qualified",
+        "passed": true
+      }
+    ],
+    "failed_checks": [],
+    "passed": true,
+    "scope": "synthetic geometry control only; not release qualification"
+  },
+  "protocol": "audio-sdk/nara-wpe-reference-tools-evidence/0.1",
+  "qualification": {
+    "all_release_gates_blocked": true,
+    "blocked_gate_count": 8,
+    "blocked_gate_ids": [
+      "exact_source_and_asset_identity",
+      "runtime_admission",
+      "artifact_rights_and_licence",
+      "exact_reference_parity",
+      "matched_room_policy",
+      "task_scope_and_geometry",
+      "opt_in_provider_intake",
+      "public_default_and_release"
+    ],
+    "candidate_qualified": false,
+    "decision": "DEFER",
+    "evidence_status": "incomplete",
+    "listening_or_device_timing_claim": false,
+    "missing_result_promoted": false,
+    "no_missing_result_qualifies_candidate": true,
+    "real_source_or_runtime_used": false,
+    "release_results_present": false,
+    "status": "not_qualified",
+    "synthetic_profile_checks_passed": true
+  },
+  "remaining_gates": [
+    "exact_source_and_asset_identity",
+    "runtime_admission",
+    "artifact_rights_and_licence",
+    "exact_reference_parity",
+    "matched_room_policy",
+    "task_scope_and_geometry",
+    "opt_in_provider_intake",
+    "public_default_and_release"
+  ],
+  "reproduction": {
+    "commands": [
+      "python3 run.py all",
+      "python3 -m unittest -v test_reference.py",
+      "python3 verify.py",
+      "python3 -m reuse lint",
+      "git diff --check",
+      "python3 scripts/ci.py"
+    ],
+    "environment": "PYTHONDONTWRITEBYTECODE=1",
+    "interpreter": "Python 3.12.16",
+    "note": "scripts/ci.py is run from the SDK worktree root after the task-local commands; it packages the installed SDK and does not execute NARA-WPE."
+  },
+  "reviewer": "reviewer-NARA-WPE-REFERENCE-TOOLS",
+  "room_profile": {
+    "checks": [
+      {
+        "evidence": "No NARA-WPE output and no frozen room render exists.",
+        "id": "frozen_render_reference",
+        "status": "blocked"
+      },
+      {
+        "evidence": "Project grid 16 kHz mono, 512/128/5/8 is pinned; upstream channel/rate/hop are unestablished.",
+        "id": "channel_rate_hop",
+        "status": "control_only"
+      },
+      {
+        "evidence": "No dereverberation is run, so no excitation exists.",
+        "id": "excitation",
+        "status": "not_applicable"
+      },
+      {
+        "evidence": "Declared project latency 1280 samples/80 ms; upstream delay unestablished.",
+        "id": "delay",
+        "status": "control_only"
+      },
+      {
+        "evidence": "No render path or measured room movement exists.",
+        "id": "movement",
+        "status": "not_applicable"
+      },
+      {
+        "evidence": "No rights-cleared noisy-speech stratum exists.",
+        "id": "noise",
+        "status": "blocked"
+      },
+      {
+        "evidence": "No upstream runtime or candidate state exists.",
+        "id": "reset_schedule",
+        "status": "blocked"
+      },
+      {
+        "evidence": "Dereverberation is not playback echo cancellation; no far-end echo path is claimed.",
+        "id": "echo_only",
+        "status": "not_applicable"
+      },
+      {
+        "evidence": "No near-end/render decomposition is claimed.",
+        "id": "near_end_only",
+        "status": "not_applicable"
+      },
+      {
+        "evidence": "No double-talk condition is evaluated.",
+        "id": "overlap",
+        "status": "not_applicable"
+      },
+      {
+        "evidence": "No candidate output exists to compare.",
+        "id": "no_reference",
+        "status": "blocked"
+      },
+      {
+        "evidence": "No echo cancellation is attempted.",
+        "id": "echo_attenuation",
+        "status": "not_measured"
+      },
+      {
+        "evidence": "No real candidate output or early-target score exists.",
+        "id": "near_end_damage",
+        "status": "blocked"
+      },
+      {
+        "evidence": "3 injected nonfinite values were rejected before state change; no candidate output exists.",
+        "id": "nonfinite_failures",
+        "status": "control_only"
+      },
+      {
+        "evidence": "Half-open source-frame grid is exact; no candidate alignment or upstream latency is claimed.",
+        "id": "alignment",
+        "status": "control_only"
+      },
+      {
+        "evidence": "No separate render/echo-return channel exists in a dereverberation reference.",
+        "id": "delayed_or_missing_render",
+        "status": "not_applicable"
+      },
+      {
+        "evidence": "No independent comparison, corpus or listener exists.",
+        "id": "no_reference_independent_comparison",
+        "status": "blocked"
+      }
+    ],
+    "not_applicable": [
+      "delayed_or_missing_render",
+      "echo_only",
+      "near_end_only",
+      "overlap",
+      "movement",
+      "excitation"
+    ],
+    "profile": "Room",
+    "qualifies": false,
+    "status": "applied_with_all_qualification_items_blocked"
+  },
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "status": "proposal_only_incomplete",
+  "task": "SDK-NARA-WPE-REFERENCE-TOOLS",
+  "task_geometry": {
+    "matched_configuration": {
+      "fields": [
+        "sample_rate_hz",
+        "channels",
+        "fft_size",
+        "hop_size",
+        "taps",
+        "prediction_delay_frames",
+        "early_window_ms"
+      ],
+      "must_equal_project_reference": true,
+      "observed_upstream": null,
+      "required_for_parity": true,
+      "status": "blocked"
+    },
+    "profile": "Room",
+    "project_reference": {
+      "channels": 1,
+      "declared_algorithmic_latency_ms": 80,
+      "declared_algorithmic_latency_samples": 1280,
+      "early_target_window_ms": 50,
+      "early_target_window_samples": 800,
+      "fft_size": 512,
+      "hop_size": 128,
+      "iterations": 3,
+      "note": "Pinned project WPE defaults. They are not asserted as NARA-WPE defaults.",
+      "prediction_delay_frames": 8,
+      "predictor_delay_ms": 64,
+      "predictor_delay_samples": 1024,
+      "processing_modes": [
+        "offline_whole_clip",
+        "frame_causal_rls"
+      ],
+      "sample_format": "float32",
+      "sample_rate_hz": 16000,
+      "source_paths": [
+        "adapters/wpe/README.md",
+        "docs/task-evidence/offline-mono-wpe/report.json"
+      ],
+      "stft_lookahead_ms": 16,
+      "stft_lookahead_samples": 256,
+      "taps": 5
+    },
+    "upstream_matched_geometry": {
+      "fft_size": null,
+      "hop_size": null,
+      "iterations": null,
+      "note": "No upstream source, package metadata or excerpt text is present, so no NARA-WPE default is asserted.",
+      "prediction_delay_frames": null,
+      "status": "unestablished",
+      "stft_window": null,
+      "taps": null
+    }
+  },
+  "title": "NARA-WPE reference tools",
+  "upstream_identity": {
+    "access_scope": "search excerpt",
+    "license": null,
+    "license_file_present": false,
+    "license_status": "not_established",
+    "license_verified": false,
+    "name": "NARA-WPE",
+    "package_metadata_present": false,
+    "reported_channels": null,
+    "reported_geometry_asserted": false,
+    "reported_sample_rate_hz": null,
+    "repository_url": "https://github.com/fgnt/nara_wpe",
+    "revision": null,
+    "revision_pin_available": false,
+    "source_checkout_present": false,
+    "source_reported_description": "Weighted-prediction-error dereverberation implementation URL recorded in the category source register under access scope 'search excerpt'. No excerpt text, revision, licence, package metadata or default geometry is recorded locally.",
+    "task_geometry_status": "unestablished"
+  },
+  "verification_profile": "Room",
+  "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-NARA-WPE-REFERENCE-TOOLS"
+}
