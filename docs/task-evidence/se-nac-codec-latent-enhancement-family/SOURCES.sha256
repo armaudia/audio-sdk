@@ -1,0 +1,34 @@
+# SHA-256 pins for SDK-SE-NAC-CODEC-LATENT-ENHANCEMENT-FAMILY task-local evidence.
+# source: paths are relative to the pinned audioml workspace root.
+# sdk: paths are relative to this SDK worktree.
+# The mutable plan/swarm/TASKS.json is never hashed; only its stable linked-row projection is gated.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+5154a8205516f145a719efc6f1598811f29c9df674b696ba25b78afa7af66130  source:audio-benchmark-platform/plan/INVENTORY.md
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+35f871e7d7362070c20fa35a5832115ea5388ffae550be3b25368a72bf5cebf4  source:research/noise_suppression_assets_20261027.json
+525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a  source:research/noise_suppression_candidate_census.md
+e44801b2ef3b84d984e3119218e201adc2083884ac0594a6a380cca1d5dc6537  source:research/store/snapshots/e44801b2ef3b84d984e3119218e201adc2083884ac0594a6a380cca1d5dc6537.jsonl
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  sdk:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  sdk:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+3b7d11f0518af444c4ed7b96401cef4016e6af8a707685628d263a31f46c3864  sdk:bindings/python/audio_sdk/__init__.py
+e32610ecf0f3f611269ddebd009ff81ca09cc3b92206fe93c9a149b9960463b5  sdk:docs/provider-intake.md
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  sdk:scripts/ci.py
+631e01a5842101d095f077f9a99204881fa1c97380287e0cab5aad99799a08c7  docs/task-evidence/se-nac-codec-latent-enhancement-family/LICENSES.md
+808fb8190712a93e8508e4bf2ff9e9ff80350b3e5ef9b65bcdbb211b93a1744a  docs/task-evidence/se-nac-codec-latent-enhancement-family/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/se-nac-codec-latent-enhancement-family/SOURCES.sha256.license
+34faabc0560acea5eb1aea02a50e2bad9933cf2588d51774554bd697e64992d8  docs/task-evidence/se-nac-codec-latent-enhancement-family/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/se-nac-codec-latent-enhancement-family/contract.json.license
+90ad07084f6410c8ea33384d2314822f43432c356a605c7bc2844533f99c4cd4  docs/task-evidence/se-nac-codec-latent-enhancement-family/reference.py
+e14237d8791d5f4a723a3665e070a34244ab513a97de7d83bf361353f4b9bde4  docs/task-evidence/se-nac-codec-latent-enhancement-family/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/se-nac-codec-latent-enhancement-family/report.json.license
+5161bf658ff3d3a7b964fbf2b789b787c85ac19027899c1bcfe3c2ee2cca4fd1  docs/task-evidence/se-nac-codec-latent-enhancement-family/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/se-nac-codec-latent-enhancement-family/report.json.sha256.license
+15ab3880839b20c0c13ff7f67d9af814c5a4fa82324f7a533f97c9171613ef13  docs/task-evidence/se-nac-codec-latent-enhancement-family/run.py
+a3ac8b70bcb251326c46e0033cb66db78ad49cb5dc24e5ea25debbf536e66158  docs/task-evidence/se-nac-codec-latent-enhancement-family/test_reference.py
+4041c7a1cf1c0616c1107589abf32a769c1f7a6f4384aa661caabbbf5a5c1219  docs/task-evidence/se-nac-codec-latent-enhancement-family/verify.py
