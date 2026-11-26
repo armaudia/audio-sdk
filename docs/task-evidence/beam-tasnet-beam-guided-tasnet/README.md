@@ -274,7 +274,7 @@ PYTHONDONTWRITEBYTECODE=1 /Users/htsakanyan/.pyenv/versions/3.12.16/bin/python3.
 - Twelve config adverse cases (eleven rejections plus one synthetic admission
   control); eleven scene adverse cases; all rejections leave status unchanged.
 - Declared target delays `[0.0, 1.865889…]` and interferer delays
-  `[0.0, −2.638392…]` samples; no integer rounding is hidden.
+  `[0.0, −2.638765830666999]` samples; no integer rounding is hidden.
 - `report.json` SHA-256 and byte count are in the table below.
 
 <!-- DIGEST_TABLE_START -->
