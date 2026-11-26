@@ -1,0 +1,54 @@
+# SHA-256 pins for SDK-SHERPA-ONNX task-local evidence.
+# source: paths are relative to the pinned audioml workspace root.
+# sdk: paths are relative to this SDK worktree.
+# The mutable plan/swarm/TASKS.json is never hashed; only its stable linked-row projection is gated.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+5154a8205516f145a719efc6f1598811f29c9df674b696ba25b78afa7af66130  source:audio-benchmark-platform/plan/INVENTORY.md
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3  source:cpp-library/pipeline-validation/playback-speed-candidates.md
+7f0a256489f0705f53f93ec9e85381ba05d7993625198e73afefc506a38cd97d  source:cpp-library/pipeline-validation/playback-speed/.venv/lib/python3.11/site-packages/sherpa_onnx-2.0.1.dist-info/METADATA
+4c2fda5d01068e258a034b42c65f7cb1b5c68c894c7e0d7d5d238772abbc6479  source:cpp-library/pipeline-validation/playback-speed/.venv/lib/python3.11/site-packages/sherpa_onnx-2.0.1.dist-info/RECORD
+632a756fb02f4b7e2e52739240510251e3a147bd72a1e0f3a139f8395c193af8  source:cpp-library/pipeline-validation/playback-speed/.venv/lib/python3.11/site-packages/sherpa_onnx-2.0.1.dist-info/WHEEL
+cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30  source:cpp-library/pipeline-validation/playback-speed/.venv/lib/python3.11/site-packages/sherpa_onnx-2.0.1.dist-info/licenses/LICENSE
+f99e43cc249dbfef58acaa02348892984e4c7dfa07923d9144bec5b51639d8ef  source:cpp-library/pipeline-validation/playback-speed/.venv/lib/python3.11/site-packages/sherpa_onnx/__init__.py
+a80620a5eb35e06a190584c2c643e5210bff672410283e5a8f106655c1519c9e  source:cpp-library/pipeline-validation/playback-speed/.venv/lib/python3.11/site-packages/sherpa_onnx/online_recognizer.py
+f1af234dcfeca76f7ab4e16bdc903311e76069419b8b67c1806a7bf149d8945d  source:cpp-library/pipeline-validation/playback-speed/.venv/lib/python3.11/site-packages/sherpa_onnx_core-2.0.1.dist-info/METADATA
+a7bde2c76ba2deaf0920b14d75b5d1bf72861ed3b1d6d735bfe0bbe83256635f  source:cpp-library/pipeline-validation/playback-speed/README.md
+6bc58a4efdf20daac252b6b1502632601a71efe0308f6757dc1eda34891a7e4f  source:cpp-library/pipeline-validation/playback-speed/models/sherpa-onnx-whisper-tiny.en/test_wavs/0.wav
+5143a6ba93c4b274e2c4ac22deb75c2c48936c853f0519add1de828b6c79cc5a  source:cpp-library/pipeline-validation/playback-speed/models/sherpa-onnx-whisper-tiny.en/test_wavs/1.wav
+f6f3c8b33e2534cdc154fe773ad2750f1f6a2ca5096179cdf037ae782456613e  source:cpp-library/pipeline-validation/playback-speed/models/sherpa-onnx-whisper-tiny.en/test_wavs/8k.wav
+b9ac44e7b794abb1a2d5faf0005e98a665971e7ac2ed15435832cc34edaa9100  source:cpp-library/pipeline-validation/playback-speed/models/sherpa-onnx-whisper-tiny.en/test_wavs/trans.txt
+06c0e6ff6348d427e51839219d1c886c18cfdf411e629e33f5e1679bff9c1527  source:cpp-library/pipeline-validation/playback-speed/models/sherpa-onnx-whisper-tiny.en/tiny.en-decoder.int8.onnx
+54d5a5fd2a757175aeb70a837a8404fc9c31b659610724694f5a0e2c51715f94  source:cpp-library/pipeline-validation/playback-speed/models/sherpa-onnx-whisper-tiny.en/tiny.en-decoder.onnx
+0ce578b827c94a961aacb8fa14b02f096504b337e5c94be37c36238cbe3e8bc6  source:cpp-library/pipeline-validation/playback-speed/models/sherpa-onnx-whisper-tiny.en/tiny.en-encoder.int8.onnx
+dc7de696432d97a3d64387800b230ac69d18e5e4efea0eec0613209dd8b7b0c9  source:cpp-library/pipeline-validation/playback-speed/models/sherpa-onnx-whisper-tiny.en/tiny.en-encoder.onnx
+306cd27f03c1a714eca7108e03d66b7dc042abe8c258b44c199a7ed9838dd930  source:cpp-library/pipeline-validation/playback-speed/models/sherpa-onnx-whisper-tiny.en/tiny.en-tokens.txt
+5801684f5e36263a6449abccfea86d2d33141d98c5eb71aafd377ace184e3a8f  source:research/voice-enhancement-20261101/agent-vad-asr-trials/REPORT.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  sdk:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  sdk:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+3b7d11f0518af444c4ed7b96401cef4016e6af8a707685628d263a31f46c3864  sdk:bindings/python/audio_sdk/__init__.py
+e32610ecf0f3f611269ddebd009ff81ca09cc3b92206fe93c9a149b9960463b5  sdk:docs/provider-intake.md
+30915db04b0229d03729b8dd03bac8e0eb88ad285781069de1607ff2c4559de4  sdk:docs/task-evidence/asr-word-timestamps/README.md
+318bec24c9d388fa122e80974cfc6772b144f7f651e87d5e88ac0677975d437e  sdk:docs/task-evidence/asr-word-timestamps/report.json
+1ccece1085e1d6e821891feffb0c19fc494227bfd5e8a656657ffd7081cf959c  sdk:docs/task-evidence/vosk-small-en-us-0-15-playback-gate/README.md
+57f355f51582c131812172e779ac8a6e3638491542c8e4e44efc46fd69cc2cc2  sdk:docs/task-evidence/vosk-small-en-us-0-15-playback-gate/report.json
+7c24422f782bf934d22e2a752e2be2ead2d184cfd8728452c7f7a5dd68f25c7f  sdk:docs/task-evidence/whisper-tiny-en-mfa/README.md
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  sdk:scripts/ci.py
+2c8ec9fc043a2eddc6af2b56ae1ff61ce6965c2234cc3d25618b873ec20e88ff  docs/task-evidence/sherpa-onnx/LICENSES.md
+9131a0323676d2d63f879dad5ad6fe90d2f2df69e17ce40a94c08fd017b2cd61  docs/task-evidence/sherpa-onnx/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/sherpa-onnx/SOURCES.sha256.license
+155667966ec39799bfcaeac46bd154332ec089dad93d85dc5cd8e7477e64e4a5  docs/task-evidence/sherpa-onnx/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/sherpa-onnx/contract.json.license
+3cbbcf40de27aadc2d45d73e420b35a69086480b941e37eafaf47eaea55b93bb  docs/task-evidence/sherpa-onnx/reference.py
+6930e23ae120ff01cddd0a57aa495da7b1af0631a34c458162067a42abf93c52  docs/task-evidence/sherpa-onnx/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/sherpa-onnx/report.json.license
+7c594439f5f8a526e18b5cc1a451add9c8451cff13bc4074be3821365871c7d9  docs/task-evidence/sherpa-onnx/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/sherpa-onnx/report.json.sha256.license
+12118a5c07cff6a5b1446c2a415cd1275e103cee1cca4f6f03e46b5a4078bf05  docs/task-evidence/sherpa-onnx/run.py
+ba8b6708715baf5b88273172b2816439cdffb1a83e9a2f60885b17277d935e4e  docs/task-evidence/sherpa-onnx/test_reference.py
+89da081307df73b23998e34006988e59880d6d5f6392c9f3324764fdb5a518bc  docs/task-evidence/sherpa-onnx/verify.py
