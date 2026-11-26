@@ -1,0 +1,25 @@
+# SHA-256 pins for SDK-SUNO-PRODUCT-COMPARISON task-local evidence.
+# source: paths are relative to the pinned research workspace root.
+# sdk: paths are relative to this SDK worktree.
+# Full mutable plan/swarm/TASKS.json is never hashed; only board_row.stable_sha256=4f76f45c33137b403b02176ab535f62ca89393ad28c7491240524d1f09488340 is gated.
+2b41ecfede124af9b613d7c87392ef99becccbfad178babd6e04acc9e39ae6fe  docs/task-evidence/suno-product-comparison/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/suno-product-comparison/SOURCES.sha256.license
+748abebbaf6335a821dc9cf4e0af626a9bbdf85c9a49b78eeab117fbfae12022  docs/task-evidence/suno-product-comparison/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/suno-product-comparison/contract.json.license
+81f461b177ae1e28e9aa05d983ef8bb1a87958a8eb946c3a22e406572a006558  docs/task-evidence/suno-product-comparison/reference.py
+27da738546f7436754d382ccbbc03aba956b196cc9f724af4565fb09a3a84dfd  docs/task-evidence/suno-product-comparison/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/suno-product-comparison/report.json.license
+2c1957e3631d8ee9f013f7b2d213983bde796b9dcf6d3ff786f352f0e8de6da1  docs/task-evidence/suno-product-comparison/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/suno-product-comparison/report.json.sha256.license
+61d5a673f728752e680fe9df2da542f9b16fc7063003750956c3e3ae3802d172  docs/task-evidence/suno-product-comparison/run.py
+b835d97867a434b38b6800b396e17529ef80a937633aa4550bd392259e69bd52  docs/task-evidence/suno-product-comparison/test_reference.py
+5d23c8ff644e8e23e8118d8d079aeddc5720c96f84a596991258b9e71727532d  docs/task-evidence/suno-product-comparison/verify.py
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  sdk:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  sdk:scripts/ci.py
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+d1a4edbf72257ebb989d9639e542cf2c50152e323dc9081f2af868708064a3e7  source:research/cpp-lib-market-benchmark-20261109.md
