@@ -1,0 +1,42 @@
+# SHA-256 pins for SDK-LIBROSA-BEAT-TRACK-TEMPO task-local evidence.
+# source: paths are relative to the pinned audioml workspace root.
+# sdk: paths are relative to this SDK worktree.
+# The mutable plan/swarm/TASKS.json is never hashed; only its stable linked-row projection is gated.
+f144a5b724dffe30a984e84d5ad6c7858e7bdd2264564aacaee575f5a3e31ebd  docs/task-evidence/librosa-beat-track-tempo/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/librosa-beat-track-tempo/SOURCES.sha256.license
+6b65e521aa5552ebba84053590ed209e55f408139f55af8bee21ce3781c2077d  docs/task-evidence/librosa-beat-track-tempo/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/librosa-beat-track-tempo/contract.json.license
+0a27b675ec895a55fbdfe16e3c4e6420459e03ae4dfbc215749abacae6b708a9  docs/task-evidence/librosa-beat-track-tempo/reference.py
+dc1b487945d283b1b200bbeadc7dc681df10af145df43a598700e0749bec5b6a  docs/task-evidence/librosa-beat-track-tempo/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/librosa-beat-track-tempo/report.json.license
+743d44c4460ff0de2533f588fad962b31940684547d3fa6ff14281d6bc8310e9  docs/task-evidence/librosa-beat-track-tempo/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/librosa-beat-track-tempo/report.json.sha256.license
+6fa3ca4ccb2612db69d26f1c9f4890ea47ee4d2cc104e181b61b8c51d39460cd  docs/task-evidence/librosa-beat-track-tempo/run.py
+d62e4fabfe096ecda886fc097c8b93756d17e8e30ac0f63dd16c2539856b0fcc  docs/task-evidence/librosa-beat-track-tempo/test_reference.py
+ebc3f6488aacf8e69c6e9508b924c7f527aef03f1e307bb1d4795b844ba896c7  docs/task-evidence/librosa-beat-track-tempo/verify.py
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  sdk:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  sdk:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+3b7d11f0518af444c4ed7b96401cef4016e6af8a707685628d263a31f46c3864  sdk:bindings/python/audio_sdk/__init__.py
+e32610ecf0f3f611269ddebd009ff81ca09cc3b92206fe93c9a149b9960463b5  sdk:docs/provider-intake.md
+700153d2541f9f4836e878fd6bfec631b644d1bf55ab0868e03f880858bd5e1d  sdk:docs/task-evidence/aubio/README.md
+0ee56f1ecc66440b25f8d0c54e88ba5d2ba4f66c316fe8b0c3a4e626896e06f1  sdk:docs/task-evidence/aubio/report.json
+d453bda9ea5d3dda875b05ff7fbd238e5ecdef69ad48deb4be26c68f98b8c828  sdk:docs/task-evidence/beatnet/README.md
+dc233e50bd901f44e68c01033d0fe753b47955853a28d81f993f22dce0883399  sdk:docs/task-evidence/beatnet/report.json
+11773a543c6dab54ff4754989501a0a70a29b247612e51aee5fb54c0050457b8  sdk:docs/task-evidence/ffmpeg-atempo/README.md
+a3986e6cb9d7315995aa13c74806c260c620d01b6f545e0837b127565c2ba249  sdk:docs/task-evidence/ffmpeg-atempo/report.json
+9f91d406909fe2f9fa7cfd4b954639d081a12ab16005be761707b6f5c998f40c  sdk:docs/task-evidence/numpy-scipy-soundfile-wav-resampling/README.md
+091b57f366c1c5d4d395f955da7d237848bdc7564c970e1a087d423fb702f225  sdk:docs/task-evidence/numpy-scipy-soundfile-wav-resampling/report.json
+951726880bc657fa59f0ba3d2508887401f1b07942faf8ee87faa8c58f02c550  sdk:docs/task-evidence/soundtouch/README.md
+83ef7edaa82f919f1db0d9027b0b4724f2a95a46cfaea848e2652dcc43bbe947  sdk:docs/task-evidence/soundtouch/report.json
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  sdk:scripts/ci.py
+294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d  source:REALTIME_COMPONENT_CANDIDATES.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  source:audio-benchmark-platform/audio-sdk/README.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3  source:cpp-library/pipeline-validation/playback-speed-candidates.md
+525a25c12753ea7fad71aa7101b2c872d5511813fd0ea9b18231b347a8fda96d  source:research/speech-rate-tsm-evaluation-20261101.md
