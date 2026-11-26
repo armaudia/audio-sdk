@@ -1,0 +1,31 @@
+# SHA-256 pins for SDK-VOCOS-BWE task-local blocker evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# The mutable shared board is not pinned; only its stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+eb1fef2ab460c11fe382d1a978ef762f91a1c1e93725e7ac443b9b5c05098b07  source:research/voice-enhancement-20261101/agent-denoise/REPORT.md
+fa8033889de77bf0fa2dfd57f5df97fc96e149a6027febe3303b50ab1d70de5b  source:research/voice-enhancement-20261101/agent-transform-spatial-trials/REPORT.md
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+b965bab19a48a82d9c5a67da88b781fa3215f3be4e298607d643445446127a61  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+3f961e3fbffb63af701e38dd16914711288facb7f1285b054a2ffc1a5ad3b059  docs/task-evidence/vocos/report.json
+05f039253f88857040250ffc4949cc0d830ffbc32b89f9e9c78c7263bb1bef52  docs/task-evidence/vocos-bwe/LICENSES.md
+aa9f9b2764c7ea5c4a181ce3de005bc67ff7a01bebc424bdae6dd794a42ac962  docs/task-evidence/vocos-bwe/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/vocos-bwe/SOURCES.sha256.license
+3b77bfba05496d1f82925bf59aec9312e8b3d3682d9f43a946af072b64176406  docs/task-evidence/vocos-bwe/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/vocos-bwe/contract.json.license
+1ee090f687447079dca18ce009d77c2836a981532639d70c426e800d0bfd9b7d  docs/task-evidence/vocos-bwe/reference.py
+2b5fdb54eda98fe20ae29c9894be82f7b98fdb9c5f07948f23467e9c81cb7605  docs/task-evidence/vocos-bwe/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/vocos-bwe/report.json.license
+b2994c850b21d6c6b34cabe11345da428183e40410af5d67ff89e6a6313a1e52  docs/task-evidence/vocos-bwe/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/vocos-bwe/report.json.sha256.license
+cf574f922ba0f7850669fe1da53bd214ae43991a1ff702bf7a4ee87f61100371  docs/task-evidence/vocos-bwe/run.py
+5cf6599fcdfaf6dcb068c2489df94621119d69579be37dccccf112e763714d38  docs/task-evidence/vocos-bwe/test_reference.py
+d6ee8b0a8d148eb5193fe2416393e79aadf8cb727eedb0d0909cc7221cb8c9b4  docs/task-evidence/vocos-bwe/verify.py
