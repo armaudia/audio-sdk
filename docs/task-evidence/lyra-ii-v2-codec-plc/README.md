@@ -260,7 +260,10 @@ pass with 0 failed and 0 skipped; `verify.py` prints `PASS ... cold_starts=3/3
 byte_identical=true profile=Enhancement status=incomplete decision=DEFER`;
 REUSE reports no missing or bad license; `git diff --check` is clean.
 `verify.py` itself writes only to a temporary directory and never to this
-package.
+package. Its scope gate diffs this branch against the newest merge-base with
+`origin/main` (falling back to `main`), so committed out-of-scope edits fail as
+`base_out_of_scope_change` while unrelated sibling packages added to `main`
+later do not; a missing base emits `scope_base_unavailable` instead of passing.
 
 Current counts: 30 absence probes (0 present), 6 required artifacts (0
 present), 6 open blockers, 75 rejected admission controls, 1 schema-only

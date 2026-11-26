@@ -5,6 +5,10 @@
 The original directory is never written. Regeneration runs in three independent
 scratch trees with fresh interpreter processes and symlinks to the pinned,
 read-only source and boundary files.
+
+The scope gate compares this branch against the newest merge-base with the PR
+base refs, so committed out-of-scope edits fail while later sibling additions
+on ``main`` do not. A missing base is a failure, never a silent pass.
 """
 
 from __future__ import annotations
@@ -510,6 +514,23 @@ def check_scope(errors: list[str]) -> list[str]:
         if diff.returncode != 0 or diff.stdout.strip():
             errors.append("git_" + "_".join(arguments).replace("--", "")
                           + "_failed:" + diff.stdout.strip())
+    base = reference.scope_base(SDK_ROOT)
+    if base is None:
+        errors.append("scope_base_unavailable")
+    else:
+        try:
+            base_paths = reference.scope_changed_paths(SDK_ROOT, base)
+        except ValueError as error:
+            errors.append(str(error))
+        else:
+            for path in reference.scope_violations(base_paths):
+                errors.append("base_out_of_scope_change:" + path)
+        committed = subprocess.run(
+            ["git", "-C", str(SDK_ROOT), "diff", "--check", base + "..HEAD"],
+            capture_output=True, text=True)
+        if committed.returncode != 0 or committed.stdout.strip():
+            errors.append("committed_git_diff_check_failed:"
+                          + committed.stdout.strip())
     allowed = set(run.LOCAL_PIN_FILES) | {"SOURCES.sha256"}
     for path in sorted(HERE.iterdir()):
         if path.is_file() and path.name not in allowed:
