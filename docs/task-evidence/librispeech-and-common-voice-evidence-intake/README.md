@@ -202,7 +202,12 @@ PYTHONDONTWRITEBYTECODE=1 python3 verify.py
 `run.py --all` repeats three times and fails if report, sidecar, manifest or
 contract bytes differ. `verify.py` never writes to this directory: it
 regenerates in memory, then builds three isolated scratch copies with symlinks
-to the pinned read-only inputs and checks cold-start byte identity there.
+to the pinned read-only inputs and checks cold-start byte identity there. Its
+scope gate diffs this branch against the newest merge-base with `origin/main`
+(falling back to `main`), so a committed out-of-scope edit fails as
+`base_out_of_scope_change` while unrelated sibling packages added to `main`
+later do not; when no base resolves it fails as `scope_base_unavailable`
+instead of passing.
 
 ## Eight blocked release gates
 
