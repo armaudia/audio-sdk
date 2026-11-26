@@ -1,0 +1,375 @@
+{
+  "acceptance_profile": "enhancement",
+  "asset_requirements": {
+    "model_bytes": null,
+    "model_identity_recorded": false,
+    "model_path": "data/models/clearvoice/MossFormer2_SE_48K/last_best_checkpoint.pt",
+    "model_sha256": null,
+    "rights_decision_required": true,
+    "runtime_env_path": "data/envs/clearvoice",
+    "source_checkout_path": "data/checkouts/ClearerVoice-Studio"
+  },
+  "base_commit": "38f502b8e67a4cfef7dd72425aae6b0044846aad",
+  "board_row": {
+    "full_tasks_json_hashed": false,
+    "note": "Only the stable linked-row identity is gated. The mutable full plan/swarm/TASKS.json is never read into, hashed by or pinned to this package.",
+    "stable_fields": {
+      "component": "clearervoice-mossformer2-se-48k",
+      "depends_on": [
+        "SDK-FND-AUDIT",
+        "SDK-FND-EVIDENCE",
+        "SDK-FND-PROVIDER"
+      ],
+      "id": "SDK-CLEARERVOICE-MOSSFORMER2-SE-48K",
+      "mode": "feasibility",
+      "repository": "audio-sdk",
+      "title": "ClearerVoice MossFormer2_SE_48K"
+    },
+    "stable_sha256": "01c43039c631b59f69b313e20b757382ac9de33864f83adf42e1839a5f8d8917"
+  },
+  "boundary": {
+    "adapter_json_added": false,
+    "asset_bundled": false,
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "native_engine_built": false,
+    "network_used": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "readiness_json_added": false,
+    "real_asset_read": false,
+    "registered": false,
+    "sdk_data_dir_added": false,
+    "shared_build_or_ci_change": false,
+    "surrogate_is_candidate": false,
+    "task_board_or_handoff_write": false,
+    "weights_vendored": false
+  },
+  "boundary_pins": {
+    "sdk:CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "sdk:CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "sdk:REUSE.toml": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+    "sdk:api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "sdk:api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "sdk:docs/task-evidence/clearvoice-frcrn-16khz/README.md": "2ba56bbe54c825818143aa27859f2e001077bf0024932321a45e764fd40ef75d",
+    "sdk:docs/task-evidence/clearvoice-mossformergan/README.md": "4cce8370c8af8bd2a5a83f05bf15e540756f1f7d61f63170b6a9626f65d6bbce",
+    "sdk:docs/task-evidence/clearvoice-mossformergan/contract.json": "cd98bc7b615b0861923d2a53a24ec91fd939c6dcade0818022912a5a5e34869c",
+    "sdk:docs/task-evidence/clearvoice-mossformergan/report.json": "5c806186d35c1f39021617dc5649bf32d87030a1a059d26e35492a69ee1a7afc",
+    "sdk:scripts/ci.py": "64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f"
+  },
+  "branch": "swarm/SDK-CLEARERVOICE-MOSSFORMER2-SE-48K",
+  "caller_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_executed": false,
+    "asset_is_loaded": false,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/clearervoice-mossformer2-se-48k/caller-supplied-asset/0.1",
+    "expected_model_path": "data/models/clearvoice/MossFormer2_SE_48K/last_best_checkpoint.pt",
+    "expected_runtime_env": "data/envs/clearvoice",
+    "expected_source_checkout": "data/checkouts/ClearerVoice-Studio",
+    "pinned_model_identity_recorded": false,
+    "present_behavior": "validate_absolute_paths_byte_count_sha256_pointer_and_geometry_only; do_not_load_or_execute_in_this_package",
+    "required_fields": [
+      "channels",
+      "checkpoint_file",
+      "checkpoint_pointer_path",
+      "checkpoint_pointer_sha256",
+      "input_format",
+      "license_decision",
+      "mode",
+      "model_bytes",
+      "model_name",
+      "model_path",
+      "model_sha256",
+      "package_version",
+      "sample_rate_hz",
+      "source_revision"
+    ],
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "model_path and checkpoint_pointer_path are caller-owned absolute paths",
+      "model_bytes and SHA-256 equal the caller's model file",
+      "checkpoint pointer SHA-256 matches and its stripped text names checkpoint_file",
+      "source_revision, package_version, model_name, sample rate, channels, format and mode are pinned",
+      "license_decision must be cleared only after a written artifact-rights decision",
+      "the exact model artifact revision, byte count and SHA-256 must be recorded in a verified ledger",
+      "no download, copy, build, import, load or execution occurs in this package"
+    ],
+    "weights_embedded_in_sdk": false
+  },
+  "component_id": "clearervoice-mossformer2-se-48k",
+  "decision": "DEFER",
+  "defer_before": "opt_in_adapter_exposure",
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    {
+      "id": "source_absent",
+      "requirement": "Supply the ClearerVoice-Studio source at pinned revision dcb1b20e1e44d435090072ab9b223c792ea1f624 as a caller-owned checkout or reproducible archive with its own SHA-256, without a network download.",
+      "state": "data/checkouts/ClearerVoice-Studio is absent. No ClearerVoice source tree, submodule, wheel or sdist is present in this workspace, so no 48 kHz model code was read or executed."
+    },
+    {
+      "id": "model_identity_unrecorded_and_absent",
+      "requirement": "Record the exact MossFormer2_SE_48K checkpoint identity: immutable model-card or artifact revision, filename, byte count and SHA-256, with the checkpoint pointer verified. Then supply the bytes as a caller-owned external asset.",
+      "state": "No pinned local ledger records a MossFormer2_SE_48K checkpoint revision, filename, byte count or SHA-256. data/models/clearvoice/MossFormer2_SE_48K/last_best_checkpoint.pt is absent. A hash-matched placeholder is never accepted as the pinned model."
+    },
+    {
+      "id": "runtime_absent",
+      "requirement": "Admit an isolated, hash-pinned CPython runtime with the pinned clearvoice 0.1.2 package, PyTorch and the requirements lock; record wheel/sdist hashes, ABI, platform and product-use terms.",
+      "state": "data/envs/clearvoice and the clearvoice package are absent. adapters/clearvoice/run.py is not imported or executed, and no runtime, ABI or timing evidence exists."
+    },
+    {
+      "id": "rights_unresolved",
+      "requirement": "Supply written model-weight, training-data, corpus, redistribution, product-use and derivative-output terms plus the complete notice bundle for the exact checkpoint, runtime and 48 kHz output, with a recorded legal review.",
+      "state": "The code and model card are reported Apache-2.0, but upstream states open and private training data with undisclosed corpus exposure. Artifact-specific terms, redistribution and product-use clearance are not recorded."
+    },
+    {
+      "id": "geometry_and_resampling_unqualified",
+      "requirement": "Establish the exact 48 kHz mono whole-utterance geometry, content delay, finite drain and any 48 kHz to installed 16 kHz mapping, including edge exclusions and output length.",
+      "state": "No resampling, content-delay, drain or edge-exclusion implementation is present. Installed v0 remains 16 kHz mono f32 at 160 samples and was not changed."
+    },
+    {
+      "id": "qualification_evidence_absent",
+      "requirement": "Reproduce approved exact-runtime outputs for frozen inputs, then score a rights-cleared paired 48 kHz clean/noisy cohort with independent SI-SDR/STOI or permitted listening, clean-preservation, peak/nonfinite controls, target-device timing and opt-in provider intake.",
+      "state": "No exact output vector, rights-cleared cohort, independent score, listening result, target timing, provider intake or default decision exists."
+    }
+  ],
+  "format": {
+    "candidate_algorithmic_delay_measured": false,
+    "candidate_algorithmic_latency_samples": null,
+    "candidate_declared_channels": 1,
+    "candidate_declared_input_format": "float32",
+    "candidate_declared_sample_rate_hz": 48000,
+    "candidate_hop_is_proposal_only": true,
+    "candidate_proposed_hop_ms": 10.0,
+    "candidate_proposed_hop_samples": 480,
+    "installed_v0_channels": 1,
+    "installed_v0_frame_samples": 160,
+    "installed_v0_geometry_preserved": true,
+    "installed_v0_sample_format": "f32",
+    "installed_v0_sample_rate_hz": 16000,
+    "resampling_implemented": false,
+    "resampling_required_for_installed_v0": true,
+    "session_model": "offline_whole_clip"
+  },
+  "gates": [
+    {
+      "id": "exact_source_and_model_identity",
+      "requirement": "Pinned ClearerVoice source revision plus an immutable MossFormer2_SE_48K artifact revision, byte count and SHA-256, verified pointer and caller-held bytes.",
+      "status": "blocked"
+    },
+    {
+      "id": "runtime_admission",
+      "requirement": "Hash-pinned isolated CPython/clearvoice 0.1.2/PyTorch runtime with archive, wheels, ABI, platform and distribution terms recorded.",
+      "status": "blocked"
+    },
+    {
+      "id": "artifact_and_training_rights",
+      "requirement": "Weight, training-data, corpus, runtime, redistribution, product-use and derivative-output rights cleared with complete notices and legal review.",
+      "status": "blocked"
+    },
+    {
+      "id": "exact_reference_parity_48k",
+      "requirement": "Approved exact-runtime MossFormer2_SE_48K output vectors and byte-level parity on the declared 48 kHz mono geometry.",
+      "status": "blocked"
+    },
+    {
+      "id": "rights_cleared_paired_cohort",
+      "requirement": "Frozen rights-cleared paired 48 kHz clean/noisy corpus, strata, edge exclusions, content delay and reset schedule.",
+      "status": "blocked"
+    },
+    {
+      "id": "independent_scoring_and_listening",
+      "requirement": "Independent SI-SDR/STOI or permitted listening, identity and task-matched baselines, failure/nonfinite controls and clean preservation.",
+      "status": "blocked"
+    },
+    {
+      "id": "target_runtime_timing_and_resampling",
+      "requirement": "Target-device p50/p95/p99, RTF, memory, deadline, whole-clip availability and the exact 48 kHz to installed 16 kHz mapping.",
+      "status": "blocked"
+    },
+    {
+      "id": "opt_in_provider_intake_and_default",
+      "requirement": "Opt-in provider intake, descriptor/asset review, OFF default and an explicit owner default decision.",
+      "status": "blocked"
+    }
+  ],
+  "invariants": [
+    "decision is DEFER and qualification is not_qualified",
+    "no missing, blocked or rejected result is promoted to a pass",
+    "no candidate artifact is downloaded, copied, loaded or executed",
+    "no model, runtime or corpus claim is made from observed presence",
+    "installed v0 remains 16 kHz mono float32 at 160 samples per frame",
+    "only this task-local evidence directory is written",
+    "the mutable full task board is never hashed or read into this package"
+  ],
+  "local_files": [
+    "README.md",
+    "SOURCES.sha256",
+    "SOURCES.sha256.license",
+    "contract.json",
+    "contract.json.license",
+    "reference.py",
+    "report.json",
+    "report.json.license",
+    "report.json.sha256",
+    "report.json.sha256.license",
+    "run.py",
+    "test_reference.py",
+    "verify.py"
+  ],
+  "mode": "feasibility",
+  "negative_claims": [
+    "No MossFormer2_SE_48K output, checkpoint, derived weight, import or runtime call was produced.",
+    "No enhancement, quality, intelligibility, latency, device, benchmark or release result is claimed.",
+    "The synthetic DC-blocker surrogate is not MossFormer2_SE_48K and cannot qualify the candidate.",
+    "No real corpus, clean reference, audio, device clock or listener was used.",
+    "No provider, descriptor, registry, installed v0 path, shared build, dependency lock or CI was changed.",
+    "No source, wheel, checkpoint or model card was downloaded, copied, vendored or redistributed.",
+    "Identity is the only paired control; no surrogate or source-reported value is promoted to a pass."
+  ],
+  "profile": "enhancement",
+  "proposal_only": true,
+  "qualification": {
+    "all_blocked": true,
+    "release_gate_count": 8,
+    "release_gates": [
+      "exact_source_and_model_identity",
+      "runtime_admission",
+      "artifact_and_training_rights",
+      "exact_reference_parity_48k",
+      "rights_cleared_paired_cohort",
+      "independent_scoring_and_listening",
+      "target_runtime_timing_and_resampling",
+      "opt_in_provider_intake_and_default"
+    ],
+    "status": "not_qualified"
+  },
+  "qualification_status": "not_qualified",
+  "release_gates": [
+    {
+      "id": "exact_source_and_model_identity",
+      "requirement": "Pinned ClearerVoice source revision plus an immutable MossFormer2_SE_48K artifact revision, byte count and SHA-256, verified pointer and caller-held bytes.",
+      "status": "blocked"
+    },
+    {
+      "id": "runtime_admission",
+      "requirement": "Hash-pinned isolated CPython/clearvoice 0.1.2/PyTorch runtime with archive, wheels, ABI, platform and distribution terms recorded.",
+      "status": "blocked"
+    },
+    {
+      "id": "artifact_and_training_rights",
+      "requirement": "Weight, training-data, corpus, runtime, redistribution, product-use and derivative-output rights cleared with complete notices and legal review.",
+      "status": "blocked"
+    },
+    {
+      "id": "exact_reference_parity_48k",
+      "requirement": "Approved exact-runtime MossFormer2_SE_48K output vectors and byte-level parity on the declared 48 kHz mono geometry.",
+      "status": "blocked"
+    },
+    {
+      "id": "rights_cleared_paired_cohort",
+      "requirement": "Frozen rights-cleared paired 48 kHz clean/noisy corpus, strata, edge exclusions, content delay and reset schedule.",
+      "status": "blocked"
+    },
+    {
+      "id": "independent_scoring_and_listening",
+      "requirement": "Independent SI-SDR/STOI or permitted listening, identity and task-matched baselines, failure/nonfinite controls and clean preservation.",
+      "status": "blocked"
+    },
+    {
+      "id": "target_runtime_timing_and_resampling",
+      "requirement": "Target-device p50/p95/p99, RTF, memory, deadline, whole-clip availability and the exact 48 kHz to installed 16 kHz mapping.",
+      "status": "blocked"
+    },
+    {
+      "id": "opt_in_provider_intake_and_default",
+      "requirement": "Opt-in provider intake, descriptor/asset review, OFF default and an explicit owner default decision.",
+      "status": "blocked"
+    }
+  ],
+  "reopen_condition": "Supply the pinned ClearerVoice source and the exact MossFormer2_SE_48K checkpoint identity and bytes, admit a hash-pinned clearvoice/PyTorch runtime, clear all artifact and corpus rights, establish the 48 kHz mono geometry and installed-16-kHz mapping, reproduce exact outputs, score a rights-cleared paired cohort independently, measure target timing and complete opt-in provider intake with an OFF default. Until then the candidate stays DEFER, incomplete and not qualified.",
+  "repository": "audio-sdk",
+  "reproduction": {
+    "entrypoints": [
+      "run.py",
+      "test_reference.py",
+      "verify.py"
+    ],
+    "python": "3.12",
+    "regeneration_rounds": 3,
+    "source_root_env": "SOURCE_ROOT",
+    "third_party_dependencies": []
+  },
+  "reviewer": "reviewer-CLEARERVOICE-MOSSFORMER2-SE-48K",
+  "scenario": {
+    "id": "clearervoice-mossformer2-se-48k-offline-whole-clip-v1",
+    "is_aec": false,
+    "is_candidate": false,
+    "is_streaming": false,
+    "mode": "offline",
+    "note": "Whole-utterance enhancement boundary probe only; the surrogate is not MossFormer2_SE_48K and no candidate output exists.",
+    "task": "CLN-01"
+  },
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "scope": {
+    "network_used": false,
+    "reads_model_or_runtime": false,
+    "reads_real_audio": false,
+    "task_local_only": true,
+    "writes": [
+      "docs/task-evidence/clearervoice-mossformer2-se-48k"
+    ]
+  },
+  "source_pins": {
+    "source:adapters/clearvoice/README.md": "9807cd56073eb35cbef71145ac36487fecdab8cbfaa25741474d10a1af3f50d5",
+    "source:adapters/clearvoice/adapter.json": "ecc782d25d7d6421ac6a5cf7b219bbccd061a86df6000aab8e2a0a1e7c3253ff",
+    "source:adapters/clearvoice/requirements.lock": "3914dfba56771fca024d3651db4af02e7a145fb751be7340ee1c39322cb8ab91",
+    "source:adapters/clearvoice/run.py": "c9896e8fbac4f6eca9e81bb322a17192382eab5ccca218e7c855f64750945d90",
+    "source:audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "source:audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "source:research/noise_suppression_assets_20261027.json": "35f871e7d7362070c20fa35a5832115ea5388ffae550be3b25368a72bf5cebf4",
+    "source:research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+    "source:research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245"
+  },
+  "status": "proposal_only_synthetic_incomplete",
+  "task_id": "SDK-CLEARERVOICE-MOSSFORMER2-SE-48K",
+  "task_row_identity": {
+    "full_tasks_json_hashed": false,
+    "full_tasks_json_read": false,
+    "gate": "stable linked-row identity only",
+    "stable_fields": {
+      "component": "clearervoice-mossformer2-se-48k",
+      "depends_on": [
+        "SDK-FND-AUDIT",
+        "SDK-FND-EVIDENCE",
+        "SDK-FND-PROVIDER"
+      ],
+      "id": "SDK-CLEARERVOICE-MOSSFORMER2-SE-48K",
+      "mode": "feasibility",
+      "repository": "audio-sdk",
+      "title": "ClearerVoice MossFormer2_SE_48K"
+    },
+    "stable_sha256": "01c43039c631b59f69b313e20b757382ac9de33864f83adf42e1839a5f8d8917"
+  },
+  "title": "ClearerVoice MossFormer2_SE_48K",
+  "upstream": {
+    "code_license": "Apache-2.0",
+    "model_artifact_identity_recorded": false,
+    "model_card_license_reported": "Apache-2.0",
+    "model_checkpoint_filename_hint": "last_best_checkpoint.pt",
+    "model_name": "MossFormer2_SE_48K",
+    "model_repository": "https://huggingface.co/alibabasglab/MossFormer2_SE_48K",
+    "package": "ClearerVoice-Studio-clearvoice-0.1.2",
+    "package_version": "0.1.2",
+    "repository": "https://github.com/modelscope/ClearerVoice-Studio",
+    "source_revision": "dcb1b20e1e44d435090072ab9b223c792ea1f624",
+    "training_data_disclosure": "open_and_private_undisclosed_exposure"
+  },
+  "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-CLEARERVOICE-MOSSFORMER2-SE-48K",
+  "write_scope": "docs/task-evidence/clearervoice-mossformer2-se-48k and its own fixtures only"
+}
