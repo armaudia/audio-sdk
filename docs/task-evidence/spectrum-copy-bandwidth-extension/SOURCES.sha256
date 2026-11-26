@@ -1,0 +1,29 @@
+# SHA-256 pins for SDK-SPECTRUM-COPY-BANDWIDTH-EXTENSION.
+# source: paths are workspace-relative; other external paths are SDK-worktree-relative.
+# Local paths are SDK-worktree-relative. Missing caller assets are ledger entries, not file pins.
+# The mutable full plan/swarm/TASKS.json is never pinned; only stable row identity is gated.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+8371790cdb2b25a5ef55f07d8a52bc74850522d5e30968c34984c754af95cb71  source:research/distortion_restoration_20261028.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+b965bab19a48a82d9c5a67da88b781fa3215f3be4e298607d643445446127a61  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+9db5fee497272ecf2c734f31cfb0a4662b43c01d745f856745ca9bcdcdc9c2ba  schemas/descriptor.schema.json
+55956e149b3b8c420599c1a115e2b880ba4659c562128c207f89842b79cc5eea  schemas/effective-config.schema.json
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  scripts/ci.py
+0ebc508b8b2d1fdfdce10e60976b15d8ae50717149fc80c53ca818406ffb0b90  docs/task-evidence/spectrum-copy-bandwidth-extension/README.md
+44791d7328a25c7bbda2c869e9139d06a156774909550fc3cd2e8ce8efda85c8  docs/task-evidence/spectrum-copy-bandwidth-extension/contract.json.license
+236781330bddb4b6dbc94b9ca514954974524d33b10e8169a65629d81bb07f37  docs/task-evidence/spectrum-copy-bandwidth-extension/reference.py
+bd0d1f1a1cdf79f7b058b8d8baa2ea8dc3e0f55978951ad18951d167c6f71caf  docs/task-evidence/spectrum-copy-bandwidth-extension/report.json
+44791d7328a25c7bbda2c869e9139d06a156774909550fc3cd2e8ce8efda85c8  docs/task-evidence/spectrum-copy-bandwidth-extension/report.json.license
+8c42233fcfebbcf42b6cedb2860ec26d04742dcfca5eec2210a276690b36d9ec  docs/task-evidence/spectrum-copy-bandwidth-extension/report.json.sha256
+44791d7328a25c7bbda2c869e9139d06a156774909550fc3cd2e8ce8efda85c8  docs/task-evidence/spectrum-copy-bandwidth-extension/report.json.sha256.license
+52a55b2f9c61357361cff81328da489a67d9d68bb9dd4702aa1b8cde438c03cf  docs/task-evidence/spectrum-copy-bandwidth-extension/run.py
+44791d7328a25c7bbda2c869e9139d06a156774909550fc3cd2e8ce8efda85c8  docs/task-evidence/spectrum-copy-bandwidth-extension/SOURCES.sha256.license
+bcd3e1a3cb8750949956b9ae90654186aedc403b0823b5f531c2ce58da99543e  docs/task-evidence/spectrum-copy-bandwidth-extension/test_reference.py
+ddf5242d58276a7197e1c33a9fa44e29a83d691c08c6072b58b49da410dd959f  docs/task-evidence/spectrum-copy-bandwidth-extension/verify.py
