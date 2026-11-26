@@ -6,7 +6,11 @@ It checks strict JSON, canonical bytes, exact pins, DEFER/not-qualified
 semantics, dataset-scoped absence and rights, overlap separation, Evidence
 profile mapping, stable linked-row identity (never the full mutable board),
 licensing, prohibited artifacts, task-local git scope and three cold-start
-byte-identical regenerations. It never writes package evidence.
+byte-identical regenerations. The scope gate compares this branch against the
+newest merge-base with the PR base refs, so a committed out-of-scope edit fails
+as ``base_out_of_scope_change`` while later sibling additions on ``main`` do
+not; a missing base fails as ``scope_base_unavailable`` instead of passing.
+It never writes package evidence.
 """
 
 from __future__ import annotations
@@ -777,11 +781,30 @@ def check_git_scope(problems: List[str]) -> List[str]:
         changed.append(path)
         check(path.startswith(TASK_PREFIX),
               "change outside task-local scope: " + path, problems)
-    diff = subprocess.run(
-        ["git", "diff", "--check"], cwd=str(SDK_ROOT),
-        capture_output=True, text=True, check=False)
-    check(diff.returncode == 0 and not diff.stdout.strip(),
-          "git diff --check failed: " + diff.stdout.strip(), problems)
+    for arguments in (["diff", "--check"], ["diff", "--cached", "--check"]):
+        diff = subprocess.run(
+            ["git", *arguments], cwd=str(SDK_ROOT),
+            capture_output=True, text=True, check=False)
+        check(diff.returncode == 0 and not diff.stdout.strip(),
+              "git " + " ".join(arguments).replace("--", "") +
+              " failed: " + diff.stdout.strip(), problems)
+    base = reference.scope_base(SDK_ROOT)
+    if base is None:
+        problems.append("scope_base_unavailable")
+    else:
+        try:
+            base_paths = reference.scope_changed_paths(SDK_ROOT, base)
+        except ValueError as error:
+            problems.append(str(error))
+        else:
+            for path in reference.scope_violations(base_paths):
+                problems.append("base_out_of_scope_change: " + path)
+        committed = subprocess.run(
+            ["git", "diff", "--check", base + "..HEAD"],
+            cwd=str(SDK_ROOT), capture_output=True, text=True, check=False)
+        check(committed.returncode == 0 and not committed.stdout.strip(),
+              "committed git diff --check failed: " +
+              committed.stdout.strip(), problems)
     for path in sorted(HERE.iterdir()):
         if path.is_file():
             check(path.name in ALLOWED_FILES,
