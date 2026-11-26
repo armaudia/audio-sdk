@@ -1,0 +1,28 @@
+# SHA-256 pins for SDK-ACCENTCL.
+# source: paths are relative to SOURCE_ROOT; worktree: paths are
+# relative to the SDK checkout; pkg: paths are relative to this
+# task-evidence directory. The mutable full plan/swarm/TASKS.json is
+# never hashed; only the linked-row stable identity is gated.
+
+294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d  source:REALTIME_COMPONENT_CANDIDATES.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+c266b6486939b6af0a244358f8273325a23d9ec0733b9ed16686f8e6d25a3a9c  source:research/accent-conversion-20261101/README.md
+6f4d3eeffbba628fd94e9fe85656bab1e78ecc9cfb83b9c2329e3981c6b40233  source:research/accent-conversion-20261101/evaluate_accent_classifier.py
+c1f2146f8b7a665bcb8e8cf42b14e2bd31e042d225653f467fef7f692e1d6d2b  source:research/accent-conversion-20261101/results/accent-classifier.json
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  worktree:CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  worktree:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  worktree:api/include/audio_sdk/session_v0.h
+f22e6935d1dab946d8d46345c9726eeaee26ff889d5397eacd1156c2767b9c25  pkg:README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:SOURCES.sha256.license
+5ce05e05bcc821b114f94bae7cff0741f73742194d6e5297b4c919caa5f380ad  pkg:contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:contract.json.license
+b3b2a27edfdc65811bb567934bc63625228e0782f89e22e85d78ff74ea7d0f54  pkg:reference.py
+6c8e8dff96f06c1b07140bb72c4989221d41b3a0a0a9ede5c727193e828143f8  pkg:report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.license
+fba65325498ceebd00c260455427bd8f92b91a02ddfdb492c1c9d91c40e4a7cc  pkg:report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.sha256.license
+57cd71fd0ca252a8574702949b998eaa2195fccc7f3b787b04f129f925271b3f  pkg:run.py
+9178d855aa716669af94904b19f8123cbd4736faf4d7c598fc257bd8f9937e52  pkg:test_reference.py
+b8e49db0569dd6774fac28bfbf97c9254138bbde64701b1638d6f13537dd612f  pkg:verify.py

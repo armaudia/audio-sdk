@@ -1,0 +1,454 @@
+# SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
+# SPDX-License-Identifier: Apache-2.0
+"""Read-only strict verifier for the SDK-AUXIVA evidence package.
+
+Usage::
+
+    PYTHONDONTWRITEBYTECODE=1 python3 verify.py
+
+Fails closed on non-canonical or duplicate-key/nonfinite JSON, stale digests,
+stale pins, a non-spatial profile, a promoted permutation or scale result, a
+qualified claim, an unblocked release gate, license gaps, out-of-scope worktree
+changes, whitespace damage or a dirty ``git diff --check``.  Never writes.
+"""
+
+from __future__ import annotations
+
+import subprocess
+import sys
+from pathlib import Path
+from typing import Any, Dict, List
+
+sys.dont_write_bytecode = True
+
+import reference  # noqa: E402
+
+HERE = Path(__file__).resolve().parent
+SDK_ROOT = HERE.parents[2]
+SOURCE_ROOT = SDK_ROOT.parents[2]
+REPORT = HERE / "report.json"
+SIDECAR = HERE / "report.json.sha256"
+CONTRACT = HERE / "contract.json"
+PINS = HERE / "SOURCES.sha256"
+README = HERE / "README.md"
+
+SPDX_LICENSE = "SPDX" "-License-Identifier: Apache-2.0"
+SPDX_COPYRIGHT = "SPDX" "-FileCopyrightText: 2026 Tsakanyan Hovhannes"
+LICENSE_SIDECARS = (
+    "SOURCES.sha256.license",
+    "contract.json.license",
+    "report.json.license",
+    "report.json.sha256.license",
+)
+REQUIRED_REPORT_KEYS = {
+    "acceptance_profile", "adverse_all_rejected", "adverse_rejections",
+    "base_commit", "blind_decorrelation_control", "board_row", "boundary",
+    "boundary_pins", "branch", "caller_asset", "component", "controls",
+    "decision", "defer_before", "evidence_status", "exact_blockers",
+    "external_artifacts", "fixture", "format", "geometry", "h_gtcrn_separation",
+    "negative_claims", "permutation_qualification", "profile",
+    "profile_blockers", "qualification", "reference", "release_gates",
+    "reopen_condition", "repeatability", "repository", "reset",
+    "scale_qualification", "schema_id", "scope", "source_pins", "status",
+    "streaming", "surrogate", "task", "title",
+}
+REQUIRED_CONTRACT_KEYS = {
+    "acceptance_profile", "artifact_pins", "base_commit", "board_row",
+    "boundary", "boundary_pins", "branch", "caller_asset_contract", "component",
+    "decision", "defer_before", "evidence_status", "exact_blockers", "format",
+    "h_gtcrn_separation", "invariants", "negative_claims",
+    "permutation_qualification", "profile", "qualification_status", "reference",
+    "release_gates", "reopen_condition", "repository", "reviewer",
+    "scale_qualification", "schema_id", "scope", "source_pins", "status",
+    "task", "task_prefix", "title", "verification_profile",
+}
+
+
+def _strict(path: Path, errors: List[str], label: str) -> Dict[str, Any]:
+    try:
+        payload = reference.load_strict_json(path)
+    except (OSError, ValueError, UnicodeError) as error:
+        errors.append("strict JSON failed: " + label + ": " + str(error))
+        return {}
+    if not isinstance(payload, dict):
+        errors.append("JSON root is not an object: " + label)
+        return {}
+    return payload
+
+
+def _eq(errors: List[str], label: str, actual: Any, expected: Any) -> None:
+    if actual != expected:
+        errors.append(label)
+
+
+def check_json_files(errors: List[str]) -> Dict[str, Any]:
+    report = _strict(REPORT, errors, "report.json")
+    contract = _strict(CONTRACT, errors, "contract.json")
+    if report and REPORT.read_bytes() != (reference.canonical_text(report)
+                                          + "\n").encode("utf-8"):
+        errors.append("report.json is not canonical byte output")
+    if contract and CONTRACT.read_bytes() != (reference.canonical_text(contract)
+                                              + "\n").encode("utf-8"):
+        errors.append("contract.json is not canonical byte output")
+    if report:
+        _, digest = reference.canonical_report(report)
+        if SIDECAR.read_text(encoding="ascii") != digest + "\n":
+            errors.append("report.json.sha256 is stale")
+    return {"report": report, "contract": contract}
+
+
+def check_pins(errors: List[str]) -> int:
+    count = 0
+    for raw in PINS.read_text(encoding="utf-8").splitlines():
+        if not raw or raw.startswith("#"):
+            continue
+        count += 1
+        parts = raw.split("  ", 1)
+        if len(parts) != 2 or len(parts[0]) != 64:
+            errors.append("malformed pin line: " + repr(raw))
+            continue
+        digest, raw_path = parts
+        if raw_path.startswith("source:"):
+            path = SOURCE_ROOT / raw_path.split(":", 1)[1]
+        else:
+            path = SDK_ROOT / raw_path
+        if not path.is_file():
+            errors.append("pinned file missing: " + raw_path)
+        elif reference.sha256_bytes(path.read_bytes()) != digest:
+            errors.append("pinned bytes changed: " + raw_path)
+    if PINS.read_bytes() != reference.sources_bytes():
+        errors.append("SOURCES.sha256 is not the deterministic generated bytes")
+    return count
+
+
+def check_board(errors: List[str], report: Dict[str, Any],
+                contract: Dict[str, Any]) -> None:
+    live = reference.board_row()
+    _eq(errors, "report board identity is stale", report.get("board_row"), live)
+    _eq(errors, "contract board identity is stale", contract.get("board_row"), live)
+    row = report.get("board_row", {})
+    if row.get("full_tasks_json_hashed") is not False:
+        errors.append("full task board is hashed")
+    stable = row.get("stable_fields", {})
+    if reference.object_digest(stable) != row.get("stable_sha256"):
+        errors.append("stable board hash mismatch")
+    if stable.get("id") != reference.TASK_ID:
+        errors.append("stable board task id mismatch")
+    for section in ("source_pins", "boundary_pins"):
+        for path in report.get(section, {}):
+            if path.endswith("TASKS.json"):
+                errors.append("mutable task board is pinned in " + section)
+
+
+def check_report(errors: List[str], report: Dict[str, Any]) -> None:
+    if not report:
+        return
+    missing = REQUIRED_REPORT_KEYS - set(report)
+    if missing:
+        errors.append("report missing sections: " + ", ".join(sorted(missing)))
+        return
+    _eq(errors, "unexpected report schema", report["schema_id"],
+        reference.REPORT_SCHEMA)
+    _eq(errors, "report status", report["status"],
+        "proposal_only_synthetic_incomplete")
+    _eq(errors, "report evidence status", report["evidence_status"], "incomplete")
+    _eq(errors, "report decision", report["decision"], "DEFER")
+    _eq(errors, "report defer point", report["defer_before"],
+        "opt_in_adapter_exposure")
+    qualification = report["qualification"]
+    _eq(errors, "qualification status", qualification.get("status"),
+        "not_qualified")
+    for key in ("qualifies", "all_required_results_present",
+                "missing_result_promoted", "exact_source_present",
+                "exact_runtime_outputs_present", "rights_cleared_cohort",
+                "permutation_qualified", "scale_qualified", "timing_measured",
+                "listening"):
+        if qualification.get(key) is not False:
+            errors.append("qualification promotes a missing result: " + key)
+
+    gates = report["release_gates"]
+    if len(gates) != 8:
+        errors.append("expected exactly eight release gates")
+    if [gate.get("id") for gate in gates] != [
+            f"RG-{index:02d}" for index in range(1, 9)]:
+        errors.append("release gate IDs are not RG-01..RG-08")
+    if any(gate.get("status") != "blocked" for gate in gates):
+        errors.append("a release gate is not blocked")
+
+    profile = report["acceptance_profile"]
+    _eq(errors, "spatial profile not recorded", profile.get("profile"), "spatial")
+    items = profile.get("required_items", {})
+    if len(items) != 6:
+        errors.append("spatial profile item set mismatch")
+    for name, item in items.items():
+        if item.get("status") not in {"synthetic_only", "blocked"}:
+            errors.append("spatial item promoted: " + name)
+    expected_blockers = sorted(
+        name for name, item in items.items() if item.get("status") == "blocked")
+    _eq(errors, "profile blocker list mismatch", report["profile_blockers"],
+        expected_blockers)
+
+    reference_record = report["reference"]
+    for key in ("source_present", "runtime_present", "implementation_present",
+                "adapter_present", "exact_numeric_output_present",
+                "catalogued_candidate_used", "surrogate_is_candidate"):
+        if reference_record.get(key) is not False:
+            errors.append("reference claim is not false: " + key)
+    if reference_record.get("status") != "blocked":
+        errors.append("reference status is not blocked")
+
+    if len(report["exact_blockers"]) != 4:
+        errors.append("expected four exact blockers")
+
+    controls = {case.get("case_id"): case for case in report["controls"]}
+    expected_cases = {"matched_inverse_control", "permuted_inverse_control",
+                      "scaled_inverse_control", "identity_control"}
+    if set(controls) != expected_cases:
+        errors.append("control case set mismatch")
+    else:
+        for case_id in ("matched_inverse_control", "permuted_inverse_control",
+                        "scaled_inverse_control", "identity_control"):
+            case = controls[case_id]
+            if case.get("exact") is not True:
+                errors.append("control is not exact: " + case_id)
+            if case.get("max_abs_residual") != 0.0:
+                errors.append("control residual is nonzero: " + case_id)
+            if case.get("nonfinite_samples") != 0:
+                errors.append("control has nonfinite output: " + case_id)
+            if case.get("scale_pinned") is not False:
+                errors.append("control pins scale: " + case_id)
+            if case.get("status") != "synthetic_surrogate_only_not_qualified":
+                errors.append("control status promoted: " + case_id)
+        if controls["matched_inverse_control"]["permutation"]["assignment"] != [0, 1]:
+            errors.append("matched control assignment is not identity")
+        if controls["permuted_inverse_control"]["permutation"]["assignment"] != [1, 0]:
+            errors.append("permuted control assignment is not swapped")
+        if controls["scaled_inverse_control"]["expected_gain"] != reference.SCALED_GAIN:
+            errors.append("scaled control gain mismatch")
+        if controls["identity_control"]["expected_sources"] is not None:
+            errors.append("identity control claims source separation")
+
+    blind = report["blind_decorrelation_control"]
+    if "not AuxIVA" not in blind.get("limitation", ""):
+        errors.append("blind control does not disclaim AuxIVA")
+    if blind.get("outputs", {}).get("nonfinite_samples") != 0:
+        errors.append("blind control has nonfinite output")
+
+    permutation = report["permutation_qualification"]
+    if permutation.get("status") != "blocked":
+        errors.append("permutation qualification is not blocked")
+    if permutation.get("required") is not True:
+        errors.append("permutation qualification is not required")
+    if permutation.get("heldout_labels_present") is not False:
+        errors.append("permutation labels are claimed present")
+    observed = permutation.get("observed_on_synthetic", {})
+    if observed.get("permuted_case_exact") is not True:
+        errors.append("permuted case exactness not recorded")
+    if observed.get("score_alone_resolves_permutation") is not False:
+        errors.append("score-alone permutation resolution is claimed")
+
+    scale = report["scale_qualification"]
+    if scale.get("status") != "blocked":
+        errors.append("scale qualification is not blocked")
+    if scale.get("synthetic_observation", {}).get("scale_resolved") is not False:
+        errors.append("scale resolution is claimed")
+
+    separation = report["h_gtcrn_separation"]
+    for key in ("this_package_uses_h_gtcrn", "h_gtcrn_evidence_pooled",
+                "h_gtcrn_source_pinned", "h_gtcrn_checkpoint_present",
+                "h_gtcrn_adapter_present"):
+        if separation.get(key) is not False:
+            errors.append("H-GTCRN separation flag is not false: " + key)
+
+    adverse = report["adverse_rejections"]
+    if len(adverse) != 36 or report.get("adverse_all_rejected") is not True:
+        errors.append("adverse rejection count/flag mismatch")
+    for item in adverse:
+        if item.get("status") != "rejected" or item.get("state_unchanged") is not True:
+            errors.append("adverse case not rejected immutably: "
+                          + item.get("case_id", "?"))
+
+    external = report["external_artifacts"]
+    if external.get("status") != "blocked":
+        errors.append("external artifact status is not blocked")
+    if external.get("any_present") is not False:
+        errors.append("an exact AuxIVA artifact appeared; this package is stale")
+
+    repeat = report["repeatability"]
+    if repeat.get("runs") != 3 or repeat.get("byte_identical") is not True:
+        errors.append("repeatability is not three byte-identical runs")
+    digests = repeat.get("case_matrix_digests", [])
+    if len(digests) != 3 or len(set(digests)) != 1:
+        errors.append("case-matrix repeat digests differ")
+
+    boundary = report["boundary"]
+    if not boundary or any(value is not False for value in boundary.values()):
+        errors.append("a boundary flag claims a change")
+
+    text = reference.canonical_text(report)
+    if '"qualifies":true' in text or '"status":"qualified"' in text:
+        errors.append("canonical report contains a qualified claim")
+    if "TASKS.json" in reference.canonical_text(report["source_pins"]):
+        errors.append("mutable task board appears in source pins")
+
+
+def check_contract(errors: List[str], contract: Dict[str, Any],
+                   report: Dict[str, Any]) -> None:
+    if not contract:
+        return
+    missing = REQUIRED_CONTRACT_KEYS - set(contract)
+    if missing:
+        errors.append("contract missing sections: " + ", ".join(sorted(missing)))
+        return
+    _eq(errors, "unexpected contract schema", contract["schema_id"],
+        reference.CONTRACT_SCHEMA)
+    _eq(errors, "contract task", contract["task"], reference.TASK_ID)
+    _eq(errors, "contract component", contract["component"], reference.COMPONENT)
+    _eq(errors, "contract base commit", contract["base_commit"],
+        reference.BASE_COMMIT)
+    _eq(errors, "contract branch", contract["branch"], reference.BRANCH)
+    _eq(errors, "contract decision", contract["decision"], "DEFER")
+    _eq(errors, "contract evidence status", contract["evidence_status"],
+        "incomplete")
+    _eq(errors, "contract qualification", contract["qualification_status"],
+        "not_qualified")
+    _eq(errors, "contract verification profile",
+        contract["verification_profile"], "spatial")
+    _eq(errors, "contract/report release gates differ",
+        contract.get("release_gates"), report.get("release_gates"))
+    _eq(errors, "contract/report blockers differ",
+        contract.get("exact_blockers"), report.get("exact_blockers"))
+    _eq(errors, "contract/report source pins differ",
+        contract.get("source_pins"), report.get("source_pins"))
+    _eq(errors, "contract/report boundary pins differ",
+        contract.get("boundary_pins"), report.get("boundary_pins"))
+
+    boundary = contract.get("boundary", {})
+    if not boundary or any(value is not False for value in boundary.values()):
+        errors.append("contract boundary flag claims a change")
+    scope = contract.get("scope", {})
+    if scope.get("synthetic_only") is not True or scope.get("task_local_only") is not True:
+        errors.append("contract scope must be synthetic-only and task-local")
+    for key, value in scope.items():
+        if key in {"synthetic_only", "task_local_only"}:
+            continue
+        if value is not False:
+            errors.append("contract scope flag is not false: " + key)
+
+    pins = contract.get("artifact_pins", {})
+    expected_names = {reference.TASK_PREFIX + name
+                      for name in reference.ARTIFACT_FILES
+                      if name != "report.json"}
+    expected_names.add(reference.TASK_PREFIX + "report.json")
+    if set(pins) != expected_names:
+        errors.append("artifact pin set mismatch")
+    for path, digest in pins.items():
+        full = SDK_ROOT / path
+        if not full.is_file():
+            errors.append("artifact pin missing: " + path)
+        elif reference.file_digest(full) != digest:
+            errors.append("artifact pin stale: " + path)
+    for forbidden in ("contract.json", "SOURCES.sha256"):
+        if reference.TASK_PREFIX + forbidden in pins:
+            errors.append("self-referential artifact pin: " + forbidden)
+
+
+def check_repeats(errors: List[str], report: Dict[str, Any]) -> None:
+    if not report:
+        return
+    texts = []
+    for _ in range(3):
+        built = reference.build_report()
+        text, _ = reference.canonical_report(built)
+        texts.append(text)
+    if len(set(texts)) != 1:
+        errors.append("three fresh report builds differ")
+    if texts[0].encode("utf-8") != REPORT.read_bytes():
+        errors.append("fresh build does not match report.json")
+
+
+def check_licensing(errors: List[str]) -> None:
+    for path in sorted(HERE.glob("*.py")):
+        head = "\n".join(path.read_text(encoding="utf-8").splitlines()[:4])
+        if SPDX_LICENSE not in head or SPDX_COPYRIGHT not in head:
+            errors.append("missing SPDX header: " + path.name)
+    readme_head = "\n".join(README.read_text(encoding="utf-8").splitlines()[:4])
+    if SPDX_LICENSE not in readme_head or SPDX_COPYRIGHT not in readme_head:
+        errors.append("README.md is missing its SPDX header")
+    for name in LICENSE_SIDECARS:
+        path = HERE / name
+        if not path.is_file():
+            errors.append("missing license sidecar: " + name)
+            continue
+        content = path.read_text(encoding="utf-8")
+        if SPDX_LICENSE not in content or SPDX_COPYRIGHT not in content:
+            errors.append("invalid license sidecar: " + name)
+    reuse = (SDK_ROOT / "REUSE.toml").read_text(encoding="utf-8")
+    if '"docs/**"' not in reuse or ('SPDX' "-License-Identifier = \"Apache-2.0\"") not in reuse:
+        errors.append("REUSE.toml no longer covers docs/** as Apache-2.0")
+
+
+def check_readme(errors: List[str], report: Dict[str, Any]) -> None:
+    text = README.read_text(encoding="utf-8")
+    for token in ("DEFER", "incomplete", "not_qualified", "RG-01", "RG-08",
+                  "not AuxIVA", "H-GTCRN", "permutation"):
+        if token not in text:
+            errors.append("README is missing token: " + token)
+    for digest in list(reference.SOURCE_PINS.values()) + \
+            list(reference.BOUNDARY_PINS.values()):
+        if digest not in text:
+            errors.append("README is missing pinned digest: " + digest)
+    if report:
+        for token in ("aacd6b19b51d4ae2d125ed40488a0e5a8357ec82",
+                      "SDK-AUXIVA"):
+            if token not in text:
+                errors.append("README is missing identity: " + token)
+
+
+def check_scope(errors: List[str]) -> List[str]:
+    result = subprocess.run(
+        ["git", "-C", str(SDK_ROOT), "status", "--porcelain=v1",
+         "--untracked-files=all"],
+        capture_output=True, text=True, check=True)
+    changed: List[str] = []
+    for line in result.stdout.splitlines():
+        path = line[3:] if line[:2].strip() else line
+        if " -> " in path:
+            path = path.split(" -> ", 1)[1]
+        changed.append(path)
+        if not path.startswith(reference.TASK_PREFIX):
+            errors.append("change outside task scope: " + path)
+    diff_check = subprocess.run(
+        ["git", "-C", str(SDK_ROOT), "diff", "--check"],
+        capture_output=True, text=True)
+    if diff_check.returncode != 0:
+        errors.append("git diff --check failed: " + diff_check.stdout.strip())
+    return changed
+
+
+def main() -> int:
+    errors: List[str] = []
+    loaded = check_json_files(errors)
+    report = loaded.get("report", {})
+    contract = loaded.get("contract", {})
+    pin_count = check_pins(errors)
+    check_report(errors, report)
+    check_contract(errors, contract, report)
+    if report and contract:
+        check_board(errors, report, contract)
+    check_repeats(errors, report)
+    check_readme(errors, report)
+    check_licensing(errors)
+    changed = check_scope(errors)
+    if errors:
+        for error in errors:
+            print("FAIL: " + error)
+        return 1
+    print(f"pins_ok={pin_count} json_ok=2 report_sha256="
+          f"{reference.file_digest(REPORT)} repeats_ok=3 "
+          f"licensing_ok=1 scope_ok=1 changed_files={len(changed)}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

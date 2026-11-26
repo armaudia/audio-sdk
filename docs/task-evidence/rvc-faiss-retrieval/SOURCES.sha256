@@ -1,0 +1,50 @@
+# SHA-256 pins for SDK-RVC-FAISS-RETRIEVAL task-local readiness evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# The mutable shared board is not pinned; only its stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+b2c5e168713eebe0e6ddd186d3bf5b9833839b8db93fe7ff2231bb784cbfa074  source:research/voice-conversion-eval-20261101/README.md
+b7db9a73b45b3a8918e99453e0de00c9f8f2f64604acee56c3838d3a10e2f9b6  source:research/voice-conversion-eval-20261101/agent-matrix-crosswalk/REPORT.md
+bec61ed1eb9a3748644ddbc50303aa6978e14eeaba46822e59a006c722b52585  source:research/voice-conversion-eval-20261101/repos/rvc/LICENSE
+6ae347c0cc60836f1e7fd2b73ee73327746e66c32a5dd4270d02a096810bca8b  source:research/voice-conversion-eval-20261101/repos/rvc/README.md
+8e321cd606bfa1f4756685db897e90df2278e77d3e58869bc83d4735ff7b7387  source:research/voice-conversion-eval-20261101/repos/rvc/infer/cli.py
+c04d2f2d38ed67ca5c1846f4b392befdf0cf7a6172cffe679a81c039dc1642bc  source:research/voice-conversion-eval-20261101/repos/rvc/infer/rtrvc.py
+7b2e12f56c2b2462d7944d8eda470796ffd4aec50f784c3f6f5169133eaae89b  source:research/voice-conversion-eval-20261101/repos/rvc/infer/vc/modules.py
+df8ccd98ca7f81e38934a0af93cc63b4f79764dc47d932f05914c566e876522a  source:research/voice-conversion-eval-20261101/repos/rvc/infer/vc/pipeline.py
+6c8900146c0b00752cc54eabd69f0e1683e3045f6eb64ce76fc34b3500ec2620  source:research/voice-conversion-eval-20261101/repos/rvc/infer/vc/utils.py
+902338f1c8ef6c38186a34c19dec95e8df56030863b7a584b703a443127ea541  source:research/voice-conversion-eval-20261101/repos/rvc/requirments_cpu_py312.txt
+9377e10716ce2ba63d4fb346fe36792b1543803b01a18a782563f6f47713e5a1  source:research/voice-conversion-eval-20261101/repos/rvc/train/train_index.py
+2d28a6e4e93e450bc7894e68881926bb315d73dd82cd08bd44e597f7d51fff24  source:research/voice-conversion-eval-20261101/results/rvc/asr.json
+14fc2c08086efadea87ba5a254704e086c3c4c94831a82de8796184168918b36  source:research/voice-conversion-eval-20261101/results/rvc/metrics.json
+7fa0516e7475b6870267da9f4a894d0d18e67714e1081cd9d3c7d63db30bd8c7  source:research/voice-conversion-eval-20261101/results/rvc/source_to_p226.wav
+a8f66b2a5af368f4a0573e954022e17577e2d9f0c3778abb0a1a4e65c15877da  source:research/voice-conversion-eval-20261101/scripts/run_rvc_vctk_eval.py
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+7a624864df916ef87b32655e6e0894bfe00c3da94ca6969352be68654ee1443c  docs/task-evidence/chatterbox-vc/README.md
+321fe22b052823b43d772871b5b694df03c0586c6754c04491d40406055b3dee  docs/task-evidence/chatterbox-vc/report.json
+2cdc7f47c5cd232d17ca28514f7efcc896cb393a8141f57abf39cc0234d0f099  docs/task-evidence/cosyvoice-2-0-5b/README.md
+aee352f4b45d3ad11af6372886a5f2a1e6458ef8d0d89d597f4c8379787b75f2  docs/task-evidence/cosyvoice-2-0-5b/report.json
+bcd58494af03ffee38b65ac4926ae0aed8768dd45ad966617629cfd6c9a10226  docs/task-evidence/openvoice-v2/README.md
+27986b993beca10ae2d9e354fca4102db8795e10d845f3b89d8273fa9531b9c8  docs/task-evidence/openvoice-v2/report.json
+e0b4ea4d92b122e9820b9857da5e4813db29b048468f2b0383e67ef4264eccae  docs/task-evidence/survey-trn-04/README.md
+fb34a1129db91808c450cf9ce90d68a2f2ff34734b26891763ede6b0915f0446  docs/task-evidence/survey-trn-04/report.json
+d3cfcc637f441435f10e94335e23369cf5447bd296c1ba46df7e3336ac676e90  docs/task-evidence/rvc-faiss-retrieval/LICENSES.md
+eba9740ac25712fb99644ac481ec86139acf45eea1c0e81acdecd218f66518ca  docs/task-evidence/rvc-faiss-retrieval/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/rvc-faiss-retrieval/SOURCES.sha256.license
+33c08a4963ca47d0d89f1825738550ce7a022450ec86c2889cf767016c7a590c  docs/task-evidence/rvc-faiss-retrieval/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/rvc-faiss-retrieval/contract.json.license
+9f4bc6c7ea2fbb62eecbad001231b815f863e044c262f91c8f7aaa34b7c37384  docs/task-evidence/rvc-faiss-retrieval/reference.py
+da64f7ac95942bbff2e015dcd9a79334b8024aa11eefdb19a4a932e6cdf99727  docs/task-evidence/rvc-faiss-retrieval/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/rvc-faiss-retrieval/report.json.license
+01b1f9b5cf50abc0d3e22f09cb27fceb2e9963db14d45a7176ba0b30c20a1438  docs/task-evidence/rvc-faiss-retrieval/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/rvc-faiss-retrieval/report.json.sha256.license
+83671cf07f73486784edbcba20deb7f53d352203cfc7438a7e3d3998e3a3fe6a  docs/task-evidence/rvc-faiss-retrieval/run.py
+aed654fdc9b9fe5aae48f8e5a7dc10a835c4b40bffad81302ea6b323bf359735  docs/task-evidence/rvc-faiss-retrieval/test_reference.py
+d2994d2ac5ba752d2eadd9070c777599890b2b04483c78a54929159c56c75fe1  docs/task-evidence/rvc-faiss-retrieval/verify.py

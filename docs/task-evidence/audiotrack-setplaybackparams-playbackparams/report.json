@@ -1,0 +1,1452 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "acceptance_profile": {
+    "all_qualify": false,
+    "items": [
+      {
+        "evidence": "Exact floor(source_position/speed) mapping on the integer fixture.",
+        "item": "source_output_mapping",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "Exact duration-error arithmetic; no Android run.",
+        "item": "duration",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "Exact identity mapping at speed 1/1.",
+        "item": "unity_1x",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "165-frame source window mapped in two 160-frame chunks.",
+        "item": "final_partial_window",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "One-hour chunk-output sum equals the closed-form total.",
+        "item": "drift_over_long_run",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "Request, mapping and manifest rejections are fail-closed.",
+        "item": "adverse_missing_invalid_nonfinite",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "No platform pitch behaviour or pitch measurement.",
+        "item": "pitch",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "No actuator, audio path or listening asset.",
+        "item": "transient_audibility",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "No playout FIFO, fill or rebuffer run.",
+        "item": "playback_buffering",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "No buffer-occupancy injection or rebuffer trace.",
+        "item": "rebuffer",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "No platform runtime or step/ramp trace.",
+        "item": "rate_changes",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "No real speech or held-out corpus.",
+        "item": "unfamiliar_speech",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "No music corpus or platform run.",
+        "item": "music",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "No audio path or platform silence run.",
+        "item": "silence",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "No source-timestamp pause/filler policy on a platform runtime.",
+        "item": "source_timestamp_tied_decisions",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "No candidate output or preservation metric.",
+        "item": "speech_preservation",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "No device/emulator, audio HAL or paced run.",
+        "item": "device_timing",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "No platform, SDK or output-use approval.",
+        "item": "release_and_distribution_terms",
+        "qualifies": false,
+        "status": "blocked"
+      }
+    ],
+    "missing_result_promoted": false,
+    "profile": "rate",
+    "qualifies": false
+  },
+  "adverse_results": [
+    {
+      "actual_error": "request_speed_numerator_not_integer",
+      "expected_error": "request_speed_numerator_not_integer",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "nan_speed_numerator",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_speed_denominator_not_integer",
+      "expected_error": "request_speed_denominator_not_integer",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "infinity_speed_denominator",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_speed_numerator_not_integer",
+      "expected_error": "request_speed_numerator_not_integer",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "boolean_speed_numerator",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_speed_numerator_not_integer",
+      "expected_error": "request_speed_numerator_not_integer",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "string_speed_numerator",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_speed_denominator_not_positive",
+      "expected_error": "request_speed_denominator_not_positive",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "zero_speed_denominator",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_speed_numerator_not_positive",
+      "expected_error": "request_speed_numerator_not_positive",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "negative_speed_numerator",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_speed_denominator_not_positive",
+      "expected_error": "request_speed_denominator_not_positive",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "negative_speed_denominator",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_speed_below_declared_floor",
+      "expected_error": "request_speed_below_declared_floor",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "speed_below_floor",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_speed_above_declared_ceiling",
+      "expected_error": "request_speed_above_declared_ceiling",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "speed_above_ceiling",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_pitch_not_unity",
+      "expected_error": "request_pitch_not_unity",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "pitch_not_unity",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_pitch_denominator_not_positive",
+      "expected_error": "request_pitch_denominator_not_positive",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "zero_pitch_denominator",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_pitch_numerator_not_positive",
+      "expected_error": "request_pitch_numerator_not_positive",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "negative_pitch_numerator",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_pitch_numerator_not_integer",
+      "expected_error": "request_pitch_numerator_not_integer",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "nonfinite_pitch_numerator",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_api_level_not_integer",
+      "expected_error": "request_api_level_not_integer",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "boolean_api_level",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_api_level_not_integer",
+      "expected_error": "request_api_level_not_integer",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "float_api_level",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_api_level_below_minimum",
+      "expected_error": "request_api_level_below_minimum",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "api_level_below_23",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_api_level_above_declared",
+      "expected_error": "request_api_level_above_declared",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "api_level_above_declared",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_fallback_mode_unsupported",
+      "expected_error": "request_fallback_mode_unsupported",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "unsupported_fallback_mode",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_candidate_claim",
+      "expected_error": "request_candidate_claim",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "candidate_claim",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_candidate_claim",
+      "expected_error": "request_candidate_claim",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "candidate_claim_string",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_schema_id_invalid",
+      "expected_error": "request_schema_id_invalid",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "wrong_schema_id",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_id_invalid",
+      "expected_error": "request_id_invalid",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "empty_request_id",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_missing_fields:api_level",
+      "expected_error": "request_missing_fields",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "missing_field",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_extra_fields:extra",
+      "expected_error": "request_extra_fields",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "extra_field",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_not_an_object",
+      "expected_error": "request_not_an_object",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "non_object_request",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "request_missing_fields:schema_id,api_level,speed_numerator,speed_denominator,pitch_numerator,pitch_denominator,fallback_mode,request_id,is_candidate_result",
+      "expected_error": "request_missing_fields",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "empty_request",
+      "status": "rejected"
+    }
+  ],
+  "artifact_assessment": {
+    "adapter_present": false,
+    "all_required_absent": true,
+    "android_runtime_present": false,
+    "audiotrack_impl_present": false,
+    "checked_paths": {
+      "workspace:adapters/audiotrack-setplaybackparams-playbackparams": false,
+      "workspace:data/checkouts/android-audiotrack": false,
+      "workspace:data/checkouts/android-platform": false,
+      "workspace:data/envs/android-runtime": false,
+      "workspace:data/envs/android-sdk": false,
+      "workspace:data/licenses/android-platform": false,
+      "workspace:data/licenses/android-sdk": false,
+      "workspace:data/reference/android-audio": false,
+      "workspace:data/sources/android-audiotrack": false,
+      "workspace:data/sources/android-platform": false,
+      "worktree:platform/android": false,
+      "worktree:third_party/android": false
+    },
+    "conclusion": "BLOCKED: no Android AudioTrack.setPlaybackParams implementation, AOSP/framework source, android.jar stub, runtime image, device or emulator, licence/rights approval, corpus, measurement or listening result exists locally; nothing was downloaded, copied or executed.",
+    "device_or_emulator_present": false,
+    "host_probes": {
+      "home:.android": false,
+      "home:Android/Sdk": false,
+      "home:Library/Android/sdk": false,
+      "tool:adb": false,
+      "tool:emulator": false,
+      "tool:gradle": false,
+      "tool:sdkmanager": false
+    },
+    "license_approved": false,
+    "listening_present": false,
+    "measured_evidence_present": false,
+    "package_assets_present": false,
+    "qualifies": false,
+    "sdk_stub_present": false
+  },
+  "base_commit": "f3002fe3e480f6523477c287231e5aebca469a0f",
+  "boundary_pins": {
+    "CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "REUSE.toml": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "scripts/ci.py": "64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f"
+  },
+  "branch": "swarm/SDK-AUDIOTRACK-SETPLAYBACKPARAMS-PLAYBACKPARAMS",
+  "candidate_record": {
+    "android_platform_runtime_present": false,
+    "api_min_level": 23,
+    "artifact_present": false,
+    "audiotrack_impl_present": false,
+    "candidate": "AudioTrack.setPlaybackParams(PlaybackParams)",
+    "component": "audiotrack-setplaybackparams-playbackparams",
+    "device_present": false,
+    "family": "Android platform audio path",
+    "license_reviewed": false,
+    "locator": "cpp-library/pipeline-validation/playback-speed-candidates.md#L80",
+    "public_implementation_found": false,
+    "qualifies": false,
+    "reproduced_here": false,
+    "sdk_stub_present": false,
+    "source_reported_claim": "Speed/pitch on the platform audio path; API 23+.",
+    "source_reported_only": true
+  },
+  "completeness": "incomplete",
+  "component": "audiotrack-setplaybackparams-playbackparams",
+  "control_envelope": {
+    "control_id": "audiotrack-setplaybackparams-playbackparams/declared-rate-arithmetic-control/0.1",
+    "design": {
+      "declared_api_level_range": [
+        23,
+        36
+      ],
+      "declared_fallback_modes": [
+        "default",
+        "mute"
+      ],
+      "declared_max_speed": "3/2",
+      "declared_min_speed": "3/4",
+      "declared_pitch": "1",
+      "is_android_audiotrack": false,
+      "is_candidate_result": false,
+      "is_synthetic_control": true,
+      "mapping_formula": "output_position = floor(source_position / speed)",
+      "pitch_is_a_measurement": false,
+      "qualifies": false,
+      "speed_range_is_a_measurement": false
+    },
+    "device_timing": {
+      "callback_jitter_ms": null,
+      "output_latency_ms": null,
+      "qualifies": false,
+      "reason": "No device/emulator, audio HAL or monotonic timing run.",
+      "status": "blocked"
+    },
+    "final_partial_window": {
+      "chunk_count": 2,
+      "chunks": [
+        {
+          "output_end_exclusive": "128",
+          "output_start": "0",
+          "source_end_exclusive": "160",
+          "source_start": "0"
+        },
+        {
+          "output_end_exclusive": "132",
+          "output_start": "128",
+          "source_end_exclusive": "165",
+          "source_start": "160"
+        }
+      ],
+      "duration_error_samples_exact": "0",
+      "is_candidate_result": false,
+      "output_frames": "132",
+      "qualifies": false,
+      "source_frames": "165",
+      "speed": "5/4"
+    },
+    "identity": {
+      "chunk_sum_matches_total": true,
+      "duration_error_ms_exact": "0",
+      "duration_error_samples_exact": "0",
+      "is_candidate_result": false,
+      "output_samples": "16000",
+      "qualifies": false,
+      "source_samples": "16000",
+      "speed": "1"
+    },
+    "listening": {
+      "comprehension": null,
+      "preference": null,
+      "protocol_id": null,
+      "qualifies": false,
+      "reason": "No listening protocol, panel or authorization.",
+      "status": "blocked"
+    },
+    "long_run": {
+      "chunk_count": 360000,
+      "chunk_sum_is_closed_form": true,
+      "chunk_sum_matches_total": true,
+      "duration_error_samples_exact": "0",
+      "is_candidate_result": false,
+      "output_frames": "46080000",
+      "qualifies": false,
+      "source_frames": "57600000",
+      "speed": "5/4"
+    },
+    "pitch_measurement": {
+      "pitch_error_cents": null,
+      "qualifies": false,
+      "reason": "No Android runtime, pitch measurement or audio path.",
+      "status": "blocked"
+    },
+    "playback_buffer": {
+      "fill_ms": null,
+      "qualifies": false,
+      "reason": "No playout FIFO, paced run or rebuffer injection.",
+      "rebuffer_count": null,
+      "status": "blocked",
+      "underrun_count": null
+    },
+    "qualifies": false,
+    "rates": [
+      {
+        "chunk_count": 100,
+        "chunk_sum_matches_total": true,
+        "duration_error_ms_exact": "0",
+        "duration_error_samples_exact": "0",
+        "first_chunk": {
+          "output_end_exclusive": "160",
+          "output_start": "0",
+          "source_end_exclusive": "160",
+          "source_start": "0"
+        },
+        "is_candidate_result": false,
+        "last_chunk": {
+          "output_end_exclusive": "16000",
+          "output_start": "15840",
+          "source_end_exclusive": "16000",
+          "source_start": "15840"
+        },
+        "output_samples": "16000",
+        "qualifies": false,
+        "source_samples": "16000",
+        "speed": "1"
+      },
+      {
+        "chunk_count": 100,
+        "chunk_sum_matches_total": true,
+        "duration_error_ms_exact": "-1/48",
+        "duration_error_samples_exact": "-1/3",
+        "first_chunk": {
+          "output_end_exclusive": "213",
+          "output_start": "0",
+          "source_end_exclusive": "160",
+          "source_start": "0"
+        },
+        "is_candidate_result": false,
+        "last_chunk": {
+          "output_end_exclusive": "21333",
+          "output_start": "21120",
+          "source_end_exclusive": "16000",
+          "source_start": "15840"
+        },
+        "output_samples": "21333",
+        "qualifies": false,
+        "source_samples": "16000",
+        "speed": "3/4"
+      },
+      {
+        "chunk_count": 100,
+        "chunk_sum_matches_total": true,
+        "duration_error_ms_exact": "0",
+        "duration_error_samples_exact": "0",
+        "first_chunk": {
+          "output_end_exclusive": "128",
+          "output_start": "0",
+          "source_end_exclusive": "160",
+          "source_start": "0"
+        },
+        "is_candidate_result": false,
+        "last_chunk": {
+          "output_end_exclusive": "12800",
+          "output_start": "12672",
+          "source_end_exclusive": "16000",
+          "source_start": "15840"
+        },
+        "output_samples": "12800",
+        "qualifies": false,
+        "source_samples": "16000",
+        "speed": "5/4"
+      },
+      {
+        "chunk_count": 100,
+        "chunk_sum_matches_total": true,
+        "duration_error_ms_exact": "-1/24",
+        "duration_error_samples_exact": "-2/3",
+        "first_chunk": {
+          "output_end_exclusive": "106",
+          "output_start": "0",
+          "source_end_exclusive": "160",
+          "source_start": "0"
+        },
+        "is_candidate_result": false,
+        "last_chunk": {
+          "output_end_exclusive": "10666",
+          "output_start": "10560",
+          "source_end_exclusive": "16000",
+          "source_start": "15840"
+        },
+        "output_samples": "10666",
+        "qualifies": false,
+        "source_samples": "16000",
+        "speed": "3/2"
+      }
+    ],
+    "separation": {
+      "asr_proxy_is_listening": false,
+      "candidate_and_control_separate": true,
+      "control_is_candidate": false,
+      "device_timing_is_listening": false,
+      "measured_and_synthetic_separate": true,
+      "pooled_metric": null,
+      "qualifies": false
+    },
+    "speech_preservation": {
+      "preservation_metric": null,
+      "qualifies": false,
+      "reason": "No candidate output, corpus or metric.",
+      "status": "blocked"
+    },
+    "transient_measurement": {
+      "qualifies": false,
+      "reason": "No actuator, audio corpus or listening asset.",
+      "status": "blocked",
+      "transient_audibility": null
+    }
+  },
+  "decision": "DEFER",
+  "declared_contract": {
+    "adapter_status": "proposal_only_no_android_platform_runtime",
+    "android_runtime_verified": false,
+    "api_level_range": [
+      23,
+      36
+    ],
+    "api_min_level": 23,
+    "availability_contract": "not_established",
+    "buffering_contract": "not_established",
+    "content_delay_contract": "not_established",
+    "contract_id": "audiotrack-setplaybackparams-playbackparams/declared-rate-boundary/0.1",
+    "declared_fallback_modes": [
+      "default",
+      "mute"
+    ],
+    "declared_pitch": "1",
+    "declared_speed_range": [
+      "3/4",
+      "3/2"
+    ],
+    "device_geometry": "not_established",
+    "drain_contract": "not_established",
+    "final_partial_window_contract": "not_established",
+    "host_grid": {
+      "channels": 1,
+      "frame_samples": 160,
+      "sample_format": "f32",
+      "sample_rate_hz": 16000
+    },
+    "installed_v0_unchanged": true,
+    "pitch_is_a_measurement": false,
+    "platform_semantics_contract": "not_established",
+    "playbackparams_semantics_source": "pinned_research_note_only",
+    "qualifies": false,
+    "reset_contract": "not_established",
+    "speed_range_is_a_measurement": false
+  },
+  "failure_controls": {
+    "all_explicit": true,
+    "blocked_release_gates": 8,
+    "checks": {
+      "all_adverse_nonqualifying": true,
+      "all_manifest_controls_nonqualifying": true,
+      "all_profile_items_nonqualifying": true,
+      "all_qualification_slots_null": true,
+      "all_release_gates_blocked": true,
+      "all_required_artifacts_absent": true,
+      "android_runtime_absent": true,
+      "buffer_measurement_absent": true,
+      "candidate_claim_rejected": true,
+      "device_timing_absent": true,
+      "listening_absent": true,
+      "manifest_rejections_are_explicit": true,
+      "mapping_rejections_are_explicit": true,
+      "no_missing_value_is_promoted": true,
+      "no_qualifying_result": true,
+      "no_rejected_value_is_scored": true,
+      "nonfinite_rejected": true,
+      "pitch_measurement_absent": true,
+      "request_rejections_are_explicit": true,
+      "speech_preservation_absent": true,
+      "strict_json_rejects_duplicate_keys": true,
+      "strict_json_rejects_infinity": true,
+      "strict_json_rejects_nan": true,
+      "stub_is_not_implementation": true
+    },
+    "qualifies": false,
+    "rejected_manifest_documents": 17,
+    "rejected_mapping_vectors": 8,
+    "rejected_request_documents": 26
+  },
+  "manifest_contract": {
+    "caller_owned": true,
+    "checksum_policy": "full_sha256_required_for_sdk_stub_platform_impl_audiotrack_impl_runtime_image_license_rights_approval_and_measurement_manifest",
+    "contract_id": "audiotrack-setplaybackparams-playbackparams/caller-supplied-qualified-android-bundle/0.1",
+    "device_timing_and_listening_must_be_separate": true,
+    "executed": false,
+    "files_behavior": "hash caller-owned bytes and geometry only; never parse, import, link or execute the SDK stub, platform implementation, runtime image, corpus or measurement manifest",
+    "loaded": false,
+    "official_identity_requires_rights_review": true,
+    "qualifies": false,
+    "required_fields": [
+      "artifact_id",
+      "caller_attestation",
+      "platform",
+      "api_level",
+      "build_fingerprint",
+      "sdk_stub_path",
+      "sdk_stub_sha256",
+      "platform_impl_path",
+      "platform_impl_sha256",
+      "audiotrack_impl_path",
+      "audiotrack_impl_sha256",
+      "runtime_image_path",
+      "runtime_image_sha256",
+      "license_path",
+      "license_sha256",
+      "rights_approval_path",
+      "rights_approval_sha256",
+      "measurement_manifest_path",
+      "measurement_manifest_sha256",
+      "listening_protocol_id",
+      "terms_accepted"
+    ],
+    "stub_must_not_equal_platform_implementation": true,
+    "vendored": false
+  },
+  "manifest_controls": [
+    {
+      "accepted": true,
+      "actual_error": null,
+      "control_id": "valid_shape",
+      "expected_error": null,
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_missing_fields:artifact_id",
+      "control_id": "missing_artifact_id",
+      "expected_error": "manifest_missing_fields",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_extra_fields:extra",
+      "control_id": "extra_field",
+      "expected_error": "manifest_extra_fields",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_platform_not_android",
+      "control_id": "wrong_platform",
+      "expected_error": "manifest_platform_not_android",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_api_level_not_integer",
+      "control_id": "boolean_api_level",
+      "expected_error": "manifest_api_level_not_integer",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_api_level_below_minimum",
+      "control_id": "api_level_below_23",
+      "expected_error": "manifest_api_level_below_minimum",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_path_not_absolute:sdk_stub_path",
+      "control_id": "relative_sdk_path",
+      "expected_error": "manifest_path_not_absolute",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_path_traversal:runtime_image_path",
+      "control_id": "parent_traversal",
+      "expected_error": "manifest_path_traversal",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_paths_not_unique:sdk_stub_path:license_path",
+      "control_id": "duplicate_paths",
+      "expected_error": "manifest_paths_not_unique",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_hash_invalid:sdk_stub_sha256",
+      "control_id": "uppercase_hash",
+      "expected_error": "manifest_hash_invalid",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_hash_invalid:platform_impl_sha256",
+      "control_id": "bad_hash_length",
+      "expected_error": "manifest_hash_invalid",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_stub_equals_platform_implementation",
+      "control_id": "stub_equals_impl",
+      "expected_error": "manifest_stub_equals_platform_implementation",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_terms_not_accepted",
+      "control_id": "terms_not_accepted",
+      "expected_error": "manifest_terms_not_accepted",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_attestation_invalid",
+      "control_id": "wrong_attestation",
+      "expected_error": "manifest_attestation_invalid",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_artifact_id_invalid",
+      "control_id": "empty_artifact_id",
+      "expected_error": "manifest_artifact_id_invalid",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_listening_protocol_invalid",
+      "control_id": "empty_listening_protocol",
+      "expected_error": "manifest_listening_protocol_invalid",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_listening_protocol_invalid",
+      "control_id": "listening_not_established",
+      "expected_error": "manifest_listening_protocol_invalid",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    },
+    {
+      "accepted": false,
+      "actual_error": "manifest_build_fingerprint_invalid",
+      "control_id": "non_ascii_build_fingerprint",
+      "expected_error": "manifest_build_fingerprint_invalid",
+      "files_verified": false,
+      "matches_expected": true,
+      "official_identity": false,
+      "qualifies": false
+    }
+  ],
+  "mapping_adverse_results": [
+    {
+      "actual_error": "mapping_speed_not_fraction",
+      "expected_error": "mapping_speed_not_fraction",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "nonfinite_speed",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "mapping_speed_not_fraction",
+      "expected_error": "mapping_speed_not_fraction",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "boolean_speed",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "mapping_speed_not_positive",
+      "expected_error": "mapping_speed_not_positive",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "zero_speed",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "mapping_speed_below_declared_floor",
+      "expected_error": "mapping_speed_below_declared_floor",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "below_floor_speed",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "mapping_speed_above_declared_ceiling",
+      "expected_error": "mapping_speed_above_declared_ceiling",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "above_ceiling_speed",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "mapping_source_frames_not_integer",
+      "expected_error": "mapping_source_frames_not_integer",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "boolean_source_frames",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "mapping_source_frames_negative",
+      "expected_error": "mapping_source_frames_negative",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "negative_source_frames",
+      "status": "rejected"
+    },
+    {
+      "actual_error": "mapping_source_frames_too_large",
+      "expected_error": "mapping_source_frames_too_large",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "huge_source_frames",
+      "status": "rejected"
+    }
+  ],
+  "missing_results": [
+    {
+      "qualifies": false,
+      "reason": "No exact platform implementation.",
+      "result_id": "playbackparams_api_semantics",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "reason": "No Android runtime or device.",
+      "result_id": "platform_default_speed",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "reason": "No Android runtime or device.",
+      "result_id": "platform_speed_range",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "reason": "No Android runtime or device.",
+      "result_id": "platform_pitch_range",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "reason": "No Android runtime.",
+      "result_id": "source_output_mapping_runtime",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "reason": "No Android runtime.",
+      "result_id": "duration_error_measured",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "reason": "No pitch measurement.",
+      "result_id": "pitch_error_cents",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "reason": "No actuator or listening.",
+      "result_id": "transient_audibility",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "reason": "No playout FIFO run.",
+      "result_id": "playback_buffer_fill_ms",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "reason": "No device timing.",
+      "result_id": "device_output_latency_ms",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "reason": "No rebuffer injection.",
+      "result_id": "rebuffer_behavior",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "reason": "No candidate output or metric.",
+      "result_id": "speech_preservation",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "reason": "No protocol or panel.",
+      "result_id": "listening_or_comprehension",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "reason": "No license or release approval.",
+      "result_id": "release",
+      "status": "blocked",
+      "value": null
+    }
+  ],
+  "mutable_provenance": {
+    "gate": false,
+    "hashed": false,
+    "mutable": true,
+    "note": "Only the stable linked-row projection above is compared. The mutable full board file is never hashed by or pinned to this package.",
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json"
+  },
+  "non_claims": [
+    "No Android AudioTrack, PlaybackParams, framework jar, android.jar stub, runtime image, device or emulator is present, linked, imported, executed or reproduced.",
+    "No Android SDK, AOSP source, platform binary, corpus or recording is downloaded, copied, vendored or substituted.",
+    "No Android speed/pitch range, default, fallback behaviour, buffering, content delay, device latency or sample-rate conversion is claimed; every candidate result is null.",
+    "The synthetic arithmetic control is not an Android output, a platform rate result or a listening result.",
+    "Pitch, transient, buffering, device timing, speech preservation and listening are reported as separate blocked evidence classes; none is relabelled, pooled or promoted.",
+    "No real speech, music, held-out corpus, listening panel, device timing, benchmark or release claim is made.",
+    "No installed v0, ABI, registry, descriptor, default, shared build or CI behavior is changed.",
+    "No provider or processor is registered, exposed or default-enabled.",
+    "No missing, blocked or adverse result is promoted; no result qualifies."
+  ],
+  "observed_provenance": {
+    "asr_proxy_is_listening": false,
+    "device_timing_is_listening": false,
+    "documented_context": [
+      {
+        "finding": "Speed/pitch on the platform audio path; API 23+.",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "is_source_reported": true,
+        "line": 80,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md"
+      },
+      {
+        "finding": "r=1 original; r>1 faster; output/input frames = 1/r.",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "is_source_reported": true,
+        "line": 33,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md"
+      },
+      {
+        "finding": "Media3 SonicAudioProcessor is the Apache-2.0 Java alternative; AudioTrack.setPlaybackParams is the platform-level alternative.",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "is_source_reported": true,
+        "line": 315,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md"
+      },
+      {
+        "finding": "First-product speech clamp 0.75-1.5x is design guidance, not a platform range.",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "is_source_reported": true,
+        "line": 486,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md"
+      },
+      {
+        "finding": "Delay accounting separates algorithmic, FIFO, playout/device and controller smoothing delay.",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "is_source_reported": true,
+        "line": 589,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md"
+      },
+      {
+        "finding": "A time stretcher changes frame count and cannot be a fixed-frame Stage; it needs a buffered playback module.",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "is_source_reported": true,
+        "line": 26,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md"
+      },
+      {
+        "finding": "Apache-2.0 permits commercial closed-source use with notice and a patent grant; platform APIs use OS terms.",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "is_source_reported": true,
+        "line": 501,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md"
+      },
+      {
+        "finding": "The local Bungee ~147 ms internal latency and 100 ms first-output are not end-to-end device latency.",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "is_source_reported": true,
+        "line": 598,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "cpp-library/pipeline-validation/playback-speed-candidates.md"
+      }
+    ],
+    "qualifies": false,
+    "reproduced_here": false
+  },
+  "profile": "rate",
+  "proposal_only": true,
+  "public_surface": {
+    "abi_change": false,
+    "benchmark_claim": false,
+    "ci_change": false,
+    "descriptor_default_change": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_change": false,
+    "registry_change": false,
+    "release_claim": false,
+    "shared_cmakelists_change": false
+  },
+  "qualification": {
+    "all_release_gates_blocked": true,
+    "android_runtime_present": false,
+    "audiotrack_impl_present": false,
+    "buffer_measurement_present": false,
+    "device_present": false,
+    "device_timing_present": false,
+    "incomplete": true,
+    "license_approved": false,
+    "listening_present": false,
+    "local_control_is_candidate": false,
+    "measured_rate_present": false,
+    "missing_result_promoted": false,
+    "pitch_measurement_present": false,
+    "platform_semantics_verified": false,
+    "proposal_only": true,
+    "qualifies": false,
+    "sdk_stub_present": false,
+    "speech_preservation_present": false,
+    "status": "not_qualified"
+  },
+  "qualification_slots": {
+    "device_output_latency_ms": {
+      "qualifies": false,
+      "source": "blocked",
+      "value": null
+    },
+    "duration_error_ms_per_audio_second": {
+      "qualifies": false,
+      "source": "blocked",
+      "value": null
+    },
+    "pitch_error_cents": {
+      "qualifies": false,
+      "source": "blocked",
+      "value": null
+    },
+    "pitch_range_verified": {
+      "qualifies": false,
+      "source": "blocked",
+      "value": null
+    },
+    "playback_buffer_fill_ms": {
+      "qualifies": false,
+      "source": "blocked",
+      "value": null
+    },
+    "release": {
+      "qualifies": false,
+      "source": "blocked",
+      "value": null
+    },
+    "source_output_mapping": {
+      "qualifies": false,
+      "source": "blocked",
+      "value": null
+    },
+    "speed_range_verified": {
+      "qualifies": false,
+      "source": "blocked",
+      "value": null
+    },
+    "transient_audibility": {
+      "qualifies": false,
+      "source": "blocked",
+      "value": null
+    }
+  },
+  "ranking": {
+    "order": "not_ranked",
+    "qualifies": false,
+    "reason": "No qualified Android runtime, measurement or listening result; ranking requires measured evidence.",
+    "recommendation": null
+  },
+  "regeneration": {
+    "byte_identical": true,
+    "canonical_digests": [
+      "48bf2cc6f5ade2746912aff48c73de56001eef0d0c707c9da583f1bbbaa7efc6",
+      "48bf2cc6f5ade2746912aff48c73de56001eef0d0c707c9da583f1bbbaa7efc6",
+      "48bf2cc6f5ade2746912aff48c73de56001eef0d0c707c9da583f1bbbaa7efc6"
+    ],
+    "mode": "three_in_process_canonical_builds_plus_cold_start_verify",
+    "runs": 3
+  },
+  "release_gates": [
+    {
+      "evidence": null,
+      "id": "exact_android_platform_runtime_and_stub_identity",
+      "qualifies": false,
+      "requirement": "An exact AudioTrack.setPlaybackParams implementation/runtime revision and matching android.jar stub, each with an immutable version and full SHA-256.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "api_level_playbackparams_semantics_and_geometry",
+      "qualifies": false,
+      "requirement": "Declared API level, speed/pitch ranges, defaults, fallback modes, buffering, content delay and audio-path geometry reproduced for the exact runtime.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "license_and_output_rights",
+      "qualifies": false,
+      "requirement": "Reviewed platform/SDK terms and written approval for execution, benchmarking, redistribution and generated-output use.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "android_sdk_java_and_build_toolchain_lock",
+      "qualifies": false,
+      "requirement": "A locked Android SDK, Java/build toolchain, emulator/system image and exact dependency versions with install digests.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "rights_cleared_speech_music_corpus_and_listening",
+      "qualifies": false,
+      "requirement": "A rights-cleared speech/music/silence cohort and an authorized listening or speech-preservation result separate from device timing.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "measured_source_output_duration_pitch_transient",
+      "qualifies": false,
+      "requirement": "Measured source/output mapping, duration drift, pitch error and transient audibility on the exact platform runtime.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "measured_buffering_rebuffer_drift_and_device_timing",
+      "qualifies": false,
+      "requirement": "Measured playback buffering, rebuffer, long-run drift and target-device output timing/resources for the exact runtime.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "opt_in_adapter_intake_and_release_review",
+      "qualifies": false,
+      "requirement": "An OFF-by-default opt-in adapter intake, independent exact-head review of this evidence and explicit release approval.",
+      "status": "blocked"
+    }
+  ],
+  "reproduction": [
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_reference.py",
+    "python3 run.py --report",
+    "python3 run.py --contract",
+    "python3 run.py --sources",
+    "python3 run.py --inspect",
+    "python3 verify.py"
+  ],
+  "required_artifacts": [
+    {
+      "artifact": "The exact Android platform AudioTrack.setPlaybackParams implementation or an authorized runtime image, pinned by a 40-hex revision and a full SHA-256.",
+      "id": "exact_android_platform_audio_runtime",
+      "present": false,
+      "rights_requirement": "AOSP/platform code and device image terms plus a written grant to execute, measure and publish the named revision.",
+      "why_blocked": "No AOSP checkout, platform source, framework jar or runtime image for AudioTrack exists locally."
+    },
+    {
+      "artifact": "The matching Android SDK stub (android.jar) for a declared API level >= 23 and the exact build fingerprint.",
+      "id": "android_sdk_and_api_level_pin",
+      "present": false,
+      "rights_requirement": "Android SDK licence acceptance for the exact package revision and any device/emulator image terms.",
+      "why_blocked": "No Android SDK installation, android.jar stub, adb, sdkmanager or build fingerprint is present."
+    },
+    {
+      "artifact": "A licensed device or emulator runtime image with an audio output path, exact API level and build fingerprint.",
+      "id": "device_or_emulator_runtime",
+      "present": false,
+      "rights_requirement": "Device/emulator runtime terms, hardware access and permission to record timing and output.",
+      "why_blocked": "No Android device, emulator, runtime image or audio HAL exists locally."
+    },
+    {
+      "artifact": "Reviewed platform, SDK and output-use terms and a signed rights decision for execution, measurement and publication.",
+      "id": "license_and_output_rights",
+      "present": false,
+      "rights_requirement": "Platform and SDK rightsholder terms plus commercial/derivative output approval for the named revision.",
+      "why_blocked": "No platform or SDK licence text and no signed approval are present for this task."
+    },
+    {
+      "artifact": "The official speed/pitch ranges, defaults, fallback modes, buffering, content delay and audio-path geometry reproduced for the exact API level and build.",
+      "id": "declared_playbackparams_semantics_and_geometry",
+      "present": false,
+      "rights_requirement": "Documentation and runtime terms that permit quoting and reproducing the declared semantics.",
+      "why_blocked": "The pinned note only says speed/pitch are on the platform path and API 23+; it establishes no ranges, defaults or geometry."
+    },
+    {
+      "artifact": "A rights-cleared cohort covering unfamiliar speech, music, silence and rebuffer cases with a frozen manifest.",
+      "id": "rights_cleared_speech_music_corpus",
+      "present": false,
+      "rights_requirement": "Corpus, participant, annotation, redistribution and model-evaluation rights for every recording.",
+      "why_blocked": "No real speech, music or silence corpus and no rights record is assigned to this task."
+    },
+    {
+      "artifact": "Measured source/output mapping, duration, pitch, transient audibility, buffer fill, rebuffer and device timing on the exact runtime.",
+      "id": "measured_rate_pitch_transient_buffer_and_device_timing",
+      "present": false,
+      "rights_requirement": "Approval to run and publish measurements from the named device or emulator.",
+      "why_blocked": "No platform runtime, device or measurement harness exists; nothing is measured or inferred."
+    },
+    {
+      "artifact": "An authorized listening/speech-preservation protocol, an OFF-by-default opt-in adapter intake and independent exact-head release review.",
+      "id": "listening_protocol_and_release_review",
+      "present": false,
+      "rights_requirement": "Panel consent, participant-data terms, reviewer approval and release-authority approval.",
+      "why_blocked": "No listening protocol, panel, adapter, registration, review or release decision exists; none is added here."
+    }
+  ],
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "scope": {
+    "android_platform_runtime": false,
+    "android_sdk": false,
+    "android_stub_present": false,
+    "audio_processed": false,
+    "audiotrack_impl_present": false,
+    "benchmark_claim": false,
+    "device_or_emulator": false,
+    "device_timing": false,
+    "downloads": false,
+    "installed_v0_format": "16 kHz mono float32, 160 samples",
+    "licensed_source_or_binary": false,
+    "listening": false,
+    "network_used": false,
+    "provider_registered": false,
+    "real_speech_or_corpus": false,
+    "release_claim": false,
+    "synthetic_only": true,
+    "task_local_only": true
+  },
+  "sibling_pins": {
+    "docs/task-evidence/aix-speed-asr-guided-planner/contract.json": "c920cf8290eae892f2d282801b7db18bbaa992e8c08c815b1e902aaf7f359fee",
+    "docs/task-evidence/aix-speed-asr-guided-planner/report.json": "a71ce94ad0b701c9d302edf1c74338c7d1586d573a7295510fd3584b26110873",
+    "docs/task-evidence/apple-and-browser-runtime-qualification/probe.py": "027ef12581fd75e8ee441c29a40bf15300c853becfe165312a792ff134cfe2d7",
+    "docs/task-evidence/pitch-period-repeat-plc/report.json": "114f0107fc06176857157801f127a22e88639204b488cd2267bf80ee9b467445",
+    "docs/task-evidence/sonic/contract.json": "dea2168b7ad7466a848d1fdfbee4047f84062c31d265c3cde0686cee8beaccf1",
+    "docs/task-evidence/sonic/report.json": "2bd9ad4099b20593e0e0e63c114f53a40270517839da43adf4b582c629a0ade2",
+    "docs/task-evidence/vosk-small-en-us-0-15-playback-gate/contract.json": "ee23e6cc21f9f3293a48dab7008a4c41f129074cafa3eb6b273f2f3ef413d694",
+    "docs/task-evidence/vosk-small-en-us-0-15-playback-gate/report.json": "57f355f51582c131812172e779ac8a6e3638491542c8e4e44efc46fd69cc2cc2"
+  },
+  "source_pins": {
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/audio-sdk/README.md": "f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "cpp-library/pipeline-validation/playback-speed-candidates.md": "661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3"
+  },
+  "status": "proposal_only_incomplete_not_qualified",
+  "task": "SDK-AUDIOTRACK-SETPLAYBACKPARAMS-PLAYBACKPARAMS",
+  "task_row": {
+    "base_commit": "f3002fe3e480f6523477c287231e5aebca469a0f",
+    "branch": "swarm/SDK-AUDIOTRACK-SETPLAYBACKPARAMS-PLAYBACKPARAMS",
+    "component": "audiotrack-setplaybackparams-playbackparams",
+    "depends_on": [
+      "SDK-FND-AUDIT",
+      "SDK-FND-EVIDENCE",
+      "SDK-FND-PROVIDER"
+    ],
+    "evidence": [
+      "cpp-library/pipeline-validation/playback-speed-candidates.md"
+    ],
+    "id": "SDK-AUDIOTRACK-SETPLAYBACKPARAMS-PLAYBACKPARAMS",
+    "mode": "feasibility",
+    "repository": "audio-sdk",
+    "title": "AudioTrack.setPlaybackParams(PlaybackParams)"
+  },
+  "title": "AudioTrack.setPlaybackParams(PlaybackParams)"
+}

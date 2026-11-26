@@ -1,0 +1,74 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX\u002dLicense-Identifier": "Apache-2.0",
+  "schema_id": "audio-bench.task-evidence-contract.v0",
+  "task": "SDK-FFMPEG-ATEMPO",
+  "component": "ffmpeg-atempo",
+  "base_commit": "2bc2a13aa4c5b398933fd9097d09746ce151216e",
+  "branch": "swarm/SDK-FFMPEG-ATEMPO",
+  "profile": "rate",
+  "status": "proposal_only_not_qualified",
+  "qualification": {
+    "status": "incomplete",
+    "decision": "DEFER",
+    "qualifies": false,
+    "missing_result_promoted": false,
+    "processor_exposure": false
+  },
+  "public_surface": {
+    "c_abi_change": false,
+    "contracts_md_change": false,
+    "shared_cmakelists_change": false,
+    "descriptor_default_change": false,
+    "installed_v0_behavior_change": false,
+    "provider_registration": false
+  },
+  "scope": {
+    "writes_only_under": "docs/task-evidence/ffmpeg-atempo/",
+    "synthetic_only": true,
+    "real_ffmpeg_binary": false,
+    "real_ffmpeg_source": false,
+    "download_or_install": false,
+    "licensed_runtime": false,
+    "real_corpora": false,
+    "device_or_listening": false,
+    "target_device_timing": false,
+    "release_claim": false
+  },
+  "source_pins": {
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245",
+    "research/tsm-followup-20261101/README.md": "01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f",
+    "cpp-library/pipeline-validation/playback-speed-candidates.md": "661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3",
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "audio-benchmark-platform/audio-sdk/CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "audio-benchmark-platform/audio-sdk/api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "audio-benchmark-platform/audio-sdk/api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "boundary_pins": {
+    "audio-benchmark-platform/audio-sdk/api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "audio-benchmark-platform/audio-sdk/api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "audio-benchmark-platform/audio-sdk/CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69"
+  },
+  "mutable_provenance": {
+    "audio-benchmark-platform/plan/swarm/TASKS.json": "0c443df7655e040679e48f39524af549deb355569050217a7fb05e4352b2ec74"
+  },
+  "artifact_pins": {},
+  "reproduction": [
+    "PYTHONDONTWRITEBYTECODE=1 python3 run.py --report",
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_reference.py",
+    "PYTHONDONTWRITEBYTECODE=1 python3 run.py --sources",
+    "PYTHONDONTWRITEBYTECODE=1 python3 run.py --crosscheck",
+    "PYTHONDONTWRITEBYTECODE=1 python3 verify.py",
+    "PYTHONDONTWRITEBYTECODE=1 python3 check_licensing.py"
+  ],
+  "release_gates": [
+    "independent review",
+    "licensing review before any real FFmpeg build or vendored artifact",
+    "target-device playback pacing/fill/flush/callback deadline evidence",
+    "blinded listening or task-matched human study; synthetic proxies are not listening",
+    "unfamiliar real speech/music cohort with rights and consent",
+    "registered provider/descriptor/installed behavior review before exposure",
+    "hosted CI and release evidence for any support claim"
+  ]
+}

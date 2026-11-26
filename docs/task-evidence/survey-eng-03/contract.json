@@ -1,0 +1,160 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "schema_id": "audio-sdk/task-evidence-contract/0.2",
+  "task": "SDK-SURVEY-ENG-03",
+  "title": "Jitter buffering and adaptive playout evidence map",
+  "task_title": "Review coverage for Jitter buffering and adaptive playout",
+  "mode": "taxonomy",
+  "category_scope": {
+    "category_id": "ENG-03",
+    "name": "Jitter buffering and adaptive playout",
+    "group": "Delivery and audio interface support",
+    "scope": "support",
+    "input_output": "Timestamped packets → regular PCM playout",
+    "method_families": {
+      "classic": "Adaptive buffers; acceleration/deceleration; PLC integration",
+      "ml": "No ML requirement"
+    },
+    "single_category_only": true,
+    "excluded_categories": [
+      "ENG-01",
+      "ENG-02",
+      "ENG-04"
+    ],
+    "not_a_language_scope": true,
+    "excluded_examples": [
+      "REC-02 language identification",
+      "whisper-tiny-en-int8-via-sherpa-onnx"
+    ]
+  },
+  "profile": "evidence",
+  "status": "incomplete",
+  "qualification_status": "not_qualified",
+  "decision": "DEFER",
+  "base_commit": "c9296ae96a2b58efae559bd22e7760122c886df8",
+  "branch": "swarm/SDK-SURVEY-ENG-03",
+  "no_missing_result_qualifies_candidate": true,
+  "follow_up_policy": {
+    "invent_new_tasks": false,
+    "board_only": true,
+    "allowed_modes": [
+      "feasibility"
+    ],
+    "existing_feasibility_task_ids": [
+      "SDK-BUFFER-OCCUPANCY-CONTROLLER",
+      "SDK-CAPSC-BUFFER-OCCUPANCY-PACING",
+      "SDK-WEBRTC-NETEQ"
+    ]
+  },
+  "scope": {
+    "category_ids": [
+      "ENG-03"
+    ],
+    "source_and_board_record_mapping_only": true,
+    "synthetic_state_controls_only": true,
+    "real_corpus": false,
+    "real_weights": false,
+    "audio_runtime_executed": false,
+    "model_runtime_executed": false,
+    "codec_runtime_executed": false,
+    "vendor_runtime_executed": false,
+    "network_trace_used": false,
+    "jitter_buffer_executed": false,
+    "adaptive_playout_executed": false,
+    "listening": false,
+    "device_timing": false,
+    "benchmark": false,
+    "release_claim": false,
+    "registered_provider": false,
+    "task_local_only": true
+  },
+  "boundary": {
+    "registered": false,
+    "enabled_by_default": false,
+    "default_selected": false,
+    "descriptor_settings": {},
+    "public_api_abi_change": false,
+    "provider_registration": false,
+    "descriptor_registry_change": false,
+    "shared_cmakelists_change": false,
+    "ci_workflow_change": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false
+  },
+  "public_v0_geometry": {
+    "sample_rate_hz": 16000,
+    "channels": 1,
+    "sample_format": "f32",
+    "frame_samples": 160,
+    "public_v0_geometry_preserved": true,
+    "sdk_callback_invoked": false
+  },
+  "source_pins": {
+    "research/category_registry.json": "cdf1782853fde1291bb8fd3c64144b9e857939856f8caca1666d2d617845728c",
+    "audio_categories.md": "97a3c7e61e0d66f2c3ab18f1dde8661afa2d74a40eb4f46315d95da50c4ff905",
+    "research/task_backlog.json": "0ac45fef49d433ad751ac2ff2674ea21e3717929d6ccc7dcda1fc3083db84ebc",
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/swarm/TASKS.json": "b583d08dd6ac063bf1885fcf921ebea8c5927ed1a9a70fad78c4998d84e247ca",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "audio-benchmark-platform/plan/audio-sdk/README.md": "f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06",
+    "audio-benchmark-platform/plan/swarm/handoffs/SDK-FND-ELASTIC.md": "8f7aec856f92d7090935c86ba89fa99e1f5b3ebb6e6a67c081eed9d2c9c94b5c",
+    "audio-benchmark-platform/plan/swarm/handoffs/SDK-BUFFER-OCCUPANCY-CONTROLLER.md": "0a0d92d52990f851b96cf38e4c010276136c28d620bc7d6db72c38e8506bb12a",
+    "audio-benchmark-platform/plan/swarm/handoffs/SDK-RUBBER-BAND-R3-OFFLINE.md": "df84500595acf96bb07808334c3f2bc6101b4f3f0c8a3179a06cfd15f9c60792",
+    "audio-benchmark-platform/plan/swarm/handoffs/SDK-RUBBER-BAND-R3-STREAMING.md": "b70f9ed4dd2625894c6ba24ca8bd308c2c9cf0584b5d322c58ef8c52ad42c024"
+  },
+  "source_pin_selectors": {
+    "audio-benchmark-platform/plan/swarm/TASKS.json": "selected-board-task-records/0.2:id,mode,repository,title,component"
+  },
+  "board_status_is_observation_only": true,
+  "boundary_pins": {
+    ".github/workflows/ci.yml": "ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415",
+    ".github/workflows/release.yml": "6fee1576bf3517cf8aa2a9f963988ea7aac41e16d32df506336a0ee408a4ebfc",
+    "CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "docs/task-evidence/buffer-occupancy-controller/README.md": "862a94c9add8ecd5e15f09a543ff17100dc5680da00f8a0635a884509cb51a33",
+    "docs/task-evidence/elastic-pcm-packets/README.md": "15ebaa6b2b7768faa5c1bd2fc45b900db7f71d49b7ad1292685263555953e742",
+    "docs/task-evidence/rubber-band-r3-offline/README.md": "de528246089b9f0d2a1ea597ac0cbbb119d5541b2b22a0a383b4d03b7a85aeab",
+    "docs/task-evidence/rubber-band-r3-streaming/README.md": "04583e07678079f1ed179a1b15f50599693a7bc6f6a813237a71d0005d810d97",
+    "docs/task-evidence/ffmpeg-atempo/README.md": "11773a543c6dab54ff4754989501a0a70a29b247612e51aee5fb54c0050457b8",
+    "docs/task-evidence/linear-interpolation-plc/README.md": "5102676797554c3e6bc83207a848d35b72783bead5eac13ad60c5a16bd940742",
+    "docs/task-evidence/pitch-period-repeat-plc/README.md": "8fb323ffd7ce59c361ac1078d7c434b1b3c0b5f088d9a7d07ae5b2278cfa3ea9",
+    "docs/task-evidence/zero-fill-plc/README.md": "f1e702efd42ee93ae5402d42ec9f5498f759deb01fa3cb08f6b436f6f92998c4",
+    "docs/task-evidence/opus-1-4-standard-decoder-plc/README.md": "ac4ed82328dbbfc1af8aefbd43f2efc5ce36bde9f004e6f40bbc46b23db962df",
+    "docs/task-evidence/autoregressive-plc/README.md": "a391565993a4f2439b6e2d584923dd0a812ceeef75c9954c08215df108ff79df",
+    "docs/task-evidence/sonic/README.md": "40f2fdcf708a75fbc3e0df296fabfecd296118e6a9eaee67fc34f8dec0e419cb",
+    "docs/task-evidence/soundtouch/README.md": "951726880bc657fa59f0ba3d2508887401f1b07942faf8ee87faa8c58f02c550",
+    "docs/task-evidence/signalsmith-stretch/README.md": "446398e0c3aa27528e5ceacf1d4d0b6102f8c8e541c76aa6ac2a8abe62691934",
+    "docs/task-evidence/psola-praat/README.md": "7e64ec614937533168ef31c34d4c8ec4aa7d6d52670e663f0f88ce5f4ec7a6ef",
+    "docs/task-evidence/granular-tsm/README.md": "d97f06911fd90667288fe571c7a3f4210ece629f7e839c1d41200ceec48ec0a0",
+    "docs/task-evidence/ola-sola/README.md": "5d7de4612ad4d04cad544e4060aba607916f0fd013471388cc74fb55168bd731",
+    "docs/task-evidence/phase-vocoder-baseline/README.md": "915bd51e7de4b223bdd61bb5ff823e7a0558f03e324f154d7d3d4c77d14f9790"
+  },
+  "evidence_inputs": [
+    "research/category_registry.json",
+    "audio_categories.md",
+    "research/task_backlog.json",
+    "docs/task-evidence/buffer-occupancy-controller/README.md",
+    "docs/task-evidence/elastic-pcm-packets/README.md",
+    "docs/task-evidence/rubber-band-r3-offline/README.md",
+    "docs/task-evidence/rubber-band-r3-streaming/README.md"
+  ],
+  "release_gates": [
+    "Rights-cleared frozen packet traces and media cohort before any quality claim.",
+    "Pinned permitted NetEq/PLC/actuator runtime and exact licenses before any implementation claim.",
+    "Independent listening before any intelligibility, naturalness or pitch claim.",
+    "Target-device pacing, clock, rebuffer, deadline and resource evidence before any availability claim.",
+    "Opt-in provider intake and licensing clearance before registration.",
+    "Explicit public default selection before any enabled-by-default claim.",
+    "Exact parity with an approved external NetEq or codec reference before any parity claim.",
+    "Independent review and board transition before any component acceptance claim."
+  ],
+  "reproduction": {
+    "tests": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_reference.py",
+    "report": "PYTHONDONTWRITEBYTECODE=1 python3 run.py all",
+    "verify": "PYTHONDONTWRITEBYTECODE=1 python3 verify.py",
+    "comparison": "canonical JSON bytes and SHA-256 only; no tolerance"
+  }
+}

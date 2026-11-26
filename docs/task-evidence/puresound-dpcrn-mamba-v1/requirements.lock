@@ -1,0 +1,5 @@
+# Pinned external PureSound runtime; not installed in this SDK worktree.
+# The upstream adapter README targets this isolated CPU ONNX environment.
+numpy==2.2.6
+onnxruntime==1.24.1
+soundfile==0.13.1

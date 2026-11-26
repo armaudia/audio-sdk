@@ -1,0 +1,688 @@
+{
+  "acceptance_profile": {
+    "mapped_cases": [
+      "frozen synthetic room response, channel, rate, hop and excitation",
+      "declared one-hop delay with delay-compensated and unaligned scoring",
+      "silence, speech, noisy-speech and decaying-tail strata",
+      "early-target SI-SDR against identity on the same window",
+      "projection DRR proxy on the identity and surrogate outputs",
+      "peak, clipping, silence exactness and nonfinite-output bounds",
+      "zero far-end reference misuse screen, explicitly not AEC",
+      "reset schedule and offline/streaming parity",
+      "fail-closed caller-asset, frame and config controls"
+    ],
+    "name": "room",
+    "not_applicable": [
+      "no LocalVQE model or admitted runtime, so no exact output is reproduced",
+      "no paired far-end render, so this is not echo cancellation",
+      "no measured room or rights-cleared real paired cohort, so no generalization or quality claim is made",
+      "no target device, so no timing, memory or deadline result is claimed",
+      "no independent listening, ASR or intrusive perceptual score is performed"
+    ],
+    "source": "audio-benchmark-platform/plan/swarm/VERIFICATION.md"
+  },
+  "asset_pins": {
+    "asset:echo_model": {
+      "executed": false,
+      "expected_path": "data/models/localvqe/localvqe-pi-aec-v1-49k-f32.gguf",
+      "filename": "localvqe-pi-aec-v1-49k-f32.gguf",
+      "loaded": false,
+      "present": false,
+      "sha256": "b80b75b9038d0d28079a84afe7d4f0b8f6404f723af4633c05ed4f96fb30b7b8"
+    },
+    "asset:joint_model": {
+      "executed": false,
+      "expected_path": "data/models/localvqe/localvqe-pi-v1-49k-f32.gguf",
+      "filename": "localvqe-pi-v1-49k-f32.gguf",
+      "loaded": false,
+      "present": false,
+      "sha256": "0e0c82a8e9703e818b64dedd0fc306394cf5bbb59fcec1ccca82099d352d0c26"
+    },
+    "asset:native_runtime": {
+      "admitted": false,
+      "executed": false,
+      "expected_path": "data/checkouts/LocalVQE/ggml/build/liblocalvqe.0.1.0.dylib",
+      "filename": "liblocalvqe.0.1.0.dylib",
+      "hashed_here": false,
+      "loaded": false,
+      "observed_presence": "not_evaluated",
+      "sha256_recorded_identity": "bb30cc40c87e780e3a7277fdf6eee469dac1df684a023f884cefdaa24f945298"
+    }
+  },
+  "base_commit": "ccb963f3b05519547328f647dfb0656170c3354b",
+  "board_row": {
+    "full_tasks_json_hashed": false,
+    "stable_fields": {
+      "component": "localvqe-dereverberation-probe",
+      "depends_on": [
+        "SDK-FND-AUDIT",
+        "SDK-FND-DUPLEX",
+        "SDK-FND-EVIDENCE",
+        "SDK-FND-NN",
+        "SDK-FND-PROVIDER"
+      ],
+      "id": "SDK-LOCALVQE-DEREVERBERATION-PROBE",
+      "mode": "implementation",
+      "repository": "audio-sdk",
+      "title": "LocalVQE dereverberation probe"
+    },
+    "stable_sha256": "d7080237af4b67bfb730f127cd743e077e46b348c35c6c2ab58eef6b98b79e90"
+  },
+  "boundary": {
+    "adapter_json_added": false,
+    "asset_bundled": false,
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "native_engine_built": false,
+    "onnxruntime_invoked": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "readiness_json_added": false,
+    "registered": false,
+    "sdk_data_dir_added": false,
+    "shared_build_or_ci_change": false,
+    "weights_vendored": false
+  },
+  "branch": "swarm/SDK-LOCALVQE-DEREVERBERATION-PROBE",
+  "caller_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/localvqe-dereverberation-probe/caller-supplied-asset/0.1",
+    "present_behavior": "validate_hash_geometry_and_scenario_only; do_not_load_or_execute_in_this_package",
+    "required_fields": [
+      "algorithmic_latency_samples",
+      "channels",
+      "frame_samples",
+      "input_format",
+      "library_path",
+      "library_sha256",
+      "model_path",
+      "model_sha256",
+      "reference_mode",
+      "render_delay_samples",
+      "sample_rate_hz",
+      "source_commit",
+      "variant"
+    ],
+    "requires_far_end_reference": false,
+    "scenario_reference_mode": "zero_far_end",
+    "separate_model_archive_required": true,
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "model_path and library_path are caller-owned absolute paths",
+      "SHA-256 of the model file and native library match the manifest",
+      "source_commit equals the pinned LocalVQE provenance revision",
+      "variant, sample rate, channels, frame size and input format equal the compact joint model geometry",
+      "render_delay_samples is zero and algorithmic_latency_samples is one 256-sample hop",
+      "reference_mode is zero_far_end; paired-reference AEC is a separate task and is rejected here",
+      "the pinned model digest is checked separately; a hash-matched placeholder is never accepted as the pinned joint model",
+      "no download, copy, build, import, load or execution occurs in this package"
+    ],
+    "weights_embedded_in_wheel": false
+  },
+  "claim": {
+    "base_commit": "ccb963f3b05519547328f647dfb0656170c3354b",
+    "branch": "swarm/SDK-LOCALVQE-DEREVERBERATION-PROBE",
+    "reviewer": "reviewer-LOCALVQE-DEREVERBERATION-PROBE",
+    "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-LOCALVQE-DEREVERBERATION-PROBE"
+  },
+  "component_id": "localvqe-dereverberation-probe",
+  "contract_sha256": "87218fabb13b5298ca81fb16cf06cba9ee9c0c1ca905371378e61236895f3021",
+  "controls": {
+    "asset": {
+      "generic_admission": {
+        "accepted": true,
+        "executed": false,
+        "imported": false,
+        "loaded": false,
+        "pinned_model": false,
+        "validated": true
+      },
+      "rejected_all": true,
+      "rejections": {
+        "absent_model": "asset_file_missing:model_path",
+        "channels": "asset_value_mismatch:channels",
+        "extra_field": "asset_field_set_mismatch",
+        "format": "asset_value_mismatch:input_format",
+        "frame": "asset_value_mismatch:frame_samples",
+        "latency": "asset_value_mismatch:algorithmic_latency_samples",
+        "library_hash": "asset_library_hash_mismatch",
+        "missing_field": "asset_field_set_mismatch",
+        "model_hash": "asset_model_hash_mismatch",
+        "paired_reference": "asset_value_mismatch:reference_mode",
+        "pinned_placeholder": "asset_model_hash_mismatch",
+        "relative_path": "asset_path_not_absolute:model_path",
+        "render_delay": "asset_value_mismatch:render_delay_samples",
+        "sample_rate": "asset_value_mismatch:sample_rate_hz",
+        "variant": "asset_value_mismatch:variant",
+        "variant_dereverb": "asset_value_mismatch:variant",
+        "workspace_pinned_absent": "asset_file_missing:model_path",
+        "wrong_commit": "asset_value_mismatch:source_commit"
+      },
+      "workspace_model_present": false
+    },
+    "config": {
+      "baseline_digest": "940dab6fc7b4b73fd8f7ab841cd2e9ad7b1b33880b1a13ca158a13227c5ce3d4",
+      "rejected_all": true,
+      "rejections": {
+        "bool_epoch": "invalid_epoch",
+        "channels": "config_mismatch:channels",
+        "extra": "config_key_set_mismatch",
+        "format": "config_mismatch:input_format",
+        "frame": "config_mismatch:frame_samples",
+        "latency": "config_mismatch:algorithmic_latency_samples",
+        "library_used": "config_mismatch:library_used",
+        "model_used": "config_mismatch:model_used",
+        "negative_epoch": "invalid_epoch",
+        "real_runtime": "config_mismatch:real_runtime",
+        "reference_mode": "config_mismatch:reference_mode",
+        "render_delay": "config_mismatch:render_delay_samples",
+        "sample_rate": "config_mismatch:sample_rate_hz",
+        "session_id": "invalid_session_id",
+        "variant": "config_mismatch:variant"
+      }
+    },
+    "delay": {
+      "aligned_si_sdr_db": 5.818780881,
+      "alignment_gain_db": 0.330182553,
+      "error_energy_improvement_db": 0.275014529,
+      "identity_best_alignment": {
+        "best_lag_samples": 0,
+        "mean_squared_error": 0.035067079
+      },
+      "output_best_alignment": {
+        "best_lag_samples": 256,
+        "mean_squared_error": 0.010636875
+      },
+      "unaligned_si_sdr_db": 5.488598329
+    },
+    "frame": {
+      "accepted_after_rejections": true,
+      "accepted_output_length": 256,
+      "baseline_digest": "940dab6fc7b4b73fd8f7ab841cd2e9ad7b1b33880b1a13ca158a13227c5ce3d4",
+      "counter_after_accept": 256,
+      "rejected_all": true,
+      "rejections": {
+        "boolean": "mic_type",
+        "empty_final": "mic_length",
+        "infinity": "mic_nonfinite",
+        "long_nonfinal": "mic_length",
+        "nan": "mic_nonfinite",
+        "negative_infinity": "mic_nonfinite",
+        "negative_range": "mic_range",
+        "nested": "mic_type",
+        "none": "mic_type",
+        "partial_nonfinal": "mic_length",
+        "range": "mic_range",
+        "short_nonfinal": "mic_length",
+        "string": "mic_not_sequence"
+      }
+    },
+    "impulse": {
+      "expected_output_index": 2256,
+      "finite": true,
+      "length": 4096,
+      "observed_peak_index": 2256,
+      "peak_value": 0.5,
+      "source_index": 2000
+    },
+    "nonfinite_counter": {
+      "accepted_counter_unchanged": true,
+      "counted_as_silence": false,
+      "reason": "mic_nonfinite",
+      "state_digest_unchanged": true
+    },
+    "partial_tail": {
+      "expected_tail_valid": 232,
+      "length_preserved": true,
+      "prefix_matches_full": true,
+      "tail_valid": 232
+    },
+    "reset": {
+      "epoch_rejections": {
+        "lower": "epoch_not_greater",
+        "same": "epoch_not_greater"
+      },
+      "fresh_matches_reset": true,
+      "higher_epoch_accepted": true,
+      "reset_digest": "5db2353d41e16f708a83f0babc4ccac1e8a04a7bec6280b24edb280d6ce5618e",
+      "stale_digest_unchanged": true
+    },
+    "silence": {
+      "exact_zero": true,
+      "length": 512,
+      "tail_valid": 256
+    },
+    "streaming_parity": {
+      "all_identical": true,
+      "chunks": {
+        "137": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "160": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "256": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "320": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "480": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "641": {
+          "byte_identical": true,
+          "tail_valid": 256
+        },
+        "800": {
+          "byte_identical": true,
+          "tail_valid": 256
+        }
+      },
+      "reference_tail_valid": 256
+    }
+  },
+  "decision": "DEFER",
+  "defer_before": "opt_in_adapter_exposure",
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    {
+      "id": "model_absent",
+      "requirement": "Supply the exact LocalVQE compact joint checkpoint localvqe-pi-v1-49k-f32.gguf with SHA-256 0e0c82a8e9703e818b64dedd0fc306394cf5bbb59fcec1ccca82099d352d0c26 as a caller-owned external asset, verified locally without a network download.",
+      "state": "data/models/localvqe/localvqe-pi-v1-49k-f32.gguf is absent; no dereverberation-only checkpoint is published upstream, so this probe can only test a zero-reference use of the joint model."
+    },
+    {
+      "id": "runtime_absent",
+      "requirement": "Admit an isolated, hash-pinned CPython runtime and a native liblocalvqe built reproducibly from the pinned source revision; record the exact archive, build flags, ABI, distribution and product-use terms.",
+      "state": "No data/envs/localvqe-dereverberation-probe environment exists. A dylib is present in the source checkout, but it was not read, hashed, loaded or executed here, and observed presence is not runtime admission or reproducibility evidence."
+    },
+    {
+      "id": "rights_unresolved",
+      "requirement": "Supply written model-weight, training-data, corpus, redistribution, product-use and derivative-output terms plus the complete notice bundle for the exact checkpoint and runtime.",
+      "state": "The source repository states Apache-2.0, but the checkpoint, training data, evaluation corpora and native packaging have no artifact-specific rights record. Nothing may be bundled, rehosted, rebranded or deployed."
+    },
+    {
+      "id": "scenario_and_evidence_absent",
+      "requirement": "Establish that a zero far-end reference is an intended and valid dereverberation-only condition, then reproduce approved exact-runtime outputs and score a rights-cleared paired reverberant/early-target cohort with independent intrusive metrics or permitted listening and target-device timing.",
+      "state": "The model is trained for joint AEC/NS/dereverberation and the upstream adapter states that the zero-reference mono screen is outside the model's intended AEC condition. No exact output vector, rights-cleared cohort, independent score, listening result, target timing or provider intake exists."
+    }
+  ],
+  "fixture": {
+    "component_digests": {
+      "clean": "c271ea0c55ede04b084d44a42953cefb51d13566c13a77cdf9a9be19ec9e098b",
+      "early": "d10cde86d12a94e977e97c9929f40cba2bd17c4b2d91012a22416dcdeba12175",
+      "late": "bac53906125011840ffa8856a4b7359ee0d69e692ea4e71b59a9b427e032364b",
+      "noise": "31922d973ff95c8c8da92f91f10f6cbf17b4d47c1031b72916c26531d7a6447c",
+      "reverb": "353488b87e73ebfb9292230882d12f9a9dbcea17807d13bb0a143bab932a3855"
+    },
+    "early_taps": [
+      [
+        16,
+        850
+      ],
+      [
+        64,
+        330
+      ],
+      [
+        160,
+        210
+      ],
+      [
+        384,
+        120
+      ],
+      [
+        640,
+        70
+      ],
+      [
+        752,
+        40
+      ]
+    ],
+    "early_window_ms": 50,
+    "early_window_samples": 800,
+    "fixture_id": "localvqe-dereverb-zero-reference-room-fixture-v1",
+    "late_taps": [
+      [
+        800,
+        230
+      ],
+      [
+        960,
+        184
+      ],
+      [
+        1120,
+        147
+      ],
+      [
+        1280,
+        117
+      ],
+      [
+        1440,
+        94
+      ],
+      [
+        1600,
+        75
+      ],
+      [
+        1760,
+        60
+      ],
+      [
+        1920,
+        48
+      ],
+      [
+        2080,
+        38
+      ],
+      [
+        2240,
+        30
+      ],
+      [
+        2400,
+        24
+      ],
+      [
+        2560,
+        19
+      ],
+      [
+        2720,
+        15
+      ],
+      [
+        2880,
+        12
+      ],
+      [
+        3040,
+        10
+      ],
+      [
+        3200,
+        8
+      ]
+    ],
+    "segments": [
+      {
+        "end_frame": 50,
+        "id": "silence-a",
+        "kind": "silence",
+        "start_frame": 0
+      },
+      {
+        "amplitudes": [
+          460,
+          256,
+          154
+        ],
+        "end_frame": 100,
+        "id": "speech-a",
+        "kind": "speech",
+        "start_frame": 50,
+        "steps": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "amplitudes": [
+          420,
+          280,
+          170
+        ],
+        "click_amplitude": 9000,
+        "click_period": 1024,
+        "end_frame": 150,
+        "id": "speech-b",
+        "kind": "speech",
+        "start_frame": 100,
+        "steps": [
+          2,
+          3,
+          5
+        ]
+      },
+      {
+        "amplitudes": [
+          440,
+          250,
+          160
+        ],
+        "end_frame": 200,
+        "id": "noisy-speech",
+        "kind": "speech",
+        "noise_gain": 2,
+        "start_frame": 150,
+        "steps": [
+          3,
+          4,
+          6
+        ]
+      },
+      {
+        "end_frame": 250,
+        "id": "tail-after-speech",
+        "kind": "silence",
+        "start_frame": 200
+      }
+    ],
+    "spec_digest": "d80fd85e0a14784bf7eacd0d0e16ef091625d4567dee3b26ec3b5297c46a7994",
+    "total_frames": 250,
+    "total_samples": 64000
+  },
+  "format": {
+    "algorithmic_latency_ms": 16,
+    "algorithmic_latency_samples": 256,
+    "asset_channels": 1,
+    "asset_frame_duration_ms": 16,
+    "asset_frame_samples": 256,
+    "asset_requires_far_end_reference": false,
+    "asset_sample_format": "float32",
+    "asset_sample_rate_hz": 16000,
+    "early_window_ms": 50,
+    "early_window_samples": 800,
+    "sdk_v0_channels": 1,
+    "sdk_v0_frame_samples": 160,
+    "sdk_v0_geometry_preserved": true,
+    "sdk_v0_sample_format": "f32",
+    "sdk_v0_sample_rate_hz": 16000,
+    "window_frames": 250,
+    "window_samples": 64000
+  },
+  "gates": [
+    {
+      "id": "exact_model_identity",
+      "requirement": "Local model file matches the pinned filename, byte count and SHA-256; provenance revision is immutable and verified without a download.",
+      "status": "blocked"
+    },
+    {
+      "id": "runtime_admission",
+      "requirement": "Hash-pinned isolated runtime and reproducibly built native library; archive, flags, ABI and distribution terms recorded.",
+      "status": "blocked"
+    },
+    {
+      "id": "artifact_rights",
+      "requirement": "Checkpoint, training-data, runtime, corpus, redistribution, product-use and derivative-output rights cleared with complete notices.",
+      "status": "blocked"
+    },
+    {
+      "id": "exact_reference_parity",
+      "requirement": "Approved exact-runtime zero-far-end output vector and byte-level parity on the declared 16 kHz / 256-sample geometry.",
+      "status": "blocked"
+    },
+    {
+      "id": "zero_reference_scenario_validity",
+      "requirement": "Evidence that the dereverb-only zero far-end condition is intended, or reclassification as a paired-reference AEC task with a real render.",
+      "status": "blocked"
+    },
+    {
+      "id": "rights_cleared_paired_cohort",
+      "requirement": "Frozen rights-cleared reverberant corpus, measured or frozen RIRs, early-target definition, strata and exact reset/delay schedule.",
+      "status": "blocked"
+    },
+    {
+      "id": "independent_scoring_and_listening",
+      "requirement": "Independent SI-SDR/STOI/SRMR or permitted listening, including identity and task-matched baselines, with failure and nonfinite controls.",
+      "status": "blocked"
+    },
+    {
+      "id": "target_runtime_timing_and_opt_in_provider",
+      "requirement": "Target-device p50/p95/p99, RTF, memory, deadline and one-hop latency, plus opt-in provider intake, descriptor review and default decision.",
+      "status": "blocked"
+    }
+  ],
+  "metrics": {
+    "alignment": {
+      "aligned_output_si_sdr_db": 5.818780881,
+      "unaligned_output_si_sdr_db": 5.488598329
+    },
+    "drr_projection": {
+      "identity_drr_db": 1.312349337,
+      "output_drr_db": 10.293077534
+    },
+    "identity_si_sdr_db": 2.123207278,
+    "max_abs_output": 0.953328878,
+    "nonfinite_output_samples": 0,
+    "output_peak_clipped_samples": 0,
+    "output_si_sdr_db": 5.818780881,
+    "scored_samples": 63744,
+    "silence_exact_zero": true,
+    "strata": {
+      "noisy-speech": {
+        "identity_si_sdr_db": 7.601172824,
+        "output_si_sdr_db": 6.83644348,
+        "samples": 12800
+      },
+      "silence-a": {
+        "identity_si_sdr_db": null,
+        "output_si_sdr_db": null,
+        "samples": 12800
+      },
+      "speech-a": {
+        "identity_si_sdr_db": 2.863472503,
+        "output_si_sdr_db": 9.277057029,
+        "samples": 12800
+      },
+      "speech-b": {
+        "identity_si_sdr_db": -7.689506933,
+        "output_si_sdr_db": 2.355547475,
+        "samples": 12800
+      },
+      "tail-after-speech": {
+        "identity_si_sdr_db": -4.711008284,
+        "output_si_sdr_db": -13.082426306,
+        "samples": 12544
+      }
+    }
+  },
+  "missing_results": [
+    "exact LocalVQE inference output",
+    "zero-far-end scenario validity",
+    "rights-cleared paired reverberant/early-target cohort",
+    "independent intrusive score or permitted listening",
+    "target-device timing, memory and deadline",
+    "opt-in provider intake and default decision"
+  ],
+  "negative_claims": [
+    "No LocalVQE output, checkpoint, derived weight or native call was produced.",
+    "No dereverberation, echo, noise, quality, latency or release result is claimed.",
+    "The synthetic surrogate is not LocalVQE and cannot qualify the candidate.",
+    "The zero-far-end condition is an engineering misuse screen, not AEC and not a fair dereverberation benchmark.",
+    "No real corpus, room impulse response, audio, device clock or listener was used.",
+    "No provider, descriptor, registry, installed v0 path, shared build, dependency lock or CI was changed.",
+    "Identity is the only paired control; no candidate result is promoted to a pass."
+  ],
+  "no_missing_result_qualifies_candidate": true,
+  "profile": "room",
+  "qualification_status": "not_qualified",
+  "reopen_condition": "Admit the exact checkpoint and a hash-pinned runtime, clear artifact and corpus rights, establish that the zero-reference dereverberation-only condition is intended or replace it with a paired-reference task, reproduce exact-runtime outputs, score a rights-cleared paired cohort with independent metrics or permitted listening, measure target timing and complete opt-in provider intake. Until then the candidate stays DEFER, incomplete and not qualified.",
+  "scenario": {
+    "algorithmic_latency_ms": 16,
+    "algorithmic_latency_samples": 256,
+    "far_end_reference": "zero",
+    "id": "localvqe-dereverb-zero-far-end-probe-v1",
+    "is_aec": false,
+    "is_joint_full_paired_reference": false,
+    "is_pure_dereverberator": false,
+    "note": "The joint model is conditional on a far-end playback reference. Supplying zeros is an engineering misuse screen for the dereverberation-only question and does not evaluate AEC or establish a pure dereverberation model."
+  },
+  "schema_id": "audio-sdk/task-evidence/localvqe-dereverberation-probe/report/0.1",
+  "status": "proposal_only_synthetic_incomplete",
+  "surrogate": {
+    "delay_samples": 256,
+    "is_localvqe": false,
+    "model_free": true,
+    "predictor_taps": [
+      [
+        800,
+        165
+      ],
+      [
+        960,
+        132
+      ],
+      [
+        1120,
+        105
+      ],
+      [
+        1280,
+        84
+      ],
+      [
+        1440,
+        67
+      ],
+      [
+        1600,
+        54
+      ],
+      [
+        1760,
+        43
+      ],
+      [
+        1920,
+        34
+      ],
+      [
+        2080,
+        27
+      ],
+      [
+        2240,
+        21
+      ]
+    ],
+    "type": "fixed causal late-reverberation subtraction"
+  },
+  "task_id": "SDK-LOCALVQE-DEREVERBERATION-PROBE",
+  "title": "LocalVQE dereverberation probe",
+  "upstream": {
+    "commit": "7f61cd05095d42e56a135b303f5bb4d761da22b9",
+    "license": "Apache-2.0",
+    "line": "compact GTCRN-AEC 49K joint AEC/NS/dereverb line",
+    "repository": "https://github.com/localai-org/LocalVQE"
+  }
+}

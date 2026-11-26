@@ -1,0 +1,1472 @@
+{
+  "acceptance_profile": {
+    "alignment_delayed_missing_render": true,
+    "channel_rate_hop": true,
+    "delay": true,
+    "echo_attenuation": true,
+    "echo_only": true,
+    "excitation": true,
+    "frozen_render_reference": true,
+    "movement": true,
+    "near_end_damage": true,
+    "near_end_only": true,
+    "no_reference": true,
+    "no_reference_independent_comparison": true,
+    "noise": true,
+    "nonfinite_failures": true,
+    "not_applicable": [
+      "no exact LocalVQE weights or executed native runtime, so exact output is not reproduced",
+      "no measured room or rights-cleared real paired cohort, so no generalization or quality claim is made",
+      "no target device, so no timing, memory or deadline result is claimed",
+      "no independent listening or ASR evaluation is performed"
+    ],
+    "overlap": true,
+    "profile": "room",
+    "reference_sha256": "a1f401f574e78c8f58cf27f5ca0f78d68c3572dacdee40e09da503ab45714c2a",
+    "reset_schedule": true,
+    "source": "audio-benchmark-platform/plan/swarm/VERIFICATION.md"
+  },
+  "adverse": {
+    "all_invalid_cases_rejected": true,
+    "all_rejected": true,
+    "caller_asset_fail_closed": true,
+    "caller_asset_rejections": {
+      "absent_file": {
+        "reason": "asset_file_missing:model_path",
+        "status": "rejected"
+      },
+      "all_fail_closed": true,
+      "all_present": true,
+      "hash_mismatch": {
+        "reason": "asset_model_hash_mismatch",
+        "status": "rejected"
+      },
+      "missing_manifest": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "pinned_placeholder": {
+        "reason": "asset_model_hash_mismatch",
+        "status": "rejected"
+      },
+      "relative_path": {
+        "reason": "asset_path_must_be_absolute:model_path",
+        "status": "rejected"
+      },
+      "unexpected_field": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "valid_manifest": {
+        "executed": false,
+        "imported": false,
+        "loaded": false,
+        "status": "validated",
+        "verified": true
+      },
+      "workspace_pinned_asset": {
+        "reason": "asset_file_missing:model_path",
+        "status": "rejected"
+      },
+      "wrong_algorithmic_latency": {
+        "reason": "asset_value_mismatch:algorithmic_latency_samples",
+        "status": "rejected"
+      },
+      "wrong_channels": {
+        "reason": "asset_value_mismatch:channels",
+        "status": "rejected"
+      },
+      "wrong_frame_size": {
+        "reason": "asset_value_mismatch:frame_samples",
+        "status": "rejected"
+      },
+      "wrong_input_format": {
+        "reason": "asset_value_mismatch:input_format",
+        "status": "rejected"
+      },
+      "wrong_render_delay": {
+        "reason": "asset_value_mismatch:render_delay_samples",
+        "status": "rejected"
+      },
+      "wrong_sample_rate": {
+        "reason": "asset_value_mismatch:sample_rate_hz",
+        "status": "rejected"
+      },
+      "wrong_source_commit": {
+        "reason": "asset_value_mismatch:source_commit",
+        "status": "rejected"
+      },
+      "wrong_variant": {
+        "reason": "asset_value_mismatch:variant",
+        "status": "rejected"
+      }
+    },
+    "config_rejections": {
+      "algorithmic_latency_samples": {
+        "reason": "config_mismatch:algorithmic_latency_samples",
+        "status": "rejected"
+      },
+      "bool_epoch": {
+        "reason": "invalid_epoch",
+        "status": "rejected"
+      },
+      "channels": {
+        "reason": "config_mismatch:channels",
+        "status": "rejected"
+      },
+      "frame_samples": {
+        "reason": "config_mismatch:frame_samples",
+        "status": "rejected"
+      },
+      "missing_session_id": {
+        "reason": "invalid_session_id",
+        "status": "rejected"
+      },
+      "model_or_library_used": {
+        "reason": "config_mismatch:model_or_library_used",
+        "status": "rejected"
+      },
+      "negative_epoch": {
+        "reason": "invalid_epoch",
+        "status": "rejected"
+      },
+      "real_runtime": {
+        "reason": "config_mismatch:real_runtime",
+        "status": "rejected"
+      },
+      "render_delay_samples": {
+        "reason": "config_mismatch:render_delay_samples",
+        "status": "rejected"
+      },
+      "sample_format": {
+        "reason": "config_mismatch:sample_format",
+        "status": "rejected"
+      },
+      "sample_rate_hz": {
+        "reason": "config_mismatch:sample_rate_hz",
+        "status": "rejected"
+      },
+      "variant": {
+        "reason": "config_mismatch:variant",
+        "status": "rejected"
+      }
+    },
+    "frame_fail_closed": true,
+    "frame_rejections": {
+      "bool_sample": {
+        "reason": "mic_type",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "empty": {
+        "reason": "mic_length",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "inf_ref": {
+        "reason": "ref_nonfinite",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "long_257": {
+        "reason": "mic_length",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "nan_mic": {
+        "reason": "mic_nonfinite",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "out_of_range": {
+        "reason": "mic_range",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "ref_length_mismatch": {
+        "reason": "ref_length",
+        "state_unchanged": true,
+        "status": "rejected"
+      },
+      "short_128_nonfinal": {
+        "reason": "mic_length",
+        "state_unchanged": true,
+        "status": "rejected"
+      }
+    },
+    "render_fail_closed": true
+  },
+  "alignment": {
+    "alignment_gain_db": 21.212266734327,
+    "declared_content_delay_ms": 16,
+    "declared_content_delay_samples": 256,
+    "delay_compensation_applied_for_scoring": true,
+    "first_output_hop_is_delay": true,
+    "measured": false,
+    "one_hop_latency_modeled": true,
+    "overlap_aligned_snr_db": 15.544038242969,
+    "overlap_unaligned_snr_db": -5.668228491358,
+    "source_interval_mapping": "identity"
+  },
+  "asset_pins": {
+    "asset:echo_model": {
+      "executed": false,
+      "expected_path": "data/models/localvqe/localvqe-pi-aec-v1-49k-f32.gguf",
+      "filename": "localvqe-pi-aec-v1-49k-f32.gguf",
+      "loaded": false,
+      "present": false,
+      "sha256": "b80b75b9038d0d28079a84afe7d4f0b8f6404f723af4633c05ed4f96fb30b7b8"
+    },
+    "asset:full_model": {
+      "executed": false,
+      "expected_path": "data/models/localvqe/localvqe-pi-v1-49k-f32.gguf",
+      "filename": "localvqe-pi-v1-49k-f32.gguf",
+      "loaded": false,
+      "present": false,
+      "sha256": "0e0c82a8e9703e818b64dedd0fc306394cf5bbb59fcec1ccca82099d352d0c26"
+    }
+  },
+  "asset_resolution": {
+    "environment_present": false,
+    "executed": false,
+    "expected_environment_path": "data/envs/localvqe-compact-echo-only",
+    "expected_full_model_path": "data/models/localvqe/localvqe-pi-v1-49k-f32.gguf",
+    "expected_full_model_sha256": "0e0c82a8e9703e818b64dedd0fc306394cf5bbb59fcec1ccca82099d352d0c26",
+    "expected_library_path": "data/checkouts/LocalVQE/ggml/build/liblocalvqe.0.1.0.dylib",
+    "expected_library_sha256": "bb30cc40c87e780e3a7277fdf6eee469dac1df684a023f884cefdaa24f945298",
+    "expected_model_path": "data/models/localvqe/localvqe-pi-aec-v1-49k-f32.gguf",
+    "expected_model_sha256": "b80b75b9038d0d28079a84afe7d4f0b8f6404f723af4633c05ed4f96fb30b7b8",
+    "expected_source_license_sha256": "84afcb26750e77daeecc0150a6bd031d0d561abd75ef7f2a42508dcdade70d54",
+    "expected_source_path": "data/checkouts/LocalVQE",
+    "expected_source_revision": "7f61cd05095d42e56a135b303f5bb4d761da22b9",
+    "full_model_present": false,
+    "imported": false,
+    "loaded": false,
+    "manifest_present": false,
+    "model_present": false,
+    "reason": "caller_supplied_echo_model_absent_and_rights_unreviewed",
+    "requested": false,
+    "requires_far_end_reference": true,
+    "runtime_library_identity_verified": true,
+    "runtime_library_loaded": false,
+    "runtime_library_present": true,
+    "separate_model_archive_required": true,
+    "source_checkout_present": true,
+    "surrogate_used": true,
+    "verified": false,
+    "weights_embedded": false
+  },
+  "availability": {
+    "output_samples": 64000,
+    "tail_is_not_scored": true,
+    "unavailable_tail_samples": 256,
+    "valid_aligned_samples": 63744
+  },
+  "base_commit": "ccb963f3b05519547328f647dfb0656170c3354b",
+  "boundary": {
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "registered": false,
+    "shared_cmakelists_change": false
+  },
+  "boundary_pins": {
+    "CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "REUSE.toml": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "scripts/ci.py": "64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f"
+  },
+  "branch": "swarm/SDK-LOCALVQE-COMPACT-ECHO-ONLY",
+  "caller_supplied_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/localvqe-compact-echo-only/caller-supplied-asset/0.1",
+    "pinned_values": {
+      "algorithmic_latency_samples": 256,
+      "channels": 1,
+      "frame_samples": 256,
+      "input_format": "float32",
+      "render_delay_samples": 0,
+      "sample_rate_hz": 16000,
+      "source_commit": "7f61cd05095d42e56a135b303f5bb4d761da22b9",
+      "variant": "compact-echo-only"
+    },
+    "present_behavior": "validate_hash_and_geometry_only; do_not_load_or_execute_in_this_package",
+    "required_fields": [
+      "algorithmic_latency_samples",
+      "channels",
+      "frame_samples",
+      "input_format",
+      "library_path",
+      "library_sha256",
+      "model_path",
+      "model_sha256",
+      "render_delay_samples",
+      "sample_rate_hz",
+      "source_commit",
+      "variant"
+    ],
+    "requires_far_end_reference": true,
+    "separate_model_archive_required": true,
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "model_path and library_path are caller-owned absolute paths",
+      "SHA-256 of the model file and native library match the manifest",
+      "source_commit equals the pinned LocalVQE provenance revision",
+      "variant, sample rate, channels, frame size, input format, render delay and algorithmic latency equal 16 kHz mono float32, 256 samples, zero render delay and one 256-sample output hop",
+      "variant must be compact-echo-only; the compact full-enhancement checkpoint is rejected as the echo-only sibling",
+      "no download, copy, build, import, load or execution occurs in this package",
+      "the pinned model digest is checked separately; a hash-matched placeholder is never accepted as the pinned compact echo-only model"
+    ],
+    "weights_embedded_in_wheel": false
+  },
+  "comparison": {
+    "candidate": "localvqe-compact-echo-only-boundary-surrogate-v1",
+    "established_task_matched_baseline_reproduced": false,
+    "identity_control": "identity/no-processing on the same strata",
+    "identity_control_reproduced": true,
+    "quality_pass": false,
+    "quality_pass_reason": "No LocalVQE compact echo-only model execution, no exact runtime execution, no rights-cleared paired real cohort and no independent listening; the surrogate observations are boundary conformance, not a quality claim.",
+    "regression_count": 3,
+    "source_reported_used_for_qualification": false
+  },
+  "component_id": "localvqe-compact-echo-only",
+  "contract_sha256": "c44d9325733467e7668869c2c228d533a384189ed77bdf4821e40d544fd66f85",
+  "controls": {
+    "availability": {
+      "first_hop_is_delay": true,
+      "measured": false,
+      "output_delay_shift_samples": 256,
+      "output_samples": 64000,
+      "tail_is_not_scored": true,
+      "unavailable_tail_samples": 256,
+      "valid_aligned_samples": 63744
+    },
+    "caller_asset": {
+      "absent_file": {
+        "reason": "asset_file_missing:model_path",
+        "status": "rejected"
+      },
+      "all_fail_closed": true,
+      "all_present": true,
+      "hash_mismatch": {
+        "reason": "asset_model_hash_mismatch",
+        "status": "rejected"
+      },
+      "missing_manifest": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "pinned_placeholder": {
+        "reason": "asset_model_hash_mismatch",
+        "status": "rejected"
+      },
+      "relative_path": {
+        "reason": "asset_path_must_be_absolute:model_path",
+        "status": "rejected"
+      },
+      "unexpected_field": {
+        "reason": "asset_manifest_fields",
+        "status": "rejected"
+      },
+      "valid_manifest": {
+        "executed": false,
+        "imported": false,
+        "loaded": false,
+        "status": "validated",
+        "verified": true
+      },
+      "workspace_pinned_asset": {
+        "reason": "asset_file_missing:model_path",
+        "status": "rejected"
+      },
+      "wrong_algorithmic_latency": {
+        "reason": "asset_value_mismatch:algorithmic_latency_samples",
+        "status": "rejected"
+      },
+      "wrong_channels": {
+        "reason": "asset_value_mismatch:channels",
+        "status": "rejected"
+      },
+      "wrong_frame_size": {
+        "reason": "asset_value_mismatch:frame_samples",
+        "status": "rejected"
+      },
+      "wrong_input_format": {
+        "reason": "asset_value_mismatch:input_format",
+        "status": "rejected"
+      },
+      "wrong_render_delay": {
+        "reason": "asset_value_mismatch:render_delay_samples",
+        "status": "rejected"
+      },
+      "wrong_sample_rate": {
+        "reason": "asset_value_mismatch:sample_rate_hz",
+        "status": "rejected"
+      },
+      "wrong_source_commit": {
+        "reason": "asset_value_mismatch:source_commit",
+        "status": "rejected"
+      },
+      "wrong_variant": {
+        "reason": "asset_value_mismatch:variant",
+        "status": "rejected"
+      }
+    },
+    "config_adverse": {
+      "algorithmic_latency_samples": {
+        "reason": "config_mismatch:algorithmic_latency_samples",
+        "status": "rejected"
+      },
+      "bool_epoch": {
+        "reason": "invalid_epoch",
+        "status": "rejected"
+      },
+      "channels": {
+        "reason": "config_mismatch:channels",
+        "status": "rejected"
+      },
+      "frame_samples": {
+        "reason": "config_mismatch:frame_samples",
+        "status": "rejected"
+      },
+      "missing_session_id": {
+        "reason": "invalid_session_id",
+        "status": "rejected"
+      },
+      "model_or_library_used": {
+        "reason": "config_mismatch:model_or_library_used",
+        "status": "rejected"
+      },
+      "negative_epoch": {
+        "reason": "invalid_epoch",
+        "status": "rejected"
+      },
+      "real_runtime": {
+        "reason": "config_mismatch:real_runtime",
+        "status": "rejected"
+      },
+      "render_delay_samples": {
+        "reason": "config_mismatch:render_delay_samples",
+        "status": "rejected"
+      },
+      "sample_format": {
+        "reason": "config_mismatch:sample_format",
+        "status": "rejected"
+      },
+      "sample_rate_hz": {
+        "reason": "config_mismatch:sample_rate_hz",
+        "status": "rejected"
+      },
+      "variant": {
+        "reason": "config_mismatch:variant",
+        "status": "rejected"
+      }
+    },
+    "delay_and_render": {
+      "aligned_render_erle_db": 16.474323833421,
+      "all_failures_recorded": true,
+      "delayed_render_collapse_db": 21.200529732374,
+      "delayed_render_erle_db": -4.726205898953,
+      "delayed_render_is_failure": true,
+      "missing_render_collapse_db": 16.474323833421,
+      "missing_render_erle_db": 0.0,
+      "missing_render_is_failure": true,
+      "no_reference_identity_near_snr_db": -0.910768422051,
+      "no_reference_is_misuse_not_a_pass": true,
+      "no_reference_near_damage_db": 0.0,
+      "no_reference_output_near_snr_db": -0.910768422051
+    },
+    "frame": {
+      "all_fail_closed": true,
+      "all_present": true,
+      "cases": {
+        "bool_sample": {
+          "reason": "mic_type",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "empty": {
+          "reason": "mic_length",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "inf_ref": {
+          "reason": "ref_nonfinite",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "long_257": {
+          "reason": "mic_length",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "nan_mic": {
+          "reason": "mic_nonfinite",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "out_of_range": {
+          "reason": "mic_range",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "ref_length_mismatch": {
+          "reason": "ref_length",
+          "state_unchanged": true,
+          "status": "rejected"
+        },
+        "short_128_nonfinal": {
+          "reason": "mic_length",
+          "state_unchanged": true,
+          "status": "rejected"
+        }
+      },
+      "drained_tail_samples": 256,
+      "final_output_hops": 2,
+      "final_partial_end_sample": 384,
+      "final_partial_padded_samples": 128,
+      "final_partial_valid_samples": 128,
+      "state_unchanged_after_rejections": true
+    },
+    "reset": {
+      "before": {
+        "left": "e83ce64a39cec7c877e1648c056c83c2bc787f2017b4268311e6febbcf036601",
+        "right": "40bd242e66eb301a4e9db0d514f4b92952e7dd846d876fc52220c852485f3f12"
+      },
+      "epoch_propagated": true,
+      "fresh_output_digest": "bc947107777822c0a0b09a8a8e32e6156403461650d994a02ea8d066907c39dc",
+      "independent_sessions_uncoupled": true,
+      "output_digest": "bc947107777822c0a0b09a8a8e32e6156403461650d994a02ea8d066907c39dc",
+      "reset_matches_fresh_digest": true
+    },
+    "streaming_parity": {
+      "events_identical": true,
+      "fresh_session_identical": true,
+      "offline_digest": "6b5f4f9edc3e59248685b75b7f9740304d4ab09e398bc086c234eafed5062b29",
+      "offline_samples": 64000,
+      "streaming_digest": "6b5f4f9edc3e59248685b75b7f9740304d4ab09e398bc086c234eafed5062b29",
+      "streaming_samples": 64000
+    }
+  },
+  "decision": "DEFER",
+  "defer_before": "opt_in_adapter_exposure",
+  "echo": {
+    "formula": "10*log10(sum(mic^2)/sum(aligned_output^2)) over echo-only samples; aligned_output compensates the declared 256-sample one-hop content delay",
+    "identity_erle_db": 0.0,
+    "movement_drop_db": 13.824320339079,
+    "pooled_echo_only": {
+      "echo_samples": 22528,
+      "erle_db": 8.388657449989
+    },
+    "pooled_post_movement": {
+      "echo_samples": 7680,
+      "erle_db": 2.647171469148
+    },
+    "pooled_pre_movement": {
+      "echo_samples": 14848,
+      "erle_db": 16.471491808227
+    }
+  },
+  "evidence_classes": {
+    "independent_listening": "not performed; no listening result is claimed",
+    "real_audio_rights_qualified": "none; no result qualifies a candidate",
+    "source_reported": "Pinned research values retained as provenance only; not reproduced, pooled or used as thresholds.",
+    "synthetic_surrogate": "Deterministic model-free paired-reference boundary surrogate on frozen synthetic stimuli; no LocalVQE weights, real audio or device.",
+    "target_runtime": "none"
+  },
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    "The exact LocalVQE compact echo-only model localvqe-pi-aec-v1-49k-f32.gguf is pinned by SHA-256 (b80b75b9038d0d28079a84afe7d4f0b8f6404f723af4633c05ed4f96fb30b7b8) but is absent from this workspace at data/models/localvqe/localvqe-pi-aec-v1-49k-f32.gguf; the compact full-enhancement sibling is absent too, and no isolated environment exists at data/envs/localvqe-compact-echo-only. The Apache-2.0 source checkout and the hash-matching native library are present, but the exact weights are required and the runtime was not loaded or executed.",
+    "The source and model repository are described as Apache-2.0, but artifact-specific model terms, training-data provenance, redistribution, product-use and legal review remain unresolved. No model or weight was downloaded, copied, built, vendored, imported, loaded, executed or redistributed.",
+    "Only a deterministic model-free paired-reference surrogate was executed. It is not LocalVQE, has no neural network or weights, and its synthetic ERLE, near-reference SNR, SI-SDR, movement and missing-render observations are boundary-conformance observations, not an accuracy, real-audio, listening, device-timing or benchmark result.",
+    "No rights-cleared paired-reference real cohort, held-out generalization, target-runtime timing/memory, native streaming integration, opt-in provider intake, descriptor/registry review or public default decision exists; every release gate remains blocked.",
+    "The native library file was hashed and its identity matches the pin, but it was not loaded or executed by this package and its build provenance is not verified (the checkout reports a modified ggml submodule). Observed library presence and hash alone are not exact-runtime evidence."
+  ],
+  "fixture": {
+    "fixture_id": "localvqe-compact-echo-only-paired-room-fixture-v1",
+    "fixture_spec_sha256": "99bed15951a4de60f48b3363b03fd8fda064d14cf66d8742317df200e49b174a",
+    "frame_duration_ms": 16,
+    "frame_samples": 256,
+    "movement_change_sample": 45056,
+    "segments": [
+      {
+        "end_sample": 4608,
+        "id": "silence-a",
+        "path": "primary",
+        "roles": [
+          "silence"
+        ],
+        "start_sample": 0
+      },
+      {
+        "end_sample": 15360,
+        "id": "echo-only-a",
+        "path": "primary",
+        "roles": [
+          "echo_only"
+        ],
+        "start_sample": 4608
+      },
+      {
+        "end_sample": 16384,
+        "id": "echo-tail-a",
+        "path": "primary",
+        "roles": [
+          "render_tail"
+        ],
+        "start_sample": 15360
+      },
+      {
+        "end_sample": 18432,
+        "id": "near-only-quiet",
+        "path": "primary",
+        "roles": [
+          "near_only",
+          "quiet"
+        ],
+        "start_sample": 16384
+      },
+      {
+        "end_sample": 28672,
+        "id": "near-only-a",
+        "path": "primary",
+        "roles": [
+          "near_only"
+        ],
+        "start_sample": 18432
+      },
+      {
+        "end_sample": 39936,
+        "id": "overlap-a",
+        "path": "primary",
+        "roles": [
+          "overlap"
+        ],
+        "start_sample": 28672
+      },
+      {
+        "end_sample": 40960,
+        "id": "echo-tail-a2",
+        "path": "primary",
+        "roles": [
+          "render_tail"
+        ],
+        "start_sample": 39936
+      },
+      {
+        "end_sample": 52736,
+        "id": "echo-only-b-change",
+        "path": "primary_then_secondary",
+        "roles": [
+          "echo_only",
+          "movement"
+        ],
+        "start_sample": 40960
+      },
+      {
+        "end_sample": 53248,
+        "id": "echo-tail-b",
+        "path": "secondary",
+        "roles": [
+          "render_tail"
+        ],
+        "start_sample": 52736
+      },
+      {
+        "end_sample": 60928,
+        "id": "overlap-b-noisy",
+        "path": "secondary",
+        "roles": [
+          "overlap",
+          "noisy"
+        ],
+        "start_sample": 53248
+      },
+      {
+        "end_sample": 61440,
+        "id": "echo-tail-b2",
+        "path": "secondary",
+        "roles": [
+          "render_tail"
+        ],
+        "start_sample": 60928
+      },
+      {
+        "end_sample": 64000,
+        "id": "silence-b",
+        "path": "primary",
+        "roles": [
+          "silence"
+        ],
+        "start_sample": 61440
+      }
+    ],
+    "stream_frames": 250,
+    "stream_samples": 64000,
+    "stream_sha256": "5a973ceb13e88f574e966f006d492befa93a53c8721268ef70ee1c64a4cc45f4"
+  },
+  "format": {
+    "algorithmic_latency_ms": 16,
+    "algorithmic_latency_samples": 256,
+    "asset_channels": 1,
+    "asset_frame_duration_ms": 16,
+    "asset_frame_samples": 256,
+    "asset_requires_far_end_reference": true,
+    "asset_sample_format": "float32",
+    "asset_sample_rate_hz": 16000,
+    "dereverberation_stage": false,
+    "echo_only_retains_noise_and_room": true,
+    "frame_cadence_parity_with_real_runtime_claimed": false,
+    "full_enhancement_sibling_is_a_separate_task": true,
+    "joint_tasks": [
+      "aec"
+    ],
+    "model_variant": "compact-echo-only",
+    "noise_suppression_stage": false,
+    "sdk_callback_invoked": false,
+    "sdk_v0_channels": 1,
+    "sdk_v0_frame_samples": 160,
+    "sdk_v0_geometry_preserved": true,
+    "sdk_v0_sample_format": "f32",
+    "sdk_v0_sample_rate_hz": 16000,
+    "window_frames": 250,
+    "window_samples": 64000
+  },
+  "licensing_analysis": {
+    "asset_copied_vendored_built_or_downloaded": false,
+    "blocked_gate": "model_and_runtime_rights",
+    "conclusion": "The upstream source and model repository are described as Apache-2.0, but no model archive is present, the model's artifact-specific terms and training-data provenance have no independent review, and redistribution/product-use/legal clearance is not established. This package redistributes no upstream asset.",
+    "legal_review_completed": false,
+    "model_archive_pinned": true,
+    "model_redistribution_clearance": false,
+    "product_use_clearance": false,
+    "standalone_license_file_in_model_archive": false,
+    "task_files_license": "Apache-2.0",
+    "training_data_provenance_established": false,
+    "upstream_license_expression": "Apache-2.0",
+    "upstream_license_expression_source": "LocalVQE source LICENSE (Apache-2.0, SHA-256 84afcb26750e77daeecc0150a6bd031d0d561abd75ef7f2a42508dcdade70d54) and pinned research records; the model repository is described as Apache-2.0 upstream"
+  },
+  "missing_evidence": [
+    "caller-supplied localvqe-pi-aec-v1-49k-f32.gguf present and SHA-256-verified",
+    "pinned native library loaded and executed from a clean build provenance",
+    "isolated environment and exact paired-reference reproduction",
+    "model, training-data, redistribution and product-use rights clearance",
+    "approved reference output vector or exact-runtime parity record",
+    "native 16 kHz / 256-sample paired-reference streaming boundary and one-hop latency evidence",
+    "rights-cleared held-out paired cohort with echo-only, near-only, overlap, movement and no-reference strata",
+    "near-end preservation and independent listening or authorized ASR evidence",
+    "target-runtime content/availability timing, memory and deadline evidence",
+    "opt-in adapter intake, descriptor and registry review",
+    "explicit public default selection"
+  ],
+  "model_provenance": {
+    "candidate": "LocalVQE compact echo-only",
+    "full_enhancement_sibling": {
+      "copied_or_vendored": false,
+      "downloaded_by_this_package": false,
+      "expected_path": "data/models/localvqe/localvqe-pi-v1-49k-f32.gguf",
+      "filename": "localvqe-pi-v1-49k-f32.gguf",
+      "loaded_or_executed": false,
+      "present_in_research_workspace": false,
+      "relationship": "separate compact full-enhancement checkpoint; not this task and not pooled with the compact echo-only boundary",
+      "sha256": "0e0c82a8e9703e818b64dedd0fc306394cf5bbb59fcec1ccca82099d352d0c26"
+    },
+    "model": {
+      "copied_or_vendored": false,
+      "downloaded_by_this_package": false,
+      "expected_path": "data/models/localvqe/localvqe-pi-aec-v1-49k-f32.gguf",
+      "filename": "localvqe-pi-aec-v1-49k-f32.gguf",
+      "loaded_or_executed": false,
+      "parameters": "49K (compact GTCRN-AEC line)",
+      "precision": "f32 GGUF",
+      "present_in_research_workspace": false,
+      "present_in_sdk_worktree": false,
+      "sha256": "b80b75b9038d0d28079a84afe7d4f0b8f6404f723af4633c05ed4f96fb30b7b8",
+      "variant": "compact-echo-only",
+      "weights_separate_from_runtime": true
+    },
+    "native_library": {
+      "build_provenance_verified": false,
+      "executed": false,
+      "expected_path": "data/checkouts/LocalVQE/ggml/build/liblocalvqe.0.1.0.dylib",
+      "filename": "liblocalvqe.0.1.0.dylib",
+      "framework": "GGML C API",
+      "identity_verified_by_this_package": true,
+      "loaded": false,
+      "present": true,
+      "sha256": "bb30cc40c87e780e3a7277fdf6eee469dac1df684a023f884cefdaa24f945298",
+      "sha256_matches_pin": true
+    },
+    "public_adapter": {
+      "declared_algorithmic_latency_samples": 256,
+      "declared_default_variant": "echo-only",
+      "declared_frame_samples": 256,
+      "declared_modes": [
+        "streaming"
+      ],
+      "declared_output_kinds": [
+        "waveform"
+      ],
+      "declared_requires_far_end_reference": true,
+      "declared_sample_rate": 16000,
+      "descriptor_path": "adapters/localvqe-aec/README.md",
+      "entrypoint_path": "adapters/localvqe-aec/run.py",
+      "executed_by_this_package": false,
+      "path": "adapters/localvqe-aec",
+      "present_in_research_workspace": true,
+      "present_in_sdk_worktree": false
+    },
+    "runtime_environment": {
+      "built_by_this_package": false,
+      "expected_path": "data/envs/localvqe-compact-echo-only",
+      "present": false,
+      "used_by_this_package": false
+    },
+    "source_checkout": {
+      "built_by_this_package": false,
+      "clean_build_provenance_verified": false,
+      "executed": false,
+      "license_expression": "Apache-2.0",
+      "license_path": "data/checkouts/LocalVQE/LICENSE",
+      "license_sha256": "84afcb26750e77daeecc0150a6bd031d0d561abd75ef7f2a42508dcdade70d54",
+      "path": "data/checkouts/LocalVQE",
+      "present": true,
+      "revision": "7f61cd05095d42e56a135b303f5bb4d761da22b9",
+      "submodule_worktree_dirty": true
+    },
+    "training_data_provenance": "not established in this package",
+    "upstream_commit": "7f61cd05095d42e56a135b303f5bb4d761da22b9",
+    "upstream_license": "Apache-2.0",
+    "upstream_license_expression_source": "LocalVQE source checkout LICENSE (Apache-2.0) and the pinned research records; the Hugging Face model repository is described as Apache-2.0 upstream, but artifact-specific terms and training-data provenance were not independently reviewed here",
+    "upstream_repository": "https://github.com/localai-org/LocalVQE",
+    "upstream_version": "compact GTCRN-AEC 49K line (echo-only variant)"
+  },
+  "near_end": {
+    "alignment_gain_db": 21.212266734327,
+    "delay_compensation_samples": 256,
+    "formula": "near-reference SNR = 10*log10(sum(near^2)/sum((aligned_output-near)^2)); SI-SDR uses a least-squares scale and penalizes residual echo and noise",
+    "overlap_aligned_snr_db": 15.544038242969,
+    "overlap_unaligned_snr_db": -5.668228491358,
+    "pooled_near": {
+      "identity_near_snr_db": 2.560397946542,
+      "near_rms_ratio": 1.033701607197,
+      "near_samples": 31232,
+      "near_snr_db": 11.499400801413,
+      "output_energy_over_near_energy": 1.068539012721
+    },
+    "pooled_overlap": {
+      "identity_near_snr_db": 0.050167896014,
+      "near_rms_ratio": 1.059282418627,
+      "near_samples": 18944,
+      "near_snr_db": 8.991043134655,
+      "output_energy_over_near_energy": 1.122079242412
+    }
+  },
+  "negative_claims": {
+    "abi_changed": false,
+    "benchmark_result": false,
+    "board_or_handoff_changed": false,
+    "ci_changed": false,
+    "descriptor_changed": false,
+    "device_timing_measured": false,
+    "exact_localvqe_reproduction_claimed": false,
+    "installed_v0_changed": false,
+    "listening_performed": false,
+    "localvqe_library_loaded": false,
+    "localvqe_model_loaded": false,
+    "localvqe_runtime_executed": false,
+    "localvqe_source_executed": false,
+    "model_weights_downloaded": false,
+    "model_weights_redistributed": false,
+    "numeric_parity_with_real_runtime_claimed": false,
+    "provider_registered": false,
+    "public_default_changed": false,
+    "quality_pass": false,
+    "real_audio_used": false,
+    "registry_changed": false,
+    "release_claim": false,
+    "shared_build_changed": false
+  },
+  "no_missing_result_qualifies_candidate": true,
+  "peaks": {
+    "clipped_samples": 0,
+    "limiter_used": false,
+    "max_abs_output": 0.599232681274,
+    "nonfinite_output_samples": 0,
+    "within_unit_range": true
+  },
+  "profile": "room",
+  "qualification": {
+    "missing_result_may_qualify": false,
+    "qualified": false,
+    "reason": "The exact echo-only weights, an executed exact runtime, rights clearance, exact-reference parity and Room-profile qualification evidence are absent.",
+    "status": "not_qualified"
+  },
+  "qualification_status": "not_qualified",
+  "regressions": [
+    {
+      "condition": "movement",
+      "metric": "post_change_erle_drop_db",
+      "note": "fixed surrogate path does not adapt after the frozen path change",
+      "value": 13.824320339079
+    },
+    {
+      "condition": "delayed_render",
+      "metric": "erle_collapse_db",
+      "note": "one-hop render misalignment collapses echo attenuation",
+      "value": 21.200529732374
+    },
+    {
+      "condition": "missing_render",
+      "metric": "erle_collapse_db",
+      "note": "zero render reference cannot cancel the echo path",
+      "value": 16.474323833421
+    }
+  ],
+  "release_gate_count": 8,
+  "release_gates": [
+    {
+      "evidence": "The caller-owned localvqe-pi-aec-v1-49k-f32.gguf with SHA-256 b80b75... is absent; the source and library identities are pinned.",
+      "name": "exact_echo_asset_identity",
+      "reopen_condition": "Supply the caller-owned localvqe-pi-aec-v1-49k-f32.gguf with SHA-256 b80b75b9038d0d28079a84afe7d4f0b8f6404f723af4633c05ed4f96fb30b7b8 and the pinned provenance revision, then validate the manifest and the pinned identity.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "Model, training-data, library, redistribution and product-use rights have no recorded review.",
+      "name": "model_and_runtime_rights",
+      "reopen_condition": "Establish model, training-data, library, redistribution and product-use rights with a recorded review; an Apache-2.0 expression alone is not a legal clearance.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "No exact model/inference run or approved paired-reference output vector exists; the library was not loaded.",
+      "name": "exact_runtime_reproduction",
+      "reopen_condition": "Load the exact pinned model and native library in an isolated environment and reproduce an approved paired-reference output vector without downloading uncleared weights.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "Only a model-free surrogate models the 16 kHz / 256-sample paired boundary and one-hop delay.",
+      "name": "streaming_boundary_and_one_hop_latency",
+      "reopen_condition": "Verify the native 16 kHz / 256-sample paired-reference streaming boundary, one-hop output delay, partial-tail padding, reset/flush behavior and offline/streaming parity against the exact runtime.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "No rights-cleared held-out microphone/render cohort is available.",
+      "name": "rights_cleared_paired_reference_cohort",
+      "reopen_condition": "Score a rights-cleared held-out paired microphone/render cohort with frozen room paths, echo-only, near-only, overlap, movement and no-reference strata.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "The Room profile is applied only to the synthetic surrogate, not to the exact runtime.",
+      "name": "room_echo_near_overlap_no_reference_acceptance",
+      "reopen_condition": "Apply the Room acceptance profile to the exact runtime: echo attenuation, near-end damage, nonfinite failures, alignment and an independent no-reference comparison, including delayed and missing render.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "No target device, content/availability timing, memory or deadline measurement exists.",
+      "name": "target_runtime_timing_memory",
+      "reopen_condition": "Measure content/availability timing, per-hop compute, memory and deadlines on the exact target runtime and device.",
+      "status": "blocked"
+    },
+    {
+      "evidence": "No opt-in provider intake, descriptor/registry review or public default decision exists; the candidate is unregistered and OFF.",
+      "name": "provider_intake_and_default_selection",
+      "reopen_condition": "Complete opt-in adapter intake and descriptor/registry review, then record an explicit public default decision; the candidate remains OFF until then.",
+      "status": "blocked"
+    }
+  ],
+  "reopening_conditions": [
+    "A caller supplies localvqe-pi-aec-v1-49k-f32.gguf with matching SHA-256 and the pinned provenance revision, and the manifest plus pinned identity validate.",
+    "Model, training-data, library, redistribution and product-use rights are cleared with a recorded review.",
+    "The exact model and native library are loaded in an isolated environment and an approved paired-reference output vector is reproduced.",
+    "The native paired-reference streaming boundary, one-hop delay, partial-tail, reset/flush and offline/streaming parity are verified.",
+    "A rights-cleared paired-reference cohort is scored under the Room profile with echo-only, near-only, overlap, movement, delayed/missing render and no-reference comparisons.",
+    "Echo attenuation, near-end damage, nonfinite failures and alignment are reported for the exact runtime.",
+    "Target-runtime content/availability timing, memory and deadlines are measured.",
+    "Opt-in provider intake, descriptor/registry review and an explicit public default decision are completed; the candidate remains OFF until then."
+  ],
+  "repeatability": {
+    "byte_identical": true,
+    "count": 3,
+    "digests": [
+      "a69715c846efb36ccb18db4b83c57cb71f81136bf8d10e8c4a808b6d9ff3aba3",
+      "a69715c846efb36ccb18db4b83c57cb71f81136bf8d10e8c4a808b6d9ff3aba3",
+      "a69715c846efb36ccb18db4b83c57cb71f81136bf8d10e8c4a808b6d9ff3aba3"
+    ],
+    "scope": "report body excluding the repeatability block"
+  },
+  "repository": "audio-sdk",
+  "runtime_asset_pin": {
+    "asset:native_library": {
+      "build_provenance_verified": false,
+      "executed": false,
+      "expected_path": "data/checkouts/LocalVQE/ggml/build/liblocalvqe.0.1.0.dylib",
+      "filename": "liblocalvqe.0.1.0.dylib",
+      "loaded": false,
+      "present": true,
+      "sha256": "bb30cc40c87e780e3a7277fdf6eee469dac1df684a023f884cefdaa24f945298",
+      "sha256_matches_pin": true
+    }
+  },
+  "schema_id": "audio-sdk/task-evidence/localvqe-compact-echo-only/report/0.1",
+  "scope": {
+    "benchmark_claim": false,
+    "caller_supplied_asset_contract_modeled": true,
+    "caller_supplied_asset_present": false,
+    "device_timing": false,
+    "listening_result": false,
+    "localvqe_library_loaded": false,
+    "localvqe_model_loaded": false,
+    "localvqe_runtime_executed": false,
+    "localvqe_source_executed": false,
+    "model_weights_downloaded": false,
+    "model_weights_loaded": false,
+    "network_used": false,
+    "paired_reference_boundary_modeled": true,
+    "real_audio": false,
+    "real_labels": false,
+    "registered_provider": false,
+    "release_claim": false,
+    "runtime_library_present": true,
+    "source_checkout_present": true,
+    "synthetic_boundary_surrogate_only": true,
+    "task_local_only": true
+  },
+  "source_pins": {
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "adapters/localvqe-aec/README.md": "61240419dc9d46af2056316f2a7167b833fb80e9d6a4ce8470b94a8cde488cd1",
+    "adapters/localvqe-aec/run.py": "c4b8b5077e01bf8b7b736ea2e784087a6e811e5aec54f18c922dcda8a240fb5a",
+    "adapters/localvqe/README.md": "b964486bb1f823f9ce6ad52b10210d04b596a8642bda5b46aedb0532eea808e0",
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "cpp-library/pipeline-validation/joint-aec-profile/report.md": "d3d9b2d0c03245cb1b4f6e11a18093393fc9ed6e11076c32cb94f3aed7f4d7ad",
+    "cpp-library/pipeline-validation/run_aec_denoise.py": "f6242f3af34d331996b114d537ebf99ed3d86507508a92003b94dfcca4d17336",
+    "data/checkouts/LocalVQE/LICENSE": "84afcb26750e77daeecc0150a6bd031d0d561abd75ef7f2a42508dcdade70d54",
+    "data/checkouts/LocalVQE/README.md": "2eeed279c971cce67f7897ae51bc9c8552c0e88bdd715d27520f956262d2423c",
+    "data/checkouts/LocalVQE/ggml/localvqe_api.h": "ef2871bde8cd8fe9aa8cd5c3b7d11cc72efb7bb1cc29f726522ace87ad490877",
+    "research/aec_research_20261028.md": "dc733f29c999ed83d9b3a8c14b21df4abd6cfeecd6ba0c3b78e1c6f4d2218180",
+    "research/dereverberation_candidates_20261028.md": "6f0f1a07aeb7b865dce766576bcc99cb97a78120253b1f9e1e9618f964098468",
+    "research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245"
+  },
+  "source_probe": {
+    "built_by_this_package": false,
+    "checkout_path": "data/checkouts/LocalVQE",
+    "clean_build_provenance_verified": false,
+    "executed": false,
+    "license_expression": "Apache-2.0",
+    "license_path": "data/checkouts/LocalVQE/LICENSE",
+    "license_sha256": "84afcb26750e77daeecc0150a6bd031d0d561abd75ef7f2a42508dcdade70d54",
+    "note": "The source checkout and the hash-matching native library are present, but the exact echo-only weights are absent and the library was not loaded or executed.",
+    "present": true,
+    "revision": "7f61cd05095d42e56a135b303f5bb4d761da22b9"
+  },
+  "source_reported": {
+    "findings": [
+      {
+        "metric": "synthetic_aec_pilot_echo_only_erle_db",
+        "scope": "12-pair Microsoft AEC-Challenge synthetic train pilot",
+        "unit": "dB",
+        "value": 13.87
+      },
+      {
+        "metric": "synthetic_aec_pilot_echo_only_near_snr_db",
+        "scope": "same 12-pair synthetic pilot",
+        "unit": "dB",
+        "value": 8.48
+      },
+      {
+        "metric": "synthetic_aec_pilot_echo_only_rtf",
+        "scope": "same synthetic pilot, this host",
+        "unit": "x realtime",
+        "value": 15.29
+      },
+      {
+        "metric": "synthetic_aec_pilot_echo_only_p95_compute_ms",
+        "scope": "same synthetic pilot",
+        "unit": "ms",
+        "value": 1.1
+      },
+      {
+        "metric": "recorded_pilot_echo_only_double_talk_echo_mos",
+        "scope": "12 recorded training device groups",
+        "unit": "AECMOS prediction",
+        "value": 3.77
+      },
+      {
+        "metric": "recorded_pilot_echo_only_movement_echo_mos",
+        "scope": "same recorded pilot",
+        "unit": "AECMOS prediction",
+        "value": 3.45
+      },
+      {
+        "metric": "recorded_pilot_echo_only_double_talk_degradation_mos",
+        "scope": "same recorded pilot",
+        "unit": "AECMOS prediction",
+        "value": 3.73
+      },
+      {
+        "metric": "recorded_pilot_echo_only_movement_degradation_mos",
+        "scope": "same recorded pilot",
+        "unit": "AECMOS prediction",
+        "value": 3.7
+      },
+      {
+        "metric": "recorded_pilot_echo_only_near_end_only_degradation_mos",
+        "scope": "same recorded pilot",
+        "unit": "AECMOS prediction",
+        "value": 3.56
+      },
+      {
+        "metric": "recorded_pilot_echo_only_rtf",
+        "scope": "same recorded pilot",
+        "unit": "x realtime",
+        "value": 15.6
+      },
+      {
+        "metric": "exploratory_echo_only_erle_db",
+        "scope": "one 7.55 s synthetic TTS paired stream, this host",
+        "unit": "dB",
+        "value": 32.69
+      },
+      {
+        "metric": "exploratory_echo_only_near_snr_db",
+        "scope": "same exploratory synthetic stream",
+        "unit": "dB",
+        "value": 14.56
+      },
+      {
+        "metric": "exploratory_echo_only_compute_ms",
+        "scope": "same exploratory synthetic stream",
+        "unit": "ms",
+        "value": 0.991
+      },
+      {
+        "metric": "exploratory_echo_only_p95_compute_ms",
+        "scope": "same exploratory synthetic stream",
+        "unit": "ms",
+        "value": 1.065
+      },
+      {
+        "metric": "exploratory_echo_only_rtf",
+        "scope": "same exploratory synthetic stream",
+        "unit": "x realtime",
+        "value": 15.46
+      },
+      {
+        "metric": "unaligned_near_only_snr_db",
+        "scope": "same exploratory synthetic stream, before alignment",
+        "unit": "dB",
+        "value": -2.22
+      },
+      {
+        "metric": "aligned_near_only_snr_db",
+        "scope": "same exploratory synthetic stream, after alignment",
+        "unit": "dB",
+        "value": 26.48
+      },
+      {
+        "metric": "aligned_near_only_level_change_db",
+        "scope": "same exploratory synthetic stream",
+        "unit": "dB",
+        "value": -0.42
+      },
+      {
+        "metric": "algorithmic_latency_ms",
+        "scope": "measured one-hop LocalVQE streaming delay",
+        "unit": "ms",
+        "value": 16
+      },
+      {
+        "metric": "upstream_compact_rtf",
+        "scope": "upstream single Raspberry Pi 5 core claim, not local",
+        "unit": "x realtime",
+        "value": 21
+      }
+    ],
+    "note": "These are provenance only. The package neither reproduces nor claims these values and does not pool them with the surrogate observations.",
+    "scope": "Pinned echo-only research values from small synthetic and recorded-device training-corpus pilots, plus upstream documentation. They are not reproduced, pooled or used as thresholds here.",
+    "sources": [
+      "research/aec_research_20261028.md",
+      "research/voice-enhancement-20261101/candidate_matrix.csv",
+      "REALTIME_COMPONENT_CANDIDATES.md",
+      "adapters/localvqe-aec/README.md",
+      "adapters/localvqe/README.md"
+    ],
+    "status": "source_reported_not_reproduced",
+    "used_for_qualification": false
+  },
+  "state": {
+    "independent_sessions_uncoupled": true,
+    "offline_streaming_identical": true,
+    "processed_outputs_finite": true,
+    "reset_bit_identical": true,
+    "reset_epoch_propagated": true,
+    "same_session_fresh_deterministic": true
+  },
+  "status": "proposal_only_incomplete",
+  "strata": {
+    "echo-only-a": {
+      "echo_erle_db": 16.474323833421,
+      "echo_samples": 10752,
+      "end_sample": 15360,
+      "identity_echo_erle_db": 0.0,
+      "input_rms": 0.20409377518,
+      "nonfinite_output_samples": 0,
+      "output_rms": 0.030627642372,
+      "path": "primary",
+      "peak_abs_output": 0.073127288818,
+      "roles": [
+        "echo_only"
+      ],
+      "samples": 10752,
+      "start_sample": 4608,
+      "valid_scored_samples": 10752
+    },
+    "echo-only-b-change": {
+      "echo_erle_db": 5.079937906896,
+      "echo_samples": 11776,
+      "end_sample": 52736,
+      "identity_echo_erle_db": 0.0,
+      "input_rms": 0.167695101593,
+      "nonfinite_output_samples": 0,
+      "output_rms": 0.093437988734,
+      "path": "primary_then_secondary",
+      "peak_abs_output": 0.311128448486,
+      "roles": [
+        "echo_only",
+        "movement"
+      ],
+      "samples": 11776,
+      "start_sample": 40960,
+      "valid_scored_samples": 11776
+    },
+    "echo-tail-a": {
+      "end_sample": 16384,
+      "input_rms": 0.068110287524,
+      "nonfinite_output_samples": 0,
+      "output_rms": 0.010323889159,
+      "path": "primary",
+      "peak_abs_output": 0.027933532715,
+      "roles": [
+        "render_tail"
+      ],
+      "samples": 1024,
+      "start_sample": 15360,
+      "valid_scored_samples": 1024
+    },
+    "echo-tail-a2": {
+      "end_sample": 40960,
+      "input_rms": 0.168798762349,
+      "nonfinite_output_samples": 0,
+      "output_rms": 0.025392301487,
+      "path": "primary",
+      "peak_abs_output": 0.064861633301,
+      "roles": [
+        "render_tail"
+      ],
+      "samples": 1024,
+      "start_sample": 39936,
+      "valid_scored_samples": 1024
+    },
+    "echo-tail-b": {
+      "end_sample": 53248,
+      "input_rms": 0.135698692035,
+      "nonfinite_output_samples": 0,
+      "output_rms": 0.161715018423,
+      "path": "secondary",
+      "peak_abs_output": 0.322935852051,
+      "roles": [
+        "render_tail"
+      ],
+      "samples": 512,
+      "start_sample": 52736,
+      "valid_scored_samples": 512
+    },
+    "echo-tail-b2": {
+      "end_sample": 61440,
+      "input_rms": 0.093507241535,
+      "nonfinite_output_samples": 0,
+      "output_rms": 0.108416120944,
+      "path": "secondary",
+      "peak_abs_output": 0.259757202148,
+      "roles": [
+        "render_tail"
+      ],
+      "samples": 512,
+      "start_sample": 60928,
+      "valid_scored_samples": 512
+    },
+    "near-only-a": {
+      "end_sample": 28672,
+      "identity_near_si_sdr_db": 41.751151230276,
+      "identity_near_snr_db": 41.750877114473,
+      "input_rms": 0.205442108891,
+      "near_rms_ratio": 1.000059768464,
+      "near_si_sdr_db": 41.751151230276,
+      "near_snr_db": 41.750877114473,
+      "nonfinite_output_samples": 0,
+      "output_rms": 0.205442108891,
+      "path": "primary",
+      "peak_abs_output": 0.511322021484,
+      "roles": [
+        "near_only"
+      ],
+      "samples": 10240,
+      "start_sample": 18432,
+      "valid_scored_samples": 10240
+    },
+    "near-only-quiet": {
+      "end_sample": 18432,
+      "identity_near_si_sdr_db": 19.45000938938,
+      "identity_near_snr_db": 19.475314536573,
+      "input_rms": 0.015600548654,
+      "near_rms_ratio": 1.002210998161,
+      "near_si_sdr_db": 19.45000938938,
+      "near_snr_db": 19.475314536573,
+      "nonfinite_output_samples": 0,
+      "output_rms": 0.015600548654,
+      "path": "primary",
+      "peak_abs_output": 0.037048339844,
+      "roles": [
+        "near_only",
+        "quiet"
+      ],
+      "samples": 2048,
+      "start_sample": 16384,
+      "valid_scored_samples": 2048
+    },
+    "overlap-a": {
+      "end_sample": 39936,
+      "identity_near_si_sdr_db": -0.912156714024,
+      "identity_near_snr_db": -0.910768422051,
+      "input_rms": 0.265986902455,
+      "near_rms_ratio": 1.013915505227,
+      "near_si_sdr_db": 15.544582430949,
+      "near_snr_db": 15.544038242969,
+      "nonfinite_output_samples": 0,
+      "output_rms": 0.180475114925,
+      "path": "primary",
+      "peak_abs_output": 0.474908950806,
+      "roles": [
+        "overlap"
+      ],
+      "samples": 11264,
+      "start_sample": 28672,
+      "valid_scored_samples": 11264
+    },
+    "overlap-b-noisy": {
+      "end_sample": 60928,
+      "identity_near_si_sdr_db": 2.619278340543,
+      "identity_near_snr_db": 2.654789797802,
+      "input_rms": 0.197866007953,
+      "near_rms_ratio": 1.137268071955,
+      "near_si_sdr_db": 5.105043964247,
+      "near_snr_db": 5.155602478546,
+      "nonfinite_output_samples": 0,
+      "output_rms": 0.181658685122,
+      "path": "secondary",
+      "peak_abs_output": 0.599232681274,
+      "roles": [
+        "overlap",
+        "noisy"
+      ],
+      "samples": 7680,
+      "start_sample": 53248,
+      "valid_scored_samples": 7680
+    },
+    "silence-a": {
+      "end_sample": 4608,
+      "identity_rms": 0.00145609791,
+      "input_rms": 0.00145609791,
+      "nonfinite_output_samples": 0,
+      "output_rms": 0.00145609791,
+      "path": "primary",
+      "peak_abs_output": 0.002502441406,
+      "roles": [
+        "silence"
+      ],
+      "samples": 4608,
+      "start_sample": 0,
+      "valid_scored_samples": 4608
+    },
+    "silence-b": {
+      "end_sample": 64000,
+      "identity_rms": 0.00170156035,
+      "input_rms": 0.00170156035,
+      "nonfinite_output_samples": 0,
+      "output_rms": 0.000982571504,
+      "path": "primary",
+      "peak_abs_output": 0.008817230225,
+      "roles": [
+        "silence"
+      ],
+      "samples": 2560,
+      "start_sample": 61440,
+      "valid_scored_samples": 2304
+    }
+  },
+  "surrogate": {
+    "adaptive": false,
+    "algorithmic_latency_samples": 256,
+    "checkpoint": false,
+    "dereverberation_stage": false,
+    "deterministic": true,
+    "echo_path_delay_samples": 512,
+    "echo_subtraction_gain": 0.85,
+    "frame_samples": 256,
+    "identity": "localvqe-compact-echo-only-boundary-surrogate-v1",
+    "is_localvqe": false,
+    "is_neural_network": false,
+    "method": "fixed 5-tap echo replica at the frozen 512-sample primary path, 0.85 residual subtraction and one 256-sample output delay; no noise gate, smoothing or dereverberation stage",
+    "model_archive": false,
+    "noise_suppression_stage": false,
+    "pure_synthetic": true,
+    "quality_claim": false,
+    "weights": false
+  },
+  "task_id": "SDK-LOCALVQE-COMPACT-ECHO-ONLY",
+  "task_identity": {
+    "claim_branch": "swarm/SDK-LOCALVQE-COMPACT-ECHO-ONLY",
+    "component": "localvqe-compact-echo-only",
+    "id": "SDK-LOCALVQE-COMPACT-ECHO-ONLY",
+    "lookup": "tasks[id=SDK-LOCALVQE-COMPACT-ECHO-ONLY]",
+    "mutable_full_board_hashed_or_pinned": false,
+    "repository": "audio-sdk",
+    "stable_field_digest": "f1dbf875d2390895f1414f134c4bc627c1be379ff39990a17ef8dfbe0fbc95d7",
+    "stable_fields": [
+      "id",
+      "component",
+      "repository",
+      "claim_branch"
+    ]
+  },
+  "timing": {
+    "declared_content_delay_ms": 16,
+    "declared_content_delay_samples": 256,
+    "device_timing": false,
+    "frame_duration_ms": 16,
+    "measured": false,
+    "reason": "No exact model or native runtime execution and no target device; the surrogate is unpaced and no wall-clock, memory or deadline result is claimed.",
+    "source_reported_rtf": 15.6,
+    "source_reported_rtf_used_for_qualification": false
+  },
+  "title": "LocalVQE compact echo-only",
+  "tool_provenance": {
+    "bytecode_written": false,
+    "language": "python",
+    "language_version": "3.12",
+    "network_used": false,
+    "standard_library_only": true,
+    "third_party_dependencies": []
+  }
+}

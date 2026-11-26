@@ -1,0 +1,46 @@
+# SHA-256 pins for SDK-ASR-WORD-TIMESTAMPS readiness evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# The mutable shared board is not pinned; only its stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3  source:cpp-library/pipeline-validation/playback-speed-candidates.md
+a7bde2c76ba2deaf0920b14d75b5d1bf72861ed3b1d6d735bfe0bbe83256635f  source:cpp-library/pipeline-validation/playback-speed/README.md
+7e3533b2256b1904cae4020a3b5c75e2814c1e2057ec99cd5cc9fbd40fa74fd1  source:cpp-library/pipeline-validation/playback-speed/audio/corpus.json
+05442e1be54d7a408eac55c62ac6eb48fdee3f76543602228bf6ec61a0e96a27  source:cpp-library/pipeline-validation/playback-speed/generate_corpus.py
+9c9383297b1160dbe4f7261f789b493d70354b11930f4d8527b20b0ca8c87c34  source:cpp-library/pipeline-validation/playback-speed/results/report.md
+69b5bcc4dc3740bacc182e93419b6a83d5c3eebba7d9b4dfdd8fe4b09813cfc1  source:cpp-library/pipeline-validation/playback-speed/results/results.json
+d9b7eacf76cfbcb623e79eda3a0577ceb4b0284d1a388e0fa0c29fd2f23b2814  source:cpp-library/pipeline-validation/playback-speed/run_validation.py
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+514636b719e6579651bf941a6ac3cb93740cc9a40e3f2b4bcd39c2ddea610264  docs/task-evidence/3d-microphone-spatial-time-alignment/README.md
+c7b0f4ac8191abe114b4f77ae17c803ffbda1fe4012e12d42808ca798d0afb88  docs/task-evidence/3d-microphone-spatial-time-alignment/contract.json
+5d3623c835a1b19d79867a64ba1b6dff18e8593918a8173cff91550c1c532f03  docs/task-evidence/3d-microphone-spatial-time-alignment/report.json
+1ccece1085e1d6e821891feffb0c19fc494227bfd5e8a656657ffd7081cf959c  docs/task-evidence/vosk-small-en-us-0-15-playback-gate/README.md
+ee23e6cc21f9f3293a48dab7008a4c41f129074cafa3eb6b273f2f3ef413d694  docs/task-evidence/vosk-small-en-us-0-15-playback-gate/contract.json
+57f355f51582c131812172e779ac8a6e3638491542c8e4e44efc46fd69cc2cc2  docs/task-evidence/vosk-small-en-us-0-15-playback-gate/report.json
+870a665c5da0f75dea01de767388cd40fdd45a0cd5d55f07fa1010861e9dd371  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/README.md
+f4429f3afde1096d29068f51ddace56c591a290d793097a671a125f4ff7a9a68  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/contract.json
+1ce7faa0b87faa8a8782083bd23ba6dd5803f9bd45ae5ef2db9a8692b0858f48  docs/task-evidence/wav2vec-2-0-base-facebook-wav2vec2-base-960h-ridge/report.json
+7c24422f782bf934d22e2a752e2be2ead2d184cfd8728452c7f7a5dd68f25c7f  docs/task-evidence/whisper-tiny-en-mfa/README.md
+fddc819bdcbb34a4d47f605efa8c0632573eaa2b77d0681d2a82f5c58e98687e  docs/task-evidence/whisper-tiny-en-mfa/contract.json
+6b9cc69ea2be5cd5cad9509021b7b5e7fb972a4c32c62721f07be995b582710c  docs/task-evidence/whisper-tiny-en-mfa/report.json
+ac689960b7fee8911f3e44c197a724340b172127b54c2b0192d3236465e28a9d  docs/task-evidence/asr-word-timestamps/LICENSES.md
+30915db04b0229d03729b8dd03bac8e0eb88ad285781069de1607ff2c4559de4  docs/task-evidence/asr-word-timestamps/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/asr-word-timestamps/SOURCES.sha256.license
+65361e29cf8a04fd64ad4a25b4fd3094fffaf2f56ad911ea6076e7fef592822a  docs/task-evidence/asr-word-timestamps/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/asr-word-timestamps/contract.json.license
+e244589c383ebadd27bcb0a0664826ad2b947fd21d839ac0493e2be32a9ceb14  docs/task-evidence/asr-word-timestamps/reference.py
+318bec24c9d388fa122e80974cfc6772b144f7f651e87d5e88ac0677975d437e  docs/task-evidence/asr-word-timestamps/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/asr-word-timestamps/report.json.license
+ae64340a50bf6431d83a365039b6a9c3466eb8081c8c9d374d46a168da806567  docs/task-evidence/asr-word-timestamps/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/asr-word-timestamps/report.json.sha256.license
+67e5996cb176f1aedba505c605329cfafafcea3c656cb5ce2cb6fd6ebcfc72f4  docs/task-evidence/asr-word-timestamps/run.py
+51d53a6c815dc6699bc9ffa9f71779c4c470dd5e707980fc4302c551ead08603  docs/task-evidence/asr-word-timestamps/test_reference.py
+503f4f2d49c801c626ac529ab88255c97cbe65214af10fb71e3bcfaa5e579209  docs/task-evidence/asr-word-timestamps/verify.py
