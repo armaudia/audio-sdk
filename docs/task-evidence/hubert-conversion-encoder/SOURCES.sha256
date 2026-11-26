@@ -1,0 +1,34 @@
+# SHA-256 pins for SDK-HUBERT-CONVERSION-ENCODER; source: paths are workspace-relative, others SDK-worktree-relative.
+# The mutable full plan/swarm/TASKS.json is deliberately not pinned; only the stable linked-row identity is projected.
+# No HuBERT weights, conversion checkpoint, runtime or real corpus audio is pinned as an included artifact because none is present in this package.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+c266b6486939b6af0a244358f8273325a23d9ec0733b9ed16686f8e6d25a3a9c  source:research/accent-conversion-20261101/README.md
+b2c5e168713eebe0e6ddd186d3bf5b9833839b8db93fe7ff2231bb784cbfa074  source:research/voice-conversion-eval-20261101/README.md
+bfe32a066e4a1e6748b042956df5a6bf05b2255c45a4c05e1fe0d67b72deef0d  source:research/voice-conversion-eval-20261101/repos/rvc-mlx-realtime/rvc_mlx_rt/convert/hubert.py
+9a0824f79e61291c0fca908d12c83d6e48c203ec265adeb7f54272e8cc4f8ddc  source:research/voice-conversion-eval-20261101/repos/rvc-mlx-realtime/rvc_mlx_rt/model_manager.py
+bec61ed1eb9a3748644ddbc50303aa6978e14eeaba46822e59a006c722b52585  source:research/voice-conversion-eval-20261101/repos/rvc/LICENSE
+6ae347c0cc60836f1e7fd2b73ee73327746e66c32a5dd4270d02a096810bca8b  source:research/voice-conversion-eval-20261101/repos/rvc/README.md
+0346950779dfb7f9316fa74ed846e2b8a22a08eedfdc5387b73f327cb1a4a7cf  source:research/voice-conversion-eval-20261101/repos/rvc/assets/hubert_base/config.json
+7c1976a680fb7acc757cd36fb08eef878fa36c70b4c9d2d595df9c608bbbbf0e  source:research/voice-conversion-eval-20261101/repos/rvc/assets/hubert_base/preprocessor_config.json
+bbfba54d1d83eae3fb634b2909f8f6bf41e6ffe436200ec246867c5c93ebba26  source:research/voice-conversion-eval-20261101/repos/rvc/infer/hubert.py
+902338f1c8ef6c38186a34c19dec95e8df56030863b7a584b703a443127ea541  source:research/voice-conversion-eval-20261101/repos/rvc/requirments_cpu_py312.txt
+479188be1a9c3cbc6d9a057f6e985e7ed03e454033cb3e8cab2f273da22abcd4  source:research/voice-enhancement-20261101/agent-transform-space/REPORT.md
+fa8033889de77bf0fa2dfd57f5df97fc96e149a6027febe3303b50ab1d70de5b  source:research/voice-enhancement-20261101/agent-transform-spatial-trials/REPORT.md
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+e4e575450bc4ecd7be40ca63c6ec9a7c56c9cc338eb90535be87631477589a72  docs/task-evidence/hubert-conversion-encoder/LICENSES.md
+a476fbc58723f1e283f58b3525b1a9a6fa37d271c16279656e72b6ccf6da2007  docs/task-evidence/hubert-conversion-encoder/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/hubert-conversion-encoder/SOURCES.sha256.license
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/hubert-conversion-encoder/contract.json.license
+06ab1d6b068eebed7db6dd16b1a61a15e9dfce224c3a9c1acd01a8bfb9bbe911  docs/task-evidence/hubert-conversion-encoder/reference.py
+fd208807348762a582a20f2a236fc6f56b5583953bff3845cd63f3f7ab4a17c1  docs/task-evidence/hubert-conversion-encoder/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/hubert-conversion-encoder/report.json.license
+b37a17660f1014f6398bd2bd915754bb6671dd7270c69b9ec6973cd023159500  docs/task-evidence/hubert-conversion-encoder/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/hubert-conversion-encoder/report.json.sha256.license
+14d832c453ac46145d2af0df609c13926f41b78b053d003570db8d828574776c  docs/task-evidence/hubert-conversion-encoder/run.py
+d4c512f2364a1ddd575b1643aed2cdc820f7fdcbb0d7a99ddde11f6a9f84a1e9  docs/task-evidence/hubert-conversion-encoder/test_reference.py
+27f228c6f512a3703e0bab8747ecc7ef3b638d29b9d24983ad23ecc5d37bbe38  docs/task-evidence/hubert-conversion-encoder/verify.py

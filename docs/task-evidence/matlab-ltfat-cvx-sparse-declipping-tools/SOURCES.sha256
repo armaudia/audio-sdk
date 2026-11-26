@@ -1,0 +1,34 @@
+# SHA-256 pins for SDK-MATLAB-LTFAT-CVX-SPARSE-DECLIPPING-TOOLS.
+# source: paths are relative to SOURCE_ROOT; worktree: paths are
+# relative to the SDK checkout; pkg: paths are relative to this
+# task-evidence directory. The mutable full plan/swarm/TASKS.json is
+# never hashed; only the linked-row stable identity is gated.
+
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  source:audio-benchmark-platform/audio-sdk/README.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+87df91e30905ead24786146b8e82257b7132cd5cd51bcee46570955eff826ece  source:reports/distortion-restoration/20261028-synthetic-screen.json
+8371790cdb2b25a5ef55f07d8a52bc74850522d5e30968c34984c754af95cb71  source:research/distortion_restoration_20261028.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  worktree:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  worktree:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  worktree:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  worktree:api/include/audio_sdk/session_v0.h
+8e6bfec06db0b02321d6b6313536cf4a438204680d28240c15c9f57189dcdc65  worktree:docs/task-evidence/band-limited-pocs-declipping/README.md
+8d893e8055cdc2e982a4e568e7996b45d1b6dd73841ac2b701a15ec5160dc65b  worktree:docs/task-evidence/band-limited-pocs-declipping/report.json
+0891576454410a354c3bebb0ed31368b27f48f845bdd78be58048d0cdbcfd3ee  worktree:docs/task-evidence/c-omp-declipping/README.md
+eb1e7213fd6abc95d9cc491531e3114d2fe92233f34e9f41280dcbf8c2a6e77e  worktree:docs/task-evidence/c-omp-declipping/report.json
+ab68e2a7b000f5b73e26e97e0ebb95c45ff15e1db2922d26365ac96466758a6d  worktree:docs/task-evidence/linear-interpolation-declipping/README.md
+c3252fd080299e4b1804a9facf3fea02fe66f0df31728426476346f28d8dc310  worktree:docs/task-evidence/linear-interpolation-declipping/report.json
+52a8ab925868c1db30af19a118d51fb329bd5a742bf0b2da3066d4dba5f841cc  pkg:README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:SOURCES.sha256.license
+ec5bc142cadbd4878dd5b8f07cebacc0644d06ffd9f88645dd283e4b59cee6ec  pkg:contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:contract.json.license
+069487a1c6020ded6f261afeb474e220eebab9ee1c32d639b4d56f95097c8ab7  pkg:reference.py
+36fb895bada69f1835afeae7f5cb06fc01bc64a6a040d837b909375df506c7b5  pkg:report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.license
+db5f5977d6bc250fa76118089800f2eb85ce32fe34eb8a4f20502fc7de86e226  pkg:report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.sha256.license
+ad4d76e4aa73c8f1f2c03c317c123dbbfa5e498eca223a988bf0f7c55e1a3447  pkg:run.py
+4d2be210097e10e77cced44701c593e557cafc99ce325ff3de75ab0ca14db18b  pkg:test_reference.py
+02b48e9f17947b65fb90dae49e9a6de1266dfd2671317728528fee257361161f  pkg:verify.py

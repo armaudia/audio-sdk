@@ -1,0 +1,21 @@
+# SHA-256 pins for SDK-MICROSOFT-NSNET2-BASELINE task-local evidence; source: paths are workspace-relative, others SDK-worktree-relative.
+# The mutable full plan/swarm/TASKS.json is deliberately not pinned; only the stable linked-row identity is projected.
+# contract.json is excluded because it pins this manifest; no source, model, license text, firmware, weight or audio artifact is present.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a  source:research/noise_suppression_candidate_census.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+ed7a0538370791069deb8e719ade8d6f4f1a493139299896546ff36d2349e54f  docs/task-evidence/microsoft-nsnet2-baseline/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/microsoft-nsnet2-baseline/SOURCES.sha256.license
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/microsoft-nsnet2-baseline/contract.json.license
+a6f895e7fb88d2d8facc7b257dd77efcfc6821d0b16b0e309f8dff740fccd89b  docs/task-evidence/microsoft-nsnet2-baseline/reference.py
+8fd39b815a4d9af4b96ed552bc1796a3a5046f97eaed4577cd09cfb00852d2df  docs/task-evidence/microsoft-nsnet2-baseline/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/microsoft-nsnet2-baseline/report.json.license
+12a87649abb2eb34e44fa1fe39ba673ca11d183fa0aa060f508e61811b112999  docs/task-evidence/microsoft-nsnet2-baseline/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/microsoft-nsnet2-baseline/report.json.sha256.license
+de21643c36369fc24c12adb86d83ae54ba7feb86fbc6a71b96e03d63e0dac3d4  docs/task-evidence/microsoft-nsnet2-baseline/run.py
+a887ceebacb12f8154faa092cc3db59a66bf954f00bffdeafda35e3f74f9172c  docs/task-evidence/microsoft-nsnet2-baseline/test_reference.py
+61d298a1b301904cf73e107988556b4f7799d90f5b28a45733dc08820fd93301  docs/task-evidence/microsoft-nsnet2-baseline/verify.py

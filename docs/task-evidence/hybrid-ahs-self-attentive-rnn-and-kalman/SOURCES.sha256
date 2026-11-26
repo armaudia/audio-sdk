@@ -1,0 +1,25 @@
+# SHA-256 pins for SDK-HYBRID-AHS-SELF-ATTENTIVE-RNN-AND-KALMAN task-local evidence; source: paths are workspace-relative, others SDK-worktree-relative.
+# The mutable full plan/swarm/TASKS.json is deliberately not pinned; only the stable linked-row identity is projected.
+# contract.json is excluded because it pins this manifest; no source, license text, checkpoint, weight or audio artifact is present to pin.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+47b17e68a943e5fe3ee1568c81a84ea07eba040011e1d97df1ce61d8800c6b1c  source:research/feedback_control_20261028.md
+7ffed4be0021bc3fd2b2816bc3db2ebac9333d9c6ff809e3e3695d6cc6af4185  .gitattributes
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+f73e77fba2ad00190415baf07d58a0205ff7dcfa4108c825a0a69cc071e1b347  docs/task-evidence/hybrid-ahs-self-attentive-rnn-and-kalman/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/hybrid-ahs-self-attentive-rnn-and-kalman/SOURCES.sha256.license
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/hybrid-ahs-self-attentive-rnn-and-kalman/contract.json.license
+fe54f8d00c720f574f7f399cecc57d72626be6210dcfea5b70456fdc7d19986b  docs/task-evidence/hybrid-ahs-self-attentive-rnn-and-kalman/reference.py
+9e375cc6558f32e087a9e6cb389277569c90f35b3c993de1e6d658e8488f16ec  docs/task-evidence/hybrid-ahs-self-attentive-rnn-and-kalman/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/hybrid-ahs-self-attentive-rnn-and-kalman/report.json.license
+bbfa7d851431393755fbacfa814017501e95b058bc86853c4fa62ec62a130b1c  docs/task-evidence/hybrid-ahs-self-attentive-rnn-and-kalman/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/hybrid-ahs-self-attentive-rnn-and-kalman/report.json.sha256.license
+6b3f7fd532ba7d0504306f0c721d64c2e9c0a7c8ebdbd2fb1fef220c8d3658dd  docs/task-evidence/hybrid-ahs-self-attentive-rnn-and-kalman/run.py
+ee7d213d6269d361d8c85e3c040c13d3d623120b7d45d5155efb8ff321c21b47  docs/task-evidence/hybrid-ahs-self-attentive-rnn-and-kalman/test_reference.py
+521965100543006e86fc4d7cdc489d432922c76c35ac9394ed108e68e62cd23a  docs/task-evidence/hybrid-ahs-self-attentive-rnn-and-kalman/verify.py

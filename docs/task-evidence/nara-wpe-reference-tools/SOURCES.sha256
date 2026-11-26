@@ -1,0 +1,35 @@
+# SHA-256 pins for SDK-NARA-WPE-REFERENCE-TOOLS task-local evidence.
+# source: paths are relative to the pinned audioml workspace root.
+# sdk: paths are relative to this SDK worktree.
+# Full mutable task board (TASKS.json) is never hashed; only board_row.stable_sha256=f041a4088f26fadfe7ed77d73f7d06c31c35954a7d71ec08f0d08cba2abc1d46 is gated.
+b7d40d34dec1f8aabae9254d7a7054819e29cee59b40588b064a9987b6406c1c  docs/task-evidence/nara-wpe-reference-tools/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/nara-wpe-reference-tools/SOURCES.sha256.license
+40154758982b1a7a2af22c376fc59e2b4797549e6b44b586dc92176b4e1a4b3c  docs/task-evidence/nara-wpe-reference-tools/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/nara-wpe-reference-tools/contract.json.license
+32d7ec3762cb854496d289045c547b214fd36fcbf9dc1f60840820f61a397034  docs/task-evidence/nara-wpe-reference-tools/reference.py
+7ed65ec26de33815a42514b51921cc939e72fb2f57294e31e56b357f5ac87ee9  docs/task-evidence/nara-wpe-reference-tools/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/nara-wpe-reference-tools/report.json.license
+aa58cea890d357dcd375b5680ff820ab666e2da7ecff8441615a53ecb34de6ef  docs/task-evidence/nara-wpe-reference-tools/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/nara-wpe-reference-tools/report.json.sha256.license
+781acbb1103fa76bd9fd86e362ee1359a9e930f03947eac68d688fd840f7e59e  docs/task-evidence/nara-wpe-reference-tools/run.py
+c6e376378d96b1aabbb2401bdc7a2d95abb9508a0499cc91986831306ea7f917  docs/task-evidence/nara-wpe-reference-tools/test_reference.py
+22b83d027eca8d779b568f74de53f0ead7db3ec06c8f002dfdaaf43d4c71c24e  docs/task-evidence/nara-wpe-reference-tools/verify.py
+7ffed4be0021bc3fd2b2816bc3db2ebac9333d9c6ff809e3e3695d6cc6af4185  sdk:.gitattributes
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  sdk:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  sdk:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+c57df3412bd9e491e5bb4a32b20cf834ecee41da25ce68130d728b48b8877819  sdk:docs/task-evidence/offline-mono-wpe/README.md
+2b9be2488c4b0f82f417abd3e131c840729856937ed8239f2645beeaa30d7e61  sdk:docs/task-evidence/offline-mono-wpe/report.json
+8aa8b92ec4a436aaced397913c45963ae4b95d10a798763062b9cafa53f250c9  sdk:docs/task-evidence/offline-multichannel-wpe/README.md
+4362c19cfd0633450af24bf9bc5124dbe2a90c9ad48164edf08b377c24ec8fba  sdk:docs/task-evidence/offline-multichannel-wpe/report.json
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  sdk:scripts/ci.py
+b36f1af3151ea28df9b6c12f3adb90d0b4f28f4315d0aeccd0ff9c99050c703e  source:adapters/wpe/README.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+cdf1782853fde1291bb8fd3c64144b9e857939856f8caca1666d2d617845728c  source:research/category_registry.json
+61f95809f956537bea9b878cd544f8e997d6c13a24d2e9ea947795f653847b09  source:research/category_survey/search_log.jsonl
+9dc17cd557480b954af4d5d9cd24911423685ba23675f399500eb080315fac5d  source:research/category_survey/sources.md
+6f0f1a07aeb7b865dce766576bcc99cb97a78120253b1f9e1e9618f964098468  source:research/dereverberation_candidates_20261028.md

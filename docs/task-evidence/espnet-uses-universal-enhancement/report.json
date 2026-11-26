@@ -1,0 +1,1143 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX-License-Identifier": "Apache-2.0",
+  "acceptance_profile": {
+    "all_qualify": false,
+    "items": [
+      {
+        "evidence": "deterministic identity passthrough on synthetic mixture",
+        "item": "identity_and_noisy_control",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "no approved task-matched baseline or ESPnet reference",
+        "item": "established_task_matched_baseline",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "the USES model is unified single/multi-microphone enhancement and separation; no isolated single-channel mode is established",
+        "item": "single_channel_noise_suppression_separation",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "no multichannel layout or separated-speaker contract exists on the mono installed-v0 host",
+        "item": "multi_microphone_and_separation_scope",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "variable rates are declared, the demo uses 16 kHz; no official rate, resampling, frame or utterance contract is pinned",
+        "item": "variable_sample_rate_geometry",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "control SI-SDR against the synthetic clean signal only",
+        "item": "paired_si_sdr",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "no approved STOI implementation or rights-cleared cohort",
+        "item": "paired_stoi",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "fixed high-pass on synthetic clean signal only",
+        "item": "clean_speech_preservation",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "control peaks and clipped-sample counts only",
+        "item": "peaks_and_invalid_outputs",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "no rate, frame, utterance, latency or single-channel contract is established; the reported CPU speed is unreproduced",
+        "item": "content_and_availability_timing",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "no ESPnet runtime or stateful measurement",
+        "item": "state_memory_and_independent_instances",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "no cohort, consent or redistribution rights",
+        "item": "rights_cleared_cohort",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "no panel, authorization or listening result",
+        "item": "listening_or_authorized_quality",
+        "qualifies": false,
+        "status": "blocked"
+      },
+      {
+        "evidence": "explicit rejection of invalid, nonfinite and blocked cases",
+        "item": "adverse_missing_nonfinite_controls",
+        "qualifies": false,
+        "status": "synthetic_control_only"
+      },
+      {
+        "evidence": "toolkit, model, checkpoint and training-data terms, redistribution and output use are unapproved",
+        "item": "release_and_distribution_terms",
+        "qualifies": false,
+        "status": "blocked"
+      }
+    ],
+    "missing_result_promoted": false,
+    "profile": "enhancement",
+    "qualifies": false
+  },
+  "adverse_results": [
+    {
+      "error": "audio_sample_is_nonfinite",
+      "expected": "audio_sample_is_nonfinite",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "nan_sample",
+      "status": "rejected"
+    },
+    {
+      "error": "audio_sample_is_nonfinite",
+      "expected": "audio_sample_is_nonfinite",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "positive_infinity_sample",
+      "status": "rejected"
+    },
+    {
+      "error": "audio_sample_is_not_a_real_number",
+      "expected": "audio_sample_is_not_a_real_number",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "boolean_sample",
+      "status": "rejected"
+    },
+    {
+      "error": "audio_sample_is_not_a_real_number",
+      "expected": "audio_sample_is_not_a_real_number",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "string_sample",
+      "status": "rejected"
+    },
+    {
+      "error": "audio_sample_is_not_a_real_number",
+      "expected": "audio_sample_is_not_a_real_number",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "nested_sample",
+      "status": "rejected"
+    },
+    {
+      "error": "audio_frame_is_not_160_samples",
+      "expected": "audio_frame_is_not_160_samples",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "short_frame_159",
+      "status": "rejected"
+    },
+    {
+      "error": "audio_frame_is_not_160_samples",
+      "expected": "audio_frame_is_not_160_samples",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "long_frame_161",
+      "status": "rejected"
+    },
+    {
+      "error": "audio_frame_is_not_160_samples",
+      "expected": "audio_frame_is_not_160_samples",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "empty_frame",
+      "status": "rejected"
+    },
+    {
+      "error": "audio_sample_out_of_range",
+      "expected": "audio_sample_out_of_range",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "out_of_range_sample",
+      "status": "rejected"
+    },
+    {
+      "error": "audio_is_not_a_sample_sequence",
+      "expected": "audio_is_not_a_sample_sequence",
+      "matches_expected": true,
+      "qualifies": false,
+      "result_id": "mapping_container",
+      "status": "rejected"
+    }
+  ],
+  "artifact_assessment": {
+    "all_required_absent": true,
+    "checked_paths": {
+      "adapters/espnet-uses-universal-enhancement": false,
+      "data/checkouts/espnet": false,
+      "data/checkouts/espnet-uses": false,
+      "data/checkouts/espnet_model_zoo": false,
+      "data/envs/espnet-uses-universal-enhancement": false,
+      "data/licenses/espnet-uses-universal-enhancement": false,
+      "data/models/espnet": false,
+      "data/models/espnet-uses": false,
+      "data/reference/espnet-uses-universal-enhancement": false,
+      "data/sources/espnet-uses-universal-enhancement": false
+    },
+    "conclusion": "BLOCKED: no ESPnet source checkout, USES PyTorch checkpoint, Python/PyTorch/ESPnet runtime, licence/data-terms approval, single-channel mode contract, clean-reference oracle or calibrated output exists locally; nothing was downloaded, copied or executed.",
+    "corpus_present": false,
+    "espnet_runtime_present": false,
+    "package_assets_present": false,
+    "qualifies": false,
+    "rights_approval_present": false,
+    "source_present": false,
+    "weight_artifact_present": false
+  },
+  "base_commit": "81f31382c55aff629001e06362f3abe81c491b9e",
+  "boundary_pins": {
+    "CMakeLists.txt": "af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04",
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "REUSE.toml": "c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "scripts/ci.py": "64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f"
+  },
+  "branch": "swarm/SDK-ESPNET-USES-UNIVERSAL-ENHANCEMENT",
+  "completeness": "incomplete",
+  "component": "espnet-uses-universal-enhancement",
+  "controls": {
+    "design": {
+      "fixed_highpass": {
+        "coefficients_b0_b1_b2_a1_a2": [
+          0.978030479,
+          -1.956060958,
+          0.978030479,
+          -1.95557824,
+          0.956543677
+        ],
+        "cutoff_hz": 80.0,
+        "order": 2,
+        "q": 0.7071067811865476
+      },
+      "identity": "exact passthrough",
+      "is_candidate_result": false,
+      "is_espnet_uses_universal_enhancement": false
+    },
+    "qualifies": false,
+    "rows": {
+      "fixed_highpass_clean": {
+        "clipped_samples": 0,
+        "control_id": "fixed_highpass_clean",
+        "is_candidate_result": false,
+        "nonfinite_samples": 0,
+        "output_sha256": "b5f3effa17c0d9fdbc18d56ea9a4b04b106789a42b070e3688d8d8f4e747264e",
+        "peak_abs": 0.556248154,
+        "qualifies": false,
+        "rms": 0.077454567,
+        "samples": 32000,
+        "si_sdr_db_vs_synthetic_clean": 6.369972982,
+        "snr_db_vs_synthetic_clean": 7.075345355,
+        "status": "local_control_only_not_espnet_uses"
+      },
+      "fixed_highpass_noisy": {
+        "clipped_samples": 0,
+        "control_id": "fixed_highpass_noisy",
+        "is_candidate_result": false,
+        "nonfinite_samples": 0,
+        "output_sha256": "a480c15679653cb8f5a69bcda439c18a2b04aad4603eb0a18e9137e9365b563d",
+        "peak_abs": 0.607267979,
+        "qualifies": false,
+        "rms": 0.079521652,
+        "samples": 32000,
+        "si_sdr_db_vs_synthetic_clean": 5.251859246,
+        "snr_db_vs_synthetic_clean": 6.013788694,
+        "status": "local_control_only_not_espnet_uses"
+      },
+      "fixed_highpass_silence": {
+        "clipped_samples": 0,
+        "control_id": "fixed_highpass_silence",
+        "is_candidate_result": false,
+        "nonfinite_samples": 0,
+        "output_sha256": "eec19bc6af0b3b6dfb97a08782c65f4bb3c3203e789a015d2008b0d689ad08be",
+        "peak_abs": 0.0,
+        "qualifies": false,
+        "rms": 0.0,
+        "samples": 32000,
+        "si_sdr_db_vs_synthetic_clean": null,
+        "snr_db_vs_synthetic_clean": null,
+        "status": "degenerate_silence_control_not_espnet_uses"
+      },
+      "identity_clean": {
+        "clipped_samples": 0,
+        "control_id": "identity_clean",
+        "is_candidate_result": false,
+        "nonfinite_samples": 0,
+        "output_sha256": "df086e0c103dd334e527a7e377077496cf9b1dbb230a73837ba1191ec451cf53",
+        "peak_abs": 0.459869385,
+        "qualifies": false,
+        "rms": 0.077886104,
+        "samples": 32000,
+        "si_sdr_db_vs_synthetic_clean": null,
+        "snr_db_vs_synthetic_clean": null,
+        "status": "local_control_only_not_espnet_uses"
+      },
+      "identity_noisy": {
+        "clipped_samples": 0,
+        "control_id": "identity_noisy",
+        "is_candidate_result": false,
+        "nonfinite_samples": 0,
+        "output_sha256": "cdeb902ee648bc52de3a41950305cbbc51680ea0abc0b32fcc5de333a6af764c",
+        "peak_abs": 0.454498291,
+        "qualifies": false,
+        "rms": 0.085905554,
+        "samples": 32000,
+        "si_sdr_db_vs_synthetic_clean": 6.572541626,
+        "snr_db_vs_synthetic_clean": 6.585453593,
+        "status": "local_control_only_not_espnet_uses"
+      },
+      "identity_silence": {
+        "clipped_samples": 0,
+        "control_id": "identity_silence",
+        "is_candidate_result": false,
+        "nonfinite_samples": 0,
+        "output_sha256": "eec19bc6af0b3b6dfb97a08782c65f4bb3c3203e789a015d2008b0d689ad08be",
+        "peak_abs": 0.0,
+        "qualifies": false,
+        "rms": 0.0,
+        "samples": 32000,
+        "si_sdr_db_vs_synthetic_clean": null,
+        "snr_db_vs_synthetic_clean": null,
+        "status": "degenerate_silence_control_not_espnet_uses"
+      }
+    },
+    "silence": {
+      "fixed_highpass_exact_zero": true,
+      "identity_exact_zero": true,
+      "qualifies": false
+    }
+  },
+  "decision": "DEFER",
+  "declared_contract": {
+    "adapter_status": "proposal_only_no_espnet_runtime",
+    "channel_layout_contract": "mono_host_only_multichannel_unverified",
+    "combined_tasks": [
+      "single_channel_enhancement",
+      "multi_channel_enhancement",
+      "speech_separation"
+    ],
+    "contract_id": "espnet-uses-universal-enhancement-external-adapter-proposal/0.1",
+    "declared_cpu_speed": "a_few_times_real_time",
+    "declared_cpu_speed_reproduced": false,
+    "declared_latency_is_measured": false,
+    "declared_latency_ms": null,
+    "declared_latency_status": "not_established",
+    "declared_size_is_measured": false,
+    "declared_size_mb": 13,
+    "drain_contract": "not_established",
+    "frame_hop_status": "not_established",
+    "host_grid": {
+      "channels": 1,
+      "frame_samples": 160,
+      "sample_format": "f32",
+      "sample_rate_hz": 16000
+    },
+    "installed_v0_unchanged": true,
+    "official_geometry_verified": false,
+    "process_contract": "not_established_offline_utterance_path",
+    "qualifies": false,
+    "resampling_policy": "not_established",
+    "resampling_required_for_non_16k": true,
+    "reset_contract": "not_established",
+    "separation_mode": "not_established",
+    "single_channel_noise_suppression_mode": "not_established",
+    "state_isolation_contract": "not_established",
+    "vendor_backends": [
+      "pytorch"
+    ],
+    "vendor_demo_rate_hz": 16000,
+    "vendor_deployment": "offline_python_pytorch_model_zoo_checkpoint",
+    "vendor_model_id": "espnet/Wangyou_Zhang_universal_train_enh_uses_ref_ch0_2mem_raw",
+    "vendor_rate_status": "variable_not_established",
+    "vendor_rates_hz": null,
+    "vendor_runtime_verified": false,
+    "vendor_tasks": [
+      "single_channel_enhancement",
+      "multi_channel_enhancement",
+      "speech_separation"
+    ]
+  },
+  "failure_controls": {
+    "all_explicit": true,
+    "blocked_release_gates": 8,
+    "checks": {
+      "boolean_sample_rejected": true,
+      "extra_manifest_field_rejected": true,
+      "infinity_sample_rejected": true,
+      "invalid_geometry_rejected": true,
+      "long_frame_rejected": true,
+      "missing_manifest_field_rejected": true,
+      "missing_manifest_files_rejected": true,
+      "nan_sample_rejected": true,
+      "out_of_range_rejected": true,
+      "relative_manifest_path_rejected": true,
+      "short_frame_rejected": true,
+      "stereo_rejected": true,
+      "string_sample_rejected": true,
+      "unapproved_terms_rejected": true,
+      "unsupported_backend_rejected": true,
+      "unsupported_rate_rejected": true
+    },
+    "qualifies": false,
+    "rejected_audio_vectors": 10,
+    "rejected_manifest_documents": 16
+  },
+  "fixture": {
+    "channels": 1,
+    "clean_sha256": "df086e0c103dd334e527a7e377077496cf9b1dbb230a73837ba1191ec451cf53",
+    "fixture_id": "espnet-uses-universal-enhancement-synthetic-boundary-fixture-v1",
+    "frames": 200,
+    "is_candidate_output": false,
+    "is_corpus": false,
+    "is_speech": false,
+    "mixture_sha256": "cdeb902ee648bc52de3a41950305cbbc51680ea0abc0b32fcc5de333a6af764c",
+    "noise_seed": 20261127,
+    "noise_sha256": "3db956165b5412a726ffa84e82f4b74ae603e228578f350a578867cc52101e5e",
+    "qualifies": false,
+    "sample_format": "float32_from_int16_quantized",
+    "sample_rate_hz": 16000,
+    "samples": 32000,
+    "segments": [
+      {
+        "clean_amplitude": 0.0,
+        "end_frame_exclusive": 20,
+        "end_sample_exclusive": 3200,
+        "harmonic_hz": [],
+        "start_frame": 0,
+        "start_sample": 0
+      },
+      {
+        "clean_amplitude": 0.06,
+        "end_frame_exclusive": 70,
+        "end_sample_exclusive": 11200,
+        "harmonic_hz": [
+          210.0,
+          420.0,
+          630.0
+        ],
+        "start_frame": 20,
+        "start_sample": 3200
+      },
+      {
+        "clean_amplitude": 0.16,
+        "end_frame_exclusive": 120,
+        "end_sample_exclusive": 19200,
+        "harmonic_hz": [
+          240.0,
+          480.0,
+          960.0
+        ],
+        "start_frame": 70,
+        "start_sample": 11200
+      },
+      {
+        "clean_amplitude": 0.3,
+        "end_frame_exclusive": 170,
+        "end_sample_exclusive": 27200,
+        "harmonic_hz": [
+          230.0,
+          460.0,
+          920.0
+        ],
+        "start_frame": 120,
+        "start_sample": 19200
+      },
+      {
+        "clean_amplitude": 0.0,
+        "end_frame_exclusive": 200,
+        "end_sample_exclusive": 32000,
+        "harmonic_hz": [],
+        "start_frame": 170,
+        "start_sample": 27200
+      }
+    ]
+  },
+  "manifest_contract": {
+    "backend_policy": "pytorch_only",
+    "caller_owned": true,
+    "channel_policy": "mono_host_only_multichannel_unverified",
+    "checksum_policy": "full_sha256_required_no_prefix_only_identity",
+    "contract_id": "espnet-uses-universal-enhancement/caller-supplied-licensed-artifact/0.1",
+    "executed": false,
+    "files_behavior": "hash caller-owned bytes and host geometry only; never parse, import, link or execute the checkpoint",
+    "loaded": false,
+    "official_identity_requires_vendor_review": true,
+    "qualifies": false,
+    "rate_policy": "host_16k_only_vendor_variable_rates_unverified",
+    "required_fields": [
+      "artifact_id",
+      "artifact_path",
+      "artifact_sha256",
+      "artifact_version",
+      "backend",
+      "caller_attestation",
+      "candidate_id",
+      "channels",
+      "license_path",
+      "license_sha256",
+      "model_family",
+      "rights_approval_path",
+      "rights_approval_sha256",
+      "runtime_path",
+      "runtime_sha256",
+      "sample_rate_hz",
+      "source_revision",
+      "terms_accepted"
+    ],
+    "separation_mode_requires_vendor_review": true,
+    "single_channel_mode_requires_vendor_review": true,
+    "vendored": false
+  },
+  "manifest_controls": [
+    {
+      "accepted": true,
+      "control_id": "valid_shape",
+      "files_verified": false,
+      "official_identity": false,
+      "qualifies": false,
+      "reason": "shape_valid_files_not_verified",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "missing_artifact_id",
+      "qualifies": false,
+      "reason": "manifest_missing_fields:artifact_id",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "extra_field",
+      "qualifies": false,
+      "reason": "manifest_extra_fields:extra",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "wrong_candidate",
+      "qualifies": false,
+      "reason": "manifest_candidate_id_mismatch",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "wrong_family",
+      "qualifies": false,
+      "reason": "manifest_model_family_mismatch",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "relative_artifact_path",
+      "qualifies": false,
+      "reason": "path_is_not_absolute:artifact_path",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "parent_traversal",
+      "qualifies": false,
+      "reason": "path_has_traversal_component:artifact_path",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "bad_hash_length",
+      "qualifies": false,
+      "reason": "manifest_invalid_sha256:artifact_sha256",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "uppercase_hash",
+      "qualifies": false,
+      "reason": "manifest_invalid_sha256:artifact_sha256",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "unsupported_backend",
+      "qualifies": false,
+      "reason": "manifest_unsupported_backend",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "unsupported_rate",
+      "qualifies": false,
+      "reason": "manifest_unsupported_host_rate",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "boolean_rate",
+      "qualifies": false,
+      "reason": "manifest_sample_rate_is_not_an_integer",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "stereo",
+      "qualifies": false,
+      "reason": "manifest_unsupported_channels",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "terms_not_accepted",
+      "qualifies": false,
+      "reason": "manifest_terms_not_accepted",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "wrong_attestation",
+      "qualifies": false,
+      "reason": "manifest_caller_attestation_mismatch",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "duplicate_paths",
+      "qualifies": false,
+      "reason": "manifest_paths_are_not_distinct",
+      "shape_only": true
+    },
+    {
+      "accepted": false,
+      "control_id": "empty_source_revision",
+      "qualifies": false,
+      "reason": "manifest_invalid_source_revision",
+      "shape_only": true
+    }
+  ],
+  "missing_results": [
+    {
+      "qualifies": false,
+      "requirement": "Exact source revision, USES checkpoint and full digest",
+      "result_id": "source_and_weight_artifact",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Pinned ESPnet/PyTorch runtime environment",
+      "result_id": "espnet_pytorch_runtime",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Reviewed toolkit/model/data terms and written approval",
+      "result_id": "license_and_data_terms",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Isolated single-channel noise-suppression mode",
+      "result_id": "single_channel_mode_contract",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Multi-microphone enhancement and multi-speaker separation contract",
+      "result_id": "separation_mode_contract",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Official variable-rate and frame/utterance geometry",
+      "result_id": "official_variable_rate_geometry",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Paired noisy/clean cohort with consent",
+      "result_id": "rights_cleared_cohort",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "ESPnet USES output on the exact runtime",
+      "result_id": "candidate_output",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Paired SI-SDR on a rights-cleared cohort",
+      "result_id": "paired_si_sdr",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Paired STOI with an approved implementation",
+      "result_id": "paired_stoi",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Candidate clean-input preservation",
+      "result_id": "clean_speech_preservation",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Measured content/availability delay",
+      "result_id": "measured_content_delay",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Target-device timing and memory",
+      "result_id": "device_timing_and_memory",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Authorized listening or quality assessment",
+      "result_id": "listening_or_quality",
+      "status": "blocked",
+      "value": null
+    },
+    {
+      "qualifies": false,
+      "requirement": "Independent exact-head release approval",
+      "result_id": "release_decision",
+      "status": "blocked",
+      "value": null
+    }
+  ],
+  "mutable_provenance": {
+    "gate": false,
+    "hashed": false,
+    "mutable": true,
+    "note": "Only the stable linked-row identity above is compared. The mutable full board file is never read into, hashed by or pinned to this package.",
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json"
+  },
+  "non_claims": [
+    "No ESPnet USES source, model, PyTorch checkpoint, toolkit, runtime or emulator is present, linked, imported, executed or reproduced.",
+    "No licensed artifact, corpus or recording is downloaded, copied, vendored or substituted.",
+    "No ESPnet USES prediction, quality score, SI-SDR, STOI, MOS, ranking or threshold is claimed; every candidate result is null.",
+    "No rate, frame, utterance window, latency, channel layout, single-channel mode, separation behavior or reported 13 MB / real-time speed is established or measured.",
+    "No synthetic control, digest or diagnostic is an ESPnet USES output, a human rating or a quality score.",
+    "No listening, device-timing, benchmark or release claim is made.",
+    "No installed v0, ABI, registry, descriptor, default, shared build or CI behavior is changed.",
+    "No provider or processor is registered, exposed or default-enabled.",
+    "No missing, blocked or adverse result is promoted; no result qualifies."
+  ],
+  "observed_provenance": {
+    "documented_context": [
+      {
+        "claim_id": "candidate_scope",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "research/noise_suppression_candidate_census.md:43",
+        "statement": "Unified single/multi-microphone enhancement/separation model with variable sample rate."
+      },
+      {
+        "claim_id": "reported_size_and_speed",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "research/noise_suppression_candidate_census.md:43",
+        "statement": "The published demo uses a 13 MB model and reports CPU runs a few times real-time."
+      },
+      {
+        "claim_id": "model_zoo_checkpoint",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "research/evidence/pilot-discovery-20261027/source.txt:68",
+        "statement": "The checkpoint is espnet/Wangyou_Zhang_universal_train_enh_uses_ref_ch0_2mem_raw from the official ESPnet model zoo; the demo documents single-channel noisy-clean inference, multiple sample rates, 13 MB and CPU a few times real-time."
+      },
+      {
+        "claim_id": "pilot_scope_gate",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "research/evidence/pilot-discovery-20261027/source.txt:68",
+        "statement": "Retained as an offline/universal reference; exact checkpoint metadata, terms and multi-speaker behavior require review; single-channel noise suppression must be tested separately from multi-speaker separation."
+      },
+      {
+        "claim_id": "discovery_state",
+        "is_human_rating": false,
+        "is_measurement": false,
+        "qualifies": false,
+        "reproduced_here": false,
+        "source": "research/store/snapshots/90d8ef52996098cb779a7acfef2e07a3337f6627da94ef7beab9315f6669b2c8.jsonl:253-254",
+        "statement": "The discovery record marks eligibility blocked, weights located_unverified, code available and benchmark_state not_run."
+      }
+    ],
+    "qualifies": false,
+    "reproduced_here": false
+  },
+  "profile": "enhancement",
+  "proposal_only": true,
+  "public_surface": {
+    "abi_change": false,
+    "benchmark_claim": false,
+    "ci_change": false,
+    "descriptor_default_change": false,
+    "installed_v0_behavior_change": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_change": false,
+    "registry_change": false,
+    "release_claim": false,
+    "shared_cmakelists_change": false
+  },
+  "qualification": {
+    "all_release_gates_blocked": true,
+    "device_timing_present": false,
+    "espnet_runtime_present": false,
+    "incomplete": true,
+    "license_and_data_terms_reviewed": false,
+    "listening_present": false,
+    "local_control_is_candidate": false,
+    "measured_timing_present": false,
+    "missing_result_promoted": false,
+    "paired_quality_result_present": false,
+    "proposal_only": true,
+    "qualifies": false,
+    "release_claim": false,
+    "rights_cleared_cohort_present": false,
+    "separation_mode_established": false,
+    "single_channel_noise_suppression_established": false,
+    "source_present": false,
+    "status": "not_qualified",
+    "stoi_result_present": false,
+    "weight_artifact_present": false
+  },
+  "qualification_slots": {
+    "candidate_output": {
+      "qualifies": false,
+      "status": "unavailable_source_weight_and_runtime_absent",
+      "value": null
+    },
+    "clean_speech_preservation": {
+      "qualifies": false,
+      "status": "unavailable_candidate_runtime_absent",
+      "value": null
+    },
+    "device_timing": {
+      "qualifies": false,
+      "status": "unavailable_target_device_and_runtime_absent",
+      "value": null
+    },
+    "listening_quality": {
+      "qualifies": false,
+      "status": "unavailable_panel_authorization_and_assets_absent",
+      "value": null
+    },
+    "measured_availability_delay_ms": {
+      "qualifies": false,
+      "status": "unavailable_geometry_runtime_and_timing_harness_absent",
+      "value": null
+    },
+    "measured_content_delay_samples": {
+      "qualifies": false,
+      "status": "unavailable_geometry_runtime_and_timing_harness_absent",
+      "value": null
+    },
+    "memory_and_resources": {
+      "qualifies": false,
+      "status": "unavailable_runtime_absent",
+      "value": null
+    },
+    "paired_si_sdr_db": {
+      "qualifies": false,
+      "status": "unavailable_rights_cleared_cohort_absent",
+      "value": null
+    },
+    "paired_stoi": {
+      "qualifies": false,
+      "status": "unavailable_approved_scorer_and_cohort_absent",
+      "value": null
+    },
+    "release": {
+      "qualifies": false,
+      "status": "blocked",
+      "value": null
+    }
+  },
+  "ranking": {
+    "order": "not_ranked",
+    "qualifies": false,
+    "reason": "No licensed artifact, isolated single-channel mode, ESPnet/PyTorch runtime, rights-cleared cohort or independent score exists; local controls cannot rank the candidate, and unified enhancement plus separation is not a pure-suppression baseline.",
+    "recommendation": null
+  },
+  "regeneration": {
+    "byte_identical": true,
+    "canonical_digests": [
+      "c5498f699bda351e01efe84b450c8782cd1a7e551449b13306eacf92ba4e220b",
+      "c5498f699bda351e01efe84b450c8782cd1a7e551449b13306eacf92ba4e220b",
+      "c5498f699bda351e01efe84b450c8782cd1a7e551449b13306eacf92ba4e220b"
+    ],
+    "mode": "three_in_process_canonical_builds_plus_cold_start_verify",
+    "runs": 3
+  },
+  "release_gates": [
+    {
+      "evidence": null,
+      "id": "exact_source_revision_and_weight_artifact",
+      "qualifies": false,
+      "requirement": "The exact ESPnet source revision and USES checkpoint for the recorded model-zoo entry, with an immutable version and a full SHA-256; a located-but-unverified weight is not an identity.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "license_and_distribution_terms",
+      "qualifies": false,
+      "requirement": "The artifact-specific toolkit, model-zoo, checkpoint and training-data terms, including any non-commercial or research-only restriction, redistribution, derivative-output and execution permissions, reviewed and approved in writing.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "pinned_runtime_and_backend_environment",
+      "qualifies": false,
+      "requirement": "A locked Python/PyTorch/ESPnet runtime with exact dependency versions, install/import digest and approval for the target host.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "official_geometry_single_channel_mode_and_delay",
+      "qualifies": false,
+      "requirement": "The official rates, channels, frame/hop or utterance window, resampling, reset, drain, state and content/availability delay are pinned and reproduced for the exact runtime, and a single-channel noise-suppression mode is verified so multi-microphone enhancement and multi-speaker separation are not ranked as pure suppression.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "rights_cleared_paired_cohort",
+      "qualifies": false,
+      "requirement": "A rights-cleared paired noisy/clean speech cohort with consent, device metadata, alignment and a frozen utterance list.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "independent_paired_quality_and_preservation",
+      "qualifies": false,
+      "requirement": "Independent paired SI-SDR/STOI, clean-speech preservation, peak and invalid-output scoring on the exact runtime, with uncertainty and retained failures.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "measured_state_memory_and_target_timing",
+      "qualifies": false,
+      "requirement": "Measured state isolation, memory, content/availability timing, callback suitability and adverse/nonfinite behavior on the target device for the exact runtime.",
+      "status": "blocked"
+    },
+    {
+      "evidence": null,
+      "id": "opt_in_adapter_intake_listening_and_release_review",
+      "qualifies": false,
+      "requirement": "An OFF-by-default opt-in adapter intake, independent exact-head review, authorized listening/quality assessment and explicit release approval.",
+      "status": "blocked"
+    }
+  ],
+  "reproduction": [
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_reference.py",
+    "python3 run.py --report",
+    "python3 run.py --contract",
+    "python3 run.py --sources",
+    "python3 run.py --inspect",
+    "python3 verify.py"
+  ],
+  "required_artifacts": [
+    {
+      "artifact": "The exact ESPnet source revision plus the `espnet/Wangyou_Zhang_universal_train_enh_uses_ref_ch0_2mem_raw` checkpoint, identified by an immutable model-zoo/artifact version and a full SHA-256.",
+      "id": "exact_source_revision_and_weight_artifact",
+      "present": false,
+      "rights_requirement": "The toolkit, model-zoo and checkpoint-specific terms, including redistribution, derivative-output and execution permissions, with written approval.",
+      "why_blocked": "No ESPnet checkout, model-zoo entry, PyTorch checkpoint or source revision exists in the workspace; the discovery record marks code available and weights located_unverified; no download, copy or substitute was attempted."
+    },
+    {
+      "artifact": "The exact ESPnet, model-zoo, checkpoint and training-data terms plus a signed rights decision for local execution, benchmarking, redistribution and output use.",
+      "id": "license_and_rights_approval",
+      "present": false,
+      "rights_requirement": "Toolkit terms, model/checkpoint terms, training-data provenance, any non-commercial or research-only restriction, and output-use permissions for the named artifact version.",
+      "why_blocked": "The pinned records describe the checkpoint as an official model-zoo entry but do not establish model/data terms, training provenance or an approval; no licence text or signed decision exists."
+    },
+    {
+      "artifact": "A locked Python/PyTorch/ESPnet runtime with exact versions, an install digest and an approved checkpoint import route on the target host.",
+      "id": "pinned_espnet_pytorch_runtime_environment",
+      "present": false,
+      "rights_requirement": "Runtime and dependency licences plus approval for the exact versions on the target host.",
+      "why_blocked": "No environment, package lock, ESPnet installation, PyTorch runtime or checkpoint loader was found; no import or execution was attempted."
+    },
+    {
+      "artifact": "The official rates, channels, frame/hop or utterance window, resampling, reset, drain, state, content-delay and availability contract for the exact runtime, plus a single-channel noise-suppression mode separated from multi-microphone enhancement and multi-speaker separation.",
+      "id": "official_geometry_and_single_channel_mode_contract",
+      "present": false,
+      "rights_requirement": "Model documentation and configuration admitted under the reviewed terms.",
+      "why_blocked": "The pinned record declares a unified single/multi-microphone enhancement/separation model with variable sample rates and a 16 kHz demo; no frame, hop, reset, drain, delay, multi-channel layout or isolated single-channel mode is established."
+    },
+    {
+      "artifact": "A rights-cleared paired noisy/clean speech cohort with consent, device metadata, alignment and a frozen utterance list.",
+      "id": "rights_cleared_paired_cohort",
+      "present": false,
+      "rights_requirement": "Corpus, participant, device and redistribution rights for every recording used.",
+      "why_blocked": "No cohort, consent, pairing, alignment or metadata exists for this task; no real audio is used here."
+    },
+    {
+      "artifact": "Approved exact-runtime reference outputs and a pinned approved SI-SDR/STOI and preservation scoring implementation.",
+      "id": "calibrated_reference_outputs_and_scorer",
+      "present": false,
+      "rights_requirement": "Scorer and reference-output terms plus approval for the exact implementation revisions.",
+      "why_blocked": "No reference output, clean-reference oracle or approved STOI implementation is present; all quality slots are null."
+    },
+    {
+      "artifact": "Measured content delay, availability delay, memory, state isolation and callback suitability on the target device for the exact single-channel runtime.",
+      "id": "measured_content_and_device_timing",
+      "present": false,
+      "rights_requirement": "Device, host and timing-harness approval for the exact runtime.",
+      "why_blocked": "No rate, frame, utterance, latency or single-channel contract is established and no timing, memory, state or callback measurement exists."
+    },
+    {
+      "artifact": "An OFF-by-default opt-in adapter intake, independent exact-head review, listening/quality authorization and explicit release approval.",
+      "id": "opt_in_adapter_intake_and_release_review",
+      "present": false,
+      "rights_requirement": "Reviewer, panel and release-authority approval for the declared scope.",
+      "why_blocked": "No adapter, registration, default, review, listening panel or release decision exists; none is added here."
+    }
+  ],
+  "schema_id": "audio-sdk/task-evidence-contract/0.1",
+  "scope": {
+    "benchmark_claim": false,
+    "device_timing": false,
+    "downloads": false,
+    "espnet_toolkit": false,
+    "installed_v0_format": "16 kHz mono float32, 160 samples",
+    "licensed_source_or_binary": false,
+    "listening": false,
+    "model_runtime_executed": false,
+    "multichannel_input": false,
+    "network_used": false,
+    "provider_registered": false,
+    "pytorch_checkpoint": false,
+    "real_speech_or_corpus": false,
+    "release_claim": false,
+    "synthetic_only": true,
+    "task_local_only": true,
+    "vendor_artifact": false,
+    "weights_or_assets": false
+  },
+  "sibling_pins": {
+    "docs/task-evidence/ai-coustics-quail/contract.json": "39c0b277fdff552bacb53dfee86614cfc5273b747800cfacbbbce6330fd95d23",
+    "docs/task-evidence/ai-coustics-quail/report.json": "77ac817a110bd243849c6e117e9b805f6a5aad082b5dd3befc6b20ff2dc218a0",
+    "docs/task-evidence/clearvoice-frcrn-16khz/contract.json": "d3280353a0360be5b4e56203cad7fc93c6e76b68b20ea65ef667f35456744799",
+    "docs/task-evidence/clearvoice-frcrn-16khz/report.json": "a1c41721ba3866ae4bec22d71494ff235699c2887f10d813cdd834e0a97f8aba",
+    "docs/task-evidence/deepfilternet3-local-listening-preset/contract.json": "71dce6d33ba03312245abce828a5aa864461ef4376d15a0846eb95decd928a18",
+    "docs/task-evidence/deepfilternet3-local-listening-preset/report.json": "66398406770227f04c6d6ab6780bd5f479a3790f5be973a3023e3d9b42e1b95a",
+    "docs/task-evidence/dpdfnet-2-streaming/contract.json": "225e0072f021bd592cd5a4685ded735063423c1dda730f065b56652457360ad5",
+    "docs/task-evidence/dpdfnet-2-streaming/report.json": "8c9f651f00e26b4be550fd53585cda94d68a4f2903ccfdff94440891ae9a8101",
+    "docs/task-evidence/fastenhancer-small-reference/contract.json": "b14d6c657c0ba74b120dc9b8e84c34f381ccef41d52a59e6a7f2434d542e7ce0",
+    "docs/task-evidence/fastenhancer-small-reference/report.json": "ecb188b4a1f0d929bd8ddcc19aa1fdb81a7d42892e6dc7aef3ed81aa37bc456e",
+    "docs/task-evidence/hush/contract.json": "dff969f74ebb1e7627bebe90aa73e8e40eb18efca99b44d5a956be4208a04d03",
+    "docs/task-evidence/hush/report.json": "deaa6ff7bf89bb2727619e69cd41ce40b481ae7db93d25a007cb04b3a218cac4"
+  },
+  "source_pins": {
+    "audio-benchmark-platform/plan/INVENTORY.json": "46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c",
+    "audio-benchmark-platform/plan/audio-sdk/README.md": "f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "research/evidence/pilot-discovery-20261027/source.txt": "3591d17581fb9c9168f10d3816f42a9c6178d6168ea386de6eafc6280c18c590",
+    "research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+    "research/store/HEAD.json": "0f94611fa99911ac1624a3b1eedb576a671fb63a6d8797167e40bfeb7b36fe02",
+    "research/store/snapshots/90d8ef52996098cb779a7acfef2e07a3337f6627da94ef7beab9315f6669b2c8.jsonl": "90d8ef52996098cb779a7acfef2e07a3337f6627da94ef7beab9315f6669b2c8"
+  },
+  "status": "proposal_only_incomplete_not_qualified",
+  "task": "SDK-ESPNET-USES-UNIVERSAL-ENHANCEMENT",
+  "task_row": {
+    "base_commit": "81f31382c55aff629001e06362f3abe81c491b9e",
+    "branch": "swarm/SDK-ESPNET-USES-UNIVERSAL-ENHANCEMENT",
+    "component": "espnet-uses-universal-enhancement",
+    "depends_on": [
+      "SDK-FND-AUDIT",
+      "SDK-FND-EVIDENCE",
+      "SDK-FND-PROVIDER"
+    ],
+    "evidence": [
+      "research/noise_suppression_candidate_census.md"
+    ],
+    "id": "SDK-ESPNET-USES-UNIVERSAL-ENHANCEMENT",
+    "mode": "feasibility",
+    "repository": "audio-sdk",
+    "title": "ESPnet USES universal enhancement"
+  },
+  "title": "ESPnet USES universal enhancement",
+  "vendor_record": {
+    "artifact_checksum_policy": "no_full_checksum_recorded",
+    "artifact_present": false,
+    "backends": [
+      "pytorch"
+    ],
+    "benchmark_state": "not_run",
+    "candidate": "ESPnet USES universal enhancement",
+    "code_status": "available_not_present_here",
+    "component": "espnet-uses-universal-enhancement",
+    "declared_cpu_speed": "a_few_times_real_time",
+    "declared_cpu_speed_reproduced": false,
+    "declared_size_is_measured": false,
+    "declared_size_mb": 13,
+    "demo_locator": "https://colab.research.google.com/github/espnet/notebook/blob/master/Demos/enh_demo.ipynb",
+    "deployment": "offline_python_pytorch_model_zoo_checkpoint",
+    "eligibility_state": "blocked",
+    "family": "USES",
+    "inference_surface": "caller_supplied_espnet_pytorch_checkpoint",
+    "license_reviewed": false,
+    "model_id": "espnet/Wangyou_Zhang_universal_train_enh_uses_ref_ch0_2mem_raw",
+    "model_locator": "https://github.com/espnet/espnet_model_zoo",
+    "product_type": "research_offline_universal_enhancement_and_separation_model",
+    "qualifies": false,
+    "reproduced_here": false,
+    "runtime_present": false,
+    "sample_rates": "variable_declared_demo_16k",
+    "separation_mode": "not_established",
+    "single_channel_noise_suppression_mode": "not_established",
+    "source_locator": "https://github.com/espnet/espnet",
+    "source_reported_only": true,
+    "source_reported_scores_present": false,
+    "tasks": [
+      "single_channel_enhancement",
+      "multi_channel_enhancement",
+      "speech_separation"
+    ],
+    "terms_status": "toolkit_and_model_data_terms_unverified",
+    "weights_status": "located_unverified"
+  }
+}
