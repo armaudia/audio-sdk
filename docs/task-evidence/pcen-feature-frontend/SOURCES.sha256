@@ -1,0 +1,28 @@
+# SHA-256 pins for SDK-PCEN-FEATURE-FRONTEND.
+# source: paths are relative to SOURCE_ROOT; worktree: paths are
+# relative to the SDK checkout; pkg: paths are relative to this
+# task-evidence directory. The mutable full plan/swarm/TASKS.json is
+# never hashed; only the linked-row stable identity is gated.
+
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+b9178c7c486bec81222919977f8111d4e5c5508ee31d8dbd44c6600e51e25c44  source:research/level_tone_control_20261028.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  worktree:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  worktree:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  worktree:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  worktree:api/include/audio_sdk/session_v0.h
+908c42c9e400530ee76463496581ddcd0dbafb5ab70ad901febf268d4c121479  worktree:docs/task-evidence/survey-cln-09/README.md
+7c4e8f7a29c38970d7ad4a1b1b34e71d62d696a16d4e607c400fae0b685308e1  worktree:docs/task-evidence/survey-cln-09/report.json
+047610670a59fa0f50d3fbdf84433e581db7754ac6e842eb8f8813ab92cb154a  pkg:README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:SOURCES.sha256.license
+2ee18618a51a3396f52fed9ff261a67a2a69e0ea5ed017c48291f1d5019bae65  pkg:contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:contract.json.license
+63ad29f6ed9df7306a955478d464182c7462b83df7cb2236298057ca905d7895  pkg:reference.py
+d14225bdc9006191eac2d403cd0076627ddadb9b426ee55f883137a5e16bde96  pkg:report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.license
+88753b1cf2e3cbc5ee16037d53ef457510c18e356fae5073e690cc2c2cfca498  pkg:report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.sha256.license
+6bbed969e541cc43f97a8e203bb35c40e280cf62abd18fe38cea996ee2fd81bc  pkg:run.py
+bafc7716ee43e01037e11c52fed8d52f9794a7f549c4700dbb6bf26c0c6f68e2  pkg:test_reference.py
+66caaa1526b6d6ce6d869d3ee8a1eefbc5016bd09007565f6ac3f0a1cd44fc5b  pkg:verify.py
