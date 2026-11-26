@@ -1,0 +1,39 @@
+# SHA-256 pins for SDK-TORCHAUDIO-TORCHCODEC-AND-SOUNDFILE-COMPATIBILITY-FOR-LLVC.
+# source: paths are workspace-relative; other paths are SDK-worktree-relative.
+# The mutable full plan/swarm/TASKS.json is deliberately not pinned; only the stable linked-row identity is projected.
+# No TorchAudio, TorchCodec, SoundFile or LLVC runtime, wheel, native library or real corpus audio is pinned as an included artifact because none is present in this package.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+b2c5e168713eebe0e6ddd186d3bf5b9833839b8db93fe7ff2231bb784cbfa074  source:research/voice-conversion-eval-20261101/README.md
+718657c20ba7035b25bb447d80a53304115b44fea7e684df2a1ca240555eae4b  source:research/voice-conversion-eval-20261101/repos/llvc/LICENSE
+b5e488ada5267a8c09dd843a547fef8f95e39a49764b99f9bccf6a39be2f256c  source:research/voice-conversion-eval-20261101/repos/llvc/experiments/llvc/config.json
+88c47703bcd52e70b8d45887828353be7b8b742fe3d08f81448808ce3b06934b  source:research/voice-conversion-eval-20261101/repos/llvc/infer.py
+b01626c0b0def1aac3c07c597a15529d9eac98f7bd17b241c1a08b88b92dc4b9  source:research/voice-conversion-eval-20261101/repos/llvc/model.py
+e2063e6455751a18895c5daa628a8dc728853f8dd5444c0ce766526bf0418825  source:research/voice-conversion-eval-20261101/repos/llvc/requirements.txt
+2d8f31e91ea06efed6611a0aa41edf2babb08625a2da22fe30f4333554115c41  source:research/voice-conversion-eval-20261101/results/llvc_asr.json
+d268eb6dca48f88ae03802efd566f7053ac375be82555bd3dac343d750a5488c  source:research/voice-conversion-eval-20261101/scripts/run_llvc_eval.py
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+3b7d11f0518af444c4ed7b96401cef4016e6af8a707685628d263a31f46c3864  bindings/python/audio_sdk/__init__.py
+e32610ecf0f3f611269ddebd009ff81ca09cc3b92206fe93c9a149b9960463b5  docs/provider-intake.md
+f6d663bc171026181107a6e9ddcf1356fa9eb9e2fd16625267b35a5bc3bda717  docs/task-evidence/llvc/README.md
+22d30a3c4f70143ba38f099019c3fcc6b123f4f4f3120f6ee73932d82fed342f  docs/task-evidence/llvc/report.json
+091b57f366c1c5d4d395f955da7d237848bdc7564c970e1a087d423fb702f225  docs/task-evidence/numpy-scipy-soundfile-wav-resampling/report.json
+7754c9647064f89c7d831fd9bd7d3a9f3560c51c00a22bfc8dc9da3aa59e349c  docs/task-evidence/pytorch-and-speechbrain-adapters/report.json
+234dc9b2cfd84c36ced8a97103d48dab40a53bc9905b27c7766c4886ef0e902a  docs/task-evidence/torchaudio-torchcodec-and-soundfile-compatibility-for-llvc/LICENSES.md
+bcc73b2f0643acbce71e5727acb063845755655ab7d88e2c547afa1049ec7857  docs/task-evidence/torchaudio-torchcodec-and-soundfile-compatibility-for-llvc/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/torchaudio-torchcodec-and-soundfile-compatibility-for-llvc/SOURCES.sha256.license
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/torchaudio-torchcodec-and-soundfile-compatibility-for-llvc/contract.json.license
+7add0390fab1f469c782b2644771d25cc21596e1bffed9fa114c7c4285a924f7  docs/task-evidence/torchaudio-torchcodec-and-soundfile-compatibility-for-llvc/reference.py
+3b977a7c2e0f6c28577e68e0b2ccaa394b0c68ff74f4363f278467fea1e6f11e  docs/task-evidence/torchaudio-torchcodec-and-soundfile-compatibility-for-llvc/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/torchaudio-torchcodec-and-soundfile-compatibility-for-llvc/report.json.license
+61abde885adebe80b97c988203f2f4d037044c8d1714f637ad346f65faeb49f3  docs/task-evidence/torchaudio-torchcodec-and-soundfile-compatibility-for-llvc/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/torchaudio-torchcodec-and-soundfile-compatibility-for-llvc/report.json.sha256.license
+7e3ae27033b077b312d301a5426cf0e83e4ac00095cc17f0cfbdc54392db768e  docs/task-evidence/torchaudio-torchcodec-and-soundfile-compatibility-for-llvc/run.py
+64d00293d0dde01dfde560f251c30bfe8c521489434fa8987f67f94eca0f2139  docs/task-evidence/torchaudio-torchcodec-and-soundfile-compatibility-for-llvc/test_reference.py
+1d5add1f91293730e07ea42a68a9a1cf8c2818b1cd09b6f84e25d6b9b1f19528  docs/task-evidence/torchaudio-torchcodec-and-soundfile-compatibility-for-llvc/verify.py
