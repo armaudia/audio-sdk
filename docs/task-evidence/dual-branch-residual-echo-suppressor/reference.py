@@ -1233,7 +1233,8 @@ def adverse_rejections() -> List[Dict[str, Any]]:
                   valid_count=137))
     add_frame("frame_nonzero_render_padding", "padding_not_zero:render",
               lambda: suppressor.process_frame(
-                  frame, reference[:137] + [1.0] + reference[138:],
+                  frame[:137] + [0.0] * (FRAME_SAMPLES - 137),
+                  reference[:137] + [1.0] + reference[138:],
                   valid_count=137))
     add_frame("frame_string_sample", "invalid_sample:mic",
               lambda: suppressor.process_frame(["x"] + frame[1:],
