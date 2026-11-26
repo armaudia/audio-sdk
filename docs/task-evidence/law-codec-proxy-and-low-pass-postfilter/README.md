@@ -47,8 +47,13 @@ synthetic stimulus:
 
 1. the pilot's `mulaw_roundtrip` quantizer, bit-for-bit in development
    comparison with the pinned function;
-2. the pilot's `scipy.signal.resample_poly` 16 kHz ↔ 8 kHz geometry,
-   reimplemented as a Kaiser β=5.0, 81-tap polyphase FIR;
+2. the pilot's `scipy.signal.resample_poly` 16 kHz ↔ 8 kHz geometry for
+   the two admitted ratios `(up, down) = (1, 2)` and `(2, 1)`,
+   reimplemented as a Kaiser β=5.0, **41-tap** polyphase FIR per direction
+   (`2 · 10 · max(up, down) + 1`). The 16 kHz → 8 kHz → 16 kHz cascade has a
+   composite convolution span of `41 + 41 − 1 = 81` taps, recorded as a
+   separate field; it is not a single filter applied at one rate, and
+   `(up, down) = (2, 2)` is not an admitted call;
 3. the pilot's 4th-order Butterworth 3900 Hz `sosfiltfilt` postfilter,
    reimplemented with odd edge padding and per-section steady-state
    initialisation;

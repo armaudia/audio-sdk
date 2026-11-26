@@ -42,6 +42,14 @@ PEAK_FLOOR = 1e-8
 POSTFILTER_CUTOFF_HZ = 3900.0
 FIXTURE_SAMPLES = 3200
 RESAMPLE_FACTOR = 2
+RESAMPLE_ADMITTED_RATIOS = ((1, 2), (2, 1))
+RESAMPLE_HALF_LENGTH_FACTOR = 10
+RESAMPLE_KAISER_BETA = 5.0
+# scipy.signal.resample_poly uses 2 * 10 * max(up, down) + 1 taps.
+RESAMPLE_TAPS = 2 * RESAMPLE_HALF_LENGTH_FACTOR * RESAMPLE_FACTOR + 1
+# Convolution span of the 16 kHz -> 8 kHz -> 16 kHz cascade of the two
+# directional FIRs (41 + 41 - 1); not a single filter applied at one rate.
+RESAMPLE_COMPOSITE_TAPS = 2 * RESAMPLE_TAPS - 1
 SI_SDR_EPS = 1e-12
 
 SCHEMA_ID = (
@@ -441,11 +449,24 @@ def _output_length(coefficient_count: int, input_count: int, up: int,
     return (total + down - 1) // down
 
 
+def resampler_tap_count(up: int, down: int) -> int:
+    """Return the per-direction FIR tap count for an admitted ratio.
+
+    The pilot's ``scipy.signal.resample_poly`` prototype is
+    ``2 * 10 * max(up, down) + 1`` taps. Only the admitted 1:2 / 2:1
+    narrowband geometry is accepted, so every admitted call yields 41 taps.
+    """
+    if (up, down) not in RESAMPLE_ADMITTED_RATIOS:
+        raise Rejected("RESAMPLE_RATIO_NOT_ADMITTED")
+    return 2 * RESAMPLE_HALF_LENGTH_FACTOR * max(up, down) + 1
+
+
 def resample_poly(samples: Any, up: Any, down: Any) -> List[float]:
     """Deterministic ``scipy.signal.resample_poly`` equivalent.
 
     Uses the pilot's default Kaiser beta 5.0 window and 10*max(up, down)
-    half-length. Only the admitted 1:2 / 2:1 narrowband geometry is accepted.
+    half-length, i.e. ``2 * 10 * max(up, down) + 1`` taps per direction. Only
+    the admitted 1:2 / 2:1 narrowband geometry is accepted.
     """
     if isinstance(up, bool) or not isinstance(up, int):
         raise Rejected("UP_NOT_INTEGER")
@@ -453,13 +474,14 @@ def resample_poly(samples: Any, up: Any, down: Any) -> List[float]:
         raise Rejected("DOWN_NOT_INTEGER")
     if up < 1 or down < 1:
         raise Rejected("INVALID_RESAMPLE_RATIO")
-    if (up, down) not in ((1, 2), (2, 1)):
+    if (up, down) not in RESAMPLE_ADMITTED_RATIOS:
         raise Rejected("RESAMPLE_RATIO_NOT_ADMITTED")
     values = _validate_samples(samples)
     maximum_rate = max(up, down)
-    half_length = 10 * maximum_rate
-    coefficients = _firwin_lowpass(2 * half_length + 1, 1.0 / maximum_rate,
-                                   5.0)
+    taps = resampler_tap_count(up, down)
+    half_length = (taps - 1) // 2
+    coefficients = _firwin_lowpass(taps, 1.0 / maximum_rate,
+                                   RESAMPLE_KAISER_BETA)
     coefficients = [value * up for value in coefficients]
     input_count = len(values)
     output_count = (input_count * up + down - 1) // down
@@ -1253,10 +1275,18 @@ def geometry() -> Dict[str, Any]:
             "pilot_implementation": "scipy.signal.resample_poly",
             "fixture_implementation":
                 "stdlib Kaiser-windowed polyphase equivalent",
-            "up": RESAMPLE_FACTOR,
-            "down": RESAMPLE_FACTOR,
-            "taps": 81,
-            "kaiser_beta": 5.0,
+            "admitted_ratios": [list(pair)
+                                for pair in RESAMPLE_ADMITTED_RATIOS],
+            "taps_per_direction": RESAMPLE_TAPS,
+            "taps_formula": "2 * 10 * max(up, down) + 1",
+            "half_length_factor": RESAMPLE_HALF_LENGTH_FACTOR,
+            "kaiser_beta": RESAMPLE_KAISER_BETA,
+            "composite_cascade_taps": RESAMPLE_COMPOSITE_TAPS,
+            "composite_cascade_note": (
+                "16 kHz -> 8 kHz -> 16 kHz convolution span of the two "
+                "41-tap directional FIRs (41 + 41 - 1 = 81); it is not a "
+                "single filter applied at one rate and no (up, down) = "
+                "(2, 2) call is admitted."),
         },
         "streaming_ready": False,
         "whole_clip_processing": True,
