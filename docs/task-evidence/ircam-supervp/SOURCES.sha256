@@ -1,0 +1,31 @@
+# SHA-256 pins for SDK-IRCAM-SUPERVP task-local evidence.
+# source: paths are relative to the pinned research workspace root.
+# sdk: paths are relative to this SDK worktree.
+# The mutable full plan/swarm/TASKS.json is never hashed; only the stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+b7bc3cfae6e82423d7be8767c2689dac4c232c929f93496e7bdfbb260a18e995  docs/task-evidence/ircam-supervp/LICENSES.md
+79b1bcd1e53d2285d941938c9b6180b0cbc05be27dedc0db131104adc0a3f8c0  docs/task-evidence/ircam-supervp/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/ircam-supervp/SOURCES.sha256.license
+4f6c6b886086d9c118e4e46979593e5da5b29d8fde138f752d25efd3736c62fa  docs/task-evidence/ircam-supervp/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/ircam-supervp/contract.json.license
+6a755a1e605645b55b013e0ba7e7ff63eaff223c9b799ab231171c0f3261f845  docs/task-evidence/ircam-supervp/reference.py
+5574e17be5bc5fbbaf9cf79a558e58d4a73382602c7d692d83d2a461eec0570c  docs/task-evidence/ircam-supervp/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/ircam-supervp/report.json.license
+dcf75dd8fddfd8def2028af7480a368d29063f50bc4d8ef7862348e2e3369b83  docs/task-evidence/ircam-supervp/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/ircam-supervp/report.json.sha256.license
+17735fdc7175c7e4d7e5f5337344e0443e57c7a6af84531f855827ab50fe6955  docs/task-evidence/ircam-supervp/run.py
+6ec753d5fcc188617c0f3a6919c578b77861186f4d0791ec54903153ddc5a66f  docs/task-evidence/ircam-supervp/test_reference.py
+60140296b423bedac646e5a9dc9b7e650668af28bfb60af05a05bea024895bd4  docs/task-evidence/ircam-supervp/verify.py
+7ffed4be0021bc3fd2b2816bc3db2ebac9333d9c6ff809e3e3695d6cc6af4185  sdk:.gitattributes
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  sdk:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30  sdk:LICENSES/Apache-2.0.txt
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  sdk:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  sdk:scripts/ci.py
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3  source:cpp-library/pipeline-validation/playback-speed-candidates.md
