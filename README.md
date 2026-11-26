@@ -29,10 +29,29 @@ sample-rate conversion, and any sequencing across providers.
 | [Capture recipe](docs/task-evidence/pipe-capture/README.md) | Synthetic host fixture with a high-pass, noise suppression and peak limiter chain. Includes identity and single-stage controls, an advisory tap, bypass, timeout and drain. |
 | [Duplex recipe](docs/task-evidence/pipe-duplex/README.md) | Synthetic host fixture with timestamped render alignment, a pinned SpeexDSP MDF reference CLI, noise suppression and peak-limiter policy stages, and an optional residual-suppression surrogate. |
 | [Control recipe](docs/task-evidence/pipe-control/README.md) | Synthetic identity loopback with explicit drain and session switching. A separate probe installs a fixture wheel and loads its providers and recipes. |
+| [Buffered playout recipe](docs/task-evidence/pipe-playout/README.md) | Deferred. The synthetic fixture exercises pipeline admission and a 1× bypass. Rate changes depend on an approved Bungee Basic runtime and playback evidence. |
 
-The two switching examples use the public session API. The three recipe
-directories contain opt-in reference hosts and synthetic fixtures under
-`docs/task-evidence/`.
+The two switching examples use the public session API. Recipe directories
+contain developer reference hosts and synthetic fixtures under `docs/task-evidence/`.
+
+## Adapters
+
+The v0 provider API supports adapters compiled and registered by the host. The
+[external provider example](conformance/external_provider/README.md) shows how
+to build and register one against the installed SDK. The
+[provider intake guide](docs/provider-intake.md) covers caller-supplied assets
+and the evidence required for integration.
+
+These third-party integrations are tracked as deferred. Their evidence records
+describe the required runtime, access or licensing, and qualification work.
+
+| Candidate | Evidence |
+| --- | --- |
+| **Krisp** | [Noise and Background Voice Cancellation SDK](docs/task-evidence/krisp-noise-cancellation-background-voice-cancellation-sdk/README.md), [Voice Isolation 2.5](docs/task-evidence/krisp-voice-isolation-2-5/README.md) and [Accent Conversion](docs/task-evidence/krisp-accent-conversion/README.md). The separate [public-output scoring study](docs/task-evidence/krisp-voice-isolation-public-output-scoring/README.md) records the missing cohort, scoring runtime and permissions. |
+| **Other speech enhancement SDKs** | ai-coustics [Quail](docs/task-evidence/ai-coustics-quail/README.md) and [Rook](docs/task-evidence/ai-coustics-rook/README.md), [Desert Ant Labs Clear](docs/task-evidence/desert-ant-labs-clear/README.md), Hecttor [Hermes](docs/task-evidence/hecttor-hermes-noise-cancellation/README.md) and [commercial products](docs/task-evidence/hecttor-commercial-ecosystem-products/README.md), [Loudness AI Noise Remover](docs/task-evidence/loudness-ai-ai-noise-remover-sdk/README.md) and [NVIDIA Background Noise Removal v2.1](docs/task-evidence/nvidia-background-noise-removal-v2-1/README.md). |
+| **Voice and session hosts** | [Hume Octave](docs/task-evidence/hume-octave/README.md), [LiveKit Python host adapter](docs/task-evidence/livekit-python-host-adapter/README.md) and [LiveKit turn detection](docs/task-evidence/livekit-turn-detection/README.md). |
+| **Time-scale and pitch** | [Bungee Pro](docs/task-evidence/bungee-pro/README.md), [DIRAC legacy ZTX](docs/task-evidence/dirac-legacy-ztx/README.md) and [IRCAM SuperVP](docs/task-evidence/ircam-supervp/README.md). |
+| **Feedback control and repair** | [Espressif HOWL 1.4.2](docs/task-evidence/espressif-howl-1-4-2/README.md) and [MATLAB/LTFAT/CVX sparse declipping](docs/task-evidence/matlab-ltfat-cvx-sparse-declipping-tools/README.md). |
 
 ## Build and test
 
@@ -80,11 +99,18 @@ suitability. Published artifacts are on the [releases page](https://github.com/a
 
 ## Reference implementations and evidence
 
-The repository also tracks experimental algorithms, proposal fixtures and
-evaluation tooling. These entries live under `docs/task-evidence/` and each
-link records its scope and reproduction steps. The standard SDK packages ship
-the runtime components listed above. See the [evidence handoff](docs/evidence-handoff.md)
-for how fixture results are recorded.
+The [task evidence directory](docs/task-evidence/) contains experimental
+algorithms, synthetic fixtures, evaluation tooling and readiness records. The
+[evidence handoff guide](docs/evidence-handoff.md) describes how the SDK records
+fixture results.
+
+Recent developer fixtures include a [native Bungee Basic reference](docs/task-evidence/bungee-basic/NATIVE.md)
+that builds separately staged source, and opt-in C cross-checks for the
+[SoundTouch surrogate](docs/task-evidence/soundtouch/README.md),
+[Rubber Band R3 streaming surrogate](docs/task-evidence/rubber-band-r3-streaming/README.md)
+and [WebRTC AEC3 surrogate](docs/task-evidence/webrtc-aec3/provider/).
+The [Speex preprocessor optimization fixture](docs/task-evidence/speex-one-preprocessor-optimization/README.md)
+compares one versus two native SpeexDSP preprocessor states on synthetic input.
 
 - **Noise suppression and voice activity** · [Spectral subtraction](docs/task-evidence/classical-spectral-subtraction/README.md), [Wiener denoising](docs/task-evidence/classical-wiener-denoising/README.md), [Speex NS advisory probability](docs/task-evidence/speex-ns-advisory-probability/README.md), [Speex AGC and activity](docs/task-evidence/speex-agc-and-activity-output/README.md), [SpeexDSP VAD](docs/task-evidence/speexdsp-vad/README.md), [fixed RMS VAD](docs/task-evidence/fixed-rms-vad/README.md), [adaptive energy VAD](docs/task-evidence/adaptive-energy-vad/README.md), [energy-to-Silero cascade](docs/task-evidence/adaptive-energy-to-silero-cascade/README.md), [RNNoise speech probability](docs/task-evidence/rnnoise-speech-probability/README.md), [WebRTC VAD](docs/task-evidence/webrtc-vad/README.md).
 - **Echo cancellation and dereverberation** · [SpeexDSP MDF](docs/task-evidence/speexdsp-mdf-reference/README.md), [MDF residual postfilter](docs/task-evidence/speex-mdf-residual-postfilter/README.md), [NLMS AEC](docs/task-evidence/nlms-aec/README.md), [RLS AEC](docs/task-evidence/rls-aec/README.md), [RLS-to-NLMS AEC](docs/task-evidence/fixed-rls-to-nlms-aec/README.md), [offline mono WPE](docs/task-evidence/offline-mono-wpe/README.md), [online mono WPE](docs/task-evidence/online-mono-wpe-reference/README.md), [offline multichannel WPE](docs/task-evidence/offline-multichannel-wpe/README.md), [online multichannel WPE](docs/task-evidence/online-multichannel-wpe/README.md).
@@ -96,6 +122,10 @@ for how fixture results are recorded.
 - **Follow-on contracts** · [Ordered processing chains](docs/task-evidence/ordered-chain-graph/README.md), [duplex clocks](docs/task-evidence/duplex-clocks/README.md), [analysis events](docs/task-evidence/analysis-events/README.md), [elastic PCM packets](docs/task-evidence/elastic-pcm-packets/README.md), [neural runtime boundary](docs/task-evidence/neural-runtime-boundary/README.md), [engine v1](docs/task-evidence/engine-v1/README.md).
 - **Evaluation** · [Blind listening and MUSHRA-style design](docs/task-evidence/ab-blind-listening-and-mushra-style-design/README.md), [ERLE and double-talk preservation](docs/task-evidence/erle-and-double-talk-preservation/README.md), [impairment taxonomy](docs/task-evidence/quality-impairment-taxonomy/README.md), [SI-SDR, SDR and SNR](docs/task-evidence/si-sdr-sdr-and-snr/README.md), [SRMR and reverberation metrics](docs/task-evidence/srmr-and-reverb-metrics/README.md), [STOI and ESTOI](docs/task-evidence/stoi-estoi/README.md).
 - **Integration and qualification tooling** · [Benchmark subprocess protocol](docs/task-evidence/bench-subprocess-protocol/README.md), [C/Rust bindings](docs/task-evidence/c-raii-rust-c-bindings/README.md), [Clang sanitizer matrix](docs/task-evidence/clang-sanitizers-qualification-matrix/README.md), [libFuzzer stream-sequence target](docs/task-evidence/libfuzzer-abi-stream-sequence/README.md), [nightly release evidence installer fixture](docs/task-evidence/nightly-release-evidence-installer/README.md).
+- **Host and runtime experiments** · [Core Audio duplex callback replay](docs/task-evidence/coreaudio-audiounit-duplex-host/README.md), [Apple native and Emscripten/Node package probe](docs/task-evidence/apple-and-browser-runtime-qualification/README.md), [synthetic ONNX Runtime adapter boundary](docs/task-evidence/onnx-runtime-reference-runtime/README.md), [buffer occupancy controller](docs/task-evidence/buffer-occupancy-controller/README.md).
+- **Synthetic enhancement and detection fixtures** · [Fast VAD](docs/task-evidence/fast-vad-0-2-1/README.md), [WebRTC APM noise suppression](docs/task-evidence/webrtc-apm-ns/README.md), [FFmpeg afwtdn](docs/task-evidence/ffmpeg-afwtdn/README.md).
+- **Synthetic tempo and rate fixtures** · [FFmpeg atempo](docs/task-evidence/ffmpeg-atempo/README.md), [offline Rubber Band R3](docs/task-evidence/rubber-band-r3-offline/README.md), [Sonic](docs/task-evidence/sonic/README.md), [phase vocoder baseline](docs/task-evidence/phase-vocoder-baseline/README.md), [aubio onset and tempo](docs/task-evidence/aubio/README.md).
+- **Readiness studies** · [Noise-aware shaping and DRC](docs/task-evidence/noise-aware-shaping-plus-drc/README.md), [non-stationary Gabor time-scale modification](docs/task-evidence/non-stationary-gabor-tsm/README.md), [NU-Wave 2 bandwidth extension](docs/task-evidence/nu-wave-2/README.md).
 
 ## License
 
