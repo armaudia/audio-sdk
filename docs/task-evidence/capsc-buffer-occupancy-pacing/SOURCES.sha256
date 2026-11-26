@@ -1,0 +1,38 @@
+# SHA-256 pins for SDK-CAPSC-BUFFER-OCCUPANCY-PACING evidence.
+# source: paths are relative to AUDIO_ROOT; boundary: and sibling: paths are SDK-worktree relative.
+# The mutable full plan/swarm/TASKS.json is not pinned; only its stable linked-row projection is read and gated.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3  source:cpp-library/pipeline-validation/playback-speed-candidates.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  boundary:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  boundary:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  boundary:CONTRACTS.md
+4f6171cb0184ebab76385cbfc1307040ab301f7337a39ca0829bf4827db73c35  boundary:README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  boundary:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  boundary:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  boundary:api/include/audio_sdk/session_v0.h
+88bd3aa18bf9b20bf7f57b80b8031aa0e8b9939fe1316ebf80ae829770b12da7  sibling:docs/task-evidence/adaptive-energy-vad/report.json
+1b4fd95133f958eeb827b809209f02a124e4ef52b7c412d7fc76e4da61ce0be4  sibling:docs/task-evidence/audiobuffersourcenode-playbackrate-preservespitch/report.json
+33f51433da2938a5dae4ad18fd66da17f78882e2b0aa0301de9d7f52f6474bd0  sibling:docs/task-evidence/avaudiounittimepitch-rate-pitch-overlap/report.json
+9dc73683b42a47801efcd71449b7d93fbd40a490beae54c46cc29680ebead47c  sibling:docs/task-evidence/buffer-occupancy-controller/report.json
+522f585511ae5c6306914ab250f261fc0d5af56bc7d494a09f62a12b2f179a98  sibling:docs/task-evidence/d1-whole-clip-duration-planner/fixtures/report.json
+c09f5a45862fda31039be5b7ebccff07be904c606d51a6f3accde9bea6f04cb4  sibling:docs/task-evidence/duplex-clocks/contract.json
+2ce960fb63a3ee2e1a888f33a990ce15da1804b0550aa3ad637c941222955e85  sibling:docs/task-evidence/elastic-pcm-packets/contract.json
+20e934caa8315c5cb9a3fbad619b7f1048e7212cb0ee1588b975e42ad53045cd  sibling:docs/task-evidence/pipe-playout/report.json
+e352ef75bd0be91cbd5244dd69c8a5739fd1ec6bf3b86e73ae023948d6007231  sibling:docs/task-evidence/signalsmith-stretch/report.json
+54e24f7069e6e127f66d630f196a5a88573d3a9a581425978aec71fbbf5e9a0d  sibling:docs/task-evidence/silero-vad-v5-onnx-reference/report.json
+d74c03b0e93c9e6c729fb5f10d17dc253e828dfade2579b9e3b586b11c02f246  sibling:docs/task-evidence/usc-mrate/report.json
+08a85630097a49c03f32accaf825d87f5c3e6d1fb938770e9a1c19ec6b2f7d9f  docs/task-evidence/capsc-buffer-occupancy-pacing/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/capsc-buffer-occupancy-pacing/SOURCES.sha256.license
+82b5e745073a6176a97f69cf51239b87dfbf0981542af933bf89eff436ba267f  docs/task-evidence/capsc-buffer-occupancy-pacing/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/capsc-buffer-occupancy-pacing/contract.json.license
+d083729913ad88e07cb35c0098396d71e3857a22f7e0f049aa9568a16be48ee6  docs/task-evidence/capsc-buffer-occupancy-pacing/reference.py
+55ee4abe5c0454bbdf41d4ae425a650eefd70e0f506c96702ff630b21631f38a  docs/task-evidence/capsc-buffer-occupancy-pacing/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/capsc-buffer-occupancy-pacing/report.json.license
+fa0e964dd53812a51bdfe387826a508dcf1fccf1d669cac65269a1c3c99b91cf  docs/task-evidence/capsc-buffer-occupancy-pacing/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/capsc-buffer-occupancy-pacing/report.json.sha256.license
+d5c9b19f9d42718962ff52020316003966c4722ca98840fa349300cf5a0083c5  docs/task-evidence/capsc-buffer-occupancy-pacing/run.py
+a421a71e5e0eb49099ab31353681f013cfe3d52dc53f8c0c4005c82e41e6e692  docs/task-evidence/capsc-buffer-occupancy-pacing/test_reference.py
+53e5d104b09adc808963a36adce2eb9912a3d280a7504d97a71e450dd0f6e5c1  docs/task-evidence/capsc-buffer-occupancy-pacing/verify.py
