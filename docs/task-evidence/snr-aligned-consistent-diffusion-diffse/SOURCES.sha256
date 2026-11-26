@@ -1,0 +1,32 @@
+# SHA-256 pins for SDK-DiffSE task-local evidence.
+# source: paths are relative to the pinned audioml workspace root.
+# sdk: paths are relative to this SDK worktree.
+# The mutable plan/swarm/TASKS.json is never hashed; only its stable linked-row projection is gated.
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+5154a8205516f145a719efc6f1598811f29c9df674b696ba25b78afa7af66130  source:audio-benchmark-platform/plan/INVENTORY.md
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a  source:research/noise_suppression_candidate_census.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  sdk:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  sdk:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+3b7d11f0518af444c4ed7b96401cef4016e6af8a707685628d263a31f46c3864  sdk:bindings/python/audio_sdk/__init__.py
+e32610ecf0f3f611269ddebd009ff81ca09cc3b92206fe93c9a149b9960463b5  sdk:docs/provider-intake.md
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  sdk:scripts/ci.py
+da4133619c326bd1c1c7bef584c5db9d18297588192f8b67ef661e9b0e438345  docs/task-evidence/snr-aligned-consistent-diffusion-diffse/LICENSES.md
+91766c482dac8baf1f8100319bc42e5a8622517da22581b481811ac72b9cb819  docs/task-evidence/snr-aligned-consistent-diffusion-diffse/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/snr-aligned-consistent-diffusion-diffse/SOURCES.sha256.license
+07f16352d2e16f0f4a187365c7c3be6c1c2d63e2a8d07f8292c141c5d56f7ca0  docs/task-evidence/snr-aligned-consistent-diffusion-diffse/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/snr-aligned-consistent-diffusion-diffse/contract.json.license
+8936b5c67b8b0f2809edd8a87c4780cabcbef9a25e7a01ce670ec2c0f26d5273  docs/task-evidence/snr-aligned-consistent-diffusion-diffse/reference.py
+2a6ac5d81718eec48ee2755f240a6fb3896cc78c68fd0b380d8522a62baef87a  docs/task-evidence/snr-aligned-consistent-diffusion-diffse/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/snr-aligned-consistent-diffusion-diffse/report.json.license
+3353681691029460f55d8cb61ae1474efb8c21e2e4a7b256b0013a466996edc2  docs/task-evidence/snr-aligned-consistent-diffusion-diffse/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/snr-aligned-consistent-diffusion-diffse/report.json.sha256.license
+0358eb9347fcf7b8f320b2b9f05d6c2a67e1315a5eba87dd58b1ac9ec1db1bbf  docs/task-evidence/snr-aligned-consistent-diffusion-diffse/run.py
+2300011a0e41601aecc279262fcfb6430017c4688b931ec4aa47d87d2aabd923  docs/task-evidence/snr-aligned-consistent-diffusion-diffse/test_reference.py
+b210dc5565e20d97e55f151f5a837f385188ae873fcdb747802e7e0d35fb3b39  docs/task-evidence/snr-aligned-consistent-diffusion-diffse/verify.py
