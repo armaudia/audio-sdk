@@ -206,7 +206,7 @@ pinned only as read-only boundary references.
 | `report.json.sha256` | Digest of the committed `report.json`. |
 | `contract.json` | Task contract: profile, pins, blockers, gates, invariants. |
 | `test_reference.py` | Deterministic unittest checks, no skips, no network. |
-| `verify.py` | Read-only strict-JSON, pin, digest, reproduction, licensing and scope verifier. |
+| `verify.py` | Read-only strict-JSON, pin, digest, reproduction, licensing and merge-base scope verifier. |
 | `SOURCES.sha256` | SHA-256 manifest for source, boundary and task-local pins. |
 | `*.license` | REUSE sidecars for generated artifacts and the manifest. |
 
@@ -267,10 +267,10 @@ machine-checked.
 | --- | --- |
 | `report.json` | `61d5e6f814e09ea72a622c3f82b566a6930469d1d2c487727ce4177ea86a6a4f` |
 | `report.json.sha256` | `fb915156df588b5ae1f5e51fa5fd6ad1975807ec687a9bfe979f561a7d9edec0` |
-| `reference.py` | `e6eac30ed7011450a810fd67126e17b1d4f7e1abc3f09c8218aae7953eb55a80` |
+| `reference.py` | `68f05360760f94fe7f7c7602895bfecffe3737d3c4c0205bbe5a9f8eb579fece` |
 | `run.py` | `6687cf29f17abd14e857a51e6c35e36f1509d906d7d72345c55b247eb2ade0df` |
-| `test_reference.py` | `2005b6eee9f9000c45f1b77ec9fdf5cb99eba3ccb13a7df491dce3f32a4dd6bc` |
-| `verify.py` | `91cfe088414dbde4ed1b8bb2cdec78dc924f1463f805c587660df03ab6509ed7` |
+| `test_reference.py` | `3c7b0a5104511169701a2c28e7f9c57ba7b92d334f7e40b91e50099b2310b1ca` |
+| `verify.py` | `9aed284c0f2173a234cffc36cdbded82dc06c6a9a34140fff2d721075ef85b60` |
 
 `report.json` is canonical JSON (`sort_keys`, minimal separators, no
 `-0.0`/NaN/Infinity, trailing newline). `report.json.sha256` is regenerated
@@ -323,6 +323,14 @@ git -C /Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-DTLN-AE
 `run.py` builds the report, contract and manifest three times in one process and
 refuses to write unless all payloads are byte-identical. External reproduction
 runs `run.py` three times and compares the resulting bytes.
+
+Scope verification compares the branch against the newest merge-base between
+`HEAD` and `origin/main` (falling back to `main`), not a fixed historical
+commit. Commits merged into `main` after this task therefore never count as
+this branch's out-of-scope edits. Any committed or uncommitted path outside
+`docs/task-evidence/dtln-aec-128-256-512/` still fails as
+`base_out_of_scope_change`, and an unresolvable base ref fails closed as
+`scope_base_unavailable`.
 
 ## Remaining gates (eight blocked)
 
