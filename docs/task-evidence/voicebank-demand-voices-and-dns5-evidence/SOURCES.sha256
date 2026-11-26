@@ -1,0 +1,25 @@
+# SHA-256 pins for SDK-VOICEBANK-DEMAND-VOICES-AND-DNS5-EVIDENCE.
+# source: paths are relative to SOURCE_ROOT; worktree: paths are
+# relative to the SDK checkout; pkg: paths are relative to this
+# task-evidence directory. The mutable full plan/swarm/TASKS.json is
+# never hashed; only the linked-row stable identity is gated.
+
+9967fe4e85c4695d45b2d618c394c50960d1251e5fd2bdc9f54beee23cd85b12  source:audio-benchmark-platform/audio-bench/docs/CORPUS.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  worktree:CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  worktree:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  worktree:api/include/audio_sdk/session_v0.h
+c4b674a1b200bcf566c83400730a39d2c2968e661186cbe9b4a527eada027acb  pkg:README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:SOURCES.sha256.license
+d12e48653f60abace937e7812f8e390307484c244b47c1aff8555758d48a5601  pkg:contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:contract.json.license
+3478af888d3e14940094a15e83649e98b3f32614bdc57f34415c0f0873d2e0ef  pkg:reference.py
+86c795eec4b4bafd685f688091aec086ea5f49967cb6b93cbb40ccffe9298321  pkg:report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.license
+1439870f8dfe85521b362eacf9282c79d4bc84fb7d7971e450d85f701648d118  pkg:report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.sha256.license
+35ee3fb08e4ecf2d008b3d52a9b02a5073790e09d6d24703686edb2f578c592b  pkg:run.py
+1cebaa9a0931387597f9c331907d067794c388c92a8d82ad1c45bd53b9ad10bc  pkg:test_reference.py
+d2f7a82a767b8adc102526eb6936e53c8936a80bb9c598b455edc37b8a306f73  pkg:verify.py
