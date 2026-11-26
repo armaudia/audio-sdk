@@ -1,0 +1,40 @@
+# SHA-256 pins for SDK-SELF-SUPERVISED-NEURAL-MULTIBAND-EQ-AND-DYNAMICS.
+# source: paths are workspace-relative; other external paths are SDK-worktree-relative.
+# Local paths are SDK-worktree-relative. Missing assets are ledger entries, not file pins.
+# The mutable full plan/swarm/TASKS.json is never pinned; only stable row identity is gated.
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+97a3c7e61e0d66f2c3ab18f1dde8661afa2d74a40eb4f46315d95da50c4ff905  source:audio_categories.md
+1054a0b6d22dac695e17dfa84ab21f9f2a1677838285fb746834010424b91c34  source:reports/level-tone/20261028-synthetic-evaluation.json
+cdf1782853fde1291bb8fd3c64144b9e857939856f8caca1666d2d617845728c  source:research/category_registry.json
+9dc17cd557480b954af4d5d9cd24911423685ba23675f399500eb080315fac5d  source:research/category_survey/sources.md
+b9178c7c486bec81222919977f8111d4e5c5508ee31d8dbd44c6600e51e25c44  source:research/level_tone_control_20261028.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+b965bab19a48a82d9c5a67da88b781fa3215f3be4e298607d643445446127a61  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+3d1959a7a925b6c432460068b3e28af2ff5b91ce6e4b08ea488f488d0e5ae470  docs/task-evidence/differentiable-biquad-neural-parametric-eq/README.md
+fd02a76b9a5d2fdef3df69c4603f8dfe96dcde800a20f163abc18d10bce6557b  docs/task-evidence/differentiable-biquad-neural-parametric-eq/report.json
+70b2edcd154821445a5ff24f430b19fc42dac3cec8273a9baae896e3245f56de  docs/task-evidence/fixed-six-band-spectral-tilt/README.md
+2673433a9db9ac348d3624b73a739196815374ccb68aa4427aee53b94702826c  docs/task-evidence/fixed-six-band-spectral-tilt/evidence/report.json
+719910254b5399b79e20208cff40ff6920fe12b77813731b70c0c6abd833b20e  docs/task-evidence/learned-inverse-eq/README.md
+2ee8271a3b08c989fe037f2753d013b8e6dcafb6881e5b0e59bb6724eff9e0dc  docs/task-evidence/learned-inverse-eq/report.json
+f63847915ab78d50bccd73bdcffdcbf625faef2b6312024e8ede21bb2635a787  docs/task-evidence/survey-cln-10/README.md
+90c1b2472e8547d3ff78d67d6d0db60b912be5befd6ef4fa4e289cf406642bd5  docs/task-evidence/survey-cln-10/report.json
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  scripts/ci.py
+478870d71ba47fc2551e552d9cd405968da27d507330becc36bb85cc7505d331  docs/task-evidence/self-supervised-neural-multiband-eq-and-dynamics/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/self-supervised-neural-multiband-eq-and-dynamics/contract.json.license
+488161ed1904ae8bf5ad30860b388e687fc269407317d78c5182634ece0b1200  docs/task-evidence/self-supervised-neural-multiband-eq-and-dynamics/reference.py
+4b2b604e6776910197086a5042231265ec2dfeaf2c65bb10858ac1006f978dbf  docs/task-evidence/self-supervised-neural-multiband-eq-and-dynamics/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/self-supervised-neural-multiband-eq-and-dynamics/report.json.license
+fa8a79261da43da58fe644ea10e0be02112d51aa9acc2fb1001179e5b44d7004  docs/task-evidence/self-supervised-neural-multiband-eq-and-dynamics/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/self-supervised-neural-multiband-eq-and-dynamics/report.json.sha256.license
+9418c5a6e52694c1c0cd53536bd32f46259db2726c23957247567078396f9e73  docs/task-evidence/self-supervised-neural-multiband-eq-and-dynamics/run.py
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/self-supervised-neural-multiband-eq-and-dynamics/SOURCES.sha256.license
+73a8fb6a345509ee531681ef63e420089f6674e5b058fc558869611d718215ce  docs/task-evidence/self-supervised-neural-multiband-eq-and-dynamics/test_reference.py
+27a6fbceccb984cc50a74b8a50680fb7d543ae834ddb06e1ebe1b2e8af5e1c37  docs/task-evidence/self-supervised-neural-multiband-eq-and-dynamics/verify.py
