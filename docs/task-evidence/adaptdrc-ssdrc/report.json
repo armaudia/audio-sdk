@@ -1,0 +1,1036 @@
+{
+  "acceptance_profile": {
+    "blocked_cases": [
+      "no official AdaptDRC/SSDRC source, parameters or runtime, so no exact output is reproduced",
+      "no official receiver-side geometry, buffering delay, loudness normalization or output-power constraint",
+      "no rights-cleared target speech, listener-side masker or hearing profile cohort",
+      "no independent intelligibility, quality, listening-effort or output-power result",
+      "no target-device playback availability, deadline or memory timing",
+      "no opt-in provider intake, descriptor review or release approval"
+    ],
+    "mapped_cases": [
+      "identity, static-gain, fixed-tilt and full-band compressor controls on the exact 16 kHz/160-sample grid",
+      "deterministic synthetic sweeps, steps, impulses, silence and speech-like mixtures",
+      "gain, tone response, level-transfer slope, attack/release, headroom and zero content delay",
+      "finite, peak, clipping, silence-exactness and nonfinite rejection",
+      "state reset, stale epoch, chunk-boundary and streaming parity",
+      "fixed DSP controls separated from the local approximation and from unreproduced published controls"
+    ],
+    "name": "DSP",
+    "not_applicable": [
+      "no candidate artifact exists to evaluate",
+      "the local approximation is not AdaptDRC or SSDRC",
+      "no real corpus, listener or target device is available"
+    ],
+    "source": "audio-benchmark-platform/plan/swarm/VERIFICATION.md"
+  },
+  "asset_pins": {
+    "asset:configuration": {
+      "executed": false,
+      "expected_path": "data/config/adaptdrc-ssdrc",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    },
+    "asset:license": {
+      "executed": false,
+      "expected_path": "data/licenses/adaptdrc-ssdrc",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    },
+    "asset:reference_output": {
+      "executed": false,
+      "expected_path": "data/reference/adaptdrc-ssdrc",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    },
+    "asset:runtime": {
+      "admitted": false,
+      "executed": false,
+      "expected_path": "data/envs/adaptdrc-ssdrc",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    },
+    "asset:source": {
+      "executed": false,
+      "expected_path": "data/sources/adaptdrc-ssdrc",
+      "hashed_here": false,
+      "identity_status": "not_recorded",
+      "loaded": false,
+      "path_status": "candidate_location_not_upstream_verified",
+      "present": false
+    }
+  },
+  "base_commit": "3b581c09115f36408f77bf6a5c8ebd7389b9fb7b",
+  "board_row": {
+    "full_tasks_json_hashed": false,
+    "stable_fields": {
+      "component": "adaptdrc-ssdrc",
+      "depends_on": [
+        "SDK-FND-AUDIT",
+        "SDK-FND-EVIDENCE",
+        "SDK-FND-PROVIDER"
+      ],
+      "id": "SDK-ADAPTDRC-SSDRC",
+      "mode": "feasibility",
+      "repository": "audio-sdk",
+      "title": "AdaptDRC / SSDRC"
+    },
+    "stable_sha256": "cdea755aff0a80858e653273520dfeaa4bb4efc994c743fb1f387a356cf10939"
+  },
+  "boundary": {
+    "adapter_json_added": false,
+    "asset_bundled": false,
+    "ci_change": false,
+    "default_selected": false,
+    "descriptor_registry_change": false,
+    "descriptor_settings": {},
+    "enabled_by_default": false,
+    "installed_v0_behavior_change": false,
+    "native_engine_built": false,
+    "onnxruntime_invoked": false,
+    "processor_exposure": false,
+    "provider_registration": false,
+    "public_api_abi_change": false,
+    "readiness_json_added": false,
+    "registered": false,
+    "registry_or_default_change": false,
+    "runtime_invoked": false,
+    "sdk_data_dir_added": false,
+    "shared_build_or_ci_change": false,
+    "weights_vendored": false
+  },
+  "branch": "swarm/SDK-ADAPTDRC-SSDRC",
+  "caller_asset_contract": {
+    "absent_behavior": "reject_before_processing",
+    "asset_is_caller_owned": true,
+    "asset_is_vendored": false,
+    "contract_id": "audio-sdk/adaptdrc-ssdrc/caller-supplied-qualified-artifact/0.1",
+    "official_artifact_admitted_here": false,
+    "present_behavior": "validate_hash_geometry_and_artifact_shape_only; never load, import or execute; official identity still requires independent rights review",
+    "required_fields": [
+      "algorithm_id",
+      "algorithm_version",
+      "algorithmic_latency_samples",
+      "channels",
+      "configuration_path",
+      "configuration_sha256",
+      "frame_samples",
+      "license_path",
+      "license_sha256",
+      "output_power_constraint_db",
+      "qualification_authority",
+      "reference_output_path",
+      "reference_output_sha256",
+      "runtime_path",
+      "runtime_sha256",
+      "sample_rate_hz",
+      "source_archive_path",
+      "source_archive_sha256",
+      "source_commit"
+    ],
+    "verification": [
+      "manifest is strict JSON with exactly the required fields",
+      "source archive, licence, runtime, configuration and reference-output paths are caller-owned absolute paths that exist",
+      "SHA-256 of the source archive, licence, runtime, configuration and reference output match the manifest",
+      "source_commit is a 40-hex revision but is not admitted as official because no official revision was established",
+      "geometry is 16000 Hz, mono, float32 and 160 samples with nonnegative latency",
+      "algorithm_id is adaptdrc-ssdrc and algorithm_version is nonempty",
+      "output_power_constraint_db is finite and nonpositive",
+      "a hash-matched caller placeholder is never accepted as an official AdaptDRC/SSDRC artifact",
+      "no download, copy, build, import, load or execution occurs here"
+    ]
+  },
+  "claim": {
+    "base_commit": "3b581c09115f36408f77bf6a5c8ebd7389b9fb7b",
+    "branch": "swarm/SDK-ADAPTDRC-SSDRC",
+    "reviewer": "reviewer-ADAPTDRC-SSDRC",
+    "worktree": "/Users/htsakanyan/workspace/audio/audioml/worktrees/audio-sdk/SDK-ADAPTDRC-SSDRC"
+  },
+  "component_id": "adaptdrc-ssdrc",
+  "contract_sha256": "ce8aaf4c2aadfcc39ddfef6d2645d81cbeb59800dc5b0b8d377f5a6081e59aa3",
+  "controls": {
+    "asset": {
+      "case_count": 15,
+      "pinned_identity_admitted": false,
+      "rejected_all": true,
+      "valid_manifest_accepted": true,
+      "valid_manifest_executed": false,
+      "valid_manifest_loaded": false
+    },
+    "config": {
+      "accepted_baseline": true,
+      "case_count": 23,
+      "rejected_all": true
+    },
+    "frame": {
+      "case_count": 16,
+      "rejected_all": true
+    },
+    "impulse": {
+      "declared_delay_samples": 0,
+      "expected_output_index": 2000,
+      "observed_peak_index": 2000,
+      "peak_finite": true
+    },
+    "nonfinite": {
+      "accepted_counter_unchanged": true,
+      "counted_as_silence": false,
+      "nonfinite_rejected": 3,
+      "state_digest_unchanged": true,
+      "valid_frame_produced": true
+    },
+    "reset": {
+      "epoch_zero_rejected": true,
+      "fresh_matches_reset": true,
+      "higher_epoch_accepted": true,
+      "negative_epoch_rejected": true
+    },
+    "silence": {
+      "exact_zero": true,
+      "finite": true
+    },
+    "streaming_parity": {
+      "all_identical": true,
+      "chunk_sizes": [
+        160,
+        137,
+        641,
+        320,
+        1000,
+        73,
+        211,
+        160
+      ],
+      "sample_count": 4000
+    }
+  },
+  "decision": "DEFER",
+  "defer_before": "published_control_and_rights_admission",
+  "evidence_status": "incomplete",
+  "exact_blockers": [
+    {
+      "id": "official_source_and_license_absent",
+      "requirement": "Supply the exact AdaptDRC/SSDRC implementation at an immutable source revision, with a reviewed licence, notice bundle and written product, redistribution and derivative-output terms, verified locally without a network download.",
+      "state": "No official source archive, implementation, checkout, licence or terms exist at data/sources/adaptdrc-ssdrc or data/licenses/adaptdrc-ssdrc. The local inventory records only a public Fraunhofer product-page locator; the pinned research note explicitly says its compressor is not AdaptDRC/SSDRC."
+    },
+    {
+      "id": "published_algorithm_and_parameters_absent",
+      "requirement": "Supply the exact published algorithm identity, filterbank, band edges, thresholds, ratios, attack/release, adaptation policy, output-power constraint and configuration digest.",
+      "state": "No exact algorithm, parameter set, configuration file or version is recorded. The public locator and the SSDRC literature locator are descriptive only; nothing was downloaded, reconstructed or substituted."
+    },
+    {
+      "id": "runtime_and_reference_output_absent",
+      "requirement": "Admit a locked, hash-pinned runtime with exact dependency versions and approved exact-runtime output vectors for byte-level parity.",
+      "state": "No environment exists at data/envs/adaptdrc-ssdrc and no reference output exists at data/reference/adaptdrc-ssdrc. No import, inference or parity run was attempted."
+    },
+    {
+      "id": "geometry_and_content_delay_unverified",
+      "requirement": "Pin the exact sample rate, channels, frame/hop, buffering/content delay, loudness normalization and output-power constraint, then reproduce them on one declared streaming path.",
+      "state": "The local record records no sample rate, frame, hop, latency, loudness normalization or output-power constraint. This package's 16 kHz mono float32 160-sample zero-delay harness is a probe-only local approximation, not the official geometry."
+    },
+    {
+      "id": "rights_cleared_cohort_absent",
+      "requirement": "Supply a rights-cleared target-speech and listener-side masker cohort, hearing-profile/listening protocol and explicit output-use permissions.",
+      "state": "No cohort, consent, masker recording, hearing-profile data or listening protocol exists for this task. No real corpus or listener is used here."
+    },
+    {
+      "id": "independent_qualification_absent",
+      "requirement": "Score independent intelligibility/quality and output-power controls, measure target-device timing, and complete an OFF-by-default opt-in provider intake with independent review.",
+      "state": "No independent score, listening result, target-device timing, provider intake, descriptor review or release approval exists. Surrogate observations do not qualify the candidate."
+    }
+  ],
+  "fixed_dsp_controls": {
+    "fixed_tilt": {
+      "candidate_result": false,
+      "measurements": {
+        "clipped_output_samples": 5610,
+        "crest_factor_out_db": 9.882500847,
+        "gain_db": 0.464994463,
+        "level_transfer": {
+          "gain_db": [
+            2.758260914,
+            2.758260914,
+            2.758260914,
+            2.758260914,
+            2.758260914
+          ],
+          "input_dbfs": [
+            -30.0,
+            -24.0,
+            -18.0,
+            -12.0,
+            -6.0
+          ],
+          "output_dbfs": [
+            -27.241739086,
+            -21.241739086,
+            -15.241739086,
+            -9.241739086,
+            -3.241739086
+          ],
+          "slope_db_per_db": 1.0
+        },
+        "max_abs_output": 0.95,
+        "nonfinite_output_samples": 0,
+        "rms_in_dbfs": -10.793023205,
+        "rms_out_dbfs": -10.328028741,
+        "silence_exact_zero": true,
+        "step_attack": {
+          "gain_after_db": 2.758260914,
+          "gain_before_db": 2.758260914,
+          "transition_ms": 0.0
+        },
+        "step_release": {
+          "gain_after_db": 2.758260914,
+          "gain_before_db": 2.758260914,
+          "transition_ms": 0.0
+        },
+        "tone_gain_db": {
+          "1000": 2.758260914,
+          "2000": 3.741918399,
+          "250": 0.867575576,
+          "4000": 4.457100359,
+          "500": 1.803325307,
+          "6000": 4.649227273
+        }
+      },
+      "role": "fixed_dsp_control"
+    },
+    "full_band_compressor": {
+      "candidate_result": false,
+      "measurements": {
+        "clipped_output_samples": 0,
+        "crest_factor_out_db": 21.698345628,
+        "gain_db": -14.733004493,
+        "level_transfer": {
+          "gain_db": [
+            0.0,
+            0.0,
+            -3.4919141,
+            -7.492296084,
+            -11.491942033
+          ],
+          "input_dbfs": [
+            -30.0,
+            -24.0,
+            -18.0,
+            -12.0,
+            -6.0
+          ],
+          "output_dbfs": [
+            -30.0,
+            -24.0,
+            -21.4919141,
+            -19.492296084,
+            -17.491942033
+          ],
+          "slope_db_per_db": 0.492063664
+        },
+        "max_abs_output": 0.643599794,
+        "nonfinite_output_samples": 0,
+        "rms_in_dbfs": -10.793023205,
+        "rms_out_dbfs": -25.526027697,
+        "silence_exact_zero": true,
+        "step_attack": {
+          "gain_after_db": -11.491942033,
+          "gain_before_db": 0.0,
+          "transition_ms": 12.5
+        },
+        "step_release": {
+          "gain_after_db": 0.0,
+          "gain_before_db": -11.491942033,
+          "transition_ms": 200.0
+        },
+        "tone_gain_db": {
+          "1000": 0.0,
+          "2000": 0.0,
+          "250": 0.0,
+          "4000": 0.0,
+          "500": 0.0,
+          "6000": 0.0
+        }
+      },
+      "role": "fixed_dsp_control"
+    },
+    "identity": {
+      "candidate_result": false,
+      "measurements": {
+        "clipped_output_samples": 0,
+        "crest_factor_out_db": 10.793023205,
+        "gain_db": 0.0,
+        "level_transfer": {
+          "gain_db": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "input_dbfs": [
+            -30.0,
+            -24.0,
+            -18.0,
+            -12.0,
+            -6.0
+          ],
+          "output_dbfs": [
+            -30.0,
+            -24.0,
+            -18.0,
+            -12.0,
+            -6.0
+          ],
+          "slope_db_per_db": 1.0
+        },
+        "max_abs_output": 1.0,
+        "nonfinite_output_samples": 0,
+        "rms_in_dbfs": -10.793023205,
+        "rms_out_dbfs": -10.793023205,
+        "silence_exact_zero": true,
+        "step_attack": {
+          "gain_after_db": 0.0,
+          "gain_before_db": 0.0,
+          "transition_ms": 0.0
+        },
+        "step_release": {
+          "gain_after_db": 0.0,
+          "gain_before_db": 0.0,
+          "transition_ms": 0.0
+        },
+        "tone_gain_db": {
+          "1000": 0.0,
+          "2000": 0.0,
+          "250": 0.0,
+          "4000": 0.0,
+          "500": 0.0,
+          "6000": 0.0
+        }
+      },
+      "role": "mandatory_control"
+    },
+    "static_gain": {
+      "candidate_result": false,
+      "measurements": {
+        "clipped_output_samples": 6104,
+        "crest_factor_out_db": 9.578531152,
+        "gain_db": 0.768964159,
+        "level_transfer": {
+          "gain_db": [
+            6.0,
+            6.0,
+            6.0,
+            6.0,
+            5.892940476
+          ],
+          "input_dbfs": [
+            -30.0,
+            -24.0,
+            -18.0,
+            -12.0,
+            -6.0
+          ],
+          "output_dbfs": [
+            -24.0,
+            -18.0,
+            -12.0,
+            -6.0,
+            -0.107059524
+          ],
+          "slope_db_per_db": 0.996431349
+        },
+        "max_abs_output": 0.95,
+        "nonfinite_output_samples": 0,
+        "rms_in_dbfs": -10.793023205,
+        "rms_out_dbfs": -10.024059046,
+        "silence_exact_zero": true,
+        "step_attack": {
+          "gain_after_db": 5.892940476,
+          "gain_before_db": 6.0,
+          "transition_ms": 5.0
+        },
+        "step_release": {
+          "gain_after_db": 6.0,
+          "gain_before_db": 5.892940476,
+          "transition_ms": 5.0
+        },
+        "tone_gain_db": {
+          "1000": 6.0,
+          "2000": 6.0,
+          "250": 6.0,
+          "4000": 6.0,
+          "500": 6.0,
+          "6000": 6.0
+        }
+      },
+      "role": "fixed_dsp_control"
+    }
+  },
+  "fixture": {
+    "channels": 1,
+    "component_digests": {
+      "clean": "0dbd752fe1c71c5220a73796b17bba0ef57b1db8ebd9f634f60a11c00a11cdd7",
+      "mix": "806a87b5275b7f53d0e77469818ad92f548f016a23e302233204f23d5d612429",
+      "noise": "6c471dce5647e93d4aed4707c3db4902cd42ca4aa5d7e98cf4930208be7cc23e"
+    },
+    "frames": 400,
+    "sample_rate_hz": 16000,
+    "spec_digest": "2bf1ccad6f7989f9f5427770c4a0212f7ff6a381163193af153d4f195183592f",
+    "total_samples": 64000
+  },
+  "format": {
+    "sdk_v0_channels": 1,
+    "sdk_v0_frame_samples": 160,
+    "sdk_v0_geometry_preserved": true,
+    "sdk_v0_sample_format": "f32",
+    "sdk_v0_sample_rate_hz": 16000,
+    "surrogate_channels": 1,
+    "surrogate_content_delay_samples": 0,
+    "surrogate_frame_samples": 160,
+    "surrogate_sample_format": "float32",
+    "surrogate_sample_rate_hz": 16000,
+    "upstream_channels": null,
+    "upstream_content_delay_samples": null,
+    "upstream_frame_samples": null,
+    "upstream_geometry_verified": false,
+    "upstream_hop_samples": null,
+    "upstream_loudness_normalization": null,
+    "upstream_output_power_constraint_db": null,
+    "upstream_sample_rate_hz": null
+  },
+  "gates": [
+    {
+      "id": "exact_source_revision_and_license",
+      "qualifies": false,
+      "requirement": "Immutable official source revision, reviewed licence, notice bundle and clean caller-owned checkout verified locally without a download.",
+      "status": "blocked"
+    },
+    {
+      "id": "published_algorithm_and_parameter_identity",
+      "qualifies": false,
+      "requirement": "Exact published algorithm, version, filterbank, band edges, thresholds, ratios, time constants and adaptation policy are pinned and reproduced.",
+      "status": "blocked"
+    },
+    {
+      "id": "pinned_runtime_and_reference_output",
+      "qualifies": false,
+      "requirement": "Locked offline runtime with exact dependency versions, install/import digest and approved exact-runtime reference output vectors.",
+      "status": "blocked"
+    },
+    {
+      "id": "receiver_side_geometry_and_content_delay",
+      "qualifies": false,
+      "requirement": "Exact rate, channels, frame/hop, buffering/content delay, loudness normalization and output-power constraint are pinned and reproduced.",
+      "status": "blocked"
+    },
+    {
+      "id": "fixed_dsp_and_published_control_separation",
+      "qualifies": false,
+      "requirement": "Fixed DSP controls and published AdaptDRC/SSDRC controls are measured separately from the local approximation, with no pooled claim.",
+      "status": "blocked"
+    },
+    {
+      "id": "rights_cleared_listening_and_masker_cohort",
+      "qualifies": false,
+      "requirement": "Rights-cleared target speech, listener-side maskers, hearing profiles, consent and output-use permissions are frozen.",
+      "status": "blocked"
+    },
+    {
+      "id": "independent_quality_timing_and_power",
+      "qualifies": false,
+      "requirement": "Independent intelligibility/quality scoring, output-power constraints, target-device timing and adverse/missing/nonfinite controls.",
+      "status": "blocked"
+    },
+    {
+      "id": "opt_in_provider_intake_and_default_review",
+      "qualifies": false,
+      "requirement": "OFF-by-default opt-in provider intake, descriptor review, exact-head review and explicit public default/release approval.",
+      "status": "blocked"
+    }
+  ],
+  "local_approximation": {
+    "algorithm": {
+      "adaptation": "bounded high-band balance controller",
+      "bands": [
+        400,
+        2000
+      ],
+      "content_delay_samples": 0,
+      "gain_computer": "threshold -24 dBFS, ratio 3:1, 5 ms attack, 120 ms release",
+      "peak_ceiling": 0.95,
+      "static_tilt_db": [
+        0.0,
+        2.0,
+        4.0
+      ]
+    },
+    "candidate_result": false,
+    "id": "local_three_band_adaptive_drc_surrogate",
+    "is_adaptdrc": false,
+    "is_ssdrc": false,
+    "measurements": {
+      "clipped_output_samples": 19,
+      "crest_factor_out_db": 20.55411895,
+      "gain_db": -10.206623639,
+      "level_transfer": {
+        "gain_db": [
+          1.825252302,
+          1.825252302,
+          0.262201139,
+          -2.784510415,
+          -6.684047209
+        ],
+        "input_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "output_dbfs": [
+          -28.174747698,
+          -22.174747698,
+          -17.737798861,
+          -14.784510415,
+          -12.684047209
+        ],
+        "slope_db_per_db": 0.639527304
+      },
+      "max_abs_output": 0.95,
+      "nonfinite_output_samples": 0,
+      "rms_in_dbfs": -10.793023205,
+      "rms_out_dbfs": -20.999646844,
+      "silence_exact_zero": true,
+      "step_attack": {
+        "gain_after_db": -6.684047209,
+        "gain_before_db": 1.825252302,
+        "transition_ms": 12.5
+      },
+      "step_release": {
+        "gain_after_db": 1.825406449,
+        "gain_before_db": -6.684047209,
+        "transition_ms": 137.5
+      },
+      "tone_gain_db": {
+        "1000": 1.825252302,
+        "2000": 1.551015876,
+        "250": 0.245808863,
+        "4000": 1.36624473,
+        "500": 0.972615092,
+        "6000": 1.301810737
+      }
+    },
+    "model_free": true,
+    "surrogate_only": true,
+    "uses_real_corpus": false
+  },
+  "measurements": {
+    "fixed_tilt": {
+      "clipped_output_samples": 5610,
+      "crest_factor_out_db": 9.882500847,
+      "gain_db": 0.464994463,
+      "level_transfer": {
+        "gain_db": [
+          2.758260914,
+          2.758260914,
+          2.758260914,
+          2.758260914,
+          2.758260914
+        ],
+        "input_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "output_dbfs": [
+          -27.241739086,
+          -21.241739086,
+          -15.241739086,
+          -9.241739086,
+          -3.241739086
+        ],
+        "slope_db_per_db": 1.0
+      },
+      "max_abs_output": 0.95,
+      "nonfinite_output_samples": 0,
+      "rms_in_dbfs": -10.793023205,
+      "rms_out_dbfs": -10.328028741,
+      "silence_exact_zero": true,
+      "step_attack": {
+        "gain_after_db": 2.758260914,
+        "gain_before_db": 2.758260914,
+        "transition_ms": 0.0
+      },
+      "step_release": {
+        "gain_after_db": 2.758260914,
+        "gain_before_db": 2.758260914,
+        "transition_ms": 0.0
+      },
+      "tone_gain_db": {
+        "1000": 2.758260914,
+        "2000": 3.741918399,
+        "250": 0.867575576,
+        "4000": 4.457100359,
+        "500": 1.803325307,
+        "6000": 4.649227273
+      }
+    },
+    "full_band_compressor": {
+      "clipped_output_samples": 0,
+      "crest_factor_out_db": 21.698345628,
+      "gain_db": -14.733004493,
+      "level_transfer": {
+        "gain_db": [
+          0.0,
+          0.0,
+          -3.4919141,
+          -7.492296084,
+          -11.491942033
+        ],
+        "input_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "output_dbfs": [
+          -30.0,
+          -24.0,
+          -21.4919141,
+          -19.492296084,
+          -17.491942033
+        ],
+        "slope_db_per_db": 0.492063664
+      },
+      "max_abs_output": 0.643599794,
+      "nonfinite_output_samples": 0,
+      "rms_in_dbfs": -10.793023205,
+      "rms_out_dbfs": -25.526027697,
+      "silence_exact_zero": true,
+      "step_attack": {
+        "gain_after_db": -11.491942033,
+        "gain_before_db": 0.0,
+        "transition_ms": 12.5
+      },
+      "step_release": {
+        "gain_after_db": 0.0,
+        "gain_before_db": -11.491942033,
+        "transition_ms": 200.0
+      },
+      "tone_gain_db": {
+        "1000": 0.0,
+        "2000": 0.0,
+        "250": 0.0,
+        "4000": 0.0,
+        "500": 0.0,
+        "6000": 0.0
+      }
+    },
+    "identity": {
+      "clipped_output_samples": 0,
+      "crest_factor_out_db": 10.793023205,
+      "gain_db": 0.0,
+      "level_transfer": {
+        "gain_db": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "input_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "output_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "slope_db_per_db": 1.0
+      },
+      "max_abs_output": 1.0,
+      "nonfinite_output_samples": 0,
+      "rms_in_dbfs": -10.793023205,
+      "rms_out_dbfs": -10.793023205,
+      "silence_exact_zero": true,
+      "step_attack": {
+        "gain_after_db": 0.0,
+        "gain_before_db": 0.0,
+        "transition_ms": 0.0
+      },
+      "step_release": {
+        "gain_after_db": 0.0,
+        "gain_before_db": 0.0,
+        "transition_ms": 0.0
+      },
+      "tone_gain_db": {
+        "1000": 0.0,
+        "2000": 0.0,
+        "250": 0.0,
+        "4000": 0.0,
+        "500": 0.0,
+        "6000": 0.0
+      }
+    },
+    "local_approximation": {
+      "clipped_output_samples": 19,
+      "crest_factor_out_db": 20.55411895,
+      "gain_db": -10.206623639,
+      "level_transfer": {
+        "gain_db": [
+          1.825252302,
+          1.825252302,
+          0.262201139,
+          -2.784510415,
+          -6.684047209
+        ],
+        "input_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "output_dbfs": [
+          -28.174747698,
+          -22.174747698,
+          -17.737798861,
+          -14.784510415,
+          -12.684047209
+        ],
+        "slope_db_per_db": 0.639527304
+      },
+      "max_abs_output": 0.95,
+      "nonfinite_output_samples": 0,
+      "rms_in_dbfs": -10.793023205,
+      "rms_out_dbfs": -20.999646844,
+      "silence_exact_zero": true,
+      "step_attack": {
+        "gain_after_db": -6.684047209,
+        "gain_before_db": 1.825252302,
+        "transition_ms": 12.5
+      },
+      "step_release": {
+        "gain_after_db": 1.825406449,
+        "gain_before_db": -6.684047209,
+        "transition_ms": 137.5
+      },
+      "tone_gain_db": {
+        "1000": 1.825252302,
+        "2000": 1.551015876,
+        "250": 0.245808863,
+        "4000": 1.36624473,
+        "500": 0.972615092,
+        "6000": 1.301810737
+      }
+    },
+    "static_gain": {
+      "clipped_output_samples": 6104,
+      "crest_factor_out_db": 9.578531152,
+      "gain_db": 0.768964159,
+      "level_transfer": {
+        "gain_db": [
+          6.0,
+          6.0,
+          6.0,
+          6.0,
+          5.892940476
+        ],
+        "input_dbfs": [
+          -30.0,
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0
+        ],
+        "output_dbfs": [
+          -24.0,
+          -18.0,
+          -12.0,
+          -6.0,
+          -0.107059524
+        ],
+        "slope_db_per_db": 0.996431349
+      },
+      "max_abs_output": 0.95,
+      "nonfinite_output_samples": 0,
+      "rms_in_dbfs": -10.793023205,
+      "rms_out_dbfs": -10.024059046,
+      "silence_exact_zero": true,
+      "step_attack": {
+        "gain_after_db": 5.892940476,
+        "gain_before_db": 6.0,
+        "transition_ms": 5.0
+      },
+      "step_release": {
+        "gain_after_db": 6.0,
+        "gain_before_db": 5.892940476,
+        "transition_ms": 5.0
+      },
+      "tone_gain_db": {
+        "1000": 6.0,
+        "2000": 6.0,
+        "250": 6.0,
+        "4000": 6.0,
+        "500": 6.0,
+        "6000": 6.0
+      }
+    }
+  },
+  "missing_results": [
+    "official AdaptDRC/SSDRC source revision and licence",
+    "official algorithm identity and exact parameter set",
+    "pinned runtime and approved reference output vectors",
+    "official receiver-side geometry, content delay and output-power constraint",
+    "rights-cleared target-speech and listener-side masker cohort",
+    "independent intelligibility/quality or permitted listening result",
+    "target-device timing, memory and deadline",
+    "opt-in provider intake, descriptor review and default decision"
+  ],
+  "negative_claims": [
+    "No AdaptDRC/SSDRC source, implementation, algorithm parameter set, runtime call or reference output was produced.",
+    "No intelligibility, quality, listening, timing, benchmark or release result is claimed.",
+    "The three-band adaptive DRC local approximation is not AdaptDRC and not SSDRC and cannot qualify the candidate.",
+    "The 16 kHz mono float32 160-sample zero-delay harness is not the unverified official geometry.",
+    "No real corpus, target speech, masker, hearing profile, listener, device clock or output-power qualification was used.",
+    "Fixed DSP controls and published-control locators are reported separately and are never pooled with the local approximation.",
+    "No provider, descriptor, registry, installed v0 path, default, public ABI, shared build, dependency lock or CI was changed.",
+    "A caller-owned hash-matched placeholder is never admitted as an official AdaptDRC/SSDRC artifact."
+  ],
+  "no_missing_result_qualifies_candidate": true,
+  "profile": "dsp",
+  "proposal_only": true,
+  "published_controls_assessment": {
+    "adaptdrc": {
+      "exact_algorithm_present": false,
+      "exact_parameters_present": false,
+      "license_present": false,
+      "locator": "https://www.idmt.fraunhofer.de/en/institute/projects-products/adaptdrc.html",
+      "reference_output_present": false,
+      "reproduced": false,
+      "result_claim": false,
+      "runtime_present": false,
+      "source_present": false,
+      "status": "public_product_description_only"
+    },
+    "separation": {
+      "fixed_dsp_measured_locally": true,
+      "local_approximation_is_published_control": false,
+      "pooling_performed": false,
+      "published_controls_reproduced": false
+    },
+    "ssdrc": {
+      "designation": "spectral shaping and dynamic-range compression",
+      "exact_algorithm_present": false,
+      "exact_filterbank_or_parameters_present": false,
+      "license_present": false,
+      "literature_locator": "https://www.isca-archive.org/interspeech_2013/godoy13c_interspeech.html",
+      "reference_output_present": false,
+      "reproduced": false,
+      "result_claim": false,
+      "runtime_present": false,
+      "source_present": false,
+      "status": "literature_locator_only"
+    }
+  },
+  "qualification": {
+    "algorithm_identity_verified": false,
+    "all_release_gates_blocked": true,
+    "fixed_dsp_separated": true,
+    "geometry_verified": false,
+    "listening_present": false,
+    "local_approximation_is_candidate": false,
+    "missing_result_promoted": false,
+    "not_qualified": true,
+    "provider_intake_present": false,
+    "published_control_reproduced": false,
+    "quality_result_present": false,
+    "readiness": "incomplete",
+    "reference_output_present": false,
+    "release_claim": false,
+    "rights_cleared_cohort_present": false,
+    "runtime_present": false,
+    "source_licensed": false,
+    "source_present": false,
+    "status": "not_qualified",
+    "timing_result_present": false
+  },
+  "qualification_status": "not_qualified",
+  "reopen_condition": "Supply the official source revision and licence, the exact published algorithm and parameters, a locked runtime and approved reference outputs, the official receiver-side geometry and output-power constraint, and a rights-cleared target/masker/listening cohort. Then score independently, measure target timing and complete OFF-by-default opt-in provider intake. Until then the candidate stays DEFER, incomplete and not qualified.",
+  "schema_id": "audio-sdk/task-evidence/adaptdrc-ssdrc/report/0.1",
+  "scope": {
+    "benchmark_run": false,
+    "device_timing_measured": false,
+    "downloaded": false,
+    "implementation_added": false,
+    "listening_performed": false,
+    "network_used": false,
+    "provider_registered": false,
+    "public_abi_changed": false,
+    "real_assets_used": false,
+    "registry_or_default_changed": false,
+    "release_claim": false,
+    "runtime_executed": false,
+    "shared_build_or_ci_changed": false,
+    "source_imported": false,
+    "task_local_only": true,
+    "weights_loaded": false,
+    "write_scope": "docs/task-evidence/adaptdrc-ssdrc/ only"
+  },
+  "separation_from_siblings": {
+    "no_pooling": true,
+    "note": "The full-band receive DRC, feed-forward compressor, envelope AGC, EBU R128/loudnorm, fixed spectral tilt and STOI/ESTOI packages are separate evidence. They use different candidates, fixtures and dispositions; this package does not pool, import, reuse or reinterpret their outputs.",
+    "sibling_packages": [
+      "docs/task-evidence/full-band-receive-drc",
+      "docs/task-evidence/feed-forward-compressor",
+      "docs/task-evidence/envelope-agc",
+      "docs/task-evidence/ebu-r128-ffmpeg-loudnorm",
+      "docs/task-evidence/fixed-six-band-spectral-tilt",
+      "docs/task-evidence/stoi-estoi"
+    ]
+  },
+  "status": "proposal_only_blocked_incomplete",
+  "task_id": "SDK-ADAPTDRC-SSDRC",
+  "title": "AdaptDRC / SSDRC",
+  "upstream": {
+    "algorithm_parameters": null,
+    "algorithm_parameters_status": "not_recorded",
+    "commit": null,
+    "commit_status": "not_recorded",
+    "geometry_status": "unverified",
+    "license": null,
+    "license_status": "not_established",
+    "note": "The local inventory records only a public product-page locator. The pinned research note explicitly says its compressor is not AdaptDRC/SSDRC. No commit, licence, version, parameter set, runtime or output vector was obtained or fabricated.",
+    "product_page": "https://www.idmt.fraunhofer.de/en/institute/projects-products/adaptdrc.html",
+    "reference_output": null,
+    "reference_output_status": "not_recorded",
+    "runtime": null,
+    "runtime_status": "not_recorded",
+    "source_licensed": false,
+    "source_present": false,
+    "ssdrc_designation": "spectral shaping and dynamic-range compression",
+    "ssdrc_literature_locator": "https://www.isca-archive.org/interspeech_2013/godoy13c_interspeech.html",
+    "version": null,
+    "version_status": "not_recorded"
+  }
+}
