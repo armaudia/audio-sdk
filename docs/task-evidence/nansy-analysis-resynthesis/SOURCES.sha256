@@ -1,0 +1,38 @@
+# SHA-256 pins for SDK-NANSY-ANALYSIS-RESYNTHESIS task-local evidence.
+# source: paths are relative to the pinned audioml workspace root.
+# sdk: paths are relative to this SDK worktree.
+# The mutable plan/swarm/TASKS.json is never hashed; only its stable linked-row projection is gated.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+08abc1b5248cd54fede251876ad78ae5f4d11b821faffefdd8eb7c210b0c72b2  docs/task-evidence/nansy-analysis-resynthesis/LICENSES.md
+f115e858328eff4d156c60b4ea21cab8c9b8ec98423b832035cdc13a6964e95b  docs/task-evidence/nansy-analysis-resynthesis/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/nansy-analysis-resynthesis/SOURCES.sha256.license
+3affc3a5db1a69e728ab9c372f743f2930a40bf83fda12b82854dac3457b2514  docs/task-evidence/nansy-analysis-resynthesis/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/nansy-analysis-resynthesis/contract.json.license
+8d2cb89881a3ab69ae8c728fc44581ff057f3bc73bec610b7d86cefdd5fd7640  docs/task-evidence/nansy-analysis-resynthesis/reference.py
+bf9d7cfe29ba18ebc800b54594b59e4a3fd028b9bc985624b25e0ce74d680633  docs/task-evidence/nansy-analysis-resynthesis/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/nansy-analysis-resynthesis/report.json.license
+8b41d247bbc9adb067f8729f60983925ea09e4f7973ba2d498bedc7ab7ad4381  docs/task-evidence/nansy-analysis-resynthesis/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/nansy-analysis-resynthesis/report.json.sha256.license
+f09d5082e28711ec096d53f0ec2facb73754cdd495f534218fc7b8696bcd3247  docs/task-evidence/nansy-analysis-resynthesis/run.py
+a182db25a0ef86a10d33594ddf65d85386043e993f3235b568cfa2c0ef94926f  docs/task-evidence/nansy-analysis-resynthesis/test_reference.py
+9650b52defe6a0710f35778c88a9316e0c894a8d7693bf5280baf609ae4e3d60  docs/task-evidence/nansy-analysis-resynthesis/verify.py
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  sdk:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  sdk:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+3b7d11f0518af444c4ed7b96401cef4016e6af8a707685628d263a31f46c3864  sdk:bindings/python/audio_sdk/__init__.py
+e32610ecf0f3f611269ddebd009ff81ca09cc3b92206fe93c9a149b9960463b5  sdk:docs/provider-intake.md
+989c64c1c069e55d9b871f308a607669507d605247f85f614f13132efa2b010f  sdk:docs/task-evidence/mp-senet/report.json
+7ed65ec26de33815a42514b51921cc939e72fb2f57294e31e56b357f5ac87ee9  sdk:docs/task-evidence/nara-wpe-reference-tools/report.json
+3dd7b111cb8af978fd5581f0ffbab6d6907e8ba2eb3e9469b19b15af72e1057b  sdk:docs/task-evidence/neural-atsm/report.json
+a594cd9e0c1c638835e11263c84b147b592ac1f344f0e83da4480ef310703f3a  sdk:docs/task-evidence/survey-trn-02/report.json
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  sdk:scripts/ci.py
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+5154a8205516f145a719efc6f1598811f29c9df674b696ba25b78afa7af66130  source:audio-benchmark-platform/plan/INVENTORY.md
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+97a3c7e61e0d66f2c3ab18f1dde8661afa2d74a40eb4f46315d95da50c4ff905  source:audio_categories.md
+cdf1782853fde1291bb8fd3c64144b9e857939856f8caca1666d2d617845728c  source:research/category_registry.json
+9dc17cd557480b954af4d5d9cd24911423685ba23675f399500eb080315fac5d  source:research/category_survey/sources.md
