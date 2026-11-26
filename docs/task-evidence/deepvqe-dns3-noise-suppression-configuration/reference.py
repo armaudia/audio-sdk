@@ -26,8 +26,9 @@ import hashlib
 import json
 import math
 import struct
+import subprocess
 from pathlib import Path
-from typing import Any, Dict, List, Sequence, Tuple
+from typing import Any, Dict, Iterable, List, Sequence, Tuple
 
 TASK_DIR = Path(__file__).resolve().parent
 SDK_ROOT = TASK_DIR.parents[2]
@@ -1176,6 +1177,72 @@ def board_row() -> Dict[str, Any]:
     }
 
 
+# ---------------------------------------------------------------------------
+# Task-local git scope
+# ---------------------------------------------------------------------------
+# The merged squash lands on `main`; later merges add unrelated sibling task
+# packages. A fixed historical commit therefore cannot be the scope base: it
+# would report those siblings as out-of-scope edits of this task. The base is
+# the newest merge-base between HEAD and the PR base refs, so the comparison
+# contains exactly the commits this branch added and fail-closed scope checks
+# still catch any edit outside TASK_PREFIX.
+SCOPE_BASE_REFS = ("origin/main", "main")
+
+
+def _git(worktree: Path, *arguments: str) -> "subprocess.CompletedProcess":
+    return subprocess.run(["git", "-C", str(worktree), *arguments],
+                          capture_output=True, text=True)
+
+
+def git_commit(worktree: Path, ref: str) -> str | None:
+    """Return the commit SHA a ref resolves to, or None when it is absent."""
+    result = _git(worktree, "rev-parse", "--verify", "--quiet",
+                  ref + "^{commit}")
+    sha = result.stdout.strip()
+    return sha if result.returncode == 0 and sha else None
+
+
+def scope_base(worktree: Path,
+               refs: Tuple[str, ...] = SCOPE_BASE_REFS) -> str | None:
+    """Newest merge-base between HEAD and an available PR base ref.
+
+    Returns None only when no base ref exists, which the verifier treats as a
+    fail-closed condition rather than a silent pass.
+    """
+    best: str | None = None
+    for ref in refs:
+        if git_commit(worktree, ref) is None:
+            continue
+        result = _git(worktree, "merge-base", "HEAD", ref)
+        base = result.stdout.strip()
+        if result.returncode != 0 or not base:
+            continue
+        if best is None:
+            best = base
+            continue
+        if best == base:
+            continue
+        if _git(worktree, "merge-base", "--is-ancestor",
+                best, base).returncode == 0:
+            best = base
+    return best
+
+
+def scope_changed_paths(worktree: Path, base: str) -> List[str]:
+    """Paths changed by this branch relative to its merge-base."""
+    result = _git(worktree, "diff", "--name-only", "--no-renames",
+                  base, "--", ".")
+    if result.returncode != 0:
+        raise ValueError("git_scope_diff_failed:" + result.stderr.strip())
+    return [line for line in result.stdout.splitlines() if line]
+
+
+def scope_violations(paths: Iterable[str],
+                     prefix: str = TASK_PREFIX) -> List[str]:
+    """Return changed paths outside the task-local write scope."""
+    return [path for path in paths if path and not path.startswith(prefix)]
+
+
 def _verify_pins() -> None:
     for path, expected in SOURCE_PINS.items():
         full = SOURCE_ROOT / path
@@ -1973,9 +2040,10 @@ __all__ = [
     "alignment_run", "board_row", "build_contract", "build_fixture",
     "build_report", "canonical_report", "canonical_text", "chunk_plan",
     "file_digest", "final_partial_check", "fixture_run", "fixture_spec",
-    "int_signal_digest", "load_strict_json", "load_strict_json_text",
-    "object_digest", "quantize", "reset_check", "run_stream", "sha256_bytes",
-    "si_sdr_millidb", "signal_digest", "snr_millidb", "sources_bytes",
-    "streaming_check", "validate_caller_manifest", "validate_config",
-    "validate_fixture",
+    "git_commit", "int_signal_digest", "load_strict_json",
+    "load_strict_json_text", "object_digest", "quantize", "reset_check",
+    "run_stream", "scope_base", "scope_changed_paths", "scope_violations",
+    "sha256_bytes", "si_sdr_millidb", "signal_digest", "snr_millidb",
+    "sources_bytes", "streaming_check", "validate_caller_manifest",
+    "validate_config", "validate_fixture",
 ]
