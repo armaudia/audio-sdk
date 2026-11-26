@@ -1,0 +1,37 @@
+# SHA-256 pins for SDK-TCN-SPEECH-TSM task-local evidence.
+# source: paths are relative to the pinned audioml workspace root.
+# sdk: paths are relative to this SDK worktree.
+# The mutable plan/swarm/TASKS.json is never hashed; only its stable linked-row projection is gated.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+d93b5c9d86f4a08dbb4fe5b399c3b856ea9050eb493cf1e0c1285a23aefc8405  docs/task-evidence/tcn-speech-tsm/LICENSES.md
+60e1951b4ba218d68a4abecb65bfcfbd5cedc37a7f9f4b7a6565ae1406455117  docs/task-evidence/tcn-speech-tsm/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/tcn-speech-tsm/SOURCES.sha256.license
+c495a22950029ff43b6cffea00388abe2151f74931e9bf3fe6ab9d921469352c  docs/task-evidence/tcn-speech-tsm/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/tcn-speech-tsm/contract.json.license
+0445a796316abe74c16e82e5808c975ec9cf5e5394db2c668c0e31cfcc51f3cc  docs/task-evidence/tcn-speech-tsm/reference.py
+530b589cb578597832f45df2afaf1ef3d38837b86b930594a065a0e0384337d5  docs/task-evidence/tcn-speech-tsm/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/tcn-speech-tsm/report.json.license
+86cd97979e272471c02bccf13f9e00c1f5bfea0eef6ab1afdbc98d10101fcc50  docs/task-evidence/tcn-speech-tsm/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/tcn-speech-tsm/report.json.sha256.license
+f4c4ef28c97e56625d69f65b383baf451acb4f2af3b248a1ac8adc3da18bdea2  docs/task-evidence/tcn-speech-tsm/run.py
+4f04626d62d85960b522b16dd69fd07827894fdf67e14d82c28d3efec9dfd139  docs/task-evidence/tcn-speech-tsm/test_reference.py
+2145a2338d20de8b5c70cc47607e378e931b24973867f283e4d0bbeba924c95f  docs/task-evidence/tcn-speech-tsm/verify.py
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  sdk:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  sdk:REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+3b7d11f0518af444c4ed7b96401cef4016e6af8a707685628d263a31f46c3864  sdk:bindings/python/audio_sdk/__init__.py
+e32610ecf0f3f611269ddebd009ff81ca09cc3b92206fe93c9a149b9960463b5  sdk:docs/provider-intake.md
+d6bfbcdd2529fe2b687b85dd6aeed3b2b3ffe8b9f4cc8deaeb948398ef75c39b  sdk:docs/task-evidence/stsm-film-neural-tsm/README.md
+f3dbd316612da977faa5862525fb70e1bcaf0e9a099fdd12579e5bfce36941e4  sdk:docs/task-evidence/stsm-film-neural-tsm/report.json
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  sdk:scripts/ci.py
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+5154a8205516f145a719efc6f1598811f29c9df674b696ba25b78afa7af66130  source:audio-benchmark-platform/plan/INVENTORY.md
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f  source:research/tsm-followup-20261101/README.md
+b02e077416843e27a0091c6a1cbf69e0e62e9bdacdaf4ea96de57a38955a58fa  source:research/voice-enhancement-20261101/agent-blocked-recheck/REPORT.md
+5801684f5e36263a6449abccfea86d2d33141d98c5eb71aafd377ace184e3a8f  source:research/voice-enhancement-20261101/agent-vad-asr-trials/REPORT.md
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
