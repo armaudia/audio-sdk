@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
 # SPDX-License-Identifier: Apache-2.0
-"""Read-only, fail-closed verification of the task-local evidence package."""
+"""Read-only, fail-closed verification of the task-local evidence package.
+
+The scope gate compares this branch against the newest merge-base with the PR
+base refs, so committed out-of-scope edits fail while later sibling additions
+on ``main`` do not.  A missing base is a failure, never a silent pass.
+"""
 
 from __future__ import annotations
 
@@ -716,7 +721,10 @@ def check_scope(errors: List[str]) -> bool:
     result = subprocess.run(
         ["git", "-C", str(SDK), "status", "--porcelain=v1",
          "--untracked-files=all"],
-        capture_output=True, text=True, check=True)
+        capture_output=True, text=True, check=False)
+    if result.returncode != 0:
+        errors.append("git status failed: " + result.stderr.strip())
+        return False
     ok = True
     for line in result.stdout.splitlines():
         path = line[3:] if len(line) > 3 else ""
@@ -724,6 +732,37 @@ def check_scope(errors: List[str]) -> bool:
             path = path.split(" -> ", 1)[1]
         if path and not path.startswith(TASK_PREFIX):
             errors.append("out of scope change: " + path)
+            ok = False
+    for arguments in (["diff", "--check"], ["diff", "--cached", "--check"]):
+        diff = subprocess.run(
+            ["git", "-C", str(SDK), *arguments],
+            capture_output=True, text=True, check=False)
+        if diff.returncode != 0 or diff.stdout.strip():
+            errors.append(
+                "git " + " ".join(arguments).replace("--", "")
+                + " failed: " + diff.stdout.strip())
+            ok = False
+    base = reference.scope_base(SDK)
+    if base is None:
+        errors.append("scope_base_unavailable")
+        ok = False
+    else:
+        try:
+            base_paths = reference.scope_changed_paths(SDK, base)
+        except ValueError as error:
+            errors.append(str(error))
+            ok = False
+        else:
+            for path in reference.scope_violations(base_paths):
+                errors.append("base_out_of_scope_change: " + path)
+                ok = False
+        committed = subprocess.run(
+            ["git", "-C", str(SDK), "diff", "--check", base + "..HEAD"],
+            capture_output=True, text=True, check=False)
+        if committed.returncode != 0 or committed.stdout.strip():
+            errors.append(
+                "committed git diff --check failed: "
+                + committed.stdout.strip())
             ok = False
     return ok
 
