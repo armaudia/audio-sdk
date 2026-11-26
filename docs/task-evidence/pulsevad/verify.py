@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2026 Tsakanyan Hovhannes
 # SPDX-License-Identifier: Apache-2.0
-"""Read-only, fail-closed verification of the task-local evidence package."""
+"""Read-only, fail-closed verification of the task-local evidence package.
+
+Scope verification compares this branch against the newest merge-base with
+``HEAD`` and ``origin/main`` (falling back to ``main``), so later sibling
+merges on ``main`` do not count as this branch's out-of-scope edits. A missing
+base ref fails closed as ``scope_base_unavailable``, and committed paths
+outside the task directory fail as ``base_out_of_scope_change:<path>``.
+"""
 
 from __future__ import annotations
 
@@ -266,6 +273,52 @@ def regenerate_three_times(errors: List[str]) -> None:
         shutil.rmtree(temp, ignore_errors=True)
 
 
+def check_git_scope(errors: List[str]) -> List[str]:
+    result = subprocess.run(
+        ["git", "-C", str(SDK), "status", "--porcelain=v1",
+         "--untracked-files=all"], capture_output=True, text=True)
+    if result.returncode != 0:
+        errors.append("git_status_failed:" + result.stderr.strip())
+        return []
+    changed: List[str] = []
+    for line in result.stdout.splitlines():
+        path = line[3:] if len(line) > 3 else ""
+        if " -> " in path:
+            path = path.split(" -> ", 1)[1]
+        if not path:
+            continue
+        changed.append(path)
+        if not path.startswith(TASK_PREFIX):
+            errors.append("out_of_scope_change:" + path)
+    for arguments in (["diff", "--check"], ["diff", "--cached", "--check"]):
+        diff = subprocess.run(["git", "-C", str(SDK), *arguments],
+                              capture_output=True, text=True)
+        if diff.returncode != 0 or diff.stdout.strip():
+            errors.append("git_" + "_".join(arguments).replace("--", "")
+                          + "_failed:" + diff.stdout.strip())
+    base = reference.scope_base(SDK)
+    if base is None:
+        errors.append("scope_base_unavailable")
+    else:
+        try:
+            base_paths = reference.scope_changed_paths(SDK, base)
+        except ValueError as error:
+            errors.append(str(error))
+        else:
+            for path in reference.scope_violations(base_paths):
+                errors.append("base_out_of_scope_change:" + path)
+            for path in base_paths:
+                if path not in changed:
+                    changed.append(path)
+        committed = subprocess.run(
+            ["git", "-C", str(SDK), "diff", "--check", base + "..HEAD"],
+            capture_output=True, text=True)
+        if committed.returncode != 0 or committed.stdout.strip():
+            errors.append("committed_git_diff_check_failed:"
+                          + committed.stdout.strip())
+    return changed
+
+
 def main() -> int:
     errors: List[str] = []
     report_bytes = REPORT.read_bytes() if REPORT.is_file() else b""
@@ -286,6 +339,7 @@ def main() -> int:
     if not CONTRACT.is_file() or CONTRACT.read_bytes() != expected_contract:
         errors.append("contract.json is not byte-identical to canonical reference output")
     check_runtime_constraints(errors)
+    check_git_scope(errors)
     regenerate_three_times(errors)
 
     result = "PASS" if not errors else "FAIL"
