@@ -1,0 +1,31 @@
+# SHA-256 pins for SDK-NEURAL-PLUS-KALMAN-HOWLING-CONTROL evidence.
+# source: paths are relative to the pinned research workspace root.
+# sdk: paths are relative to this SDK worktree.
+# The mutable full plan/swarm/TASKS.json is never hashed; only the stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+5f05533f82fa3578511d4f1c8ba927fb4e76e529b96356e0c87884c44f633fc9  docs/task-evidence/neural-plus-kalman-howling-control/LICENSES.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/neural-plus-kalman-howling-control/SOURCES.sha256.license
+46b2b3603d703f67e296a47c70d9774f7151c5e4b9754aec9e85d466b43d6afc  docs/task-evidence/neural-plus-kalman-howling-control/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/neural-plus-kalman-howling-control/contract.json.license
+de952176745f9be83703b07d2d6d3d7f814d5791876e932faf4506c2bf3954c2  docs/task-evidence/neural-plus-kalman-howling-control/reference.py
+55e605d873ac87cd908afd4113b780e4f711887a969e5fcaab9a3d3d720fe2dc  docs/task-evidence/neural-plus-kalman-howling-control/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/neural-plus-kalman-howling-control/report.json.license
+a45418b400347b6977d631d73e14603ac0d5fd248414f8dc5332eda603301653  docs/task-evidence/neural-plus-kalman-howling-control/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/neural-plus-kalman-howling-control/report.json.sha256.license
+5cc84ecd8deb9b4ee2197755c546d1ef85af0358d3576f8490d7f8152050dba6  docs/task-evidence/neural-plus-kalman-howling-control/run.py
+b3e22fc34761782ca84a1341a58495fb6ad69896ff55088998a7ca3f006f454e  docs/task-evidence/neural-plus-kalman-howling-control/test_reference.py
+6542a2efd99dc5a92c104ad5fa95f9117f4504349a118f2b18af87de64592b15  docs/task-evidence/neural-plus-kalman-howling-control/verify.py
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  sdk:.github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  sdk:CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  sdk:CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  sdk:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  sdk:api/include/audio_sdk/session_v0.h
+b6732740cab7fafd9e270953d7b8f72b6d7951ee5e6d08c1e344a6e9ed228645  sdk:docs/task-evidence/adaptive-notch-with-gain-margin/report.json
+b94ac1cc9fb6209a302ce1e6054befe715479d6cec9c2473cd53ba7827b2868d  sdk:docs/task-evidence/afc-spex/report.json
+c7cd3a0518c315a4871b011bd89d74d09207d2d5bf84105c5877a76bf158b2bf  sdk:docs/task-evidence/fixed-feedback-gain-margin/report.json
+23c346db59373b6528276cc737b5b9457653d74d2920828ea5f20939a07ddb76  sdk:docs/task-evidence/kalman-afc/report.json
+5e997cf8a4838750aafc29ab650ee95a321311dd17c9588ed952e8e04500c93a  sdk:docs/task-evidence/survey-cln-11/report.json
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+47b17e68a943e5fe3ee1568c81a84ea07eba040011e1d97df1ce61d8800c6b1c  source:research/feedback_control_20261028.md
