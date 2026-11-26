@@ -1,0 +1,27 @@
+# SHA-256 pins for SDK-VOICEFILTER-LITE-PERSONAL-VAD.
+# source: paths are relative to SOURCE_ROOT; worktree: paths are
+# relative to the SDK checkout; pkg: paths are relative to this
+# task-evidence directory. The mutable full plan/swarm/TASKS.json is
+# never hashed; only the linked-row stable identity is gated.
+
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+479188be1a9c3cbc6d9a057f6e985e7ed03e454033cb3e8cab2f273da22abcd4  source:research/voice-enhancement-20261101/agent-transform-space/REPORT.md
+fa8033889de77bf0fa2dfd57f5df97fc96e149a6027febe3303b50ab1d70de5b  source:research/voice-enhancement-20261101/agent-transform-spatial-trials/REPORT.md
+3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245  source:research/voice-enhancement-20261101/candidate_matrix.csv
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  worktree:CONTRACTS.md
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  worktree:api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  worktree:api/include/audio_sdk/session_v0.h
+bda0f88804ae40ed8d8d08f6d7aca364b776bddf2649f918390d07e4546573a3  pkg:README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:SOURCES.sha256.license
+226ac79d519364e398e333e64249711c3df9c4af42ef23c95aa16a80766fcc8d  pkg:contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:contract.json.license
+85ab5e8095554f7793c0a9b4210dc205b08cc5506c8bf05f7cc118dad8bea803  pkg:reference.py
+9a4a25438674ebc2cc78d5f1bd141cf02d0bcd78f777cf802cbe8fbb5ed7d3aa  pkg:report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.license
+ba783825c4fa5fe8e875c2d7b7d611f5146f437371ec68b44230523b790686e5  pkg:report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  pkg:report.json.sha256.license
+f5ef05b2dc5c585c9761eab48e65e8d17cf2526d573ef684cc594943266ac131  pkg:run.py
+e9df72e5d5ea5da24b4bcd5e5451098b3307ebb12235e307182d5ea36b273a46  pkg:test_reference.py
+0672e0cba414ad05ad2494254d197ed5c96b49a9f8cd0d2cea77a468172a42e4  pkg:verify.py
