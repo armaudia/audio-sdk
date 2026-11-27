@@ -1,0 +1,30 @@
+# SHA-256 pins for SDK-WORLD-VOCODER task-local blocker evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# The mutable shared board is not pinned; only stable row identity is gated.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+cdf1782853fde1291bb8fd3c64144b9e857939856f8caca1666d2d617845728c  source:research/category_registry.json
+9dc17cd557480b954af4d5d9cd24911423685ba23675f399500eb080315fac5d  source:research/category_survey/sources.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+b965bab19a48a82d9c5a67da88b781fa3215f3be4e298607d643445446127a61  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  scripts/ci.py
+a2f265ad69743cbb9bc493cf71e9e8d52747dd0d67105bbc15dd1b7c2d04c8ff  docs/task-evidence/world-vocoder/LICENSES.md
+67d6c7c920f7eba89573af320308d942fe92bd98755e2314a57c1468103de708  docs/task-evidence/world-vocoder/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/world-vocoder/SOURCES.sha256.license
+733a52da7760a151a64ab0664bce7daea9f4917cb022177db721c27b06c1dbfd  docs/task-evidence/world-vocoder/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/world-vocoder/contract.json.license
+ff0bc84efd30fdc04bef9ea730699b7aeb195680f9d2ea6f0b20b3eea4ad84a4  docs/task-evidence/world-vocoder/reference.py
+b26257e6e4e3fa1bc418a3845751d2a8a6ee25f8f8a9b7827e8c38b3634d1e94  docs/task-evidence/world-vocoder/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/world-vocoder/report.json.license
+5a3a7da8f58fe87c0980d0bd05552e9e35eeac131bba8430797a4abc6e64a60c  docs/task-evidence/world-vocoder/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/world-vocoder/report.json.sha256.license
+0f045f9f9181fce5a59090dd5d24d630aa3a0c689b74f3daf02fc3d68e33c639  docs/task-evidence/world-vocoder/run.py
+a357cea7ba65448fdd1e5d6229d95db9e7b1e3dff998b2905918837e7480ee02  docs/task-evidence/world-vocoder/test_reference.py
+5771672bf8d299584008f1e9e1522c6c3ffb2f6b259c0a34cd2964d63693cd8b  docs/task-evidence/world-vocoder/verify.py
