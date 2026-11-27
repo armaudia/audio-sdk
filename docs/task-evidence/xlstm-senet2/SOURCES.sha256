@@ -1,0 +1,29 @@
+# SHA-256 pins for SDK-XLSTM-SENET2 task-local blocker evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# The mutable shared board is not pinned; only its stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a  source:research/noise_suppression_candidate_census.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+b965bab19a48a82d9c5a67da88b781fa3215f3be4e298607d643445446127a61  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+a9999899c5e5156aba2db042364e7a4ed836ea13efcb2de0ddb4d115a806f18e  docs/task-evidence/xlstm-senet2/LICENSES.md
+b428c2f4fe15339f93838aa7e5cc7757a25ca8e9698eafbeffce2ae08d5eb600  docs/task-evidence/xlstm-senet2/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/xlstm-senet2/SOURCES.sha256.license
+6f1f378e2858b7b15779e0c22720d6bb0e19b7a77f7b282737c6c02aab43b4d0  docs/task-evidence/xlstm-senet2/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/xlstm-senet2/contract.json.license
+9f44d51d1857fcc2d1a8a28c81ddfe059b74fe1f7d4a1a042ba37ccc7aaa994e  docs/task-evidence/xlstm-senet2/reference.py
+e8a456edf6424382ac014395c4f8241643e4161e40cd4d2e6976c7946b633e38  docs/task-evidence/xlstm-senet2/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/xlstm-senet2/report.json.license
+2a6e7917d4c548316fb64a9bc7ae7773fe506893301b5a7e42f82b7e8aa75df0  docs/task-evidence/xlstm-senet2/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/xlstm-senet2/report.json.sha256.license
+f5e9fe7ffd552148993026cf6d81f3db750a7ca1078f5504a158181e240ce456  docs/task-evidence/xlstm-senet2/run.py
+66a8cfb37af39f812bcf94d8a7bc95e6b39cac62998af472e071ec2be168c161  docs/task-evidence/xlstm-senet2/test_reference.py
+fdd003b73595ade08c55585b169fd8d7172d80a3f4209e72641fca23149196f4  docs/task-evidence/xlstm-senet2/verify.py
