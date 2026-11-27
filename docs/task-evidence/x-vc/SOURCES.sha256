@@ -1,0 +1,34 @@
+# SHA-256 pins for SDK-X-VC; source: paths are workspace-relative, others SDK-worktree-relative.
+# The mutable full plan/swarm/TASKS.json is deliberately not pinned; only the stable linked-row identity is projected.
+# No X-VC checkpoint, GLM-4-Voice-Tokenizer weight, ERes2Net weight, runtime or real corpus audio is pinned as an included artifact because none is present in this package.
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+b2c5e168713eebe0e6ddd186d3bf5b9833839b8db93fe7ff2231bb784cbfa074  source:research/voice-conversion-eval-20261101/README.md
+75802be937ddc02983c87bdf64a9b6a38b383a68ee399ca3b34a0a60e5328c0e  source:research/voice-conversion-eval-20261101/repos/x-vc/LICENSE
+25dc5a99f25ff079b7f947d3ed9e2514b792cafcfff1e3455ac01978083a6a5e  source:research/voice-conversion-eval-20261101/repos/x-vc/README.md
+85b2c699dd483e7f5a34058c5ecd4fd666a02a18d45cbc776de47d7626e0fd94  source:research/voice-conversion-eval-20261101/repos/x-vc/configs/xvc.yaml
+90736615ba018c4726a38ae618176d4e43eaed714a263b2b7e4795af893180a6  source:research/voice-conversion-eval-20261101/repos/x-vc/requirements.txt
+39a7b34c2ab89d3a7be28228944e6c7896724f993b5c39cfcec6e99f73e95dcb  source:research/voice-conversion-eval-20261101/repos/x-vc/scripts/infer_single.sh
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+b965bab19a48a82d9c5a67da88b781fa3215f3be4e298607d643445446127a61  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+162f463fb35b436b33629c8476a13fb1f0fa2b45b662876cec875915fa91706a  docs/task-evidence/glm-4-voice-and-eres2net-for-x-vc/README.md
+ed8f09a641d561f190b8bc62e575ea04b79a61009628d1a632082ad366fde00d  docs/task-evidence/glm-4-voice-and-eres2net-for-x-vc/report.json
+64d229ef4bc1c11b007eb4fd828846c57121467e7e530a0fd45e135507f9bc9f  scripts/ci.py
+bbbc6e6b581f5446264f98bfc82331ec4e7d74b79822cee5e13fab8b28e4a265  docs/task-evidence/x-vc/LICENSES.md
+0bf95635a97cb4a4eda372119022bf9d703e053553c51d2333c6b0116bf7f132  docs/task-evidence/x-vc/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/x-vc/SOURCES.sha256.license
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/x-vc/contract.json.license
+aba3ed1ed58d4fc6a6a5ad668fceca0a76d0935e523486e6116375352bec0e1e  docs/task-evidence/x-vc/reference.py
+4d93335477d79926666b737fd814f36deb429e5c411256a66ebe01cc731aabcd  docs/task-evidence/x-vc/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/x-vc/report.json.license
+e9398fb66982bf031be25bfab6bdf3cabd52b15a1b18f614d8b1df2efd884207  docs/task-evidence/x-vc/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/x-vc/report.json.sha256.license
+bfaafaa9f9aea285f30a5fe7254e7e855840664f4bc92f3fd7e85a0310d5bd4b  docs/task-evidence/x-vc/run.py
+92d6f8c3e08526d63d1988af1f9011cecea8e26c5752afd41caca1df6a2c447b  docs/task-evidence/x-vc/test_reference.py
+65017ddbc2ab0a636335e06a036c39ea53b6140fd7439a24f07e15f20098d3f9  docs/task-evidence/x-vc/verify.py
