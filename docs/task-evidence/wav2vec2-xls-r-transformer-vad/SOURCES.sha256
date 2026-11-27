@@ -1,0 +1,30 @@
+# SHA-256 pins for SDK-WAV2VEC2-XLS-R-TRANSFORMER-VAD task-local blocker evidence.
+# source: paths are relative to AUDIO_ROOT; other paths are SDK-worktree relative.
+# The mutable shared board is not pinned; only its stable row identity gates.
+# SOURCES.sha256 is excluded because a file cannot pin its own bytes.
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  source:audio-benchmark-platform/audio-sdk/CONTRACTS.md
+46d09945deb235cdd948eb48f827aa15fc24ddc8c902668810f7718fc00f889c  source:audio-benchmark-platform/plan/INVENTORY.json
+f72d6b50a61e7ff469cda0480e8f5ffa93edbfe747a45624db5faad54847be06  source:audio-benchmark-platform/plan/audio-sdk/README.md
+3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910  source:audio-benchmark-platform/plan/swarm/VERIFICATION.md
+9d5c555c1c5f2db9ce3eb27da2d3f625c2e25621f6700521f82c8af300ff59d5  source:reports/vad-research/attempt-discovery-20261028-01/findings.md
+374784f6f1cea620f376da59691e4260aafc582e1203be4f98837752cfdf75ec  source:research/plans/F02/vad_sources.md
+ba8cc6cdb85eb69beacac9eefecf6875eb896c101fe573e7730733f56eeb9415  .github/workflows/ci.yml
+af72dba58c79637fb006720aa1a6f9dd3bad3ae1f70520b7151a1f260c659d04  CMakeLists.txt
+f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69  CONTRACTS.md
+b965bab19a48a82d9c5a67da88b781fa3215f3be4e298607d643445446127a61  README.md
+c6f61bc93dd65da80edd41b69527e401b43a7437a31e8adaf97cc6f4ac9490f8  REUSE.toml
+f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766  api/include/audio_sdk/provider_v0.h
+a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1  api/include/audio_sdk/session_v0.h
+d56b8294e9e790a984b438d720917ef9d8791850c3032a55769a37a0aaf9c7b6  docs/task-evidence/wav2vec2-xls-r-transformer-vad/LICENSES.md
+36abd87de1cdcc0327021f23db17fae1d2f764f4025b16c423adc5ccd7bcc2a2  docs/task-evidence/wav2vec2-xls-r-transformer-vad/README.md
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/wav2vec2-xls-r-transformer-vad/SOURCES.sha256.license
+a3032168f7fe0ca6eb1b4eb4bed1f6973c751105edaf34aec19ab67af6e9a7eb  docs/task-evidence/wav2vec2-xls-r-transformer-vad/contract.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/wav2vec2-xls-r-transformer-vad/contract.json.license
+5572b5cb857bb95d5e7aed71e98ea6b984350a32e134fc28efbaacde821141f6  docs/task-evidence/wav2vec2-xls-r-transformer-vad/reference.py
+8da9216109ec4119702c6de659d4678991a351881bdf33818ed8dad19894105e  docs/task-evidence/wav2vec2-xls-r-transformer-vad/report.json
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/wav2vec2-xls-r-transformer-vad/report.json.license
+cc36ca31948ed44691c3285f7660742ccfd27e263c7b320361e022a97d27f167  docs/task-evidence/wav2vec2-xls-r-transformer-vad/report.json.sha256
+0cee6dbd32d491e605ec18007dec80715aeff3e7a7d90e36361b0261cb42bf47  docs/task-evidence/wav2vec2-xls-r-transformer-vad/report.json.sha256.license
+92e8d9acee40b855c7c6bc07cd6f8ab38a178ed03397b24c604a6be1f342c422  docs/task-evidence/wav2vec2-xls-r-transformer-vad/run.py
+0bfba00d24be1b86561f18746fb0c1c6458e99aef7e3c310d509a888cc6fc4ef  docs/task-evidence/wav2vec2-xls-r-transformer-vad/test_reference.py
+a0759cb06ec865fbee62725a325ac30ce551a77633080a414d97a076e5283eb8  docs/task-evidence/wav2vec2-xls-r-transformer-vad/verify.py
