@@ -1,0 +1,89 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX\u002dLicense-Identifier": "Apache-2.0",
+  "schema_id": "audio-sdk/ffmpeg-afftdn-synthetic-contract/0.1",
+  "task": "SDK-FFMPEG-AFFTDN",
+  "component": "ffmpeg-afftdn",
+  "base_commit": "2bc2a13aa4c5b398933fd9097d09746ce151216e",
+  "branch": "swarm/SDK-FFMPEG-AFFTDN",
+  "profile": "enhancement",
+  "status": "proposal_only_not_qualified",
+  "qualification": {
+    "status": "incomplete",
+    "decision": "DEFER",
+    "qualifies": false,
+    "missing_result_promoted": false,
+    "processor_exposure": false
+  },
+  "public_surface": {
+    "public_api_changed": false,
+    "abi_changed": false,
+    "contracts_changed": false,
+    "shared_cmakelists_changed": false,
+    "descriptor_default_changed": false,
+    "installed_v0_changed": false,
+    "provider_registry_changed": false,
+    "board_changed": false,
+    "handoff_changed": false,
+    "ruleset_changed": false,
+    "main_changed": false
+  },
+  "scope": {
+    "synthetic_only": true,
+    "deterministic": true,
+    "real_ffmpeg_binary": false,
+    "real_ffmpeg_source": false,
+    "download": false,
+    "licensed_runtime": false,
+    "real_speech_corpora": false,
+    "device_timing": false,
+    "listening": false,
+    "quality_acceptance": false,
+    "release_claim": false,
+    "numeric_ffmpeg_parity_claimed": false
+  },
+  "source_pins": {
+    "REALTIME_COMPONENT_CANDIDATES.md": "294ee2fbf04ff00e438cded6365312f575be0f0162854fdf46972f670c688f5d",
+    "adapters/ffmpeg-denoise/README.md": "cb498047caa12890f89754411a478e9d870ff03100876031ee0abe84889b3530",
+    "adapters/ffmpeg-denoise/adapter.json": "2909f28275cd05df650af3d38ee7ec523cab00e8a5a52ed89773dd450a35a4fe",
+    "adapters/ffmpeg-denoise/run.py": "db183ece8d8c4f04a97ce0fd1ce588ec07f8946061096008a51de3ae45c4ab4b",
+    "audio-benchmark-platform/audio-sdk/CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "audio-benchmark-platform/audio-sdk/api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "audio-benchmark-platform/audio-sdk/api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1",
+    "audio-benchmark-platform/plan/swarm/VERIFICATION.md": "3f2631333e4436a6441236a2b21f4d5b45fb3bb3619f600767e22eb957f77910",
+    "cpp-library/pipeline-validation/playback-speed-candidates.md": "661a471ad50e3335b18fdb6d8664f6fda0534ad37196fb9e3f58ff61c58f34b3",
+    "research/noise_suppression_assets_20261027.json": "35f871e7d7362070c20fa35a5832115ea5388ffae550be3b25368a72bf5cebf4",
+    "research/noise_suppression_candidate_census.md": "525d1f0e1984539e973d01f3b416fb9a7f8eb747c6f49a7366246b2c2e91e82a",
+    "research/noise_suppression_pilot_20261027.md": "90adcfb7b612d5a661baf16e69f78df95eebc6f65bbfece973022af902bd9aae",
+    "research/tsm-followup-20261101/README.md": "01618a85ee4e8741cda07e6fd3c16d5f7f23d1373e1b853bd2903f295d73228f",
+    "research/voice-enhancement-20261101/candidate_matrix.csv": "3bcaf35c406f8deeed5560226130579ffe4dbbd60544b59995876e85b589a245"
+  },
+  "boundary_pins": {
+    "CONTRACTS.md": "f6fdd18f9d5361ab9592015dce1db9733e18674b15bf0c3f657add1416653c69",
+    "api/include/audio_sdk/provider_v0.h": "f168965ade4f342c8a222b15be625551789158891cab24f9ce135a583f2e1766",
+    "api/include/audio_sdk/session_v0.h": "a81f9c74941b3a2e735f1b8f39f6ca0ea610818fc3c402fa2709c4d118fb0ca1"
+  },
+  "mutable_provenance": {
+    "gate": false,
+    "path": "audio-benchmark-platform/plan/swarm/TASKS.json",
+    "sha256_at_read": "77d43709d7bffa83ba52410818f1da76527dc1dd5697d39012d6932320e5458b"
+  },
+  "artifact_pins": {},
+  "reproduction": {
+    "report": "PYTHONDONTWRITEBYTECODE=1 python3 run.py --report",
+    "tests": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_reference.py",
+    "sources": "PYTHONDONTWRITEBYTECODE=1 python3 run.py --sources",
+    "crosscheck": "PYTHONDONTWRITEBYTECODE=1 python3 run.py --crosscheck",
+    "verify": "PYTHONDONTWRITEBYTECODE=1 python3 verify.py"
+  },
+  "release_gates": [
+    "independent exact-head review",
+    "hosted CI on the exact head",
+    "rights-cleared paired cohort with permitted clean references",
+    "exact local FFmpeg build, version, configure flags and GPL configuration",
+    "real pinned-tool parity run; no numeric parity claim before it exists",
+    "pinned target device/deadline pacing and availability workload",
+    "independent provider intake and S10/protocol clearance",
+    "release approval before any processor exposure"
+  ]
+}

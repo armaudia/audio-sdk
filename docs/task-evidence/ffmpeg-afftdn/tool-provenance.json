@@ -1,0 +1,55 @@
+{
+  "SPDX-FileCopyrightText": "2026 Tsakanyan Hovhannes",
+  "SPDX\u002dLicense-Identifier": "Apache-2.0",
+  "task": "SDK-FFMPEG-AFFTDN",
+  "component": "ffmpeg-afftdn",
+  "purpose": "record exact external-tool probing and historical FFmpeg provenance without using or shipping a binary",
+  "external_invocation": {
+    "ffmpeg_version": {
+      "command": [
+        "ffmpeg",
+        "-version"
+      ],
+      "available": false,
+      "result": "FileNotFoundError",
+      "exit_code": 127,
+      "stdout": "",
+      "stderr": "zsh:1: command not found: ffmpeg\n"
+    },
+    "which_ffmpeg": {
+      "command": [
+        "which",
+        "-a",
+        "ffmpeg"
+      ],
+      "available": false,
+      "result": "not_found",
+      "exit_code": 1,
+      "stdout": "ffmpeg not found\n",
+      "stderr": ""
+    },
+    "historical_binary_path": {
+      "path": "data/envs/ffmpeg/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1",
+      "exists": false,
+      "result": "FileNotFoundError"
+    }
+  },
+  "historical_provenance_pinned": {
+    "binary_sha256": "6d175a4743ca50256e89a8cdd731100f9cee33bd79aeea46894d209410dc6617",
+    "binary_bytes": 49368728,
+    "reported_version": "FFmpeg 7.1",
+    "wrapper": "imageio-ffmpeg 0.6.0",
+    "code_license_reported": "GPL-2.0-or-later",
+    "configure_flags_available": false,
+    "source": "research/noise_suppression_assets_20261027.json"
+  },
+  "blocked_context": {
+    "ffmpeg_unavailable": true,
+    "numeric_parity_possible": false,
+    "numeric_parity_claimed": false,
+    "reason": "No local ffmpeg binary/version/configuration output could be captured; no parity run was executed."
+  },
+  "vendored_or_downloaded": false,
+  "licensed_asset_used": false,
+  "real_runtime_used": false
+}
